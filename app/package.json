@@ -1,0 +1,63 @@
+{
+  "author": "Health Canada - Santé Canada",
+  "name": "edb",
+  "main": "main/index.js",
+  "scripts": {
+    "postinstall": "jspm install"
+  },
+  "keywords": [
+    "electron-app"
+  ],
+  "appName": "electronic Dossier Builder",
+  "description": "GHSTS compliant Submission Builder",
+  "version": "0.1.0",
+  "homepage": "https://github.com/hc-sc/edb",
+  "bugs": {
+    "url": "https://github.com/hc-sc/edb/issues",
+    "email": "jeff.haydt@canada.ca"
+  },
+  "license": "Apache-2.0",
+  "contributers": [
+    "Jun Tang <xiang.tang@canada.ca>",
+    "Hai Tu <hai.tu@canada.ca>",
+    "Daniel Wen <daniel.wen@canada.ca>",
+    "Wei Fang <wei.fang@canada.ca>",
+    "Alex Gagnon <alex.gagnon@canada.ca>"
+  ],
+  "private": true,
+  "repository": "https://github.com/hc-sc/edb",
+  "devDependencies": {
+    "del": "^1.2.0",
+    "gulp": "^3.9.0",
+    "gulp-atom-electron": "^0.12.0",
+    "gulp-babel": "^5.1.0",
+    "gulp-rename": "^1.2.2",
+    "jspm": "^0.16.29",
+    "run-sequence": "^1.1.2"
+  },
+  "jspm": {
+    "directories": {
+      "baseURL": "renderer"
+    },
+    "dependencies": {
+      "angular": "github:angular/bower-angular@^1.4.9",
+      "angular-material": "github:angular/bower-material@^1.0.4",
+      "angular-messages": "github:angular/bower-angular-messages@^1.5.3",
+      "angular-route": "github:angular/bower-angular-route@^1.4.9",
+      "bootstrap": "github:twbs/bootstrap@^3.3.6",
+      "css": "github:systemjs/plugin-css@^0.1.20",
+      "json": "github:systemjs/plugin-json@^0.1.0",
+      "nedb": "npm:nedb@^1.7.2",
+      "node-uuid": "npm:node-uuid@^1.4.7",
+      "path": "npm:path@^0.12.7",
+      "q": "npm:q@^1.4.1",
+      "text": "github:systemjs/plugin-text@^0.0.4",
+      "xml2js": "npm:xml2js@^0.4.16"
+    },
+    "devDependencies": {
+      "babel": "npm:babel-core@^5.8.24",
+      "babel-runtime": "npm:babel-runtime@^5.8.24",
+      "core-js": "npm:core-js@^1.1.4"
+    }
+  }
+}
