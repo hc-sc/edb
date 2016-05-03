@@ -1,0 +1,69 @@
+<div style="width:100%" layout="column">
+    <md-toolbar class="md-whiteframe-z1" layout="row">
+        <md-button class="md-warn" aria-label="Home" ng-href="#/home">Home</md-button>
+        <h2>
+          <span>Product Management</span>
+        </h2>
+    </md-toolbar>
+    <div style="width:100%" layout="row">
+        <md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="true">
+            <!--  md-is-locked-open="$mdMedia('gt-sm')"-->
+            <md-toolbar layout="row" class="md-whiteframe-z1">
+                <md-headline layout-padding>Products</md-headline>
+            </md-toolbar>
+            <md-input-container style="margin-bottom:0">
+                <label>Product Name</label>
+                <input required name="productName" ng-model="_ctrl.filterText" ng-change="_ctrl.filterProduct()">
+            </md-input-container>
+            <md-list>
+                <!-- notice work around for nedb. 'track by index'' to fix $$hashkey problem -->                
+                <md-list-item ng-repeat="it in _ctrl.products track by $index" ng-click="_ctrl.selectProduct(it, $index)">
+                    <p>{{it.GENERIC_PRODUCT_NAME}}</p>
+                </md-list-item>
+            </md-list>
+        </md-sidenav>
+
+        <div flex layout="column" tabIndex="-1" role="main" class="md-whiteframe-z2">            
+            <md-toolbar layout="row" class="md-whiteframe-z1">
+                <md-headline layout-padding>{{ _ctrl.selected.GENERIC_PRODUCT_NAME }}</md-headline>
+            </md-toolbar>            
+                         
+            <md-content layout-padding class="autoScroll">
+                <form name = "productForm">
+                   <div layout-gt-sm="row">
+                        <md-input-container  class="md-block" flex-gt-sm>
+                            <label>Generic Product Name</label>
+                            <input ng-model="_ctrl.selected.GENERIC_PRODUCT_NAME" type="text">
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>PID</label>
+                            <input ng-model="_ctrl.selected.PRODUCT_PID" type="text" ng-required="false">
+                        </md-input-container>
+                    </div>
+                    <div layout-gt-sm="row">
+                        <md-input-container>
+                            <label>Formulation Type</label>
+                            <input ng-model="_ctrl.selected.FORMULATION_TYPE.VALUE" type="text">
+                        </md-input-container>                        
+                        <md-input-container>
+                            <label>Status</label>
+                            <input ng-model="_ctrl.selected.METADATA_STATUS.VALUE" type="text">
+                        </md-input-container>
+                    </div>
+                </form>
+            </md-content>
+            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                <!--d-button class="md-raised md-info" ng-click="_ctrl.createLegalEntity()">Add</md-button-->
+                <md-button class="md-raised md-primary" ng-click="_ctrl.saveProduct()">Save</md-button>
+                <md-button class="md-raised md-danger" ng-click="_ctrl.cancelEdit()">Cancel</md-button>
+                <md-button class="md-raised md-warn" ng-click="_ctrl.deleteProduct()">Delete</md-button>      
+                <md-button class="md-raised md-primary" ng-click="_ctrl.viewProductJson()">View Product JSON</md-button>                
+                <md-button class="md-raised md-primary" ng-click="_ctrl.viewProductGHSTS()">View Product GHSTS</md-button>                                      
+                
+                <md-button class="md-raised md-warn" ng-click="_ctrl.addTestProduct()">Add Sample Product to DB</md-button>   
+                <md-button class="md-raised md-warn" ng-click="_ctrl.initializeProduct()">Init DB with Sample GHSTS Product</md-button>
+                
+            </section>  
+        </div>
+    </div>
+</div>

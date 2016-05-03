@@ -8,6 +8,7 @@ class GHSTS {
         this.ghsts = {};
         this.legalEntities = [];
         this.receivers = [];
+        this.product = {};
         // add other sub objects here
     }          
     
@@ -27,6 +28,10 @@ class GHSTS {
         this.receivers = receivers;
     }
     
+    setProduct(productGhstsJson){
+        this.product = productGhstsJson
+    }
+    
     readObjects() {     
         // read json objects from ghsts xml    
         let self = this;
@@ -41,12 +46,14 @@ class GHSTS {
                     }
                     // the read succeeded
                     resolve(obj);      
-                    self.ghsts = obj.GHSTS;  
+                    self.ghsts = obj.GHSTS;
                     
                     // set legal entities
                     self.legalEntities = obj.GHSTS.LEGAL_ENTITIES[0].LEGAL_ENTITY;  
                     // set receivers 
-                    self.receivers = obj.GHSTS.RECEIVERS[0].RECEIVER;  
+                    self.receivers = obj.GHSTS.RECEIVERS[0].RECEIVER;
+                    // set the Product from the xml
+                    self.product = obj.GHSTS.PRODUCT;
                     // set other objects here
                     // ...
                 })
