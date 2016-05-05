@@ -8,6 +8,7 @@ class GHSTS {
         this.ghsts = {};
         this.legalEntities = [];
         this.receivers = [];
+        this.documents = [];
         // add other sub objects here
     }          
     
@@ -25,6 +26,14 @@ class GHSTS {
     
     setReceivers(receivers){
         this.receivers = receivers;
+    }
+    
+     addDocument(document){
+        this.documents.push(document);
+    }
+    
+    setReceivers(documents){
+        this.documents = documents;
     }
     
     readObjects() {     
@@ -47,6 +56,9 @@ class GHSTS {
                     self.legalEntities = obj.GHSTS.LEGAL_ENTITIES[0].LEGAL_ENTITY;  
                     // set receivers 
                     self.receivers = obj.GHSTS.RECEIVERS[0].RECEIVER;  
+                    // set documents
+                    self.documentss = obj.GHSTS.DOCUMENTS[0].DOCUMENT;  
+                     
                     // set other objects here
                     // ...
                 })

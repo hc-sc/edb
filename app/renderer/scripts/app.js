@@ -3,12 +3,19 @@ import ngRouter from 'angular-route';
 import ngMaterial from 'angular-material';
 import ngAnimate from '../jspm_packages/github/angular/bower-angular-animate@1.4.9/angular-animate';
 import ngMessages from 'angular-messages';
+
 import {LegalEntityService} from './legal_entity/legalEntityService'; 
 import {LegalEntityController} from './legal_entity/legalEntityController';
+
 import {ReceiverService} from './receiver/receiverService'; 
 import {ReceiverController} from './receiver/receiverController';
+
+import {DocumentService} from './document/documentService'; 
+import {DocumentController} from './document/documentController'; 
+
 import {GhstsService} from './ghsts_demo/ghstsService'; 
 import {GhstsController} from './ghsts_demo/ghstsController';
+
 // notice stylesheet loading from app.js
 import '../jspm_packages/github/angular/bower-material@1.0.4/angular-material.css!';
 
@@ -16,10 +23,17 @@ angular.module('ghstsApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages'])
     .config(config)
     .service('legalEntityService', ['$q', LegalEntityService])
     .controller('legalEntityController', ['$mdDialog', 'legalEntityService', LegalEntityController])
+    
     .service('receiverService', ['$q', ReceiverService])
     .controller('receiverController', ['$mdDialog', 'receiverService', 'legalEntityService', ReceiverController])
+    
+    .service('documentService', ['$q', DocumentService])
+    .controller('documentController', ['$mdDialog', 'documentService', DocumentController])
+    
     .service('ghstsService', ['receiverService', 'legalEntityService', GhstsService])
-    .controller('ghstsController', ['$mdDialog', 'ghstsService', GhstsController]);
+    .controller('ghstsController', ['$mdDialog', 'ghstsService', GhstsController]
+    
+    );
 
 function config($routeProvider) {
     $routeProvider
@@ -41,6 +55,11 @@ function config($routeProvider) {
         .when('/manageRcvr', {
             templateUrl: './scripts/receiver/receiver-manage.html' ,
             controller: ReceiverController,
+            controllerAs: '_ctrl'
+        })
+        .when('/manageDoc', {
+            templateUrl: './scripts/document/document-manage.html' ,
+            controller: DocumentController,
             controllerAs: '_ctrl'
         });
     $routeProvider.otherwise({ redirectTo: '/home' });
