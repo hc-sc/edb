@@ -9,6 +9,9 @@ import {ReceiverService} from './receiver/receiverService';
 import {ReceiverController} from './receiver/receiverController';
 import {GhstsService} from './ghsts_demo/ghstsService'; 
 import {GhstsController} from './ghsts_demo/ghstsController';
+import SubmissionController from './submission/submissionController';
+import SubmissionService from './submission/submissionService';
+
 // notice stylesheet loading from app.js
 import '../jspm_packages/github/angular/bower-material@1.0.4/angular-material.css!';
 
@@ -18,8 +21,11 @@ angular.module('ghstsApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages'])
     .controller('legalEntityController', ['$mdDialog', 'legalEntityService', LegalEntityController])
     .service('receiverService', ['$q', ReceiverService])
     .controller('receiverController', ['$mdDialog', 'receiverService', 'legalEntityService', ReceiverController])
-    .service('ghstsService', ['receiverService', 'legalEntityService', GhstsService])
-    .controller('ghstsController', ['$mdDialog', 'ghstsService', GhstsController]);
+    .service('ghstsService', ['receiverService', 'legalEntityService', 'submissionService', GhstsService])
+    .controller('ghstsController', ['$mdDialog', 'ghstsService', GhstsController])
+    
+    .service('submissionService', ['$q', SubmissionService])
+    .controller('submissionController', ['$mdDialog', 'submissionService']);
 
 function config($routeProvider) {
     $routeProvider
@@ -41,6 +47,11 @@ function config($routeProvider) {
         .when('/manageRcvr', {
             templateUrl: './scripts/receiver/receiver-manage.html' ,
             controller: ReceiverController,
+            controllerAs: '_ctrl'
+        })
+        .when('/submission', {
+            templateUrl: './scripts/submission/submission-manage.html',
+            controller: SubmissionController,
             controllerAs: '_ctrl'
         });
     $routeProvider.otherwise({ redirectTo: '/home' });

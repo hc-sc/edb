@@ -9,6 +9,8 @@ class GHSTS {
         this.legalEntities = [];
         this.receivers = [];
         // add other sub objects here
+        
+        this.submission = [];
     }          
     
     addLegalEntity(legalEntity){
@@ -25,6 +27,11 @@ class GHSTS {
     
     setReceivers(receivers){
         this.receivers = receivers;
+    }
+    
+    addSubmission(submission) {
+        this.submission.push(submission);
+        this.submission = this.submission.slice(1);
     }
     
     readObjects() {     
@@ -49,6 +56,9 @@ class GHSTS {
                     self.receivers = obj.GHSTS.RECEIVERS[0].RECEIVER;  
                     // set other objects here
                     // ...
+                    
+                    self.submission = obj.GHSTS.PRODUCT[0].DOSSIER[0].SUBMISSION;
+                    
                 })
             }); 
         })
