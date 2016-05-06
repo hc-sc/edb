@@ -28,11 +28,11 @@ class GHSTS {
         this.receivers = receivers;
     }
     
-     addDocument(document){
+    addDocument(document){
         this.documents.push(document);
     }
     
-    setReceivers(documents){
+    setDocuments(documents){
         this.documents = documents;
     }
     
@@ -57,7 +57,7 @@ class GHSTS {
                     // set receivers 
                     self.receivers = obj.GHSTS.RECEIVERS[0].RECEIVER;  
                     // set documents
-                    self.documentss = obj.GHSTS.DOCUMENTS[0].DOCUMENT;  
+                    self.documents = obj.GHSTS.DOCUMENTS[0].DOCUMENT;  
                      
                     // set other objects here
                     // ...

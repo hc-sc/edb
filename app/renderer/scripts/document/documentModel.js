@@ -54,7 +54,7 @@ class ReferenceToSubstance {
 // For class DocumentGeneric
 class DocumentNumber {
      constructor(value, identifier){              
-        this.DOCUMENT_IDENTIFIER_TYPE = value,         // of ValueStruct
+        this.DOCUMENT_NUMBER_TYPE = value,         // of ValueStruct
         this.IDENTIFIER = identifier;
     }
 }
@@ -94,8 +94,6 @@ class DocumentGeneric {
 			this.DOCUMENT_FAMILY_PID =  null;
 			this.DOCUMENT_FAMILY =  null;
 			this.CONTENT_STATUS_HISTORY = []   ;  // SubmissionIdentifierStruct
-			this.REFERENCED_DOCUMENT = [];	 // rarely used or later
-			this.RELATED_TO_SUBSTANCE = [] ;  // rarely used or later
 			this.DOCUMENT_NUMBER =   [] ;	  // DocumentIdentifierStruct
 			this.DOCUMENT_TITLE =   null;
 			this.DOCUMENT_AUTHOR =   null;
@@ -106,8 +104,7 @@ class DocumentGeneric {
 			this.TEST_LABORATORY =   null ;
 			this.GXP_INDICATOR =   null;
 			this.TESTED_ON_VERTEBRATE =   null;
-			this.REFERENCED_TO_FILE =  [] ;  // Reference to one or more Files 
-
+            this.REFERENCED_TO_FILE =  null;
         }     
     }
    
@@ -116,21 +113,21 @@ class DocumentGeneric {
          this.CONTENT_STATUS_HISTORY.push(contentStatusHistory);
      }
      
-     addReferencedDocument(referencedDocument){
-         this.REFERENCED_DOCUMENT.push(referencedDocument);
-     }
+    //  addReferencedDocument(referencedDocument){
+    //      this.REFERENCED_DOCUMENT.push(referencedDocument);
+    //  }
      
-     addRelatedToSubstance(relatedToSubstance){
-         this.RELATED_TO_SUBSTANCE.push(relatedToSubstance);
-     }
+    //  addRelatedToSubstance(relatedToSubstance){
+    //      this.RELATED_TO_SUBSTANCE.push(relatedToSubstance);
+    //  }
      
      addDocumentNumber(documentNumber){
          this.DOCUMENT_NUMBER.push(documentNumber);
      }
      
-     addReferenceToFile(refToFile){
-         this.REFERENCED_TO_FILE.push(refToFile);
-     }
+    //  addReferenceToFile(refToFile){
+    //      this.REFERENCED_TO_FILE.push(refToFile);
+    //  }
      
      toGHSTSJson() {   
         let contentStatusHistoryJson = [];
@@ -139,11 +136,11 @@ class DocumentGeneric {
         let documentNumberJson = [];
         this.DOCUMENT_NUMBER.forEach(docNum=> documentNumberJson.push(docNum));
         
-        let referencedDocumentJson = [];
-        this.REFERENCED_DOCUMENT.forEach(refDoc => referencedDocumentJson.push(refDoc));
+        // let referencedDocumentJson = [];
+        // this.REFERENCED_DOCUMENT.forEach(refDoc => referencedDocumentJson.push(refDoc));
         
-        let relatedToSubstanceJson = [];
-        this.RELATED_TO_SUBSTANCE.forEach(relSub => relatedToSubstanceJson.push(relSub));
+        // let relatedToSubstanceJson = [];
+        // this.RELATED_TO_SUBSTANCE.forEach(relSub => relatedToSubstanceJson.push(relSub));
         
         return {
             	METADATA_STATUS 	       :      this.METADATA_STATUS,		
@@ -151,8 +148,6 @@ class DocumentGeneric {
 				DOCUMENT_FAMILY_PID 	   :      this.DOCUMENT_FAMILY_PID ,	
 				DOCUMENT_FAMILY 		   :      this.DOCUMENT_FAMILY ,		
 				CONTENT_STATUS_HISTORY 	   :      contentStatusHistoryJson ,
-                REFERENCED_DOCUMENT        :      referencedDocumentJson,
-			    RELATED_TO_SUBSTANCE       :      relatedToSubstanceJson,
 				DOCUMENT_NUMBER 		   :      documentNumberJson, 		
 				DOCUMENT_TITLE 			   :      this.DOCUMENT_TITLE ,		
 				DOCUMENT_AUTHOR 		   :      this.DOCUMENT_AUTHOR ,		
@@ -163,7 +158,8 @@ class DocumentGeneric {
 				TEST_LABORATORY 		   :      this.TEST_LABORATORY ,		
 				GXP_INDICATOR 			   :      this.GXP_INDICATOR, 		
 				TESTED_ON_VERTEBRATE 	   :      this.TESTED_ON_VERTEBRATE ,	
-				REFERENCED_TO_FILE         :      this.REFERENCED_TO_FILE.toGHSTSJson() 	
+                REFERENCED_TO_FILE         :      this.REFERENCED_TO_FILE
+					
 
         };          
     }
