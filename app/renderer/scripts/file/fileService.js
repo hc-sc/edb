@@ -66,7 +66,7 @@ class FileService {
     getFileByName(name) {
         let deferred = this.$q.defer();
         // searching file needs more condition since sub document
-        var re = new RegExp(name);
+        var re = new RegExp(name, 'i');
         let condition={ $regex: re };
         //{ $regex: /DOCX/ }
         this.files.find({_identifier:{ $regex: /[^]+/ }, 'FILE_GENERIC.FILENAME': condition }, function (err, result) {
