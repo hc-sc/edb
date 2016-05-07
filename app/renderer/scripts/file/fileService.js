@@ -124,7 +124,7 @@ class FileService {
        return this.createFile(file);
     }
 
-    initializeFile() {
+    initializeFile(fileCtr) {
         // read from sample ghsts and populate the database with legal entities.
         let ghsts = new GHSTS("./app/renderer/data/ghsts.xml");
         let promise = ghsts.readObjects();
@@ -184,6 +184,12 @@ class FileService {
             .catch(function (e) {
                 console.log(e);
             } ) */
+            self.getFiles().then(
+                files=>{
+                    fileCtr.files=[].concat(files);
+                    fileCtr.selected=files[0];
+                }
+            );
         });
     }
 

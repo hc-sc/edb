@@ -74,7 +74,7 @@ class FileController {
         this.$mdDialog.show(confirm).then(() => {
             let self = this;
             self.fileService.deleteFile(self.selected._id)
-                .then(affectedRows => self.files.splice(self.selectedIndex, 1).then(self.createFile()));
+                .then(affectedRows => {self.files.splice(self.selectedIndex, 1);self.createFile();});
         });
     }
 
@@ -139,9 +139,10 @@ class FileController {
         this.fileService.addFileToDB().then(this.getAllFiles());
     }
     initializeFile() {
-        // read from sample ghsts and populate the database with legal entities.       
-        this.fileService.initializeFile();
-        this.getAllFiles(); 
+        // read from sample ghsts and populate the database with legal entities. 
+        let self=this;      
+        this.fileService.initializeFile(self);
+        //this.getAllFiles(); 
 
     }
     viewFileJson($event) {
