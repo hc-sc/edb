@@ -76,6 +76,27 @@
                         </md-input-container>
                        
                     </div>
+                     <!--<div layout-gt-sm="row">
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>REFERENCED_TO_FILE</label>
+                            <input ng-model="_ctrl.selected.DOCUMENT_GENERIC.REFERENCED_TO_FILE.To_File_Id" type="text">
+                        </md-input-container>                                            
+                     </div>-->
+                     
+                     <md-toolbar>
+                        <div class="md-toolbar-tools">
+                            <h2>Reference To Files</h2>
+                            <span flex></span>
+                      
+                        </div>
+                    </md-toolbar>
+                    <md-list>
+                        <md-list-item ng-repeat=" file in _ctrl.selected.DOCUMENT_GENERIC.REFERENCED_TO_FILE track by $index"  class="noright">
+                            <md-icon class="material-icons" aria-label="File">File</md-icon>
+                            <p>{{ file._toFileId }}</p>     
+                                                                                    
+                        </md-list-item>
+                    </md-list>
                    
                    
                 </form>

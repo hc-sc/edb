@@ -59,10 +59,18 @@ class DocumentService {
                 docGen.TEST_LABORATORY              = doc.DOCUMENT_GENERIC[0].TEST_LABORATORY[0];
                 docGen.GXP_INDICATOR                = doc.DOCUMENT_GENERIC[0].GXP_INDICATOR[0];
                 docGen.TESTED_ON_VERTEBRATE         = doc.DOCUMENT_GENERIC[0].TESTED_ON_VERTEBRATE[0];
-                docGen.REFERENCED_TO_FILE           = doc.DOCUMENT_GENERIC[0].REFERENCED_TO_FILE[0];
-                //  doc.DOCUMENT_GENERIC[0].REFERENCED_TO_FILE.forEach(refFile => 
-                //     docGen.addReferenceToFile(new ReferenceToFile(refFile.attr$.Id) )  
-                // ); 
+                
+                // the xml payload has multiple REFERENCED_TO_FILE in each document generic element so we need to loop through the  REFERENCED_TO_FILE
+                
+                 doc.DOCUMENT_GENERIC[0].REFERENCED_TO_FILE.forEach(refFile => { 
+                     let refObj = new ReferenceToFile();
+                     refObj.toFileId = refFile.attr$.To_File_Id;  // get and set file ref id
+                     //console.debug("Ref ID: " + refFile.attr$.To_File_Id);
+                     docGen.addReferenceToFile(refObj);
+                    }
+                 )
+                
+               
                 
                 // Second Build DocumentRA
                 let docRA = new DocumentRA();
@@ -92,7 +100,7 @@ class DocumentService {
         let documentNumber = new DocumentNumber(DocumentNumberType, "T-423579-01-1");
         
         let doc = new Document();
-        doc.documentId = "D_Document_J_01_T-423579_0003052902";
+        doc.documentId = "D_Document_J_Hai";
         
         // let docRA = new DocumentRA();
         // docRA.METADATA_STATUS = new ValueStruct('New', 'New'); 
@@ -116,7 +124,7 @@ class DocumentService {
 		docGeneric.GXP_INDICATOR =   "false  ";
 		docGeneric.TESTED_ON_VERTEBRATE =   " false ";
         let fileReference =  new ReferenceToFile();
-		fileReference.toFileId =   "D_Document_J_01_T-423579_0003052902R" ;
+		fileReference.toFileId =   "D_Document_J_01_T-Hai" ;
         docGeneric.addReferenceToFile(fileReference);
          
         //doc.addDocumentRA(docRA);

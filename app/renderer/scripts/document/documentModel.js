@@ -104,7 +104,7 @@ class DocumentGeneric {
 			this.TEST_LABORATORY =   null ;
 			this.GXP_INDICATOR =   null;
 			this.TESTED_ON_VERTEBRATE =   null;
-            this.REFERENCED_TO_FILE =  null;
+            this.REFERENCED_TO_FILE =  [];
         }     
     }
    
@@ -125,9 +125,9 @@ class DocumentGeneric {
          this.DOCUMENT_NUMBER.push(documentNumber);
      }
      
-    //  addReferenceToFile(refToFile){
-    //      this.REFERENCED_TO_FILE.push(refToFile);
-    //  }
+     addReferenceToFile(refToFile){
+          this.REFERENCED_TO_FILE.push(refToFile);
+     }
      
      toGHSTSJson() {   
         let contentStatusHistoryJson = [];
@@ -141,6 +141,13 @@ class DocumentGeneric {
         
         // let relatedToSubstanceJson = [];
         // this.RELATED_TO_SUBSTANCE.forEach(relSub => relatedToSubstanceJson.push(relSub));
+        
+         let referencedToFileJson = [];
+       
+        this.REFERENCED_TO_FILE.forEach(refToFile => {
+            let refObj = new ReferenceToFile(refToFile);
+            referencedToFileJson.push(refObj.toGHSTSJson());
+        }); 
         
         return {
             	METADATA_STATUS 	       :      this.METADATA_STATUS,		
@@ -158,7 +165,7 @@ class DocumentGeneric {
 				TEST_LABORATORY 		   :      this.TEST_LABORATORY ,		
 				GXP_INDICATOR 			   :      this.GXP_INDICATOR, 		
 				TESTED_ON_VERTEBRATE 	   :      this.TESTED_ON_VERTEBRATE ,	
-                REFERENCED_TO_FILE         :      this.REFERENCED_TO_FILE
+                REFERENCED_TO_FILE         :      referencedToFileJson
 					
 
         };          
