@@ -1,0 +1,53 @@
+<div style="width:100%" layout='column'>
+    <div style='100%' layout='row'>
+        <div flex layout='column' tabIndex='-1' role='main' class='md-whiteframe-z2'>
+            <md-toolbar layout='row' class='md-whiteframe-z1'>
+                <div class="md-toolbar-tools">
+                    <md-button class="md-icon-button" aria-label="Home" ng-href="#/home">
+                        <md-icon class="material-icons" aria-label="Home">home</md-icon>    
+                    </md-button>
+                    <h2>
+                        <span>Submission</span>
+                    </h2>
+                </div>                    
+            </md-toolbar>
+            <md-content layout-padding class='autoScroll'>
+                <form name='submissionForm'>
+                    <div layout-gt-sm='row'>
+                        <md-input-container class='md-block'>
+                            <label for='number'>Submission Number</label>
+                            <input ng-model='_ctrl.submission.SUBMISSION_NUMBER' name='number' disabled />
+                        </md-input-container>
+                    </div>
+                    <div layout-gt-sm='row'>
+                        <md-input-container class='md-block'>
+                            <label for='date'>Version Date (yyyy-mm-dd)</label>
+                            <input ng-model='_ctrl.submission.SUBMISSION_VERSION_DATE' name='date' />
+                        </md-input-container>
+                    </div>
+                    <div layout-gt-sm='row'>
+                        <md-input-container class='md-block' flex-gt-sm>
+                            <label for="title">Title</label>
+                            <input ng-model='_ctrl.submission.SUBMISSION_TITLE' name='title' />
+                        </md-input-container>
+                    </div>
+                    <div layout-gt-sm='row'>
+                        <md-input-container class='md-block'>
+                            <label for='incremental'>Incremental</label>
+                            <input ng-model='_ctrl.submission.INCREMENTAL' name='incremental' />
+                        </md-input-container>
+                    </div>
+                </form>
+            </md-content>
+            
+            <!-- buttons -->
+            <section layout='row' layout-sm='column' layout-align='center' layout-wrap>
+                <md-button class='md-raised md-primary' ng-click='_ctrl.saveSubmission()' aria-label='init DB'>Save</md-button>
+                <md-button class='md-raised' ng-click='_ctrl.createSubmission()' aria-label='init DB'>Cancel</md-button>
+                <md-button class='md-raised md-primary' ng-click='_ctrl.viewSubmissionJson()' aria-label='init DB'>View Submission Json</md-button>
+                <md-button class='md-raised md-primary' ng-click='_ctrl.viewSubmissionGHSTS()' aria-label='init DB'>View submission GHSTS</md-button>
+                <md-button class='md-raised md-warn' ng-click='_ctrl.initializeSubmission()' aria-label='init DB'>Initialize DB with sample</md-button>
+            </section>
+        </div>
+    </div>
+</div>
