@@ -8,6 +8,7 @@ class GHSTS {
         this.ghsts = {};
         this.legalEntities = [];
         this.receivers = [];
+         this.documents = [];
         // add other sub objects here
 
         this.submission = [];
@@ -40,6 +41,14 @@ class GHSTS {
     setfiles(files) {
         this.files = files;
     }
+    
+    addDocument(document){
+        this.documents.push(document);
+    }
+    
+    setDocuments(documents){
+        this.documents = documents;
+    }
     readObjects() {
         // read json objects from ghsts xml    
         let self = this;
@@ -65,7 +74,8 @@ class GHSTS {
 
                     self.submission = obj.GHSTS.PRODUCT[0].DOSSIER[0].SUBMISSION;
                     self.files=obj.GHSTS.FILES[0].FILE;
-
+                    // set documents
+                    self.documents = obj.GHSTS.DOCUMENTS[0].DOCUMENT;  
                 })
             });
         })

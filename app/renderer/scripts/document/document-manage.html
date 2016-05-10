@@ -1,0 +1,114 @@
+<div style="width:100%" layout="column">
+    <md-toolbar class="md-whiteframe-z1" layout="row">
+        <md-button class="md-warn" aria-label="Home" ng-href="#/home">Home</md-button>
+        <h2>
+          <span>Document Management</span>
+        </h2>
+    </md-toolbar>
+    <div style="width:100%" layout="row">
+        <md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="true">
+            <!--  md-is-locked-open="$mdMedia('gt-sm')"-->
+            <md-toolbar layout="row" class="md-whiteframe-z1">
+                <md-headline layout-padding>Documents</md-headline>
+            </md-toolbar>
+            <md-input-container style="margin-bottom:0">
+                <label>Document</label>
+                <input required name="documentID" ng-model="_ctrl.filterText" ng-change="_ctrl.filterDocument()">
+            </md-input-container>
+            <md-list>
+                <!-- notice work around for nedb. 'track by index'' to fix $$hashkey problem -->                
+                <md-list-item ng-repeat="it in _ctrl.documents track by $index" ng-click="_ctrl.selectDocument(it, $index)">
+                    <p>{{it._identifier}}</p>
+                </md-list-item>
+            </md-list>
+        </md-sidenav>
+
+        <div flex layout="column" tabIndex="-1" role="main" class="md-whiteframe-z2">            
+            <md-toolbar layout="row" class="md-whiteframe-z1">
+                <md-headline layout-padding>{{ _ctrl.selected._identifier }}</md-headline>
+            </md-toolbar>            
+               <md-content layout-padding class="autoScroll">
+                <form name = "docForm">
+                    <div layout-gt-xs="row">
+                        <md-input-container class="md-block" flex-gt-xs>                        
+                            <label>PID</label>
+                            <input ng-model="_ctrl.selected.DOCUMENT_GENERIC.DOCUMENT_PID" type="text">
+                        </md-input-container>
+                    </div>
+                    <div layout-gt-sm="row">
+                        <md-input-container  class="md-block" flex-gt-sm>
+                            <label>Document Family PID</label>
+                            <input ng-model="_ctrl.selected.DOCUMENT_GENERIC.DOCUMENT_FAMILY_PID" type="text">
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Document Family</label>
+                            <input ng-model="_ctrl.selected.DOCUMENT_GENERIC.DOCUMENT_FAMILY" type="text">
+                        </md-input-container>
+                    </div>
+                    <div layout-gt-sm="row">
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>DOCUMENT_TITLE</label>
+                            <input ng-model="_ctrl.selected.DOCUMENT_GENERIC.DOCUMENT_TITLE" type="text">
+                        </md-input-container>                        
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>DOCUMENT_AUTHOR</label>
+                            <input ng-model="_ctrl.selected.DOCUMENT_GENERIC.DOCUMENT_AUTHOR" type="text">
+                        </md-input-container>
+                    </div>
+                    <div layout-gt-sm="row">
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>DOCUMENT_ISSUE_DATE</label>
+                            <input ng-model="_ctrl.selected.DOCUMENT_GENERIC.DOCUMENT_ISSUE_DATE" type="text">
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>DOCUMENT_OWNER</label>
+                            <input ng-model="_ctrl.selected.DOCUMENT_GENERIC.DOCUMENT_OWNER" type="text">
+                        </md-input-container>
+                    </div>
+                    <div layout-gt-sm="row">
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>COMPLETE_DOCUMENT_SOURCE</label>
+                            <input ng-model="_ctrl.selected.DOCUMENT_GENERIC.COMPLETE_DOCUMENT_SOURCE" type="text">
+                        </md-input-container>                        
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>TEST_LABORATORY</label>
+                            <input ng-model="_ctrl.selected.DOCUMENT_GENERIC.TEST_LABORATORY" type="text">
+                        </md-input-container>
+                       
+                    </div>
+                     <!--<div layout-gt-sm="row">
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>REFERENCED_TO_FILE</label>
+                            <input ng-model="_ctrl.selected.DOCUMENT_GENERIC.REFERENCED_TO_FILE.To_File_Id" type="text">
+                        </md-input-container>                                            
+                     </div>-->
+                     
+                     <md-toolbar>
+                        <div class="md-toolbar-tools">
+                            <h2>Reference To Files</h2>
+                            <span flex></span>
+                      
+                        </div>
+                    </md-toolbar>
+                    <md-list>
+                        <md-list-item ng-repeat=" file in _ctrl.selected.DOCUMENT_GENERIC.REFERENCED_TO_FILE track by $index"  class="noright">
+                            <md-icon class="material-icons" aria-label="folder"> folder </md-icon>
+                            <p>{{ file._toFileId }}</p>     
+                                                                                    
+                        </md-list-item>
+                    </md-list>
+                   
+                   
+                </form>
+            </md-content>           
+           
+            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                                                    
+                
+               <md-button class="md-raised md-warn" ng-click="_ctrl.addTestDOC()">Add Sample DOC to DB</md-button>   
+                <md-button class="md-raised md-warn" ng-click="_ctrl.initializeDOC()">Initalize DB with Sample GHSTS DOC</md-button>
+                
+            </section>  
+        </div>
+    </div>
+</div>

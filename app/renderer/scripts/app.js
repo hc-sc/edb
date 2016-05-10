@@ -13,6 +13,8 @@ import SubmissionController from './submission/submissionController';
 import SubmissionService from './submission/submissionService';
 import {FileService} from './file/fileService';
 import {FileController} from './file/fileController';
+import {DocumentService} from './document/documentService'; 
+import {DocumentController} from './document/documentController';
 // notice stylesheet loading from app.js
 import '../jspm_packages/github/angular/bower-material@1.0.4/angular-material.css!';
 
@@ -27,6 +29,8 @@ angular.module('ghstsApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages'])
     .controller('receiverController', ['$mdDialog', 'receiverService', 'legalEntityService', ReceiverController])
     .service('fileService', ['$q', FileService])
     .controller('fileController', ['$mdDialog', 'fileService', FileController])
+    .service('documentService', ['$q', DocumentService])
+    .controller('documentController', ['$mdDialog', 'documentService', DocumentController])
     .service('submissionService', ['$q', SubmissionService])
     .controller('submissionController', ['$mdDialog', 'submissionService']);
 
@@ -55,6 +59,11 @@ function config($routeProvider) {
         .when('/manageFile', {
             templateUrl: './scripts/file/file-manager.html',
             controller: FileController,
+            controllerAs: '_ctrl'
+        })
+        .when('/manageDoc', {
+            templateUrl: './scripts/document/document-manage.html' ,
+            controller: DocumentController,
             controllerAs: '_ctrl'
         })
             .when('/submission', {
