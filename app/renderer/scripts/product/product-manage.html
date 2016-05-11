@@ -33,21 +33,21 @@
                    <div layout-gt-sm="row">
                         <md-input-container  class="md-block" flex-gt-sm>
                             <label>Generic Product Name</label>
-                            <input ng-model="_ctrl.selected.GENERIC_PRODUCT_NAME" type="text">
+                            <input ng-model="_ctrl.selected.GENERIC_PRODUCT_NAME" type="text" ng-required="true">
                         </md-input-container>
                         <md-input-container class="md-block" flex-gt-sm>
                             <label>PID</label>
-                            <input ng-model="_ctrl.selected.PRODUCT_PID" type="text" ng-required="false">
+                            <input ng-model="_ctrl.selected.PRODUCT_PID" type="text" ng-required="true">
                         </md-input-container>
                     </div>
                     <div layout-gt-sm="row">
                         <md-input-container>
                             <label>Formulation Type</label>
-                            <input ng-model="_ctrl.selected.FORMULATION_TYPE.VALUE" type="text">
+                            <input ng-model="_ctrl.selected.FORMULATION_TYPE.VALUE_DECODE" type="text">
                         </md-input-container>                        
                         <md-input-container>
                             <label>Status</label>
-                            <input ng-model="_ctrl.selected.METADATA_STATUS.VALUE" type="text">
+                            <input ng-model="_ctrl.selected.METADATA_STATUS.VALUE_DECODE" type="text">
                         </md-input-container>
                     </div>
                 </form>
@@ -55,14 +55,14 @@
             <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
                 <!--d-button class="md-raised md-info" ng-click="_ctrl.createLegalEntity()">Add</md-button-->
                 <md-button class="md-raised md-primary" ng-click="_ctrl.saveProduct()">Save</md-button>
-                <md-button class="md-raised md-danger" ng-click="_ctrl.cancelEdit()">Cancel</md-button>
+<!--                <md-button class="md-raised md-danger" ng-click="_ctrl.cancelEdit()">Cancel</md-button>
                 <md-button class="md-raised md-warn" ng-click="_ctrl.deleteProduct()">Delete</md-button>      
                 <md-button class="md-raised md-primary" ng-click="_ctrl.viewProductJson()">View Product JSON</md-button>                
                 <md-button class="md-raised md-primary" ng-click="_ctrl.viewProductGHSTS()">View Product GHSTS</md-button>                                      
-                
-                <md-button class="md-raised md-warn" ng-click="_ctrl.addTestProduct()">Add Sample Product to DB</md-button>   
-                <md-button class="md-raised md-warn" ng-click="_ctrl.initializeProduct()">Init DB with Sample GHSTS Product</md-button>
-                
+-->                
+                <!--md-button class="md-raised md-warn" ng-click="_ctrl.addTestProduct()">Add Sample Product to DB</md-button>-->   
+                <md-button class="md-raised md-warn" ng-click="_ctrl.initializeProductFromXml()">Init DB with Sample GHSTS Product</md-button>
+               
             </section>  
         </div>
     </div>

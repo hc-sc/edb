@@ -3,8 +3,8 @@ import xml2js from 'xml2js';
 import uuid from 'node-uuid';
 import {GHSTS} from '../common/ghsts.js';
 import {Ingredient, AdminNumber, ProductRA, Product} from './productModel.js';
-import {Dossier} from '../dossier/dossierModel.js';
-import {Submission} from '../submission/Submission';
+//import {Dossier} from '../dossier/dossierModel.js';
+//import {Submission} from '../submission/submissionModel.js';
 import {ValueStruct, IdentifierStruct} from '../common/sharedModel.js';
 
 class ProductService {
@@ -22,7 +22,8 @@ class ProductService {
         });      
         return deferred.promise;  
     }
-    
+
+/*    
     getProductById(id) {
         let deferred = this.$q.defer();
         this.legalEntities.find({'_id': id }, function (err, result) {
@@ -40,17 +41,45 @@ class ProductService {
         });  
         return deferred.promise;        
     }
-    
-    createProduct(product) { 
+*/    
+    createProduct(product) {
+        let self = this;
+        console.log('inside createProduct \r\n');
+        product.PRODUCT_PID = product.PRODUCT_PID == null ? 
+                              self.validPid() : 
+                              self.validPid(product.PRODUCT_PID);
         let deferred = this.$q.defer();
-        this.productsDb.insert(product, function (err, result) {
-            console.log(err)
+        //check for existing
+        self.productsDb.find({'PRODUCT_PID': product.PRODUCT_PID}, 
+                             function (err, result){
+                                 window.alert(result);
+            if (err){
+                console.log(err);
+                deferred.reject(err);
+                return deferred.promise;
+            }else if (result.length === 1){//found one existing, update instead
+                console.log('ProductService:createProduct found existing '+
+                            'product with PID ' + product.PRODUCT_PID +
+                            '.  Updating instead of creating new.');
+                return updateProduct(product);
+            }else if (result.length > 1){ // error, more than one exists
+                console.log('ProductService:createProduct found more than '+
+                            'one product with PID ' + product.PRODUCT_PID +
+                            '.  Rejecting create.');
+                deferred.reject('Multiple Products with PID = ' + product.PRODUCT_PID + 
+                                'found in the db. Creation Failed.');
+                return deferred.promise;
+            };
+         });
+         // if we are still here then this is a legit create
+        self.productsDb.insert(product, function (err, result) {
+            console.log(err);
             if (err) deferred.reject(err);
             deferred.resolve(result);
         });
         return deferred.promise;
     }
-    
+/*    
     deleteProduct(id) {            
         let deferred = this.$q.defer();
         this.productsDb.remove({'_id': id}, function (err, res) {
@@ -60,10 +89,11 @@ class ProductService {
         });                
         return deferred.promise;
     }
-    
+*/    
     updateProduct(product) {
+        console.log('in updateProduct');
         let deferred = this.$q.defer();
-        this.productsDb.update({pid: product.pid}, product, {}, function (err, numReplaced) {
+        this.productsDb.update({pid: product.PRODUCT_PID}, product, {}, function (err, numReplaced) {
             if (err) deferred.reject(err);
             deferred.resolve(numReplaced);
         });
@@ -89,37 +119,45 @@ class ProductService {
         });       
         return deferred.promise;
     }
-    
+
+//********************** Testing/Stub/Mock functions below ********************
     initializeProductFromXml(){
-        // read from sample ghsts and populate the database with the product node.
+        // read from sample ghsts and populate the database with product node.
         let obj_ghsts = new GHSTS("./app/renderer/data/ghsts.xml");     
         let promise = obj_ghsts.readObjects();
-        let self = this;
-        promise.then(function(contents) {
-            let rawP = obj_ghsts.PRODUCT;
+        let self=this;
+        promise.then(contents => {
+            let rawP = obj_ghsts.product[0];
             // convert GHSTS json to the product object
             // xml2js' use-and-abuse array setting is on to play safe for now, 
             // hence the default array references.   
-            let mds = new ValueStruct(rawP.METADATA_STATUS[0]
-                                                 .VALUE[0],
-                                         rawP.METADATA_STATUS[0]
-                                                 .VALUE_DECODE[0]);
-            let ftype = new ValueStruct(
-                                rawP.FORMULATION_TYPE[0].VALUE[0],
-                                rawP.FORMULATION_TYPE[0].VALUE_DECODE[0]
+            let mds = new ValueStruct(rawP.METADATA_STATUS[0].VALUE[0], rawP.METADATA_STATUS[0].VALUE_DECODE[0]);
+            let ftype = null;
+            if (rawP.FORMULATION_TYPE[0].VALUE[0].attr$){
+                ftype = new ValueStruct(
+                                rawP.FORMULATION_TYPE[0].VALUE[0].attr$.Other_Value,// until Extensible structs are done VALUE[0]
+                                rawP.FORMULATION_TYPE[0].VALUE_DECODE[0] 
                              );
+            }else {
+                ftype = new ValueStruct(
+                                rawP.FORMULATION_TYPE[0].VALUE[0],
+                                rawP.FORMULATION_TYPE[0].VALUE_DECODE[0] 
+                             );
+             }
             //let obj_Doss = new Dossier(obj_ghsts.PRODUCT.DOSSIER);
             let product = new Product();
             product.METADATA_STATUS = mds;
-            product.FORMULATION_TYPE = ftype;
-            doss = new Dossier();
+            product.FORMULATION_TYPE = ftype === null ? 
+                                           {'ERROR':'Formulation Type'} :
+                                           ftype;
+            let doss = {}; //empty dossier until Dossier is finised new Dossier();
             
             product.PRODUCT_PID = rawP.PRODUCT_PID[0];
             product.GENERIC_PRODUCT_NAME = rawP.GENERIC_PRODUCT_NAME[0];
-            rawP.PRODUCT_RA.forEach(rawPRA, i1 =>{
+            rawP.PRODUCT_RA.forEach(rawPRA =>{
                 // create and populate an RA object using raw data
                 let pra = new ProductRA();
-                pra.toReceiverRaIdentifier(rawPRA.attr$.To_Specific_for_RA_Id);
+                pra.toReceiverRaId = rawPRA.attr$.To_Specific_for_RA_Id;
                 if (rawPRA.PRODUCT_NAME[0] === undefined){
                     pra.PRODUCT_NAME = null;
                 }else{
@@ -137,28 +175,29 @@ class ProductService {
                                                           .VALUE_DECODE[0];
                     //Now stringify it to JSON and use the JSON constructor
                     // to add it to the ProductRA object.
-                    pra.addAdminNum(new AdminNumber(JSON.stringify(an)));
-                });
+                    pra.addAdminNum(new AdminNumber(an));
+                }); //end foreach rawP AdminNumber
                 product.addRA(pra);
             });// end foreach on rawP PRA
             rawP.INGREDIENTS[0].INGREDIENT.forEach(rawIng =>{
-                ing = new Ingredient();
-                ing.toSubstanceID(rawIng.attr$.To_Substance_Id);
-                ing.INGREDIENT.QUANTITY = rawIng.QUANTITY[0];
-                ing.INGREDIENT.UNIT = new ValueStruct(rawIng.UNIT[0].VALUE[0],
-                                                      rawIng.UNIT[0].VALUE_DECODE[0]);
+                let ing = new Ingredient();
+                ing.toSubstanceID = rawIng.attr$.To_Substance_Id;
+                ing.QUANTITY = rawIng.QUANTITY[0];
+                ing.UNIT = new ValueStruct(rawIng.UNIT[0].VALUE[0],
+                                           rawIng.UNIT[0].VALUE_DECODE[0]);
                 product.addIngredient(ing);
             });
-                 console.log('---------------------JSON Product Model----------------\n' + JSON.stringify(product));
-                 console.log('-----------------Product GHSTS JSON Format-------------\n' + JSON.stringify(product.toGHSTSJson()));
-                 // insert the above to into db.
-                 self.createProduct(product);
+            product.DOSSIER = doss;
+            console.log('---------------------JSON Product Model----------------\n' + JSON.stringify(product));
+            console.log('-----------------Product GHSTS JSON Format-------------\n' + JSON.stringify(product.toGHSTSJson()));
+            // insert the above into db.
+            self.createProduct(product);
         }).catch(function(e) {
                 console.log(e); 
             });
-    }    
+    }
     
-    /*_createSampleLegalEntity(){
+/*    _createSampleLegalEntity(){
         // private method: create a sample legal entity as a sender
         let Canada = new ValueStruct('CA', 'Canada');
         let IdType = new ValueStruct("DUNS-number", "DUNS-number"); 
@@ -209,14 +248,58 @@ class ProductService {
         
         return leRA; 
     }
-    
+
     addLegalEntityToDB(){  
         // add a new legal entity to database
         let le = this._createSampleLegalEntity();        
         this.createLegalEntity(le);        
         let leRA = this._createSampleRALegalEntity();        
         this.createLegalEntity(leRA);      
-    } */    
+    } 
+*/  
+//******************************** utility methods ****************************
+
+    // validPid(id) takes an argument or defaults it to uuid. Checks if 
+    // argument is a PID and also checks if it is a valid PID (3 strings 
+    // separated by colon with a UUID in the last position).  It always returns
+    // a valid and unique PID assuming Builder namespace is always "ghsts" (as
+    // from the Specification: 'urn:ghsts:<valid uuid - we are using ver. 4>')
+    // TODO: externalize default pid prefix 'urn:ghsts'
+    validPid(id = uuid.v4()){
+        let regex = new RegExp(/^[0-9a-f]{8}-?[0-9a-f]{4}-?[0-5][0-9a-f]{3}-?[089ab][0-9a-f]{3}-?[0-9a-f]{12}$/i);
+        // strip any spaces        
+        id = id.replace(/ /g, '');
+        // check incoming for no colons
+        if (id.indexOf(":") === -1){
+            // no colons, check if valid uuid
+            if (id.match(regex)){
+                // is a valid uuid, add rest of PID and return
+                return "urn:ghsts:" + id;
+            }else{
+                // neither a valid PID nor uuid, return back valid PID
+                return "urn:ghsts:" + uuid.v4();
+            }
+        }else{ // contains a colon, check for valid format
+            let strs = id.split(":");
+            //TODO: externalize the PID split on : array size = 3
+            if (strs.length === 3){
+                // valid number of strings so check valid uuid in last position
+                if(strs[strs.length - 1].match(regex)){
+                    // and finally check for valid "urn:"
+                    if (strs[0] == 'urn'){
+                        // valid PID, return it w/ spaces stripped
+                        return id;
+                    }
+                }
+            }else{
+                // failed validity tests, return back valid PID
+                let newPid = "urn:ghsts:" + uuid.v4();
+                console.log('invalid Product PID ' + idin + 
+                            '\nReplacing with valid PID ' + newPid.toString());
+                return newPid.toString();
+            }
+        }
+    }// end function validPid(id)
 }
 
 ProductService.$inject = ['$q'];

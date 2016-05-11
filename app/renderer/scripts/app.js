@@ -5,6 +5,8 @@ import ngAnimate from '../jspm_packages/github/angular/bower-angular-animate@1.4
 import ngMessages from 'angular-messages';
 import {LegalEntityService} from './legal_entity/legalEntityService'; 
 import {LegalEntityController} from './legal_entity/legalEntityController';
+import {ProductService} from './product/productService';
+import {ProductController} from './product/productController';
 import {ReceiverService} from './receiver/receiverService'; 
 import {ReceiverController} from './receiver/receiverController';
 import {GhstsService} from './ghsts_demo/ghstsService'; 
@@ -16,6 +18,8 @@ angular.module('ghstsApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages'])
     .config(config)
     .service('legalEntityService', ['$q', LegalEntityService])
     .controller('legalEntityController', ['$mdDialog', 'legalEntityService', LegalEntityController])
+    .service('productService', ['$q', ProductService])
+    .controller('productController', ['$mdDialog', 'productService', ProductController])
     .service('receiverService', ['$q', ReceiverService])
     .controller('receiverController', ['$mdDialog', 'receiverService', 'legalEntityService', ReceiverController])
     .service('ghstsService', ['receiverService', 'legalEntityService', GhstsService])
@@ -36,6 +40,11 @@ function config($routeProvider) {
         .when('/manageLE', {
             templateUrl: './scripts/legal_entity/le-manage.html' ,
             controller: LegalEntityController,
+            controllerAs: '_ctrl'
+        })
+        .when('/manageProduct', {
+            templateUrl: './scripts/product/product-manage.html',
+            controller: ProductController,
             controllerAs: '_ctrl'
         })
         .when('/manageRcvr', {

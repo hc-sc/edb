@@ -22,7 +22,7 @@ class GhstsService {
         let ghsts = new GHSTS("./app/renderer/data/ghsts.xml");     
         let promise = ghsts.readObjects();
         let self = this;
-        const ready = {products : false,
+        let ready = {products : false,
                      legalEntities : false,
                      receivers : false};
         // listen for both fulfillment and rejection        
@@ -32,7 +32,7 @@ class GhstsService {
             // replace Product with Product from the database
             let productPromise = self.productService.getProducts();
             productPromise.then(function(product) {
-                console.log('product from db ::' + product);
+                console.log('product from db ::::' + JSON.stringify(product));
                 product => new Product(product);
                 ghsts.setProduct(product.toGhstsJson());
             });

@@ -1,4 +1,4 @@
-import Dossier from '../dossier/dossierModel.js'
+//import Dossier from '../dossier/dossierModel.js'
 
 class Ingredient {
     constructor(json){  
@@ -13,7 +13,7 @@ class Ingredient {
     }
     
     set toSubstanceID(_identifier){
-        this.INGREDIENT._toSubstanceID = _identifier;
+        this._toSubstanceID = _identifier;
     }
     
     toGhstsJson() {
@@ -49,14 +49,14 @@ class ProductRA {
             // load from json
             Object.assign(this, json);
         }else{
-            this._toReceiverRaIdentifier = null;
+            this._toReceiverRaId = null;
             this.PRODUCT_NAME = null;
             this.ADMIN_NUMBER = [];
         };    
     }
     
-    set toReceiverRaIdentifier(_identifier){
-        this._toReceiverRaIdentifier = _identifier;
+    set toReceiverRaId(XSDid){
+        this._toReceiverRaId = XSDid;
     }
     
     addAdminNum(adminNumber){
@@ -67,7 +67,7 @@ class ProductRA {
         let arr_an = [];
         this.ADMIN_NUMBER.forEach(an => arr_an.push(an));
         return {
-            attr$ : { To_Specific_for_RA_Id : this._toReceiverRaIdentifier },
+            attr$ : { To_Specific_for_RA_Id : this._toReceiverRaId },
             PRODUCT_NAME : this.PRODUCT_NAME,
             ADMIN_NUMBER : arr_an
         };
@@ -79,7 +79,7 @@ class Product {
         if(arguments.length === 1){
             // load from json
             Object.assign(this, json);
-            this.DOSSIER = {};
+            //this.DOSSIER = {};
         }else{            
             this.METADATA_STATUS = {};  // of type ValueStruct
             this.PRODUCT_PID = null;
@@ -90,7 +90,7 @@ class Product {
             //since there is no GHSTS schema reference that relates PRODUCT and
             //DOSSIER, the PRODUCT Tree in the XSD will be constructed when
             //creating the XML (in ghsts.js).
-            //this.DOSSIER = {};   
+            this.DOSSIER = {};
         }     
     }
     
@@ -103,14 +103,14 @@ class Product {
     }
    
     addIngredient(obj_ingredient){
-        this.INGREDIENTS.push(ingredient);
+        this.INGREDIENTS.push(obj_ingredient);
     } 
     
     toGHSTSJson() {     
         let prodRAsJson = [];
         this.PRODUCT_RA.forEach(pra => {prodRAsJson.push(pra)});
-        let ingJson = [];
-        this.INGREDIENTS.forEach(ing => {ingJson.push(ing)});
+        let ingsJson = [];
+        this.INGREDIENTS.forEach(ing => {ingsJson.push(ing)});
         
         return {
             METADATA_STATUS     : this.METADATA_STATUS,            
@@ -118,8 +118,8 @@ class Product {
             GENERI_PRODUCT_NAME : this.GENERI_PRODUCT_NAME,
             FORMULATION_TYPE    : this.FORMULATION_TYPE,
             PRODUCT_RA          : prodRAsJson,
-            INGREDIENTS         : ingJson,
-            //DOSSIER             : this.DOSSIER
+            INGREDIENTS         : ingsJson,
+            DOSSIER             : this.DOSSIER
         };               
     }          
 }    
