@@ -49,7 +49,9 @@ class ProductService {
                               self.validPid() : 
                               self.validPid(product.PRODUCT_PID);
         let deferred = this.$q.defer();
-        //check for existing
+        //check for existing  -- not working, committed in 
+        //b13f964e55db592c3f9add6313efe38a3835aa3b
+        /*
         self.productsDb.find({'PRODUCT_PID': product.PRODUCT_PID}, 
                              function (err, result){
                                  window.alert(result);
@@ -72,6 +74,7 @@ class ProductService {
             };
          });
          // if we are still here then this is a legit create
+         */
         self.productsDb.insert(product, function (err, result) {
             console.log(err);
             if (err) deferred.reject(err);
@@ -79,7 +82,7 @@ class ProductService {
         });
         return deferred.promise;
     }
-/*    
+
     deleteProduct(id) {            
         let deferred = this.$q.defer();
         this.productsDb.remove({'_id': id}, function (err, res) {
@@ -89,7 +92,7 @@ class ProductService {
         });                
         return deferred.promise;
     }
-*/    
+
     updateProduct(product) {
         console.log('in updateProduct');
         let deferred = this.$q.defer();

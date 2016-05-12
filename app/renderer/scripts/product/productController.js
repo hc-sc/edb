@@ -2,8 +2,9 @@ import angular from 'angular';
 
 
 class ProductController {
-    constructor($mdDialog, ProductService) {
+    constructor($mdDialog, ReceiverService, ProductService) {
         this.productService = ProductService;
+        this.receiverService = ReceiverService;
         this.products = [];
         this.selected = {};
         this.selectedIndex = null;
@@ -26,98 +27,13 @@ class ProductController {
     }
     
     selectProduct(product, index) {
-        this.selected = angular.isNumber(product) ? this.products[product] : product;
-        this.selectedIndex = angular.isNumber(product) ? product : index;
-        this.selected_id = this.selected._id;
-    }
-    
-/*        //start data service stub
-        this.products = [];
-        this.testProduct = {
-            "METADATA_STATUS": {
-                "VALUE": "New",
-                "VALUE_DECODE": "New"
-            },
-            "PRODUCT_PID": "urn:pppww:E3568230-87E3-4693-8F44-F7B1ACCB0EDB",
-            "GENERIC_PRODUCT_NAME": "Famous Product EC 250",
-            "PRODUCT_RA": [
-                {
-                    "_toReceiverRaId": "ID_RECEIVER_BVL",
-                    "PRODUCT_NAME": "Besonders Schädlingsfrei Supra EC250",
-                    "ADMIN_NUMBER": [
-                        {
-                            "ADMIN_NUMBER_TYPE": {
-                                "VALUE": "Application Number",
-                                "VALUE_DECODE": "Application Number"
-                            },
-                            "IDENTIFIER": "BVL-R01-123"
-                        },
-                        {
-                            "ADMIN_NUMBER_TYPE": {
-                                "VALUE": "BVL Kenn-Nr.",
-                                "VALUE_DECODE": "BVL Kenn-Nr."
-                            },
-                            "IDENTIFIER": "BVL-R02-123"
-                        }
-                    ]
-                },
-                {
-                    "_toReceiverRaId": "ID_RECEIVER_PMRA",
-                    "PRODUCT_NAME": "Great Canadian Beetle Controller GCBC",
-                    "ADMIN_NUMBER": {
-                        "ADMIN_NUMBER_TYPE": {
-                            "VALUE": "Application Number",
-                            "VALUE_DECODE": "Application Number"
-                        },
-                        "IDENTIFIER": "APP-R02-123"
-                    }
-                }
-            ],
-            "FORMULATION_TYPE": {
-                "VALUE": "TC",
-                "VALUE_DECODE": "Technical Composition"
-            },
-            "INGREDIENTS": {
-                "INGREDIENT": [
-                    {
-                        "attr$": { "To_Substance_Id": "IDS0000000112" },
-                        "QUANTITY": "100",
-                        "UNIT": {
-                            "VALUE": "g/L",
-                            "VALUE_DECODE": "g/L"
-                        }
-                    },
-                    {
-                        "attr$": { "To_Substance_Id": "IDS0000002222" },
-                        "QUANTITY": "100",
-                        "UNIT": {
-                            "VALUE": "g/L",
-                            "VALUE_DECODE": "g/L"
-                        }
-                    },
-                    {
-                        "attr$": { "To_Substance_Id": "IDS0000003333" },
-                        "QUANTITY": "50",
-                        "UNIT": {
-                            "VALUE": "g/L",
-                            "VALUE_DECODE": "g/L"
-                        }
-                    }
-                ]
-            }
-        };
-        this.products.push(this.testProduct);
-        //end data service stub
-        this.selectedIndex = [0];
-        this.selected = this.products[0];
-
-    selectProduct(product, index) {
         this.selected = angular.isNumber(product) 
                          ? this.products[product]  
                          : product;
         this.selectedIndex = angular.isNumber(product) 
                               ? product 
                               : index;
+        this.selected_id = this.selected._id;
     }
     
     deleteProduct($event) {
@@ -136,7 +52,7 @@ class ProductController {
                                                            , 1));
             });
     }
-*/  
+    
     saveProduct($event) {
         if (Object.keys(this.selected).length > 0 && this.selected_id != null) {
             this.productService.updateProduct(this.selected).then(savedDoc => {
@@ -169,31 +85,13 @@ class ProductController {
             });
         }
     }
-/*       
+       
     newProduct() {
         this.selected = {};
-        /* these two should not be reset to accommodate create 
         this.selectedIndex = null;
-        this.selected_id = null; */
-/*    }
-    
-    getProductsFromDb() {
-        
-        let selection_id = selected != null ? selected._id : null;
-        this.productService.getProducts().then(DbResult_products => {
-            this.products = [].concat(DbResult_products);
-            this.selected = products[0];
-            this.selectedIndex = 0;
-            //TODO: below is a long running loop for high db volume
-            this.products.forEach(prod, index => {
-                if (selection_id === prod._id){
-                    this.selected = products[index];
-                    this.selectedIndex = index;
-                }
-            });
-        });
+        this.selected_id = null;
     }
-    
+   
     filterProduct() {
         if (this.filterText == null || this.filterText == "") {
             this.getProductsFromDb();
@@ -216,7 +114,7 @@ class ProductController {
             });
         }
     }
-    
+
     viewProductJson($event) {
         
         if (this.selected != null && this.selected._id != null) {
@@ -225,7 +123,7 @@ class ProductController {
                     this.$mdDialog
                         .alert()
                         .clickOutsideToClose(true)
-                        .title('Product JSON')
+                        .title('Product Database JSON')
                         .content(productJson)
                         .ok('Ok')
                         .targetEvent($event)
@@ -242,7 +140,7 @@ class ProductController {
                         this.$mdDialog
                             .alert()
                             .clickOutsideToClose(true)
-                            .title('Product GHSTS')
+                            .title('Product GHSTS JSON')
                             .content(product_xml)
                             .ok('Ok')
                             .targetEvent($event)
@@ -250,7 +148,7 @@ class ProductController {
             );
         };
     }
-*/    
+        
     initializeProductFromXml(){
         // read from sample ghsts and populate the database with that Product.       
         this.productService.initializeProductFromXml();
@@ -262,6 +160,6 @@ class ProductController {
     }
 */}
 
-ProductController.$inject = ['$mdDialog', 'productService'];
+ProductController.$inject = ['$mdDialog', 'receiverService', 'productService'];
 export { ProductController }
 
