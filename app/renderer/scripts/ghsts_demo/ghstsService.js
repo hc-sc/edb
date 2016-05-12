@@ -1,16 +1,18 @@
 import {GHSTS} from '../common/ghsts.js'
 import {ContactPerson, ContactAddress, LegalEntity} from '../legal_entity/legalEntityModel.js';
-import {Receiver, Sender} from '../receiver/receiverModel.js'
-import {ValueStruct, IdentifierStruct} from '../common/sharedModel.js'
-import {Ingredient, AdminNumber, ProductRA, Product} from '../product/productModel.js'
+import {Receiver, Sender} from '../receiver/receiverModel.js';
+import {ValueStruct, IdentifierStruct} from '../common/sharedModel.js';
+import {Ingredient, AdminNumber, ProductRA, Product} from '../product/productModel.js';
+import Submission from '../submission/submissionModel';
+
+const outputFile = './app/renderer/data/DemoGHSTS.xml';
 
 class GhstsService {
-    constructor(ReceiverService, 
-                LegalEntityService,
-                ProductService) {
+    constructor(ReceiverService, LegalEntityService, ProductService, SubmissionService) {
         this.receiverService = ReceiverService;
         this.legalEntityService = LegalEntityService;
         this.productService = ProductService;
+        this.submissionService = SubmissionService;
     }
             
     assembleDemoGHSTS(){          
@@ -53,7 +55,26 @@ class GhstsService {
                         let rcvrObj = new Receiver(receiver);
                         // console.log('receiver json ', rcvrObj.toGHSTSJson())     
                         ghsts.addReceiver(rcvrObj.toGHSTSJson());
-                        //console.log('the le ghsts xml: ' + le.toGHSTSJson());
+                    });
+                    
+                    //replace submission
+                    //NOTE: at this point, there is no restrictions on how many times we've inserted a submission into the DB, so there may be several rows returned, just grab the first
+                    let submissionPromise = self.submissionService.getSubmission();
+                    submissionPromise.then(submission => {
+                        let subObj = new Submission(submission[0]);
+                        ghsts.addSubmission(subObj.toGHSTSJson());
+                        
+                        let sub = ghsts.submission[0];
+                        
+                        //NOTE: this ghsts has an inner ghsts object that is used to actually write the xml. Default is to append new nodes, rather than replace, so we need to replace it by hand. See console output
+                        // console.log(ghsts.ghsts.PRODUCT[0].DOSSIER[0].SUBMISSION);
+                        
+                        //replace the submission that was there
+                        ghsts.ghsts.PRODUCT[0].DOSSIER[0].SUBMISSION = sub;
+                        
+                        //we have built the object, output to xml file
+                        ghsts.writeXML(outputFile);
+                        console.log(`Written to ${outputFile}`);
                     });
                     ready.receivers = true;
                 })
@@ -72,9 +93,8 @@ class GhstsService {
     }        
 }
 
-GhstsService.$inject = [ 'receiverService', 
-                         'legalEntityService', 
-                         'productService'];
+GhstsService.$inject = [ 'receiverService', 'legalEntityService', 'productService', 'submissionService'];
+
 
 export { GhstsService }
 
