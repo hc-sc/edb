@@ -1,4 +1,8 @@
 import angular from 'angular';
+import { Ingredient } from './productModel';
+import ProductRAController from '../product_ra/productRAController';
+import ProductRA from '../product_ra/productRAModel';
+import _ from 'lodash';
 
 
 class ProductController {
@@ -15,6 +19,7 @@ class ProductController {
         // Load initial data
         this.initFromDB();
     }
+    
     initFromDB() {
         this.productService.getProducts().then(dbProducts => {
             this.products = [].concat(dbProducts);
@@ -114,9 +119,74 @@ class ProductController {
             });
         }
     }
+    
+    addIngredient() {
+        console.log('adding new ingredient');
+        let ingredient = new Ingredient();
+        this.selected.INGREDIENTS.push(ingredient);
+    }
+    
+    deleteIngredient(ingredient, $event) {
+        console.log('deleting ingredient');
+        const confirm = this. $mdDialog.confirm()
+            .title('Are you sure?')
+            .content('Are you sure you want to delete this ingredient?')
+            .ok('Yes')
+            .cancel('No')
+            .targetEvent($event);
+            
+        this.$mdDialog.show(confirm).then(() => {
+           _.pull(this.selected.INGREDIENTS, ingredient);
+           this.productService.updateProduct(this.selected); 
+        });
+    }
+    
+    addProductRA($event) {
+        console.log('adding new product ra');
+        let ra = new ProductRA();
+        this.selected.PRODUCT_RA.push(ra);
+        this.showProductRADiag(ra, $event);
+        console.log(this.selected.PRODUCT_RA);
+    }
+    
+    deleteProductRA(ra, $event) {
+        console.log('deleting product ra');
+        const confirm = this. $mdDialog.confirm()
+            .title('Are you sure?')
+            .content('Are you sure you want to delete this RA?')
+            .ok('Yes')
+            .cancel('No')
+            .targetEvent($event);
+            
+        this.$mdDialog.show(confirm).then(() => {
+           _.pull(this.selected.PRODUCT_RA, ra);
+           this.productService.updateProduct(this.selected)
+            .catch(err => {
+                console.log(err);
+            }); 
+        });
+    }
+    
+    saveProductRA() {
+        console.log('saving product ra');
+    }
+    
+    showProductRADiag(productRA, $event) {
+        this.$mdDialog.show({
+            controller: ProductRAController,
+            controllerAs: '_ctrl',
+            templateUrl: './scripts/product_ra/productRA-manager.html',
+            parent: angular.element(document.body),
+            targetEvent: $event,
+            clickOutsideToClose: false,
+            locals: {
+                productRA: productRA,
+                productController: this
+            }
+        });
+    }
 
     viewProductJson($event) {
-        
         if (this.selected != null && this.selected._id != null) {
             let productJson = JSON.stringify(this.selected);            
             this.$mdDialog.show(

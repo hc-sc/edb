@@ -86,14 +86,7 @@
                             <md-input-container class="md-block">
                                 <label>UNIT</label>
                                 <input ng-model="ing.UNIT.VALUE_DECODE" type="text">
-                            </md-input-container><!--<md-input-container class="md-block">
-                                <label>Amount</label>
-                                <md-select name="repeatSelectUnitType" id="repeatSelectUnitType" 
-                                            ng-model="ing.UNIT.VALUE"
-                                            ng-change="_ctrl.updateUnitDecodeByIngIndex($index)">
-                                    <md-option ng-repeat="idType in _ctrl.identifierTypeOptions" value="{{idType.VALUE}}" ng-selected="{{leId.LEGALENTITY_IDENTIFIER_TYPE.VALUE == idType.VALUE}}">{{ idType.VALUE_DECODE }}</md-option>
-                                </md-select>                                    
-                            </md-input-container>-->
+                            </md-input-container>
                             <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteIngredient(ing._toSubstanceID, $event)">Delete</md-button>
                         </div>                                                          
                     </md-list-item>
@@ -103,19 +96,16 @@
                     <div class="md-toolbar-tools">
                         <h2>Regulatory Authority Specifics</h2>
                         <span flex></span>
-                            <md-button class="md-icon-button" ng-click="_ctrl.addProductRA()">
+                        <md-button class="md-icon-button" ng-click="_ctrl.addProductRA($event)">
                             <md-icon class="material-icons" aria-label="Add Regulatory Authority">add_circle</md-icon>
                         </md-button>
                     </div>
                 </md-toolbar>
                 <md-list>
-                    <md-list-item ng-repeat="otherName in _ctrl.selected.OTHER_NAME track by $index" class="noright">
-                        <md-input-container class="md-block" flex="80">
-                            <!--md-icon class="material-icons" aria-label="Other Name">note</md-icon--> 
-                            <label>Other Name</label>
-                            <input ng-model="_ctrl.selected.OTHER_NAME[$index]" type="text">
-                        </md-input-container>
-                        <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteOtherName(otherName, $event)">Delete</md-button> 
+                    <md-list-item ng-repeat="ra in _ctrl.selected.PRODUCT_RA track by $index" ng-click="_ctrl.showProductRADiag(ra, $event)" class="noright">
+                        <md-icon class='material-icons' aria-label='Regulatory Authority'>business</md-icon>
+                        <p>{{ ra.PRODUCT_NAME }}
+                        <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteProductRA(ra, $event)" aria-label='Delete Regulatory Authority'>Delete</md-button> 
                     </md-list-item>
                 </md-list>
             </form>
