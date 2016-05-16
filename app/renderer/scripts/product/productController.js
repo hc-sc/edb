@@ -136,8 +136,13 @@ class ProductController {
             .targetEvent($event);
             
         this.$mdDialog.show(confirm).then(() => {
-           _.pull(this.selected.INGREDIENTS, ingredient);
-           this.productService.updateProduct(this.selected); 
+           _.remove(this.selected.INGREDIENTS, (n) => {
+               return n._toSubstanceID === ingredient;
+           });
+           this.productService.updateProduct(this.selected)
+            .catch(err => {
+                console.log(err);
+            })
         });
     }
     
