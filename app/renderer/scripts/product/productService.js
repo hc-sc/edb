@@ -3,7 +3,7 @@ import xml2js from 'xml2js';
 import uuid from 'node-uuid';
 import {GHSTS} from '../common/ghsts.js';
 import {Ingredient, AdminNumber, Product} from './productModel.js';
-import { ProductRA } from '../product_ra/productRAModel';
+import ProductRA from '../product_ra/productRAModel';
 //import {Dossier} from '../dossier/dossierModel.js';
 //import {Submission} from '../submission/submissionModel.js';
 import {ValueStruct, IdentifierStruct} from '../common/sharedModel.js';
@@ -76,7 +76,7 @@ class ProductService {
          });
          // if we are still here then this is a legit create
          */
-        self.productsDb.insert(product, function (err, result) {
+        self.productsDb.insert(product, (err, result) => {
             console.log(err);
             if (err) deferred.reject(err);
             deferred.resolve(result);
@@ -86,7 +86,7 @@ class ProductService {
 
     deleteProduct(id) {            
         let deferred = this.$q.defer();
-        this.productsDb.remove({'_id': id}, function (err, res) {
+        this.productsDb.remove({'_id': id}, (err, res) => {
             if (err) deferred.reject(err);
             console.log(res);
             deferred.resolve(res.affectedRows);
@@ -97,7 +97,7 @@ class ProductService {
     updateProduct(product) {
         console.log('in updateProduct');
         let deferred = this.$q.defer();
-        this.productsDb.update({pid: product.PRODUCT_PID}, product, {}, function (err, numReplaced) {
+        this.productsDb.update({pid: product.PRODUCT_PID}, product, {}, (err, numReplaced) => {
             if (err) deferred.reject(err);
             deferred.resolve(numReplaced);
         });
@@ -113,7 +113,6 @@ class ProductService {
             }, 
             (err, result) => {
                 if (err) deferred.reject(err);
-                console.log(result);
                 deferred.resolve(result);
             }
         );
@@ -212,7 +211,7 @@ class ProductService {
             console.log('-----------------Product GHSTS JSON Format-------------\n' + JSON.stringify(product.toGHSTSJson()));
             // insert the above into db.
             self.createProduct(product);
-        }).catch(function(e) {
+        }).catch(e => {
                 console.log(e); 
             });
     }

@@ -1,5 +1,5 @@
 import angular from 'angular';
-import { Ingredient } from './productModel';
+import { Ingredient, Product } from './productModel';
 import ProductRAController from '../product_ra/productRAController';
 import ProductRA from '../product_ra/productRAModel';
 import _ from 'lodash';
@@ -53,8 +53,12 @@ class ProductController {
         this.$mdDialog.show(confirm).then(() => {
             
             this.productService.deleteProduct(this.selected._id)
-                 .then(affectedRows => this.products.splice(this.selectedIndex
-                                                           , 1));
+                 .then(affectedRows => {
+                     this.products.splice(this.selectedIndex, 1)
+                 })
+                 .catch(err => {
+                     console.log(err);
+                 });
             });
     }
     
@@ -92,22 +96,19 @@ class ProductController {
     }
        
     newProduct() {
-        this.selected = {};
+        this.selected = new Product();
+        this.selected.PRODUCT_PID = this.productService.validPid();
         this.selectedIndex = null;
         this.selected_id = null;
     }
    
     filterProduct() {
-        if (this.filterText == null || this.filterText == "") {
-            this.getProductsFromDb();
-        }
-        else {            
+        if (this.filterText != null) {        
             this.productService.getProductByName(this.filterText)
                 .then(products => {
                     this.products = [].concat(products);
                     this.selected = products[0];
                 });
-            console.log(this.products);
         }
     }
     
