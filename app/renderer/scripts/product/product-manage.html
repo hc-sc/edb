@@ -25,7 +25,7 @@
         </md-content>
     </md-sidenav>
 
-    <div layout-fill layout="column" tabIndex="-1" role="main" class="md-whiteframe-z2">            
+    <div layout-fill layout="column" tabIndex="-1" role="main" class="md-whiteframe-z2">      
         <md-toolbar layout="row" class="md-whiteframe-z1">   
             <div class="md-toolbar-tools">
                 <md-button class="md-icon-button" aria-label="Settings">
@@ -45,7 +45,7 @@
                         </md-input-container>
                         <md-input-container class="md-block" flex-gt-sm>
                             <label>PID</label>
-                            <input ng-model="_ctrl.selected.PRODUCT_PID" type="text" ng-required="true">
+                            <input ng-model="_ctrl.selected.PRODUCT_PID" type="text" ng-required="true" disabled>
                         </md-input-container>
                     </div>
                     <div layout-gt-sm="row">
@@ -123,7 +123,7 @@
             <md-button class="md-raised md-primary" ng-click="_ctrl.viewProductGHSTS()">View Product GHSTS</md-button>                                      
 <!--            <md-button class="md-raised md-warn" ng-click="_ctrl.addTestProduct()">Add Sample Product to DB</md-button>   
 -->
-            <md-button class="md-raised md-warn" ng-click="_ctrl.initializeProductFromXml()">Init DB with Sample GHSTS XML</md-button>
+            <md-button class="md-raised md-warn" ng-click="_ctrl.initializeProductFromXml($event)">Init DB with Sample GHSTS XML</md-button>
         </section>  
     </div>
 </section>

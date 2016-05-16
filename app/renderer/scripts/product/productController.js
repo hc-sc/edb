@@ -1,7 +1,9 @@
 import angular from 'angular';
 import { Ingredient, Product } from './productModel';
-import ProductRAController from '../product_ra/productRAController';
-import ProductRA from '../product_ra/productRAModel';
+import { ProductRAController } from '../product_ra/productRAController';
+import { ProductRA } from '../product_ra/productRAModel';
+import { ListDialogController } from '../common/listDialogController';
+import { generatePid, validatePid } from '../common/pid';
 import _ from 'lodash';
 
 
@@ -18,6 +20,7 @@ class ProductController {
                 
         // Load initial data
         this.initFromDB();
+        
     }
     
     initFromDB() {
@@ -97,7 +100,17 @@ class ProductController {
        
     newProduct() {
         this.selected = new Product();
-        this.selected.PRODUCT_PID = this.productService.validPid();
+        let valid = false
+        let pid = '';
+        while (!valid) {
+            pid = generatePid();
+            this.productService.checkDuplicatePid(pid)
+                .then(rows => {
+                    if (rows.length === 0) valid = true;
+                })
+                .catch(err => console.log(err));
+        }
+        this.selected.PRODUCT_PID = pid;
         this.selectedIndex = null;
         this.selected_id = null;
     }
@@ -110,6 +123,17 @@ class ProductController {
                     this.selected = products[0];
                 });
         }
+    }
+    
+    checkDuplicatePid($event) {
+        console.log('checking pid');
+        this.productService.checkPid(this.selected.PRODUCT_PID)
+            .then(products => {
+                if (products.length > 1) {
+                    this.showConflictDiag(products, $event);
+                }
+            })
+            .catch(err => console.log(err));
     }
     
     addIngredient() {
@@ -182,6 +206,27 @@ class ProductController {
             }
         });
     }
+    
+    showConflictDiag(conflictingProducts, $event) {
+        this.$mdDialog.show({
+            controller: ListDialogController,
+            controllerAs: '_ctrl',
+            templateUrl: './scripts/common/list-dialog-manager.html',
+            parent: angular.element(document.body),
+            targetEvent: $event,
+            clickOutsideToClose: false,
+            locals: {
+                icon: 'warning',
+                listItems: conflictingProducts,
+                title: 'Conflicting PIDs',
+                subject: 'The following products have the same PID values',
+                onClick: null,
+                onSubmit: null,
+                isSelectable: false,
+                parentController: this
+            }
+        });
+    }
 
     viewProductJson($event) {
         if (this.selected != null && this.selected._id != null) {
@@ -199,33 +244,31 @@ class ProductController {
     }
     
     viewProductGHSTS($event) {
-        
         if (this.selected != null && this.selected._id != null) {   
             this.productService.getProductGHSTSById(this.selected._id)
-                                .then(product_xml =>              
-                this.$mdDialog.show(
-                        this.$mdDialog
-                            .alert()
-                            .clickOutsideToClose(true)
-                            .title('Product GHSTS JSON')
-                            .content(product_xml)
-                            .ok('Ok')
-                            .targetEvent($event)
+                .then(product_xml =>           
+                    this.$mdDialog.show(
+                            this.$mdDialog
+                                .alert()
+                                .clickOutsideToClose(true)
+                                .title('Product GHSTS JSON')
+                                .content(product_xml)
+                                .ok('Ok')
+                                .targetEvent($event)
                     )
             );
         };
     }
         
-    initializeProductFromXml(){
-        // read from sample ghsts and populate the database with that Product.       
-        this.productService.initializeProductFromXml();
+    initializeProductFromXml($event){
+        // read from sample ghsts and populate the database with that Product.  
+        this.productService.initializeProductFromXml()
+            .then(() => {
+                this.initFromDB();
+            })
+            .catch(err => console.log(err));
     }
-/*    
-    addTestProduct(){
-        // read from sample ghsts and populate the database with that Product.       
-        this.productService.addSampleProductToDb();
-    }
-*/}
+}
 
 ProductController.$inject = ['$mdDialog', 'receiverService', 'productService'];
 export { ProductController }

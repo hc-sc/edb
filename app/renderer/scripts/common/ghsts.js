@@ -54,6 +54,7 @@ class GHSTS {
     setDocuments(documents){
         this.documents = documents;
     }
+    
     readObjects() {
         // read json objects from ghsts xml    
         let self = this;

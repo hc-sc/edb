@@ -40,7 +40,7 @@ class GhstsService {
 
                 // add receivers from database to GHSTS
                 let rcvrListPromise = self.receiverService.getReceivers(); 
-                rcvrListPromise.then(function(rcvrList) {                    
+                rcvrListPromise.then(function(rcvrList) {                   
                     rcvrList.forEach(receiver => {
                         let rcvrObj = new Receiver(receiver);
                         // console.log('receiver json ', rcvrObj.toGHSTSJson())     
@@ -65,7 +65,7 @@ class GhstsService {
                         // replace Product with Product from the database
                         let productPromise = self.productService.getProducts();
                         productPromise.then(product => {
-                            let prodObj = new Product(product);
+                            let prodObj = new Product(product[0]);
                             ghsts.setProduct(prodObj.toGhstsJson());
                             
                             

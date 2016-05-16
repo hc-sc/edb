@@ -1,4 +1,4 @@
-export default class ProductRA {
+export class ProductRA {
     constructor(json){  
         if(arguments.length === 1){
             // load from json
