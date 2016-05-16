@@ -102,21 +102,12 @@ class ProductController {
             this.getProductsFromDb();
         }
         else {            
-            
-            let selection_id = selected != null ? selected._id : null;
-            this.productService.filterProductsByName(this.filterText)
-                                 .then(DbResults_products => {
-                this.products = [].concat(DbResults_products);
-                this.selected = products[0];
-                this.selectedIndex = 0;
-                //TODO: below is a long running loop for high db volume
-                this.products.forEach(prod, index => {
-                    if (selection_id == prod._id){
-                        this.selected = products[index];
-                        this.selectedIndex = index;
-                    }
+            this.productService.getProductByName(this.filterText)
+                .then(products => {
+                    this.products = [].concat(products);
+                    this.selected = products[0];
                 });
-            });
+            console.log(this.products);
         }
     }
     

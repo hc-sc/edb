@@ -2,7 +2,8 @@ import Nedb from 'nedb';
 import xml2js from 'xml2js';
 import uuid from 'node-uuid';
 import {GHSTS} from '../common/ghsts.js';
-import {Ingredient, AdminNumber, ProductRA, Product} from './productModel.js';
+import {Ingredient, AdminNumber, Product} from './productModel.js';
+import { ProductRA } from '../product_ra/productRAModel';
 //import {Dossier} from '../dossier/dossierModel.js';
 //import {Submission} from '../submission/submissionModel.js';
 import {ValueStruct, IdentifierStruct} from '../common/sharedModel.js';
@@ -100,6 +101,22 @@ class ProductService {
             if (err) deferred.reject(err);
             deferred.resolve(numReplaced);
         });
+        return deferred.promise;
+    }
+    
+    getProductByName(name) {
+        let deferred = this.$q.defer();
+        const re = new RegExp(name, 'i');
+        const condition = { $regex: re };
+        this.productsDb.find({ 
+                'GENERIC_PRODUCT_NAME': condition
+            }, 
+            (err, result) => {
+                if (err) deferred.reject(err);
+                console.log(result);
+                deferred.resolve(result);
+            }
+        );
         return deferred.promise;
     }
     
