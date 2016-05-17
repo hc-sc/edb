@@ -6,11 +6,5 @@ class ValueStruct {
     }
 }
 
-class IdentifierStruct {
-    constructor(type, value, identifier){              
-        this.LEGALENTITY_IDENTIFIER_TYPE = value,         // of ValueStruct
-        this.IDENTIFIER = identifier;
-    }
-}
 
-export {ValueStruct, IdentifierStruct}
+export { ValueStruct }

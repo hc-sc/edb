@@ -30,7 +30,7 @@ app.on('ready', function () {
     
     mainWindow.loadURL('file://' + __dirname + '/../renderer/index.html');
     mainWindow.webContents.on('did-finish-load', function () {
-        // mainWindow.setTitle(app.getName());
+        // TODO: setTitle is being deprecated, find and use alternative
         mainWindow.setTitle("e-Dossier Builder (V0.1.0)");
         //if (configure.env.toString().toUpper() == 'DEV'){
             mainWindow.openDevTools();
