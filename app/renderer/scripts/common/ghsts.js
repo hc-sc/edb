@@ -8,7 +8,8 @@ class GHSTS {
         this.ghsts = {};
         this.legalEntities = [];
         this.receivers = [];
-         this.documents = [];
+        this.product = {};
+        this.documents = [];
         // add other sub objects here
 
         this.submission = [];
@@ -42,6 +43,10 @@ class GHSTS {
         this.files = files;
     }
     
+    setProduct(productGhstsJson){
+        this.product = productGhstsJson
+    }
+    
     addDocument(document){
         this.documents.push(document);
     }
@@ -62,13 +67,17 @@ class GHSTS {
                         reject(err);
                     }
                     // the read succeeded
-                    resolve(obj);
+                    resolve(obj);      
                     self.ghsts = obj.GHSTS;
-
+                    
                     // set legal entities
                     self.legalEntities = obj.GHSTS.LEGAL_ENTITIES[0].LEGAL_ENTITY;
                     // set receivers 
                     self.receivers = obj.GHSTS.RECEIVERS[0].RECEIVER;
+
+                    // set the Product from the xml
+                    self.product = obj.GHSTS.PRODUCT;
+
                     // set other objects here
                     // ...
 

@@ -7,6 +7,7 @@ var BrowserWindow = require('electron').BrowserWindow;
 var mainWindow = null;
 
 ipc.on('devTools', function (event, arg) {
+    console.log(arg);
     mainWindow.openDevTools();
 });
 
@@ -16,7 +17,7 @@ app.on('window-all-closed', function () {
 
 app.on('ready', function () {
     mainWindow = new BrowserWindow({
-        width: 1000,
+        width: 1730,
         height: 1000,
         show: false
     });
@@ -31,6 +32,9 @@ app.on('ready', function () {
     mainWindow.webContents.on('did-finish-load', function () {
         // mainWindow.setTitle(app.getName());
         mainWindow.setTitle("e-Dossier Builder (V0.1.0)");
+        //if (configure.env.toString().toUpper() == 'DEV'){
+            mainWindow.openDevTools();
+        //}
     });
     mainWindow.show();
 });

@@ -1,27 +1,43 @@
 import {GHSTS} from '../common/ghsts.js'
 import {ContactPerson, ContactAddress, LegalEntity} from '../legal_entity/legalEntityModel.js';
-import {Receiver, Sender} from '../receiver/receiverModel.js'
-import {ValueStruct, IdentifierStruct} from '../common/sharedModel.js'
+import {Receiver, Sender} from '../receiver/receiverModel.js';
+import {ValueStruct, IdentifierStruct} from '../common/sharedModel.js';
+import {Ingredient, AdminNumber, ProductRA, Product} from '../product/productModel.js';
 import Submission from '../submission/submissionModel';
 
 const outputFile = './app/renderer/data/DemoGHSTS.xml';
 
 class GhstsService {
-    constructor(ReceiverService, LegalEntityService, SubmissionService) {
+    constructor(ReceiverService, LegalEntityService, ProductService, SubmissionService) {
         this.receiverService = ReceiverService;
-        this.legalEntityService = LegalEntityService; 
-        this.submissionService = SubmissionService; 
+        this.legalEntityService = LegalEntityService;
+        this.productService = ProductService;
+        this.submissionService = SubmissionService;
     }
             
     assembleDemoGHSTS(){          
-        // read from existing ghsts.xml for most of the objects
+        // this function reads from an existing ghsts.xml file and then
+        // overwrites the various nodes in the xml with the collection it finds
+        // in the database.  It does not care which one is "correct" from a
+        // submission perspective.  For demo purposes only, don't try this
+        // at home... I mean in prod.
         let ghsts = new GHSTS("./app/renderer/data/ghsts.xml");     
         let promise = ghsts.readObjects();
         let self = this;
+        let ready = {products : false,
+                     legalEntities : false,
+                     receivers : false};
         // listen for both fulfillment and rejection        
         promise.then(function(contents) {
-            console.log('read from xml into obj.  now about to read from database to get the objects');            
+            console.log('have read from xml into obj.  now about to read from db to get those objects');            
 
+            // replace Product with Product from the database
+            let productPromise = self.productService.getProducts();
+            productPromise.then(function(product) {
+                console.log('product from db ::::' + JSON.stringify(product));
+                product => new Product(product);
+                ghsts.setProduct(product.toGhstsJson());
+            });
             // add legal entities from database to GHSTS
             let leListPromise = self.legalEntityService.getLegalEntities(); 
             leListPromise.then(function(leList) {
@@ -30,6 +46,7 @@ class GhstsService {
                     let leObj = new LegalEntity(le);
                     ghsts.addLegalEntity(leObj.toGHSTSJson());
                 });
+                ready.legalEntities = true;
 
                 // add receivers from database to GHSTS
                 let rcvrListPromise = self.receiverService.getReceivers(); 
@@ -59,8 +76,16 @@ class GhstsService {
                         ghsts.writeXML(outputFile);
                         console.log(`Written to ${outputFile}`);
                     });
+                    ready.receivers = true;
                 })
             })
+            if (ready.legalEntities === true &&
+                ready.receivers === true &&
+                ready.product === true) {
+                    // now we got everything, produce the GHSTS file.
+                    ghsts.writeXML("./app/renderer/data/DemoGHSTS.xml");
+                    console.log('written to ./app/renderer/data/DemoGHSTS.xml'); 
+                }
         }, function(err) {
             // rejection
             console.error(err.message);
@@ -68,7 +93,8 @@ class GhstsService {
     }        
 }
 
-GhstsService.$inject = [ 'receiverService', 'legalEntityService', 'submissionService'];
+GhstsService.$inject = [ 'receiverService', 'legalEntityService', 'productService', 'submissionService'];
+
 
 export { GhstsService }
 
