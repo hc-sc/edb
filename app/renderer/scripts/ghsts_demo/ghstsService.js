@@ -1,7 +1,10 @@
 import {GHSTS} from '../common/ghsts.js'
 import {ContactPerson, ContactAddress, LegalEntity} from '../legal_entity/legalEntityModel.js';
 import {Receiver, Sender} from '../receiver/receiverModel.js';
+<<<<<<< HEAD
 import {ValueStruct} from '../common/sharedModel.js';
+=======
+>>>>>>> upstream/integration
 import {Ingredient, AdminNumber, ProductRA, Product} from '../product/productModel.js';
 import Submission from '../submission/submissionModel';
 
@@ -24,6 +27,9 @@ class GhstsService {
         let ghsts = new GHSTS("./app/renderer/data/ghsts.xml");     
         let promise = ghsts.readObjects();
         let self = this;
+        let ready = {products : false,
+                     legalEntities : false,
+                     receivers : false};
         // listen for both fulfillment and rejection        
         promise.then(function(contents) {
             console.log('have read from xml into obj.  now about to read from db to get those objects');            
@@ -43,6 +49,7 @@ class GhstsService {
                     let leObj = new LegalEntity(le);
                     ghsts.addLegalEntity(leObj.toGHSTSJson());
                 });
+                ready.legalEntities = true;
 
                 // add receivers from database to GHSTS
                 let rcvrListPromise = self.receiverService.getReceivers(); 
@@ -72,8 +79,16 @@ class GhstsService {
                         ghsts.writeXML(outputFile);
                         console.log(`Written to ${outputFile}`);
                     });
+                    ready.receivers = true;
                 })
             })
+            if (ready.legalEntities === true &&
+                ready.receivers === true &&
+                ready.product === true) {
+                    // now we got everything, produce the GHSTS file.
+                    ghsts.writeXML("./app/renderer/data/DemoGHSTS.xml");
+                    console.log('written to ./app/renderer/data/DemoGHSTS.xml'); 
+                }
         }, function(err) {
             // rejection
             console.error(err.message);
