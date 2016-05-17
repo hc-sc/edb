@@ -33,7 +33,7 @@ class ProductController {
         });
     }
     
-    clearSelected() {
+    clearSelectedProduct() {
         this.selected = {};
         this.selectedIndex = null;
         this.selected_id = null;
@@ -60,20 +60,22 @@ class ProductController {
         
         this.$mdDialog.show(confirm).then(() => {
             this.productService.deleteProduct(this.selected._id)
-                 .then(affectedRows => {
-                     console.log(this.products.length);
-                     console.log(this.products);
-                     if (this.products.length == 0) this.clearSelected();
-                     else this.products.splice(this.selectedIndex, 1);
-                 })
-                 .catch(err => {
-                     console.log(err);
-                 });
-            });
+                .then(affectedRows => {
+                    if (this.products.length == 1) {
+                        this.products = [];
+                        this.clearSelectedProduct();
+                    }
+                    else this.products.splice(this.selectedIndex, 1);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        });
     }
     
     saveProduct($event) {
         if (Object.keys(this.selected).length > 0 && this.selected_id != null) {
+            console.log('updating product');
             this.productService.updateProduct(this.selected).then(savedDoc => {
                 this.$mdDialog.show(
                     this.$mdDialog
@@ -84,9 +86,11 @@ class ProductController {
                         .ok('Ok')
                         .targetEvent($event)
                 );
-            });
+            })
+            .catch(err => console.log(err));
         }
-          else { // new Product           
+        else { // new Product
+            console.log('saving new product');
             this.productService.createProduct(this.selected).then(createdRow => {
                 this.$mdDialog.show(
                     this.$mdDialog
@@ -97,9 +101,14 @@ class ProductController {
                         .ok('Ok')
                         .targetEvent($event)
                 )
+                
+                console.log(createdRow);
+                
+                // push createdRow so we get the DB's _id attr
                 this.products.push(createdRow);
                 this.selectedIndex = this.products.length - 1;
-                this.selected = this.products[selectedIndex];
+                console.log(this.products[this.selectedIndex]);
+                this.selected = this.products[this.selectedIndex];
                 this.selected_id = this.selected._id;
             });
         }
@@ -115,6 +124,7 @@ class ProductController {
         }
     }
     
+    // creates a new product, clears all fields and generates a unique pid
     newProduct($event) {
         const confirm = this.$mdDialog.confirm()
             .title('Are you sure?')
@@ -202,8 +212,13 @@ class ProductController {
         });
     }
     
+    // if the product RA isn't already there, add it to the list
     saveProductRA(ra) {
-        this.selected.PRODUCT_RA.push(ra);
+        console.log(ra);
+        if (!_.includes(this.selected.PRODUCT_RA, ra)) {
+            this.selected.PRODUCT_RA.push(ra);
+        }
+        console.log(this.selected.PRODUCT_RA);
     }
     
     showProductRADiag(productRA, $event) {
@@ -273,35 +288,28 @@ class ProductController {
             );
         };
     }
-    
-    checkForDuplicates(pid) {
-        return this.productService.getProductByPid(pid)
-            .then(matches => {
-                if (matches.length > 1) return matches;
-            });
-    }
         
     initializeProductFromXml($event){
         // read from sample ghsts and populate the database with that Product.
         
-        //   TODO: when importing, need to chech each item to make sure that there are no overlapping PIDs, since we may have locally generated some PIDs that happen to be in the xml
         this.productService.initializeProductFromXml()
+            // get all entries
             .then(() => {
                 return this.productService.getProducts();
             })
+            // map each entry, checking if there are any duplicates. If there are, display a dialog showing the names of all conflicting products
             .then(products => {
-                console.log('got products');
                 return Promise.all(products.map(item => {
-                    return this.checkForDuplicates(item.PRODUCT_PID)
+                    return this.productService.getProductByPid(item.PRODUCT_PID)
                         .then(matches => {
-                            if (matches) {
-                                return this.showConflictDiag(matches, $event);
+                            if (matches.length > 1) {
+                                this.showConflictDiag(matches, $event);
                             }
-                        });
+                        })
                 }));    
             })
+            // load from the DB
             .then(() => {
-                console.log('refreshing screen');
                 this.initFromDB();
             })
             .catch(err => console.log(err));

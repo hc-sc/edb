@@ -17,7 +17,7 @@ class ProductRAController {
     }
     
     saveProductRA($event) {
-        this.productController.saveProductRA(this.productRA, this.isAddMode);
+        this.productController.saveProductRA(this.productRA);
         this.$mdDialog.hide();
     }
     

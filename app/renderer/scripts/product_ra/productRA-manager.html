@@ -30,7 +30,7 @@
                     </md-toolbar>
                     <div layout-algin='center'>
                         <md-list>
-                            <md-list-item ng-repeat='adminNumber in _ctrl.productRA.ADMIN_NUMBER' class='noright'>
+                            <md-list-item ng-repeat='adminNumber in _ctrl.productRA.ADMIN_NUMBER track by $index' class='noright'>
                                 <div class='row'>
                                     <!-- There are issues with flex inside the md-dialog, aligning md-button after md-input-container throws off alignment, so used bootstraps class='row' instead of md layout='row' -->
                                     <md-input-container class='md-block'>

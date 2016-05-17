@@ -1,5 +1,7 @@
 import uuid from 'node-uuid';
 
+/* @alexgagnon
+This module is responsible for generating and validating PID's. Use it to generate a new PID with the proper ghsts prefix, to add a prefix to an otherwise valid PID, or to return a new valid PID if the PID passed in as an argument was invalid */
 
 // NOTE: the regex does not match against nill pids
 const regex = new RegExp(/^[0-9a-f]{8}-?[0-9a-f]{4}-?[1-5][0-9a-f]{3}-?[89ab][0-9a-f]{3}-?[0-9a-f]{12}$/i);

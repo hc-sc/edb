@@ -14,7 +14,8 @@ class ProductService {
     }
 
     // return a list of all products from the database
-    getProducts() {      
+    getProducts() {    
+        console.log('getting products');  
         let deferred = this.$q.defer();
         this.productsDb.find({}, (err, rows) => {
             if (err) deferred.reject(err);
@@ -24,7 +25,7 @@ class ProductService {
     }
   
     createProduct(product) {
-        console.log('inside createProduct');
+        console.log('creating product');
         let deferred = this.$q.defer();
         this.productsDb.insert(product, (err, res) => {
             if (err) deferred.reject(err);
@@ -34,7 +35,7 @@ class ProductService {
     }
 
     deleteProduct(id) {   
-        console.log('deleteing product');         
+        console.log('deleting product');         
         let deferred = this.$q.defer();
         this.productsDb.remove({ _id: id }, (err, res) => {
             if (err) deferred.reject(err);
@@ -59,9 +60,7 @@ class ProductService {
         let deferred = this.$q.defer();
         const re = new RegExp(name, 'i');
         const condition = { $regex: re };
-        this.productsDb.find({ 
-                'GENERIC_PRODUCT_NAME': condition
-            }, 
+        this.productsDb.find({ 'GENERIC_PRODUCT_NAME': condition }, 
             (err, result) => {
                 if (err) deferred.reject(err);
                 deferred.resolve(result);
