@@ -1,7 +1,7 @@
 import angular from 'angular';
 import { Ingredient, Product } from './productModel';
 import { ProductRAController } from '../product_ra/productRAController';
-import { ProductRA } from '../product_ra/productRAModel';
+import { ProductRA, AdminNumber } from '../product_ra/productRAModel';
 import { ListDialogController } from '../common/listDialogController';
 import { generatePid, validatePid } from '../common/pid';
 import _ from 'lodash';

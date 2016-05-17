@@ -1,8 +1,8 @@
 import Nedb from 'nedb';
 import xml2js from 'xml2js';
 import { GHSTS } from '../common/ghsts';
-import { Ingredient, AdminNumber, Product } from './productModel';
-import { ProductRA } from '../product_ra/productRAModel';
+import { Ingredient, Product } from './productModel';
+import { ProductRA, AdminNumber } from '../product_ra/productRAModel';
 //import {Dossier} from '../dossier/dossierModel.js';
 //import {Submission} from '../submission/submissionModel.js';
 import { ValueStruct } from '../common/sharedModel';
@@ -84,16 +84,19 @@ class ProductService {
         // return GHSTS xml from json. 
         let deferred = this.$q.defer();
         this.productsDb.find({'_id': id }, (err, results) => {
-            if (err) deferred.reject(err);           
-            
-            // retrieved Json from database
-            let productDbJson = results[0];
+            if (err) deferred.reject(err);  
+                    
             // create Product based on productJSON           
-            let obj_product = new Product(productDbJson);
+            const product = new Product(results[0]);
+            console.log(product);
             
             // convert to XML
-            let builder = new xml2js.Builder({rootName: 'PRODUCT', attrkey: 'attr$'});
-            let xml = builder.buildObject(obj_product.toGHSTSJson());
+            const builder = new xml2js.Builder({
+                rootName: 'PRODUCT', 
+                attrkey: 'attr$'
+            });
+            
+            const xml = builder.buildObject(product.toGHSTSJson());
             deferred.resolve(xml);        
         });       
         return deferred.promise;

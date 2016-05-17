@@ -1,4 +1,5 @@
 //import Dossier from '../dossier/dossierModel.js'
+import { ProductRA } from '../product_ra/productRAModel';
 
 class Ingredient {
     constructor(json){  
@@ -24,24 +25,6 @@ class Ingredient {
         };
     }
 }    
-
-class AdminNumber{
-    constructor(json){  
-        if(arguments.length === 1){
-            // load from json
-            Object.assign(this, json);
-        }else{
-            this.ADMIN_NUMBER_TYPE = {}; // of ValueStruct
-            this.IDENTIFIER = null;
-        };
-    }
-    // not sure I need the following
-    toGhstsJson() {
-        return{ ADMIN_NUMBER_TYPE : this.ADMIN_NUMBER_TYPE,
-                IDENTIFIER : this.IDENTIFIER
-        };
-    }
-} 
 
 class Product {
     constructor(json){  
@@ -76,21 +59,25 @@ class Product {
     } 
     
     toGHSTSJson() {     
-        let prodRAsJson = [];
-        this.PRODUCT_RA.forEach(pra => {prodRAsJson.push(pra)});
-        let ingsJson = [];
-        this.INGREDIENTS.forEach(ing => {ingsJson.push(ing)});
+        let productRAs = this.PRODUCT_RA.map(ra => {
+            console.log(typeof ra);
+            return ra.toGhstsJson();
+        });
+        
+        let ingredients = this.INGREDIENTS.map(ing => {
+            return ing.toGhstsJson();
+        });
         
         return {
-            METADATA_STATUS     : this.METADATA_STATUS,            
-            PRODUCT_PID         : this.PRODUCT_PID,
-            GENERI_PRODUCT_NAME : this.GENERI_PRODUCT_NAME,
-            FORMULATION_TYPE    : this.FORMULATION_TYPE,
-            PRODUCT_RA          : prodRAsJson,
-            INGREDIENTS         : ingsJson,
-            DOSSIER             : this.DOSSIER
+            METADATA_STATUS: this.METADATA_STATUS,
+            PRODUCT_PID: this.PRODUCT_PID,
+            GENERIC_PRODUCT_NAME: this.GENERIC_PRODUCT_NAME,
+            FORMULATION_TYPE: this.FORMULATION_TYPE,
+            PRODUCT_RA: productRAs,
+            INGREDIENTS: ingredients,
+            DOSSIER: this.DOSSIER
         };               
     }          
 }    
 
-export {Ingredient, AdminNumber, Product}
+export { Ingredient, Product }
