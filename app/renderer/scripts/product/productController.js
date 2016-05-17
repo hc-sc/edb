@@ -50,27 +50,29 @@ class ProductController {
     }
     
     deleteProduct($event) {
-        let confirm = this.$mdDialog.confirm()
-                                .title('Are you sure?')
-                                .content('Are you sure you want to delete' +
-                                          ' this Product?')
-                                .ok('Yes')
-                                .cancel('No')
-                                .targetEvent($event);
-        
-        this.$mdDialog.show(confirm).then(() => {
-            this.productService.deleteProduct(this.selected._id)
-                .then(affectedRows => {
-                    if (this.products.length == 1) {
-                        this.products = [];
-                        this.clearSelectedProduct();
-                    }
-                    else this.products.splice(this.selectedIndex, 1);
-                })
-                .catch(err => {
-                    console.log(err);
-                });
-        });
+        if (this.selected_id != null) {
+            let confirm = this.$mdDialog.confirm()
+                                    .title('Are you sure?')
+                                    .content('Are you sure you want to delete' +
+                                            ' this Product?')
+                                    .ok('Yes')
+                                    .cancel('No')
+                                    .targetEvent($event);
+            
+            this.$mdDialog.show(confirm).then(() => {
+                this.productService.deleteProduct(this.selected._id)
+                    .then(affectedRows => {
+                        if (this.products.length == 1) {
+                            this.products = [];
+                            this.clearSelectedProduct();
+                        }
+                        else this.products.splice(this.selectedIndex, 1);
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            });
+        }
     }
     
     saveProduct($event) {
@@ -218,7 +220,7 @@ class ProductController {
         if (!_.includes(this.selected.PRODUCT_RA, ra)) {
             this.selected.PRODUCT_RA.push(ra);
         }
-        console.log(this.selected.PRODUCT_RA);
+        this.productService.updateProduct(this.selected);
     }
     
     showProductRADiag(productRA, $event) {

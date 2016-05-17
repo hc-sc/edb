@@ -3,12 +3,12 @@
         <md-toolbar class="md-whiteframe-z1" layout="row">
             <div class="md-toolbar-tools">
                 <md-button class="md-icon-button" aria-label="Home" ng-href="#/home">
-                    <md-icon class="material-icons" aria-label="Home">home</md-icon>    
+                    <md-icon class="material-icons" aria-label="Home">home</md-icon>
                 </md-button>
                 <h2>
                     <span>Product Management</span>
                 </h2>
-            </div>                
+            </div>
         </md-toolbar>
         <md-input-container style="margin-bottom:0">
             <label>Product Name</label>
@@ -16,108 +16,115 @@
         </md-input-container>
         <md-content>
             <md-list>
-                <!-- notice work around for nedb. 'track by index'' to fix $$hashkey problem -->                
+                <!-- notice work around for nedb. 'track by index'' to fix $$hashkey problem -->
                 <md-list-item ng-repeat="it in _ctrl.products track by $index" ng-click="_ctrl.selectProduct(it, $index)">
-                    <md-icon class="material-icons" aria-label="Product by Generic Product Name">developer_board</md-icon>                    
+                    <md-icon class="material-icons" aria-label="Product by Generic Product Name">developer_board</md-icon>
                     <p>{{it.GENERIC_PRODUCT_NAME}}</p>
                 </md-list-item>
             </md-list>
         </md-content>
     </md-sidenav>
 
-    <div layout-fill layout="column" tabIndex="-1" role="main" class="md-whiteframe-z2">      
-        <md-toolbar layout="row" class="md-whiteframe-z1">   
+    <div layout-fill layout="column" tabIndex="-1" role="main" class="md-whiteframe-z2">
+        <md-toolbar layout="row" class="md-whiteframe-z1">
             <div class="md-toolbar-tools">
                 <md-button class="md-icon-button" aria-label="Settings">
-                    <md-icon class="material-icons" aria-label="Product">developer_board</md-icon> 
+                    <md-icon class="material-icons" aria-label="Product">developer_board</md-icon>
                 </md-button>
-                <md-headline layout-padding></md-headline>
-                <h2> {{ _ctrl.selected.GENERIC_PRODUCT_NAME }}</h2>                            
-                </div>                
+                <md-headline layout-padding> {{ _ctrl.selected.GENERIC_PRODUCT_NAME }}</md-headline>
+            </div>
         </md-toolbar>
-                        
+
         <md-content layout-padding class="autoScroll">
-                <form name = "productForm">
-                   <div layout-gt-sm="row">
-                        <md-input-container  class="md-block" flex-gt-sm>
-                            <label>Generic Product Name</label>
-                            <input ng-model="_ctrl.selected.GENERIC_PRODUCT_NAME" type="text" ng-required="true">
+            <div>
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Generic Product Name</label>
+                        <input ng-model="_ctrl.selected.GENERIC_PRODUCT_NAME" type="text" ng-required="true">
+                    </md-input-container>
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>PID</label>
+                        <input ng-model="_ctrl.selected.PRODUCT_PID" type="text" ng-required="true" disabled>
+                    </md-input-container>
+                </div>
+
+                <div layout-gt-sm="row">
+                    <md-input-container>
+                        <label>Formulation Type</label>
+                        <input ng-model="_ctrl.selected.FORMULATION_TYPE.VALUE_DECODE" type="text">
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Formulation Type Code</label>
+                        <input ng-model="_ctrl.selected.FORMULATION_TYPE.VALUE" type="text">
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Status</label>
+                        <input ng-model="_ctrl.selected.METADATA_STATUS.VALUE_DECODE" type="text">
+                    </md-input-container>
+                </div>
+            </div>
+
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h2>Ingredients</h2>
+                    <span flex></span>
+                    <md-button class="md-icon-button" ng-click="_ctrl.addIngredient()">
+                        <md-icon class="material-icons" aria-label="Add Identifier">add_circle</md-icon>
+                    </md-button>
+                </div>
+            </md-toolbar>
+
+            <md-list>
+                <md-list-item ng-repeat="ing in _ctrl.selected.INGREDIENTS track by $index" class="noright">
+                    <div layout-gt-sm="row" flex-gt-sm>
+                        <md-input-container class="md-block">
+                            <label>Substance</label>
+                            <input ng-model="ing._toSubstanceID" type="text">
                         </md-input-container>
-                        <md-input-container class="md-block" flex-gt-sm>
-                            <label>PID</label>
-                            <input ng-model="_ctrl.selected.PRODUCT_PID" type="text" ng-required="true" disabled>
+                        <md-input-container class="md-block">
+                            <label>Amount</label>
+                            <input ng-model="ing.QUANTITY" type="text">
                         </md-input-container>
-                    </div>
-                    <div layout-gt-sm="row">
-                        <md-input-container>
-                            <label>Formulation Type</label>
-                            <input ng-model="_ctrl.selected.FORMULATION_TYPE.VALUE_DECODE" type="text">
-                        </md-input-container>                        
-                        <md-input-container>
-                            <label>Formulation Type Code</label>
-                            <input ng-model="_ctrl.selected.FORMULATION_TYPE.VALUE" type="text">
-                        </md-input-container>                        
-                        <md-input-container>
-                            <label>Status</label>
-                            <input ng-model="_ctrl.selected.METADATA_STATUS.VALUE_DECODE" type="text">
+                        <md-input-container class="md-block">
+                            <label>UNIT</label>
+                            <input ng-model="ing.UNIT.VALUE_DECODE" type="text">
                         </md-input-container>
+                        <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteIngredient(ing._toSubstanceID, $event)">Delete</md-button>
                     </div>
-                    
-                <md-toolbar>
-                    <div class="md-toolbar-tools">
-                        <h2>Ingredients</h2>
-                        <span flex></span>
-                        <md-button class="md-icon-button" ng-click="_ctrl.addIngredient()">
-                            <md-icon class="material-icons" aria-label="Add Identifier">add_circle</md-icon>
-                        </md-button>
-                    </div>
-                </md-toolbar>
-                <md-list>
-                    <md-list-item ng-repeat="ing in _ctrl.selected.INGREDIENTS track by $index" class="noright">
-                        <div layout-gt-sm="row" flex-gt-sm>
-                            <md-input-container class="md-block">
-                                <label>Substance</label>
-                                <input ng-model="ing._toSubstanceID" type="text">
-                            </md-input-container>
-                            <md-input-container class="md-block">
-                                <label>Amount</label>
-                                <input ng-model="ing.QUANTITY" type="text">
-                            </md-input-container>
-                            <md-input-container class="md-block">
-                                <label>UNIT</label>
-                                <input ng-model="ing.UNIT.VALUE_DECODE" type="text">
-                            </md-input-container>
-                            <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteIngredient(ing._toSubstanceID, $event)">Delete</md-button>
-                        </div>                                                          
-                    </md-list-item>
-                </md-list>
-                
-                <md-toolbar>
-                    <div class="md-toolbar-tools">
-                        <h2>Regulatory Authority Specifics</h2>
-                        <span flex></span>
-                        <md-button class="md-icon-button" ng-click="_ctrl.addProductRA($event)">
-                            <md-icon class="material-icons" aria-label="Add Regulatory Authority">add_circle</md-icon>
-                        </md-button>
-                    </div>
-                </md-toolbar>
-                <md-list>
-                    <md-list-item ng-repeat="ra in _ctrl.selected.PRODUCT_RA track by $index" ng-click="_ctrl.showProductRADiag(ra, $event)" class="noright">
-                        <md-icon class='material-icons' aria-label='Regulatory Authority'>business</md-icon>
-                        <p>{{ ra.PRODUCT_NAME }}
-                        <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteProductRA(ra, $event)" aria-label='Delete Regulatory Authority'>Delete</md-button> 
-                    </md-list-item>
-                </md-list>
-            </form>
-        </md-content>
-        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>     
+                </md-list-item>
+            </md-list>
+
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h2>Regulatory Authority Specifics</h2>
+                    <span flex></span>
+                    <md-button class="md-icon-button" ng-click="_ctrl.addProductRA($event)">
+                        <md-icon class="material-icons" aria-label="Add Regulatory Authority">add_circle</md-icon>
+                    </md-button>
+                </div>
+            </md-toolbar>
+
+            <md-list>
+                <md-list-item ng-repeat="ra in _ctrl.selected.PRODUCT_RA track by $index" ng-click="_ctrl.showProductRADiag(ra, $event)"
+                    class="noright">
+                    <md-icon class='material-icons' aria-label='Regulatory Authority'>business</md-icon>
+                    <p>{{ ra.PRODUCT_NAME }}</p>
+                    <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteProductRA(ra, $event)" aria-label='Delete Regulatory Authority'>
+                        Delete
+                    </md-button>
+                </md-list-item>
+            </md-list>
+
+            <div layout="row" layout-sm="column" layout-align="center center" layout-wrap>
                 <md-button class="md-raised md-info" ng-click="_ctrl.newProduct($event)">New Product</md-button>
                 <md-button class="md-raised md-primary" ng-click="_ctrl.saveProduct()">Save</md-button>
-                <md-button class="md-raised md-warn" ng-click="_ctrl.deleteProduct()">Delete</md-button>      
-        </section>
-        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>    
-            <md-button class="md-raised md-primary" ng-click="_ctrl.viewProductGHSTS()">View Product GHSTS</md-button>
-            <md-button class="md-raised md-warn" ng-click="_ctrl.initializeProductFromXml($event)">Init DB with Sample GHSTS XML</md-button>
-        </section>  
+                <md-button class="md-raised md-warn" ng-click="_ctrl.deleteProduct()">Delete</md-button>
+            </div>
+
+            <div layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                <md-button class="md-raised md-primary" ng-click="_ctrl.viewProductGHSTS()">View Product GHSTS</md-button>
+                <md-button class="md-raised md-warn" ng-click="_ctrl.initializeProductFromXml($event)">Init DB with Sample GHSTS XML</md-button>
+            </div>
+        </md-content>
     </div>
 </section>

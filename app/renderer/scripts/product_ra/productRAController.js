@@ -27,6 +27,7 @@ class ProductRAController {
     
     deleteAdminNumber(adminNumber, $event) {
         _.pull(this.productRA.ADMIN_NUMBER, adminNumber);
+        this.productController.saveProductRA(this.productRA);
     }
 }
 
