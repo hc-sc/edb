@@ -275,7 +275,10 @@ class ProductController {
     }
     
     checkForDuplicates(pid) {
-        return this.productService.getProductByPid(pid);
+        return this.productService.getProductByPid(pid)
+            .then(matches => {
+                if (matches.length > 1) return matches;
+            });
     }
         
     initializeProductFromXml($event){
@@ -287,17 +290,18 @@ class ProductController {
                 return this.productService.getProducts();
             })
             .then(products => {
-                return this.checkForDuplicates(product[0].PRODUCT_PID);
-                // Promise.all(products.map(item => {
-                //     console.log(item.PRODUCT_PID);
-                //     return this.productService.getProductByPid(item.PRODUCT_PID);
-                // }))
-                // .then(products => {
-                //     console.log(products);
-                //     if (products.length > 1) this.showConflictDiag(products);
-                // });
+                console.log('got products');
+                return Promise.all(products.map(item => {
+                    return this.checkForDuplicates(item.PRODUCT_PID)
+                        .then(matches => {
+                            if (matches) {
+                                return this.showConflictDiag(matches, $event);
+                            }
+                        });
+                }));    
             })
             .then(() => {
+                console.log('refreshing screen');
                 this.initFromDB();
             })
             .catch(err => console.log(err));

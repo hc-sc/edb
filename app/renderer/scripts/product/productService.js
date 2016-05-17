@@ -93,8 +93,8 @@ class ProductService {
             let obj_product = new Product(productDbJson);
             
             // convert to XML
-            let builder = new xml2js.Builder({rootName: 'PRODUCT', attrkey: 'attr$'});            
-            let xml = builder.buildObject(obj_product.toGHSTSJson());    
+            let builder = new xml2js.Builder({rootName: 'PRODUCT', attrkey: 'attr$'});
+            let xml = builder.buildObject(obj_product.toGHSTSJson());
             deferred.resolve(xml);        
         });       
         return deferred.promise;
