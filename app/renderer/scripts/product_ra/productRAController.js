@@ -13,7 +13,6 @@ class ProductRAController {
     }
     
     cancel($event) {
-        console.log('cancelled');
         this.$mdDialog.cancel();
     }
     

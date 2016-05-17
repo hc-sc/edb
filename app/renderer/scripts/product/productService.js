@@ -5,7 +5,7 @@ import { Ingredient, AdminNumber, Product } from './productModel';
 import { ProductRA } from '../product_ra/productRAModel';
 //import {Dossier} from '../dossier/dossierModel.js';
 //import {Submission} from '../submission/submissionModel.js';
-import {ValueStruct, IdentifierStruct} from '../common/sharedModel';
+import { ValueStruct } from '../common/sharedModel';
 
 class ProductService {
     constructor($q) {        
@@ -19,19 +19,8 @@ class ProductService {
         this.productsDb.find({}, (err, rows) => {
             if (err) deferred.reject(err);
             deferred.resolve(rows);
-            console.log(rows);
         });      
         return deferred.promise;  
-    }
-    
-    checkDuplicatePid(pid) {
-        console.log('in service checkpid');
-        let deferred = this.$q.defer();
-        this.productsDb.find({ 'PRODUCT_PID': pid }, (err, rows) => {
-            if (err) deferred.reject(err);
-            deferred.resolve(rows);
-        });
-        return deferred.promise;
     }
   
     createProduct(product) {
@@ -83,11 +72,9 @@ class ProductService {
     
     getProductByPid(pid) {
         let deferred = this.$q.defer();
-        this.productsDb.find({
-            'PRODUCT_ID': pid
-        }, (err, products) => {
+        this.productsDb.find({ 'PRODUCT_PID': pid }, (err, products) => {
             if (err) deferred.reject(err);
-            deferred.resolve(result);
+            deferred.resolve(products);
         });
         return deferred.promise;
     }
@@ -179,8 +166,7 @@ class ProductService {
                 product.addIngredient(ing);
             });
             product.DOSSIER = doss;
-            console.log('---------------------JSON Product Model----------------\n' + JSON.stringify(product));
-            console.log('-----------------Product GHSTS JSON Format-------------\n' + JSON.stringify(product.toGHSTSJson()));
+            
             // insert the above into db.
             this.createProduct(product);
         }).catch(e => {

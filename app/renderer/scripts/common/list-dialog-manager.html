@@ -16,7 +16,7 @@
             <div class="md-dialog-content">
                 <p>{{ _ctrl.subject }}</p>
                 <md-list>
-                    <md-list-item ng-repeat='item in _ctrl.listItems' ng-click='selectItem($event)'>
+                    <md-list-item ng-repeat='item in _ctrl.listItems' ng-click='selectItem($event)' aria-label='Selectable'>
                         <p>{{ item.GENERIC_PRODUCT_NAME }}</p>
                     </md-list-item>
                 </md-list>

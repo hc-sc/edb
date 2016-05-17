@@ -111,18 +111,12 @@
             </form>
         </md-content>
         <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>     
-                <md-button class="md-raised md-info" ng-click="_ctrl.newProduct()">New Product</md-button>
+                <md-button class="md-raised md-info" ng-click="_ctrl.newProduct($event)">New Product</md-button>
                 <md-button class="md-raised md-primary" ng-click="_ctrl.saveProduct()">Save</md-button>
-<!--                <md-button class="md-raised md-danger" ng-click="_ctrl.cancelEdit()">Discard</md-button>
--->
                 <md-button class="md-raised md-warn" ng-click="_ctrl.deleteProduct()">Delete</md-button>      
-
         </section>
         <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>    
-            <md-button class="md-raised md-primary" ng-click="_ctrl.viewProductJson()">View Product JSON</md-button>                
-            <md-button class="md-raised md-primary" ng-click="_ctrl.viewProductGHSTS()">View Product GHSTS</md-button>                                      
-<!--            <md-button class="md-raised md-warn" ng-click="_ctrl.addTestProduct()">Add Sample Product to DB</md-button>   
--->
+            <md-button class="md-raised md-primary" ng-click="_ctrl.viewProductGHSTS()">View Product GHSTS</md-button>
             <md-button class="md-raised md-warn" ng-click="_ctrl.initializeProductFromXml($event)">Init DB with Sample GHSTS XML</md-button>
         </section>  
     </div>

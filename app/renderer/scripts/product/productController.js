@@ -6,7 +6,6 @@ import { ListDialogController } from '../common/listDialogController';
 import { generatePid, validatePid } from '../common/pid';
 import _ from 'lodash';
 
-
 class ProductController {
     constructor($mdDialog, ReceiverService, ProductService) {
         this.productService = ProductService;
@@ -34,6 +33,12 @@ class ProductController {
         });
     }
     
+    clearSelected() {
+        this.selected = {};
+        this.selectedIndex = null;
+        this.selected_id = null;
+    }
+    
     selectProduct(product, index) {
         this.selected = angular.isNumber(product) 
                          ? this.products[product]  
@@ -54,10 +59,12 @@ class ProductController {
                                 .targetEvent($event);
         
         this.$mdDialog.show(confirm).then(() => {
-            
             this.productService.deleteProduct(this.selected._id)
                  .then(affectedRows => {
-                     this.products.splice(this.selectedIndex, 1)
+                     console.log(this.products.length);
+                     console.log(this.products);
+                     if (this.products.length == 0) this.clearSelected();
+                     else this.products.splice(this.selectedIndex, 1);
                  })
                  .catch(err => {
                      console.log(err);
@@ -97,23 +104,6 @@ class ProductController {
             });
         }
     }
-       
-    newProduct() {
-        this.selected = new Product();
-        let valid = false
-        let pid = '';
-        while (!valid) {
-            pid = generatePid();
-            this.productService.checkDuplicatePid(pid)
-                .then(rows => {
-                    if (rows.length === 0) valid = true;
-                })
-                .catch(err => console.log(err));
-        }
-        this.selected.PRODUCT_PID = pid;
-        this.selectedIndex = null;
-        this.selected_id = null;
-    }
    
     filterProduct() {
         if (this.filterText != null) {        
@@ -125,15 +115,41 @@ class ProductController {
         }
     }
     
-    checkDuplicatePid($event) {
-        console.log('checking pid');
-        this.productService.checkPid(this.selected.PRODUCT_PID)
+    newProduct($event) {
+        const confirm = this.$mdDialog.confirm()
+            .title('Are you sure?')
+            .content('Any unsaved information will be discarded')
+            .ok('Yes')
+            .cancel('No')
+            .targetEvent($event);
+            
+        this.$mdDialog.show(confirm).then(() => {
+            return this.generateUniquePid();
+        })
+        .then(uniquePid => {
+           this.selected = new Product();
+           this.selected.PRODUCT_PID = uniquePid;
+           this.selectedIndex = null;
+           this.selected_id = null; 
+        })
+        .catch(err => console.log(err));
+    }
+    
+    // recursively calls generateUniquePid until a unique PID is created
+    generateUniquePid() {
+        let pid = generatePid();
+        return this.isUniquePid(pid).then(result => {
+            if (result) return pid;
+            else return this.generateUniquePid();
+        })
+    }
+    
+    // checks if a duplicate PID exists in the DB.
+    isUniquePid(pid) {
+        return this.productService.getProductByPid(pid)
             .then(products => {
-                if (products.length > 1) {
-                    this.showConflictDiag(products, $event);
-                }
-            })
-            .catch(err => console.log(err));
+                return products.length == 0 ? true : false;
+            });
     }
     
     addIngredient() {
@@ -165,9 +181,7 @@ class ProductController {
     addProductRA($event) {
         console.log('adding new product ra');
         let ra = new ProductRA();
-        this.selected.PRODUCT_RA.push(ra);
         this.showProductRADiag(ra, $event);
-        console.log(this.selected.PRODUCT_RA);
     }
     
     deleteProductRA(ra, $event) {
@@ -188,8 +202,8 @@ class ProductController {
         });
     }
     
-    saveProductRA() {
-        console.log('saving product ra');
+    saveProductRA(ra) {
+        this.selected.PRODUCT_RA.push(ra);
     }
     
     showProductRADiag(productRA, $event) {
@@ -208,6 +222,7 @@ class ProductController {
     }
     
     showConflictDiag(conflictingProducts, $event) {
+        console.log('in conflicts:', conflictingProducts);
         this.$mdDialog.show({
             controller: ListDialogController,
             controllerAs: '_ctrl',
@@ -222,7 +237,6 @@ class ProductController {
                 subject: 'The following products have the same PID values',
                 onClick: null,
                 onSubmit: null,
-                isSelectable: false,
                 parentController: this
             }
         });
@@ -259,10 +273,30 @@ class ProductController {
             );
         };
     }
+    
+    checkForDuplicates(pid) {
+        return this.productService.getProductByPid(pid);
+    }
         
     initializeProductFromXml($event){
-        // read from sample ghsts and populate the database with that Product.  
+        // read from sample ghsts and populate the database with that Product.
+        
+        //   TODO: when importing, need to chech each item to make sure that there are no overlapping PIDs, since we may have locally generated some PIDs that happen to be in the xml
         this.productService.initializeProductFromXml()
+            .then(() => {
+                return this.productService.getProducts();
+            })
+            .then(products => {
+                return this.checkForDuplicates(product[0].PRODUCT_PID);
+                // Promise.all(products.map(item => {
+                //     console.log(item.PRODUCT_PID);
+                //     return this.productService.getProductByPid(item.PRODUCT_PID);
+                // }))
+                // .then(products => {
+                //     console.log(products);
+                //     if (products.length > 1) this.showConflictDiag(products);
+                // });
+            })
             .then(() => {
                 this.initFromDB();
             })
