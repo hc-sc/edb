@@ -1,10 +1,7 @@
 import {GHSTS} from '../common/ghsts.js'
 import {ContactPerson, ContactAddress, LegalEntity} from '../legal_entity/legalEntityModel.js';
 import {Receiver, Sender} from '../receiver/receiverModel.js';
-<<<<<<< HEAD
 import {ValueStruct} from '../common/sharedModel.js';
-=======
->>>>>>> upstream/integration
 import {Ingredient, AdminNumber, ProductRA, Product} from '../product/productModel.js';
 import Submission from '../submission/submissionModel';
 

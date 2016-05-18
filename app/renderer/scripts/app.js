@@ -25,10 +25,7 @@ angular.module('ghstsApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages'])
     .config(config)
     .service('pickListService', [PickListService])
     .service('legalEntityService', ['$q', LegalEntityService])
-<<<<<<< HEAD
     .controller('legalEntityController', ['$mdSidenav', '$location', 'pickListService', '$mdDialog', 'legalEntityService', LegalEntityController])
-=======
->>>>>>> upstream/integration
     .service('receiverService', ['$q', ReceiverService])
     .controller('receiverController', ['$mdDialog', '$mdSidenav', 'receiverService', 'legalEntityService', ReceiverController])
     .service('productService', ['$q', ProductService])
