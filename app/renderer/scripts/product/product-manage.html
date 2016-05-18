@@ -87,7 +87,9 @@
                         </md-input-container>
                         <md-input-container class="md-block">
                             <label>UNIT</label>
-                            <input ng-model="ing.UNIT.VALUE_DECODE" type="text">
+                            <input ng-model="ing.UNIT.VALUE_DECODE" 
+                                ng-change='_ctrl.updateUnitValue(ing, $event)'
+                                type="text">
                         </md-input-container>
                         <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteIngredient(ing._toSubstanceID, $event)">Delete</md-button>
                     </div>
@@ -108,7 +110,7 @@
                 <md-list-item ng-repeat="ra in _ctrl.selected.PRODUCT_RA track by $index" ng-click="_ctrl.showProductRADiag(ra, $event)"
                     class="noright">
                     <md-icon class='material-icons' aria-label='Regulatory Authority'>business</md-icon>
-                    <p>{{ ra.PRODUCT_NAME }}</p>
+                    <p>{{ ra.PRODUCT_NAME }}, {{ ra._toReceiverRaId }}</p>
                     <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteProductRA(ra, $event)" aria-label='Delete Regulatory Authority'>
                         Delete
                     </md-button>

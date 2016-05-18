@@ -25,7 +25,7 @@ class ProductController {
     initFromDB() {
         this.productService.getProducts().then(dbProducts => {
             this.products = [].concat(dbProducts);
-            if (this.products.length > 0){
+            if (this.products.length > 0) {
                 this.selected = this.products[0];
                 this.selectedIndex = 0;
                 this.selected_id = this.selected._id;
@@ -104,12 +104,9 @@ class ProductController {
                         .targetEvent($event)
                 )
                 
-                console.log(createdRow);
-                
                 // push createdRow so we get the DB's _id attr
                 this.products.push(createdRow);
                 this.selectedIndex = this.products.length - 1;
-                console.log(this.products[this.selectedIndex]);
                 this.selected = this.products[this.selectedIndex];
                 this.selected_id = this.selected._id;
             });
@@ -143,6 +140,7 @@ class ProductController {
            this.selected.PRODUCT_PID = uniquePid;
            this.selectedIndex = null;
            this.selected_id = null; 
+           
         })
         .catch(err => console.log(err));
     }
@@ -153,7 +151,7 @@ class ProductController {
         return this.isUniquePid(pid).then(result => {
             if (result) return pid;
             else return this.generateUniquePid();
-        })
+        });
     }
     
     // checks if a duplicate PID exists in the DB.
@@ -165,13 +163,11 @@ class ProductController {
     }
     
     addIngredient() {
-        console.log('adding new ingredient');
         let ingredient = new Ingredient();
         this.selected.INGREDIENTS.push(ingredient);
     }
     
     deleteIngredient(ingredient, $event) {
-        console.log('deleting ingredient');
         const confirm = this. $mdDialog.confirm()
             .title('Are you sure?')
             .content('Are you sure you want to delete this ingredient?')
@@ -221,6 +217,11 @@ class ProductController {
             this.selected.PRODUCT_RA.push(ra);
         }
         this.productService.updateProduct(this.selected);
+    }
+    
+    updateUnitValue(ingredient, $event) {
+        console.log(ingredient);
+        ingredient.setUnitValue(ingredient.UNIT.VALUE_DECODE);
     }
     
     showProductRADiag(productRA, $event) {
@@ -307,7 +308,7 @@ class ProductController {
                             if (matches.length > 1) {
                                 this.showConflictDiag(matches, $event);
                             }
-                        })
+                        });
                 }));    
             })
             // load from the DB

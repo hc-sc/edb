@@ -20,6 +20,10 @@
                     <label>Product Name</label>
                     <input ng-model='_ctrl.productRA.PRODUCT_NAME' ng-required='true' type='text'>
                 </md-input-container>
+                <md-input-container class='md-block' flex-gt-sm>
+                    <label>_toReceiverRaId</label>
+                    <input ng-model='_ctrl.productRA._toReceiverRaId' ng-required='true' type='text'>
+                </md-input-container>
                 
                 <md-toolbar>
                     <div class='md-toolbar-tools'>
@@ -44,7 +48,7 @@
                                 </md-input-container>
                                 <md-input-container class='md-block'>
                                     <label>Admin Number Type</label>
-                                    <input ng-model='adminNumber.ADMIN_NUMBER_TYPE.VALUE_DECODE' type='text'>
+                                    <input ng-model='adminNumber.ADMIN_NUMBER_TYPE.VALUE_DECODE' ng-change='_ctrl.updateAdminNumberFields(adminNumber, $event)' type='text'>
                                 </md-input-container>
                                 <md-button class='md-secondary md-raised' ng-click='_ctrl.deleteAdminNumber(adminNumber, $event)'>
                                     Delete

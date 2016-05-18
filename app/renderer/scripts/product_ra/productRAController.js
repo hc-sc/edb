@@ -1,4 +1,5 @@
 import angular from 'angular';
+import { AdminNumber } from './productRAModel';
 import _ from 'lodash';
 
 class ProductRAController {
@@ -22,12 +23,15 @@ class ProductRAController {
     }
     
     addAdminNumber($event) {
-        this.productRA.ADMIN_NUMBER.push({});
+        this.productRA.ADMIN_NUMBER.push(new AdminNumber());
     }
     
     deleteAdminNumber(adminNumber, $event) {
         _.pull(this.productRA.ADMIN_NUMBER, adminNumber);
-        this.productController.saveProductRA(this.productRA);
+    }
+    
+    updateAdminNumberFields(adminNumber, $event) {
+        adminNumber.setAdminNumberTypeValue(adminNumber.ADMIN_NUMBER_TYPE.VALUE_DECODE);
     }
 }
 
