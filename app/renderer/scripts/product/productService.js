@@ -4,7 +4,7 @@ import uuid from 'node-uuid';
 import {GHSTS} from '../common/ghsts.js';
 import {Ingredient, AdminNumber, ProductRA, Product} from './productModel.js';
 //import {Dossier} from '../dossier/dossierModel.js';
-//import {Submission} from '../submission/submissionModel.js'
+//import {Submission} from '../submission/submissionModel.js';
 import {ValueStruct} from '../common/sharedModel.js';
 
 class ProductService {

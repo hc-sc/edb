@@ -8,11 +8,11 @@ import Submission from '../submission/submissionModel';
 const outputFile = './app/renderer/data/DemoGHSTS.xml';
 
 class GhstsService {
-    constructor(ReceiverService, LegalEntityService, SubmissionService, ProductService){ //, ProductService) {
+    constructor(ReceiverService, LegalEntityService, ProductService, SubmissionService){
         this.receiverService = ReceiverService;
         this.legalEntityService = LegalEntityService;
-        this.submissionService = SubmissionService;
         this.productService = ProductService;
+        this.submissionService = SubmissionService;
     }
             
     assembleDemoGHSTS(){          
@@ -83,7 +83,7 @@ class GhstsService {
     }        
 }
 
-GhstsService.$inject = [ 'receiverService', 'legalEntityService', 'submissionService', 'productService'];
+GhstsService.$inject = [ 'receiverService', 'legalEntityService', 'productService', 'submissionService'];
 
 
 export { GhstsService }
