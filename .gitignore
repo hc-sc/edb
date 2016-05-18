@@ -7,4 +7,5 @@ package
 dist
 *.bak
 .vscode
+data/Demo*
 
