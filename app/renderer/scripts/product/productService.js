@@ -5,10 +5,7 @@ import {GHSTS} from '../common/ghsts.js';
 import {Ingredient, AdminNumber, ProductRA, Product} from './productModel.js';
 //import {Dossier} from '../dossier/dossierModel.js';
 //import {Submission} from '../submission/submissionModel.js';
-<<<<<<< HEAD
 import {ValueStruct} from '../common/sharedModel.js';
-=======
->>>>>>> upstream/integration
 
 class ProductService {
     constructor($q) {        
