@@ -3,16 +3,17 @@ import { ProductRA } from '../product_ra/productRAModel';
 import { ValueStruct } from '../common/sharedModel';
 
 class Ingredient {
-    constructor(json){  
+    constructor(ing){  
         if (arguments.length === 1){
-            // load from json
-            Object.assign(this, json);
+            this._toSubstanceID = ing._toSubstanceID;
+            this.QUANTITY = ing.QUANTITY;
+            this.UNIT = new ValueStruct(ing.UNIT.VALUE, ing.UNIT.VALUE_DECODE);
         }
         else {    
             this._toSubstanceID = null;
             this.QUANTITY = null;
             this.UNIT = new ValueStruct('',''); // of ValueStruct
-        };
+        }
     }
     
     set toSubstanceID(_identifier){
@@ -37,11 +38,21 @@ class Ingredient {
 }
 
 class Product {
-    constructor(json){
+    constructor(prod) {
         if (arguments.length === 1){
-            // load from json
-            Object.assign(this, json);
-            //this.DOSSIER = {};
+            this.METADATA_STATUS = new ValueStruct(prod.METADATA_STATUS.VALUE, prod.METADATA_STATUS.VALUE_DECODE);
+            this.PRODUCT_PID = prod.PRODUCT_PID;
+            this.GENERIC_PRODUCT_NAME = prod.GENERIC_PRODUCT_NAME;
+            this.FORMULATION_TYPE = new ValueStruct(prod.FORMULATION_TYPE.VALUE, prod.FORMULATION_TYPE.VALUE_DECODE);
+            this.PRODUCT_RA = prod.PRODUCT_RA.map(prodRA => {
+                return new ProductRA(prodRA);
+            })
+            this.INGREDIENTS = prod.INGREDIENTS.map(ing => {
+                return new Ingredient(ing);
+            });
+            this.DOSSIER = prod.DOSSIER;
+            
+            this._id = prod._id;
         }
         else {
             this.METADATA_STATUS = new ValueStruct();
@@ -79,11 +90,11 @@ class Product {
     
     toGHSTSJson() {     
         let productRAs = this.PRODUCT_RA.map(ra => {
-            return new ProductRA(ra).toGhstsJson();
+            return ra.toGhstsJson();
         });
         
         let ingredients = this.INGREDIENTS.map(ing => {
-            return new Ingredient(ing).toGhstsJson();
+            return ing.toGhstsJson();
         });
         
         return {

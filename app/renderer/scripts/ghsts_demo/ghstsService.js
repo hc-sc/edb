@@ -51,6 +51,7 @@ class GhstsService {
                     //NOTE: at this point, there is no restrictions on how many times we've inserted a submission into the DB, so there may be several rows returned, just grab the first
                     let submissionPromise = self.submissionService.getSubmission();
                     submissionPromise.then(submission => {
+                        console.log(submission);
                         let subObj = new Submission(submission[0]);
                         ghsts.addSubmission(subObj.toGHSTSJson());
                         

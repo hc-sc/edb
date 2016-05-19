@@ -1,28 +1,32 @@
 import { ValueStruct } from '../common/sharedModel';
 
 export class ProductRA {
-    constructor(json){  
+    constructor(ra) {  
         if(arguments.length === 1){
-            // load from json
-            Object.assign(this, json);
-        }else{
+            this._toReceiverRaId = ra._toReceiverRaId;
+            this.PRODUCT_NAME = ra.PRODUCT_NAME;
+            this.ADMIN_NUMBER = ra.ADMIN_NUMBER.map(an => {
+                return new AdminNumber(an);
+            });
+        }
+        else {
             this._toReceiverRaId = null;
             this.PRODUCT_NAME = null;
             this.ADMIN_NUMBER = [];
         };    
     }
     
-    set toReceiverRaId(XSDid){
+    set toReceiverRaId(XSDid) {
         this._toReceiverRaId = XSDid;
     }
     
-    addAdminNum(adminNumber){
+    addAdminNum(adminNumber) {
         this.ADMIN_NUMBER.push(adminNumber);
     }
 
     toGhstsJson() {
         let adminNumbers = this.ADMIN_NUMBER.map(an => {
-            return new AdminNumber(an).toGhstsJson();
+            return an.toGhstsJson();
         });
         
         return {
@@ -34,10 +38,10 @@ export class ProductRA {
 }   
 
 export class AdminNumber{
-    constructor(json) {  
+    constructor(an) {  
         if (arguments.length === 1) {
-            // load from json
-            Object.assign(this, json);
+            this.ADMIN_NUMBER_TYPE = new ValueStruct(an.ADMIN_NUMBER_TYPE.VALUE, an.ADMIN_NUMBER_TYPE.VALUE_DECODE);
+            this.IDENTIFIER = an.IDENTIFIER;
         }
         else {
             this.ADMIN_NUMBER_TYPE = new ValueStruct('', '');
@@ -53,9 +57,8 @@ export class AdminNumber{
         this.ADMIN_NUMBER_TYPE.VALUE_DECODE = decode;
     }
     
-    // not sure I need the following
     toGhstsJson() {
-        return{ 
+        return { 
             ADMIN_NUMBER_TYPE : this.ADMIN_NUMBER_TYPE,
             IDENTIFIER : this.IDENTIFIER
         };

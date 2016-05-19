@@ -59,7 +59,8 @@
                     </md-input-container>
                     <md-input-container>
                         <label>Status</label>
-                        <input ng-model="_ctrl.selected.METADATA_STATUS.VALUE_DECODE" type="text">
+                        <input ng-model="_ctrl.selected.METADATA_STATUS.VALUE_DECODE"
+                        ng-change='_ctrl.updateMetadataValue(_ctrl.selected, $event)' type="text">
                     </md-input-container>
                 </div>
             </div>

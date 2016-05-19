@@ -45,7 +45,7 @@ class ProductService {
     }
 
     updateProduct(product) {
-        console.log('in updateProduct', product);
+        console.log('in updateProduct');
         let deferred = this.$q.defer();
         this.productsDb.update({ _id: product._id}, product, {}, 
             (err, numReplaced) => {
@@ -83,7 +83,7 @@ class ProductService {
     getProductGHSTSById(id) {
         // return GHSTS xml from json. 
         let deferred = this.$q.defer();
-        this.productsDb.find({'_id': id }, (err, results) => {
+        this.productsDb.find({ '_id': id }, (err, results) => {
             if (err) deferred.reject(err);  
                     
             // create Product based on productJSON           
@@ -168,6 +168,8 @@ class ProductService {
                 product.addIngredient(ing);
             });
             product.DOSSIER = doss;
+            
+            //console.log(product);
             
             // insert the above into db.
             this.createProduct(product);

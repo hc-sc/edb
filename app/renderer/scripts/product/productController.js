@@ -13,7 +13,6 @@ class ProductController {
         this.products = [];
         this.selected = {};
         this.selectedIndex = null;
-        this.selected_id = null;
         this.$mdDialog = $mdDialog;
         this.filterText = null;
                 
@@ -24,11 +23,18 @@ class ProductController {
     
     initFromDB() {
         this.productService.getProducts().then(dbProducts => {
-            this.products = [].concat(dbProducts);
+            
+            let prods = dbProducts.map(product => {
+                console.log('raw product from db', product);
+                return new Product(product);
+            });
+            
+            console.log('outputted products array', prods);
+            
+            this.products = prods;
             if (this.products.length > 0) {
                 this.selected = this.products[0];
                 this.selectedIndex = 0;
-                this.selected_id = this.selected._id;
             }
         });
     }
@@ -36,7 +42,6 @@ class ProductController {
     clearSelectedProduct() {
         this.selected = {};
         this.selectedIndex = null;
-        this.selected_id = null;
     }
     
     selectProduct(product, index) {
@@ -46,11 +51,11 @@ class ProductController {
         this.selectedIndex = angular.isNumber(product) 
                               ? product 
                               : index;
-        this.selected_id = this.selected._id;
     }
     
     deleteProduct($event) {
-        if (this.selected_id != null) {
+        if (!_.isEmpty(this.selected)) {
+            console.log('deleting product');
             let confirm = this.$mdDialog.confirm()
                                     .title('Are you sure?')
                                     .content('Are you sure you want to delete' +
@@ -62,11 +67,16 @@ class ProductController {
             this.$mdDialog.show(confirm).then(() => {
                 this.productService.deleteProduct(this.selected._id)
                     .then(affectedRows => {
-                        if (this.products.length == 1) {
+                        if (this.products.length === 1) {
                             this.products = [];
                             this.clearSelectedProduct();
                         }
-                        else this.products.splice(this.selectedIndex, 1);
+                        else {
+                            this.products.splice(this.selectedIndex, 1);
+                            this.selected = this.products[0];
+                            this.selectedIndex = 0;
+                            this.filterText = '';
+                        }
                     })
                     .catch(err => {
                         console.log(err);
@@ -76,8 +86,8 @@ class ProductController {
     }
     
     saveProduct($event) {
-        if (Object.keys(this.selected).length > 0 && this.selected_id != null) {
-            console.log('updating product');
+        if (this.selected._id) {
+            console.log('updating a product');
             this.productService.updateProduct(this.selected).then(savedDoc => {
                 this.$mdDialog.show(
                     this.$mdDialog
@@ -92,7 +102,7 @@ class ProductController {
             .catch(err => console.log(err));
         }
         else { // new Product
-            console.log('saving new product');
+            console.log('creating a new product');
             this.productService.createProduct(this.selected).then(createdRow => {
                 this.$mdDialog.show(
                     this.$mdDialog
@@ -103,12 +113,9 @@ class ProductController {
                         .ok('Ok')
                         .targetEvent($event)
                 )
-                
-                // push createdRow so we get the DB's _id attr
-                this.products.push(createdRow);
+                this.products.push(new Product(createdRow));
                 this.selectedIndex = this.products.length - 1;
                 this.selected = this.products[this.selectedIndex];
-                this.selected_id = this.selected._id;
             });
         }
     }
@@ -139,7 +146,6 @@ class ProductController {
            this.selected = new Product();
            this.selected.PRODUCT_PID = uniquePid;
            this.selectedIndex = null;
-           this.selected_id = null; 
            
         })
         .catch(err => console.log(err));
@@ -187,13 +193,11 @@ class ProductController {
     }
     
     addProductRA($event) {
-        console.log('adding new product ra');
         let ra = new ProductRA();
         this.showProductRADiag(ra, $event);
     }
     
     deleteProductRA(ra, $event) {
-        console.log('deleting product ra');
         const confirm = this. $mdDialog.confirm()
             .title('Are you sure?')
             .content('Are you sure you want to delete this RA?')
@@ -212,15 +216,17 @@ class ProductController {
     
     // if the product RA isn't already there, add it to the list
     saveProductRA(ra) {
-        console.log(ra);
         if (!_.includes(this.selected.PRODUCT_RA, ra)) {
             this.selected.PRODUCT_RA.push(ra);
         }
         this.productService.updateProduct(this.selected);
     }
     
+    updateMetadataValue(product, $event) {
+        product.setMetadataStatusValue(product.METADATA_STATUS.VALUE_DECODE);
+    }
+    
     updateUnitValue(ingredient, $event) {
-        console.log(ingredient);
         ingredient.setUnitValue(ingredient.UNIT.VALUE_DECODE);
     }
     
@@ -261,7 +267,7 @@ class ProductController {
     }
 
     viewProductJson($event) {
-        if (this.selected != null && this.selected._id != null) {
+        if (!_.isEmpty(this.selected)) {
             let productJson = JSON.stringify(this.selected);            
             this.$mdDialog.show(
                     this.$mdDialog
@@ -276,7 +282,7 @@ class ProductController {
     }
     
     viewProductGHSTS($event) {
-        if (this.selected != null && this.selected._id != null) {   
+        if (!_.isEmpty(this.selected)) {   
             this.productService.getProductGHSTSById(this.selected._id)
                 .then(product_xml =>           
                     this.$mdDialog.show(
@@ -298,10 +304,12 @@ class ProductController {
         this.productService.initializeProductFromXml()
             // get all entries
             .then(() => {
+                console.log('getting all products from db during init');
                 return this.productService.getProducts();
             })
             // map each entry, checking if there are any duplicates. If there are, display a dialog showing the names of all conflicting products
             .then(products => {
+                console.log('checking for conflicts');
                 return Promise.all(products.map(item => {
                     return this.productService.getProductByPid(item.PRODUCT_PID)
                         .then(matches => {
@@ -313,6 +321,7 @@ class ProductController {
             })
             // load from the DB
             .then(() => {
+                console.log('loading in from db');
                 this.initFromDB();
             })
             .catch(err => console.log(err));
