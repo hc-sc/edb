@@ -1,11 +1,11 @@
 import { ValueStruct } from '../common/sharedModel';
 
 export class ProductRA {
-    constructor(ra) {  
+    constructor(json) {  
         if(arguments.length === 1){
-            this._toReceiverRaId = ra._toReceiverRaId;
-            this.PRODUCT_NAME = ra.PRODUCT_NAME;
-            this.ADMIN_NUMBER = ra.ADMIN_NUMBER.map(an => {
+            this._toReceiverRaId = json._toReceiverRaId;
+            this.PRODUCT_NAME = json.PRODUCT_NAME;
+            this.ADMIN_NUMBER = json.ADMIN_NUMBER.map(an => {
                 return new AdminNumber(an);
             });
         }
@@ -25,7 +25,7 @@ export class ProductRA {
     }
 
     toGhstsJson() {
-        let adminNumbers = this.ADMIN_NUMBER.map(an => {
+        const adminNumbers = this.ADMIN_NUMBER.map(an => {
             return an.toGhstsJson();
         });
         
@@ -38,10 +38,10 @@ export class ProductRA {
 }   
 
 export class AdminNumber{
-    constructor(an) {  
+    constructor(json) {  
         if (arguments.length === 1) {
-            this.ADMIN_NUMBER_TYPE = new ValueStruct(an.ADMIN_NUMBER_TYPE.VALUE, an.ADMIN_NUMBER_TYPE.VALUE_DECODE);
-            this.IDENTIFIER = an.IDENTIFIER;
+            this.ADMIN_NUMBER_TYPE = new ValueStruct(json.ADMIN_NUMBER_TYPE.VALUE, json.ADMIN_NUMBER_TYPE.VALUE_DECODE);
+            this.IDENTIFIER = json.IDENTIFIER;
         }
         else {
             this.ADMIN_NUMBER_TYPE = new ValueStruct('', '');

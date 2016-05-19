@@ -3,11 +3,11 @@ import { ProductRA } from '../product_ra/productRAModel';
 import { ValueStruct } from '../common/sharedModel';
 
 class Ingredient {
-    constructor(ing){  
+    constructor(json){  
         if (arguments.length === 1){
-            this._toSubstanceID = ing._toSubstanceID;
-            this.QUANTITY = ing.QUANTITY;
-            this.UNIT = new ValueStruct(ing.UNIT.VALUE, ing.UNIT.VALUE_DECODE);
+            this._toSubstanceID = json._toSubstanceID;
+            this.QUANTITY = json.QUANTITY;
+            this.UNIT = new ValueStruct(json.UNIT.VALUE, json.UNIT.VALUE_DECODE);
         }
         else {    
             this._toSubstanceID = null;
@@ -38,21 +38,21 @@ class Ingredient {
 }
 
 class Product {
-    constructor(prod) {
+    constructor(json) {
         if (arguments.length === 1){
-            this.METADATA_STATUS = new ValueStruct(prod.METADATA_STATUS.VALUE, prod.METADATA_STATUS.VALUE_DECODE);
-            this.PRODUCT_PID = prod.PRODUCT_PID;
-            this.GENERIC_PRODUCT_NAME = prod.GENERIC_PRODUCT_NAME;
-            this.FORMULATION_TYPE = new ValueStruct(prod.FORMULATION_TYPE.VALUE, prod.FORMULATION_TYPE.VALUE_DECODE);
-            this.PRODUCT_RA = prod.PRODUCT_RA.map(prodRA => {
+            this.METADATA_STATUS = new ValueStruct(json.METADATA_STATUS.VALUE, json.METADATA_STATUS.VALUE_DECODE);
+            this.PRODUCT_PID = json.PRODUCT_PID;
+            this.GENERIC_PRODUCT_NAME = json.GENERIC_PRODUCT_NAME;
+            this.FORMULATION_TYPE = new ValueStruct(json.FORMULATION_TYPE.VALUE, json.FORMULATION_TYPE.VALUE_DECODE);
+            this.PRODUCT_RA = json.PRODUCT_RA.map(prodRA => {
                 return new ProductRA(prodRA);
-            })
-            this.INGREDIENTS = prod.INGREDIENTS.map(ing => {
+            });
+            this.INGREDIENTS = json.INGREDIENTS.map(ing => {
                 return new Ingredient(ing);
             });
-            this.DOSSIER = prod.DOSSIER;
+            this.DOSSIER = json.DOSSIER;
             
-            this._id = prod._id;
+            this._id = json._id;
         }
         else {
             this.METADATA_STATUS = new ValueStruct();
@@ -89,11 +89,11 @@ class Product {
     }
     
     toGhstsJson() {    
-        let productRAs = this.PRODUCT_RA.map(ra => {
+        const productRAs = this.PRODUCT_RA.map(ra => {
             return ra.toGhstsJson();
         });
         
-        let ingredients = this.INGREDIENTS.map(ing => {
+        const ingredients = this.INGREDIENTS.map(ing => {
             return ing.toGhstsJson();
         });
         
