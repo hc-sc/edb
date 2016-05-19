@@ -40,7 +40,7 @@ class GhstsService {
 
                 // add receivers from database to GHSTS
                 let rcvrListPromise = self.receiverService.getReceivers(); 
-                rcvrListPromise.then(function(rcvrList) {                   
+                rcvrListPromise.then(function(rcvrList) {
                     rcvrList.forEach(receiver => {
                         let rcvrObj = new Receiver(receiver);
                         // console.log('receiver json ', rcvrObj.toGHSTSJson())     
@@ -51,25 +51,23 @@ class GhstsService {
                     //NOTE: at this point, there is no restrictions on how many times we've inserted a submission into the DB, so there may be several rows returned, just grab the first
                     let submissionPromise = self.submissionService.getSubmission();
                     submissionPromise.then(submission => {
-                        console.log(submission);
                         let subObj = new Submission(submission[0]);
-                        ghsts.addSubmission(subObj.toGHSTSJson());
+                        ghsts.addSubmission(subObj.toGhstsJson());
                         
                         let sub = ghsts.submission[0];
                         
                         //NOTE: this ghsts has an inner ghsts object that is used to actually write the xml. Default is to append new nodes, rather than replace, so we need to replace it by hand. See console output
                         // console.log(ghsts.ghsts.PRODUCT[0].DOSSIER[0].SUBMISSION);
-                        
-                        //replace the submission that was there
-                        ghsts.ghsts.PRODUCT[0].DOSSIER[0].SUBMISSION = sub;
+                        ghsts.addSubmission(sub);
                         
                         // replace Product with Product from the database
                         let productPromise = self.productService.getProducts();
                         productPromise.then(product => {
                             let prodObj = new Product(product[0]);
+                            
+                            // TODO: since they are separate for now, this would overwrite setting submission above, so need to reassign
                             ghsts.setProduct(prodObj.toGhstsJson());
-                            
-                            
+
                             
                             //we have built the object, output to xml file
                             console.log(ghsts);

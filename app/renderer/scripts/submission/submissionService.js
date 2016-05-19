@@ -48,8 +48,7 @@ class SubmissionService {
     // inits the db, grabs info from a file and inserts it. NOTE that xml2js creates arrays
     initializeSubmissions() {
         let ghsts = new GHSTS('./app/renderer/data/ghsts.xml');
-        let promise = ghsts.readObjects();
-        promise.then(() => {
+        return  ghsts.readObjects().then(() => {
            let entities = ghsts.submission;
 
            entities.map(item => {
@@ -77,7 +76,7 @@ class SubmissionService {
                 attrkey: 'attr$'
             });
             
-            const xml = builder.buildObject(submission.toGHSTSJson());
+            const xml = builder.buildObject(submission.toGhstsJson());
             deferred.resolve(xml);
         });
         return deferred.promise;

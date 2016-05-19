@@ -11,7 +11,7 @@ class Submission {
         }
     }
     
-    toGHSTSJson() {
+    toGhstsJson() {
         return {
             SUBMISSION_NUMBER: this.SUBMISSION_NUMBER,
             SUBMISSION_VERSION_DATE: this.SUBMISSION_VERSION_DATE,

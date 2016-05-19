@@ -88,7 +88,6 @@ class ProductService {
                     
             // create Product based on productJSON           
             const product = new Product(results[0]);
-            console.log(product);
             
             // convert to XML
             const builder = new xml2js.Builder({
@@ -96,7 +95,7 @@ class ProductService {
                 attrkey: 'attr$'
             });
             
-            const xml = builder.buildObject(product.toGHSTSJson());
+            const xml = builder.buildObject(product.toGhstsJson());
             deferred.resolve(xml);        
         });       
         return deferred.promise;
@@ -106,7 +105,7 @@ class ProductService {
     initializeProductFromXml(){
         // read from sample ghsts and populate the database with product node.
         let obj_ghsts = new GHSTS("./app/renderer/data/ghsts.xml");     
-        return obj_ghsts.readObjects().then(contents => {
+        return obj_ghsts.readObjects().then(() => {
             let rawP = obj_ghsts.product[0];
             // convert GHSTS json to the product object
             // xml2js' use-and-abuse array setting is on to play safe for now, 

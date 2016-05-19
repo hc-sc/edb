@@ -88,7 +88,7 @@ class Product {
         this.METADATA_STATUS.VALUE_DECODE = decode;
     }
     
-    toGHSTSJson() {     
+    toGhstsJson() {    
         let productRAs = this.PRODUCT_RA.map(ra => {
             return ra.toGhstsJson();
         });

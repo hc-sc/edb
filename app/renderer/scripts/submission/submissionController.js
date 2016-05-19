@@ -61,7 +61,10 @@ export default class SubmissionController {
     // }
     
     initializeSubmission() {
-        this.submissionService.initializeSubmissions();
+        this.submissionService.initializeSubmissions().then(() => {
+           this.getAllSubmissions();
+        })
+        .catch(err => console.log(err));
     }
     
     viewSubmissionJson($event) {

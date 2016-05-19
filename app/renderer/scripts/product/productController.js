@@ -23,15 +23,10 @@ class ProductController {
     
     initFromDB() {
         this.productService.getProducts().then(dbProducts => {
-            
-            let prods = dbProducts.map(product => {
-                console.log('raw product from db', product);
+            this.products = dbProducts.map(product => {
                 return new Product(product);
             });
             
-            console.log('outputted products array', prods);
-            
-            this.products = prods;
             if (this.products.length > 0) {
                 this.selected = this.products[0];
                 this.selectedIndex = 0;
