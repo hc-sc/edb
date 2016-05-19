@@ -94,11 +94,11 @@ class ProductController {
    
     filterProduct() {
         if (this.filterText == null || this.filterText == "") {
-            this.getProductsFromDb();
+            this.initFromDb();
         }
         else {            
-            
-            let selection_id = selected != null ? selected._id : null;
+            this.initFromDb();
+/*            let selection_id = selected != null ? selected._id : null;
             this.productService.filterProductsByName(this.filterText)
                                  .then(DbResults_products => {
                 this.products = [].concat(DbResults_products);
@@ -112,7 +112,7 @@ class ProductController {
                     }
                 });
             });
-        }
+*/        }
     }
 
     viewProductJson($event) {

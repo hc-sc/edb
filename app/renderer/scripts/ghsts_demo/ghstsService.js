@@ -8,7 +8,7 @@ import Submission from '../submission/submissionModel';
 const outputFile = './app/renderer/data/DemoGHSTS.xml';
 
 class GhstsService {
-    constructor(ReceiverService, LegalEntityService, ProductService, SubmissionService) {
+    constructor(ReceiverService, LegalEntityService, ProductService, SubmissionService){
         this.receiverService = ReceiverService;
         this.legalEntityService = LegalEntityService;
         this.productService = ProductService;
@@ -24,11 +24,10 @@ class GhstsService {
         let ghsts = new GHSTS("./app/renderer/data/ghsts.xml");     
         let promise = ghsts.readObjects();
         let self = this;
-        let ready = {products : false,
-                     legalEntities : false,
-                     receivers : false};
         // listen for both fulfillment and rejection        
         promise.then(function(contents) {
+            //The following code assumes that data from ghsts.xml was first
+            //read into the database and changes to the data has been saved.
             console.log('have read from xml into obj.  now about to read from db to get those objects');            
 
             // replace Product with Product from the database
@@ -46,7 +45,6 @@ class GhstsService {
                     let leObj = new LegalEntity(le);
                     ghsts.addLegalEntity(leObj.toGHSTSJson());
                 });
-                ready.legalEntities = true;
 
                 // add receivers from database to GHSTS
                 let rcvrListPromise = self.receiverService.getReceivers(); 
@@ -76,16 +74,8 @@ class GhstsService {
                         ghsts.writeXML(outputFile);
                         console.log(`Written to ${outputFile}`);
                     });
-                    ready.receivers = true;
                 })
             })
-            if (ready.legalEntities === true &&
-                ready.receivers === true &&
-                ready.product === true) {
-                    // now we got everything, produce the GHSTS file.
-                    ghsts.writeXML("./app/renderer/data/DemoGHSTS.xml");
-                    console.log('written to ./app/renderer/data/DemoGHSTS.xml'); 
-                }
         }, function(err) {
             // rejection
             console.error(err.message);
