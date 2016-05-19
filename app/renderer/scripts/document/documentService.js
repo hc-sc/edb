@@ -2,7 +2,7 @@ import Nedb from 'nedb';
 import xml2js from 'xml2js';
 import uuid from 'node-uuid';
 import {GHSTS} from '../common/ghsts.js'
-import { ContentStatusHistory, ReferencedDocument, ReferenceToSubstance,  DocumentNumber, ReferenceToFile, DocumentGeneric, DocumentComment, OtherNationalGuideLine, SubmissionContext, RADocumentNumber, DocumentRA, Document} from './documentModel.js';
+import { ContentStatusHistory, ReferencedDocument, ReferenceToSubstance,  DocumentNumber, ReferenceToFile, DocumentGeneric, OtherNationalGuideLine, SubmissionContext, RADocumentNumber, DocumentRA, Document} from './documentModel.js';
 import {ValueStruct, IdentifierStruct} from '../common/sharedModel.js'
 
 class DocumentService {
@@ -22,6 +22,49 @@ class DocumentService {
         return deferred.promise;
     }
     
+       // return a list of all documents
+    getDocuments() {        
+        let deferred = this.$q.defer();
+        this.documents.find({}, function (err, rows) {
+            if (err) deferred.reject(err);
+            deferred.resolve(rows);
+        });      
+        return deferred.promise;  
+    }
+    
+    getDocumentByDOCId(docId) {
+        let deferred = this.$q.defer();
+        this.documents.find({'_identifier': docId }, function (err, result) {
+            if (err) deferred.reject(err);
+            deferred.resolve(result);
+        });  
+        return deferred.promise;        
+    }
+    
+    
+    // the following are demo related methods.  can be moved to a dedicated test class later    
+    getDocumentGHSTSById(id) {
+        // return GHSTS xml from legal entity json. 
+        let deferred = this.$q.defer();
+        this.documents.find({'_id': id }, function (err, result) {
+            if (err) deferred.reject(err);           
+            
+            // retrieved Json from database
+            let docJSON = result[0];
+            console.log("retrieved Json from database ------>"  + JSON.stringify(docJSON));
+            // create Document based on docJSON           
+            let doc = new Document(docJSON);
+            console.log("Build doc class ------>"  + JSON.stringify(doc));
+            console.log("<------------------------------------------------->");
+            console.log( "create Document based on docJSON" + JSON.stringify(doc.toGHSTSJson()));
+            // convert to XML
+            let builder = new xml2js.Builder({rootName: 'DOCUMENT', attrkey: 'attr$'});            
+            let xml = builder.buildObject(doc.toGHSTSJson());    
+            deferred.resolve(xml);        
+        });       
+        return deferred.promise;
+    }
+    
     initializeDOC(){
         // read from sample ghsts and populate the database with legal entities.
         let ghsts = new GHSTS("./app/renderer/data/ghsts.xml");     
@@ -30,14 +73,17 @@ class DocumentService {
         
         promise.then(function(contents) {
             let docs = ghsts.documents;
+            //console.log(JSON.stringify(docs));
             docs.forEach(doc => {                
                 // convert GHSTS json to documents objects
                 // xml2js' use-and-abuse array setting is on to play safe for now, hence the default array references.   
-                
+                let docu = new Document();
                 // First Build DocumentGeneric
-                let status = new ValueStruct(doc.DOCUMENT_GENERIC[0].METADATA_STATUS[0].VALUE[0], doc.DOCUMENT_GENERIC[0].METADATA_STATUS[0].VALUE_DECODE[0]);       
+                let statusGen = new ValueStruct(doc.DOCUMENT_GENERIC[0].METADATA_STATUS[0].VALUE[0], doc.DOCUMENT_GENERIC[0].METADATA_STATUS[0].VALUE_DECODE[0]);       
                 let docGen = new DocumentGeneric();
-                docGen.METADATA_STATUS      = status; 
+                
+                docu.documentId             = doc.attr$.Id;  // set id attibute
+                docGen.METADATA_STATUS      = statusGen; 
                 docGen.DOCUMENT_PID         = doc.DOCUMENT_GENERIC[0].DOCUMENT_PID[0];  // access element DOCUMENT_GENERIC from each DOCUMENT as doc
                 docGen.DOCUMENT_FAMILY_PID  = doc.DOCUMENT_GENERIC[0].DOCUMENT_FAMILY_PID[0];
                 docGen.DOCUMENT_FAMILY      = doc.DOCUMENT_GENERIC[0].DOCUMENT_FAMILY[0];
@@ -60,26 +106,42 @@ class DocumentService {
                 docGen.GXP_INDICATOR                = doc.DOCUMENT_GENERIC[0].GXP_INDICATOR[0];
                 docGen.TESTED_ON_VERTEBRATE         = doc.DOCUMENT_GENERIC[0].TESTED_ON_VERTEBRATE[0];
                 
-                // the xml payload has multiple REFERENCED_TO_FILE in each document generic element so we need to loop through the  REFERENCED_TO_FILE
-                
-                 doc.DOCUMENT_GENERIC[0].REFERENCED_TO_FILE.forEach(refFile => { 
-                     let refObj = new ReferenceToFile();
-                     refObj.toFileId = refFile.attr$.To_File_Id;  // get and set file ref id
-                     //console.debug("Ref ID: " + refFile.attr$.To_File_Id);
-                     docGen.addReferenceToFile(refObj);
-                    }
-                 )
+                // assign array to array directly
+                docGen.REFERENCED_TO_FILE           = doc.DOCUMENT_GENERIC[0].REFERENCED_TO_FILE;
                 
                
                 
+              
+                
                 // Second Build DocumentRA
-                let docRA = new DocumentRA();
+               doc.DOCUMENT_RA.forEach(dra => {
+                    //console.log(JSON.stringify(dra));
+                    let docRA = new DocumentRA();
+                    
+                    let raStatus            = new ValueStruct(dra.METADATA_STATUS[0].VALUE[0], dra.METADATA_STATUS[0].VALUE_DECODE[0]);
+                    let raDataProtection    = new ValueStruct(dra.DATA_PROTECTION[0].VALUE[0], dra.DATA_PROTECTION[0].VALUE_DECODE[0]);
+                    let raDataReq           = new ValueStruct(dra.DATA_REQUIREMENT[0].VALUE[0], dra.DATA_REQUIREMENT[0].VALUE_DECODE[0]);
+                    
+                    docRA.toSpecificForRAId = dra.attr$.To_Specific_for_RA_Id;
+                      
+                    docRA.METADATA_STATUS = raStatus;
+                    docRA.DATA_PROTECTION = raDataProtection;
+                    docRA.DATA_REQUIREMENT = raDataReq;
+                    
+                    docRA.DOCUMENT_COMMENT = dra.DOCUMENT_COMMENT;  // assign array to array directly
+                  
+                    docRA.OTHER_NATIONAL_GUIDELINE = dra.OTHER_NATIONAL_GUIDELINE; 
+                    docRA.RA_DOCUMENT_NUMBER =   dra.RA_DOCUMENT_NUMBER;
+                   
+                    docu.addDocumentRA(docRA);
+               })
                 
+                 
                 
-                let docu = new Document();
-                docu.documentId = doc.attr$.Id;
+               
+               
                 docu.DOCUMENT_GENERIC = docGen;
-               // docu.addDocumentRA(docRA);
+               
               
                 console.log('---------------------JSON Model----------------\n' + JSON.stringify(docu));
                 console.log('------------------------GHSTS Format--------------------\n' + JSON.stringify(docu.toGHSTSJson()));
@@ -106,6 +168,8 @@ class DocumentService {
         // docRA.METADATA_STATUS = new ValueStruct('New', 'New'); 
         // docRA.DATA_PROTECTION = new ValueStruct('New', 'New'); 
         // docRA.DATA_REQUIREMENT = new ValueStruct('New', 'New'); 
+        docRA.addDocumentComment("Comment 1");
+        docRA.addDocumentComment("Comment 2");
         
         let docGeneric = new DocumentGeneric();
         docGeneric.METADATA_STATUS =  new ValueStruct('New', 'New'); 
@@ -135,25 +199,7 @@ class DocumentService {
        return doc;
     }
     
-     // return a list of all documents
-    getDocuments() {        
-        let deferred = this.$q.defer();
-        this.documents.find({}, function (err, rows) {
-            if (err) deferred.reject(err);
-            deferred.resolve(rows);
-        });      
-        return deferred.promise;  
-    }
-    
-    getDocumentByDOCId(docId) {
-        let deferred = this.$q.defer();
-        this.documents.find({'_identifier': docId }, function (err, result) {
-            if (err) deferred.reject(err);
-            deferred.resolve(result);
-        });  
-        return deferred.promise;        
-    }
-    
+  
     addDocumentToDB(){  
         // add a new document to database
         let doc = this._createSampleDocument(); 

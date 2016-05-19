@@ -92,22 +92,61 @@
                     </md-toolbar>
                     <md-list>
                         <md-list-item ng-repeat=" file in _ctrl.selected.DOCUMENT_GENERIC.REFERENCED_TO_FILE track by $index"  class="noright">
-                            <md-icon class="material-icons" aria-label="folder"> folder </md-icon>
-                            <p>{{ file._toFileId }}</p>     
+                            <!--<md-icon class="material-icons" aria-label="folder"> folder </md-icon>
+                            <p>{{ file._toFileId }}</p>    
+                            -->
+                            <md-input-container class="md-block" flex="80">
+                            <!--md-icon class="material-icons" aria-label="Other Name">note</md-icon--> 
+                                <label>Other Name</label>
+                                <input ng-model="file._toFileId" type="text">
+                            </md-input-container> 
                                                                                     
                         </md-list-item>
                     </md-list>
+                
                    
+                 <md-toolbar>
+                    <div class="md-toolbar-tools">
+                        <h2>Document RAs</h2>
+                        <span flex></span>
+                        <md-button class="md-icon-button" ng-click="_ctrl.showDocumentRA_Diag({}, $event)">
+                            <md-icon class="material-icons" aria-label="Add Document RA">folder</md-icon>
+                        </md-button>
+                    </div>
+                </md-toolbar>
+                <md-list>
+                    <md-list-item ng-repeat=" docRA in _ctrl.selected.DOCUMENT_RA track by $index" ng-click="_ctrl.showContactPersonDiag(docRA, $event)" class="noright">
+                        <md-icon class="material-icons" aria-label="Folder">folder</md-icon>
+                        <p>{{docRA._toSpecificforRAId }}</p>     
+                        <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteDocumentRA(docRA, $event)">Delete</md-button>                                                          
+                    </md-list-item>
+                </md-list>
+                
+                    
+                    <!--<md-toolbar>
+                        <div class="md-toolbar-tools">
+                            <h2>Document RAs comment</h2>
+                            <span flex></span>
+                      
+                        </div>
+                    </md-toolbar>
+                    <md-list>
+                        <md-list-item ng-repeat=" coment in _ctrl.selected.DOCUMENT_RA[0].DOCUMENT_COMMENT track by $index"  class="noright">         
+                            <md-input-container class="md-block" flex="80">
+                                <label>Comment</label>  
+                                <input ng-model="coment" type="text">
+                            </md-input-container>                                                                    
+                        </md-list-item>
+                    </md-list>-->
                    
                 </form>
             </md-content>           
            
-            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-                                                    
-                
+            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>  
+               <md-button class="md-raised md-primary" ng-click="_ctrl.viewDocumentJson()">View DOC JSON</md-button>                
+               <md-button class="md-raised md-primary" ng-click="_ctrl.viewDocumentGHSTS()">View DOC GHSTS</md-button>                                         
                <md-button class="md-raised md-warn" ng-click="_ctrl.addTestDOC()">Add Sample DOC to DB</md-button>   
-                <md-button class="md-raised md-warn" ng-click="_ctrl.initializeDOC()">Initalize DB with Sample GHSTS DOC</md-button>
-                
+               <md-button class="md-raised md-warn" ng-click="_ctrl.initializeDOC()">Initalize DB with Sample GHSTS DOC</md-button> 
             </section>  
         </div>
     </div>

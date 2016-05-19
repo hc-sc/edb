@@ -172,12 +172,7 @@ class DocumentGeneric {
     }
 }
     
-// For class DocumentRA
-class  DocumentComment {  
-     constructor(docComment){             
-        this.DOCUMENT_COMMENT = docComment;			                   
-    }    
-}       
+
 
 // For class DocumentRA
 class  OtherNationalGuideLine {  
@@ -206,12 +201,25 @@ class  RADocumentNumber {
             this.RA_DOCUMENT_NUMBER_TYPE = {},         // of ValueStruct
             this.IDENTIFIER = null;
             this.ALREADY_SUBMITTED = null;
-            this.SUBMISSION_CONTEXT = [];
+            this.SUBMISSION_CONTEXT = [];    // Array of Objects
         }
     } 
     
     addSubmissionContext(submissionContext) {
         this.SUBMISSION_CONTEXT.push(submissionContext);
+    }
+    
+    toGHSTSJson() {
+        let submContextJson = [];
+        this.SUBMISSION_CONTEXT.forEach(subCon => submContextJson(subCon));
+        
+        return{
+            RA_DOCUMENT_NUMBER_TYPE         :   this.RA_DOCUMENT_NUMBER_TYPE,
+            IDENTIFIER                      :   this.IDENTIFIER ,
+            ALREADY_SUBMITTED               :   this.ALREADY_SUBMITTED,
+            SUBMISSION_CONTEXT              :   submContextJson
+        }
+        
     }
 }     
 
@@ -220,14 +228,19 @@ class DocumentRA {
         if(arguments.length === 1){
             // load from json
             Object.assign(this, json);
-        }else{          
-            this.METADATA_STATUS = {};         // of ValueStruct		
-            this.DATA_PROTECTION = {};         // of ValueStruct
+        }else{  
+            this._toSpecificforRAId = null;       
+            this.METADATA_STATUS = {};              // of ValueStruct		
+            this.DATA_PROTECTION = {};              // of ValueStruct
             this.DATA_REQUIREMENT = {};
-            this.DOCUMENT_COMMENT = [];
-            this.OTHER_NATIONAL_GUIDELINE = [];
+            this.DOCUMENT_COMMENT = [];             // Array of Strings
+            this.OTHER_NATIONAL_GUIDELINE = [];     // Array of Objects
             this.RA_DOCUMENT_NUMBER = new RADocumentNumber();
         }     
+    }
+    
+    set toSpecificForRAId(raID){
+        this._toSpecificforRAId = raID;
     }
     
     addOtherNationalGuideline(otherNATGuideline){
@@ -239,7 +252,20 @@ class DocumentRA {
     }
     
      toGHSTSJson() {
+           
+            // let otherNationalGuideLineJson = [];
+            // this.OTHER_NATIONAL_GUIDELINE.forEach(ong => otherNationalGuideLineJson.push(ong));
          
+         return{
+             attr$ : { To_Specific_for_RA_Id : this._toSpecificforRAId },
+             METADATA_STATUS 	        :      this.METADATA_STATUS,
+             DATA_PROTECTION 	        :      this.DATA_PROTECTION,
+             DATA_REQUIREMENT 	        :      this.DATA_REQUIREMENT,
+             DOCUMENT_COMMENT  	        :      this.DOCUMENT_COMMENT,
+             OTHER_NATIONAL_GUIDELINE   :      this.OTHER_NATIONAL_GUIDELINE,
+             RA_DOCUMENT_NUMBER 	    :      this.RA_DOCUMENT_NUMBER
+                      
+         }
      }
            
 }    
@@ -272,14 +298,18 @@ class Document {
     
       toGHSTSJson() {     
         let documentRAJson = [];
-        this.DOCUMENT_RA.forEach(documentRA => documentRAJson.push(documentRA));   
+        // Need this to deal with arry of complex type
+        this.DOCUMENT_RA.forEach(docRA => {
+            let docraObj = new DocumentRA(docRA);
+            documentRAJson.push(docraObj.toGHSTSJson());
+        });   
             
         return {
             attr$ : {  Id : this._identifier  },
             DOCUMENT_RA      :    documentRAJson,
-            DOCUMENT_GENERIC :    this.DOCUMENT_GENERIC.toGHSTSJson() 
+            DOCUMENT_GENERIC :    this.DOCUMENT_GENERIC
         };               
     }                
 }   
 
-export { ContentStatusHistory, ReferencedDocument, ReferenceToSubstance,  DocumentNumber, ReferenceToFile, DocumentGeneric, DocumentComment, OtherNationalGuideLine, SubmissionContext, RADocumentNumber, DocumentRA, Document}
+export { ContentStatusHistory, ReferencedDocument, ReferenceToSubstance,  DocumentNumber, ReferenceToFile, DocumentGeneric, OtherNationalGuideLine, SubmissionContext, RADocumentNumber, DocumentRA, Document}
