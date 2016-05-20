@@ -85,4 +85,4 @@ class SubmissionService {
 
 SubmissionService.$inject = ['$q'];
 
-export default SubmissionService;
+export { SubmissionService }

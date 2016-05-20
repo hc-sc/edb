@@ -21,4 +21,4 @@ class Submission {
     }
 }
 
-export default Submission;
+export { Submission }

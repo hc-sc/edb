@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-export default class SubmissionController {
+class SubmissionController {
     constructor($mdDialog, submissionService) {
         this.$mdDialog = $mdDialog;
         this.submissionService = submissionService;
@@ -98,6 +98,6 @@ export default class SubmissionController {
                 });
         }
     }
-    
-    
 }
+
+export { SubmissionController }

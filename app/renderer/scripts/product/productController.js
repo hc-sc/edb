@@ -308,6 +308,7 @@ class ProductController {
                 return Promise.all(products.map(item => {
                     return this.productService.getProductByPid(item.PRODUCT_PID)
                         .then(matches => {
+                            console.log(matches);
                             if (matches.length > 1) {
                                 this.showConflictDiag(matches, $event);
                             }

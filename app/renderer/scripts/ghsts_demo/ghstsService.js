@@ -1,8 +1,8 @@
-import {GHSTS} from '../common/ghsts.js'
+import {GHSTS} from '../common/ghsts.js';
 import {ContactPerson, ContactAddress, LegalEntity} from '../legal_entity/legalEntityModel.js';
 import {Receiver, Sender} from '../receiver/receiverModel.js';
-import {ValueStruct, IdentifierStruct} from '../common/sharedModel.js';
-import {Ingredient, AdminNumber, ProductRA, Product} from '../product/productModel.js';
+import {ValueStruct} from '../common/sharedModel.js';
+import {Product} from '../product/productModel.js';
 import Submission from '../submission/submissionModel';
 
 const outputFile = './app/renderer/data/DemoGHSTS.xml';
@@ -86,6 +86,6 @@ class GhstsService {
 GhstsService.$inject = [ 'receiverService', 'legalEntityService', 'productService', 'submissionService'];
 
 
-export { GhstsService }
+export { GhstsService };
 
 

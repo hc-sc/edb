@@ -11,23 +11,26 @@ import {ReceiverService} from './receiver/receiverService';
 import {ReceiverController} from './receiver/receiverController';
 import {GhstsService} from './ghsts_demo/ghstsService';
 import {GhstsController} from './ghsts_demo/ghstsController';
-import SubmissionController from './submission/submissionController';
-import SubmissionService from './submission/submissionService';
+import {SubmissionController} from './submission/submissionController';
+import {SubmissionService} from './submission/submissionService';
 import {FileService} from './file/fileService';
 import {FileController} from './file/fileController';
 import {DocumentService} from './document/documentService'; 
 import {DocumentController} from './document/documentController';
+import {PickListService} from './common/pickListService';
+
 // notice stylesheet loading from app.js
 import '../jspm_packages/github/angular/bower-material@1.0.4/angular-material.css!';
 
 angular.module('ghstsApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages'])
     .config(config)
+    .service('pickListService', [PickListService])
     .service('legalEntityService', ['$q', LegalEntityService])
-    .controller('legalEntityController', ['$mdDialog', 'legalEntityService', LegalEntityController])
+    .controller('legalEntityController', ['$mdDialog', '$mdSidenav', '$location', 'legalEntityService', 'pickListService', LegalEntityController])
     .service('productService', ['$q', ProductService])
     .controller('productController', ['$mdDialog', 'productService', ProductController])
     .service('receiverService', ['$q', ReceiverService])
-    .controller('receiverController', ['$mdDialog', 'receiverService', 'legalEntityService', ReceiverController])
+    .controller('receiverController', ['$mdDialog', '$mdSidenav', 'receiverService', 'legalEntityService', ReceiverController])
     .service('ghstsService', ['receiverService', 'legalEntityService', 'productService', 'submissionService', GhstsService])
     .controller('ghstsController', ['$mdDialog', 'ghstsService', GhstsController])
     .controller('receiverController', ['$mdDialog', 'receiverService', 'legalEntityService', ReceiverController])
@@ -38,7 +41,7 @@ angular.module('ghstsApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages'])
     .service('submissionService', ['$q', SubmissionService])
     .controller('submissionController', ['$mdDialog', 'submissionService']);
 
-function config($routeProvider) {
+function config($routeProvider, $mdThemingProvider) {
     $routeProvider
         .when('/home', {
             templateUrl: './splash.html',
@@ -81,7 +84,12 @@ function config($routeProvider) {
                 controllerAs: '_ctrl'
             });
     $routeProvider.otherwise({ redirectTo: '/home' });
+    
+    // set the theme
+    $mdThemingProvider.theme('default');
+    // test color
+    //$mdThemingProvider.theme('default').primaryPalette('pink').accentPalette('orange');
 }
 
-config.$inject = ['$routeProvider'];
+config.$inject = ['$routeProvider', '$mdThemingProvider'];
 
