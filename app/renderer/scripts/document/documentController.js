@@ -1,4 +1,10 @@
 import angular from 'angular';
+import {DocumentRAController} from './documentRAController';
+import {ValueStruct} from '../common/sharedModel';
+
+import uuid from 'node-uuid';
+import {_} from 'lodash';
+
 
 class DocumentController {
     constructor($mdDialog, DocumentService) {
@@ -55,18 +61,18 @@ class DocumentController {
     }   
     
     showDocumentRA_Diag(docRA, $event) {
-        // this.$mdDialog.show( {
-        //     controller: ContactPersonController,
-        //     controllerAs: '_ctrl',
-        //     templateUrl: './scripts/legal_entity/contactPerson.html',
-        //     parent: angular.element(document.body),
-        //     targetEvent: $event,
-        //     clickOutsideToClose: false,
-        //     locals: {
-        //         contactPerson: person,
-        //         legalEntityController: this
-        //     }
-        // })
+         this.$mdDialog.show( {
+            controller: DocumentRAController,
+            controllerAs: '_ctrl',
+            templateUrl: './scripts/document/documentRA.html',
+            parent: angular.element(document.body),
+            targetEvent: $event,
+            clickOutsideToClose: false,
+            locals: {
+                documentRA: docRA,
+                documentController: this
+            }
+        })
     }
     
      // test/debug functions
