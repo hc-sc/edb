@@ -13,7 +13,7 @@ export class ProductRA {
             this._toReceiverRaId = null;
             this.PRODUCT_NAME = null;
             this.ADMIN_NUMBER = [];
-        };    
+        }  
     }
     
     set toReceiverRaId(XSDid) {

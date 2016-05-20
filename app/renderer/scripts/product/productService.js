@@ -139,9 +139,10 @@ class ProductService {
                 pra.toReceiverRaId = rawPRA.attr$.To_Specific_for_RA_Id;
                 if (rawPRA.PRODUCT_NAME[0] === undefined){
                     pra.PRODUCT_NAME = null;
-                }else{
+                }
+                else{
                     pra.PRODUCT_NAME = rawPRA.PRODUCT_NAME[0];
-                };
+                }
                 // loop over the raw admin numbers and add to pra
                 rawPRA.ADMIN_NUMBER.forEach(rawAN =>{
                     // create and populate an Admin Number object using raw
@@ -180,6 +181,6 @@ class ProductService {
 
 ProductService.$inject = ['$q'];
 
-export { ProductService }
+export { ProductService };
 
 

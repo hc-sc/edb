@@ -109,4 +109,4 @@ class Product {
     }          
 }    
 
-export { Ingredient, Product }
+export { Ingredient, Product };

@@ -57,10 +57,25 @@
                         <label>Formulation Type Code</label>
                         <input ng-model="_ctrl.selected.FORMULATION_TYPE.VALUE" type="text">
                     </md-input-container>
-                    <md-input-container>
+                    <!--<md-input-container>
                         <label>Status</label>
                         <input ng-model="_ctrl.selected.METADATA_STATUS.VALUE_DECODE"
                         ng-change='_ctrl.updateMetadataValue(_ctrl.selected, $event)' type="text">
+                    </md-input-container>-->
+                    <md-input-container class='md-block'>
+                        <label>Status</label>
+                        <md-select 
+                        name='productStatus'
+                        id='productStatus'
+                        ng-model='_ctrl.selected.METADATA_STATUS.VALUE_DECODE' 
+                        ng-change='_ctrl.updateMetadataValue()'>
+                            <md-option 
+                            ng-repeat='status in _ctrl.metadataStatusOptions' 
+                            value='{{ status.VALUE }}'
+                            ng-selected='{{ _ctrl.selected.METADATA_STATUS.VALUE === status.VALUE }}'>
+                                {{ status.VALUE_DECODE }}
+                            </md-option>
+                        </md-select>
                     </md-input-container>
                 </div>
             </div>
@@ -89,7 +104,7 @@
                         <md-input-container class="md-block">
                             <label>UNIT</label>
                             <input ng-model="ing.UNIT.VALUE_DECODE" 
-                                ng-change='_ctrl.updateUnitValue(ing, $event)'
+                                ng-change='_ctrl.updateUnitValue(ing)'
                                 type="text">
                         </md-input-container>
                         <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteIngredient(ing._toSubstanceID, $event)">Delete</md-button>

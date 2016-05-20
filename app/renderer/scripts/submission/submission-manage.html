@@ -21,8 +21,9 @@
                     </div>
                     <div layout-gt-sm='row'>
                         <md-input-container class='md-block'>
-                            <label for='date'>Version Date (yyyy-mm-dd)</label>
-                            <input ng-model='_ctrl.submission.SUBMISSION_VERSION_DATE' name='date' />
+                            <label for='date'>Version Date (dd/mm/yyyy)</label>
+                            <input type='date'
+                            ng-model='_ctrl.submission.SUBMISSION_VERSION_DATE' name='date' />
                         </md-input-container>
                     </div>
                     <div layout-gt-sm='row'>
@@ -32,10 +33,13 @@
                         </md-input-container>
                     </div>
                     <div layout-gt-sm='row'>
-                        <md-input-container class='md-block'>
+                        <!--<md-input-container class='md-block'>
                             <label for='incremental'>Incremental</label>
                             <input ng-model='_ctrl.submission.INCREMENTAL' name='incremental' />
-                        </md-input-container>
+                        </md-input-container>-->
+                        <md-switch class='md-primary' ng-model='_ctrl.submission.INCREMENTAL' aria-label='Incremental'>
+                            Incremental: {{ _ctrl.submission.INCREMENTAL }}
+                        </md-switch>
                     </div>
                 </form>
             </md-content>
@@ -46,7 +50,7 @@
                 <md-button class='md-raised' ng-click='_ctrl.createSubmission()' aria-label='init DB'>Cancel</md-button>
                 <md-button class='md-raised md-primary' ng-click='_ctrl.viewSubmissionJson()' aria-label='init DB'>View Submission Json</md-button>
                 <md-button class='md-raised md-primary' ng-click='_ctrl.viewSubmissionGHSTS()' aria-label='init DB'>View submission GHSTS</md-button>
-                <md-button class='md-raised md-warn' ng-click='_ctrl.initializeSubmission()' aria-label='init DB'>Initialize DB with sample</md-button>
+                <md-button class='md-raised md-warn' ng-click='_ctrl.initializeSubmissionsFromXml()' aria-label='init DB'>Initialize DB with sample</md-button>
             </section>
         </div>
     </div>

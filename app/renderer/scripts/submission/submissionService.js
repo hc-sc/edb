@@ -1,9 +1,7 @@
 import Nedb from 'nedb';
 import xml2js from 'xml2js';
-import uuid from 'node-uuid';
 import { GHSTS } from '../common/ghsts';
-import { ValueStruct } from '../common/sharedModel';
-import Submission from './submissionModel';
+import { Submission } from './submissionModel';
 
 class SubmissionService {
     constructor($q) {
@@ -14,11 +12,11 @@ class SubmissionService {
         });
     }
     
-    getSubmission() {
+    getAllSubmissions() {
         let deferred = this.$q.defer();
         this.submissions.find({}, (err, rows) => {
-           if (err) deferred.reject(err);
-           deferred.resolve(rows);
+            if (err) deferred.reject(err);
+            deferred.resolve(rows);
         });
         return deferred.promise;
     }
@@ -30,10 +28,6 @@ class SubmissionService {
             deferred.resolve(result);
         });
         return deferred.promise;
-    }
-    
-    deleteSubmission(id) {
-        ;
     }
     
     updateSubmission(sub) {
@@ -49,18 +43,18 @@ class SubmissionService {
     initializeSubmissions() {
         let ghsts = new GHSTS('./app/renderer/data/ghsts.xml');
         return  ghsts.readObjects().then(() => {
-           let entities = ghsts.submission;
-
-           entities.map(item => {
-               let submission = new Submission();
-               submission.SUBMISSION_NUMBER = item.SUBMISSION_NUMBER[0];
-               submission.SUBMISSION_VERSION_DATE = item.SUBMISSION_VERSION_DATE[0];
-               submission.SUBMISSION_TITLE = item.SUBMISSION_TITLE[0];
-               submission.INCREMENTAL = item.INCREMENTAL[0];
-               
-               // insert into db
-               this.createSubmission(submission);
-            })
+            const rawS = ghsts.submission[0];
+            let submission = new Submission();
+            
+            submission.SUBMISSION_NUMBER = rawS.SUBMISSION_NUMBER[0];
+            submission.SUBMISSION_VERSION_DATE = new Date(rawS.SUBMISSION_VERSION_DATE[0]);
+            submission.SUBMISSION_TITLE = rawS.SUBMISSION_TITLE[0];
+            
+            // TODO: hard coded to a 'true' string value
+            submission.INCREMENTAL = rawS.INCREMENTAL[0] == 'true' ? true : false;
+        
+            // insert into db
+            this.createSubmission(submission);
         });
     }
     
@@ -85,4 +79,4 @@ class SubmissionService {
 
 SubmissionService.$inject = ['$q'];
 
-export { SubmissionService }
+export { SubmissionService };

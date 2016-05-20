@@ -37,4 +37,4 @@ class ProductRAController {
 
 ProductRAController.$inject = ['productRA', 'productController', '$mdDialog'];
 
-export { ProductRAController }
+export { ProductRAController };

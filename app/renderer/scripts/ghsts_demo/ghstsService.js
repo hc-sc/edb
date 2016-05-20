@@ -3,7 +3,7 @@ import {ContactPerson, ContactAddress, LegalEntity} from '../legal_entity/legalE
 import {Receiver, Sender} from '../receiver/receiverModel.js';
 import {ValueStruct} from '../common/sharedModel.js';
 import {Product} from '../product/productModel.js';
-import Submission from '../submission/submissionModel';
+import { Submission } from '../submission/submissionModel';
 
 const outputFile = './app/renderer/data/DemoGHSTS.xml';
 
@@ -49,16 +49,13 @@ class GhstsService {
                     
                     //replace submission
                     //NOTE: at this point, there is no restrictions on how many times we've inserted a submission into the DB, so there may be several rows returned, just grab the first
-                    let submissionPromise = self.submissionService.getSubmission();
+                    let submissionPromise = self.submissionService.getAllSubmissions();
                     submissionPromise.then(submission => {
-                        let subObj = new Submission(submission[0]);
-                        ghsts.addSubmission(subObj.toGhstsJson());
-                        
-                        let sub = ghsts.submission[0];
+                        const sub = new Submission(submission[0]);
                         
                         //NOTE: this ghsts has an inner ghsts object that is used to actually write the xml. Default is to append new nodes, rather than replace, so we need to replace it by hand. See console output
                         // console.log(ghsts.ghsts.PRODUCT[0].DOSSIER[0].SUBMISSION);
-                        ghsts.addSubmission(sub);
+                        ghsts.addSubmission(sub.toGhstsJson());
                         
                         // replace Product with Product from the database
                         let productPromise = self.productService.getProducts();

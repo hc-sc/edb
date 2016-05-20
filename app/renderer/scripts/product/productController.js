@@ -1,15 +1,16 @@
 import angular from 'angular';
 import { Ingredient, Product } from './productModel';
 import { ProductRAController } from '../product_ra/productRAController';
-import { ProductRA, AdminNumber } from '../product_ra/productRAModel';
+import { ProductRA } from '../product_ra/productRAModel';
 import { ListDialogController } from '../common/listDialogController';
-import { generatePid, validatePid } from '../common/pid';
+import { generatePid } from '../common/pid';
 import _ from 'lodash';
 
 class ProductController {
-    constructor($mdDialog, ReceiverService, ProductService) {
+    constructor($mdDialog, ReceiverService, ProductService, PickListService) {
         this.productService = ProductService;
         this.receiverService = ReceiverService;
+        this.pickListService = PickListService;
         this.products = [];
         this.selected = {};
         this.selectedIndex = null;
@@ -19,6 +20,7 @@ class ProductController {
         // Load initial data
         this.initFromDB();
         
+        this.metadataStatusOptions = this.pickListService.getMetadataStatusOptions();
     }
     
     initFromDB() {
@@ -61,7 +63,7 @@ class ProductController {
             
             this.$mdDialog.show(confirm).then(() => {
                 this.productService.deleteProduct(this.selected._id)
-                    .then(affectedRows => {
+                    .then(() => {
                         if (this.products.length === 1) {
                             this.products = [];
                             this.clearSelectedProduct();
@@ -83,7 +85,7 @@ class ProductController {
     saveProduct($event) {
         if (this.selected._id) {
             console.log('updating a product');
-            this.productService.updateProduct(this.selected).then(savedDoc => {
+            this.productService.updateProduct(this.selected).then(() => {
                 this.$mdDialog.show(
                     this.$mdDialog
                         .alert()
@@ -107,7 +109,7 @@ class ProductController {
                         .content('Product Added Successfully!\r\n')
                         .ok('Ok')
                         .targetEvent($event)
-                )
+                );
                 this.products.push(new Product(createdRow));
                 this.selectedIndex = this.products.length - 1;
                 this.selected = this.products[this.selectedIndex];
@@ -138,9 +140,9 @@ class ProductController {
             return this.generateUniquePid();
         })
         .then(uniquePid => {
-           this.selected = new Product();
-           this.selected.PRODUCT_PID = uniquePid;
-           this.selectedIndex = null;
+            this.selected = new Product();
+            this.selected.PRODUCT_PID = uniquePid;
+            this.selectedIndex = null;
            
         })
         .catch(err => console.log(err));
@@ -177,13 +179,13 @@ class ProductController {
             .targetEvent($event);
             
         this.$mdDialog.show(confirm).then(() => {
-           _.remove(this.selected.INGREDIENTS, (n) => {
-               return n._toSubstanceID === ingredient;
-           });
-           this.productService.updateProduct(this.selected)
+            _.remove(this.selected.INGREDIENTS, (n) => {
+                return n._toSubstanceID === ingredient;
+            });
+            this.productService.updateProduct(this.selected)
             .catch(err => {
                 console.log(err);
-            })
+            });
         });
     }
     
@@ -201,8 +203,8 @@ class ProductController {
             .targetEvent($event);
             
         this.$mdDialog.show(confirm).then(() => {
-           _.pull(this.selected.PRODUCT_RA, ra);
-           this.productService.updateProduct(this.selected)
+            _.pull(this.selected.PRODUCT_RA, ra);
+            this.productService.updateProduct(this.selected)
             .catch(err => {
                 console.log(err);
             }); 
@@ -217,12 +219,13 @@ class ProductController {
         this.productService.updateProduct(this.selected);
     }
     
-    updateMetadataValue(product, $event) {
-        product.setMetadataStatusValue(product.METADATA_STATUS.VALUE_DECODE);
+    updateMetadataValue() {
+        this.selected.setMetadataStatusValue(this.selected.METADATA_STATUS.VALUE_DECODE);
     }
     
-    updateUnitValue(ingredient, $event) {
-        ingredient.setUnitValue(ingredient.UNIT.VALUE_DECODE);
+    updateUnitValue(ing) {
+        console.log(ing);
+        ing.setUnitValue(ing.UNIT.VALUE_DECODE);
     }
     
     showProductRADiag(productRA, $event) {
@@ -290,7 +293,7 @@ class ProductController {
                                 .targetEvent($event)
                     )
             );
-        };
+        }
     }
         
     initializeProductFromXml($event){
@@ -324,6 +327,7 @@ class ProductController {
     }
 }
 
-ProductController.$inject = ['$mdDialog', 'receiverService', 'productService'];
-export { ProductController }
+ProductController.$inject = ['$mdDialog', 'receiverService', 'productService', 'pickListService'];
+
+export { ProductController };
 

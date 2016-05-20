@@ -1,37 +1,41 @@
 import angular from 'angular';
+import { Submission } from './submissionModel';
 
 class SubmissionController {
     constructor($mdDialog, submissionService) {
+        console.log('in constructor');
         this.$mdDialog = $mdDialog;
         this.submissionService = submissionService;
         this.submission = {};
         
-        this.getAllSubmissions();
+        this.initFromDB();
     }
     
-    getAllSubmissions() {
-        // we only care about the first submission
-        this.submissionService.getSubmission().then(rows => {
-            this.submission = rows[0];
-        });
+    initFromDB() {
+        console.log('initizing from db');
+        this.submissionService.getAllSubmissions()
+        .then(submissions => {
+            if (submissions.length > 0) {
+                this.submission = new Submission(submissions[0]);
+            }
+        })
+        .catch(err => console.log(err));
     }
     
     createSubmission() {
         // DON'T delete the submission number, this should not be able to be set
         // DON'T get rid of the _id, we need this for matching
         // the rest of the fields we can just pass in blank strings
-        this.submission = { 
-            SUBMISSION_NUMBER: this.submission.SUBMISSION_NUMBER,
-            SUBMISSION_VERSION_DATE: "",
-            SUBMISSION_TITLE: "",
-            INCREMENTAL: "",
-            _id: this.submission._id
-        };
+        this.SUBMISSION_VERSION_DATE = '';
+        this.SUBMISSION_TITLE = '';
+        this.INCREMENTAL = '';
     }
     
     saveSubmission($event) {
+        console.log(this.submission);
         if (this.submission._id) {
-            this.submissionService.updateSubmission(this.submission).then(rows => {
+            this.submissionService.updateSubmission(this.submission).then(() => {
+                console.log(this.submission);
                 this.$mdDialog.show(
                     this.$mdDialog
                         .alert()
@@ -43,28 +47,6 @@ class SubmissionController {
                 );
             });
         }
-    }
-    
-    // should we be able to delete it?
-    // deleteSubmission($event) {
-    //     let confirm = this.$mdDialog.confirm()
-    //         .title('Are you sure?')
-    //         .content('You cannot retrieve this submission after deletion')
-    //         .ok('Yes')
-    //         .cancel('No')
-    //         .targetEvent($event);
-            
-    //     this.$mdDialog.show(confirm).then(() => {
-    //         this.submissionService.deleteSubmission(this.submission._id)
-    //             .then(rows => this.submission = {};
-    //     });
-    // }
-    
-    initializeSubmission() {
-        this.submissionService.initializeSubmissions().then(() => {
-           this.getAllSubmissions();
-        })
-        .catch(err => console.log(err));
     }
     
     viewSubmissionJson($event) {
@@ -79,7 +61,7 @@ class SubmissionController {
                     .ok('Ok')
                     .targetEvent($event)
             );
-        };
+        }
     }
     
     viewSubmissionGHSTS($event) {
@@ -98,6 +80,15 @@ class SubmissionController {
                 });
         }
     }
+    
+    initializeSubmissionsFromXml() {
+        console.log('initalizing from xml');
+        this.submissionService.initializeSubmissions()
+        .then(() => {
+            this.initFromDB();
+        })
+        .catch(err => console.log(err));
+    }
 }
 
-export { SubmissionController }
+export { SubmissionController };
