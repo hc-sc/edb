@@ -142,12 +142,18 @@ class DocumentGeneric {
         // let relatedToSubstanceJson = [];
         // this.RELATED_TO_SUBSTANCE.forEach(relSub => relatedToSubstanceJson.push(relSub));
         
-         let referencedToFileJson = [];
+        let referencedToFileJson = [];
        
         this.REFERENCED_TO_FILE.forEach(refToFile => {
-            let refObj = new ReferenceToFile(refToFile);
-            referencedToFileJson.push(refObj.toGHSTSJson());
-        }); 
+             //let refObj = new ReferenceToFile();  
+             let refObj = new ReferenceToFile(refToFile);
+             referencedToFileJson.push(refObj.toGHSTSJson());
+         }); 
+         
+       
+        //  this.REFERENCED_TO_FILE.forEach(refToFile => 
+        //     referencedToFileJson.push(refToFile)
+        //  ); 
         
         return {
             	METADATA_STATUS 	       :      this.METADATA_STATUS,		
@@ -278,6 +284,7 @@ class Document {
         if(arguments.length === 1){
             // load from json
             Object.assign(this, json);
+            this.DOCUMENT_GENERIC = new DocumentGeneric(json.DOCUMENT_GENERIC); 
         }else{          
             this._identifier = null;            
             this.DOCUMENT_RA = [];  
@@ -298,16 +305,17 @@ class Document {
     
       toGHSTSJson() {     
         let documentRAJson = [];
-        // Need this to deal with arry of complex type
+       
         this.DOCUMENT_RA.forEach(docRA => {
             let docraObj = new DocumentRA(docRA);
             documentRAJson.push(docraObj.toGHSTSJson());
-        });   
-            
+        });  
+        
+          
         return {
             attr$ : {  Id : this._identifier  },
             DOCUMENT_RA      :    documentRAJson,
-            DOCUMENT_GENERIC :    this.DOCUMENT_GENERIC
+            DOCUMENT_GENERIC :    this.DOCUMENT_GENERIC.toGHSTSJson()
         };               
     }                
 }   

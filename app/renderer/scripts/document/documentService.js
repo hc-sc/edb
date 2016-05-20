@@ -51,12 +51,10 @@ class DocumentService {
             
             // retrieved Json from database
             let docJSON = result[0];
-            console.log("retrieved Json from database ------>"  + JSON.stringify(docJSON));
+           
             // create Document based on docJSON           
             let doc = new Document(docJSON);
-            console.log("Build doc class ------>"  + JSON.stringify(doc));
-            console.log("<------------------------------------------------->");
-            console.log( "create Document based on docJSON" + JSON.stringify(doc.toGHSTSJson()));
+           
             // convert to XML
             let builder = new xml2js.Builder({rootName: 'DOCUMENT', attrkey: 'attr$'});            
             let xml = builder.buildObject(doc.toGHSTSJson());    
@@ -105,11 +103,13 @@ class DocumentService {
                 docGen.TEST_LABORATORY              = doc.DOCUMENT_GENERIC[0].TEST_LABORATORY[0];
                 docGen.GXP_INDICATOR                = doc.DOCUMENT_GENERIC[0].GXP_INDICATOR[0];
                 docGen.TESTED_ON_VERTEBRATE         = doc.DOCUMENT_GENERIC[0].TESTED_ON_VERTEBRATE[0];
-                
-                // assign array to array directly
-                docGen.REFERENCED_TO_FILE           = doc.DOCUMENT_GENERIC[0].REFERENCED_TO_FILE;
-                
-               
+              
+                doc.DOCUMENT_GENERIC[0].REFERENCED_TO_FILE.forEach(refFile => {         
+                     let refObj = new ReferenceToFile();  
+                     refObj.toFileId = refFile.attr$.To_File_Id; // collect value from xml source attr$ and add to class object ReferenceToFile   
+                     docGen.addReferenceToFile(refObj);
+                    }
+                 )
                 
               
                 
@@ -147,8 +147,6 @@ class DocumentService {
                 console.log('------------------------GHSTS Format--------------------\n' + JSON.stringify(docu.toGHSTSJson()));
                  // enable the following to insert into db.
                 self.createDocument(docu);  
-            }).catch(function(e) {
-                console.log(e); 
             })
         });
     }  
