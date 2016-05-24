@@ -110,3 +110,4 @@ class Product {
 }    
 
 export { Ingredient, Product };
+

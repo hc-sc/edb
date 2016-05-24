@@ -252,5 +252,3 @@ class LegalEntityService {
 LegalEntityService.$inject = ['$q'];
 
 export { LegalEntityService }
-
-

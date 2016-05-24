@@ -14,6 +14,7 @@ class ProductController {
         this.products = [];
         this.selected = {};
         this.selectedIndex = null;
+
         this.$mdDialog = $mdDialog;
         this.filterText = null;
                 

@@ -2,7 +2,7 @@ import {GHSTS} from '../common/ghsts.js';
 import {ContactPerson, ContactAddress, LegalEntity} from '../legal_entity/legalEntityModel.js';
 import {Receiver, Sender} from '../receiver/receiverModel.js';
 import {ValueStruct} from '../common/sharedModel.js';
-import {Product} from '../product/productModel.js';
+import { Product } from '../product/productModel.js';
 import { Submission } from '../submission/submissionModel';
 
 const outputFile = './app/renderer/data/DemoGHSTS.xml';
@@ -21,14 +21,24 @@ class GhstsService {
         // in the database.  It does not care which one is "correct" from a
         // submission perspective.  For demo purposes only, don't try this
         // at home... I mean in prod.
-        let ghsts = new GHSTS("./app/renderer/data/ghsts.xml");
+
+        let ghsts = new GHSTS("./app/renderer/data/ghsts.xml");     
         let promise = ghsts.readObjects();
         let self = this;
         
         // listen for both fulfillment and rejection        
         promise.then(function(contents) {
+            //The following code assumes that data from ghsts.xml was first
+            //read into the database and changes to the data has been saved.
             console.log('have read from xml into obj.  now about to read from db to get those objects');            
 
+            // replace Product with Product from the database
+            let productPromise = self.productService.getProducts();
+            productPromise.then(function(product) {
+                console.log('product from db ::::' + JSON.stringify(product));
+                product => new Product(product);
+                ghsts.setProduct(product.toGhstsJson());
+            });
             // add legal entities from database to GHSTS
             let leListPromise = self.legalEntityService.getLegalEntities(); 
             leListPromise.then(function(leList) {

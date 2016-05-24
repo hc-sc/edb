@@ -78,7 +78,6 @@ class ProductService {
         return deferred.promise;
     }
     
-    
     // the following are demo related methods.  can be moved to a dedicated test class later    
     getProductGHSTSById(id) {
         // return GHSTS xml from json. 
@@ -143,6 +142,7 @@ class ProductService {
                 else{
                     pra.PRODUCT_NAME = rawPRA.PRODUCT_NAME[0];
                 }
+
                 // loop over the raw admin numbers and add to pra
                 rawPRA.ADMIN_NUMBER.forEach(rawAN =>{
                     // create and populate an Admin Number object using raw

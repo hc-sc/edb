@@ -290,6 +290,4 @@ class PickListService {
     }
 }
 
-export { PickListService }
-
-
+export { PickListService };
