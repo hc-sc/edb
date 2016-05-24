@@ -13,6 +13,7 @@ class GHSTS {
         // add other sub objects here
 
         this.submission = [];
+        this.dossier = {};
     }
 
     addLegalEntity(legalEntity) {
@@ -54,6 +55,10 @@ class GHSTS {
         this.documents = documents;
     }
     
+    setDossier(dossier) {
+        this.ghsts.PRODUCT.DOSSIER = dossier;
+    }
+    
     readObjects() {
         // read json objects from ghsts xml    
         let self = this;
@@ -84,7 +89,11 @@ class GHSTS {
                     self.submission = obj.GHSTS.PRODUCT[0].DOSSIER[0].SUBMISSION;
                     self.files=obj.GHSTS.FILES[0].FILE;
                     // set documents
-                    self.documents = obj.GHSTS.DOCUMENTS[0].DOCUMENT;  
+                    self.documents = obj.GHSTS.DOCUMENTS[0].DOCUMENT; 
+                    
+                    self.dossier = obj.GHSTS.PRODUCT[0].DOSSIER;
+                    
+                    console.log(self.dossier); 
                 })
             });
         })

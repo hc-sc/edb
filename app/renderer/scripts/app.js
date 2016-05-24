@@ -15,6 +15,8 @@ import {FileService} from './file/fileService';
 import {FileController} from './file/fileController';
 import {DocumentService} from './document/documentService'; 
 import {DocumentController} from './document/documentController';
+import {DossierService} from './dossier/dossierService';
+import {DossierController} from './dossier/dossierController';
 import {GhstsService} from './ghsts_demo/ghstsService';
 import {GhstsController} from './ghsts_demo/ghstsController';
 import {PickListService} from './common/pickListService';
@@ -39,7 +41,10 @@ angular.module('ghstsApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages'])
     .service('documentService', ['$q', DocumentService])
     .controller('documentController', ['$mdDialog', 'documentService', DocumentController])
     .service('submissionService', ['$q', SubmissionService])
-    .controller('submissionController', ['$mdDialog', 'submissionService']);
+    .controller('submissionController', ['$mdDialog', 'submissionService'])
+    .service('dossierService', ['$q', DossierService])
+    .controller('dossierController', ['$mdDialog', 'dossierService']);
+
 
 function config($routeProvider, $mdThemingProvider) {
     $routeProvider
@@ -78,11 +83,16 @@ function config($routeProvider, $mdThemingProvider) {
             controller: DocumentController,
             controllerAs: '_ctrl'
         })
-            .when('/submission', {
-                templateUrl: './scripts/submission/submission-manage.html',
-                controller: SubmissionController,
-                controllerAs: '_ctrl'
-            });
+        .when('/submission', {
+            templateUrl: './scripts/submission/submission-manage.html',
+            controller: SubmissionController,
+            controllerAs: '_ctrl'
+        })
+        .when('/dossier', {
+            templateUrl: './scripts/dossier/dossier-manage.html',
+            controller: DossierController,
+            controllerAs: '_ctrl'
+        });
     $routeProvider.otherwise({ redirectTo: '/home' });
 
     // set the theme
