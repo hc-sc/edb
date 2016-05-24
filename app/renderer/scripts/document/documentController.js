@@ -7,7 +7,7 @@ import {_} from 'lodash';
 
 
 class DocumentController {
-    constructor($mdDialog, DocumentService) {
+    constructor($mdDialog, DocumentService, PickListService) {
         this.documentService = DocumentService;
         this.$mdDialog = $mdDialog; 
         this.selected = null;
@@ -121,6 +121,6 @@ class DocumentController {
     }
 }
 
-DocumentController.$inject = ['$mdDialog', 'documentService'];
+DocumentController.$inject = ['$mdDialog', 'documentService', 'pickListService'];
 
 export { DocumentController }

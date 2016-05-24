@@ -12,6 +12,21 @@ class PickListService {
 		 	{VALUE_DECODE: "Modified", VALUE: "Modified"}
         ];
     }
+	
+	getYesNoOptions() {
+        return [
+            {VALUE_DECODE: "Yes", VALUE: "Y"},		 	
+		 	{VALUE_DECODE: "No", VALUE: "N"}
+		 	
+        ];
+    }
+	
+	getRADocNumberTypeOptions() {
+        return [
+            {VALUE_DECODE: "MRID", VALUE: "MRID"},
+			{VALUE_DECODE: "ABID", VALUE: "ABID"}
+        ];
+    }
     
     getLegalEntityIdentifierTypeOptions() {
         return [

@@ -115,7 +115,7 @@
                     </div>
                 </md-toolbar>
                 <md-list>
-                    <md-list-item ng-repeat=" docRA in _ctrl.selected.DOCUMENT_RA track by $index" ng-click="_ctrl.showContactPersonDiag(docRA, $event)" class="noright">
+                    <md-list-item ng-repeat=" docRA in _ctrl.selected.DOCUMENT_RA track by $index" ng-click="_ctrl.showDocumentRA_Diag(docRA, $event)" class="noright">
                         <md-icon class="material-icons" aria-label="Folder">folder</md-icon>
                         <p>{{docRA._toSpecificforRAId }}</p>     
                         <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteDocumentRA(docRA, $event)">Delete</md-button>                                                          

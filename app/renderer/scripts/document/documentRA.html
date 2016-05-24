@@ -5,7 +5,7 @@
             <md-button class="md-icon-button">
                 <md-icon class="material-icons" aria-label="Add Document RA">folder</md-icon>
             </md-button>
-            <h2>{{_ctrl.documentController.selected._identifier}} Document RA</h2>
+            <h2>{{_ctrl.documentRA._toSpecificforRAId}} Document RA</h2>
             <span flex></span>
             <md-button class="md-icon-button" ng-click="_ctrl.cancel()">
                 <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
@@ -14,54 +14,78 @@
     </md-toolbar>
     <md-dialog-content>
         <div class="md-dialog-content">
-            <!--<div layout-gt-sm="row">
-                <md-input-container  class="md-block" flex-gt-sm>
-                    <label>Organization</label>
-                    <input ng-model="_ctrl.contactPerson.ORGANISATION" type="text">
-                </md-input-container>
-                <md-input-container class="md-block" flex-gt-sm>
-                    <label>Department</label>
-                    <input ng-model="_ctrl.contactPerson.DEPARTMENT" type="text" ng-required="false">
-                </md-input-container>
+            <div layout-gt-sm="row">
+                        
+                   <md-input-container class="md-block" flex="30">
+                        <label>Status</label>
+                        <md-select name="repeatSelectStatus" id="repeatSelectStatus" ng-model="_ctrl.documentRA.METADATA_STATUS.VALUE" ng-change="_ctrl.documentRA.updateSelectedStatusDecode()">
+                            <md-option ng-repeat="docRaStatus in _ctrl.metadataStatusOptions" value="{{docRaStatus.VALUE}}" ng-selected="{{_ctrl.documentRA.METADATA_STATUS.VALUE == docRaStatus.VALUE}}">{{ docRaStatus.VALUE_DECODE }}</md-option>
+                        </md-select>  
+                    </md-input-container>  
+                    <md-input-container class="md-block" flex="30">
+                        <label>Data Protection</label>
+                        <md-select name="repeatDataPro" id="repeatDataPro" ng-model="_ctrl.documentRA.DATA_PROTECTION.VALUE" ng-change="_ctrl.documentRA.updateSelectedStatusDecode()">
+                            <md-option ng-repeat="docRaDataPr in _ctrl.yesnoOptions" value="{{docRaDataPr.VALUE}}" ng-selected="{{_ctrl.documentRA.DATA_PROTECTION.VALUE == docRaDataPr.VALUE}}">{{ docRaDataPr.VALUE_DECODE }}</md-option>
+                        </md-select>  
+                    </md-input-container>  
+                   <md-input-container class="md-block" flex="40">
+                        <label>Data Requirement</label>
+                        <md-select name="repeatDataReq" id="repeatDataReq" ng-model="_ctrl.documentRA.DATA_REQUIREMENT.VALUE" ng-change="_ctrl.documentRA.updateSelectedStatusDecode()">
+                            <md-option ng-repeat="docRaDataRq in _ctrl.yesnoOptions" value="{{docRaDataRq.VALUE}}" ng-selected="{{_ctrl.documentRA.DATA_REQUIREMENT.VALUE == docRaDataRq.VALUE}}">{{ docRaDataRq.VALUE_DECODE }}</md-option>
+                        </md-select>  
+                    </md-input-container>                                      
             </div>
-            <div layout-gt-sm="row">
-                <md-input-container class="md-block" flex-gt-sm>
-                    <label>First Name</label>
-                    <input name="firstName" ng-model="_ctrl.contactPerson.FIRSTNAME" type="text" required>
-                    <div ng-messages="contactPersonForm.firstName.$error">
-                        <div ng-message="required">First Name is required.</div>
-                    </div>
-                </md-input-container>
-                <md-input-container class="md-block" flex-gt-sm>
-                    <label>Last Name</label>
-                    <input name="lastName" ng-model="_ctrl.contactPerson.LASTNAME" type="text" required>
-                    <div ng-messages="contactPersonForm.lastName.$error">
-                        <div ng-message="required">Last Name is required.</div>
-                    </div>
-                </md-input-container>
-                <md-input-container>
-                    <label>Title</label>
-                    <input ng-model="_ctrl.contactPerson.TITLE" type="text">
-                </md-input-container>  
-            </div>     
-            <div layout-gt-sm="row">
-                <md-input-container class="md-block" flex-gt-sm>
-                    <label>Phone</label>
-                    <input ng-model="_ctrl.contactPerson.PHONE" type="text">
-                </md-input-container>                        
-                <md-input-container>
-                    <label>Mobile</label>
-                    <input ng-model="_ctrl.contactPerson.MOBILE" type="text">
-                </md-input-container>
-                <md-input-container>
-                    <label>Fax</label>
-                    <input ng-model="_ctrl.contactPerson.FAX" type="text">
-                </md-input-container>
-                <md-input-container>
-                    <label>Email</label>
-                    <input ng-model="_ctrl.contactPerson.EMAIL" type="text">
-                </md-input-container>
-            </div>-->
+            
+             <div layout-gt-sm="row">
+                    <!--<md-input-container class="md-block" flex="30">
+                        <label>Type</label>
+                        <md-select name="repeatDocNumType" id="repeatDocNumType" ng-model="_ctrl.documentRA.RA_DOCUMENT_NUMBER.RA_DOCUMENT_NUMBER_TYPE.VALUE" ng-change="_ctrl.documentRA.updateSelectedStatusDecode()">
+                            <md-option ng-repeat="docRaDocNumType in _ctrl.raDocNumTypeOptions" value="{{docRaDocNumType.VALUE}}" ng-selected="{{_ctrl.documentRA.RA_DOCUMENT_NUMBER.RA_DOCUMENT_NUMBER_TYPE.VALUE == docRaDocNumType.VALUE}}">{{ docRaDocNumType.VALUE_DECODE }}</md-option>
+                        </md-select>  
+                    </md-input-container>  -->
+                    <md-input-container class="md-block" flex="30">
+                            <label>Type</label>
+                            <input ng-model="_ctrl.documentRA.RA_DOCUMENT_NUMBER.RA_DOCUMENT_NUMBER_TYPE.VALUE" type="text">
+                    </md-input-container>
+                    <md-input-container class="md-block" flex="30">
+                            <label>Identifier</label>
+                            <input ng-model="_ctrl.documentRA.RA_DOCUMENT_NUMBER[0].IDENTIFIER" type="text">
+                    </md-input-container>
+                    <md-input-container class="md-block" flex="30">
+                            <label>Submitted</label>
+                            <input ng-model="_ctrl.documentRA.RA_DOCUMENT_NUMBER[0].ALREADY_SUBMITTED" type="text">
+                    </md-input-container>
+            </div>
+            
+            <md-toolbar>
+                 <div class="md-toolbar-tools">
+                     <h2>Other national Guideline</h2>
+                     <span flex></span> 
+                 </div>
+            </md-toolbar>
+            <md-list>
+                <md-list-item ng-repeat=" oth in _ctrl.documentRA.OTHER_NATIONAL_GUIDELINE[0] track by $index"  class="noright">         
+                     <md-input-container class="md-block" flex="80">
+                          <label>Guide Line</label>  
+                          <input ng-model="oth" type="text">
+                     </md-input-container>                                                                    
+                </md-list-item>
+            </md-list>
+            <md-toolbar>
+                 <div class="md-toolbar-tools">
+                     <h2>Document RAs comment</h2>
+                     <span flex></span> 
+                 </div>
+            </md-toolbar>
+            <md-list>
+                <md-list-item ng-repeat=" coment in _ctrl.documentRA.DOCUMENT_COMMENT track by $index"  class="noright">         
+                     <md-input-container class="md-block" flex="80">
+                          <label>Comment</label> 
+                          <input ng-model="coment" type="text">
+                     </md-input-container>                                                                    
+                </md-list-item>
+            </md-list>
+           
             <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
                 <md-button class="md-raised md-primary" ng-click="_ctrl.cancel()">Cancel</md-button>    
                 <md-button class="md-raised md-primary" ng-click="_ctrl.saveDocumentRA()" ng-disabled="contactPersonForm.$invalid">Save</md-button>                             
