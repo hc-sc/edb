@@ -7,4 +7,4 @@ package
 dist
 *.bak
 .vscode
-
+DemoGHSTS.xml
