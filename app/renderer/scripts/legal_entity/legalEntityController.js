@@ -335,3 +335,4 @@ class LegalEntityController {
 LegalEntityController.$inject = ['$mdDialog', '$mdSidenav', '$location', 'legalEntityService', 'pickListService'];
 
 export { LegalEntityController }
+

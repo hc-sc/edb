@@ -1,90 +1,64 @@
 //import Dossier from '../dossier/dossierModel.js'
+import { ProductRA } from '../product_ra/productRAModel';
+import { ValueStruct } from '../common/sharedModel';
 
 class Ingredient {
     constructor(json){  
-        if(arguments.length === 1){
-            // load from json
-            Object.assign(this, json);
-        }else{    
+        if (arguments.length === 1){
+            this._toSubstanceID = json._toSubstanceID;
+            this.QUANTITY = json.QUANTITY;
+            this.UNIT = new ValueStruct(json.UNIT.VALUE, json.UNIT.VALUE_DECODE);
+        }
+        else {    
             this._toSubstanceID = null;
             this.QUANTITY = null;
-            this.UNIT = {}; // of ValueStruct
-        };
+            this.UNIT = new ValueStruct('',''); // of ValueStruct
+        }
     }
     
     set toSubstanceID(_identifier){
         this._toSubstanceID = _identifier;
     }
     
+    setUnitValue(value) {
+        this.UNIT.VALUE = value;
+    }
+    
+    setUnitValueDecode(decode) {
+        this.UNIT.VALUE_DECODE = decode;
+    }
+    
     toGhstsJson() {
         return {
             attr$ : { To_Substance_Id : this._toSubstanceID },
             QUANTITY : this.QUANTITY,
-            UNIT : this.UNIT            
-        };
-    }
-}    
-
-class AdminNumber{
-    constructor(json){  
-        if(arguments.length === 1){
-            // load from json
-            Object.assign(this, json);
-        }else{
-            this.ADMIN_NUMBER_TYPE = {}; // of ValueStruct
-            this.IDENTIFIER = null;
-        };
-    }
-    // not sure I need the following
-    toGhstsJson() {
-        return{ ADMIN_NUMBER_TYPE : this.ADMIN_NUMBER_TYPE,
-                IDENTIFIER : this.IDENTIFIER
+            UNIT : this.UNIT        
         };
     }
 }
 
-class ProductRA {
-    constructor(json){  
-        if(arguments.length === 1){
-            // load from json
-            Object.assign(this, json);
-        }else{
-            this._toReceiverRaId = null;
-            this.PRODUCT_NAME = null;
-            this.ADMIN_NUMBER = [];
-        };    
-    }
-    
-    set toReceiverRaId(XSDid){
-        this._toReceiverRaId = XSDid;
-    }
-    
-    addAdminNum(adminNumber){
-        this.ADMIN_NUMBER.push(adminNumber);
-    }
-
-    toGhstsJson() {
-        let arr_an = [];
-        this.ADMIN_NUMBER.forEach(an => arr_an.push(an));
-        return {
-            attr$ : { To_Specific_for_RA_Id : this._toReceiverRaId },
-            PRODUCT_NAME : this.PRODUCT_NAME,
-            ADMIN_NUMBER : arr_an
-        };
-    }
-}    
-
 class Product {
-    constructor(json){  
-        if(arguments.length === 1){
-            // load from json
-            Object.assign(this, json);
-            //this.DOSSIER = {};
-        }else{            
-            this.METADATA_STATUS = {};  // of type ValueStruct
+    constructor(json) {
+        if (arguments.length === 1){
+            this.METADATA_STATUS = new ValueStruct(json.METADATA_STATUS.VALUE, json.METADATA_STATUS.VALUE_DECODE);
+            this.PRODUCT_PID = json.PRODUCT_PID;
+            this.GENERIC_PRODUCT_NAME = json.GENERIC_PRODUCT_NAME;
+            this.FORMULATION_TYPE = new ValueStruct(json.FORMULATION_TYPE.VALUE, json.FORMULATION_TYPE.VALUE_DECODE);
+            this.PRODUCT_RA = json.PRODUCT_RA.map(prodRA => {
+                return new ProductRA(prodRA);
+            });
+            this.INGREDIENTS = json.INGREDIENTS.map(ing => {
+                return new Ingredient(ing);
+            });
+            this.DOSSIER = json.DOSSIER;
+            
+            this._id = json._id;
+        }
+        else {
+            this.METADATA_STATUS = new ValueStruct();
             this.PRODUCT_PID = null;
             this.GENERIC_PRODUCT_NAME = null;
-            this.FORMULATION_TYPE = {}; // of type ValueStruct
+            this.FORMULATION_TYPE = new ValueStruct('', '');
             this.PRODUCT_RA = [];       // list of ProductRA
             this.INGREDIENTS = [];      // list of Ingredient
             //since there is no GHSTS schema reference that relates PRODUCT and
@@ -98,30 +72,42 @@ class Product {
     //    this.DOSSIER = obj_dossier;
     //} 
     
-    addRA(obj_productRA){
-        this.PRODUCT_RA.push(obj_productRA);
+    addRA(productRA){
+        this.PRODUCT_RA.push(new ProductRA(productRA));
     }
    
-    addIngredient(obj_ingredient){
-        this.INGREDIENTS.push(obj_ingredient);
-    } 
+    addIngredient(ingredient){
+        this.INGREDIENTS.push(new Ingredient(ingredient));
+    }
     
-    toGHSTSJson() {     
-        let prodRAsJson = [];
-        this.PRODUCT_RA.forEach(pra => {prodRAsJson.push(pra)});
-        let ingsJson = [];
-        this.INGREDIENTS.forEach(ing => {ingsJson.push(ing)});
+    setMetadataStatusValue(value) {
+        this.METADATA_STATUS.VALUE = value;
+    }
+    
+    setMetadataStatusValueDecode(decode) {
+        this.METADATA_STATUS.VALUE_DECODE = decode;
+    }
+    
+    toGhstsJson() {    
+        const productRAs = this.PRODUCT_RA.map(ra => {
+            return ra.toGhstsJson();
+        });
+        
+        const ingredients = this.INGREDIENTS.map(ing => {
+            return ing.toGhstsJson();
+        });
         
         return {
-            METADATA_STATUS     : this.METADATA_STATUS,            
-            PRODUCT_PID         : this.PRODUCT_PID,
-            GENERI_PRODUCT_NAME : this.GENERI_PRODUCT_NAME,
-            FORMULATION_TYPE    : this.FORMULATION_TYPE,
-            PRODUCT_RA          : prodRAsJson,
-            INGREDIENTS         : ingsJson,
-            DOSSIER             : this.DOSSIER
+            METADATA_STATUS: this.METADATA_STATUS,
+            PRODUCT_PID: this.PRODUCT_PID,
+            GENERIC_PRODUCT_NAME: this.GENERIC_PRODUCT_NAME,
+            FORMULATION_TYPE: this.FORMULATION_TYPE,
+            PRODUCT_RA: productRAs,
+            INGREDIENTS: ingredients,
+            DOSSIER: this.DOSSIER
         };               
     }          
 }    
 
-export {Ingredient, AdminNumber, ProductRA, Product}
+export { Ingredient, Product };
+
