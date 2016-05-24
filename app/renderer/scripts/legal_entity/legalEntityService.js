@@ -129,7 +129,7 @@ class LegalEntityService {
     
     initializeLE(){
         // read from sample ghsts and populate the database with legal entities.
-        let ghsts = new GHSTS("./app/browser/data/ghsts.xml");     
+        let ghsts = new GHSTS("./app/renderer/data/ghsts.xml");     
         let promise = ghsts.readObjects();
         let self = this;      
         promise.then(function(contents) {

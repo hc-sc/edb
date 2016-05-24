@@ -49,145 +49,47 @@
         <REMARK>no remark</REMARK>
       </SENDER>
     </RECEIVER>
-    <RECEIVER Id="ID_RECEIVER_IBAMA" To_Legal_Entity_Id="LE_ID_IBAMA">
-      <METADATA_STATUS>
-        <VALUE>New</VALUE>
-        <VALUE_DECODE>New</VALUE_DECODE>
-      </METADATA_STATUS>
-      <SHORT_NAME>IBAMA</SHORT_NAME>
-      <ROLE>Recipient</ROLE>
-      <SENDER To_Legal_Entity_Id="LE_ID_PPPWW_BR">
-        <COMPANY_CONTACT_REGULATORY_ROLE>Sender</COMPANY_CONTACT_REGULATORY_ROLE>
-        <REMARK>no remark</REMARK>
-      </SENDER>
-    </RECEIVER>
-    <RECEIVER Id="ID_RECEIVER_APVMA" To_Legal_Entity_Id="LE_ID_APVMA">
-      <METADATA_STATUS>
-        <VALUE>New</VALUE>
-        <VALUE_DECODE>New</VALUE_DECODE>
-      </METADATA_STATUS>
-      <SHORT_NAME>APVMA</SHORT_NAME>
-      <ROLE>Recipient</ROLE>
-      <SENDER To_Legal_Entity_Id="LE_ID_PPPWW_AU">
-        <COMPANY_CONTACT_REGULATORY_ROLE>Sender</COMPANY_CONTACT_REGULATORY_ROLE>
-        <REMARK>no remark ##########</REMARK>
-      </SENDER>
-    </RECEIVER>
-    <RECEIVER Id="ID_RECEIVER_BVL" To_Legal_Entity_Id="LE_ID_BVL">
-      <METADATA_STATUS>
-        <VALUE>New</VALUE>
-        <VALUE_DECODE>New</VALUE_DECODE>
-      </METADATA_STATUS>
-      <SHORT_NAME>BVL</SHORT_NAME>
-      <ROLE>Recipient</ROLE>
-      <SENDER To_Legal_Entity_Id="LE_ID_PPPWW_DE">
-        <COMPANY_CONTACT_REGULATORY_ROLE>Sender</COMPANY_CONTACT_REGULATORY_ROLE>
-        <REMARK>no remark</REMARK>
-      </SENDER>
-    </RECEIVER>
-    <RECEIVER Id="ID_RECEIVER_PMRA" To_Legal_Entity_Id="LE_ID_PMRA">
-      <METADATA_STATUS>
-        <VALUE>New</VALUE>
-        <VALUE_DECODE>New</VALUE_DECODE>
-      </METADATA_STATUS>
-      <SHORT_NAME>PMRA</SHORT_NAME>
-      <ROLE>Recipient</ROLE>
-      <SENDER To_Legal_Entity_Id="LE_ID_PPPWW_CA">
-        <COMPANY_CONTACT_REGULATORY_ROLE>Sender</COMPANY_CONTACT_REGULATORY_ROLE>
-        <REMARK>no remark</REMARK>
-      </SENDER>
-    </RECEIVER>
   </RECEIVERS>
   <PRODUCT>
     <METADATA_STATUS>
-      <VALUE>No Change</VALUE>
-      <VALUE_DECODE>No Change</VALUE_DECODE>
+      <VALUE>Modified</VALUE>
+      <VALUE_DECODE>Modified</VALUE_DECODE>
     </METADATA_STATUS>
-    <PRODUCT_PID>urn:ghsts:8bc131e4-8164-4d45-8476-e8a73adac2fb</PRODUCT_PID>
-    <GENERIC_PRODUCT_NAME>Some new product</GENERIC_PRODUCT_NAME>
+    <PRODUCT_PID>urn:ghsts:268373e2-13e4-4561-86fb-2218c8b47576</PRODUCT_PID>
+    <GENERIC_PRODUCT_NAME>New Title</GENERIC_PRODUCT_NAME>
     <FORMULATION_TYPE>
-      <VALUE>C</VALUE>
-      <VALUE_DECODE>T</VALUE_DECODE>
+      <VALUE>Code</VALUE>
+      <VALUE_DECODE>Type</VALUE_DECODE>
     </FORMULATION_TYPE>
-    <PRODUCT_RA To_Specific_for_RA_Id="RA">
+    <PRODUCT_RA To_Specific_for_RA_Id="ID">
       <PRODUCT_NAME>Name</PRODUCT_NAME>
       <ADMIN_NUMBER>
         <ADMIN_NUMBER_TYPE>
-          <VALUE>TYPE</VALUE>
-          <VALUE_DECODE>TYPE</VALUE_DECODE>
+          <VALUE>1</VALUE>
+          <VALUE_DECODE>1</VALUE_DECODE>
         </ADMIN_NUMBER_TYPE>
-        <IDENTIFIER>ID</IDENTIFIER>
+        <IDENTIFIER>1</IDENTIFIER>
+      </ADMIN_NUMBER>
+      <ADMIN_NUMBER>
+        <ADMIN_NUMBER_TYPE>
+          <VALUE>2</VALUE>
+          <VALUE_DECODE>2</VALUE_DECODE>
+        </ADMIN_NUMBER_TYPE>
+        <IDENTIFIER>2</IDENTIFIER>
       </ADMIN_NUMBER>
     </PRODUCT_RA>
     <INGREDIENTS To_Substance_Id="S">
       <QUANTITY>A</QUANTITY>
       <UNIT>
-        <VALUE>g/L</VALUE>
-        <VALUE_DECODE>g/L</VALUE_DECODE>
+        <VALUE>NEW UNIT</VALUE>
+        <VALUE_DECODE>NEW UNIT</VALUE_DECODE>
       </UNIT>
     </INGREDIENTS>
     <DOSSIER>
-      <DOSSIER_PID>urn:pppww:05C6DD14-04B0-4BC4-8749-1FC06E9F48B8</DOSSIER_PID>
-      <DOSSIER_DESCRIPTION_TITLE>Famous Product EC 250</DOSSIER_DESCRIPTION_TITLE>
-      <DOSSIER_COMP_ID>PPPWW4711</DOSSIER_COMP_ID>
-      <REFERENCED_DOSSIER>
-        <REFERENCED_DOSSIER_NUMBER>PPPWW4706</REFERENCED_DOSSIER_NUMBER>
-        <REFERENCED_DOSSIER_REASON>Dossier with same active ingredient</REFERENCED_DOSSIER_REASON>
-      </REFERENCED_DOSSIER>
-      <REFERENCED_DOSSIER>
-        <REFERENCED_DOSSIER_NUMBER>PPPWW4466</REFERENCED_DOSSIER_NUMBER>
-        <REFERENCED_DOSSIER_REASON>Dossier with different formulation</REFERENCED_DOSSIER_REASON>
-      </REFERENCED_DOSSIER>
-      <DOSSIER_RA To_Specific_for_RA_Id="ID_RECEIVER_BVL">
-        <REGULATORY_TYPE>
-          <VALUE>1107/2009/EG</VALUE>
-          <VALUE_DECODE>1107/2009/EG</VALUE_DECODE>
-        </REGULATORY_TYPE>
-        <APPLICATION_TYPE>
-          <VALUE Other_Value="Article 43 submission ">other</VALUE>
-          <VALUE_DECODE>Article 43 submission </VALUE_DECODE>
-        </APPLICATION_TYPE>
-        <PROJECT_ID_NUMBER>099999-00</PROJECT_ID_NUMBER>
-      </DOSSIER_RA>
-      <DOSSIER_RA To_Specific_for_RA_Id="ID_RECEIVER_PMRA">
-        <REGULATORY_TYPE>
-          <VALUE Other_Value="Pest Control Products Act (S.C. 2002, c. 28)">other</VALUE>
-          <VALUE_DECODE>Pest Control Products Act (S.C. 2002, c. 28)</VALUE_DECODE>
-        </REGULATORY_TYPE>
-        <APPLICATION_TYPE>
-          <VALUE Other_Value="Article 7 submission">other</VALUE>
-          <VALUE_DECODE>Article 7 submission</VALUE_DECODE>
-        </APPLICATION_TYPE>
-        <PROJECT_ID_NUMBER>1995-9999</PROJECT_ID_NUMBER>
-        <PROJECT_ID_NUMBER>1997-6666</PROJECT_ID_NUMBER>
-        <PROJECT_ID_NUMBER>1999-3333</PROJECT_ID_NUMBER>
-      </DOSSIER_RA>
-      <DOSSIER_RA To_Specific_for_RA_Id="ID_RECEIVER_APVMA">
-        <REGULATORY_TYPE>
-          <VALUE Other_Value="AVCC1994">other</VALUE>
-          <VALUE_DECODE>Agricultural and Veterinary Chemicals Code (Application Requirements) Instrument 2014</VALUE_DECODE>
-        </REGULATORY_TYPE>
-        <APPLICATION_TYPE>
-          <VALUE Other_Value="Part 3 submission">other</VALUE>
-          <VALUE_DECODE>Part 3 submission</VALUE_DECODE>
-        </APPLICATION_TYPE>
-        <PROJECT_ID_NUMBER>DC6-31170255</PROJECT_ID_NUMBER>
-      </DOSSIER_RA>
-      <DOSSIER_RA To_Specific_for_RA_Id="ID_RECEIVER_IBAMA">
-        <REGULATORY_TYPE>
-          <VALUE Other_Value="DEC4047">other</VALUE>
-          <VALUE_DECODE>Decree 4047/2002 &amp; INC 03/2006</VALUE_DECODE>
-        </REGULATORY_TYPE>
-        <APPLICATION_TYPE>
-          <VALUE Other_Value="Anexo II do Decreto 4074 de 2002">other</VALUE>
-          <VALUE_DECODE>Anexo II do Decreto 4074 de 2002</VALUE_DECODE>
-        </APPLICATION_TYPE>
-        <PROJECT_ID_NUMBER>IBAMA n 02001.009999/1995-77</PROJECT_ID_NUMBER>
-      </DOSSIER_RA>
       <SUBMISSION>
         <SUBMISSION_NUMBER>01</SUBMISSION_NUMBER>
-        <SUBMISSION_VERSION_DATE>2015-04-21</SUBMISSION_VERSION_DATE>
-        <SUBMISSION_TITLE>Submission 01... I thought this was 04?</SUBMISSION_TITLE>
+        <SUBMISSION_VERSION_DATE>Thu Jul 10 2014 20:00:00 GMT-0400 (EDT)</SUBMISSION_VERSION_DATE>
+        <SUBMISSION_TITLE>Blah Blah</SUBMISSION_TITLE>
         <INCREMENTAL>false</INCREMENTAL>
       </SUBMISSION>
     </DOSSIER>
@@ -295,7 +197,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423579-01-1&#xD;
+          <IDENTIFIER>T-423579-01-1
 		</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>C 6313 - Document J - Confidential information</DOCUMENT_TITLE>
@@ -412,7 +314,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423640-01-1&#xD;
+          <IDENTIFIER>T-423640-01-1
 		</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>Analytical method - CGA 24 705/C 6313 EC 300/200)</DOCUMENT_TITLE>
@@ -529,7 +431,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423586-01-1&#xD;
+          <IDENTIFIER>T-423586-01-1
 		</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>C 1983 techn. - Acute oral LD50 in the mouse</DOCUMENT_TITLE>
@@ -646,7 +548,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423584-01-1&#xD;
+          <IDENTIFIER>T-423584-01-1
 		</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>C 3470 techn. - Acute oral LD50 in the Chinese hamster</DOCUMENT_TITLE>
@@ -764,7 +666,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423615-01-1&#xD;
+          <IDENTIFIER>T-423615-01-1
 		</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>Acute aerosol inhalation toxicity in rat of C 6313 + CGA 24 705 (200+300) EC 500 (A-5724A)</DOCUMENT_TITLE>
@@ -881,7 +783,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423612-01-1&#xD;
+          <IDENTIFIER>T-423612-01-1
 		</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>Skin irritation in the rabbit after single application of C 6313 + CGA 24 705 (200+300) EC 500 (A-5724A)</DOCUMENT_TITLE>
@@ -999,7 +901,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423618-01-1&#xD;
+          <IDENTIFIER>T-423618-01-1
 		</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>Acute dermal LD 50 in rat of C 6313 + CGA 24 705 (200+300) EC 500 (A-5724A)</DOCUMENT_TITLE>
@@ -1116,7 +1018,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423604-01-1&#xD;
+          <IDENTIFIER>T-423604-01-1
 		</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>A teratology (segment II) study in rats - difenoxuron technical</DOCUMENT_TITLE>
@@ -1233,7 +1135,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423613-01-1&#xD;
+          <IDENTIFIER>T-423613-01-1
 		</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>Adsorption and degradation  of chlorbromuron in soil</DOCUMENT_TITLE>
@@ -1350,7 +1252,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423605-01-1&#xD;
+          <IDENTIFIER>T-423605-01-1
 		</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>Acute oral LD 50 in the adult japanese quail of C 6313 + CGA 24 705 (200+300) EC 500 (A-5724A)</DOCUMENT_TITLE>
@@ -1467,7 +1369,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423616-01-1&#xD;
+          <IDENTIFIER>T-423616-01-1
 		</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>Acute oral LD50 in the adult Japanese quail of C 1983</DOCUMENT_TITLE>
@@ -1584,7 +1486,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423616-01-1&#xD;
+          <IDENTIFIER>T-423616-01-1
 		</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>Acute oral LD50 in the adult Japanese quail of C 1983</DOCUMENT_TITLE>
@@ -1701,7 +1603,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423601-01-1&#xD;
+          <IDENTIFIER>T-423601-01-1
 		</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>Acute toxicity of C 6313/24705 500 EC to rainbow trout</DOCUMENT_TITLE>
@@ -1819,7 +1721,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423656-01-1&#xD;
+          <IDENTIFIER>T-423656-01-1
 		</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>The effects of herbicides used on asparagus on the growth rate of the earthworm Allolobophora caliginasa</DOCUMENT_TITLE>
@@ -1937,7 +1839,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>M-508647-01-1&#xD;
+          <IDENTIFIER>M-508647-01-1
 		</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>Reference list of document KIIA Individual test and study reports for GHSTS demo dossier TC</DOCUMENT_TITLE>
@@ -2055,7 +1957,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423658-01-1&#xD;
+          <IDENTIFIER>T-423658-01-1
 		</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>Appendix 7 - Format for the compilation of Tier II summaries - active substance - Part 1 - Section 1</DOCUMENT_TITLE>
@@ -2172,7 +2074,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423596-01-1&#xD;
+          <IDENTIFIER>T-423596-01-1
 		</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>Appendix 8 - Format for the compilation of Tier II summaries - formulated product - Part 1 - Section 1 Identity of the plant protection product; Physical, chemical and technical properties of the plant protection product; Data on application; Further information on the plant protection product; Proposals including justification of the proposals for the classification and labelling of the plant protection product; Proposals for risk and safety phrases and the proposed label</DOCUMENT_TITLE>
@@ -2289,7 +2191,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423659-01-1&#xD;
+          <IDENTIFIER>T-423659-01-1
 		</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>Appendix 7 - Format for the compilation of Tier II summaries - active substance - Part 2 - Section 2</DOCUMENT_TITLE>
@@ -2406,7 +2308,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423662-01-1&#xD;
+          <IDENTIFIER>T-423662-01-1
 		</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>Appendix 7 - Format for the compilation of Tier II summaries - active substance - Part 3 - Section 3 - Toxicological and metabolism studies on the active substance</DOCUMENT_TITLE>
@@ -2523,7 +2425,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423592-01-1&#xD;
+          <IDENTIFIER>T-423592-01-1
 		</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>Appendix 8 - Format for the compilation of Tier II summaries - formulated product - Part 2 - Section 3 - Toxicological studies and exposure data and information</DOCUMENT_TITLE>
@@ -2640,7 +2542,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423663-01-1&#xD;
+          <IDENTIFIER>T-423663-01-1
 		</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>Appendix 7 - Format for the compilation of Tier II summaries - active substance - Part 4 - Section 4 - Residues in or on treated products, food and feed</DOCUMENT_TITLE>
@@ -2757,7 +2659,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423664-01-1&#xD;
+          <IDENTIFIER>T-423664-01-1
 		</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>Appendix 7 - Format for the compilation of Tier II summaries - active substance - Part 5 - Section 5 - Fate and behaviour in the environment</DOCUMENT_TITLE>
@@ -2874,7 +2776,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423591-01-1&#xD;
+          <IDENTIFIER>T-423591-01-1
 		</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>Appendix 8 - Format for the compilation of Tier II summaries - formulated product - Part 3 - Section 6 Ecotoxicological Studies and risk assessment</DOCUMENT_TITLE>
@@ -2991,7 +2893,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423583-01-1&#xD;
+          <IDENTIFIER>T-423583-01-1
 		</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>Appendix 9 - Format for the listing of end points to be included in the tier III overall summary and assessment - Chapter 1: Identity, Physical and Chemical Properties, Details of Uses, Further information, and proposed classification and labelling</DOCUMENT_TITLE>
@@ -3108,7 +3010,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423585-01-1&#xD;
+          <IDENTIFIER>T-423585-01-1
 		</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>Appendix 10 - Format for the listing of end points to be included in the tier III overall summary and assessment - Chapter 1: The active substance, its properties, uses, proposed classification and labelling</DOCUMENT_TITLE>
@@ -3225,7 +3127,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423581-01-1&#xD;
+          <IDENTIFIER>T-423581-01-1
 		</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>Part 2 - Evaluation Form 1 - for use in checking that the required supporting documentation has been provided</DOCUMENT_TITLE>
@@ -3342,7 +3244,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423578-01-1&#xD;
+          <IDENTIFIER>T-423578-01-1
 		</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>Part 2 - Evaluation Form 2 - for use in checking that the required active substance and formulated product dossier summaries and an overall assessment, have been provided</DOCUMENT_TITLE>
@@ -7969,328 +7871,6 @@
         <LASTNAME>Planter</LASTNAME>
         <PHONE>+61-2-9354-4000-463</PHONE>
         <MOBILE>+61-0410499665</MOBILE>
-        <EMAIL>marc.planter@pppww.com</EMAIL>
-      </CONTACT_PERSON>
-    </LEGAL_ENTITY>
-    <LEGAL_ENTITY Id="LE_ID_PPPWW_CA">
-      <METADATA_STATUS>
-        <VALUE>New</VALUE>
-        <VALUE_DECODE>New</VALUE_DECODE>
-      </METADATA_STATUS>
-      <LEGALENTITY_PID>urn:ghsts:60BF5221-9BC5-47C3-A6E6-EC2AD872172B</LEGALENTITY_PID>
-      <LEGALENTITY_NAME>Plant Protection Products Worlwide Canada</LEGALENTITY_NAME>
-      <LEGALENTITY_TYPE>
-        <VALUE>Company</VALUE>
-        <VALUE_DECODE>Company</VALUE_DECODE>
-      </LEGALENTITY_TYPE>
-      <CONTACT_ADDRESS>
-        <STREET1>125 Commerce Valley Drive West</STREET1>
-        <STREET2>-/-</STREET2>
-        <ZIPCODE>L3T 7W4</ZIPCODE>
-        <CITY>Markham</CITY>
-        <STATE>ON</STATE>
-        <COUNTRY>
-          <VALUE>CA</VALUE>
-          <VALUE_DECODE>Canada</VALUE_DECODE>
-        </COUNTRY>
-        <PHONE>+1 905-763-0560</PHONE>
-        <FAX>+41 905-763-0560-11</FAX>
-        <EMAIL>info@pppww.ca</EMAIL>
-        <WEBSITE>http://www.pppww.com/ca</WEBSITE>
-      </CONTACT_ADDRESS>
-      <CONTACT_PERSON>
-        <ORGANISATION>Plant Protection Products Worlwide Canada</ORGANISATION>
-        <DEPARTMENT>Global Regulatory Affairs</DEPARTMENT>
-        <TITLE/>
-        <FIRSTNAME>Peter</FIRSTNAME>
-        <LASTNAME>Walshe</LASTNAME>
-        <PHONE>+1 905-763-0560</PHONE>
-        <MOBILE>+1 379-453-2228</MOBILE>
-        <FAX>+1 905-763-0560-11</FAX>
-        <EMAIL>peter.walshe@pppww.com</EMAIL>
-      </CONTACT_PERSON>
-    </LEGAL_ENTITY>
-    <LEGAL_ENTITY Id="LE_ID_IBAMA">
-      <METADATA_STATUS>
-        <VALUE>New</VALUE>
-        <VALUE_DECODE>New</VALUE_DECODE>
-      </METADATA_STATUS>
-      <LEGALENTITY_PID>urn:legal:9F60237F-7445-4BAA-9235-3B6FF1FDA271</LEGALENTITY_PID>
-      <LEGALENTITY_NAME>Instituto Brasileiro do Meio Ambiente</LEGALENTITY_NAME>
-      <LEGALENTITY_TYPE>
-        <VALUE>Regulatory Authority</VALUE>
-        <VALUE_DECODE>Regulatory Authority</VALUE_DECODE>
-      </LEGALENTITY_TYPE>
-      <CONTACT_ADDRESS>
-        <STREET1>SCEN Trecho 2</STREET1>
-        <STREET2>Ed. Sede - Cx. Postal n° 09566</STREET2>
-        <ZIPCODE>70818-900</ZIPCODE>
-        <CITY>Brasília</CITY>
-        <STATE>DF</STATE>
-        <COUNTRY>
-          <VALUE>BR</VALUE>
-          <VALUE_DECODE>Brasil</VALUE_DECODE>
-        </COUNTRY>
-        <PHONE>+55 61-3316-1212</PHONE>
-        <FAX>+55 61-3316-1212-433</FAX>
-        <EMAIL>sic@ibama.gov.br</EMAIL>
-        <WEBSITE>http://www.ibama.gov.br/</WEBSITE>
-      </CONTACT_ADDRESS>
-      <CONTACT_PERSON>
-        <ORGANISATION>IBAMA</ORGANISATION>
-        <DEPARTMENT/>
-        <TITLE/>
-        <FIRSTNAME>João</FIRSTNAME>
-        <LASTNAME>Gilberto</LASTNAME>
-        <PHONE>+55 61-3316-1212-265</PHONE>
-        <MOBILE>+55 21-99635-9499</MOBILE>
-        <FAX/>
-        <EMAIL>joao.gilberto@ibama.gov.br</EMAIL>
-      </CONTACT_PERSON>
-    </LEGAL_ENTITY>
-    <LEGAL_ENTITY Id="LE_ID_APVMA">
-      <METADATA_STATUS>
-        <VALUE>New</VALUE>
-        <VALUE_DECODE>New</VALUE_DECODE>
-      </METADATA_STATUS>
-      <LEGALENTITY_PID>urn:ghsts:F68B42B5-F54B-4E14-A859-B36F487E42C2</LEGALENTITY_PID>
-      <LEGALENTITY_NAME>Australian Pesticides and Veterinary Medicines Authority</LEGALENTITY_NAME>
-      <LEGALENTITY_TYPE>
-        <VALUE>Regulatory Authority</VALUE>
-        <VALUE_DECODE>Regulatory Authority</VALUE_DECODE>
-      </LEGALENTITY_TYPE>
-      <CONTACT_ADDRESS>
-        <STREET1>18 Wormald Street</STREET1>
-        <STREET2/>
-        <ZIPCODE>2609</ZIPCODE>
-        <CITY>Symonston</CITY>
-        <STATE>ACT</STATE>
-        <COUNTRY>
-          <VALUE>AU</VALUE>
-          <VALUE_DECODE>Australia</VALUE_DECODE>
-        </COUNTRY>
-        <PHONE>+61 2 6210 4701</PHONE>
-        <FAX>+61 2 6210 4701 234</FAX>
-        <EMAIL>enquiries@apvma.gov.au</EMAIL>
-        <WEBSITE>http://apvma.gov.au</WEBSITE>
-      </CONTACT_ADDRESS>
-      <CONTACT_PERSON>
-        <ORGANISATION>APVMA</ORGANISATION>
-        <DEPARTMENT>Regulatory Affairs</DEPARTMENT>
-        <TITLE/>
-        <FIRSTNAME>Susan</FIRSTNAME>
-        <LASTNAME>Miller</LASTNAME>
-        <PHONE>+61 2 6210 4701 3544</PHONE>
-        <MOBILE>+61 413 025 837</MOBILE>
-        <FAX>-/-</FAX>
-        <EMAIL>susan.miller@apvma.gov.au</EMAIL>
-      </CONTACT_PERSON>
-    </LEGAL_ENTITY>
-    <LEGAL_ENTITY Id="LE_ID_BVL">
-      <METADATA_STATUS>
-        <VALUE>New</VALUE>
-        <VALUE_DECODE>New</VALUE_DECODE>
-      </METADATA_STATUS>
-      <LEGALENTITY_PID>urn:ghsts:1AB3B93C-4920-4F3A-BE4B-9298E09CC5CC</LEGALENTITY_PID>
-      <LEGALENTITY_NAME>Bundesanstalt für Verbraucherschutz und Landwirtschaft</LEGALENTITY_NAME>
-      <LEGALENTITY_TYPE>
-        <VALUE>Regulatory Authority</VALUE>
-        <VALUE_DECODE>Regulatory Authority</VALUE_DECODE>
-      </LEGALENTITY_TYPE>
-      <LEGALENTITY_IDENTIFIER>
-        <LEGALENTITY_IDENTIFIER_TYPE>
-          <VALUE>DUNS-number</VALUE>
-          <VALUE_DECODE>DUNS-number</VALUE_DECODE>
-        </LEGALENTITY_IDENTIFIER_TYPE>
-        <IDENTIFIER>fdaf5555555</IDENTIFIER>
-      </LEGALENTITY_IDENTIFIER>
-      <CONTACT_ADDRESS>
-        <STREET1>Messeweg 11/12</STREET1>
-        <STREET2>-/-</STREET2>
-        <ZIPCODE>38104</ZIPCODE>
-        <CITY>Braunschweig</CITY>
-        <STATE>...</STATE>
-        <COUNTRY>
-          <VALUE>DE</VALUE>
-          <VALUE_DECODE>Germany</VALUE_DECODE>
-        </COUNTRY>
-        <PHONE>+49 (0)531 299 5</PHONE>
-        <FAX>+49 (0)531 299 3002</FAX>
-        <EMAIL>info@bvl.de</EMAIL>
-        <WEBSITE>ttp://www.bvl.de</WEBSITE>
-      </CONTACT_ADDRESS>
-      <CONTACT_PERSON>
-        <ORGANISATION>Unit 204: EC Procedures</ORGANISATION>
-        <DEPARTMENT>Department 2: Plant Protection Products</DEPARTMENT>
-        <TITLE>Mr.</TITLE>
-        <FIRSTNAME>Hermann</FIRSTNAME>
-        <LASTNAME>Köppen</LASTNAME>
-        <PHONE>+49 531 299 4567</PHONE>
-        <MOBILE>-/-</MOBILE>
-        <FAX>+49 531 299 3003</FAX>
-        <EMAIL>hermann.koeppen@bvl.bund.de</EMAIL>
-      </CONTACT_PERSON>
-    </LEGAL_ENTITY>
-    <LEGAL_ENTITY Id="LE_ID_PPPWW_DE">
-      <METADATA_STATUS>
-        <VALUE>New</VALUE>
-        <VALUE_DECODE>New</VALUE_DECODE>
-      </METADATA_STATUS>
-      <LEGALENTITY_PID>urn:ghsts:6440A2D4-2733-4E40-A632-81FC7681DC89</LEGALENTITY_PID>
-      <LEGALENTITY_NAME>Plant Protection Products Worlwide GmbH Germany</LEGALENTITY_NAME>
-      <LEGALENTITY_TYPE>
-        <VALUE>Company</VALUE>
-        <VALUE_DECODE>Company</VALUE_DECODE>
-      </LEGALENTITY_TYPE>
-      <CONTACT_ADDRESS>
-        <STREET1>Hans-Klawitter-Str. 23-25</STREET1>
-        <STREET2/>
-        <ZIPCODE>35442</ZIPCODE>
-        <CITY>Buxtehude</CITY>
-        <STATE>-/-</STATE>
-        <COUNTRY>
-          <VALUE>DE</VALUE>
-          <VALUE_DECODE>Germany</VALUE_DECODE>
-        </COUNTRY>
-        <PHONE>+49 43665 764-0</PHONE>
-        <FAX>+49 43665 764-11</FAX>
-        <EMAIL>info@pppww.de</EMAIL>
-        <WEBSITE>http://www.pppww.com/de</WEBSITE>
-      </CONTACT_ADDRESS>
-      <CONTACT_PERSON>
-        <ORGANISATION>Plant Protection Products Worlwide GmbH Germany</ORGANISATION>
-        <DEPARTMENT>Global Regulatory Affairs</DEPARTMENT>
-        <TITLE>Dr.</TITLE>
-        <FIRSTNAME>Franz</FIRSTNAME>
-        <LASTNAME>Bundschuh</LASTNAME>
-        <PHONE>+49 43665 764-123</PHONE>
-        <MOBILE>+49 176 34576233</MOBILE>
-        <FAX>+49 43665 764-11</FAX>
-        <EMAIL>franz.bundschuh@pppww.com</EMAIL>
-      </CONTACT_PERSON>
-      <CONTACT_PERSON>
-        <ORGANISATION>Plant Protection Productsxxxxxxxxxxxxxxx Worlwide GmbH Germany</ORGANISATION>
-        <DEPARTMENT>Global Regulatory Affairs</DEPARTMENT>
-        <TITLE>Dr.</TITLE>
-        <FIRSTNAME>Buntsen</FIRSTNAME>
-        <LASTNAME>Honeydue</LASTNAME>
-        <PHONE>+49 4366xxx5 764-123</PHONE>
-        <MOBILE>+49 17xxxx6 34576344</MOBILE>
-        <FAX>+49 4366xxxxx5 764-11</FAX>
-        <EMAIL>buntsen.honeydue@pppww.com</EMAIL>
-      </CONTACT_PERSON>
-    </LEGAL_ENTITY>
-    <LEGAL_ENTITY Id="LE_ID_PMRA">
-      <METADATA_STATUS>
-        <VALUE>New</VALUE>
-        <VALUE_DECODE>New</VALUE_DECODE>
-      </METADATA_STATUS>
-      <LEGALENTITY_PID>urn:ghsts:5B39944B-E7CD-4BC9-BFA0-9316D1A9592E</LEGALENTITY_PID>
-      <LEGALENTITY_NAME>Pest Management Regulatory Agency </LEGALENTITY_NAME>
-      <LEGALENTITY_TYPE>
-        <VALUE>Regulatory Authority</VALUE>
-        <VALUE_DECODE>Regulatory Authority</VALUE_DECODE>
-      </LEGALENTITY_TYPE>
-      <CONTACT_ADDRESS>
-        <STREET1>2720 Riverside Drive</STREET1>
-        <STREET2>B2720 Riverside Drive</STREET2>
-        <ZIPCODE>6606D2 / K1A 0K9</ZIPCODE>
-        <CITY>6606D2 / K1A 0K9</CITY>
-        <STATE>Ontario</STATE>
-        <COUNTRY>
-          <VALUE>CA</VALUE>
-          <VALUE_DECODE>Canada</VALUE_DECODE>
-        </COUNTRY>
-        <PHONE>1-613-736-3799 or 1-800-267-6315</PHONE>
-        <FAX>1-613-736-3798</FAX>
-        <EMAIL>info@hc-sc.gc.ca</EMAIL>
-        <WEBSITE>http://www.hc-sc.gc.ca/contact/cps-spc/pmra-arla/infoserv-eng.php</WEBSITE>
-      </CONTACT_ADDRESS>
-      <CONTACT_PERSON>
-        <ORGANISATION>Chemicals</ORGANISATION>
-        <DEPARTMENT>Submissions</DEPARTMENT>
-        <TITLE>Mr.</TITLE>
-        <FIRSTNAME>Marcus</FIRSTNAME>
-        <LASTNAME>Miller</LASTNAME>
-        <PHONE>613-736-3602</PHONE>
-        <MOBILE>613-612-0554</MOBILE>
-        <FAX>-/-</FAX>
-        <EMAIL>marcus.miller@hc-sc.gc.ca</EMAIL>
-      </CONTACT_PERSON>
-    </LEGAL_ENTITY>
-    <LEGAL_ENTITY Id="LE_ID_PPPWW_BR">
-      <METADATA_STATUS>
-        <VALUE>New</VALUE>
-        <VALUE_DECODE>New</VALUE_DECODE>
-      </METADATA_STATUS>
-      <LEGALENTITY_PID>urn:ghsts:C9910E3B-8B6E-41ED-AADA-A4E516211866</LEGALENTITY_PID>
-      <LEGALENTITY_NAME>Plant Protection Products Worlwide Brasil #######</LEGALENTITY_NAME>
-      <LEGALENTITY_TYPE>
-        <VALUE>Company</VALUE>
-        <VALUE_DECODE>Company</VALUE_DECODE>
-      </LEGALENTITY_TYPE>
-      <CONTACT_ADDRESS>
-        <STREET1>Avenida Alfredo Egídio de Souza Aranha, 100</STREET1>
-        <STREET2/>
-        <ZIPCODE>04726-170</ZIPCODE>
-        <CITY>Vila Cruzeiro, São Paulo</CITY>
-        <STATE>SP</STATE>
-        <COUNTRY>
-          <VALUE>BR</VALUE>
-          <VALUE_DECODE>Brasil</VALUE_DECODE>
-        </COUNTRY>
-        <PHONE>+55 11 3444-3500</PHONE>
-        <FAX>+55 11 3444-3501</FAX>
-        <EMAIL>info@pppww.br</EMAIL>
-        <WEBSITE>http://www.pppww.com/br</WEBSITE>
-      </CONTACT_ADDRESS>
-      <CONTACT_PERSON>
-        <ORGANISATION>Plant Protection Products Worlwide Brasil</ORGANISATION>
-        <DEPARTMENT>Regulatory Department</DEPARTMENT>
-        <TITLE/>
-        <FIRSTNAME>Ary</FIRSTNAME>
-        <LASTNAME>Barroso</LASTNAME>
-        <PHONE>+55 11 3444-3500</PHONE>
-        <MOBILE>+55 11 9 7307 1799</MOBILE>
-        <FAX>+55 11 3444-3500</FAX>
-        <EMAIL>ary.barroso@pppww.com</EMAIL>
-      </CONTACT_PERSON>
-    </LEGAL_ENTITY>
-    <LEGAL_ENTITY Id="LE_ID_PPPWW_AU">
-      <METADATA_STATUS>
-        <VALUE>New</VALUE>
-        <VALUE_DECODE>New</VALUE_DECODE>
-      </METADATA_STATUS>
-      <LEGALENTITY_PID>urn:ghsts:54C8D6A7-30AC-46F0-BA9C-B4F63D51B132</LEGALENTITY_PID>
-      <LEGALENTITY_NAME>Plant Protection Products Worlwide Australia</LEGALENTITY_NAME>
-      <LEGALENTITY_TYPE>
-        <VALUE>Company</VALUE>
-        <VALUE_DECODE>Company</VALUE_DECODE>
-      </LEGALENTITY_TYPE>
-      <CONTACT_ADDRESS>
-        <STREET1>601 Pacific Highway</STREET1>
-        <STREET2>-/-</STREET2>
-        <ZIPCODE>2065</ZIPCODE>
-        <CITY>St Leonards</CITY>
-        <STATE>NSW</STATE>
-        <COUNTRY>
-          <VALUE>AU</VALUE>
-          <VALUE_DECODE>Australia</VALUE_DECODE>
-        </COUNTRY>
-        <PHONE>+61-2-9354-4000</PHONE>
-        <FAX>+61-2-9354-4000-99</FAX>
-        <EMAIL>info@pppww.au</EMAIL>
-        <WEBSITE>http://www.pppww.com/au</WEBSITE>
-      </CONTACT_ADDRESS>
-      <CONTACT_PERSON>
-        <ORGANISATION>Plant Protection Products Worlwide Australia</ORGANISATION>
-        <DEPARTMENT>Global Regulatory Affairs</DEPARTMENT>
-        <TITLE>Dr.</TITLE>
-        <FIRSTNAME>Marc</FIRSTNAME>
-        <LASTNAME>Planter</LASTNAME>
-        <PHONE>+61-2-9354-4000-463</PHONE>
-        <MOBILE>+61-0410499665</MOBILE>
-        <FAX/>
         <EMAIL>marc.planter@pppww.com</EMAIL>
       </CONTACT_PERSON>
     </LEGAL_ENTITY>
