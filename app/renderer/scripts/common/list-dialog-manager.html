@@ -1,0 +1,29 @@
+<md-dialog aria-label='List Items' ng-cloak>
+    <form name='listForm'>
+        <md-toolbar>
+            <div class='md-toolbar-tools'>
+                <md-button class='md-icon-button'>
+                    <md-icon class="material-icons">{{ _ctrl.icon }}</md-icon>
+                </md-button>
+                <h2>{{ _ctrl.title }}</h2>
+                <span flex></span>
+                <md-button class='md-icon-button' ng-click='_ctrl.cancel()'>
+                    <md-icon class='material-icons' aria-label='Close dialog'>close</md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <p>{{ _ctrl.subject }}</p>
+                <md-list>
+                    <md-list-item ng-repeat='item in _ctrl.listItems' ng-click='selectItem($event)' aria-label='Selectable'>
+                        <p>{{ item.GENERIC_PRODUCT_NAME }}</p>
+                    </md-list-item>
+                </md-list>
+            </div>
+            <section layout='row' layout-align='center'>
+            <md-button class='md-raised' ng-click='_ctrl.submit($event)'>Okay</md-button>
+            </section>
+        </md-dialog-content>
+    </form>
+</md-dialog>

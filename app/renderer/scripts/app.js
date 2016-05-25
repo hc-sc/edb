@@ -9,8 +9,8 @@ import {ProductService} from './product/productService';
 import {ProductController} from './product/productController';
 import {ReceiverService} from './receiver/receiverService'; 
 import {ReceiverController} from './receiver/receiverController';
-import SubmissionController from './submission/submissionController';
-import SubmissionService from './submission/submissionService';
+import {SubmissionController} from './submission/submissionController';
+import {SubmissionService} from './submission/submissionService';
 import {FileService} from './file/fileService';
 import {FileController} from './file/fileController';
 import {DocumentService} from './document/documentService'; 
@@ -18,6 +18,7 @@ import {DocumentController} from './document/documentController';
 import {GhstsService} from './ghsts_demo/ghstsService';
 import {GhstsController} from './ghsts_demo/ghstsController';
 import {PickListService} from './common/pickListService';
+
 // notice stylesheet loading from app.js
 import '../jspm_packages/github/angular/bower-material@1.0.4/angular-material.css!';
 
@@ -30,7 +31,7 @@ angular.module('ghstsApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages'])
     .controller('receiverController', ['$mdDialog', '$mdSidenav', 'receiverService', 'legalEntityService', ReceiverController])
     .service('productService', ['$q', ProductService])
     .controller('productController', ['$mdDialog', 'productService', ProductController])
-    .service('ghstsService', ['receiverService', 'legalEntityService', 'submissionService', 'productService', GhstsService])
+    .service('ghstsService', ['receiverService', 'legalEntityService', 'productService', 'submissionService', GhstsService])
     .controller('ghstsController', ['$mdDialog', 'ghstsService', GhstsController])
     .controller('receiverController', ['$mdDialog', 'receiverService', 'legalEntityService', ReceiverController])
     .service('fileService', ['$q', FileService])
