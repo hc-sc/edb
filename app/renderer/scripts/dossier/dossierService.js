@@ -23,7 +23,6 @@ class DossierService {
     }
     
     createDossier(dossier) {
-        console.log('creating dossier');
         let deferred = this.$q.defer();
         this.dossiers.insert(dossier, (err, res) => {
             if (err) deferred.reject(err);
@@ -46,7 +45,6 @@ class DossierService {
         this.dossiers.find({ '_id': id }, (err, rows) => {
            if (err) deferred.reject(err);
            const dossier = new Dossier(rows[0]);
-           
            const builder = new xml2js.Builder({
                rootName: 'DOSSIER',
                attrkey: 'attr$'
@@ -63,7 +61,6 @@ class DossierService {
         return ghsts.readObjects()
             .then(() => {
                 const rawDossier = ghsts.dossier[0];
-                console.log(rawDossier);
                 
                 let dossier = new Dossier();
                 
@@ -80,7 +77,9 @@ class DossierService {
                 
                 for (const dossierRA of rawDossier.DOSSIER_RA) {
                     let dra = new DossierRA();
-                    console.log(dossierRA);
+                    
+                    dra._toSpecificForRAId = dossierRA.attr$.To_Specific_for_RA_Id;
+                    
                     dra.REGULATORY_TYPE = new ValueStruct(dossierRA.REGULATORY_TYPE[0].VALUE[0], dossierRA.REGULATORY_TYPE[0].VALUE_DECODE[0]);
                     
                     dra.APPLICATION_TYPE = new ValueStruct(dossierRA.APPLICATION_TYPE[0].VALUE[0], dossierRA.APPLICATION_TYPE[0].VALUE_DECODE[0]);
@@ -89,7 +88,7 @@ class DossierService {
                           
                     dossier.addDossierRA(dra);
                 }
-                                
+                                                
                 this.createDossier(dossier);
             })
             .catch(err => console.log(err.stack));

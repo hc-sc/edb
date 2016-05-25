@@ -35,6 +35,7 @@ class GHSTS {
     addSubmission(submission) {
         this.ghsts.PRODUCT.DOSSIER.SUBMISSION = submission;
     }
+    
     addfile(file) {
         this.files.push(file);
     }

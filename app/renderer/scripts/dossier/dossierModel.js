@@ -69,22 +69,26 @@ class ReferencedDossier {
             REFERENCED_DOSSIER_REASON: this.REFERENCED_DOSSIER_REASON
         };
     }
-    
-    
 }
 
 class DossierRA {
     constructor(json) {
         if (arguments.length === 1) {
+            this._toSpecificForRAId = json._toSpecificForRAId;
             this.REGULATORY_TYPE = new ValueStruct(json.REGULATORY_TYPE.VALUE, json.REGULATORY_TYPE.VALUE_DECODE);
             this.APPLICATION_TYPE = new ValueStruct(json.APPLICATION_TYPE.VALUE, json.APPLICATION_TYPE.VALUE_DECODE);
             this.PROJECT_ID_NUMBER = json.PROJECT_ID_NUMBER;
         }
         else {
-            this.REGULATORY_TYPE = new ValueStruct();
-            this.APPLICATION_TYPE = new ValueStruct();
+            this._toSpecificForRAId = 'New';
+            this.REGULATORY_TYPE = new ValueStruct('', '');
+            this.APPLICATION_TYPE = new ValueStruct('', '');
             this.PROJECT_ID_NUMBER = [];
         }
+    }
+    
+    setRAId(id) {
+        this._toSpecificForRAId = id;
     }
     
     setRegulatoryTypeValue(value) {
@@ -96,7 +100,17 @@ class DossierRA {
     }
     
     toGhstsJson() {
+        if (!Array.isArray(this.PROJECT_ID_NUMBER)) {
+            let numbers = this.PROJECT_ID_NUMBER.split(',');
+            numbers = numbers.map(item => {
+                return item.trim();
+            });
+            
+            this.PROJECT_ID_NUMBER = numbers;
+        }
+        
         return {
+            attr$: { To_Specific_for_RA_Id: this._toSpecificForRAId },
             REGULATORY_TYPE: this.REGULATORY_TYPE,
             APPLICATION_TYPE: this.APPLICATION_TYPE,
             PROJECT_ID_NUMBER: this.PROJECT_ID_NUMBER

@@ -95,7 +95,7 @@ class ReceiverService {
         let self = this;
         promise.then(function (contents) {
             let entities = ghsts.receivers;
-            entities.forEach(rcvr => {                
+            entities.forEach(rcvr => {
                 // convert GHSTS json to receivers objects
                 // xml2js' use-and-abuse array setting is on to play safe for now, hence the default array references.   
                 let status = new ValueStruct(rcvr.METADATA_STATUS[0].VALUE[0], rcvr.METADATA_STATUS[0].VALUE_DECODE[0]);
