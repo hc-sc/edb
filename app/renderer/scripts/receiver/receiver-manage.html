@@ -20,6 +20,7 @@
                 <md-list-item ng-repeat="it in _ctrl.receivers track by $index" ng-click="_ctrl.selectReceiver(it, $index)">
                     <md-icon class="material-icons" aria-label="Legal Entity">business</md-icon>
                     <p>{{it.SHORT_NAME}}</p>
+                    <md-divider ng-if="!$last"></md-divider>
                 </md-list-item>
             </md-list> 
         </md-content>
@@ -98,18 +99,19 @@
                 </md-card>
             </form>
         </md-content>
+        
         <section layout="row" layout-xs="column" layout-align="center center" layout-wrap>
             <md-button class="md-raised md-info" ng-click="_ctrl.createReceiver()">Add</md-button>                                
             <md-button class="md-raised md-primary" ng-click="_ctrl.saveReceiver()" ng-disabled="recevierForm.$invalid">Save</md-button>
             <md-button class="md-raised md-danger" ng-click="_ctrl.cancelEdit()">Cancel</md-button>
             <md-button class="md-raised md-warn" ng-click="_ctrl.deleteReceiver()">Delete</md-button>  
         </section>
+        
         <section layout="row" hide-xs layout-align="center center" layout-wrap>
             <md-button class="md-raised md-primary" ng-click="_ctrl.viewReceiverJson()">View Receiver JSON</md-button>                
             <md-button class="md-raised md-primary" ng-click="_ctrl.viewReceiverGHSTS()">View Receiver GHSTS</md-button>  
             <md-button class="md-raised md-warn" ng-click="_ctrl.addTestRcvr()">Add Sample Receiver to DB</md-button>   
             <md-button class="md-raised md-warn" ng-click="_ctrl.initializeRcvr()">Initalize DB with Sample GHSTS Recivers</md-button>
-            
         </section>  
     </div>
 </section>
