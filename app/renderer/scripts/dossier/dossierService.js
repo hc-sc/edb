@@ -45,7 +45,7 @@ class DossierService {
         let deferred = this.$q.defer();
         this.dossiers.find({ '_id': id }, (err, rows) => {
            if (err) deferred.reject(err);
-           const dossier = new Dossier(results[0]);
+           const dossier = new Dossier(rows[0]);
            
            const builder = new xml2js.Builder({
                rootName: 'DOSSIER',

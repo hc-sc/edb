@@ -1,5 +1,5 @@
 
-<section layout-fill layout="column" tabIndex="-1" role="main" class="md-whiteframe-z2">
+<main layout-fill layout="column" tabIndex="-1" role="main" class="md-whiteframe-z2">
     <md-toolbar layout="row" class="md-whiteframe-z1">
         <div class="md-toolbar-tools">
             <md-button class="md-icon-button" aria-label="Home" ng-href="#/home">
@@ -53,20 +53,22 @@
                 <md-list-item 
                     class="noright"
                     ng-repeat="rd in _ctrl.dossier.REFERENCED_DOSSIER track by $index">
-                    <md-input-container class="md-block" flex="20" flex-gt-sm>
-                        <label for="dossierNumber">Dossier Number</label>
-                        <input
-                            id="dossierNumber"
-                            ng-model="rd.REFERENCED_DOSSIER_NUMBER"
-                            type="text">
-                    </md-input-container>
-                    <md-input-container class="md-block" flex="60" flex-gt-sm>
-                        <label for="reason">Reason</label>
-                        <input 
-                            id="reason"
-                            ng-model="rd.REFERENCED_DOSSIER_REASON"
-                            type="text">
-                    </md-input-container>
+                    <div layout-gt-sm="row" flex="80">
+                        <md-input-container class="md-block" flex-gt-sm="30">
+                            <label for="dossierNumber">Dossier Number</label>
+                            <input
+                                id="dossierNumber"
+                                ng-model="rd.REFERENCED_DOSSIER_NUMBER"
+                                type="text">
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm="70">
+                            <label for="reason">Reason</label>
+                            <input 
+                                id="reason"
+                                ng-model="rd.REFERENCED_DOSSIER_REASON"
+                                type="text">
+                        </md-input-container>
+                    </div>
                     <md-button 
                         class="md-secondary md-raised"
                         ng-click="_ctrl.deleteReferencedDossier(rd, $event)">
@@ -92,8 +94,8 @@
                 <md-list-item 
                     class="noright"
                     ng-repeat="dra in _ctrl.dossier.DOSSIER_RA track by $index">
-                    <div layout-gt-sm="row">
-                        <md-input-container class="md-block">
+                    <div layout-gt-sm="row" flex="80">
+                        <md-input-container class="md-block" flex-gt-sm="50">
                             <label for="regulatoryName">
                                 Regulatory Name
                             </label>
@@ -103,7 +105,7 @@
                                 ng-change="dra.setRegulatoryTypeValue(dra.REGULATORY_TYPE.VALUE_DECODE"
                                 type="text">
                         </md-input-container>
-                        <md-input-container class="md-block">
+                        <md-input-container class="md-block" flex-gt-sm="20">
                             <label for="applicationType">
                                 Application Type
                             </label>
@@ -113,7 +115,7 @@
                                 ng-change="dra.setApplicationTypeValue(dra.APPLICATION_TYPE.VALUE_DECODE)"
                                 type="text">
                         </md-input-container>
-                        <md-input-container class="md-block">
+                        <md-input-container class="md-block" flex-gt-sm="30">
                             <label for="projectIdNumber">
                                 Project ID Number
                             </label>
@@ -122,12 +124,12 @@
                                 ng-model="dra.PROJECT_ID_NUMBER"
                                 type="text">
                         </md-input-container>
-                        <md-button 
-                            class="md-secondary md-raised"
-                            ng-click="_ctrl.deleteDossierRA(dra)">
-                                Delete
-                        </md-button>
                     </div>
+                    <md-button 
+                        class="md-secondary md-raised"
+                        ng-click="_ctrl.deleteDossierRA(dra)">
+                            Delete
+                    </md-button>
                 </md-list-item>
             </md-list>
         </form>
@@ -146,4 +148,4 @@
             </md-button>    
         </div>                
     </md-content>
-</section>
+</main>
