@@ -1,75 +1,66 @@
-import {GHSTS} from '../common/ghsts.js'
+import {GHSTS} from '../common/ghsts.js';
 import {ContactPerson, ContactAddress, LegalEntity} from '../legal_entity/legalEntityModel.js';
-import {Receiver, Sender} from '../receiver/receiverModel.js'
-import {ValueStruct, IdentifierStruct} from '../common/sharedModel.js'
-import Submission from '../submission/submissionModel';
+import {Receiver, Sender} from '../receiver/receiverModel.js';
+import {ValueStruct} from '../common/sharedModel.js';
+import {Product} from '../product/productModel.js';
+import { Submission } from '../submission/submissionModel';
 
 const outputFile = './app/renderer/data/DemoGHSTS.xml';
 
 class GhstsService {
-    constructor(ReceiverService, LegalEntityService, SubmissionService) {
+    constructor(ReceiverService, LegalEntityService, ProductService, SubmissionService) {
         this.receiverService = ReceiverService;
-        this.legalEntityService = LegalEntityService; 
-        this.submissionService = SubmissionService; 
+        this.legalEntityService = LegalEntityService;
+        this.productService = ProductService;
+        this.submissionService = SubmissionService;
     }
             
     assembleDemoGHSTS(){          
-        // read from existing ghsts.xml for most of the objects
-        let ghsts = new GHSTS("./app/renderer/data/ghsts.xml");     
-        let promise = ghsts.readObjects();
-        let self = this;
-        // listen for both fulfillment and rejection        
-        promise.then(function(contents) {
-            console.log('read from xml into obj.  now about to read from database to get the objects');            
-
-            // add legal entities from database to GHSTS
-            let leListPromise = self.legalEntityService.getLegalEntities(); 
-            leListPromise.then(function(leList) {
-                // console.log('get le lists', leList)                
-                leList.forEach(le => { 
-                    let leObj = new LegalEntity(le);
-                    ghsts.addLegalEntity(leObj.toGHSTSJson());
-                });
-
-                // add receivers from database to GHSTS
-                let rcvrListPromise = self.receiverService.getReceivers(); 
-                rcvrListPromise.then(function(rcvrList) {                    
-                    rcvrList.forEach(receiver => {
-                        let rcvrObj = new Receiver(receiver);
-                        // console.log('receiver json ', rcvrObj.toGHSTSJson())     
-                        ghsts.addReceiver(rcvrObj.toGHSTSJson());
-                    });
-                    
-                    //replace submission
-                    //NOTE: at this point, there is no restrictions on how many times we've inserted a submission into the DB, so there may be several rows returned, just grab the first
-                    let submissionPromise = self.submissionService.getSubmission();
-                    submissionPromise.then(submission => {
-                        let subObj = new Submission(submission[0]);
-                        ghsts.addSubmission(subObj.toGHSTSJson());
-                        
-                        let sub = ghsts.submission[0];
-                        
-                        //NOTE: this ghsts has an inner ghsts object that is used to actually write the xml. Default is to append new nodes, rather than replace, so we need to replace it by hand. See console output
-                        // console.log(ghsts.ghsts.PRODUCT[0].DOSSIER[0].SUBMISSION);
-                        
-                        //replace the submission that was there
-                        ghsts.ghsts.PRODUCT[0].DOSSIER[0].SUBMISSION = sub;
-                        
-                        //we have built the object, output to xml file
-                        ghsts.writeXML(outputFile);
-                        console.log(`Written to ${outputFile}`);
-                    });
-                })
+        // this function reads from an existing ghsts.xml file and then
+        // overwrites the various nodes in the xml with the collection it finds
+        // in the database.  It does not care which one is "correct" from a
+        // submission perspective.  For demo purposes only, don't try this
+        // at home... I mean in prod.
+        let ghsts = new GHSTS("./app/renderer/data/ghsts.xml");
+        
+        ghsts.readObjects()
+            .then(() => {
+                console.log('XML read into GHSTS object. Read DB to update');
+                return this.legalEntityService.getLegalEntities();
             })
-        }, function(err) {
-            // rejection
-            console.error(err.message);
-        });    
+            .then(leList => {
+                for (const le of leList) {
+                    ghsts.addLegalEntity(new LegalEntity(le).toGHSTSJson());
+                }
+                
+                return this.receiverService.getReceivers();
+            })
+            .then(rcvrList => {
+                for (const receiver of rcvrList) {
+                    ghsts.addReceiver(new Receiver(receiver).toGHSTSJson());
+                }
+                
+                return this.productService.getProducts();
+            })
+            .then(products => {
+                ghsts.setProduct(new Product(products[0]).toGhstsJson());
+                
+                return this.submissionService.getAllSubmissions();
+            })
+            .then(submissions => {
+                ghsts.addSubmission(new Submission(submissions[0]).toGhstsJson());
+                
+                return ghsts.writeXML(outputFile);
+            })
+            .then(() => {
+                console.log(`Successfully written to ${outputFile}`);
+            })
+            .catch(err => console.log(err.stack));
     }        
 }
 
-GhstsService.$inject = [ 'receiverService', 'legalEntityService', 'submissionService'];
+GhstsService.$inject = [ 'receiverService', 'legalEntityService', 'productService', 'submissionService'];
 
-export { GhstsService }
 
+export { GhstsService };
 

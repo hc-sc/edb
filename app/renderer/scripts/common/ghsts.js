@@ -8,6 +8,8 @@ class GHSTS {
         this.ghsts = {};
         this.legalEntities = [];
         this.receivers = [];
+        this.product = {};
+        this.documents = [];
         // add other sub objects here
 
         this.submission = [];
@@ -30,8 +32,7 @@ class GHSTS {
     }
 
     addSubmission(submission) {
-        this.submission.push(submission);
-        this.submission = this.submission.slice(1);
+        this.ghsts.PRODUCT.DOSSIER.SUBMISSION = submission;
     }
     addfile(file) {
         this.files.push(file);
@@ -40,6 +41,19 @@ class GHSTS {
     setfiles(files) {
         this.files = files;
     }
+    
+    setProduct(productGhstsJson){
+        this.ghsts.PRODUCT = productGhstsJson;
+    }
+    
+    addDocument(document){
+        this.documents.push(document);
+    }
+    
+    setDocuments(documents){
+        this.documents = documents;
+    }
+    
     readObjects() {
         // read json objects from ghsts xml    
         let self = this;
@@ -53,19 +67,24 @@ class GHSTS {
                         reject(err);
                     }
                     // the read succeeded
-                    resolve(obj);
+                    resolve(obj);      
                     self.ghsts = obj.GHSTS;
-
+                    
                     // set legal entities
                     self.legalEntities = obj.GHSTS.LEGAL_ENTITIES[0].LEGAL_ENTITY;
                     // set receivers 
                     self.receivers = obj.GHSTS.RECEIVERS[0].RECEIVER;
+
+                    // set the Product from the xml
+                    self.product = obj.GHSTS.PRODUCT;
+
                     // set other objects here
                     // ...
 
                     self.submission = obj.GHSTS.PRODUCT[0].DOSSIER[0].SUBMISSION;
                     self.files=obj.GHSTS.FILES[0].FILE;
-
+                    // set documents
+                    self.documents = obj.GHSTS.DOCUMENTS[0].DOCUMENT;  
                 })
             });
         })

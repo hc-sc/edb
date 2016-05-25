@@ -25,6 +25,7 @@ System.config({
     "core-js": "npm:core-js@1.1.4",
     "css": "github:systemjs/plugin-css@0.1.20",
     "json": "github:systemjs/plugin-json@0.1.0",
+    "lodash": "npm:lodash@4.11.1",
     "nedb": "npm:nedb@1.7.2",
     "node-uuid": "npm:node-uuid@1.4.7",
     "path": "npm:path@0.12.7",
@@ -68,7 +69,7 @@ System.config({
       "path-browserify": "npm:path-browserify@0.0.0"
     },
     "github:jspm/nodelibs-process@0.1.2": {
-      "process": "npm:process@0.11.2"
+      "process": "npm:process@0.11.3"
     },
     "github:jspm/nodelibs-stream@0.1.0": {
       "stream-browserify": "npm:stream-browserify@1.0.0"
@@ -262,6 +263,10 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2",
       "promise": "npm:promise@5.0.0"
     },
+    "npm:lodash@4.11.1": {
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
     "npm:lodash@4.5.0": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
@@ -321,6 +326,9 @@ System.config({
       "systemjs-json": "github:systemjs/plugin-json@0.1.0"
     },
     "npm:process@0.11.2": {
+      "assert": "github:jspm/nodelibs-assert@0.1.0"
+    },
+    "npm:process@0.11.3": {
       "assert": "github:jspm/nodelibs-assert@0.1.0"
     },
     "npm:promise@5.0.0": {
