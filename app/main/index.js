@@ -1,6 +1,6 @@
 'use strict';
 
-var app = require('app');
+var app = require('electron').app;
 var ipc = require('electron').ipcMain;
 var BrowserWindow = require('electron').BrowserWindow;
 
