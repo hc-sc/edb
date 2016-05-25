@@ -18,34 +18,7 @@ class FileService {
         });
         return deferred.promise;
     }
-    /*
-        getReceivers() {
-            let deferred = this.$q.defer();
-            this.receivers.find({}, function (err, rows) {
-                if (err) deferred.reject(err);
-                deferred.resolve(rows);
-            });
-            return deferred.promise;
-        }
-    
-        getReceiverById(id) {
-            let deferred = this.$q.defer();
-            this.receivers.find({ '_id': id }, function (err, result) {
-                if (err) deferred.reject(err);
-                deferred.resolve(result);
-            });
-            return deferred.promise;
-        }
-    
-        getReceiverByName(name) {
-            let deferred = this.$q.defer();
-            this.receivers.find({ 'SHORT_NAME': name }, function (err, result) {
-                if (err) deferred.reject(err);
-                deferred.resolve(result);
-            });
-            return deferred.promise;
-        }
-    */
+
     getFiles() {
         let deferred = this.$q.defer();
         this.files.find({}, function (err, rows) {
@@ -67,11 +40,13 @@ class FileService {
         let deferred = this.$q.defer();
         // searching file needs more condition since sub document
         var re = new RegExp(name, 'i');
-        let condition={ $regex: re };
+        let condition = { $regex: re };
         //{ $regex: /DOCX/ }
-        this.files.find({_identifier:{ $regex: /[^]+/ }, 'FILE_GENERIC.FILENAME': condition }, function (err, result) {
+        // sub doc element as a condition
+        //   this.files.find({_identifier:{ $regex: /[^]+/ }, 'FILE_GENERIC.FILENAME': condition }, function (err, result) {
+        this.files.find({ 'FILE_GENERIC.FILENAME': condition }, function (err, result) {
             if (err) deferred.reject(err);
-            deferred.resolve(result);
+            deferred.resolve(result); // update child promise which can pass the result to call back, defered is a promise builder
         });
         return deferred.promise;
     }
@@ -123,26 +98,22 @@ class FileService {
     addFileToDB() {
         // add a new receiver to database
         let file = this._createSampleFile();
-       return this.createFile(file);
+        return this.createFile(file);
     }
 
-    initializeFile(fileCtr) {
+    initializeFile() { // controller passes itself in
         // read from sample ghsts and populate the database with legal entities.
         let ghsts = new GHSTS("./app/renderer/data/ghsts.xml");
         let promise = ghsts.readObjects();
         let self = this;
+        let deferred = this.$q.defer();
+        let fileCollection=this.files;
         promise.then(function (contents) {
             let entities = ghsts.files;
+            let returnedFiles=[];
             entities.forEach(f => {
-                // convert GHSTS json to legalEntities objects
-                // xml2js' use-and-abuse array setting is on to play safe for now, hence the default array references.   
-                //  let status = new ValueStruct(f.METADATA_STATUS[0].VALUE[0], f.METADATA_STATUS[0].VALUE_DECODE[0]);
-                // let type = new ValueStruct(f.LEGALENTITY_TYPE[0].VALUE[0], f.LEGALENTITY_TYPE[0].VALUE_DECODE[0]);                
-                //let legalEntity = new LegalEntity(status, le.LEGALENTITY_PID[0], le.LEGALENTITY_NAME[0], type); 
                 let file = new File();
                 file.fileId = f.attr$.Id;
-                //let IdType = new ValueStruct(le.COUNTRY[0].VALUE[0], le.COUNTRY[0].VALUE_DECODE[0]);
-                //let identifier = new IdentifierStruct('LEGALENTITY_IDENTIFIER_TYPE', IdType, "DUNS00001")
 
                 file.FILE_GENERIC = new FileGeneric();
                 file.FILE_GENERIC.METADATA_STATUS = f.FILE_GENERIC[0].METADATA_STATUS[0];
@@ -156,12 +127,6 @@ class FileService {
                 file.FILE_GENERIC.MD5CHECKSUM = f.FILE_GENERIC[0].MD5CHECKSUM[0];
                 file.FILE_GENERIC.FILENAME = f.FILE_GENERIC[0].FILENAME[0];
                 /*
-                    (f.FILE_GENERIC[0].REPLACED_FILE_PID === undefined ? null : f.FILE_GENERIC[0].REPLACED_FILE_PID),
-                    new ValueStruct(f.FILE_GENERIC[0].CONTENT_STATUS[0].VALUE[0], f.FILE_GENERIC[0].CONTENT_STATUS[0].VALUE_DECODE[0]),
-                    new ValueStruct(f.FILE_GENERIC[0].FILE_TYPE[0].VALUE[0], f.FILE_GENERIC[0].FILE_TYPE[0].VALUE_DECODE[0]),
-                    f.FILE_GENERIC[0].FORMAT_COMMENT[0],
-                    f.FILE_GENERIC[0].MD5CHECKSUM[0],
-                    f.FILE_GENERIC[0].FILENAME[0]
 
                     */
 
@@ -186,13 +151,23 @@ class FileService {
             .catch(function (e) {
                 console.log(e);
             } ) */
-            self.getFiles().then(
+            //this service gets files and pass files to the controller
+            /*
+                        self.getFiles().then(
                 files=>{
                     fileCtr.files=[].concat(files);
                     fileCtr.selected=files[0];
                 }
             );
+            */
+            fileCollection.find({}, function (err, rows) {
+                console.log(rows);
+                if (err) deferred.reject(err);
+                deferred.resolve(rows);
+            });
         });
+        // return returnedPromise;
+        return deferred.promise;
     }
 
 }

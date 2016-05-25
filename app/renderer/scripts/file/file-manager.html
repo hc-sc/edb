@@ -1,10 +1,35 @@
 <div style="width:100%" layout="column">
-    <md-toolbar class="md-whiteframe-z1" layout="row">
+    <!--
+
+         <div style='100%' layout='row'>
+        <div flex layout='column' tabIndex='-1' role='main' class='md-whiteframe-z2'>   
+<md-toolbar layout="row" class="md-whiteframe-z1 layout-row">
+                <div class="md-toolbar-tools">
+                    <a class="md-icon-button md-button md-ink-ripple" ng-transclude="" aria-label="Home" ng-href="#/home" href="#/home">
+                        <md-icon class="material-icons ng-scope ng-isolate-scope" aria-label="Home">home</md-icon>    
+                    </a>
+                    <h2>
+                        <span>File Management</span>
+                    </h2>
+                </div>                    
+            </md-toolbar>
+                <md-toolbar class="md-whiteframe-z1" layout="row">
         <md-button class="md-warn" aria-label="Home" ng-href="#/home">Home</md-button>
         <h2>
           <span>File Management</span>
         </h2>
     </md-toolbar>
+    -->
+            <md-toolbar layout='row' class='md-whiteframe-z1'>
+                <div class="md-toolbar-tools">
+                    <md-button class="md-icon-button" aria-label="Home" ng-href="#/home" ng-click="_ctrl.toggleSidenav('left')" >
+                        <md-icon class="material-icons" aria-label="Home">home</md-icon>    
+                    </md-button>
+                    <h2>
+                        <span>File Management</span>
+                    </h2>
+                </div>                    
+            </md-toolbar>
     <div style="width:100%" layout="row">
         <md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="true">
             <!--  md-is-locked-open="$mdMedia('gt-sm')"-->
@@ -75,7 +100,7 @@
                             <input ng-model="_ctrl.selected.FILE_GENERIC.FORMAT_COMMENT" type="text">
                         </md-input-container>
                         <md-input-container class="md-block" flex-gt-sm>
-                            <label>MD</label>
+                            <label>MD 5</label>
                             <input ng-model="_ctrl.selected.FILE_GENERIC.MD5CHECKSUM" type="text">
                         </md-input-container>
                         <!--                       
