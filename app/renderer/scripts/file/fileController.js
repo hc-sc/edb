@@ -3,16 +3,21 @@ import {ValueStruct, IdentifierStruct} from '../common/sharedModel.js';
 import {FileRA, FileGeneric, File} from './fileModel.js'
 //import uuid from 'node-uuid';
 class FileController {
-    constructor($mdDialog, fileService) {
+    constructor($mdDialog, $mdSidenav, fileService) {
         this.fileService = fileService;
         //  this.legalEntityService = LegalEntityService;
         this.$mdDialog = $mdDialog;
+        this.$mdSidenav = $mdSidenav;
         this.selected = null;
         this.files = [];
         this.selectedIndex = 0;
         this.filterText = null;
         this.getAllFiles();
     }
+    toggleSidenav(componentId){  
+        // toggle the side nave by component identifer   
+         this.$mdSidenav(componentId).toggle();  
+     }
     // clear all fields
     createFile() {
         this.selected = { FILE_RA: [] };
@@ -74,7 +79,7 @@ class FileController {
         this.$mdDialog.show(confirm).then(() => {
             let self = this;
             self.fileService.deleteFile(self.selected._id)
-                .then(affectedRows => {self.files.splice(self.selectedIndex, 1);self.createFile();});
+                .then(affectedRows => { self.files.splice(self.selectedIndex, 1); self.createFile(); });
         });
     }
 
@@ -91,8 +96,8 @@ class FileController {
             console.log(this.files);
         }
         else {
-            // this.getAllFiles();
-
+            // search files by file name
+            //promise passes result to callback, must return a promise
             this.fileService.getFileByName(this.filterText).then(files => {
                 this.files = [].concat(files);
                 this.selected = files[0];
@@ -108,7 +113,7 @@ class FileController {
     addFileRA() {
         // this.selected.FILE_RA.push(''); METADATA_STATUS
         // let metaStatus = new ValueStruct("DUNS-number", "DUNS-number"); 
-        if(this.selected==null) this.createFile();
+        if (this.selected == null) this.createFile();
         let fileRA = new FileRA();
         fileRA.METADATA_STATUS = { VALUE: '', VALUE_DECODE: '' };
         fileRA.CBI_DESIGNATION = '';
@@ -140,8 +145,12 @@ class FileController {
     }
     initializeFile() {
         // read from sample ghsts and populate the database with legal entities. 
-        let self=this;      
-        this.fileService.initializeFile(self);
+        let self = this;
+        //pass controller self to service method   
+        this.fileService.initializeFile().then(files => {
+            self.files = [].concat(files);
+            self.selected = files[0];
+        });
         //this.getAllFiles(); 
 
     }
@@ -177,7 +186,8 @@ class FileController {
         };
     }
 }
+  
 
-FileController.$inject = ['$mdDialog', 'fileService'];
+FileController.$inject = ['$mdDialog','$mdSidenav', 'fileService'];
 
 export { FileController }

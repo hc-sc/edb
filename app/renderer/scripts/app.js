@@ -26,7 +26,7 @@ angular.module('ghstsApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages'])
     .controller('ghstsController', ['$mdDialog', 'ghstsService', GhstsController])
     .controller('receiverController', ['$mdDialog', 'receiverService', 'legalEntityService', ReceiverController])
     .service('fileService', ['$q', FileService])
-    .controller('fileController', ['$mdDialog', 'fileService', FileController])
+    .controller('fileController', ['$mdDialog','$mdSidenav', 'fileService', FileController])
     .service('submissionService', ['$q', SubmissionService])
     .controller('submissionController', ['$mdDialog', 'submissionService']);
 
