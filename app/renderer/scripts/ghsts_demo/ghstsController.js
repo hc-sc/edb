@@ -8,16 +8,20 @@ class GhstsController {
     
     assembleGHSTS($event) {
         // call service to assemble Demo GHSTS and report result
-        this.ghstsService.assembleDemoGHSTS();
-        this.$mdDialog.show(
-            this.$mdDialog
-                .alert()
-                .clickOutsideToClose(true)
-                .title('Success')
-                .content('DemoGHSTS.xml Written Successfully!')
-                .ok('Ok')
-                .targetEvent($event)
-        );
+        this.ghstsService.assembleDemoGHSTS()
+            .then(() => {
+                this.$mdDialog.show(
+                    this.$mdDialog
+                        .alert()
+                        .clickOutsideToClose(true)
+                        .title('Success')
+                        .content('DemoGHSTS.xml Written Successfully!')
+                        .ok('Ok')
+                        .targetEvent($event)
+                );
+            })
+            .catch(err => console.log(err.stack));
+
     }
 }
 

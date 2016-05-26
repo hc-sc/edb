@@ -50,7 +50,6 @@ class SubmissionService {
             submission.SUBMISSION_VERSION_DATE = new Date(rawS.SUBMISSION_VERSION_DATE[0]);
             submission.SUBMISSION_TITLE = rawS.SUBMISSION_TITLE[0];
             
-            // TODO: hard coded to a 'true' string value
             submission.INCREMENTAL = rawS.INCREMENTAL[0] == 'true' ? true : false;
         
             // insert into db

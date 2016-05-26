@@ -4,15 +4,17 @@ import {Receiver, Sender} from '../receiver/receiverModel.js';
 import {ValueStruct} from '../common/sharedModel.js';
 import {Product} from '../product/productModel.js';
 import { Submission } from '../submission/submissionModel';
+import { Dossier } from '../dossier/dossierModel';
 
 const outputFile = './app/renderer/data/DemoGHSTS.xml';
 
 class GhstsService {
-    constructor(ReceiverService, LegalEntityService, ProductService, SubmissionService) {
+    constructor(ReceiverService, LegalEntityService, ProductService, SubmissionService, DossierService) {
         this.receiverService = ReceiverService;
         this.legalEntityService = LegalEntityService;
         this.productService = ProductService;
         this.submissionService = SubmissionService;
+        this.dossierService = DossierService;
     }
             
     assembleDemoGHSTS(){          
@@ -23,7 +25,7 @@ class GhstsService {
         // at home... I mean in prod.
         let ghsts = new GHSTS("./app/renderer/data/ghsts.xml");
         
-        ghsts.readObjects()
+        return ghsts.readObjects()
             .then(() => {
                 console.log('XML read into GHSTS object. Read DB to update');
                 return this.legalEntityService.getLegalEntities();
@@ -45,6 +47,11 @@ class GhstsService {
             .then(products => {
                 ghsts.setProduct(new Product(products[0]).toGhstsJson());
                 
+                return this.dossierService.getDossiers();
+            })
+            .then(dossiers => {
+                ghsts.setDossier(new Dossier(dossiers[0]).toGhstsJson());
+                  
                 return this.submissionService.getAllSubmissions();
             })
             .then(submissions => {
@@ -54,13 +61,11 @@ class GhstsService {
             })
             .then(() => {
                 console.log(`Successfully written to ${outputFile}`);
-            })
-            .catch(err => console.log(err.stack));
+            });
     }        
 }
 
-GhstsService.$inject = [ 'receiverService', 'legalEntityService', 'productService', 'submissionService'];
-
+GhstsService.$inject = [ 'receiverService', 'legalEntityService', 'productService', 'submissionService', 'dossierService'];
 
 export { GhstsService };
 

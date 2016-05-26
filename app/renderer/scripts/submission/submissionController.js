@@ -12,7 +12,6 @@ class SubmissionController {
     }
     
     initFromDB() {
-        console.log('initizing from db');
         this.submissionService.getAllSubmissions()
         .then(submissions => {
             if (submissions.length > 0) {
@@ -35,7 +34,6 @@ class SubmissionController {
         console.log(this.submission);
         if (this.submission._id) {
             this.submissionService.updateSubmission(this.submission).then(() => {
-                console.log(this.submission);
                 this.$mdDialog.show(
                     this.$mdDialog
                         .alert()
@@ -82,7 +80,6 @@ class SubmissionController {
     }
     
     initializeSubmissionsFromXml() {
-        console.log('initalizing from xml');
         this.submissionService.initializeSubmissions()
         .then(() => {
             this.initFromDB();

@@ -1,0 +1,151 @@
+
+<main layout-fill layout="column" tabIndex="-1" role="main" class="md-whiteframe-z2">
+    <md-toolbar layout="row" class="md-whiteframe-z1">
+        <div class="md-toolbar-tools">
+            <md-button class="md-icon-button" aria-label="Home" ng-href="#/home">
+                <md-icon class="material-icons" aria-label="Home">home</md-icon>
+            </md-button>
+            <h2>
+                <span>Dossier</span>
+            </h2>
+        </div>
+    </md-toolbar>
+    <md-content layout-padding>
+        <form name="dossierForm" class="autoScroll">
+            <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label for="dossierPID">PID</label>
+                    <input id="dossierPID"
+                        ng-model="_ctrl.dossier.DOSSIER_PID"
+                        type="text"
+                        disabled>
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label for="compID">Comp ID</label>
+                    <input id="compID"
+                        ng-model="_ctrl.dossier.DOSSIER_COMP_ID"
+                        type="text">
+                </md-input-container>
+            </div>
+            <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label for="description">Description</label>
+                    <input id="description"
+                        ng-model="_ctrl.dossier.DOSSIER_DESCRIPTION_TITLE"
+                        type="text">
+                </md-input-container>
+            </div>
+            
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h2>Referenced Dossier</h2>
+                    <span flex></span>
+                    <md-button class="md-icon-button">
+                        <md-icon 
+                            class="material-icons"
+                            aria-label="Add Referenced Dossier"
+                            ng-click="_ctrl.addReferencedDossier()">add_circle</md-icon>
+                    </md-button>
+                </div>
+            </md-toolbar>
+            
+            <md-list>
+                <md-list-item 
+                    class="noright"
+                    ng-repeat="rd in _ctrl.dossier.REFERENCED_DOSSIER track by $index">
+                    <div layout-gt-sm="row" flex="80">
+                        <md-input-container class="md-block" flex-gt-sm="30">
+                            <label for="dossierNumber">Dossier Number</label>
+                            <input
+                                id="dossierNumber"
+                                ng-model="rd.REFERENCED_DOSSIER_NUMBER"
+                                type="text">
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm="70">
+                            <label for="reason">Reason</label>
+                            <input 
+                                id="reason"
+                                ng-model="rd.REFERENCED_DOSSIER_REASON"
+                                type="text">
+                        </md-input-container>
+                    </div>
+                    <md-button 
+                        class="md-secondary md-raised"
+                        ng-click="_ctrl.deleteReferencedDossier(rd, $event)">
+                            Delete
+                    </md-button>
+                </md-list-item>
+            </md-list>
+            
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h2>Dossier RA</h2>
+                    <span flex></span>
+                    <md-button class="md-icon-button">
+                        <md-icon 
+                            class="material-icons" 
+                            aria-label="Add Dossier RA"
+                            ng-click="_ctrl.addDossierRA()">add_circle</md-icon>
+                    </md-button>
+                </div>
+            </md-toolbar>
+            
+            <md-list>
+                <md-list-item 
+                    class="noright"
+                    ng-repeat="dra in _ctrl.dossier.DOSSIER_RA track by $index">
+                    <div layout-gt-sm="row" flex="80">
+                        <md-input-container class="md-block" flex-gt-sm="50">
+                            <label for="regulatoryName">
+                                Regulatory Name
+                            </label>
+                            <input 
+                                id="regulatoryName"
+                                ng-model="dra.REGULATORY_TYPE.VALUE_DECODE"
+                                ng-change="dra.setRegulatoryTypeValue(dra.REGULATORY_TYPE.VALUE_DECODE)"
+                                type="text">
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm="20">
+                            <label for="applicationType">
+                                Application Type
+                            </label>
+                            <input 
+                                id="applicationType"
+                                ng-model="dra.APPLICATION_TYPE.VALUE_DECODE"
+                                ng-change="dra.setApplicationTypeValue(dra.APPLICATION_TYPE.VALUE_DECODE)"
+                                type="text">
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm="30">
+                            <label for="projectIdNumber">
+                                Project ID Number (separate numbers by a comma)
+                            </label>
+                            <input 
+                                id="projectIdNumber"
+                                ng-model="dra.PROJECT_ID_NUMBER"
+                                type="text">
+                        </md-input-container>
+                    </div>
+                    <md-button 
+                        class="md-secondary md-raised"
+                        ng-click="_ctrl.deleteDossierRA(dra)">
+                            Delete
+                    </md-button>
+                </md-list-item>
+            </md-list>
+        </form>
+        <div layout="row" layout-sm="column" layout-align="center" layout-wrap>
+            <md-button class="md-raised md-primary"
+                ng-click="_ctrl.saveDossier()">
+                Save
+            </md-button>
+            <md-button class="md-raised md-primary"
+            ng-click="_ctrl.viewDossierGHSTS()">
+                View Dossier GHSTS
+            </md-button>
+            <md-button class="md-raised md-warn"
+            ng-click="_ctrl.initializeDossierFromXml()">
+                Init DO with sample GHSTS XML
+            </md-button>    
+        </div>                
+    </md-content>
+</main>
