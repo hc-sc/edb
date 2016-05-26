@@ -30,10 +30,8 @@ class SubmissionController {
     }
     
     saveSubmission($event) {
-        console.log(this.submission);
         if (this.submission._id) {
             this.submissionService.updateSubmission(this.submission).then(() => {
-                console.log(this.submission);
                 this.$mdDialog.show(
                     this.$mdDialog
                         .alert()
