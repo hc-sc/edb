@@ -15,7 +15,6 @@ class ProductService {
 
     // return a list of all products from the database
     getProducts() {    
-        console.log('getting products');  
         let deferred = this.$q.defer();
         this.productsDb.find({}, (err, rows) => {
             if (err) deferred.reject(err);
@@ -25,7 +24,6 @@ class ProductService {
     }
   
     createProduct(product) {
-        console.log('creating product');
         let deferred = this.$q.defer();
         this.productsDb.insert(product, (err, res) => {
             if (err) deferred.reject(err);
@@ -35,7 +33,6 @@ class ProductService {
     }
 
     deleteProduct(id) {   
-        console.log('deleting product');         
         let deferred = this.$q.defer();
         this.productsDb.remove({ _id: id }, (err, res) => {
             if (err) deferred.reject(err);
@@ -45,7 +42,6 @@ class ProductService {
     }
 
     updateProduct(product) {
-        console.log('in updateProduct');
         let deferred = this.$q.defer();
         this.productsDb.update({ _id: product._id}, product, {}, 
             (err, numReplaced) => {
@@ -168,9 +164,7 @@ class ProductService {
                 product.addIngredient(ing);
             });
             product.DOSSIER = doss;
-            
-            //console.log(product);
-            
+                        
             // insert the above into db.
             this.createProduct(product);
         }).catch(e => {

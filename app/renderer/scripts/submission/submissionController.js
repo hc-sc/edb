@@ -3,7 +3,6 @@ import { Submission } from './submissionModel';
 
 class SubmissionController {
     constructor($mdDialog, submissionService) {
-        console.log('in constructor');
         this.$mdDialog = $mdDialog;
         this.submissionService = submissionService;
         this.submission = {};
@@ -12,7 +11,6 @@ class SubmissionController {
     }
     
     initFromDB() {
-        console.log('initizing from db');
         this.submissionService.getAllSubmissions()
         .then(submissions => {
             if (submissions.length > 0) {
@@ -82,7 +80,6 @@ class SubmissionController {
     }
     
     initializeSubmissionsFromXml() {
-        console.log('initalizing from xml');
         this.submissionService.initializeSubmissions()
         .then(() => {
             this.initFromDB();

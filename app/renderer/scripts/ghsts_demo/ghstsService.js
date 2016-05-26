@@ -9,12 +9,12 @@ import { Dossier } from '../dossier/dossierModel';
 const outputFile = './app/renderer/data/DemoGHSTS.xml';
 
 class GhstsService {
-    constructor(ReceiverService, LegalEntityService, ProductService, SubmissionService, dossierService) {
+    constructor(ReceiverService, LegalEntityService, ProductService, SubmissionService, DossierService) {
         this.receiverService = ReceiverService;
         this.legalEntityService = LegalEntityService;
         this.productService = ProductService;
         this.submissionService = SubmissionService;
-        this.dossierService = dossierService;
+        this.dossierService = DossierService;
     }
             
     assembleDemoGHSTS(){          

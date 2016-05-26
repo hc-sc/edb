@@ -12,7 +12,6 @@ export class DossierController {
     }
     
     initFromDB() {
-        console.log('initializing from DB');
         this.dossierService.getDossiers()
             .then(dossiers => {
                 if (dossiers.length > 0) {
@@ -24,22 +23,16 @@ export class DossierController {
     
     saveDossier() {
         if (this.dossier._id) {
-            console.log('updating the dossier');
             this.dossierService.updateDossier(this.dossier)
                 .catch(err => console.log(err.stack));
         }
         else {
-            console.log('creating a new dossier');
             this.dossierService.createDossier(this.dossier)
                 .then(createdRow => {
                     this.dossier = new Dossier(createdRow);
                 })
                 .catch(err => console.log(err.stack));
         }
-    }
-    
-    clearDossier() {
-        this.dossier = new Dossier();
     }
     
     addReferencedDossier() {
@@ -100,7 +93,6 @@ export class DossierController {
     }
     
     initializeDossierFromXml() {
-        console.log('initializing from xml');
         this.dossierService.initializeDossiersFromXml()
             .then(() => {
                 this.initFromDB();
@@ -108,3 +100,7 @@ export class DossierController {
             .catch(err => console.log(err.stack));
     }
 }
+
+DossierController.$inject = ['$mdDialog', 'dossierService'];
+
+export { DossierController }

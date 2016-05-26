@@ -13,7 +13,9 @@ class Dossier {
                return new DossierRA(dosRA); 
             });
             
-            this._id = json._id;
+            if (json._id) {
+                this._id = json._id;
+            }
         }
         else {
             this.DOSSIER_PID = null;
@@ -100,6 +102,9 @@ class DossierRA {
     }
     
     toGhstsJson() {
+        // the project id numbers taken from the DB are an array,
+        // but if we create a new DossierRA, they are a string value,
+        // so need to turn them into an array for correct XML output
         if (!Array.isArray(this.PROJECT_ID_NUMBER)) {
             let numbers = this.PROJECT_ID_NUMBER.split(',');
             numbers = numbers.map(item => {

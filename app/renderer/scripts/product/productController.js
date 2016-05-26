@@ -53,7 +53,6 @@ class ProductController {
     
     deleteProduct($event) {
         if (!_.isEmpty(this.selected)) {
-            console.log('deleting product');
             let confirm = this.$mdDialog.confirm()
                                     .title('Are you sure?')
                                     .content('Are you sure you want to delete' +
@@ -85,7 +84,6 @@ class ProductController {
     
     saveProduct($event) {
         if (this.selected._id) {
-            console.log('updating a product');
             this.productService.updateProduct(this.selected).then(() => {
                 this.$mdDialog.show(
                     this.$mdDialog
@@ -100,7 +98,6 @@ class ProductController {
             .catch(err => console.log(err));
         }
         else { // new Product
-            console.log('creating a new product');
             this.productService.createProduct(this.selected).then(createdRow => {
                 this.$mdDialog.show(
                     this.$mdDialog
@@ -225,7 +222,6 @@ class ProductController {
     }
     
     updateUnitValue(ing) {
-        console.log(ing);
         ing.setUnitValue(ing.UNIT.VALUE_DECODE);
     }
     
@@ -245,7 +241,6 @@ class ProductController {
     }
     
     showConflictDiag(conflictingProducts, $event) {
-        console.log('in conflicts:', conflictingProducts);
         this.$mdDialog.show({
             controller: ListDialogController,
             controllerAs: '_ctrl',
@@ -303,16 +298,13 @@ class ProductController {
         this.productService.initializeProductFromXml()
             // get all entries
             .then(() => {
-                console.log('getting all products from db during init');
                 return this.productService.getProducts();
             })
             // map each entry, checking if there are any duplicates. If there are, display a dialog showing the names of all conflicting products
             .then(products => {
-                console.log('checking for conflicts');
                 return Promise.all(products.map(item => {
                     return this.productService.getProductByPid(item.PRODUCT_PID)
                         .then(matches => {
-                            console.log(matches);
                             if (matches.length > 1) {
                                 this.showConflictDiag(matches, $event);
                             }
@@ -321,7 +313,6 @@ class ProductController {
             })
             // load from the DB
             .then(() => {
-                console.log('loading in from db');
                 this.initFromDB();
             })
             .catch(err => console.log(err));
