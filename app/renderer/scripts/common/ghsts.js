@@ -59,7 +59,7 @@ class GHSTS {
     setDossier(dossier) {
         this.ghsts.PRODUCT.DOSSIER = dossier;
     }
-    
+
     readObjects() {
         // read json objects from ghsts xml    
         let self = this;

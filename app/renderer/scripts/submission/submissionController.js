@@ -3,6 +3,7 @@ import { Submission } from './submissionModel';
 
 class SubmissionController {
     constructor($mdDialog, submissionService) {
+        console.log('in constructor');
         this.$mdDialog = $mdDialog;
         this.submissionService = submissionService;
         this.submission = {};
@@ -30,6 +31,7 @@ class SubmissionController {
     }
     
     saveSubmission($event) {
+        console.log(this.submission);
         if (this.submission._id) {
             this.submissionService.updateSubmission(this.submission).then(() => {
                 this.$mdDialog.show(

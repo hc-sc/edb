@@ -164,7 +164,7 @@ class ProductService {
                 product.addIngredient(ing);
             });
             product.DOSSIER = doss;
-                        
+
             // insert the above into db.
             this.createProduct(product);
         }).catch(e => {

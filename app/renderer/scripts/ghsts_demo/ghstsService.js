@@ -67,6 +67,5 @@ class GhstsService {
 
 GhstsService.$inject = [ 'receiverService', 'legalEntityService', 'productService', 'submissionService', 'dossierService'];
 
-
 export { GhstsService };
 
