@@ -7,18 +7,55 @@ import {_} from 'lodash';
 
 
 class DocumentController {
-    constructor($mdDialog, DocumentService, PickListService) {
+    constructor($mdDialog,$mdSidenav, $location, DocumentService, PickListService) {
         this.documentService = DocumentService;
         this.$mdDialog = $mdDialog; 
+        this.pickListService = PickListService;
+        this.$mdSidenav = $mdSidenav;
+        this.$location = $location;
         this.selected = null;
         this.documents = [];
         this.selectedIndex = 0;
         this.filterText = null;
-                
+        
+        this.geDocNumTypeOptions = this.pickListService.getGEDocNumberTypeOptions();
         // Load initial data
         this.getAlldocuments();       
         
-    }     
+    }   
+    
+     confirmLeavePage($event){
+        // confirm with user if the form has been modified before leaving the page   
+        var scope = angular.element($event.target.ownerDocument.docform).scope();    
+        let isFormPristine = scope.docform.$pristine;   
+        if(! isFormPristine){
+            $event.preventDefault();   
+            // ask the user to confirm before leaving page
+            let confirm = this.$mdDialog.confirm()
+                                .title('Form Modified')
+                                .content('Are you sure you want to leave this page?')
+                                .ok('Yes')
+                                .cancel('No')
+                                .targetEvent($event);
+        
+            this.$mdDialog.show(confirm).then(() => {                
+                console.log('taking the user to the page');
+                this.$location.path('/home');
+            })
+        }
+    }
+    
+    _setFormPrestine($event){
+        // private - set the to its prestine state after save or update
+        var scope = angular.element($event.target.ownerDocument.docform).scope();    
+        scope.docform.$setPristine();   
+    }
+    
+    toggleSidenav(componentId){
+        // toggle the side nave by component identifer 
+        this.$mdSidenav(componentId).toggle();
+    }
+    
     selectDocument(document, index) {
         this.selected = angular.isNumber(document) ? this.documents[document] : document;
         this.selectedIndex = angular.isNumber(document) ? document: index;
@@ -121,6 +158,6 @@ class DocumentController {
     }
 }
 
-DocumentController.$inject = ['$mdDialog', 'documentService', 'pickListService'];
+DocumentController.$inject = ['$mdDialog','$mdSidenav', '$location', 'documentService', 'pickListService'];
 
 export { DocumentController }

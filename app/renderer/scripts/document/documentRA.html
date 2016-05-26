@@ -24,36 +24,32 @@
                     </md-input-container>  
                     <md-input-container class="md-block" flex="30">
                         <label>Data Protection</label>
-                        <md-select name="repeatDataPro" id="repeatDataPro" ng-model="_ctrl.documentRA.DATA_PROTECTION.VALUE" ng-change="_ctrl.documentRA.updateSelectedStatusDecode()">
+                        <md-select name="repeatDataPro" id="repeatDataPro" ng-model="_ctrl.documentRA.DATA_PROTECTION.VALUE" ng-change="_ctrl.documentRA.updateSelectedYesNoDecode()">
                             <md-option ng-repeat="docRaDataPr in _ctrl.yesnoOptions" value="{{docRaDataPr.VALUE}}" ng-selected="{{_ctrl.documentRA.DATA_PROTECTION.VALUE == docRaDataPr.VALUE}}">{{ docRaDataPr.VALUE_DECODE }}</md-option>
                         </md-select>  
                     </md-input-container>  
                    <md-input-container class="md-block" flex="40">
                         <label>Data Requirement</label>
-                        <md-select name="repeatDataReq" id="repeatDataReq" ng-model="_ctrl.documentRA.DATA_REQUIREMENT.VALUE" ng-change="_ctrl.documentRA.updateSelectedStatusDecode()">
+                        <md-select name="repeatDataReq" id="repeatDataReq" ng-model="_ctrl.documentRA.DATA_REQUIREMENT.VALUE" ng-change="_ctrl.documentRA.updateSelectedYesNoDecode()">
                             <md-option ng-repeat="docRaDataRq in _ctrl.yesnoOptions" value="{{docRaDataRq.VALUE}}" ng-selected="{{_ctrl.documentRA.DATA_REQUIREMENT.VALUE == docRaDataRq.VALUE}}">{{ docRaDataRq.VALUE_DECODE }}</md-option>
                         </md-select>  
                     </md-input-container>                                      
             </div>
             
              <div layout-gt-sm="row">
-                    <!--<md-input-container class="md-block" flex="30">
+                    <md-input-container class="md-block" flex="30">
                         <label>Type</label>
-                        <md-select name="repeatDocNumType" id="repeatDocNumType" ng-model="_ctrl.documentRA.RA_DOCUMENT_NUMBER.RA_DOCUMENT_NUMBER_TYPE.VALUE" ng-change="_ctrl.documentRA.updateSelectedStatusDecode()">
+                        <md-select name="repeatDocNumType" id="repeatDocNumType" ng-model="_ctrl.documentRA.RA_DOCUMENT_NUMBER.RA_DOCUMENT_NUMBER_TYPE.VALUE" ng-change="_ctrl.documentRA.updateSelectedRaDocNumTypeDecode()">
                             <md-option ng-repeat="docRaDocNumType in _ctrl.raDocNumTypeOptions" value="{{docRaDocNumType.VALUE}}" ng-selected="{{_ctrl.documentRA.RA_DOCUMENT_NUMBER.RA_DOCUMENT_NUMBER_TYPE.VALUE == docRaDocNumType.VALUE}}">{{ docRaDocNumType.VALUE_DECODE }}</md-option>
                         </md-select>  
-                    </md-input-container>  -->
-                    <md-input-container class="md-block" flex="30">
-                            <label>Type</label>
-                            <input ng-model="_ctrl.documentRA.RA_DOCUMENT_NUMBER.RA_DOCUMENT_NUMBER_TYPE.VALUE" type="text">
-                    </md-input-container>
+                    </md-input-container>  
                     <md-input-container class="md-block" flex="30">
                             <label>Identifier</label>
-                            <input ng-model="_ctrl.documentRA.RA_DOCUMENT_NUMBER[0].IDENTIFIER" type="text">
+                            <input ng-model="_ctrl.documentRA.RA_DOCUMENT_NUMBER.IDENTIFIER" type="text">
                     </md-input-container>
                     <md-input-container class="md-block" flex="30">
                             <label>Submitted</label>
-                            <input ng-model="_ctrl.documentRA.RA_DOCUMENT_NUMBER[0].ALREADY_SUBMITTED" type="text">
+                            <input ng-model="_ctrl.documentRA.RA_DOCUMENT_NUMBER.ALREADY_SUBMITTED" type="text">
                     </md-input-container>
             </div>
             

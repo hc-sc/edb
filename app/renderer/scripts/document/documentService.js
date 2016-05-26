@@ -91,9 +91,17 @@ class DocumentService {
                 );            
                 //doc.REFERENCED_DOCUMENT.forEach(refDoc =>
 			    //doc.RELATED_TO_SUBSTANCE.forEach(relSub => // rarely used or later      
-                doc.DOCUMENT_GENERIC[0].DOCUMENT_NUMBER.forEach(docNum => 
-                    docGen.addDocumentNumber(new DocumentNumber(new ValueStruct(docNum.DOCUMENT_NUMBER_TYPE[0].VALUE[0], docNum.DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0]), docNum.IDENTIFIER[0]) )   
-                );     
+                
+                if(doc.DOCUMENT_GENERIC[0].DOCUMENT_NUMBER !== undefined){
+                            doc.DOCUMENT_GENERIC[0].DOCUMENT_NUMBER.forEach(docNum => {
+                                // console.log(" View  Value"  + JSON.stringify(docNum.DOCUMENT_NUMBER_TYPE[0].VALUE[0]._));
+                                // console.log(" View  Value Other"  + JSON.stringify(docNum.DOCUMENT_NUMBER_TYPE[0].VALUE[0].attr$.Other_Value));
+                                // console.log(" View  Value Code"  + JSON.stringify(docNum.DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0]));
+                                docGen.addDocumentNumber(new DocumentNumber(new ValueStruct(docNum.DOCUMENT_NUMBER_TYPE[0].VALUE[0].attr$.Other_Value, docNum.DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0]), docNum.IDENTIFIER[0]) );
+                               }
+                      
+                           ); 
+                }                   
                 docGen.DOCUMENT_TITLE               = doc.DOCUMENT_GENERIC[0].DOCUMENT_TITLE[0];  
                 docGen.DOCUMENT_AUTHOR              = doc.DOCUMENT_GENERIC[0].DOCUMENT_AUTHOR[0];
                 docGen.DOCUMENT_ISSUE_DATE          = doc.DOCUMENT_GENERIC[0].DOCUMENT_ISSUE_DATE[0];
@@ -131,8 +139,25 @@ class DocumentService {
                     docRA.DOCUMENT_COMMENT = dra.DOCUMENT_COMMENT;  // assign array to array directly
                   
                     docRA.OTHER_NATIONAL_GUIDELINE = dra.OTHER_NATIONAL_GUIDELINE; 
-                    docRA.RA_DOCUMENT_NUMBER =   dra.RA_DOCUMENT_NUMBER;
-                   
+                    
+                    let raDocNum = new RADocumentNumber();
+                    // Need to check if non mandatory element is not present in your xml payload
+                    if(dra.RA_DOCUMENT_NUMBER !== undefined) {
+                        // DO NOT REMOVE THIS FOR LATER TEST attr$.Other_Value
+                        //console.log( "RA_DOCUMENT_NUMBER available ---->>>>>>"  + JSON.stringify(dra.RA_DOCUMENT_NUMBER[0].RA_DOCUMENT_NUMBER_TYPE));
+                        // console.log( "RA_DOCUMENT_NUMBER_TYPE VALUE ---->>>>>>"  + JSON.stringify(dra.RA_DOCUMENT_NUMBER[0].RA_DOCUMENT_NUMBER_TYPE[0].VALUE[0]._));
+                        // console.log( "RA_DOCUMENT_NUMBER_TYPE Other_Value ---->>>>>>"  + JSON.stringify(dra.RA_DOCUMENT_NUMBER[0].RA_DOCUMENT_NUMBER_TYPE[0].VALUE[0].attr$.Other_Value));
+                        // console.log( "RA_DOCUMENT_NUMBER_TYPE VALUE_DECODE ---->>>>>>"  + JSON.stringify(dra.RA_DOCUMENT_NUMBER[0].RA_DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0]));
+                        
+                        let raDocNumType = new ValueStruct(dra.RA_DOCUMENT_NUMBER[0].RA_DOCUMENT_NUMBER_TYPE[0].VALUE[0]._ , dra.RA_DOCUMENT_NUMBER[0].RA_DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0]);
+                  
+                        raDocNum.RA_DOCUMENT_NUMBER_TYPE = raDocNumType;
+                        raDocNum.IDENTIFIER = dra.RA_DOCUMENT_NUMBER[0].IDENTIFIER[0];
+                        raDocNum.ALREADY_SUBMITTED = dra.RA_DOCUMENT_NUMBER[0].ALREADY_SUBMITTED[0];
+                        //raDocNum.SUBMISSION_CONTEXT= dra.RA_DOCUMENT_NUMBER[0].SUBMISSION_CONTEXT; // assign array directly
+                        docRA.RA_DOCUMENT_NUMBER =   raDocNum;
+                    }
+                  
                     docu.addDocumentRA(docRA);
                })
                 

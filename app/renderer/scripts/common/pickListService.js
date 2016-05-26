@@ -21,10 +21,16 @@ class PickListService {
         ];
     }
 	
+	getGEDocNumberTypeOptions() {
+        return [
+            {VALUE_DECODE: "Company ID", VALUE: "COMPID"},
+			{VALUE_DECODE: "other", VALUE: "other"}		
+        ];
+    }
+	
 	getRADocNumberTypeOptions() {
         return [
-            {VALUE_DECODE: "MRID", VALUE: "MRID"},
-			{VALUE_DECODE: "ABID", VALUE: "ABID"}
+            {VALUE_DECODE: "MRID", VALUE: "MRID"}		
         ];
     }
     

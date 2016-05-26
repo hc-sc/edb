@@ -149,11 +149,7 @@ class DocumentGeneric {
              let refObj = new ReferenceToFile(refToFile);
              referencedToFileJson.push(refObj.toGHSTSJson());
          }); 
-         
-       
-        //  this.REFERENCED_TO_FILE.forEach(refToFile => 
-        //     referencedToFileJson.push(refToFile)
-        //  ); 
+      
         
         return {
             	METADATA_STATUS 	       :      this.METADATA_STATUS,		
