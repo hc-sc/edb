@@ -94,7 +94,6 @@ class GHSTS {
                     
                     self.dossier = obj.GHSTS.PRODUCT[0].DOSSIER;
                     
-                    console.log(self.dossier); 
                 })
             });
         })
