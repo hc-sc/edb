@@ -2,7 +2,7 @@ import Nedb from 'nedb';
 import xml2js from 'xml2js';
 import uuid from 'node-uuid';
 import {GHSTS} from '../common/ghsts.js'
-import { ContentStatusHistory, ReferencedDocument, ReferenceToSubstance,  DocumentNumber, ReferenceToFile, DocumentGeneric, DocumentComment, OtherNationalGuideLine, SubmissionContext, RADocumentNumber, DocumentRA, Document} from './documentModel.js';
+import { ContentStatusHistory, ReferencedDocument, ReferenceToSubstance,  DocumentNumber, ReferenceToFile, DocumentGeneric, OtherNationalGuideLine, SubmissionContext, RADocumentNumber, DocumentRA, Document} from './documentModel.js';
 import {ValueStruct, IdentifierStruct} from '../common/sharedModel.js'
 
 class DocumentService {
@@ -22,6 +22,47 @@ class DocumentService {
         return deferred.promise;
     }
     
+       // return a list of all documents
+    getDocuments() {        
+        let deferred = this.$q.defer();
+        this.documents.find({}, function (err, rows) {
+            if (err) deferred.reject(err);
+            deferred.resolve(rows);
+        });      
+        return deferred.promise;  
+    }
+    
+    getDocumentByDOCId(docId) {
+        let deferred = this.$q.defer();
+        this.documents.find({'_identifier': docId }, function (err, result) {
+            if (err) deferred.reject(err);
+            deferred.resolve(result);
+        });  
+        return deferred.promise;        
+    }
+    
+    
+    // the following are demo related methods.  can be moved to a dedicated test class later    
+    getDocumentGHSTSById(id) {
+        // return GHSTS xml from legal entity json. 
+        let deferred = this.$q.defer();
+        this.documents.find({'_id': id }, function (err, result) {
+            if (err) deferred.reject(err);           
+            
+            // retrieved Json from database
+            let docJSON = result[0];
+           
+            // create Document based on docJSON           
+            let doc = new Document(docJSON);
+           
+            // convert to XML
+            let builder = new xml2js.Builder({rootName: 'DOCUMENT', attrkey: 'attr$'});            
+            let xml = builder.buildObject(doc.toGHSTSJson());    
+            deferred.resolve(xml);        
+        });       
+        return deferred.promise;
+    }
+    
     initializeDOC(){
         // read from sample ghsts and populate the database with legal entities.
         let ghsts = new GHSTS("./app/renderer/data/ghsts.xml");     
@@ -30,14 +71,17 @@ class DocumentService {
         
         promise.then(function(contents) {
             let docs = ghsts.documents;
+            //console.log(JSON.stringify(docs));
             docs.forEach(doc => {                
                 // convert GHSTS json to documents objects
                 // xml2js' use-and-abuse array setting is on to play safe for now, hence the default array references.   
-                
+                let docu = new Document();
                 // First Build DocumentGeneric
-                let status = new ValueStruct(doc.DOCUMENT_GENERIC[0].METADATA_STATUS[0].VALUE[0], doc.DOCUMENT_GENERIC[0].METADATA_STATUS[0].VALUE_DECODE[0]);       
+                let statusGen = new ValueStruct(doc.DOCUMENT_GENERIC[0].METADATA_STATUS[0].VALUE[0], doc.DOCUMENT_GENERIC[0].METADATA_STATUS[0].VALUE_DECODE[0]);       
                 let docGen = new DocumentGeneric();
-                docGen.METADATA_STATUS      = status; 
+                
+                docu.documentId             = doc.attr$.Id;  // set id attibute
+                docGen.METADATA_STATUS      = statusGen; 
                 docGen.DOCUMENT_PID         = doc.DOCUMENT_GENERIC[0].DOCUMENT_PID[0];  // access element DOCUMENT_GENERIC from each DOCUMENT as doc
                 docGen.DOCUMENT_FAMILY_PID  = doc.DOCUMENT_GENERIC[0].DOCUMENT_FAMILY_PID[0];
                 docGen.DOCUMENT_FAMILY      = doc.DOCUMENT_GENERIC[0].DOCUMENT_FAMILY[0];
@@ -47,9 +91,17 @@ class DocumentService {
                 );            
                 //doc.REFERENCED_DOCUMENT.forEach(refDoc =>
 			    //doc.RELATED_TO_SUBSTANCE.forEach(relSub => // rarely used or later      
-                doc.DOCUMENT_GENERIC[0].DOCUMENT_NUMBER.forEach(docNum => 
-                    docGen.addDocumentNumber(new DocumentNumber(new ValueStruct(docNum.DOCUMENT_NUMBER_TYPE[0].VALUE[0], docNum.DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0]), docNum.IDENTIFIER[0]) )   
-                );     
+                
+                if(doc.DOCUMENT_GENERIC[0].DOCUMENT_NUMBER !== undefined){
+                            doc.DOCUMENT_GENERIC[0].DOCUMENT_NUMBER.forEach(docNum => {
+                                // console.log(" View  Value"  + JSON.stringify(docNum.DOCUMENT_NUMBER_TYPE[0].VALUE[0]._));
+                                // console.log(" View  Value Other"  + JSON.stringify(docNum.DOCUMENT_NUMBER_TYPE[0].VALUE[0].attr$.Other_Value));
+                                // console.log(" View  Value Code"  + JSON.stringify(docNum.DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0]));
+                                docGen.addDocumentNumber(new DocumentNumber(new ValueStruct(docNum.DOCUMENT_NUMBER_TYPE[0].VALUE[0].attr$.Other_Value, docNum.DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0]), docNum.IDENTIFIER[0]) );
+                               }
+                      
+                           ); 
+                }                   
                 docGen.DOCUMENT_TITLE               = doc.DOCUMENT_GENERIC[0].DOCUMENT_TITLE[0];  
                 docGen.DOCUMENT_AUTHOR              = doc.DOCUMENT_GENERIC[0].DOCUMENT_AUTHOR[0];
                 docGen.DOCUMENT_ISSUE_DATE          = doc.DOCUMENT_GENERIC[0].DOCUMENT_ISSUE_DATE[0];
@@ -59,34 +111,67 @@ class DocumentService {
                 docGen.TEST_LABORATORY              = doc.DOCUMENT_GENERIC[0].TEST_LABORATORY[0];
                 docGen.GXP_INDICATOR                = doc.DOCUMENT_GENERIC[0].GXP_INDICATOR[0];
                 docGen.TESTED_ON_VERTEBRATE         = doc.DOCUMENT_GENERIC[0].TESTED_ON_VERTEBRATE[0];
-                
-                // the xml payload has multiple REFERENCED_TO_FILE in each document generic element so we need to loop through the  REFERENCED_TO_FILE
-                
-                 doc.DOCUMENT_GENERIC[0].REFERENCED_TO_FILE.forEach(refFile => { 
-                     let refObj = new ReferenceToFile();
-                     refObj.toFileId = refFile.attr$.To_File_Id;  // get and set file ref id
-                     //console.debug("Ref ID: " + refFile.attr$.To_File_Id);
+              
+                doc.DOCUMENT_GENERIC[0].REFERENCED_TO_FILE.forEach(refFile => {         
+                     let refObj = new ReferenceToFile();  
+                     refObj.toFileId = refFile.attr$.To_File_Id; // collect value from xml source attr$ and add to class object ReferenceToFile   
                      docGen.addReferenceToFile(refObj);
                     }
                  )
                 
-               
+              
                 
                 // Second Build DocumentRA
-                let docRA = new DocumentRA();
+               doc.DOCUMENT_RA.forEach(dra => {
+                    //console.log(JSON.stringify(dra));
+                    let docRA = new DocumentRA();
+                    
+                    let raStatus            = new ValueStruct(dra.METADATA_STATUS[0].VALUE[0], dra.METADATA_STATUS[0].VALUE_DECODE[0]);
+                    let raDataProtection    = new ValueStruct(dra.DATA_PROTECTION[0].VALUE[0], dra.DATA_PROTECTION[0].VALUE_DECODE[0]);
+                    let raDataReq           = new ValueStruct(dra.DATA_REQUIREMENT[0].VALUE[0], dra.DATA_REQUIREMENT[0].VALUE_DECODE[0]);
+                    
+                    docRA.toSpecificForRAId = dra.attr$.To_Specific_for_RA_Id;
+                      
+                    docRA.METADATA_STATUS = raStatus;
+                    docRA.DATA_PROTECTION = raDataProtection;
+                    docRA.DATA_REQUIREMENT = raDataReq;
+                    
+                    docRA.DOCUMENT_COMMENT = dra.DOCUMENT_COMMENT;  // assign array to array directly
+                  
+                    docRA.OTHER_NATIONAL_GUIDELINE = dra.OTHER_NATIONAL_GUIDELINE; 
+                    
+                    let raDocNum = new RADocumentNumber();
+                    // Need to check if non mandatory element is not present in your xml payload
+                    if(dra.RA_DOCUMENT_NUMBER !== undefined) {
+                        // DO NOT REMOVE THIS FOR LATER TEST attr$.Other_Value
+                        //console.log( "RA_DOCUMENT_NUMBER available ---->>>>>>"  + JSON.stringify(dra.RA_DOCUMENT_NUMBER[0].RA_DOCUMENT_NUMBER_TYPE));
+                        // console.log( "RA_DOCUMENT_NUMBER_TYPE VALUE ---->>>>>>"  + JSON.stringify(dra.RA_DOCUMENT_NUMBER[0].RA_DOCUMENT_NUMBER_TYPE[0].VALUE[0]._));
+                        // console.log( "RA_DOCUMENT_NUMBER_TYPE Other_Value ---->>>>>>"  + JSON.stringify(dra.RA_DOCUMENT_NUMBER[0].RA_DOCUMENT_NUMBER_TYPE[0].VALUE[0].attr$.Other_Value));
+                        // console.log( "RA_DOCUMENT_NUMBER_TYPE VALUE_DECODE ---->>>>>>"  + JSON.stringify(dra.RA_DOCUMENT_NUMBER[0].RA_DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0]));
+                        
+                        let raDocNumType = new ValueStruct(dra.RA_DOCUMENT_NUMBER[0].RA_DOCUMENT_NUMBER_TYPE[0].VALUE[0]._ , dra.RA_DOCUMENT_NUMBER[0].RA_DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0]);
+                  
+                        raDocNum.RA_DOCUMENT_NUMBER_TYPE = raDocNumType;
+                        raDocNum.IDENTIFIER = dra.RA_DOCUMENT_NUMBER[0].IDENTIFIER[0];
+                        raDocNum.ALREADY_SUBMITTED = dra.RA_DOCUMENT_NUMBER[0].ALREADY_SUBMITTED[0];
+                        //raDocNum.SUBMISSION_CONTEXT= dra.RA_DOCUMENT_NUMBER[0].SUBMISSION_CONTEXT; // assign array directly
+                        docRA.RA_DOCUMENT_NUMBER =   raDocNum;
+                    }
+                  
+                    docu.addDocumentRA(docRA);
+               })
                 
+                 
                 
-                let docu = new Document();
-                docu.documentId = doc.attr$.Id;
+               
+               
                 docu.DOCUMENT_GENERIC = docGen;
-               // docu.addDocumentRA(docRA);
+               
               
                 console.log('---------------------JSON Model----------------\n' + JSON.stringify(docu));
                 console.log('------------------------GHSTS Format--------------------\n' + JSON.stringify(docu.toGHSTSJson()));
                  // enable the following to insert into db.
                 self.createDocument(docu);  
-            }).catch(function(e) {
-                console.log(e); 
             })
         });
     }  
@@ -106,6 +191,8 @@ class DocumentService {
         // docRA.METADATA_STATUS = new ValueStruct('New', 'New'); 
         // docRA.DATA_PROTECTION = new ValueStruct('New', 'New'); 
         // docRA.DATA_REQUIREMENT = new ValueStruct('New', 'New'); 
+        docRA.addDocumentComment("Comment 1");
+        docRA.addDocumentComment("Comment 2");
         
         let docGeneric = new DocumentGeneric();
         docGeneric.METADATA_STATUS =  new ValueStruct('New', 'New'); 
@@ -135,25 +222,7 @@ class DocumentService {
        return doc;
     }
     
-     // return a list of all documents
-    getDocuments() {        
-        let deferred = this.$q.defer();
-        this.documents.find({}, function (err, rows) {
-            if (err) deferred.reject(err);
-            deferred.resolve(rows);
-        });      
-        return deferred.promise;  
-    }
-    
-    getDocumentByDOCId(docId) {
-        let deferred = this.$q.defer();
-        this.documents.find({'_identifier': docId }, function (err, result) {
-            if (err) deferred.reject(err);
-            deferred.resolve(result);
-        });  
-        return deferred.promise;        
-    }
-    
+  
     addDocumentToDB(){  
         // add a new document to database
         let doc = this._createSampleDocument(); 
