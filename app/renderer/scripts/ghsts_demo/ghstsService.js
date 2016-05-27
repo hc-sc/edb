@@ -5,16 +5,19 @@ import {ValueStruct} from '../common/sharedModel.js';
 import {Product} from '../product/productModel.js';
 import { Submission } from '../submission/submissionModel';
 import { Dossier } from '../dossier/dossierModel';
+import { Substance, SubstanceIdentifierStruct } from '../substance/substanceModel';
+
 
 const outputFile = './app/renderer/data/DemoGHSTS.xml';
 
 class GhstsService {
-    constructor(ReceiverService, LegalEntityService, ProductService, SubmissionService, DossierService) {
+    constructor(ReceiverService, LegalEntityService, ProductService, SubmissionService, DossierService, SubstanceService) {
         this.receiverService = ReceiverService;
         this.legalEntityService = LegalEntityService;
         this.productService = ProductService;
         this.submissionService = SubmissionService;
         this.dossierService = DossierService;
+        this.substanceService = SubstanceService; 
     }
             
     assembleDemoGHSTS(){          
@@ -57,6 +60,13 @@ class GhstsService {
             .then(submissions => {
                 ghsts.addSubmission(new Submission(submissions[0]).toGhstsJson());
                 
+                return this.substanceService.getSubstances();
+            })
+            .then(substances => {
+                for (const substance of substances) {
+                    ghsts.addSubstance(new Substance(substance).toGHSTSJson());    
+                }
+                                
                 return ghsts.writeXML(outputFile);
             })
             .then(() => {
@@ -65,7 +75,7 @@ class GhstsService {
     }        
 }
 
-GhstsService.$inject = [ 'receiverService', 'legalEntityService', 'productService', 'submissionService', 'dossierService'];
+GhstsService.$inject = [ 'receiverService', 'legalEntityService', 'productService', 'submissionService', 'dossierService', 'substanceService'];
 
 export { GhstsService };
 
