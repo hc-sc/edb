@@ -14,6 +14,7 @@ class GHSTS {
 
         this.submission = [];
         this.dossier = {};
+        this.substances = [];
     }
 
     addLegalEntity(legalEntity) {
@@ -60,6 +61,14 @@ class GHSTS {
         this.ghsts.PRODUCT.DOSSIER = dossier;
     }
 
+    addSubstance(substance){
+        this.substances.push(substance);
+    }
+    
+    setSubstances(substances){
+        this.substances = substances;
+    }
+
     readObjects() {
         // read json objects from ghsts xml    
         let self = this;
@@ -67,7 +76,7 @@ class GHSTS {
             fs.readFile(self.filename, { encoding: "utf8" }, function (err, xmlStr) {
                 if (err) throw (err);
                 // parse the xml to json object                
-                xml2js.parseString(xmlStr, { attrkey: 'attr$' }, function (err, obj) {
+                xml2js.parseString(xmlStr, { attrkey: 'attr$', charkey: 'value$' }, function (err, obj) {
                     // check for errors
                     if (err) {
                         reject(err);
@@ -93,6 +102,7 @@ class GHSTS {
                     self.documents = obj.GHSTS.DOCUMENTS[0].DOCUMENT; 
                     
                     self.dossier = obj.GHSTS.PRODUCT[0].DOSSIER;
+                    self.substances = obj.GHSTS.SUBSTANCES[0].SUBSTANCE;  
                     
                 })
             });
@@ -101,7 +111,7 @@ class GHSTS {
 
     writeXML(filename) {
         // write ghsts json tree back to xml
-        let builder = new xml2js.Builder({ rootName: 'GHSTS', attrkey: 'attr$' });
+        let builder = new xml2js.Builder({ rootName: 'GHSTS', attrkey: 'attr$', charkey: "value$" });
         let xml = builder.buildObject(this.ghsts);
         fs.writeFile(filename, xml, function (err) {
             if (err) console.log(err);
