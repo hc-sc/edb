@@ -1,5 +1,5 @@
 class SubstanceIdentifierStruct {
-    constructor(value, identifier){              
+    constructor(value, identifier){
         this.SUBSTANCE_IDENTIFIER_TYPE = value,         // of ValueStruct
         this.IDENTIFIER = identifier;
     }
@@ -12,7 +12,7 @@ class Substance {
         }
         else {
             this._identifier = null;
-            this.METADATA_STATUS = {};      // of ValueStruct
+            this.METADATA_STATUS = null;      // of ValueStruct
             this.SUBSTANCE_NAME = null;
             this.SUBSTANCE_PID = null;
             this.SUBSTANCE_IDENTIFIER = []; // of SubstanceIdentifierStruct

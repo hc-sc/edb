@@ -1,9 +1,10 @@
 import angular from 'angular';
 import { ValueStruct } from '../common/sharedModel';
 import { Substance, SubstanceIdentifierStruct } from './substanceModel';
+import {_} from 'lodash';
 
 class SubstanceController {
-    constructor($mdSidenav, $mdDialog, $location, substanceService, pickListService) {
+    constructor($mdDialog, $mdSidenav,  $location, substanceService, pickListService) {
         this.substanceService = substanceService;
         this.pickListService = pickListService;
         this.$mdDialog = $mdDialog;
@@ -22,19 +23,76 @@ class SubstanceController {
         this.getAllSubstances();
     }
 
+    confirmLeavePage($event){
+        // confirm with user if the form has been modified before leaving the page   
+        var scope = angular.element($event.target.ownerDocument.substanceForm).scope();    
+        let isFormPristine = scope.substanceForm.$pristine;   
+        if(! isFormPristine){
+            $event.preventDefault();   
+            // ask the user to confirm before leaving page
+            let confirm = this.$mdDialog.confirm()
+                                .title('Form Modified')
+                                .content('Are you sure you want to leave this page?')
+                                .ok('Yes')
+                                .cancel('No')
+                                .targetEvent($event);
+        
+            this.$mdDialog.show(confirm).then(() => {                
+                console.log('taking the user to the page');
+                this.$location.path('/home');
+            })
+        }
+    }
+
+    toggleSidenav(componentId){
+        // toggle the side nave by component identifer 
+        this.$mdSidenav(componentId).toggle();
+    }
+
+    updateSelectedStatusDecode(){
+        // update metadata status value decode upon selection change
+        let selectedStatusValue = this.selected.METADATA_STATUS.VALUE;
+        // find the value decode in themetadata status options
+        let leStatusValueDecode = _(this.metadataStatusOptions)
+                                        .filter(c => c.VALUE == selectedStatusValue)
+                                        .map(c => c.VALUE_DECODE)
+                                        .value()[0];
+        this.selected.METADATA_STATUS.VALUE_DECODE = leStatusValueDecode;
+    }
+
+    updateIdTypeDecodeByIdentifierIndex(identiferIndex){
+        // update identifer type value decode by identifier index upon selection change
+        let selectedTypeValue = this.selected.SUBSTANCE_IDENTIFIER[identiferIndex].SUBSTANCE_IDENTIFIER_TYPE.VALUE;
+        // find value decode from identifierTypeOptions 
+        let idTypeValueDecode = _(this.identifierTypeOptions)
+                                        .filter(c => c.VALUE == selectedTypeValue)
+                                        .map(c => c.VALUE_DECODE)
+                                        .value()[0];
+        this.selected.SUBSTANCE_IDENTIFIER[identiferIndex].SUBSTANCE_IDENTIFIER_TYPE.VALUE_DECODE = idTypeValueDecode;
+    }
+
+    _setFormPrestine($event){
+        // private - set the to its prestine state after save or update
+        var scope = angular.element($event.target.ownerDocument.substanceForm).scope();    
+        scope.substanceForm.$setPristine();   
+    }
+
     addSubstance() {
-        let self = this;
         let substance = new Substance();
         substance.SUBSTANCE_NAME = 'New';
-        self.substances.push(substance);
-        self.selected = substance;
-        self.selectedIndex = self.substances.length - 1;
+        this.substances.push(substance);
+        this.selected = substance;
+        this.selectedIndex = this.substances.length - 1;
     }
     
     saveSubstance($event) {
         let self = this;
-        if (self.selected && self.selected._id) {
-            self.substanceService.updateSubstance(self.selected).then(function (affectedRows) {
+
+       // reset form state
+       this._setFormPrestine($event);
+        
+        if (this.selected && this.selected._id) {
+            this.substanceService.updateSubstance(this.selected).then(function (affectedRows) {
                 self.$mdDialog.show(
                     self.$mdDialog
                         .alert()
@@ -47,7 +105,7 @@ class SubstanceController {
             });
         }
         else {            
-            self.substanceService.createSubstance(self.selected).then(affectedRows => 
+            this.substanceService.createSubstance(this.selected).then(affectedRows => 
                 self.$mdDialog.show(
                     self.$mdDialog
                         .alert()
@@ -58,82 +116,76 @@ class SubstanceController {
                         .targetEvent($event)
                 )
             );
+
+           // refresh the le list
+           self.getAllSubstances();
         }
     }
     
     addSubstanceIdentfier() {
-        let self = this;
-        let idType = new ValueStruct('CASNO', 'Chemical Abstracts Number');
-        let identifier = new SubstanceIdentifierStruct(idType, 'New');
-        self.selected.SUBSTANCE_IDENTIFIER.push(identifier);
+        let idType = new ValueStruct('CASNO', 'CASNO');
+        let identifier = new SubstanceIdentifierStruct(idType, '');
+        this.selected.SUBSTANCE_IDENTIFIER.push(identifier);
     }
     
-    deleteSubstanceIdentfier(index, event) {
-        let self = this;
-        let confirm = self.$mdDialog.confirm()
+    deleteSubstanceIdentfier(identifier, event) {
+        let confirm = this.$mdDialog.confirm()
             .title('Are you sure?')
             .content('Are you sure you want to delete this substance identifier?')
             .ok('Yes')
             .cancel('No')
             .targetEvent(event);
 
-        self.$mdDialog.show(confirm).then(() => {
-            let self = this;
-            self.selected.SUBSTANCE_IDENTIFIER.splice(index, 1);
-            self.substanceService.updateSubstance(self.selected);
+        this.$mdDialog.show(confirm).then(() => {
+            _.remove(this.selected.SUBSTANCE_IDENTIFIER, { IDENTIFIER: identifier });
+            this.substanceService.updateSubstance(this.selected);
         });
     }
 
     resetSubstance() {
-        let self = this;
-        self.selected = null;
-        self.selectedIndex = -1;
+        this.selected = null;
+        this.selectedIndex = -1;
     }
 
     deleteSubstance($event) {
-        let self = this;
-        let confirm = self.$mdDialog.confirm()
+        let confirm = this.$mdDialog.confirm()
             .title('Are you sure?')
             .content('Are you sure you want to delete this substance?')
             .ok('Yes')
             .cancel('No')
             .targetEvent($event);
 
-        self.$mdDialog.show(confirm).then(() => {
+        this.$mdDialog.show(confirm).then(() => {
             let self = this;
             self.substanceService.deleteSubstance(self.selected._id)
                 .then(affectedRows => {
                     self.substances.splice(self.selectedIndex, 1);
-                    self.resetSubstance();
+                    self.selectSubstance(0, 0);
                 });
         });
     }
 
     selectSubstance(substance, index) {
-        let self = this;
-        self.selected = angular.isNumber(substance) ? self.substances[substance] : substance;
-        self.selectedIndex = angular.isNumber(substance) ? substance : index;
+        this.selected = angular.isNumber(substance) ? this.substances[substance] : substance;
+        this.selectedIndex = angular.isNumber(substance) ? substance : index;
     }
 
     filterSubstance() {
-        let self = this;
-        if (self.filterText) {
-            self.substanceService.getSubstancesByName(self.filterText).then(substances => {
-                self.substances = [].concat(substances);
-                self.selected = substances[0];
-                self.selectedIndex = 0;
+        if (this.filterText) {
+            this.substanceService.getSubstancesByName(this.filterText).then(substances => {
+                this.substances = [].concat(substances);
+                this.selected = substances[0];
+                this.selectedIndex = 0;
             });
         } else {
-            self.filterText = null;
-            self.getAllSubstances();
+            this.filterText = null;
+            this.getAllSubstances();
         }
-        //TODO: comment out in production
-        console.log(self.substances);
     }
 
     getAllSubstances() {
         let self = this;
-        self.substanceService.getSubstances().then(substances => {
+        this.substanceService.getSubstances().then(substances => {
             self.substances = [].concat(substances);
             self.selectedIndex = 0;
             self.selected = substances[0];

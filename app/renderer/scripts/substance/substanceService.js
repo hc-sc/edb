@@ -16,9 +16,8 @@ class SubstanceService {
 
 
     getSubstances() {
-        let self = this;
-        let deferred = self.$q.defer();
-        self.substances.find({}, (err, rows) => {
+        let deferred = this.$q.defer();
+        this.substances.find({}, (err, rows) => {
             if (err) deferred.reject(err);
             deferred.resolve(rows);
         });
@@ -26,8 +25,7 @@ class SubstanceService {
     }
 
     createSubstance(sub) {
-        let self = this;
-        let deferred = self.$q.defer();
+        let deferred = this.$q.defer();
         let status = new ValueStruct();
         let sub2DB = sub;
         let now = Date.now();
@@ -36,7 +34,7 @@ class SubstanceService {
         //TODO: temporary set value for new Id
         sub2DB._identifier = sub2DB._identifier ? sub2DB._identifier : 'IDS' + now; 
         sub2DB.SUBSTANCE_PID = sub2DB.SUBSTANCE_PID ? (validatePid(sub2DB.SUBSTANCE_PID) ? sub2DB.SUBSTANCE_PID : generatePid()) : generatePid();  
-        self.substances.insert(sub2DB, (err, result) => {
+        this.substances.insert(sub2DB, (err, result) => {
             if (err) deferred.reject(err);
             deferred.resolve(result);
         });
@@ -44,9 +42,8 @@ class SubstanceService {
     }
 
     deleteSubstance(id) {
-        let self = this;
-        let deferred = self.$q.defer();
-        self.substances.remove({ '_id': id }, function (err, res) {
+        let deferred = this.$q.defer();
+        this.substances.remove({ '_id': id }, function (err, res) {
             if (err) deferred.reject(err);
             console.log(res);
             deferred.resolve(res.affectedRows);
@@ -55,9 +52,8 @@ class SubstanceService {
     }
 
     updateSubstance(sub) {
-        let self = this;
-        let deferred = self.$q.defer();
-        self.substances.update({ _id: sub._id }, sub, {}, (err, numReplaced) => {
+        let deferred = this.$q.defer();
+        this.substances.update({ _id: sub._id }, sub, {}, (err, numReplaced) => {
             if (err) deferred.reject(err);
             deferred.resolve(numReplaced);
         });
@@ -68,7 +64,6 @@ class SubstanceService {
     initializeSubstances() {
         let ghsts = new GHSTS('./app/renderer/data/ghsts.xml');
         let promise = ghsts.readObjects();
-        let self = this;
         promise.then(() => {
             let entities = ghsts.substances;
 
@@ -86,22 +81,22 @@ class SubstanceService {
                 })
 
                 // insert into db
-                self.createSubstance(substance);
+                this.createSubstance(substance);
             })
         });
     }
 
     getSubstanceGHSTSById(id) {
-        let self = this;
-        let deferred = self.$q.defer();
-        self.substances.find({ '_id': id }, (err, result) => {
+        let deferred = this.$q.defer();
+        this.substances.find({ '_id': id }, (err, result) => {
             if (err) deferred.reject(err);
             let sJson = result[0];
             let substance = new Substance(sJson);
 
             let builder = new xml2js.Builder({
                 rootName: 'SUBSTANCES',
-                attrkey: 'attr$'
+                attrkey: 'attr',
+                charkey: 'value'
             });
 
             let xml = builder.buildObject(substance.toGHSTSJson());
@@ -111,12 +106,11 @@ class SubstanceService {
     }
 
     getSubstancesByName(name) {
-        let self = this;
         let deferred = this.$q.defer();
         let re = new RegExp(name, 'i');
         let condition = { $regex: re };
 
-        self.substances.find({ 'SUBSTANCE_NAME': condition }, (err, result) => {
+        this.substances.find({ 'SUBSTANCE_NAME': condition }, (err, result) => {
             if (err) deferred.reject(err);
             deferred.resolve(result);
         });
