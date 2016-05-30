@@ -25,7 +25,7 @@ const validatePid = (pid) => {
     else {
         const strs = pid.split(':');
         if (strs.length === 3 && 
-            strs[strs.length].match(regex) && 
+            strs[strs.length - 1].match(regex) && 
             strs[0] === 'urn') {
 
             return pid;

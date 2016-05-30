@@ -17,6 +17,8 @@ import {DocumentService} from './document/documentService';
 import {DocumentController} from './document/documentController';
 import {DossierService} from './dossier/dossierService';
 import {DossierController} from './dossier/dossierController';
+import {SubstanceService} from './substance/substanceService'; 
+import {SubstanceController} from './substance/substanceController';
 import {GhstsService} from './ghsts_demo/ghstsService';
 import {GhstsController} from './ghsts_demo/ghstsController';
 import {PickListService} from './common/pickListService';
@@ -33,7 +35,7 @@ angular.module('ghstsApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages'])
     .controller('receiverController', ['$mdDialog', '$mdSidenav', 'receiverService', 'legalEntityService', ReceiverController])
     .service('productService', ['$q', ProductService])
     .controller('productController', ['$mdDialog', 'productService', ProductController])
-    .service('ghstsService', ['receiverService', 'legalEntityService', 'productService', 'submissionService', 'dossierService', GhstsService])
+    .service('ghstsService', ['receiverService', 'legalEntityService', 'productService', 'submissionService', 'dossierService', 'substanceService', GhstsService])
     .controller('ghstsController', ['$mdDialog', 'ghstsService', GhstsController])
     .controller('receiverController', ['$mdDialog', 'receiverService', 'legalEntityService', ReceiverController])
     .service('fileService', ['$q', FileService])
@@ -43,7 +45,9 @@ angular.module('ghstsApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages'])
     .service('submissionService', ['$q', SubmissionService])
     .controller('submissionController', ['$mdDialog', 'submissionService'])
     .service('dossierService', ['$q', DossierService])
-    .controller('dossierController', ['$mdDialog', 'dossierService']);
+    .controller('dossierController', ['$mdDialog', 'dossierService'])
+    .service('substanceService', ['$q', SubstanceService])
+    .controller('substanceController', ['$mdDialog', 'substanceService']);
 
 
 function config($routeProvider, $mdThemingProvider) {
@@ -91,6 +95,11 @@ function config($routeProvider, $mdThemingProvider) {
         .when('/dossier', {
             templateUrl: './scripts/dossier/dossier-manage.html',
             controller: DossierController,
+            controllerAs: '_ctrl'
+        })
+        .when('/manageSub', {
+            templateUrl: './scripts/substance/substance-manage.html' ,
+            controller: SubstanceController,
             controllerAs: '_ctrl'
         });
     $routeProvider.otherwise({ redirectTo: '/home' });
