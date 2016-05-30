@@ -50,7 +50,7 @@ class PickListService {
 		];
 	}
 	
-	getApplicationType() {
+	getApplicationTypeOptions() {
 		return [
 			{VALUE_DECODE: "6(a)(2) submission", VALUE: "6(a)(2) submission"},
 			{VALUE_DECODE: "A1 - New active", VALUE: "A1 - New active"},
@@ -126,12 +126,10 @@ class PickListService {
 			{VALUE_DECODE: 'Rapid: low hazard', VALUE: 'Rapid: low hazard'},
 			{VALUE_DECODE: 'Rapid: similar substance', VALUE: 'Rapid: similar substance'},
 			{VALUE_DECODE: 'Research Approval', VALUE: 'Research Approval'},
-			
-			
 		];
 	}
 	
-	getFormulationType() {
+	getFormulationTypeOptions() {
 		return [
 			{VALUE_DECODE: 'AE', VALUE: 'AE'},
 			{VALUE_DECODE: 'AL', VALUE: 'AL'},
@@ -199,7 +197,7 @@ class PickListService {
 		];
 	}
 	
-	getUnitType() {
+	getUnitTypeOptions() {
 		return [
 			{VALUE_DECODE: '%(v/v)', VALUE: '%(v/v)'},
 			{VALUE_DECODE: '%(w/w)', VALUE: '%(w/w)'},
@@ -230,11 +228,10 @@ class PickListService {
 			{VALUE_DECODE: 'thou IU/mg', VALUE: 'thou IU/mg'},
 			{VALUE_DECODE: 'to pH', VALUE: 'to pH'},
 			{VALUE_DECODE: 'trace', VALUE: 'trace'},
-
 		];
 	}
 	
-	getRegulatoryType() {
+	getRegulatoryTypeOptions() {
 		return [
 			{VALUE_DECODE: '1107/2009/EG', VALUE: '1107/2009/EG'},
 			{VALUE_DECODE: '21 CFR Part 11', VALUE: '21 CFR Part 11'},
@@ -247,19 +244,17 @@ class PickListService {
 			{VALUE_DECODE: 'other', VALUE: 'other'},
 			{VALUE_DECODE: 'PCPA-Pest Control Products Act', VALUE: 'PCPA-Pest Control Products Act'},
 			{VALUE_DECODE: 'Pesticide Registration Improvement Act', VALUE: 'Pesticide Registration Improvement Act'},
-			
-			
-		]
+		];
 	}
 	
-	getContentStatus() {
+	getContentStatusOptions() {
 		return [
 			{VALUE_DECODE: 'Modified', VALUE: 'Modified'},
 			{VALUE_DECODE: 'New', VALUE: 'New'},
 			{VALUE_DECODE: 'No Change', VALUE: 'No Change'},
 			{VALUE_DECODE: 'Replace', VALUE: 'Replace'},
 			{VALUE_DECODE: 'Retired', VALUE: 'Retired'},
-		]
+		];
 	}
     
     getCountryOptions(){
