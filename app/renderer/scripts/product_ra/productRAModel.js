@@ -23,6 +23,10 @@ export class ProductRA {
     addAdminNum(adminNumber) {
         this.ADMIN_NUMBER.push(adminNumber);
     }
+    
+    updateAdminNumberTypeValue(an) {
+        an.setAdminNumberTypeValue(an.VALUE_DECODE);
+    }
 
     toGhstsJson() {
         const adminNumbers = this.ADMIN_NUMBER.map(an => {

@@ -2,14 +2,16 @@ import angular from 'angular';
 import { Ingredient, Product } from './productModel';
 import { ProductRAController } from '../product_ra/productRAController';
 import { ProductRA } from '../product_ra/productRAModel';
+import { ValueStruct } from '../common/sharedModel';
 import { ListDialogController } from '../common/listDialogController';
 import { generatePid } from '../common/pid';
 import _ from 'lodash';
 
 class ProductController {
-    constructor($mdDialog, ReceiverService, ProductService, PickListService) {
+    constructor($mdDialog, ReceiverService, LegalEntityService, ProductService, PickListService) {
         this.productService = ProductService;
         this.receiverService = ReceiverService;
+        this.legalEntityService = LegalEntityService;
         this.pickListService = PickListService;
         this.products = [];
         this.selected = {};
@@ -17,11 +19,30 @@ class ProductController {
 
         this.$mdDialog = $mdDialog;
         this.filterText = null;
-                
-        // Load initial data
-        this.initFromDB();
-        
+        this.metadataStatusOptions = null;
+        this.receivers = null;
+        this.legalEntities = null;
+        this.RAs = null;
+                        
         this.metadataStatusOptions = this.pickListService.getMetadataStatusOptions();
+        this.formulations = this.pickListService.getFormulationTypeOptions().map(formulation => {
+            return new ValueStruct(formulation.VALUE, formulation.VALUE_DECODE);
+        });
+        this.units = this.pickListService.getUnitTypeOptions().map(unit => {
+            return new ValueStruct(unit.VALUE, unit.VALUE_DECODE);
+        });
+        
+        ReceiverService.getReceivers()
+        .then(recs => {
+            this.receivers = recs;
+            return LegalEntityService.getLegalEntities();
+        })
+        .then(les => {
+            this.legalEntities = les;
+            this.RAs = this.mapLEsToRecs();
+            this.initFromDB();
+        })
+        .catch(err => console.log(err.stack));       
     }
     
     initFromDB() {
@@ -34,7 +55,14 @@ class ProductController {
                 this.selected = this.products[0];
                 this.selectedIndex = 0;
             }
+            
+            console.log(this.selected);
         });
+    }
+    
+    mapLEsToRecs() {
+        console.log(this.receivers);
+        console.log(this.legalEntities);
     }
     
     clearSelectedProduct() {
@@ -319,7 +347,7 @@ class ProductController {
     }
 }
 
-ProductController.$inject = ['$mdDialog', 'receiverService', 'productService', 'pickListService'];
+ProductController.$inject = ['$mdDialog', 'receiverService', 'legalEntityService', 'productService', 'pickListService'];
 
 export { ProductController };
 

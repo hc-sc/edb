@@ -92,8 +92,7 @@ class GHSTS {
                     // set documents
                     self.documents = obj.GHSTS.DOCUMENTS[0].DOCUMENT; 
                     
-                    self.dossier = obj.GHSTS.PRODUCT[0].DOSSIER;
-                    
+                    self.dossier = obj.GHSTS.PRODUCT[0].DOSSIER[0];
                 })
             });
         })

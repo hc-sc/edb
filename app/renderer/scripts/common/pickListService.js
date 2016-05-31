@@ -141,7 +141,7 @@ class PickListService {
 			{VALUE_DECODE: 'DC', VALUE: 'DC'},
 			{VALUE_DECODE: 'DP', VALUE: 'DP'},
 			{VALUE_DECODE: 'DS', VALUE: 'DS'},
-			{VALUE_DECODE: 'EC', VALUE: 'ED'},
+			{VALUE_DECODE: 'EC', VALUE: 'EC'},
 			{VALUE_DECODE: 'ED', VALUE: 'ED'},
 			{VALUE_DECODE: 'EO', VALUE: 'EO'},
 			{VALUE_DECODE: 'ES', VALUE: 'ES'},

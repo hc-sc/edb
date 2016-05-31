@@ -32,18 +32,15 @@ angular.module('ghstsApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages'])
     .service('receiverService', ['$q', ReceiverService])
     .controller('receiverController', ['$mdDialog', '$mdSidenav', 'receiverService', 'legalEntityService', ReceiverController])
     .service('productService', ['$q', ProductService])
-    .controller('productController', ['$mdDialog', 'productService', ProductController])
+    .controller('productController', ['$mdDialog', 'receiverService', 'legalEntityService', 'productService', 'pickListService', 'substanceService', ProductController])
     .service('ghstsService', ['receiverService', 'legalEntityService', 'productService', 'submissionService', 'dossierService', GhstsService])
     .controller('ghstsController', ['$mdDialog', 'ghstsService', GhstsController])
-    .controller('receiverController', ['$mdDialog', 'receiverService', 'legalEntityService', ReceiverController])
     .service('fileService', ['$q', FileService])
     .controller('fileController', ['$mdDialog','$mdSidenav', 'fileService', FileController])
     .service('documentService', ['$q', DocumentService])
     .controller('documentController', ['$mdDialog', 'documentService', DocumentController])
-    .service('submissionService', ['$q', SubmissionService])
-    .controller('submissionController', ['$mdDialog', 'submissionService'])
     .service('dossierService', ['$q', DossierService])
-    .controller('dossierController', ['$mdDialog', 'dossierService']);
+    .controller('dossierController', ['$mdDialog', 'dossierService', 'pickListService']);
 
 
 function config($routeProvider, $mdThemingProvider) {

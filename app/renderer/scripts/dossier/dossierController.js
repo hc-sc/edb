@@ -1,14 +1,22 @@
 import angular from 'angular';
 import { Dossier, ReferencedDossier, DossierRA } from './dossierModel';
+import { Submission } from '../submission/submissionModel';
+import { SubmissionController } from '../submission/submissionController';
+import { ValueStruct } from '../common/sharedModel';
 import _ from 'lodash';
 
 export class DossierController {
-    constructor($mdDialog, dossierService) {
+    constructor($mdDialog, dossierService, pickListService) {
         this.$mdDialog = $mdDialog;
         this.dossierService = dossierService;
+        this.pickListService = pickListService;
         this.dossier = {};
         
         this.initFromDB();
+        
+        this.applicationTypes = pickListService.getApplicationTypeOptions().map(appType => {
+           return new ValueStruct(appType.VALUE, appType.VALUE_DECODE); 
+        });
     }
     
     initFromDB() {
@@ -33,6 +41,17 @@ export class DossierController {
                 })
                 .catch(err => console.log(err.stack));
         }
+    }
+    
+    addSubmission() {
+        this.showSubmissionDiag(new Submission());
+    }
+    
+    saveSubmission(sub) {
+        if (!_.includes(this.dossier.SUBMISSION, sub)) {
+            this.dossier.addSubmission(sub);
+        }
+        this.dossierService.updateDossier(this.dossier);
     }
     
     addReferencedDossier() {
@@ -75,6 +94,21 @@ export class DossierController {
             .catch(err => console.log(err.stack));
     }
     
+    showSubmissionDiag(sub, $event) {
+        this.$mdDialog.show({
+            controller: SubmissionController,
+            controllerAs: '_ctrl',
+            templateUrl: './scripts/submission/submission-manage.html',
+            parent: angular.element(document.body),
+            targetEvent: $event,
+            clickOutsideToClose: false,
+            locals: {
+                submission: sub,
+                dossierController: this
+            }
+        });
+    }
+    
     viewDossierGHSTS($event) {
         if (this.dossier) {
             this.dossierService.getDossierGHSTSById(this.dossier._id)
@@ -101,6 +135,6 @@ export class DossierController {
     }
 }
 
-DossierController.$inject = ['$mdDialog', 'dossierService'];
+DossierController.$inject = ['$mdDialog', 'dossierService', 'pickListService'];
 
 export { DossierController }

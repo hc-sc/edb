@@ -6,4 +6,13 @@ class ValueStruct {
     }
 }
 
-export { ValueStruct }
+class ExtensibleValueStruct {
+    constructor(value, decode, attr$, value$) {
+        this.value = value;
+        this.decode = decode;
+        this.attr$ = attr$;
+        this.value$ = value$;
+    }
+}
+
+export { ValueStruct, ExtensibleValueStruct }
