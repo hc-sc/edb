@@ -32,8 +32,8 @@ angular.module('ghstsApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages'])
     .service('receiverService', ['$q', ReceiverService])
     .controller('receiverController', ['$mdDialog', '$mdSidenav', 'receiverService', 'legalEntityService', ReceiverController])
     .service('productService', ['$q', ProductService])
-    .controller('productController', ['$mdDialog', 'receiverService', 'legalEntityService', 'productService', 'pickListService', 'substanceService', ProductController])
-    .service('ghstsService', ['receiverService', 'legalEntityService', 'productService', 'submissionService', 'dossierService', GhstsService])
+    .controller('productController', ['$mdDialog', 'receiverService', 'legalEntityService', 'productService', 'pickListService', ProductController])
+    .service('ghstsService', ['receiverService', 'legalEntityService', 'productService', 'dossierService', GhstsService])
     .controller('ghstsController', ['$mdDialog', 'ghstsService', GhstsController])
     .service('fileService', ['$q', FileService])
     .controller('fileController', ['$mdDialog','$mdSidenav', 'fileService', FileController])
@@ -78,11 +78,6 @@ function config($routeProvider, $mdThemingProvider) {
         .when('/manageDoc', {
             templateUrl: './scripts/document/document-manage.html' ,
             controller: DocumentController,
-            controllerAs: '_ctrl'
-        })
-        .when('/submission', {
-            templateUrl: './scripts/submission/submission-manage.html',
-            controller: SubmissionController,
             controllerAs: '_ctrl'
         })
         .when('/dossier', {

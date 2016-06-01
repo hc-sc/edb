@@ -2,6 +2,8 @@ import angular from 'angular';
 import { Ingredient, Product } from './productModel';
 import { ProductRAController } from '../product_ra/productRAController';
 import { ProductRA } from '../product_ra/productRAModel';
+import { Receiver } from '../receiver/receiverModel';
+import { LegalEntity } from '../legal_entity/legalEntityModel';
 import { ValueStruct } from '../common/sharedModel';
 import { ListDialogController } from '../common/listDialogController';
 import { generatePid } from '../common/pid';
@@ -34,12 +36,17 @@ class ProductController {
         
         ReceiverService.getReceivers()
         .then(recs => {
-            this.receivers = recs;
+            this.receivers = recs.map(rec => { 
+                return new Receiver(rec); 
+            });
             return LegalEntityService.getLegalEntities();
         })
         .then(les => {
-            this.legalEntities = les;
-            this.RAs = this.mapLEsToRecs();
+            this.legalEntities = les.map(le => { 
+                return new LegalEntity(le); 
+            });
+            
+            //this.RAs = this.mapLEsToRecs();
             this.initFromDB();
         })
         .catch(err => console.log(err.stack));       
@@ -63,6 +70,13 @@ class ProductController {
     mapLEsToRecs() {
         console.log(this.receivers);
         console.log(this.legalEntities);
+        console.log(this.receivers[0]);
+        console.log(this.legalEntities[0]);
+        console.log(this.receivers[0].attr$.To_Legal_Entity_Id);
+        console.log(this.legalEntities[0]._identifier);
+        // console.log(_.intersectionWith(receivers, legalEntities, (re, le) => {
+        //     re. === le.
+        // })
     }
     
     clearSelectedProduct() {

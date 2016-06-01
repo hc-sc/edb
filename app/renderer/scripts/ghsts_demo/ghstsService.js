@@ -3,17 +3,15 @@ import {ContactPerson, ContactAddress, LegalEntity} from '../legal_entity/legalE
 import {Receiver, Sender} from '../receiver/receiverModel.js';
 import {ValueStruct} from '../common/sharedModel.js';
 import {Product} from '../product/productModel.js';
-import { Submission } from '../submission/submissionModel';
 import { Dossier } from '../dossier/dossierModel';
 
 const outputFile = './app/renderer/data/DemoGHSTS.xml';
 
 class GhstsService {
-    constructor(ReceiverService, LegalEntityService, ProductService, SubmissionService, DossierService) {
+    constructor(ReceiverService, LegalEntityService, ProductService, DossierService) {
         this.receiverService = ReceiverService;
         this.legalEntityService = LegalEntityService;
         this.productService = ProductService;
-        this.submissionService = SubmissionService;
         this.dossierService = DossierService;
     }
             
@@ -51,11 +49,6 @@ class GhstsService {
             })
             .then(dossiers => {
                 ghsts.setDossier(new Dossier(dossiers[0]).toGhstsJson());
-                  
-                return this.submissionService.getAllSubmissions();
-            })
-            .then(submissions => {
-                ghsts.addSubmission(new Submission(submissions[0]).toGhstsJson());
                 
                 return ghsts.writeXML(outputFile);
             })
@@ -65,7 +58,7 @@ class GhstsService {
     }        
 }
 
-GhstsService.$inject = [ 'receiverService', 'legalEntityService', 'productService', 'submissionService', 'dossierService'];
+GhstsService.$inject = [ 'receiverService', 'legalEntityService', 'productService', 'dossierService'];
 
 export { GhstsService };
 

@@ -87,7 +87,6 @@ class GHSTS {
                     // set other objects here
                     // ...
 
-                    self.submission = obj.GHSTS.PRODUCT[0].DOSSIER[0].SUBMISSION;
                     self.files=obj.GHSTS.FILES[0].FILE;
                     // set documents
                     self.documents = obj.GHSTS.DOCUMENTS[0].DOCUMENT; 
