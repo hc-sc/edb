@@ -10,7 +10,6 @@ import {ProductController} from './product/productController';
 import {ReceiverService} from './receiver/receiverService'; 
 import {ReceiverController} from './receiver/receiverController';
 import {SubmissionController} from './submission/submissionController';
-import {SubmissionService} from './submission/submissionService';
 import {FileService} from './file/fileService';
 import {FileController} from './file/fileController';
 import {DocumentService} from './document/documentService'; 

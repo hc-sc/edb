@@ -62,8 +62,6 @@ class ProductController {
                 this.selected = this.products[0];
                 this.selectedIndex = 0;
             }
-            
-            console.log(this.selected);
         });
     }
     
