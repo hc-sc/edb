@@ -28,7 +28,7 @@ class Substance {
     } 
 
     
-    //TODO: modify for Identifier
+    //TODO: modify for Identifier Extension types
     toGHSTSJson() {
         let idsJson = [];
         this.SUBSTANCE_IDENTIFIER.forEach(id => idsJson.push(id));
