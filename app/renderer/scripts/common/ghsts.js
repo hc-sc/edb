@@ -14,6 +14,8 @@ class GHSTS {
 
         this.submission = [];
         this.dossier = {};
+
+        this.substances = [];
     }
 
     addLegalEntity(legalEntity) {
@@ -60,6 +62,14 @@ class GHSTS {
         this.ghsts.PRODUCT.DOSSIER = dossier;
     }
 
+    addSubstance(substance){
+        this.substances.push(substance);
+    }
+    
+    setSubstances(substances){
+        this.substances = substances;
+    }
+
     readObjects() {
         // read json objects from ghsts xml    
         let self = this;
@@ -91,7 +101,10 @@ class GHSTS {
                     // set documents
                     self.documents = obj.GHSTS.DOCUMENTS[0].DOCUMENT; 
                     
+
                     self.dossier = obj.GHSTS.PRODUCT[0].DOSSIER[0];
+                    self.substances = obj.GHSTS.SUBSTANCES[0].SUBSTANCE;  
+                    
                 })
             });
         })

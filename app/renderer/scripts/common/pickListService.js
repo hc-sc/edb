@@ -12,6 +12,27 @@ class PickListService {
 		 	{VALUE_DECODE: "Modified", VALUE: "Modified"}
         ];
     }
+	
+	getYesNoOptions() {
+        return [
+            {VALUE_DECODE: "Yes", VALUE: "Y"},		 	
+		 	{VALUE_DECODE: "No", VALUE: "N"}
+		 	
+        ];
+    }
+	
+	getGEDocNumberTypeOptions() {
+        return [
+            {VALUE_DECODE: "Company ID", VALUE: "COMPID"},
+			{VALUE_DECODE: "other", VALUE: "other"}		
+        ];
+    }
+	
+	getRADocNumberTypeOptions() {
+        return [
+            {VALUE_DECODE: "MRID", VALUE: "MRID"}		
+        ];
+    }
     
     getLegalEntityIdentifierTypeOptions() {
         return [
@@ -510,6 +531,16 @@ class PickListService {
 			{VALUE_DECODE: "Zimbabwe", VALUE: "ZW"}                        
           ];
     }
+	
+    getSubstanceIdentifierTypeOptions() {
+        return [
+		 	{VALUE_DECODE: "CASNO", VALUE: "CASNO"},		 	
+		 	{VALUE_DECODE: "ECNO", VALUE: "ECNO"},
+		 	{VALUE_DECODE: "IUBMB", VALUE: "IUBMB"},
+		 	{VALUE_DECODE: "other", VALUE: "other"}
+		];
+    }
+
 }
 
 export { PickListService };
