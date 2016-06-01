@@ -1,0 +1,22 @@
+{
+  "name": "oecd-edossier-builder",
+  "version": "1.0.0",
+  "description": "eDB was commissioned by PMRA to provide desktop tooling that builds Regulatory Submissions that conform to the [Global Harmonised Submission Transport Standard](http://www.oecd.org/chemicalsafety/submission-transport-standard/) (GHSTS).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hc-sc/edb.git"
+  },
+  "author": "alex gagnon",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hc-sc/edb/issues"
+  },
+  "homepage": "https://github.com/hc-sc/edb#readme",
+  "devDependencies": {
+    "eslint": "^2.11.1"
+  }
+}
