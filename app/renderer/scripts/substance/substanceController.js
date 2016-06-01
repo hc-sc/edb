@@ -92,7 +92,8 @@ class SubstanceController {
        this._setFormPrestine($event);
         
         if (this.selected && this.selected._id) {
-            this.substanceService.updateSubstance(this.selected).then(function (affectedRows) {
+            //TODO: modify the style of calling function for code consistence 
+            this.substanceService.updateSubstance(this.selected).then(function (affectedRows) { 
                 self.$mdDialog.show(
                     self.$mdDialog
                         .alert()
