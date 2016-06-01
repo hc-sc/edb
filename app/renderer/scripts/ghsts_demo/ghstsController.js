@@ -6,6 +6,10 @@ class GhstsController {
         this.$mdDialog = $mdDialog;     
     }      
     
+    editSubmission() {
+        this.ghstsService.loadXml();
+    }
+    
     assembleGHSTS($event) {
         // call service to assemble Demo GHSTS and report result
         this.ghstsService.assembleDemoGHSTS()

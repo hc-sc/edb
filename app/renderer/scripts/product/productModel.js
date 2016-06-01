@@ -1,4 +1,3 @@
-//import Dossier from '../dossier/dossierModel.js'
 import { ProductRA } from '../product_ra/productRAModel';
 import { ValueStruct } from '../common/sharedModel';
 
@@ -16,7 +15,7 @@ class Ingredient {
         }
     }
     
-    set toSubstanceID(_identifier){
+    setSubstanceID(_identifier){
         this._toSubstanceID = _identifier;
     }
     
@@ -48,6 +47,7 @@ class Product {
                 return new ProductRA(prodRA);
             });
             this.INGREDIENTS = json.INGREDIENTS.map(ing => {
+                console.log(ing);
                 return new Ingredient(ing);
             });
             this.DOSSIER = json.DOSSIER;

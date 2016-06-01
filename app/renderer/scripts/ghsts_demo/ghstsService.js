@@ -17,6 +17,18 @@ class GhstsService {
         this.dossierService = DossierService;
         this.substanceService = SubstanceService; 
     }
+    
+    loadXml() {
+        Promise.all([
+            this.receiverService.initializeReceivers(),
+            this.legalEntityService.initializeLE(),
+            this.productService.initializeProducts(),
+            this.dossierService.initializeDossiers(),
+            this.substanceService.initializeSubstances()
+        ])
+        .then(() => console.log("Successfully loaded submission"))
+        .catch(err => console.log(err.stack));
+    }
             
     assembleDemoGHSTS(){          
         // this function reads from an existing ghsts.xml file and then

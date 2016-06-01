@@ -96,8 +96,17 @@
                 <md-list-item ng-repeat="ing in _ctrl.selected.INGREDIENTS track by $index" class="noright">
                     <div layout-gt-xs="row" flex="80">
                         <md-input-container class="md-block" flex-gt-xs="50" flex-xs>
-                            <label>Substance</label>
-                            <input ng-model="ing._toSubstanceID" type="text">
+                            <label for="substances">Substance</label>
+                            <md-select
+                            name="substances"
+                            ng-model="ing._toSubstanceID">
+                                <md-option
+                                ng-repeat="substance in _ctrl.substances"
+                                value="{{ substance._identifier }}"
+                                ng-selected="{{ substance._identifier === ing._toSubstanceID }}">
+                                    {{ substance._identifier }}
+                                </md-option>
+                            </md-select>
                         </md-input-container>
                         <md-input-container class="md-block" flex-gt-xs="25" flex-xs>
                             <label>Amount</label>

@@ -16,7 +16,7 @@ export class ProductRA {
         }  
     }
     
-    set toReceiverRaId(XSDid) {
+    setReceiverRaId(XSDid) {
         this._toReceiverRaId = XSDid;
     }
     

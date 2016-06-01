@@ -57,7 +57,7 @@ class DossierService {
         return deferred.promise;
     }
     
-    initializeDossiersFromXml() {
+    initializeDossiers() {
         let ghsts = new GHSTS('./app/renderer/data/ghsts.xml');
         return ghsts.readObjects()
             .then(() => {

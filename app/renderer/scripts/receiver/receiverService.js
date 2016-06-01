@@ -42,7 +42,6 @@ class ReceiverService {
     createReceiver(Receiver) {
         let deferred = this.$q.defer();
         this.receivers.insert(Receiver, function (err, result) {
-            console.log(err)
             if (err) deferred.reject(err);
             deferred.resolve(result);
         });
@@ -53,7 +52,6 @@ class ReceiverService {
         let deferred = this.$q.defer();
         this.receivers.remove({ '_id': id }, function (err, res) {
             if (err) deferred.reject(err);
-            console.log(res);
             deferred.resolve(res.affectedRows);
         });
         return deferred.promise;
@@ -93,7 +91,7 @@ class ReceiverService {
         let ghsts = new GHSTS("./app/renderer/data/ghsts.xml");
         let promise = ghsts.readObjects();
         let self = this;
-        promise.then(function (contents) {
+        return promise.then(function (contents) {
             let entities = ghsts.receivers;
             entities.forEach(rcvr => {
                 // convert GHSTS json to receivers objects
@@ -113,15 +111,12 @@ class ReceiverService {
                 sender.REMARK =  (rcvr.SENDER[0].REMARK[0] === undefined ? null : rcvr.SENDER[0].REMARK[0]);
                 receiver.addSender(sender);                
 
-                console.log('---------------------JSON Model----------------\n' + JSON.stringify(receiver));
-                console.log('------------------------GHSTS Format--------------------\n' + JSON.stringify(receiver.toGHSTSJson()));
                 // enable the following to insert into db.
                 self.createReceiver(receiver);
 
-            }).catch(function (e) {
-                console.log(e);
-            })
-        });
+            });
+        })
+        .catch(err => console.log(err.stack));
     }
 
     _createSampleReceiver() {

@@ -131,7 +131,7 @@ export class DossierController {
     }
     
     initializeDossierFromXml() {
-        this.dossierService.initializeDossiersFromXml()
+        this.dossierService.initializeDossiers()
             .then(() => {
                 this.initFromDB();
             })

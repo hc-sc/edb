@@ -4,16 +4,18 @@ import { ProductRAController } from '../product_ra/productRAController';
 import { ProductRA } from '../product_ra/productRAModel';
 import { Receiver } from '../receiver/receiverModel';
 import { LegalEntity } from '../legal_entity/legalEntityModel';
+import { Substance } from '../substance/substanceModel';
 import { ValueStruct } from '../common/sharedModel';
 import { ListDialogController } from '../common/listDialogController';
 import { generatePid } from '../common/pid';
 import _ from 'lodash';
 
 class ProductController {
-    constructor($mdDialog, ReceiverService, LegalEntityService, ProductService, PickListService) {
+    constructor($mdDialog, ReceiverService, LegalEntityService, ProductService, SubstanceService, PickListService) {
         this.productService = ProductService;
         this.receiverService = ReceiverService;
         this.legalEntityService = LegalEntityService;
+        this.substanceService = SubstanceService;
         this.pickListService = PickListService;
         this.products = [];
         this.selected = {};
@@ -22,8 +24,9 @@ class ProductController {
         this.$mdDialog = $mdDialog;
         this.filterText = null;
         this.metadataStatusOptions = null;
-        this.receivers = null;
-        this.legalEntities = null;
+        this.receivers = [];
+        this.legalEntities = [];
+        this.substances = [];
         this.RAs = null;
                         
         this.metadataStatusOptions = this.pickListService.getMetadataStatusOptions();
@@ -34,22 +37,31 @@ class ProductController {
             return new ValueStruct(unit.VALUE, unit.VALUE_DECODE);
         });
         
-        ReceiverService.getReceivers()
-        .then(recs => {
-            this.receivers = recs.map(rec => { 
-                return new Receiver(rec); 
-            });
-            return LegalEntityService.getLegalEntities();
-        })
-        .then(les => {
-            this.legalEntities = les.map(le => { 
-                return new LegalEntity(le); 
-            });
-            
-            //this.RAs = this.mapLEsToRecs();
-            this.initFromDB();
-        })
-        .catch(err => console.log(err.stack));       
+        // NOTE: these services need to have already called 'initializeFromXML' or their equivalent in order to actually return anything
+        this.receiverService.getReceivers()
+            .then(recs => {
+                this.receivers = recs.map(rec => { 
+                    return new Receiver(rec); 
+                });
+                
+                return this.legalEntityService.getLegalEntities();
+            })
+            .then(les => {
+                this.legalEntities = les.map(le => { 
+                    return new LegalEntity(le); 
+                });
+                
+                return this.substanceService.getSubstances();
+            })
+            .then(substances => {
+                this.substances = substances.map(sub => {
+                    return new Substance(sub);
+                });
+                
+                //this.RAs = this.mapLEsToRecs();
+                this.initFromDB();
+            })
+            .catch(err => console.log(err.stack));       
     }
     
     initFromDB() {
@@ -335,7 +347,7 @@ class ProductController {
     initializeProductFromXml($event){
         // read from sample ghsts and populate the database with that Product.
         
-        this.productService.initializeProductFromXml()
+        this.productService.initializeProducts()
             // get all entries
             .then(() => {
                 return this.productService.getProducts();
@@ -359,7 +371,7 @@ class ProductController {
     }
 }
 
-ProductController.$inject = ['$mdDialog', 'receiverService', 'legalEntityService', 'productService', 'pickListService'];
+ProductController.$inject = ['$mdDialog', 'receiverService', 'legalEntityService', 'productService', 'substanceService', 'pickListService'];
 
 export { ProductController };
 
