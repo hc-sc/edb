@@ -51,13 +51,13 @@ class SubstanceController {
 
     updateSelectedStatusDecode(){
         // update metadata status value decode upon selection change
-        let selectedStatusValue = this.selected.METADATA_STATUS.VALUE;
+        let mDSValue = this.selected.METADATA_STATUS.VALUE;
         // find the value decode in themetadata status options
-        let leStatusValueDecode = _(this.metadataStatusOptions)
-                                        .filter(c => c.VALUE == selectedStatusValue)
+        let mDSValueDecode = _(this.metadataStatusOptions)
+                                        .filter(c => c.VALUE == mDSValue)
                                         .map(c => c.VALUE_DECODE)
                                         .value()[0];
-        this.selected.METADATA_STATUS.VALUE_DECODE = leStatusValueDecode;
+        this.selected.METADATA_STATUS.VALUE_DECODE = mDSValueDecode;
     }
 
     updateIdTypeDecodeByIdentifierIndex(identiferIndex){
@@ -117,13 +117,13 @@ class SubstanceController {
                 )
             );
 
-           // refresh the le list
+           // refresh the substance list
            self.getAllSubstances();
         }
     }
     
     addSubstanceIdentfier() {
-        let idType = new ValueStruct('CASNO', 'CASNO');
+        let idType = new ValueStruct('', '');
         let identifier = new SubstanceIdentifierStruct(idType, '');
         this.selected.SUBSTANCE_IDENTIFIER.push(identifier);
     }
