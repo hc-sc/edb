@@ -49,54 +49,6 @@
         <REMARK>no remark</REMARK>
       </SENDER>
     </RECEIVER>
-    <RECEIVER Id="ID_RECEIVER_APVMA" To_Legal_Entity_Id="LE_ID_APVMA">
-      <METADATA_STATUS>
-        <VALUE>New</VALUE>
-        <VALUE_DECODE>New</VALUE_DECODE>
-      </METADATA_STATUS>
-      <SHORT_NAME>APVMA</SHORT_NAME>
-      <ROLE>Recipient</ROLE>
-      <SENDER To_Legal_Entity_Id="LE_ID_PPPWW_AU">
-        <COMPANY_CONTACT_REGULATORY_ROLE>Sender</COMPANY_CONTACT_REGULATORY_ROLE>
-        <REMARK>no remark</REMARK>
-      </SENDER>
-    </RECEIVER>
-    <RECEIVER Id="ID_RECEIVER_BVL" To_Legal_Entity_Id="LE_ID_BVL">
-      <METADATA_STATUS>
-        <VALUE>New</VALUE>
-        <VALUE_DECODE>New</VALUE_DECODE>
-      </METADATA_STATUS>
-      <SHORT_NAME>BVL</SHORT_NAME>
-      <ROLE>Recipient</ROLE>
-      <SENDER To_Legal_Entity_Id="LE_ID_PPPWW_DE">
-        <COMPANY_CONTACT_REGULATORY_ROLE>Sender</COMPANY_CONTACT_REGULATORY_ROLE>
-        <REMARK>no remark</REMARK>
-      </SENDER>
-    </RECEIVER>
-    <RECEIVER Id="ID_RECEIVER_IBAMA" To_Legal_Entity_Id="LE_ID_IBAMA">
-      <METADATA_STATUS>
-        <VALUE>New</VALUE>
-        <VALUE_DECODE>New</VALUE_DECODE>
-      </METADATA_STATUS>
-      <SHORT_NAME>IBAMA</SHORT_NAME>
-      <ROLE>Recipient</ROLE>
-      <SENDER To_Legal_Entity_Id="LE_ID_PPPWW_BR">
-        <COMPANY_CONTACT_REGULATORY_ROLE>Sender</COMPANY_CONTACT_REGULATORY_ROLE>
-        <REMARK>no remark</REMARK>
-      </SENDER>
-    </RECEIVER>
-    <RECEIVER Id="ID_RECEIVER_PMRA" To_Legal_Entity_Id="LE_ID_PMRA">
-      <METADATA_STATUS>
-        <VALUE>New</VALUE>
-        <VALUE_DECODE>New</VALUE_DECODE>
-      </METADATA_STATUS>
-      <SHORT_NAME>PMRA</SHORT_NAME>
-      <ROLE>Recipient</ROLE>
-      <SENDER To_Legal_Entity_Id="LE_ID_PPPWW_CA">
-        <COMPANY_CONTACT_REGULATORY_ROLE>Sender</COMPANY_CONTACT_REGULATORY_ROLE>
-        <REMARK>no remark</REMARK>
-      </SENDER>
-    </RECEIVER>
   </RECEIVERS>
   <PRODUCT>
     <METADATA_STATUS>
@@ -186,8 +138,8 @@
           <VALUE_DECODE>Pest Control Products Act (S.C. 2002, c. 28)</VALUE_DECODE>
         </REGULATORY_TYPE>
         <APPLICATION_TYPE>
-          <VALUE Other_Value="Article 7 submission">other</VALUE>
-          <VALUE_DECODE>Article 7 submission</VALUE_DECODE>
+          <VALUE>A2 - Known active</VALUE>
+          <VALUE_DECODE>A2 - Known active</VALUE_DECODE>
         </APPLICATION_TYPE>
         <PROJECT_ID_NUMBER>1995-9999</PROJECT_ID_NUMBER>
         <PROJECT_ID_NUMBER>1997-6666</PROJECT_ID_NUMBER>
@@ -195,8 +147,8 @@
       </DOSSIER_RA>
       <DOSSIER_RA To_Specific_for_RA_Id="ID_RECEIVER_APVMA">
         <REGULATORY_TYPE>
-          <VALUE Other_Value="AVCC1994">other</VALUE>
-          <VALUE_DECODE>Agricultural and Veterinary Chemicals Code (Application Requirements) Instrument 2014</VALUE_DECODE>
+          <VALUE>91/414/EEC</VALUE>
+          <VALUE_DECODE>91/414/EEC</VALUE_DECODE>
         </REGULATORY_TYPE>
         <APPLICATION_TYPE>
           <VALUE Other_Value="Part 3 submission">other</VALUE>
@@ -218,8 +170,8 @@
       <SUBMISSION>
         <SUBMISSION_NUMBER>01</SUBMISSION_NUMBER>
         <SUBMISSION_VERSION_DATE>Mon Apr 20 2015 20:00:00 GMT-0400 (EDT)</SUBMISSION_VERSION_DATE>
-        <SUBMISSION_TITLE>Submission 01</SUBMISSION_TITLE>
-        <INCREMENTAL>false</INCREMENTAL>
+        <SUBMISSION_TITLE>NEW</SUBMISSION_TITLE>
+        <INCREMENTAL>true</INCREMENTAL>
       </SUBMISSION>
     </DOSSIER>
   </PRODUCT>
@@ -238,7 +190,12 @@
           <VALUE>Y</VALUE>
           <VALUE_DECODE>Yes</VALUE_DECODE>
         </DATA_REQUIREMENT>
-        <DOCUMENT_COMMENT>Document Comment 01_26</DOCUMENT_COMMENT>
+        <DOCUMENT_COMMENT>Document Comment 01</DOCUMENT_COMMENT>
+        <DOCUMENT_COMMENT>Document Comment 02</DOCUMENT_COMMENT>
+        <OTHER_NATIONAL_GUIDELINE>
+          <GUIDELINE_SYSTEM>Guideline System 222</GUIDELINE_SYSTEM>
+          <GUIDELINE_NUMBER>Guideline number 444</GUIDELINE_NUMBER>
+        </OTHER_NATIONAL_GUIDELINE>
       </DOCUMENT_RA>
       <DOCUMENT_RA To_Specific_for_RA_Id="ID_RECEIVER_PMRA">
         <METADATA_STATUS>
@@ -255,7 +212,7 @@
         </DATA_REQUIREMENT>
         <RA_DOCUMENT_NUMBER>
           <RA_DOCUMENT_NUMBER_TYPE>
-            <VALUE Other_Value="">MRID</VALUE>
+            <VALUE Other_Value="Hai">MRID</VALUE>
             <VALUE_DECODE>MRID</VALUE_DECODE>
           </RA_DOCUMENT_NUMBER_TYPE>
           <IDENTIFIER>PMRA 134987-2011-09-12</IDENTIFIER>
@@ -277,7 +234,7 @@
         </DATA_REQUIREMENT>
         <RA_DOCUMENT_NUMBER>
           <RA_DOCUMENT_NUMBER_TYPE>
-            <VALUE Other_Value="">MRID</VALUE>
+            <VALUE Other_Value="Hai">MRID</VALUE>
             <VALUE_DECODE>MRID</VALUE_DECODE>
           </RA_DOCUMENT_NUMBER_TYPE>
           <IDENTIFIER>APVMA 3987-77-R23</IDENTIFIER>
@@ -299,7 +256,7 @@
         </DATA_REQUIREMENT>
         <RA_DOCUMENT_NUMBER>
           <RA_DOCUMENT_NUMBER_TYPE>
-            <VALUE Other_Value="">MRID</VALUE>
+            <VALUE Other_Value="Hai">MRID</VALUE>
             <VALUE_DECODE>MRID</VALUE_DECODE>
           </RA_DOCUMENT_NUMBER_TYPE>
           <IDENTIFIER>IBAMA C55-934</IDENTIFIER>
@@ -326,8 +283,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423579-01-1
-		</IDENTIFIER>
+          <IDENTIFIER>T-423579-01-1</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>C 6313 - Document J - Confidential information</DOCUMENT_TITLE>
         <DOCUMENT_AUTHOR>Anon.</DOCUMENT_AUTHOR>
@@ -356,6 +312,10 @@
           <VALUE_DECODE>Yes</VALUE_DECODE>
         </DATA_REQUIREMENT>
         <DOCUMENT_COMMENT>Document Comment 01_23</DOCUMENT_COMMENT>
+        <OTHER_NATIONAL_GUIDELINE>
+          <GUIDELINE_SYSTEM>Guideline System</GUIDELINE_SYSTEM>
+          <GUIDELINE_NUMBER>Guideline number</GUIDELINE_NUMBER>
+        </OTHER_NATIONAL_GUIDELINE>
       </DOCUMENT_RA>
       <DOCUMENT_RA To_Specific_for_RA_Id="ID_RECEIVER_PMRA">
         <METADATA_STATUS>
@@ -372,7 +332,7 @@
         </DATA_REQUIREMENT>
         <RA_DOCUMENT_NUMBER>
           <RA_DOCUMENT_NUMBER_TYPE>
-            <VALUE Other_Value="">MRID</VALUE>
+            <VALUE Other_Value="Hai">MRID</VALUE>
             <VALUE_DECODE>MRID</VALUE_DECODE>
           </RA_DOCUMENT_NUMBER_TYPE>
           <IDENTIFIER>RA_NUMBER</IDENTIFIER>
@@ -394,7 +354,7 @@
         </DATA_REQUIREMENT>
         <RA_DOCUMENT_NUMBER>
           <RA_DOCUMENT_NUMBER_TYPE>
-            <VALUE Other_Value="">MRID</VALUE>
+            <VALUE Other_Value="Hai">MRID</VALUE>
             <VALUE_DECODE>MRID</VALUE_DECODE>
           </RA_DOCUMENT_NUMBER_TYPE>
           <IDENTIFIER>RA_NUMBER</IDENTIFIER>
@@ -443,8 +403,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423640-01-1
-		</IDENTIFIER>
+          <IDENTIFIER>T-423640-01-1</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>Analytical method - CGA 24 705/C 6313 EC 300/200)</DOCUMENT_TITLE>
         <DOCUMENT_AUTHOR>Anon.</DOCUMENT_AUTHOR>
@@ -473,6 +432,10 @@
           <VALUE_DECODE>Yes</VALUE_DECODE>
         </DATA_REQUIREMENT>
         <DOCUMENT_COMMENT>Document Comment 01_24</DOCUMENT_COMMENT>
+        <OTHER_NATIONAL_GUIDELINE>
+          <GUIDELINE_SYSTEM>Guideline System</GUIDELINE_SYSTEM>
+          <GUIDELINE_NUMBER>Guideline number</GUIDELINE_NUMBER>
+        </OTHER_NATIONAL_GUIDELINE>
       </DOCUMENT_RA>
       <DOCUMENT_RA To_Specific_for_RA_Id="ID_RECEIVER_PMRA">
         <METADATA_STATUS>
@@ -560,8 +523,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423586-01-1
-		</IDENTIFIER>
+          <IDENTIFIER>T-423586-01-1</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>C 1983 techn. - Acute oral LD50 in the mouse</DOCUMENT_TITLE>
         <DOCUMENT_AUTHOR>Kobel, W.</DOCUMENT_AUTHOR>
@@ -677,8 +639,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423584-01-1
-		</IDENTIFIER>
+          <IDENTIFIER>T-423584-01-1</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>C 3470 techn. - Acute oral LD50 in the Chinese hamster</DOCUMENT_TITLE>
         <DOCUMENT_AUTHOR>Sarasin, G.</DOCUMENT_AUTHOR>
@@ -795,8 +756,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423615-01-1
-		</IDENTIFIER>
+          <IDENTIFIER>T-423615-01-1</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>Acute aerosol inhalation toxicity in rat of C 6313 + CGA 24 705 (200+300) EC 500 (A-5724A)</DOCUMENT_TITLE>
         <DOCUMENT_AUTHOR>Bretz, R.</DOCUMENT_AUTHOR>
@@ -912,8 +872,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423612-01-1
-		</IDENTIFIER>
+          <IDENTIFIER>T-423612-01-1</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>Skin irritation in the rabbit after single application of C 6313 + CGA 24 705 (200+300) EC 500 (A-5724A)</DOCUMENT_TITLE>
         <DOCUMENT_AUTHOR>Gfeller, W.</DOCUMENT_AUTHOR>
@@ -943,6 +902,10 @@
           <VALUE_DECODE>Yes</VALUE_DECODE>
         </DATA_REQUIREMENT>
         <DOCUMENT_COMMENT>Document Comment 01_30</DOCUMENT_COMMENT>
+        <OTHER_NATIONAL_GUIDELINE>
+          <GUIDELINE_SYSTEM>Guideline System</GUIDELINE_SYSTEM>
+          <GUIDELINE_NUMBER>Guideline number</GUIDELINE_NUMBER>
+        </OTHER_NATIONAL_GUIDELINE>
       </DOCUMENT_RA>
       <DOCUMENT_RA To_Specific_for_RA_Id="ID_RECEIVER_PMRA">
         <METADATA_STATUS>
@@ -1030,8 +993,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423618-01-1
-		</IDENTIFIER>
+          <IDENTIFIER>T-423618-01-1</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>Acute dermal LD 50 in rat of C 6313 + CGA 24 705 (200+300) EC 500 (A-5724A)</DOCUMENT_TITLE>
         <DOCUMENT_AUTHOR>Sarasin, G.</DOCUMENT_AUTHOR>
@@ -1147,8 +1109,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423604-01-1
-		</IDENTIFIER>
+          <IDENTIFIER>T-423604-01-1</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>A teratology (segment II) study in rats - difenoxuron technical</DOCUMENT_TITLE>
         <DOCUMENT_AUTHOR>Jardel, M. T.; Youreneff, M. A.; Giknis, M. L. A.; Yau, E. T.</DOCUMENT_AUTHOR>
@@ -1177,6 +1138,11 @@
           <VALUE_DECODE>Yes</VALUE_DECODE>
         </DATA_REQUIREMENT>
         <DOCUMENT_COMMENT>Document Comment 01_0</DOCUMENT_COMMENT>
+        <DOCUMENT_COMMENT>Document Comment 02_0</DOCUMENT_COMMENT>
+        <OTHER_NATIONAL_GUIDELINE>
+          <GUIDELINE_SYSTEM>Guideline System</GUIDELINE_SYSTEM>
+          <GUIDELINE_NUMBER>Guideline number</GUIDELINE_NUMBER>
+        </OTHER_NATIONAL_GUIDELINE>
       </DOCUMENT_RA>
       <DOCUMENT_RA To_Specific_for_RA_Id="ID_RECEIVER_PMRA">
         <METADATA_STATUS>
@@ -1264,8 +1230,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423613-01-1
-		</IDENTIFIER>
+          <IDENTIFIER>T-423613-01-1</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>Adsorption and degradation  of chlorbromuron in soil</DOCUMENT_TITLE>
         <DOCUMENT_AUTHOR>Savage, K. E.</DOCUMENT_AUTHOR>
@@ -1381,8 +1346,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423605-01-1
-		</IDENTIFIER>
+          <IDENTIFIER>T-423605-01-1</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>Acute oral LD 50 in the adult japanese quail of C 6313 + CGA 24 705 (200+300) EC 500 (A-5724A)</DOCUMENT_TITLE>
         <DOCUMENT_AUTHOR>Kobel, W.</DOCUMENT_AUTHOR>
@@ -1498,8 +1462,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423616-01-1
-		</IDENTIFIER>
+          <IDENTIFIER>T-423616-01-1</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>Acute oral LD50 in the adult Japanese quail of C 1983</DOCUMENT_TITLE>
         <DOCUMENT_AUTHOR>Sachsse, K.; Ullmann, L.</DOCUMENT_AUTHOR>
@@ -1615,8 +1578,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423616-01-1
-		</IDENTIFIER>
+          <IDENTIFIER>T-423616-01-1</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>Acute oral LD50 in the adult Japanese quail of C 1983</DOCUMENT_TITLE>
         <DOCUMENT_AUTHOR>Sachsse, K.; Ullmann, L.</DOCUMENT_AUTHOR>
@@ -1732,8 +1694,7 @@
             <VALUE Other_Value="COMPID">other</VALUE>
             <VALUE_DECODE>Company ID</VALUE_DECODE>
           </DOCUMENT_NUMBER_TYPE>
-          <IDENTIFIER>T-423601-01-1
-		</IDENTIFIER>
+          <IDENTIFIER>T-423601-01-1</IDENTIFIER>
         </DOCUMENT_NUMBER>
         <DOCUMENT_TITLE>Acute toxicity of C 6313/24705 500 EC to rainbow trout</DOCUMENT_TITLE>
         <DOCUMENT_AUTHOR>Hitz, H. R.</DOCUMENT_AUTHOR>
@@ -2233,6 +2194,11 @@
           <VALUE_DECODE>Yes</VALUE_DECODE>
         </DATA_REQUIREMENT>
         <DOCUMENT_COMMENT>Document Comment 01_11</DOCUMENT_COMMENT>
+        <DOCUMENT_COMMENT>Document Comment 01_21</DOCUMENT_COMMENT>
+        <OTHER_NATIONAL_GUIDELINE>
+          <GUIDELINE_SYSTEM>Guideline System</GUIDELINE_SYSTEM>
+          <GUIDELINE_NUMBER>Guideline number</GUIDELINE_NUMBER>
+        </OTHER_NATIONAL_GUIDELINE>
       </DOCUMENT_RA>
       <DOCUMENT_RA To_Specific_for_RA_Id="ID_RECEIVER_PMRA">
         <METADATA_STATUS>
@@ -2247,6 +2213,12 @@
           <VALUE>Y</VALUE>
           <VALUE_DECODE>Yes</VALUE_DECODE>
         </DATA_REQUIREMENT>
+        <DOCUMENT_COMMENT>Document Comment 01_11</DOCUMENT_COMMENT>
+        <DOCUMENT_COMMENT>Document Comment 01_21</DOCUMENT_COMMENT>
+        <OTHER_NATIONAL_GUIDELINE>
+          <GUIDELINE_SYSTEM>Guideline System</GUIDELINE_SYSTEM>
+          <GUIDELINE_NUMBER>Guideline number</GUIDELINE_NUMBER>
+        </OTHER_NATIONAL_GUIDELINE>
         <RA_DOCUMENT_NUMBER>
           <RA_DOCUMENT_NUMBER_TYPE>
             <VALUE Other_Value="">MRID</VALUE>
@@ -2350,6 +2322,10 @@
           <VALUE_DECODE>Yes</VALUE_DECODE>
         </DATA_REQUIREMENT>
         <DOCUMENT_COMMENT>Document Comment 01_12</DOCUMENT_COMMENT>
+        <OTHER_NATIONAL_GUIDELINE>
+          <GUIDELINE_SYSTEM>Guideline System</GUIDELINE_SYSTEM>
+          <GUIDELINE_NUMBER>Guideline number</GUIDELINE_NUMBER>
+        </OTHER_NATIONAL_GUIDELINE>
       </DOCUMENT_RA>
       <DOCUMENT_RA To_Specific_for_RA_Id="ID_RECEIVER_PMRA">
         <METADATA_STATUS>
@@ -2467,6 +2443,10 @@
           <VALUE_DECODE>Yes</VALUE_DECODE>
         </DATA_REQUIREMENT>
         <DOCUMENT_COMMENT>Document Comment 01_13</DOCUMENT_COMMENT>
+        <OTHER_NATIONAL_GUIDELINE>
+          <GUIDELINE_SYSTEM>Guideline System</GUIDELINE_SYSTEM>
+          <GUIDELINE_NUMBER>Guideline number</GUIDELINE_NUMBER>
+        </OTHER_NATIONAL_GUIDELINE>
       </DOCUMENT_RA>
       <DOCUMENT_RA To_Specific_for_RA_Id="ID_RECEIVER_PMRA">
         <METADATA_STATUS>
@@ -8003,321 +7983,6 @@
         <EMAIL>marc.planter@pppww.com</EMAIL>
       </CONTACT_PERSON>
     </LEGAL_ENTITY>
-    <LEGAL_ENTITY Id="LE_ID_BVL">
-      <METADATA_STATUS>
-        <VALUE>New</VALUE>
-        <VALUE_DECODE>New</VALUE_DECODE>
-      </METADATA_STATUS>
-      <LEGALENTITY_PID>urn:ghsts:1AB3B93C-4920-4F3A-BE4B-9298E09CC5CC</LEGALENTITY_PID>
-      <LEGALENTITY_NAME>Bundesanstalt für Verbraucherschutz und Landwirtschaft</LEGALENTITY_NAME>
-      <LEGALENTITY_TYPE>
-        <VALUE>Regulatory Authority</VALUE>
-        <VALUE_DECODE>Regulatory Authority</VALUE_DECODE>
-      </LEGALENTITY_TYPE>
-      <CONTACT_ADDRESS>
-        <STREET1>Messeweg 11/12</STREET1>
-        <STREET2>-/-</STREET2>
-        <ZIPCODE>38104</ZIPCODE>
-        <CITY>Braunschweig</CITY>
-        <STATE>...</STATE>
-        <COUNTRY>
-          <VALUE>DE</VALUE>
-          <VALUE_DECODE>Germany</VALUE_DECODE>
-        </COUNTRY>
-        <PHONE>+49 (0)531 299 5</PHONE>
-        <FAX>+49 (0)531 299 3002</FAX>
-        <EMAIL>info@bvl.de</EMAIL>
-        <WEBSITE>ttp://www.bvl.de</WEBSITE>
-      </CONTACT_ADDRESS>
-      <CONTACT_PERSON>
-        <ORGANISATION>Unit 204: EC Procedures</ORGANISATION>
-        <DEPARTMENT>Department 2: Plant Protection Products</DEPARTMENT>
-        <TITLE>Mr.</TITLE>
-        <FIRSTNAME>Hermann</FIRSTNAME>
-        <LASTNAME>Köppen</LASTNAME>
-        <PHONE>+49 531 299 4567</PHONE>
-        <MOBILE>-/-</MOBILE>
-        <FAX>+49 531 299 3003</FAX>
-        <EMAIL>hermann.koeppen@bvl.bund.de</EMAIL>
-      </CONTACT_PERSON>
-    </LEGAL_ENTITY>
-    <LEGAL_ENTITY Id="LE_ID_APVMA">
-      <METADATA_STATUS>
-        <VALUE>New</VALUE>
-        <VALUE_DECODE>New</VALUE_DECODE>
-      </METADATA_STATUS>
-      <LEGALENTITY_PID>urn:ghsts:F68B42B5-F54B-4E14-A859-B36F487E42C2</LEGALENTITY_PID>
-      <LEGALENTITY_NAME>Australian Pesticides and Veterinary Medicines Authority</LEGALENTITY_NAME>
-      <LEGALENTITY_TYPE>
-        <VALUE>Regulatory Authority</VALUE>
-        <VALUE_DECODE>Regulatory Authority</VALUE_DECODE>
-      </LEGALENTITY_TYPE>
-      <CONTACT_ADDRESS>
-        <STREET1>18 Wormald Street</STREET1>
-        <STREET2/>
-        <ZIPCODE>2609</ZIPCODE>
-        <CITY>Symonston</CITY>
-        <STATE>ACT</STATE>
-        <COUNTRY>
-          <VALUE>AU</VALUE>
-          <VALUE_DECODE>Australia</VALUE_DECODE>
-        </COUNTRY>
-        <PHONE>+61 2 6210 4701</PHONE>
-        <FAX>+61 2 6210 4701 234</FAX>
-        <EMAIL>enquiries@apvma.gov.au</EMAIL>
-        <WEBSITE>http://apvma.gov.au</WEBSITE>
-      </CONTACT_ADDRESS>
-      <CONTACT_PERSON>
-        <ORGANISATION>APVMA</ORGANISATION>
-        <DEPARTMENT>Regulatory Affairs</DEPARTMENT>
-        <TITLE/>
-        <FIRSTNAME>Susan</FIRSTNAME>
-        <LASTNAME>Miller</LASTNAME>
-        <PHONE>+61 2 6210 4701 3544</PHONE>
-        <MOBILE>+61 413 025 837</MOBILE>
-        <FAX>-/-</FAX>
-        <EMAIL>susan.miller@apvma.gov.au</EMAIL>
-      </CONTACT_PERSON>
-    </LEGAL_ENTITY>
-    <LEGAL_ENTITY Id="LE_ID_IBAMA">
-      <METADATA_STATUS>
-        <VALUE>New</VALUE>
-        <VALUE_DECODE>New</VALUE_DECODE>
-      </METADATA_STATUS>
-      <LEGALENTITY_PID>urn:legal:9F60237F-7445-4BAA-9235-3B6FF1FDA271</LEGALENTITY_PID>
-      <LEGALENTITY_NAME>Instituto Brasileiro do Meio Ambiente</LEGALENTITY_NAME>
-      <LEGALENTITY_TYPE>
-        <VALUE>Regulatory Authority</VALUE>
-        <VALUE_DECODE>Regulatory Authority</VALUE_DECODE>
-      </LEGALENTITY_TYPE>
-      <CONTACT_ADDRESS>
-        <STREET1>SCEN Trecho 2</STREET1>
-        <STREET2>Ed. Sede - Cx. Postal n° 09566</STREET2>
-        <ZIPCODE>70818-900</ZIPCODE>
-        <CITY>Brasília</CITY>
-        <STATE>DF</STATE>
-        <COUNTRY>
-          <VALUE>BR</VALUE>
-          <VALUE_DECODE>Brasil</VALUE_DECODE>
-        </COUNTRY>
-        <PHONE>+55 61-3316-1212</PHONE>
-        <FAX>+55 61-3316-1212-433</FAX>
-        <EMAIL>sic@ibama.gov.br</EMAIL>
-        <WEBSITE>http://www.ibama.gov.br/</WEBSITE>
-      </CONTACT_ADDRESS>
-      <CONTACT_PERSON>
-        <ORGANISATION>IBAMA</ORGANISATION>
-        <DEPARTMENT/>
-        <TITLE/>
-        <FIRSTNAME>João</FIRSTNAME>
-        <LASTNAME>Gilberto</LASTNAME>
-        <PHONE>+55 61-3316-1212-265</PHONE>
-        <MOBILE>+55 21-99635-9499</MOBILE>
-        <FAX/>
-        <EMAIL>joao.gilberto@ibama.gov.br</EMAIL>
-      </CONTACT_PERSON>
-    </LEGAL_ENTITY>
-    <LEGAL_ENTITY Id="LE_ID_PPPWW_BR">
-      <METADATA_STATUS>
-        <VALUE>New</VALUE>
-        <VALUE_DECODE>New</VALUE_DECODE>
-      </METADATA_STATUS>
-      <LEGALENTITY_PID>urn:ghsts:C9910E3B-8B6E-41ED-AADA-A4E516211866</LEGALENTITY_PID>
-      <LEGALENTITY_NAME>Plant Protection Products Worlwide Brasil</LEGALENTITY_NAME>
-      <LEGALENTITY_TYPE>
-        <VALUE>Company</VALUE>
-        <VALUE_DECODE>Company</VALUE_DECODE>
-      </LEGALENTITY_TYPE>
-      <CONTACT_ADDRESS>
-        <STREET1>Avenida Alfredo Egídio de Souza Aranha, 100</STREET1>
-        <STREET2/>
-        <ZIPCODE>04726-170</ZIPCODE>
-        <CITY>Vila Cruzeiro, São Paulo</CITY>
-        <STATE>SP</STATE>
-        <COUNTRY>
-          <VALUE>BR</VALUE>
-          <VALUE_DECODE>Brasil</VALUE_DECODE>
-        </COUNTRY>
-        <PHONE>+55 11 3444-3500</PHONE>
-        <FAX>+55 11 3444-3501</FAX>
-        <EMAIL>info@pppww.br</EMAIL>
-        <WEBSITE>http://www.pppww.com/br</WEBSITE>
-      </CONTACT_ADDRESS>
-      <CONTACT_PERSON>
-        <ORGANISATION>Plant Protection Products Worlwide Brasil</ORGANISATION>
-        <DEPARTMENT>Regulatory Department</DEPARTMENT>
-        <TITLE/>
-        <FIRSTNAME>Ary</FIRSTNAME>
-        <LASTNAME>Barroso</LASTNAME>
-        <PHONE>+55 11 3444-3500</PHONE>
-        <MOBILE>+55 11 9 7307 1799</MOBILE>
-        <FAX>+55 11 3444-3500</FAX>
-        <EMAIL>ary.barroso@pppww.com</EMAIL>
-      </CONTACT_PERSON>
-    </LEGAL_ENTITY>
-    <LEGAL_ENTITY Id="LE_ID_PPPWW_DE">
-      <METADATA_STATUS>
-        <VALUE>New</VALUE>
-        <VALUE_DECODE>New</VALUE_DECODE>
-      </METADATA_STATUS>
-      <LEGALENTITY_PID>urn:ghsts:6440A2D4-2733-4E40-A632-81FC7681DC89</LEGALENTITY_PID>
-      <LEGALENTITY_NAME>Plant Protection Products Worlwide GmbH Germany</LEGALENTITY_NAME>
-      <LEGALENTITY_TYPE>
-        <VALUE>Company</VALUE>
-        <VALUE_DECODE>Company</VALUE_DECODE>
-      </LEGALENTITY_TYPE>
-      <CONTACT_ADDRESS>
-        <STREET1>Hans-Klawitter-Str. 23-25</STREET1>
-        <STREET2/>
-        <ZIPCODE>35442</ZIPCODE>
-        <CITY>Buxtehude</CITY>
-        <STATE>-/-</STATE>
-        <COUNTRY>
-          <VALUE>DE</VALUE>
-          <VALUE_DECODE>Germany</VALUE_DECODE>
-        </COUNTRY>
-        <PHONE>+49 43665 764-0</PHONE>
-        <FAX>+49 43665 764-11</FAX>
-        <EMAIL>info@pppww.de</EMAIL>
-        <WEBSITE>http://www.pppww.com/de</WEBSITE>
-      </CONTACT_ADDRESS>
-      <CONTACT_PERSON>
-        <ORGANISATION>Plant Protection Products Worlwide GmbH Germany</ORGANISATION>
-        <DEPARTMENT>Global Regulatory Affairs</DEPARTMENT>
-        <TITLE>Dr.</TITLE>
-        <FIRSTNAME>Franz</FIRSTNAME>
-        <LASTNAME>Bundschuh</LASTNAME>
-        <PHONE>+49 43665 764-123</PHONE>
-        <MOBILE>+49 176 34576233</MOBILE>
-        <FAX>+49 43665 764-11</FAX>
-        <EMAIL>franz.bundschuh@pppww.com</EMAIL>
-      </CONTACT_PERSON>
-      <CONTACT_PERSON>
-        <ORGANISATION>Plant Protection Productsxxxxxxxxxxxxxxx Worlwide GmbH Germany</ORGANISATION>
-        <DEPARTMENT>Global Regulatory Affairs</DEPARTMENT>
-        <TITLE>Dr.</TITLE>
-        <FIRSTNAME>Buntsen</FIRSTNAME>
-        <LASTNAME>Honeydue</LASTNAME>
-        <PHONE>+49 4366xxx5 764-123</PHONE>
-        <MOBILE>+49 17xxxx6 34576344</MOBILE>
-        <FAX>+49 4366xxxxx5 764-11</FAX>
-        <EMAIL>buntsen.honeydue@pppww.com</EMAIL>
-      </CONTACT_PERSON>
-    </LEGAL_ENTITY>
-    <LEGAL_ENTITY Id="LE_ID_PPPWW_AU">
-      <METADATA_STATUS>
-        <VALUE>New</VALUE>
-        <VALUE_DECODE>New</VALUE_DECODE>
-      </METADATA_STATUS>
-      <LEGALENTITY_PID>urn:ghsts:54C8D6A7-30AC-46F0-BA9C-B4F63D51B132</LEGALENTITY_PID>
-      <LEGALENTITY_NAME>Plant Protection Products Worlwide Australia</LEGALENTITY_NAME>
-      <LEGALENTITY_TYPE>
-        <VALUE>Company</VALUE>
-        <VALUE_DECODE>Company</VALUE_DECODE>
-      </LEGALENTITY_TYPE>
-      <CONTACT_ADDRESS>
-        <STREET1>601 Pacific Highway</STREET1>
-        <STREET2>-/-</STREET2>
-        <ZIPCODE>2065</ZIPCODE>
-        <CITY>St Leonards</CITY>
-        <STATE>NSW</STATE>
-        <COUNTRY>
-          <VALUE>AU</VALUE>
-          <VALUE_DECODE>Australia</VALUE_DECODE>
-        </COUNTRY>
-        <PHONE>+61-2-9354-4000</PHONE>
-        <FAX>+61-2-9354-4000-99</FAX>
-        <EMAIL>info@pppww.au</EMAIL>
-        <WEBSITE>http://www.pppww.com/au</WEBSITE>
-      </CONTACT_ADDRESS>
-      <CONTACT_PERSON>
-        <ORGANISATION>Plant Protection Products Worlwide Australia</ORGANISATION>
-        <DEPARTMENT>Global Regulatory Affairs</DEPARTMENT>
-        <TITLE>Dr.</TITLE>
-        <FIRSTNAME>Marc</FIRSTNAME>
-        <LASTNAME>Planter</LASTNAME>
-        <PHONE>+61-2-9354-4000-463</PHONE>
-        <MOBILE>+61-0410499665</MOBILE>
-        <FAX/>
-        <EMAIL>marc.planter@pppww.com</EMAIL>
-      </CONTACT_PERSON>
-    </LEGAL_ENTITY>
-    <LEGAL_ENTITY Id="LE_ID_PPPWW_CA">
-      <METADATA_STATUS>
-        <VALUE>New</VALUE>
-        <VALUE_DECODE>New</VALUE_DECODE>
-      </METADATA_STATUS>
-      <LEGALENTITY_PID>urn:ghsts:60BF5221-9BC5-47C3-A6E6-EC2AD872172B</LEGALENTITY_PID>
-      <LEGALENTITY_NAME>Plant Protection Products Worlwide Canada</LEGALENTITY_NAME>
-      <LEGALENTITY_TYPE>
-        <VALUE>Company</VALUE>
-        <VALUE_DECODE>Company</VALUE_DECODE>
-      </LEGALENTITY_TYPE>
-      <CONTACT_ADDRESS>
-        <STREET1>125 Commerce Valley Drive West</STREET1>
-        <STREET2>-/-</STREET2>
-        <ZIPCODE>L3T 7W4</ZIPCODE>
-        <CITY>Markham</CITY>
-        <STATE>ON</STATE>
-        <COUNTRY>
-          <VALUE>CA</VALUE>
-          <VALUE_DECODE>Canada</VALUE_DECODE>
-        </COUNTRY>
-        <PHONE>+1 905-763-0560</PHONE>
-        <FAX>+41 905-763-0560-11</FAX>
-        <EMAIL>info@pppww.ca</EMAIL>
-        <WEBSITE>http://www.pppww.com/ca</WEBSITE>
-      </CONTACT_ADDRESS>
-      <CONTACT_PERSON>
-        <ORGANISATION>Plant Protection Products Worlwide Canada</ORGANISATION>
-        <DEPARTMENT>Global Regulatory Affairs</DEPARTMENT>
-        <TITLE/>
-        <FIRSTNAME>Peter</FIRSTNAME>
-        <LASTNAME>Walshe</LASTNAME>
-        <PHONE>+1 905-763-0560</PHONE>
-        <MOBILE>+1 379-453-2228</MOBILE>
-        <FAX>+1 905-763-0560-11</FAX>
-        <EMAIL>peter.walshe@pppww.com</EMAIL>
-      </CONTACT_PERSON>
-    </LEGAL_ENTITY>
-    <LEGAL_ENTITY Id="LE_ID_PMRA">
-      <METADATA_STATUS>
-        <VALUE>New</VALUE>
-        <VALUE_DECODE>New</VALUE_DECODE>
-      </METADATA_STATUS>
-      <LEGALENTITY_PID>urn:ghsts:5B39944B-E7CD-4BC9-BFA0-9316D1A9592E</LEGALENTITY_PID>
-      <LEGALENTITY_NAME>Pest Management Regulatory Agency </LEGALENTITY_NAME>
-      <LEGALENTITY_TYPE>
-        <VALUE>Regulatory Authority</VALUE>
-        <VALUE_DECODE>Regulatory Authority</VALUE_DECODE>
-      </LEGALENTITY_TYPE>
-      <CONTACT_ADDRESS>
-        <STREET1>2720 Riverside Drive</STREET1>
-        <STREET2>B2720 Riverside Drive</STREET2>
-        <ZIPCODE>6606D2 / K1A 0K9</ZIPCODE>
-        <CITY>6606D2 / K1A 0K9</CITY>
-        <STATE>Ontario</STATE>
-        <COUNTRY>
-          <VALUE>CA</VALUE>
-          <VALUE_DECODE>Canada</VALUE_DECODE>
-        </COUNTRY>
-        <PHONE>1-613-736-3799 or 1-800-267-6315</PHONE>
-        <FAX>1-613-736-3798</FAX>
-        <EMAIL>info@hc-sc.gc.ca</EMAIL>
-        <WEBSITE>http://www.hc-sc.gc.ca/contact/cps-spc/pmra-arla/infoserv-eng.php</WEBSITE>
-      </CONTACT_ADDRESS>
-      <CONTACT_PERSON>
-        <ORGANISATION>Chemicals</ORGANISATION>
-        <DEPARTMENT>Submissions</DEPARTMENT>
-        <TITLE>Mr.</TITLE>
-        <FIRSTNAME>Marcus</FIRSTNAME>
-        <LASTNAME>Miller</LASTNAME>
-        <PHONE>613-736-3602</PHONE>
-        <MOBILE>613-612-0554</MOBILE>
-        <FAX>-/-</FAX>
-        <EMAIL>marcus.miller@hc-sc.gc.ca</EMAIL>
-      </CONTACT_PERSON>
-    </LEGAL_ENTITY>
   </LEGAL_ENTITIES>
   <SUBSTANCES>
     <SUBSTANCE Id="IDS0000000112">
@@ -8330,7 +7995,7 @@
       <SUBSTANCE_IDENTIFIER>
         <SUBSTANCE_IDENTIFIER_TYPE>
           <VALUE>CASNO</VALUE>
-          <VALUE_DECODE>Chemical Abstracts Number</VALUE_DECODE>
+          <VALUE_DECODE>CASNO</VALUE_DECODE>
         </SUBSTANCE_IDENTIFIER_TYPE>
         <IDENTIFIER>134098-61-6</IDENTIFIER>
       </SUBSTANCE_IDENTIFIER>
@@ -8345,7 +8010,7 @@
       <SUBSTANCE_IDENTIFIER>
         <SUBSTANCE_IDENTIFIER_TYPE>
           <VALUE>CASNO</VALUE>
-          <VALUE_DECODE>Chemical Abstracts Number</VALUE_DECODE>
+          <VALUE_DECODE>CASNO</VALUE_DECODE>
         </SUBSTANCE_IDENTIFIER_TYPE>
         <IDENTIFIER>101007-06-1</IDENTIFIER>
       </SUBSTANCE_IDENTIFIER>
@@ -8367,7 +8032,7 @@
       <SUBSTANCE_IDENTIFIER>
         <SUBSTANCE_IDENTIFIER_TYPE>
           <VALUE>CASNO</VALUE>
-          <VALUE_DECODE>Chemical Abstracts Number</VALUE_DECODE>
+          <VALUE_DECODE>CASNO</VALUE_DECODE>
         </SUBSTANCE_IDENTIFIER_TYPE>
         <IDENTIFIER>616890-34-1</IDENTIFIER>
       </SUBSTANCE_IDENTIFIER>
@@ -8377,6 +8042,65 @@
           <VALUE_DECODE>CIPAC</VALUE_DECODE>
         </SUBSTANCE_IDENTIFIER_TYPE>
         <IDENTIFIER>4467</IDENTIFIER>
+      </SUBSTANCE_IDENTIFIER>
+    </SUBSTANCE>
+    <SUBSTANCE Id="IDS0000003333">
+      <METADATA_STATUS>
+        <VALUE>New</VALUE>
+        <VALUE_DECODE>New</VALUE_DECODE>
+      </METADATA_STATUS>
+      <SUBSTANCE_NAME>RGA1608-05</SUBSTANCE_NAME>
+      <SUBSTANCE_PID>urn:ghsts:9A5C394B-872E-433B-A391-00899F06613E</SUBSTANCE_PID>
+      <SUBSTANCE_IDENTIFIER>
+        <SUBSTANCE_IDENTIFIER_TYPE>
+          <VALUE>CASNO</VALUE>
+          <VALUE_DECODE>CASNO</VALUE_DECODE>
+        </SUBSTANCE_IDENTIFIER_TYPE>
+        <IDENTIFIER>616890-34-1</IDENTIFIER>
+      </SUBSTANCE_IDENTIFIER>
+      <SUBSTANCE_IDENTIFIER>
+        <SUBSTANCE_IDENTIFIER_TYPE>
+          <VALUE Other_Value="CIPAC">other</VALUE>
+          <VALUE_DECODE>CIPAC</VALUE_DECODE>
+        </SUBSTANCE_IDENTIFIER_TYPE>
+        <IDENTIFIER>4467</IDENTIFIER>
+      </SUBSTANCE_IDENTIFIER>
+    </SUBSTANCE>
+    <SUBSTANCE Id="IDS0000002222">
+      <METADATA_STATUS>
+        <VALUE>New</VALUE>
+        <VALUE_DECODE>New</VALUE_DECODE>
+      </METADATA_STATUS>
+      <SUBSTANCE_NAME>Acrinathrin</SUBSTANCE_NAME>
+      <SUBSTANCE_PID>urn:ghsts:645118F1-D834-46F8-A87E-EA91ABB6B3C9</SUBSTANCE_PID>
+      <SUBSTANCE_IDENTIFIER>
+        <SUBSTANCE_IDENTIFIER_TYPE>
+          <VALUE>CASNO</VALUE>
+          <VALUE_DECODE>CASNO</VALUE_DECODE>
+        </SUBSTANCE_IDENTIFIER_TYPE>
+        <IDENTIFIER>101007-06-1</IDENTIFIER>
+      </SUBSTANCE_IDENTIFIER>
+      <SUBSTANCE_IDENTIFIER>
+        <SUBSTANCE_IDENTIFIER_TYPE>
+          <VALUE Other_Value="CIPAC">other</VALUE>
+          <VALUE_DECODE>CIPAC</VALUE_DECODE>
+        </SUBSTANCE_IDENTIFIER_TYPE>
+        <IDENTIFIER>678</IDENTIFIER>
+      </SUBSTANCE_IDENTIFIER>
+    </SUBSTANCE>
+    <SUBSTANCE Id="IDS0000000112">
+      <METADATA_STATUS>
+        <VALUE>New</VALUE>
+        <VALUE_DECODE>New</VALUE_DECODE>
+      </METADATA_STATUS>
+      <SUBSTANCE_NAME>Fenpyroxymate</SUBSTANCE_NAME>
+      <SUBSTANCE_PID>urn:ghsts:AF92CDE4-E66E-415E-AA9C-49F5EE5568C1</SUBSTANCE_PID>
+      <SUBSTANCE_IDENTIFIER>
+        <SUBSTANCE_IDENTIFIER_TYPE>
+          <VALUE>CASNO</VALUE>
+          <VALUE_DECODE>CASNO</VALUE_DECODE>
+        </SUBSTANCE_IDENTIFIER_TYPE>
+        <IDENTIFIER>134098-61-6</IDENTIFIER>
       </SUBSTANCE_IDENTIFIER>
     </SUBSTANCE>
   </SUBSTANCES>

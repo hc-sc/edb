@@ -118,14 +118,20 @@
                 ng-repeat="dra in _ctrl.dossier.DOSSIER_RA track by $index">
                     <div layout-gt-sm="row" flex="80">
                         <md-input-container class="md-block" flex-gt-sm="50">
-                            <label for="regulatoryName">
-                                Regulatory Authority Name
+                            <label for="regulatoryType">
+                                Regulatory Type
                             </label>
-                            <input 
-                            id="regulatoryName"
+                            <md-select
+                            name="regulatoryType"
                             ng-model="dra.REGULATORY_TYPE.VALUE_DECODE"
-                            ng-change="dra.setRegulatoryTypeValue(dra.REGULATORY_TYPE.VALUE_DECODE)"
-                            type="text">
+                            ng-change="dra.setRegulatoryTypeValue(dra.REGULATORY_TYPE.VALUE_DECODE)">
+                                <md-option
+                                ng-repeat="regType in _ctrl.regulatoryTypes"
+                                value="{{ regType.VALUE }}"
+                                ng-selected="{{ regType.VALUE === dra.REGULATORY_TYPE.VALUE }}">
+                                    {{ regType.VALUE_DECODE }}
+                                </md-option>
+                            </md-select>
                         </md-input-container>
                         <md-input-container class="md-block" flex-gt-sm="20">
                             <label for="applicationType">

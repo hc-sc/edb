@@ -17,6 +17,10 @@ export class DossierController {
         this.applicationTypes = pickListService.getApplicationTypeOptions().map(appType => {
            return new ValueStruct(appType.VALUE, appType.VALUE_DECODE); 
         });
+        
+        this.regulatoryTypes = pickListService.getRegulatoryTypeOptions().map(regType => {
+            return new ValueStruct(regType.VALUE, regType.VALUE_DECODE);
+        });
     }
     
     initFromDB() {
