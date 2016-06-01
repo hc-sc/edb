@@ -76,7 +76,7 @@ class GHSTS {
             fs.readFile(self.filename, { encoding: "utf8" }, function (err, xmlStr) {
                 if (err) throw (err);
                 // parse the xml to json object                
-                xml2js.parseString(xmlStr, { attrkey: 'attr$', charkey: 'value$' }, function (err, obj) {
+                xml2js.parseString(xmlStr, { attrkey: 'attr$' }, function (err, obj) {
                     // check for errors
                     if (err) {
                         reject(err);
@@ -111,7 +111,7 @@ class GHSTS {
 
     writeXML(filename) {
         // write ghsts json tree back to xml
-        let builder = new xml2js.Builder({ rootName: 'GHSTS', attrkey: 'attr$', charkey: "value$" });
+        let builder = new xml2js.Builder({ rootName: 'GHSTS', attrkey: 'attr$' });
         let xml = builder.buildObject(this.ghsts);
         fs.writeFile(filename, xml, function (err) {
             if (err) console.log(err);
