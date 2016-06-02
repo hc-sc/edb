@@ -73,7 +73,6 @@ class LegalEntityService {
     createLegalEntity(legalEntity) { 
         let deferred = this.$q.defer();
         this.legalEntities.insert(legalEntity, function (err, result) {
-            console.log(err)
             if (err) deferred.reject(err);
             deferred.resolve(result);
         });
@@ -177,15 +176,12 @@ class LegalEntityService {
                         ))   
                  );       
                     
-                 console.log('---------------------JSON Model----------------\n' + JSON.stringify(legalEntity));
-                 console.log('------------------------GHSTS Format--------------------\n' + JSON.stringify(legalEntity.toGHSTSJson()));
                  // enable the following to insert into db.
                  self.createLegalEntity(legalEntity);    
                  
-            }).catch(function(e) {
-                console.log(e); 
-            })
-        });
+            });
+        })
+        .catch(err => console.log(err.stack));
     }    
     
     _createSampleLegalEntity(){

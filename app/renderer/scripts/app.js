@@ -9,8 +9,6 @@ import {ProductService} from './product/productService';
 import {ProductController} from './product/productController';
 import {ReceiverService} from './receiver/receiverService'; 
 import {ReceiverController} from './receiver/receiverController';
-import {SubmissionController} from './submission/submissionController';
-import {SubmissionService} from './submission/submissionService';
 import {FileService} from './file/fileService';
 import {FileController} from './file/fileController';
 import {DocumentService} from './document/documentService'; 
@@ -34,18 +32,15 @@ angular.module('ghstsApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages'])
     .service('receiverService', ['$q', ReceiverService])
     .controller('receiverController', ['$mdDialog', '$mdSidenav', 'receiverService', 'legalEntityService', ReceiverController])
     .service('productService', ['$q', ProductService])
-    .controller('productController', ['$mdDialog', 'productService', ProductController])
-    .service('ghstsService', ['receiverService', 'legalEntityService', 'productService', 'submissionService', 'dossierService', 'substanceService', GhstsService])
+    .controller('productController', ['$mdDialog', 'receiverService', 'legalEntityService', 'productService', 'substanceService', 'pickListService', ProductController])
+    .service('ghstsService', ['receiverService', 'legalEntityService', 'productService', 'dossierService', 'substanceService', GhstsService])
     .controller('ghstsController', ['$mdDialog', 'ghstsService', GhstsController])
-    .controller('receiverController', ['$mdDialog', 'receiverService', 'legalEntityService', ReceiverController])
     .service('fileService', ['$q', FileService])
     .controller('fileController', ['$mdDialog','$mdSidenav', 'fileService', FileController])
     .service('documentService', ['$q', DocumentService])
     .controller('documentController', ['$mdSidenav', '$location','pickListService','$mdDialog', 'documentService', DocumentController])
-    .service('submissionService', ['$q', SubmissionService])
-    .controller('submissionController', ['$mdDialog', 'submissionService'])
     .service('dossierService', ['$q', DossierService])
-    .controller('dossierController', ['$mdDialog', 'dossierService'])
+    .controller('dossierController', ['$mdDialog', 'dossierService', 'pickListService'])
     .service('substanceService', ['$q', SubstanceService])
     .controller('substanceController', ['$mdDialog', 'substanceService']);
 
@@ -85,11 +80,6 @@ function config($routeProvider, $mdThemingProvider) {
         .when('/manageDoc', {
             templateUrl: './scripts/document/document-manage.html' ,
             controller: DocumentController,
-            controllerAs: '_ctrl'
-        })
-        .when('/submission', {
-            templateUrl: './scripts/submission/submission-manage.html',
-            controller: SubmissionController,
             controllerAs: '_ctrl'
         })
         .when('/dossier', {

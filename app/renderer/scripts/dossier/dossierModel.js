@@ -1,4 +1,5 @@
-import { ValueStruct } from '../common/sharedModel.js';
+import { Submission } from '../submission/submissionModel';
+import { ValueStruct } from '../common/sharedModel';
     
 class Dossier {
     constructor(json) {
@@ -10,7 +11,10 @@ class Dossier {
                return new ReferencedDossier(refDos); 
             });
             this.DOSSIER_RA = json.DOSSIER_RA.map(dosRA => {
-               return new DossierRA(dosRA); 
+               return new DossierRA(dosRA);
+            });
+            this.SUBMISSION = json.SUBMISSION.map(sub => {
+                return new Submission(sub);
             });
             
             if (json._id) {
@@ -23,6 +27,7 @@ class Dossier {
             this.DOSSIER_COMP_ID = null;
             this.REFERENCED_DOSSIER = [];
             this.DOSSIER_RA = [];
+            this.SUBMISSION = [];
         }
     }
     
@@ -34,6 +39,10 @@ class Dossier {
         this.DOSSIER_RA.push(dr);
     }
     
+    addSubmission(sub) {
+        this.SUBMISSION.push(sub);
+    }
+    
     toGhstsJson() {
         const refDossiers = this.REFERENCED_DOSSIER.map(rd => {
            return rd.toGhstsJson(); 
@@ -43,12 +52,17 @@ class Dossier {
            return dr.toGhstsJson(); 
         });
         
+        const submissions = this.SUBMISSION.map(sub => {
+            return sub.toGhstsJson();
+        });
+        
         return {
             DOSSIER_PID: this.DOSSIER_PID,
             DOSSIER_DESCRIPTION_TITLE: this.DOSSIER_DESCRIPTION_TITLE,
             DOSSIER_COMP_ID: this.DOSSIER_COMP_ID,
             REFERENCED_DOSSIER: refDossiers,
-            DOSSIER_RA: dossierRAs
+            DOSSIER_RA: dossierRAs,
+            SUBMISSION: submissions
         };
     }
 }

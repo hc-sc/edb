@@ -2,6 +2,7 @@ import Nedb from 'nedb';
 import xml2js from 'xml2js';
 import { GHSTS } from '../common/ghsts';
 import { Dossier, ReferencedDossier, DossierRA } from './dossierModel';
+import { Submission } from '../submission/submissionModel';
 import { ValueStruct } from '../common/sharedModel';
 
 class DossierService {
@@ -56,11 +57,11 @@ class DossierService {
         return deferred.promise;
     }
     
-    initializeDossiersFromXml() {
+    initializeDossiers() {
         let ghsts = new GHSTS('./app/renderer/data/ghsts.xml');
         return ghsts.readObjects()
             .then(() => {
-                const rawDossier = ghsts.dossier[0];
+                const rawDossier = ghsts.dossier;
                 
                 let dossier = new Dossier();
                 
@@ -87,6 +88,17 @@ class DossierService {
                     dra.PROJECT_ID_NUMBER = dossierRA.PROJECT_ID_NUMBER;
                           
                     dossier.addDossierRA(dra);
+                }
+                
+                for (const submission of rawDossier.SUBMISSION) {
+                    let sub = new Submission();
+                                       
+                    sub.SUBMISSION_NUMBER = submission.SUBMISSION_NUMBER[0];
+                    sub.SUBMISSION_VERSION_DATE = submission.SUBMISSION_VERSION_DATE[0];
+                    sub.SUBMISSION_TITLE = submission.SUBMISSION_TITLE[0];
+                    sub.INCREMENTAL = submission.INCREMENTAL[0];
+                    
+                    dossier.addSubmission(sub);
                 }
                                                 
                 this.createDossier(dossier);

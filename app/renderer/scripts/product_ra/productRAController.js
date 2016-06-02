@@ -1,13 +1,19 @@
 import angular from 'angular';
 import { AdminNumber } from './productRAModel';
+import { ValueStruct } from '../common/sharedModel';
 import _ from 'lodash';
 
 class ProductRAController {
-    constructor(productRA, productController, $mdDialog) {
+    constructor(productRA, productController, $mdDialog, pickListService) {
         this.productController = productController;
         this.$mdDialog = $mdDialog;
         this.productRA = productRA;
+        this.pickListService = pickListService;
         this.isAddMode= false;
+        this.adminNumberTypes = pickListService.getAdminNumberTypeOptions().map(ant => {
+            return new ValueStruct(ant.VALUE, ant.VALUE_DECODE);
+        });
+        
         if (_.isEmpty(productRA) === true) {
             this.isAddMode = true;
         }
@@ -35,6 +41,6 @@ class ProductRAController {
     }
 }
 
-ProductRAController.$inject = ['productRA', 'productController', '$mdDialog'];
+ProductRAController.$inject = ['productRA', 'productController', '$mdDialog', 'pickListService'];
 
 export { ProductRAController };

@@ -38,7 +38,29 @@
             
             <md-toolbar>
                 <div class="md-toolbar-tools">
-                    <h2>Referenced Dossier</h2>
+                    <h2>Submissions</h2>
+                    <span flex></span>
+                    <md-button class="md-icon-button">
+                        <md-icon class="material-icons" aria-label="Add Submission" ng-click="_ctrl.addSubmission()">add_circle</md-icon>
+                    </md-button>
+                </div>
+            </md-toolbar>
+            
+            <md-list>
+                <md-list-item 
+                ng-repeat="sub in _ctrl.dossier.SUBMISSION track by $index" 
+                ng-click="_ctrl.showSubmissionDiag(sub, $event)"
+                ng-hidden="!$last"
+                class="noright">
+                    <md-icon class="material-icons" aria-hidden>assignment</md-icon>
+                    <p>{{ sub.SUBMISSION_TITLE }}</p>
+                </md-list-item>
+            </md-list>
+                
+            
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h2>Referenced Dossiers</h2>
                     <span flex></span>
                     <md-button class="md-icon-button">
                         <md-icon 
@@ -92,43 +114,54 @@
             
             <md-list>
                 <md-list-item 
-                    class="noright"
-                    ng-repeat="dra in _ctrl.dossier.DOSSIER_RA track by $index">
+                class="noright"
+                ng-repeat="dra in _ctrl.dossier.DOSSIER_RA track by $index">
                     <div layout-gt-sm="row" flex="80">
                         <md-input-container class="md-block" flex-gt-sm="50">
-                            <label for="regulatoryName">
-                                Regulatory Name
+                            <label for="regulatoryType">
+                                Regulatory Type
                             </label>
-                            <input 
-                                id="regulatoryName"
-                                ng-model="dra.REGULATORY_TYPE.VALUE_DECODE"
-                                ng-change="dra.setRegulatoryTypeValue(dra.REGULATORY_TYPE.VALUE_DECODE)"
-                                type="text">
+                            <md-select
+                            name="regulatoryType"
+                            ng-model="dra.REGULATORY_TYPE.VALUE_DECODE"
+                            ng-change="dra.setRegulatoryTypeValue(dra.REGULATORY_TYPE.VALUE_DECODE)">
+                                <md-option
+                                ng-repeat="regType in _ctrl.regulatoryTypes"
+                                value="{{ regType.VALUE }}"
+                                ng-selected="{{ regType.VALUE === dra.REGULATORY_TYPE.VALUE }}">
+                                    {{ regType.VALUE_DECODE }}
+                                </md-option>
+                            </md-select>
                         </md-input-container>
                         <md-input-container class="md-block" flex-gt-sm="20">
                             <label for="applicationType">
                                 Application Type
                             </label>
-                            <input 
-                                id="applicationType"
-                                ng-model="dra.APPLICATION_TYPE.VALUE_DECODE"
-                                ng-change="dra.setApplicationTypeValue(dra.APPLICATION_TYPE.VALUE_DECODE)"
-                                type="text">
+                            <md-select 
+                            name="applicationType"
+                            ng-model="dra.APPLICATION_TYPE.VALUE_DECODE"
+                            ng-change="dra.setApplicationTypeValue(dra.APPLICATION_TYPE.VALUE_DECODE)">
+                                <md-option
+                                ng-repeat="appType in _ctrl.applicationTypes"
+                                value="{{ appType.VALUE }}"
+                                ng-selected="{{ appType.VALUE === dra.APPLICATION_TYPE.VALUE }}">
+                                    {{ appType.VALUE_DECODE }}
+                                </md-option>
                         </md-input-container>
                         <md-input-container class="md-block" flex-gt-sm="30">
                             <label for="projectIdNumber">
                                 Project ID Number (separate numbers by a comma)
                             </label>
                             <input 
-                                id="projectIdNumber"
-                                ng-model="dra.PROJECT_ID_NUMBER"
-                                type="text">
+                            id="projectIdNumber"
+                            ng-model="dra.PROJECT_ID_NUMBER"
+                            type="text">
                         </md-input-container>
                     </div>
                     <md-button 
-                        class="md-secondary md-raised"
-                        ng-click="_ctrl.deleteDossierRA(dra)">
-                            Delete
+                    class="md-secondary md-raised"
+                    ng-click="_ctrl.deleteDossierRA(dra)">
+                        Delete
                     </md-button>
                 </md-list-item>
             </md-list>

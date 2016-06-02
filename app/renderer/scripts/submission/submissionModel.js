@@ -5,14 +5,12 @@ class Submission {
             this.SUBMISSION_VERSION_DATE = new Date(json.SUBMISSION_VERSION_DATE);
             this.SUBMISSION_TITLE = json.SUBMISSION_TITLE;
             this.INCREMENTAL = json.INCREMENTAL;
-            
-            this._id = json._id;
         }
         else {
             this.SUBMISSION_NUMBER = null;
             this.SUBMISSION_VERSION_DATE = null;
             this.SUBMISSION_TITLE = null;
-            this.INCREMENTAL = null;
+            this.INCREMENTAL = false;
         }
     }
     
