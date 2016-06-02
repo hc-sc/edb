@@ -13,7 +13,7 @@ class ProductRAController {
             return new ValueStruct(ant.VALUE, ant.VALUE_DECODE);
         });
         
-        receiverService.getReceiversWithLegalEntityName()
+        receiverService.getRAsWithLegalEntityName()
             .then(recs => {
                 this.receiversWithNames = recs;
             })

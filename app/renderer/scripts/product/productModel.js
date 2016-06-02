@@ -39,7 +39,6 @@ class Ingredient {
 class Product {
     constructor(json) {
         if (arguments.length === 1){
-            console.log(json);
             this.METADATA_STATUS = new ValueStruct(json.METADATA_STATUS.VALUE, json.METADATA_STATUS.VALUE_DECODE);
             this.PRODUCT_PID = json.PRODUCT_PID;
             this.GENERIC_PRODUCT_NAME = json.GENERIC_PRODUCT_NAME;

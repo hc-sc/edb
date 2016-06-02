@@ -42,7 +42,7 @@ class ReceiverService {
         return deferred.promise;
     }
     
-    getRAsithLegalEntityName() {
+    getRAsWithLegalEntityName() {
         let legalEntities = [];
         let receivers = [];
 

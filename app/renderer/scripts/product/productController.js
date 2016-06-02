@@ -34,12 +34,7 @@ class ProductController {
         });
         
         // NOTE: these services need to have already called 'initializeFromXML' or their equivalent in order to actually return anything
-        this.receiversWithNames = this.receiverService.getReceiversWithLegalEntityName()
-            .then(recs => {
-                this.receiversWithNames = recs;
-                                
-                return this.substanceService.getSubstances();
-            })
+        this.substanceService.getSubstances()
             .then(substances => {
                 this.substances = substances.map(sub => {
                     return new Substance(sub);
@@ -302,8 +297,16 @@ class ProductController {
         }
     }
     
+    formulationOther() {
+        if (this.selected && this.selected.FORMULATION_TYPE) {
+            console.log(this.selected.FORMULATION_TYPE.VALUE_DECODE);
+            return this.selected.FORMULATION_TYPE.VALUE_DECODE === "other" ? true : false;
+        }
+    }
+    
     viewProductGHSTS($event) {
-        if (!_.isEmpty(this.selected)) {   
+        if (!_.isEmpty(this.selected)) {
+            this.saveProduct();   
             this.productService.getProductGHSTSById(this.selected._id)
                 .then(product_xml =>           
                     this.$mdDialog.show(
