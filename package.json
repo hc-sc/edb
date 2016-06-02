@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "cd app && npm install && cd ..",
-    "start": "electron app",
+    "start": "node_modules/electron-prebuilt/dist/electron app",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -13,7 +13,7 @@
     "url": "git+https://github.com/hc-sc/edb.git"
   },
   "author": "hc-sc",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/hc-sc/edb/issues"
   },
