@@ -14,15 +14,23 @@
         </md-toolbar>
         
         <md-dialog-content class='autoScroll'>
-            
             <div class='md-dialog-content'>
                 <md-input-container class='md-block' flex-gt-sm>
-                    <label>Product Name for this RA</label>
-                    <input ng-model='_ctrl.productRA.PRODUCT_NAME' ng-required='true' type='text'>
+                    <label for="ra">Regulatory Authority</label>
+                    <md-select
+                    name="ra"
+                    ng-model="_ctrl.productRA._toReceiverRaId">
+                        <md-option
+                        ng-repeat="ra in _ctrl.receiversWithNames"
+                        value="{{ ra.xsId }}"
+                        ng-selected="{{ ra.xsId === _ctrl.productRA._toReceiverRaId }}">
+                            {{ ra.name }}
+                        </md-option>
+                    </md-select>
                 </md-input-container>
                 <md-input-container class='md-block' flex-gt-sm>
-                    <label>Regulatory Authority</label>
-                    <input ng-model='_ctrl.productRA._toReceiverRaId' ng-required='true' type='text'>
+                    <label>RA's Name for this Product</label>
+                    <input ng-model='_ctrl.productRA.PRODUCT_NAME' ng-required='true' type='text'>
                 </md-input-container>
                 
                 <md-toolbar>

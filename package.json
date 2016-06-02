@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "cd app && npm install && cd ..",
-    "start": "node_modules/electron-prebuilt/dist/electron app",
+    "start": "electron app",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

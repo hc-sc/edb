@@ -2,8 +2,6 @@ import angular from 'angular';
 import { Ingredient, Product } from './productModel';
 import { ProductRAController } from '../product_ra/productRAController';
 import { ProductRA } from '../product_ra/productRAModel';
-import { Receiver } from '../receiver/receiverModel';
-import { LegalEntity } from '../legal_entity/legalEntityModel';
 import { Substance } from '../substance/substanceModel';
 import { ValueStruct } from '../common/sharedModel';
 import { ListDialogController } from '../common/listDialogController';
@@ -11,10 +9,9 @@ import { generatePid } from '../common/pid';
 import _ from 'lodash';
 
 class ProductController {
-    constructor($mdDialog, ReceiverService, LegalEntityService, ProductService, SubstanceService, PickListService) {
+    constructor($mdDialog, ReceiverService, ProductService, SubstanceService, PickListService) {
         this.productService = ProductService;
         this.receiverService = ReceiverService;
-        this.legalEntityService = LegalEntityService;
         this.substanceService = SubstanceService;
         this.pickListService = PickListService;
         this.products = [];
@@ -24,10 +21,9 @@ class ProductController {
         this.$mdDialog = $mdDialog;
         this.filterText = null;
         this.metadataStatusOptions = null;
-        this.receivers = [];
+        this.receiversWithNames = [];
         this.legalEntities = [];
         this.substances = [];
-        this.RAs = null;
                         
         this.metadataStatusOptions = this.pickListService.getMetadataStatusOptions();
         this.formulations = this.pickListService.getFormulationTypeOptions().map(formulation => {
@@ -38,19 +34,10 @@ class ProductController {
         });
         
         // NOTE: these services need to have already called 'initializeFromXML' or their equivalent in order to actually return anything
-        this.receiverService.getReceivers()
+        this.receiversWithNames = this.receiverService.getReceiversWithLegalEntityName()
             .then(recs => {
-                this.receivers = recs.map(rec => { 
-                    return new Receiver(rec); 
-                });
-                
-                return this.legalEntityService.getLegalEntities();
-            })
-            .then(les => {
-                this.legalEntities = les.map(le => { 
-                    return new LegalEntity(le); 
-                });
-                
+                this.receiversWithNames = recs;
+                                
                 return this.substanceService.getSubstances();
             })
             .then(substances => {
@@ -58,7 +45,6 @@ class ProductController {
                     return new Substance(sub);
                 });
                 
-                //this.RAs = this.mapLEsToRecs();
                 this.initFromDB();
             })
             .catch(err => console.log(err.stack));       
@@ -75,18 +61,6 @@ class ProductController {
                 this.selectedIndex = 0;
             }
         });
-    }
-    
-    mapLEsToRecs() {
-        console.log(this.receivers);
-        console.log(this.legalEntities);
-        console.log(this.receivers[0]);
-        console.log(this.legalEntities[0]);
-        console.log(this.receivers[0].attr$.To_Legal_Entity_Id);
-        console.log(this.legalEntities[0]._identifier);
-        // console.log(_.intersectionWith(receivers, legalEntities, (re, le) => {
-        //     re. === le.
-        // })
     }
     
     clearSelectedProduct() {
@@ -277,6 +251,7 @@ class ProductController {
         ing.setUnitValue(ing.UNIT.VALUE_DECODE);
     }
     
+    // NOTE: We would like to have this load ONCE here, and then pass in the values anytime we need to show the ProductRA dialog, but passing in promises (in this case the getReceiversWithLegalEntityName), are NOT resolved in the controller, even if they already have a value. Need to use 'resolve' instead, which would wait and display the dialog only once the call had been resolved, but this is broken as per https://github.com/angular/material/issues/7400. Instead, we load receiverService into ProductRA directly, and call getReceiversWithLegalEntityName everytime we display the dialog
     showProductRADiag(productRA, $event) {
         this.$mdDialog.show({
             controller: ProductRAController,
@@ -371,7 +346,7 @@ class ProductController {
     }
 }
 
-ProductController.$inject = ['$mdDialog', 'receiverService', 'legalEntityService', 'productService', 'substanceService', 'pickListService'];
+ProductController.$inject = ['$mdDialog', 'receiverService', 'productService', 'substanceService', 'pickListService'];
 
 export { ProductController };
 
