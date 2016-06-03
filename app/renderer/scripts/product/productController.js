@@ -42,7 +42,8 @@ class ProductController {
                 
                 this.initFromDB();
             })
-            .catch(err => console.log(err.stack));       
+            .catch(err => console.log(err.stack));
+                   
     }
     
     initFromDB() {
@@ -97,7 +98,7 @@ class ProductController {
                         }
                     })
                     .catch(err => {
-                        console.log(err);
+                        console.log(err.stack);
                     });
             });
         }
@@ -116,7 +117,7 @@ class ProductController {
                         .targetEvent($event)
                 );
             })
-            .catch(err => console.log(err));
+            .catch(err => console.log(err.stack));
         }
         else { // new Product
             this.productService.createProduct(this.selected).then(createdRow => {
@@ -164,7 +165,7 @@ class ProductController {
             this.selectedIndex = null;
            
         })
-        .catch(err => console.log(err));
+        .catch(err => console.log(err.stack));
     }
     
     // recursively calls generateUniquePid until a unique PID is created
@@ -203,7 +204,7 @@ class ProductController {
             });
             this.productService.updateProduct(this.selected)
             .catch(err => {
-                console.log(err);
+                console.log(err.stack);
             });
         });
     }
@@ -225,7 +226,7 @@ class ProductController {
             _.pull(this.selected.PRODUCT_RA, ra);
             this.productService.updateProduct(this.selected)
             .catch(err => {
-                console.log(err);
+                console.log(err.stack);
             }); 
         });
     }
@@ -242,7 +243,18 @@ class ProductController {
         this.selected.setMetadataStatusValue(this.selected.METADATA_STATUS.VALUE_DECODE);
     }
     
-    updateUnitValue(ing) {
+    updateFormulation() {
+        if (this.selected.FORMULATION_TYPE.VALUE === this.pickListService.getOtherValue()) {
+            this.selected.FORMULATION_TYPE.ATTR_VALUE = '';
+            this.selected.setFormulationTypeValueDecode('');
+        }
+        else {
+            delete this.selected.FORMULATION_TYPE.ATTR_VALUE;
+            this.selected.setFormulationTypeValueDecode(this.selected.FORMULATION_TYPE.VALUE);
+        }
+    }
+    
+    updateUnit(ing) {
         ing.setUnitValue(ing.UNIT.VALUE_DECODE);
     }
     
@@ -297,18 +309,11 @@ class ProductController {
         }
     }
     
-    formulationOther() {
-        if (this.selected && this.selected.FORMULATION_TYPE) {
-            console.log(this.selected.FORMULATION_TYPE.VALUE_DECODE);
-            return this.selected.FORMULATION_TYPE.VALUE_DECODE === "other" ? true : false;
-        }
-    }
-    
     viewProductGHSTS($event) {
         if (!_.isEmpty(this.selected)) {
             this.saveProduct();   
             this.productService.getProductGHSTSById(this.selected._id)
-                .then(product_xml =>           
+                .then(product_xml => { 
                     this.$mdDialog.show(
                             this.$mdDialog
                                 .alert()
@@ -318,7 +323,7 @@ class ProductController {
                                 .ok('Ok')
                                 .targetEvent($event)
                     )
-            );
+                });
         }
     }
         
@@ -331,21 +336,21 @@ class ProductController {
                 return this.productService.getProducts();
             })
             // map each entry, checking if there are any duplicates. If there are, display a dialog showing the names of all conflicting products
-            .then(products => {
-                return Promise.all(products.map(item => {
-                    return this.productService.getProductByPid(item.PRODUCT_PID)
-                        .then(matches => {
-                            if (matches.length > 1) {
-                                this.showConflictDiag(matches, $event);
-                            }
-                        });
-                }));    
-            })
+            // .then(products => {
+            //     return Promise.all(products.map(item => {
+            //         return this.productService.getProductByPid(item.PRODUCT_PID)
+            //             .then(matches => {
+            //                 if (matches.length > 1) {
+            //                     this.showConflictDiag(matches, $event);
+            //                 }
+            //             });
+            //     }));    
+            // })
             // load from the DB
             .then(() => {
                 this.initFromDB();
             })
-            .catch(err => console.log(err));
+            .catch(err => console.log(err.stack));
     }
 }
 

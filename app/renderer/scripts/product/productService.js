@@ -3,7 +3,7 @@ import xml2js from 'xml2js';
 import { GHSTS } from '../common/ghsts';
 import { Ingredient, Product } from './productModel';
 import { ProductRA, AdminNumber } from '../product_ra/productRAModel';
-import { ValueStruct } from '../common/sharedModel';
+import { ValueStruct, ExtValueStruct } from '../common/sharedModel';
 
 class ProductService {
     constructor($q) {        
@@ -81,7 +81,7 @@ class ProductService {
                     
             // create Product based on productJSON           
             const product = new Product(results[0]);
-            
+                        
             // convert to XML
             const builder = new xml2js.Builder({
                 rootName: 'PRODUCT', 
@@ -106,8 +106,21 @@ class ProductService {
                 product.METADATA_STATUS = new ValueStruct(rawProduct.METADATA_STATUS[0].VALUE[0], rawProduct.METADATA_STATUS[0].VALUE_DECODE[0]);
                 product.PRODUCT_PID = rawProduct.PRODUCT_PID[0];
                 product.GENERIC_PRODUCT_NAME = rawProduct.GENERIC_PRODUCT_NAME[0];
-                product.FORMULATION_TYPE = new ValueStruct(rawProduct.FORMULATION_TYPE[0].VALUE[0], rawProduct.FORMULATION_TYPE[0].VALUE_DECODE[0]);
-                                
+                
+                if (typeof rawProduct.FORMULATION_TYPE[0].VALUE[0] === 'object') {
+                    product.FORMULATION_TYPE = new ExtValueStruct(
+                        rawProduct.FORMULATION_TYPE[0].VALUE[0]._,
+                        rawProduct.FORMULATION_TYPE[0].VALUE_DECODE[0],
+                        rawProduct.FORMULATION_TYPE[0].VALUE[0].attr$.Other_Value
+                    );
+                }
+                else {
+                    product.FORMULATION_TYPE = new ExtValueStruct(
+                        rawProduct.FORMULATION_TYPE[0].VALUE[0],
+                        rawProduct.FORMULATION_TYPE[0].VALUE_DECODE[0]
+                    );
+                }
+                                                
                 for (const pRA of rawProduct.PRODUCT_RA) {
                     let productRA = new ProductRA();
                     productRA._toReceiverRaId = pRA.attr$.To_Specific_for_RA_Id;
@@ -116,7 +129,7 @@ class ProductService {
                     for (const an of pRA.ADMIN_NUMBER) {
                         let adminNumber = new AdminNumber();
                         adminNumber.IDENTIFIER = an.IDENTIFIER[0];
-                        adminNumber.ADMIN_NUMBER_TYPE = new ValueStruct(an.ADMIN_NUMBER_TYPE[0].VALUE[0], an.ADMIN_NUMBER_TYPE[0].VALUE_DECODE[0]);
+                        adminNumber.ADMIN_NUMBER_TYPE = new ExtValueStruct(an.ADMIN_NUMBER_TYPE[0].VALUE[0], an.ADMIN_NUMBER_TYPE[0].VALUE_DECODE[0]);
                         
                         productRA.addAdminNum(adminNumber);
                     }
@@ -128,7 +141,7 @@ class ProductService {
                     let ingredient = new Ingredient();
                     ingredient._toSubstanceID = ing.attr$.To_Substance_Id;
                     ingredient.QUANTITY = ing.QUANTITY[0];
-                    ingredient.UNIT = new ValueStruct(ing.UNIT[0].VALUE[0], ing.UNIT[0].VALUE_DECODE[0]);
+                    ingredient.UNIT = new ExtValueStruct(ing.UNIT[0].VALUE[0], ing.UNIT[0].VALUE_DECODE[0]);
                     
                     product.addIngredient(ingredient);
                 }
@@ -137,7 +150,7 @@ class ProductService {
                 
                 this.createProduct(product);
             }).catch(e => {
-                console.log(e);
+                console.log(e.stack);
             });
     }
 }

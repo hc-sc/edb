@@ -541,6 +541,9 @@ class PickListService {
 		];
     }
 
+	getOtherValue() {
+		return 'other';
+	}
 }
 
 export { PickListService };

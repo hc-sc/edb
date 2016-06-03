@@ -28,8 +28,8 @@
     <div layout-fill layout="column" tabIndex="-1" role="main" class="md-whiteframe-z2">
         <md-toolbar layout="row" class="md-whiteframe-z1">
             <div class="md-toolbar-tools">
-                <md-button class="md-icon-button" aria-label="Settings">
-                    <md-icon class="material-icons" aria-label="Product">developer_board</md-icon>
+                <md-button class="md-icon-button" aria-label="Home" ng-href="#/home">
+                    <md-icon class="material-icons" aria-label="Home">home</md-icon>    
                 </md-button>
                 <md-headline layout-padding> {{ _ctrl.selected.GENERIC_PRODUCT_NAME }}</md-headline>
             </div>
@@ -54,16 +54,31 @@
                         <md-select 
                         name="formulationType" 
                         id="formulationType"
-                        ng-model="_ctrl.selected.FORMULATION_TYPE.VALUE_DECODE"
-                        ng-change="_ctrl.updateFormulationValue()">
+                        ng-model="_ctrl.selected.FORMULATION_TYPE.VALUE"
+                        ng-change="_ctrl.updateFormulation()">
                             <md-option
                             ng-repeat="formulationType in _ctrl.formulations"
-                            value="{{ formulationType.VALUE }}"
-                            ng-selected="{{ _ctrl.selected.FORMULATION_TYPE.VALUE === formulationType.VALUE }}">
-                                {{ formulationType.VALUE_DECODE }}
+                            ng-value="formulationType.VALUE">
+                                {{ formulationType.VALUE }}
                             </md-option>
                         </md-select>
-
+                    </md-input-container>
+                    <md-input-container 
+                    ng-show="_ctrl.selected.FORMULATION_TYPE.VALUE === 'other'">
+                        <label for="formulationValue">Formulation Value</label>
+                        <input 
+                        ng-model="_ctrl.selected.FORMULATION_TYPE.ATTR_VALUE"
+                        id="formulationValue"
+                        type="text">
+                    </md-input-container>
+                    <md-input-container 
+                    ng-show="_ctrl.selected.FORMULATION_TYPE.VALUE === 'other'">
+                        <label for="formulationValueDecode">Formulation Decode</label>
+                        <input 
+                        ng-model="_ctrl.selected.FORMULATION_TYPE.VALUE_DECODE"
+                        id="formulationValueDecode"
+                        type="text"
+                        >
                     </md-input-container>
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Status</label>
@@ -74,18 +89,13 @@
                         ng-change='_ctrl.updateMetadataValue()'>
                             <md-option 
                             ng-repeat='status in _ctrl.metadataStatusOptions' 
-                            value='{{ status.VALUE }}'
-                            ng-selected='{{ _ctrl.selected.METADATA_STATUS.VALUE === status.VALUE }}'>
+                            ng-value='status.VALUE'>
                                 {{ status.VALUE_DECODE }}
                             </md-option>
                         </md-select>
                     </md-input-container>
                 </div>
             </div>
-            
-                                                        <div ng-show="_ctrl.formulationOther()">
-                            hello!
-                        </div>
 
             <md-toolbar>
                 <div class="md-toolbar-tools">
@@ -100,7 +110,7 @@
             <md-list>
                 <md-list-item ng-repeat="ing in _ctrl.selected.INGREDIENTS track by $index" class="noright">
                     <div layout-gt-xs="row" flex="80">
-                        <md-input-container class="md-block" flex-gt-xs="50" flex-xs>
+                        <md-input-container class="md-block" flex-gt-xs="100" flex-xs>
                             <label for="substances">Substance</label>
                             <md-select
                             name="substances"
@@ -113,15 +123,16 @@
                                 </md-option>
                             </md-select>
                         </md-input-container>
-                        <md-input-container class="md-block" flex-gt-xs="25" flex-xs>
+                        <md-input-container class="md-block" flex-gt-xs="50" flex-xs>
                             <label>Amount</label>
                             <input ng-model="ing.QUANTITY" type="text">
                         </md-input-container>
-                        <md-input-container class="md-block" flex-gt-xs="25" flex-xs>
+                        <md-input-container class="md-block" flex-gt-xs="50" flex-xs>
                             <label>Unit</label>
                             <md-select 
-                            name='unit'                            ng-model='ing.UNIT.VALUE_DECODE' 
-                            ng-change='_ctrl.updateUnitValue(ing)'>
+                            name='unit'                            
+                            ng-model='ing.UNIT.VALUE_DECODE' 
+                            ng-change='_ctrl.updateUnit(ing)'>
                                 <md-option 
                                 ng-repeat='u in _ctrl.units' 
                                 value='{{ u.VALUE }}'
@@ -129,6 +140,22 @@
                                     {{ u.VALUE_DECODE }}
                                 </md-option>
                             </md-select>
+                        </md-input-container>
+                        <md-input-container 
+                        ng-show="ing.UNIT.VALUE === other">
+                            <label for="unitValue">Unit Value</label>
+                            <input
+                            id="unitValue"
+                            type="text"
+                            ng-model="ing.ATTR_VALUE">
+                        </md-input-container>
+                        <md-input-container
+                        ng-show="ing.UNIT.VALUE_DECODE === other">
+                            <label for="unitValueDecode">Unit Decode</label>
+                            <input
+                            id="unitValueDecode"
+                            type="text"
+                            ng-model="ing.VALUE_DECODE"
                         </md-input-container>
                         <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteIngredient(ing._toSubstanceID, $event)">Delete</md-button>
                     </div>
@@ -156,15 +183,11 @@
                 </md-list-item>
             </md-list>
 
-            <div layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+            <div layout="row" layout-sm="column" layout-align="center" layout-wrap>
                 <md-button class="md-raised md-info" ng-click="_ctrl.newProduct($event)">New Product</md-button>
                 <md-button class="md-raised md-primary" ng-click="_ctrl.saveProduct()">Save</md-button>
                 <md-button class="md-raised md-warn" ng-click="_ctrl.deleteProduct()">Delete</md-button>
-            </div>
-
-            <div layout="row" layout-sm="column" layout-align="center center" layout-wrap>
                 <md-button class="md-raised md-primary" ng-click="_ctrl.viewProductGHSTS()">View Product GHSTS</md-button>
-                <md-button class="md-raised md-warn" ng-click="_ctrl.initializeProductFromXml($event)">Init DB with Sample GHSTS XML</md-button>
             </div>
         </md-content>
     </div>
