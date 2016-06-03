@@ -1,4 +1,5 @@
 import angular from 'angular';
+import { OtherNationalGuideLine } from './documentModel';
 import {_} from 'lodash';
 
 class DocumentRAController {
@@ -27,8 +28,25 @@ class DocumentRAController {
     };    
 
     saveDocumentRA($event) {
-        
+        this.documentController.saveDocumentRA(this.documentRA, this.isAddMode);  
+        this.$mdDialog.hide();
     } 
+    
+    addDocumentRAComment($event){
+        this.documentRA.DOCUMENT_COMMENT.push('');  
+    }
+    
+    deleteDocumentRAComment(raComment, $event){      
+         _.pull(this.documentRA.DOCUMENT_COMMENT, raComment);     
+    }
+    
+    addDocumentRAONG($event){
+        this.documentRA.OTHER_NATIONAL_GUIDELINE.push(new OtherNationalGuideLine());
+    }
+    
+    deleteDocumentRAONG(raOgl, $event){      
+         _.pull(this.documentRA.OTHER_NATIONAL_GUIDELINE, raOgl);     
+    }
     
      updateSelectedStatusDecode(){
         // update metadata status value decode upon selection change

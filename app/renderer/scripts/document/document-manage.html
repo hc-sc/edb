@@ -126,7 +126,14 @@
               
                    
                 </form>
-              </md-content>           
+              </md-content> 
+              
+            <section layout="row" layout-xs="column" layout-align="center center" layout-wrap>     
+                <md-button class="md-raised md-info" ng-click="_ctrl.createDocument()">Add</md-button>
+                <md-button class="md-raised md-primary" ng-click="_ctrl.saveDocument($event)">Save</md-button>
+                <md-button class="md-raised md-danger" ng-click="_ctrl.cancelEdit()">Cancel</md-button>
+                <md-button class="md-raised md-warn" ng-click="_ctrl.deleteDocument()">Delete</md-button>     
+            </section>          
            
             <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>  
                <md-button class="md-raised md-primary" ng-click="_ctrl.viewDocumentJson()">View DOC JSON</md-button>                

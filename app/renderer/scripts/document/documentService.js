@@ -41,6 +41,38 @@ class DocumentService {
         return deferred.promise;        
     }
     
+     createDocument(document) { 
+        let deferred = this.$q.defer();
+        this.documents.insert(document, function (err, result) {
+            console.log(err)
+            if (err) deferred.reject(err);
+            deferred.resolve(result);
+        });
+        return deferred.promise;
+    }
+    
+    deleteDocument(id) {            
+        let deferred = this.$q.defer();
+        this.documents.remove({'_id': id}, function (err, res) {
+            if (err) deferred.reject(err);
+            console.log(res);
+            deferred.resolve(res.affectedRows);
+        });                
+        return deferred.promise;
+    }
+    
+     
+    updateDocument(document) {
+        let deferred = this.$q.defer();
+        this.documents.update({_id: document._id}, document, {}, function (err, numReplaced) {
+            if (err) { 
+                deferred.reject(err);
+                console.log(err);
+            }
+            deferred.resolve(numReplaced);
+        });
+        return deferred.promise;
+    }
     
     // the following are demo related methods.  can be moved to a dedicated test class later    
     getDocumentGHSTSById(id) {
@@ -136,9 +168,25 @@ class DocumentService {
                     docRA.DATA_PROTECTION = raDataProtection;
                     docRA.DATA_REQUIREMENT = raDataReq;
                     
-                    docRA.DOCUMENT_COMMENT = dra.DOCUMENT_COMMENT;  // assign array to array directly
                   
-                    docRA.OTHER_NATIONAL_GUIDELINE = dra.OTHER_NATIONAL_GUIDELINE; 
+                    if(dra.DOCUMENT_COMMENT !== undefined){
+                        docRA.DOCUMENT_COMMENT = dra.DOCUMENT_COMMENT;
+                    }else{
+                        docRA.DOCUMENT_COMMENT = [];
+                    }
+                 
+                    if(dra.OTHER_NATIONAL_GUIDELINE !== undefined){
+                        dra.OTHER_NATIONAL_GUIDELINE.forEach (ogl => {
+                            let otherNGL = new OtherNationalGuideLine();
+                            otherNGL.GUIDELINE_SYSTEM = ogl.GUIDELINE_SYSTEM[0];
+                            otherNGL.GUIDELINE_NUMBER = ogl.GUIDELINE_NUMBER[0];
+                            docRA.addOtherNationalGuideline(otherNGL);
+                        })
+                    }else{
+                          console.log("OTHER_NATIONAL_GUIDELINE is  empty");
+                          //docRA.OTHER_NATIONAL_GUIDELINE = [];
+                     }
+                    
                     
                     let raDocNum = new RADocumentNumber();
                     // Need to check if non mandatory element is not present in your xml payload
@@ -147,10 +195,9 @@ class DocumentService {
                         //console.log( "RA_DOCUMENT_NUMBER available ---->>>>>>"  + JSON.stringify(dra.RA_DOCUMENT_NUMBER[0].RA_DOCUMENT_NUMBER_TYPE));
                         // console.log( "RA_DOCUMENT_NUMBER_TYPE VALUE ---->>>>>>"  + JSON.stringify(dra.RA_DOCUMENT_NUMBER[0].RA_DOCUMENT_NUMBER_TYPE[0].VALUE[0]._));
                         // console.log( "RA_DOCUMENT_NUMBER_TYPE Other_Value ---->>>>>>"  + JSON.stringify(dra.RA_DOCUMENT_NUMBER[0].RA_DOCUMENT_NUMBER_TYPE[0].VALUE[0].attr$.Other_Value));
-                        // console.log( "RA_DOCUMENT_NUMBER_TYPE VALUE_DECODE ---->>>>>>"  + JSON.stringify(dra.RA_DOCUMENT_NUMBER[0].RA_DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0]));
-                        
+                        // console.log( "RA_DOCUMENT_NUMBER_TYPE VALUE_DECODE ---->>>>>>"  + JSON.stringify(dra.RA_DOCUMENT_NUMBER[0].RA_DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0]));    
                         let raDocNumType = new ValueStruct(dra.RA_DOCUMENT_NUMBER[0].RA_DOCUMENT_NUMBER_TYPE[0].VALUE[0]._ , dra.RA_DOCUMENT_NUMBER[0].RA_DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0]);
-                  
+                
                         raDocNum.RA_DOCUMENT_NUMBER_TYPE = raDocNumType;
                         raDocNum.IDENTIFIER = dra.RA_DOCUMENT_NUMBER[0].IDENTIFIER[0];
                         raDocNum.ALREADY_SUBMITTED = dra.RA_DOCUMENT_NUMBER[0].ALREADY_SUBMITTED[0];

@@ -81,6 +81,47 @@ class DocumentController {
         }
     }
     
+    // For Document Generic
+    
+    saveDocument($event) {   
+        // reset form state
+        this._setFormPrestine($event);
+                     
+        let self = this;
+        if (this.selected != null && this.selected._id != null) {
+            this.documentService.updateDocument(this.selected).then(function (affectedRows) {
+                self.$mdDialog.show(
+                    self.$mdDialog
+                        .alert()
+                        .clickOutsideToClose(true)
+                        .title('Success')
+                        .content('Data Updated Successfully!')
+                        .ok('Ok')
+                        .targetEvent($event)
+                );
+            });
+        }
+        else {            
+            this.documentService.createDocument(this.selected).then(affectedRows => {
+                self.$mdDialog.show(
+                    self.$mdDialog
+                        .alert()
+                        .clickOutsideToClose(true)
+                        .title('Success')
+                        .content('Data Added Successfully!')
+                        .ok('Ok')
+                        .targetEvent($event)
+                );
+                
+                // refresh the le list
+                self.getAlldocuments();
+            });
+        }
+    }
+    
+    
+    // For Document RA
+    
      deleteDocumentRA(docRA, $event){
         // let confirm = this.$mdDialog.confirm()
         //                         .title('Are you sure?')
@@ -112,6 +153,18 @@ class DocumentController {
         })
     }
     
+   saveDocumentRA(docRA, isAddMode){
+        // save the document RA to the selected document.
+        console.log("View updated docRA: " + JSON.stringify(docRA));
+        if(isAddMode === true){
+            // this is a new document RA
+            this.selected.DOCUMENT_RA.push(docRA);
+        } 
+        // save the new or modified document RA by updating the document            
+        this.documentService.updateDocument(this.selected);
+    }
+    
+  
      // test/debug functions
     viewDocumentJson($event) {
         let self = this;
