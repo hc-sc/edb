@@ -9,12 +9,14 @@ import {ProductService} from './product/productService';
 import {ProductController} from './product/productController';
 import {ReceiverService} from './receiver/receiverService'; 
 import {ReceiverController} from './receiver/receiverController';
-import {SubmissionController} from './submission/submissionController';
-import {SubmissionService} from './submission/submissionService';
 import {FileService} from './file/fileService';
 import {FileController} from './file/fileController';
 import {DocumentService} from './document/documentService'; 
 import {DocumentController} from './document/documentController';
+import {DossierService} from './dossier/dossierService';
+import {DossierController} from './dossier/dossierController';
+import {SubstanceService} from './substance/substanceService'; 
+import {SubstanceController} from './substance/substanceController';
 import {GhstsService} from './ghsts_demo/ghstsService';
 import {GhstsController} from './ghsts_demo/ghstsController';
 import {PickListService} from './common/pickListService';
@@ -30,16 +32,18 @@ angular.module('ghstsApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages'])
     .service('receiverService', ['$q', ReceiverService])
     .controller('receiverController', ['$mdDialog', '$mdSidenav', 'receiverService', 'legalEntityService', ReceiverController])
     .service('productService', ['$q', ProductService])
-    .controller('productController', ['$mdDialog', 'productService', ProductController])
-    .service('ghstsService', ['receiverService', 'legalEntityService', 'productService', 'submissionService', GhstsService])
+    .controller('productController', ['$mdDialog', 'receiverService', 'legalEntityService', 'productService', 'substanceService', 'pickListService', ProductController])
+    .service('ghstsService', ['receiverService', 'legalEntityService', 'productService', 'dossierService', 'substanceService', GhstsService])
     .controller('ghstsController', ['$mdDialog', 'ghstsService', GhstsController])
-    .controller('receiverController', ['$mdDialog', 'receiverService', 'legalEntityService', ReceiverController])
     .service('fileService', ['$q', FileService])
     .controller('fileController', ['$mdDialog','$mdSidenav', 'fileService', FileController])
     .service('documentService', ['$q', DocumentService])
-    .controller('documentController', ['$mdDialog', 'documentService', DocumentController])
-    .service('submissionService', ['$q', SubmissionService])
-    .controller('submissionController', ['$mdDialog', 'submissionService']);
+    .controller('documentController', ['$mdSidenav', '$location','pickListService','$mdDialog', 'documentService', DocumentController])
+    .service('dossierService', ['$q', DossierService])
+    .controller('dossierController', ['$mdDialog', 'dossierService', 'pickListService'])
+    .service('substanceService', ['$q', SubstanceService])
+    .controller('substanceController', ['$mdDialog', 'substanceService']);
+
 
 function config($routeProvider, $mdThemingProvider) {
     $routeProvider
@@ -78,11 +82,16 @@ function config($routeProvider, $mdThemingProvider) {
             controller: DocumentController,
             controllerAs: '_ctrl'
         })
-            .when('/submission', {
-                templateUrl: './scripts/submission/submission-manage.html',
-                controller: SubmissionController,
-                controllerAs: '_ctrl'
-            });
+        .when('/dossier', {
+            templateUrl: './scripts/dossier/dossier-manage.html',
+            controller: DossierController,
+            controllerAs: '_ctrl'
+        })
+        .when('/manageSub', {
+            templateUrl: './scripts/substance/substance-manage.html' ,
+            controller: SubstanceController,
+            controllerAs: '_ctrl'
+        });
     $routeProvider.otherwise({ redirectTo: '/home' });
 
     // set the theme

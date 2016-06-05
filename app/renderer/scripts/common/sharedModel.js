@@ -6,4 +6,15 @@ class ValueStruct {
     }
 }
 
-export { ValueStruct }
+// Matches Types that ar extensible. They support attributes of the form
+// <VALUE Other_Value='the value'>other</VALUE>
+// <VALUE_DECODE>'the decoded value'</VALUE_DECODE>
+class ExtValueStruct {
+    constructor(value, decode, value$) {
+        this.value = value;
+        this.decode = decode;
+        this.value$ = value$;
+    }
+}
+
+export { ValueStruct, ExtValueStruct }

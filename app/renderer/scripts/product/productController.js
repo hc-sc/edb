@@ -2,14 +2,20 @@ import angular from 'angular';
 import { Ingredient, Product } from './productModel';
 import { ProductRAController } from '../product_ra/productRAController';
 import { ProductRA } from '../product_ra/productRAModel';
+import { Receiver } from '../receiver/receiverModel';
+import { LegalEntity } from '../legal_entity/legalEntityModel';
+import { Substance } from '../substance/substanceModel';
+import { ValueStruct } from '../common/sharedModel';
 import { ListDialogController } from '../common/listDialogController';
 import { generatePid } from '../common/pid';
 import _ from 'lodash';
 
 class ProductController {
-    constructor($mdDialog, ReceiverService, ProductService, PickListService) {
+    constructor($mdDialog, ReceiverService, LegalEntityService, ProductService, SubstanceService, PickListService) {
         this.productService = ProductService;
         this.receiverService = ReceiverService;
+        this.legalEntityService = LegalEntityService;
+        this.substanceService = SubstanceService;
         this.pickListService = PickListService;
         this.products = [];
         this.selected = {};
@@ -17,11 +23,45 @@ class ProductController {
 
         this.$mdDialog = $mdDialog;
         this.filterText = null;
-                
-        // Load initial data
-        this.initFromDB();
-        
+        this.metadataStatusOptions = null;
+        this.receivers = [];
+        this.legalEntities = [];
+        this.substances = [];
+        this.RAs = null;
+                        
         this.metadataStatusOptions = this.pickListService.getMetadataStatusOptions();
+        this.formulations = this.pickListService.getFormulationTypeOptions().map(formulation => {
+            return new ValueStruct(formulation.VALUE, formulation.VALUE_DECODE);
+        });
+        this.units = this.pickListService.getUnitTypeOptions().map(unit => {
+            return new ValueStruct(unit.VALUE, unit.VALUE_DECODE);
+        });
+        
+        // NOTE: these services need to have already called 'initializeFromXML' or their equivalent in order to actually return anything
+        this.receiverService.getReceivers()
+            .then(recs => {
+                this.receivers = recs.map(rec => { 
+                    return new Receiver(rec); 
+                });
+                
+                return this.legalEntityService.getLegalEntities();
+            })
+            .then(les => {
+                this.legalEntities = les.map(le => { 
+                    return new LegalEntity(le); 
+                });
+                
+                return this.substanceService.getSubstances();
+            })
+            .then(substances => {
+                this.substances = substances.map(sub => {
+                    return new Substance(sub);
+                });
+                
+                //this.RAs = this.mapLEsToRecs();
+                this.initFromDB();
+            })
+            .catch(err => console.log(err.stack));       
     }
     
     initFromDB() {
@@ -35,6 +75,18 @@ class ProductController {
                 this.selectedIndex = 0;
             }
         });
+    }
+    
+    mapLEsToRecs() {
+        console.log(this.receivers);
+        console.log(this.legalEntities);
+        console.log(this.receivers[0]);
+        console.log(this.legalEntities[0]);
+        console.log(this.receivers[0].attr$.To_Legal_Entity_Id);
+        console.log(this.legalEntities[0]._identifier);
+        // console.log(_.intersectionWith(receivers, legalEntities, (re, le) => {
+        //     re. === le.
+        // })
     }
     
     clearSelectedProduct() {
@@ -53,7 +105,6 @@ class ProductController {
     
     deleteProduct($event) {
         if (!_.isEmpty(this.selected)) {
-            console.log('deleting product');
             let confirm = this.$mdDialog.confirm()
                                     .title('Are you sure?')
                                     .content('Are you sure you want to delete' +
@@ -85,7 +136,6 @@ class ProductController {
     
     saveProduct($event) {
         if (this.selected._id) {
-            console.log('updating a product');
             this.productService.updateProduct(this.selected).then(() => {
                 this.$mdDialog.show(
                     this.$mdDialog
@@ -100,7 +150,6 @@ class ProductController {
             .catch(err => console.log(err));
         }
         else { // new Product
-            console.log('creating a new product');
             this.productService.createProduct(this.selected).then(createdRow => {
                 this.$mdDialog.show(
                     this.$mdDialog
@@ -225,7 +274,6 @@ class ProductController {
     }
     
     updateUnitValue(ing) {
-        console.log(ing);
         ing.setUnitValue(ing.UNIT.VALUE_DECODE);
     }
     
@@ -245,7 +293,6 @@ class ProductController {
     }
     
     showConflictDiag(conflictingProducts, $event) {
-        console.log('in conflicts:', conflictingProducts);
         this.$mdDialog.show({
             controller: ListDialogController,
             controllerAs: '_ctrl',
@@ -300,19 +347,16 @@ class ProductController {
     initializeProductFromXml($event){
         // read from sample ghsts and populate the database with that Product.
         
-        this.productService.initializeProductFromXml()
+        this.productService.initializeProducts()
             // get all entries
             .then(() => {
-                console.log('getting all products from db during init');
                 return this.productService.getProducts();
             })
             // map each entry, checking if there are any duplicates. If there are, display a dialog showing the names of all conflicting products
             .then(products => {
-                console.log('checking for conflicts');
                 return Promise.all(products.map(item => {
                     return this.productService.getProductByPid(item.PRODUCT_PID)
                         .then(matches => {
-                            console.log(matches);
                             if (matches.length > 1) {
                                 this.showConflictDiag(matches, $event);
                             }
@@ -321,14 +365,13 @@ class ProductController {
             })
             // load from the DB
             .then(() => {
-                console.log('loading in from db');
                 this.initFromDB();
             })
             .catch(err => console.log(err));
     }
 }
 
-ProductController.$inject = ['$mdDialog', 'receiverService', 'productService', 'pickListService'];
+ProductController.$inject = ['$mdDialog', 'receiverService', 'legalEntityService', 'productService', 'substanceService', 'pickListService'];
 
 export { ProductController };
 

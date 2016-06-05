@@ -16,12 +16,16 @@ export class ProductRA {
         }  
     }
     
-    set toReceiverRaId(XSDid) {
+    setReceiverRaId(XSDid) {
         this._toReceiverRaId = XSDid;
     }
     
     addAdminNum(adminNumber) {
         this.ADMIN_NUMBER.push(adminNumber);
+    }
+    
+    updateAdminNumberTypeValue(an) {
+        an.setAdminNumberTypeValue(an.VALUE_DECODE);
     }
 
     toGhstsJson() {

@@ -17,11 +17,11 @@
             
             <div class='md-dialog-content'>
                 <md-input-container class='md-block' flex-gt-sm>
-                    <label>Product Name</label>
+                    <label>Product Name for this RA</label>
                     <input ng-model='_ctrl.productRA.PRODUCT_NAME' ng-required='true' type='text'>
                 </md-input-container>
                 <md-input-container class='md-block' flex-gt-sm>
-                    <label>_toReceiverRaId</label>
+                    <label>Regulatory Authority</label>
                     <input ng-model='_ctrl.productRA._toReceiverRaId' ng-required='true' type='text'>
                 </md-input-container>
                 
@@ -48,7 +48,17 @@
                                 </md-input-container>
                                 <md-input-container class='md-block'>
                                     <label>Admin Number Type</label>
-                                    <input ng-model='adminNumber.ADMIN_NUMBER_TYPE.VALUE_DECODE' ng-change='_ctrl.updateAdminNumberFields(adminNumber, $event)' type='text'>
+                                    <md-select 
+                                    name='adminNumberType'
+                                    ng-model='adminNumber.ADMIN_NUMBER_TYPE.VALUE_DECODE' 
+                                    ng-change='_ctrl.updateAdminNumberTypeValue(adminNumber)'>
+                                        <md-option 
+                                        ng-repeat='adminNumberType in _ctrl.adminNumberTypes' 
+                                        value='{{ adminNumberType.VALUE }}'
+                                        ng-selected='{{ adminNumber.ADMIN_NUMBER_TYPE.VALUE === adminNumberType.VALUE }}'>
+                                            {{ adminNumberType.VALUE_DECODE }}
+                                        </md-option>
+                                    </md-select>
                                 </md-input-container>
                                 <md-button class='md-secondary md-raised' ng-click='_ctrl.deleteAdminNumber(adminNumber, $event)'>
                                     Delete
