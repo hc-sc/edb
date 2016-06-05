@@ -49,20 +49,22 @@
                 </div>
 
                 <div layout-gt-sm="row">
-                    <md-input-container>
-                        <label>Formulation Type</label>
-                        <input ng-model="_ctrl.selected.FORMULATION_TYPE.VALUE_DECODE" type="text">
+                    <md-input-container class="md-block" flex-gt-sm style="padding-bottom:20px;">
+                        <label for="formulationType">Formulation Type</label>
+                        <md-select 
+                        name="formulationType" 
+                        id="formulationType"
+                        ng-model="_ctrl.selected.FORMULATION_TYPE.VALUE_DECODE"
+                        ng-change="_ctrl.updateFormulationValue()">
+                            <md-option
+                            ng-repeat="formulationType in _ctrl.formulations"
+                            value="{{ formulationType.VALUE }}"
+                            ng-selected="{{ _ctrl.selected.FORMULATION_TYPE.VALUE === formulationType.VALUE }}">
+                                {{ formulationType.VALUE_DECODE }}
+                            </md-option>
+                        </md-select>
                     </md-input-container>
-                    <md-input-container>
-                        <label>Formulation Type Code</label>
-                        <input ng-model="_ctrl.selected.FORMULATION_TYPE.VALUE" type="text">
-                    </md-input-container>
-                    <!--<md-input-container>
-                        <label>Status</label>
-                        <input ng-model="_ctrl.selected.METADATA_STATUS.VALUE_DECODE"
-                        ng-change='_ctrl.updateMetadataValue(_ctrl.selected, $event)' type="text">
-                    </md-input-container>-->
-                    <md-input-container class='md-block'>
+                    <md-input-container class="md-block" flex-gt-sm>
                         <label>Status</label>
                         <md-select 
                         name='productStatus'
@@ -92,20 +94,36 @@
 
             <md-list>
                 <md-list-item ng-repeat="ing in _ctrl.selected.INGREDIENTS track by $index" class="noright">
-                    <div layout-gt-sm="row" flex-gt-sm>
-                        <md-input-container class="md-block">
-                            <label>Substance</label>
-                            <input ng-model="ing._toSubstanceID" type="text">
+                    <div layout-gt-xs="row" flex="80">
+                        <md-input-container class="md-block" flex-gt-xs="50" flex-xs>
+                            <label for="substances">Substance</label>
+                            <md-select
+                            name="substances"
+                            ng-model="ing._toSubstanceID">
+                                <md-option
+                                ng-repeat="substance in _ctrl.substances"
+                                value="{{ substance._identifier }}"
+                                ng-selected="{{ substance._identifier === ing._toSubstanceID }}">
+                                    {{ substance._identifier }}
+                                </md-option>
+                            </md-select>
                         </md-input-container>
-                        <md-input-container class="md-block">
+                        <md-input-container class="md-block" flex-gt-xs="25" flex-xs>
                             <label>Amount</label>
                             <input ng-model="ing.QUANTITY" type="text">
                         </md-input-container>
-                        <md-input-container class="md-block">
-                            <label>UNIT</label>
-                            <input ng-model="ing.UNIT.VALUE_DECODE" 
-                                ng-change='_ctrl.updateUnitValue(ing)'
-                                type="text">
+                        <md-input-container class="md-block" flex-gt-xs="25" flex-xs>
+                            <label>Unit</label>
+                            <md-select 
+                            name='unit'                            ng-model='ing.UNIT.VALUE_DECODE' 
+                            ng-change='_ctrl.updateUnitValue(ing)'>
+                                <md-option 
+                                ng-repeat='u in _ctrl.units' 
+                                value='{{ u.VALUE }}'
+                                ng-selected='{{ u.VALUE === ing.UNIT.VALUE }}'>
+                                    {{ u.VALUE_DECODE }}
+                                </md-option>
+                            </md-select>
                         </md-input-container>
                         <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteIngredient(ing._toSubstanceID, $event)">Delete</md-button>
                     </div>
@@ -126,7 +144,7 @@
                 <md-list-item ng-repeat="ra in _ctrl.selected.PRODUCT_RA track by $index" ng-click="_ctrl.showProductRADiag(ra, $event)"
                     class="noright">
                     <md-icon class='material-icons' aria-label='Regulatory Authority'>business</md-icon>
-                    <p>{{ ra.PRODUCT_NAME }}, {{ ra._toReceiverRaId }}</p>
+                    <p>{{ ra.PRODUCT_NAME }}</p>
                     <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteProductRA(ra, $event)" aria-label='Delete Regulatory Authority'>
                         Delete
                     </md-button>

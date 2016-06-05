@@ -21,13 +21,11 @@ Ensure that the following node packages are installed on your system.
 
 You can install it using `npm install jspm -g` and `npm install electron-prebuilt -g`.
 
-It is advisable to locally install jspm in addition to globally installing it in order to lock the version of jspm for a specific project. 
-
-Go to app directory and run `npm install jspm`.
+It is advisable to locally install jspm in addition to globally installing it in order to lock the version of jspm for a specific project. This is taken care of by a post install script inside package.json, so no need to run it manually in the local app directory.
 
 ## Install dependencies
 
-After cloning the repo execute `npm install` in the 'app' subdirectory to install all dependencies. For the client, `jspm install` will be invoked automatically via a `npm postinstall` script!
+After cloning the repo execute `npm install` in the 'app' subdirectory to install all dependencies including the local JSPM.
 
 ## Run the application
 
@@ -35,8 +33,6 @@ Go the parent directory of app, type 'electron app'.
 
 ## Creating the Electorn App package
 
-Execute `gulp` in order to build the electron app.
-
-The final electron app will be located as a zip file within the `dist` subfolder. Extract the ZIP file and start the electron app.
+TBD
 
 Let [me](https://github.com/jhaydt) know if you have any problems.
