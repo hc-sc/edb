@@ -265,6 +265,10 @@ class ProductController {
         }
     }
     
+    getOtherValue() {
+        return this.pickListService.getOtherValue();
+    }
+    
     // NOTE: We would like to have this load ONCE here, and then pass in the values anytime we need to show the ProductRA dialog, but passing in promises (in this case the getReceiversWithLegalEntityName), are NOT resolved in the controller, even if they already have a value. Need to use 'resolve' instead, which would wait and display the dialog only once the call had been resolved, but this is broken as per https://github.com/angular/material/issues/7400. Instead, we load receiverService into ProductRA directly, and call getReceiversWithLegalEntityName everytime we display the dialog
     showProductRADiag(productRA, $event) {
         this.$mdDialog.show({

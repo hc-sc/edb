@@ -56,6 +56,10 @@ class ProductRAController {
             adminNumber.setAdminNumberValueDecode(adminNumber.ADMIN_NUMBER_TYPE.VALUE);
         }
     }
+    
+    getOtherValue() {
+        return this.pickListService.getOtherValue();
+    }
 }
 
 ProductRAController.$inject = ['productRA', 'productController', '$mdDialog', 'pickListService', 'receiverService'];

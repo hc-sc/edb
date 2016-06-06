@@ -69,20 +69,20 @@
                                 </md-select>
                             </md-input-container>
                             <md-input-container
-                            ng-show="adminNumber.ADMIN_NUMBER_TYPE.VALUE === 'other'"
-                            class="md-block">
-                                <label>Type Value</label>
-                                <input
-                                type="text"
-                                ng-model="adminNumber.ADMIN_NUMBER_TYPE.ATTR_VALUE">
-                            </md-input-container>
-                            <md-input-container
-                            ng-show="adminNumber.ADMIN_NUMBER_TYPE.VALUE === 'other'" 
-                            class="md-block">
-                                <label>Type Decode</label>
+                            ng-show="adminNumber.ADMIN_NUMBER_TYPE.VALUE === _ctrl.getOtherValue()" 
+                           flex="50">
+                                <label>Display Value</label>
                                 <input
                                 type="text"
                                 ng-model="adminNumber.ADMIN_NUMBER_TYPE.VALUE_DECODE">    
+                            </md-input-container>
+                            <md-input-container
+                            ng-show="adminNumber.ADMIN_NUMBER_TYPE.VALUE === _ctrl.getOtherValue()"
+                            flex="50">
+                                <label>Encoded Value (optional)</label>
+                                <input
+                                type="text"
+                                ng-model="adminNumber.ADMIN_NUMBER_TYPE.ATTR_VALUE">
                             </md-input-container>
                             <md-button 
                             class="md-secondary md-raised"
