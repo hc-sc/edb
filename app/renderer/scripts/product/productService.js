@@ -129,7 +129,20 @@ class ProductService {
                     for (const an of pRA.ADMIN_NUMBER) {
                         let adminNumber = new AdminNumber();
                         adminNumber.IDENTIFIER = an.IDENTIFIER[0];
-                        adminNumber.ADMIN_NUMBER_TYPE = new ExtValueStruct(an.ADMIN_NUMBER_TYPE[0].VALUE[0], an.ADMIN_NUMBER_TYPE[0].VALUE_DECODE[0]);
+                        
+                        if (typeof an.ADMIN_NUMBER_TYPE[0].VALUE[0] === 'object') {
+                            adminNumber.ADMIN_NUMBER_TYPE = new ExtValueStruct(
+                                an.ADMIN_NUMBER_TYPE[0].VALUE[0]._,
+                                an.ADMIN_NUMBER_TYPE[0].VALUE_DECODE[0],
+                                an.ADMIN_NUMBER_TYPE[0].VALUE[0].attr$.Other_Value
+                            );
+                        }
+                        else {
+                            adminNumber.ADMIN_NUMBER_TYPE = new ExtValueStruct(
+                                an.ADMIN_NUMBER_TYPE[0].VALUE[0],
+                                an.ADMIN_NUMBER_TYPE[0].VALUE_DECODE[0]
+                            );
+                        }
                         
                         productRA.addAdminNum(adminNumber);
                     }
@@ -141,7 +154,20 @@ class ProductService {
                     let ingredient = new Ingredient();
                     ingredient._toSubstanceID = ing.attr$.To_Substance_Id;
                     ingredient.QUANTITY = ing.QUANTITY[0];
-                    ingredient.UNIT = new ExtValueStruct(ing.UNIT[0].VALUE[0], ing.UNIT[0].VALUE_DECODE[0]);
+                    
+                    if (typeof ing.UNIT[0].VALUE[0] === 'object') {
+                        ingredient.UNIT = new ExtValueStruct(
+                            ing.UNIT[0].VALUE[0]._,
+                            ing.UNIT[0].VALUE_DECODE[0],
+                            ing.UNIT[0].VALUE[0].attr$.Other_Value
+                        );
+                    }
+                    else {
+                        ingredient.UNIT = new ExtValueStruct(
+                            ing.UNIT[0].VALUE[0],
+                            ing.UNIT[0].VALUE_DECODE[0]
+                        );
+                    }
                     
                     product.addIngredient(ingredient);
                 }

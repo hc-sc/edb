@@ -56,7 +56,6 @@
                     <p>{{ sub.SUBMISSION_TITLE }}</p>
                 </md-list-item>
             </md-list>
-                
             
             <md-toolbar>
                 <div class="md-toolbar-tools">
@@ -64,40 +63,36 @@
                     <span flex></span>
                     <md-button class="md-icon-button">
                         <md-icon 
-                            class="material-icons"
-                            aria-label="Add Referenced Dossier"
-                            ng-click="_ctrl.addReferencedDossier()">add_circle</md-icon>
+                        class="material-icons"
+                        aria-label="Add Referenced Dossier"
+                        ng-click="_ctrl.addReferencedDossier()">add_circle</md-icon>
                     </md-button>
                 </div>
             </md-toolbar>
             
-            <md-list>
-                <md-list-item 
-                    class="noright"
-                    ng-repeat="rd in _ctrl.dossier.REFERENCED_DOSSIER track by $index">
-                    <div layout-gt-sm="row" flex="80">
-                        <md-input-container class="md-block" flex-gt-sm="30">
-                            <label for="dossierNumber">Dossier Number</label>
-                            <input
-                                id="dossierNumber"
-                                ng-model="rd.REFERENCED_DOSSIER_NUMBER"
-                                type="text">
-                        </md-input-container>
-                        <md-input-container class="md-block" flex-gt-sm="70">
-                            <label for="reason">Reason</label>
-                            <input 
-                                id="reason"
-                                ng-model="rd.REFERENCED_DOSSIER_REASON"
-                                type="text">
-                        </md-input-container>
-                    </div>
-                    <md-button 
-                        class="md-secondary md-raised"
-                        ng-click="_ctrl.deleteReferencedDossier(rd, $event)">
-                            Delete
-                    </md-button>
-                </md-list-item>
-            </md-list>
+            <md-card ng-repeat="rd in _ctrl.dossier.REFERENCED_DOSSIER track by $index">
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex>
+                        <label for="dossierNumber">Dossier Number</label>
+                        <input
+                        id="dossierNumber"
+                        ng-model="rd.REFERENCED_DOSSIER_NUMBER"
+                        type="text">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label for="reason">Reason</label>
+                        <input 
+                        id="reason"
+                        ng-model="rd.REFERENCED_DOSSIER_REASON"
+                        type="text">
+                    </md-input-container>
+                </div>
+                <md-button 
+                class="md-secondary md-raised"
+                ng-click="_ctrl.deleteReferencedDossier(rd, $event)">
+                        Delete
+                </md-button>
+            </md-card>
             
             <md-toolbar>
                 <div class="md-toolbar-tools">

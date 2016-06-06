@@ -8,6 +8,7 @@ class ProductRAController {
         this.productController = productController;
         this.$mdDialog = $mdDialog;
         this.productRA = productRA;
+        this.pickListService = pickListService;
         this.isAddMode= false;
         this.adminNumberTypes = pickListService.getAdminNumberTypeOptions().map(ant => {
             return new ValueStruct(ant.VALUE, ant.VALUE_DECODE);
@@ -43,6 +44,17 @@ class ProductRAController {
     
     updateAdminNumberFields(adminNumber) {
         adminNumber.setAdminNumberTypeValue(adminNumber.ADMIN_NUMBER_TYPE.VALUE_DECODE);
+    }
+    
+    updateAdminNumber(adminNumber) {
+        if (adminNumber.ADMIN_NUMBER_TYPE.VALUE === this.pickListService.getOtherValue()) {
+            adminNumber.ADMIN_NUMBER_TYPE.ATTR_VALUE = '';
+            adminNumber.setAdminNumberValueDecode('');
+        }
+        else {
+            delete adminNumber.ADMIN_NUMBER_TYPE.ATTR_VALUE;
+            adminNumber.setAdminNumberValueDecode(adminNumber.ADMIN_NUMBER_TYPE.VALUE);
+        }
     }
 }
 

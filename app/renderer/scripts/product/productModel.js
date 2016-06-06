@@ -6,7 +6,20 @@ class Ingredient {
         if (arguments.length === 1){
             this._toSubstanceID = json._toSubstanceID;
             this.QUANTITY = json.QUANTITY;
-            this.UNIT = new ExtValueStruct(json.UNIT.VALUE, json.UNIT.VALUE_DECODE);
+            
+            if (json.UNIT.ATTR_VALUE) {
+                this.UNIT = new ExtValueStruct(
+                    json.UNIT.VALUE,
+                    json.UNIT.VALUE_DECODE,
+                    json.UNIT.ATTR_VALUE
+                );
+            }
+            else {
+                this.UNIT = new ExtValueStruct(
+                    json.UNIT.VALUE,
+                    json.UNIT.VALUE_DECODE
+                );
+            }
         }
         else {    
             this._toSubstanceID = null;
@@ -31,7 +44,7 @@ class Ingredient {
         return {
             attr$ : { To_Substance_Id : this._toSubstanceID },
             QUANTITY : this.QUANTITY,
-            UNIT : this.UNIT        
+            UNIT : this.UNIT.toGhstsJson()        
         };
     }
 }

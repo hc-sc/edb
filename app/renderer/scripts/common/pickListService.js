@@ -8,27 +8,26 @@ class PickListService {
     getMetadataStatusOptions() {
         return [
             {VALUE_DECODE: "New", VALUE: "New"},		 	
-		 	{VALUE_DECODE: "No Change", VALUE: "No Change"},
-		 	{VALUE_DECODE: "Modified", VALUE: "Modified"}
+            {VALUE_DECODE: "No Change", VALUE: "No Change"},
+            {VALUE_DECODE: "Modified", VALUE: "Modified"}
         ];
     }
 	
-	getYesNoOptions() {
+    getYesNoOptions() {
         return [
             {VALUE_DECODE: "Yes", VALUE: "Y"},		 	
-		 	{VALUE_DECODE: "No", VALUE: "N"}
-		 	
+            {VALUE_DECODE: "No", VALUE: "N"}
         ];
     }
 	
-	getGEDocNumberTypeOptions() {
+    getGEDocNumberTypeOptions() {
         return [
             {VALUE_DECODE: "Company ID", VALUE: "COMPID"},
 			{VALUE_DECODE: "other", VALUE: "other"}		
         ];
     }
 	
-	getRADocNumberTypeOptions() {
+    getRADocNumberTypeOptions() {
         return [
             {VALUE_DECODE: "MRID", VALUE: "MRID"}		
         ];
@@ -37,9 +36,9 @@ class PickListService {
     getLegalEntityIdentifierTypeOptions() {
         return [
             {VALUE_DECODE: "DUNS-number", VALUE: "DUNS-number"},		 	
-		 	{VALUE_DECODE: "REACH", VALUE: "REACH"},
-		 	{VALUE_DECODE: "SAP", VALUE: "SAP"},
-		 	{VALUE_DECODE: "VAT-number", VALUE: "VAT-number"},
+            {VALUE_DECODE: "REACH", VALUE: "REACH"},
+            {VALUE_DECODE: "SAP", VALUE: "SAP"},
+            {VALUE_DECODE: "VAT-number", VALUE: "VAT-number"},
             {VALUE_DECODE: "other", VALUE: "other"}
         ];
     }
@@ -47,17 +46,17 @@ class PickListService {
     getLegalEntityTypeOptions(){
         return [
             {VALUE_DECODE: "Company", VALUE: "Company"},
-		 	{VALUE_DECODE: "Consultant", VALUE: "Consultant"},
-		 	{VALUE_DECODE: "other", VALUE: "other"},
-		 	{VALUE_DECODE: "Regulatory Authority", VALUE: "Regulatory Authority"},
-		 	{VALUE_DECODE: "Test House", VALUE: "Test House", },
-		 	{VALUE_DECODE: "Third Party", VALUE: "Third Party"},
-		 	{VALUE_DECODE: "University", VALUE: "University"}
+            {VALUE_DECODE: "Consultant", VALUE: "Consultant"},
+            {VALUE_DECODE: "other", VALUE: "other"},
+            {VALUE_DECODE: "Regulatory Authority", VALUE: "Regulatory Authority"},
+            {VALUE_DECODE: "Test House", VALUE: "Test House"},
+            {VALUE_DECODE: "Third Party", VALUE: "Third Party"},
+            {VALUE_DECODE: "University", VALUE: "University"}
         ];
     }
 	
-	getAdminNumberTypeOptions() {
-		return [
+    getAdminNumberTypeOptions() {
+        return [
 			{VALUE_DECODE: "Application Number", VALUE: "Application Number"},
 			{VALUE_DECODE: "BVL Kenn-Nr.", VALUE: "BVL Kenn-Nr."},
 			{VALUE_DECODE: "EPA Decision No", VALUE: "EPA Decision No"},
@@ -67,12 +66,12 @@ class PickListService {
 			{VALUE_DECODE: "PRMA Decision No", VALUE: "PMRA Decision No"},
 			{VALUE_DECODE: "PRIA Pre-application", VALUE: ""},
 			{VALUE_DECODE: "Section 3 product", VALUE: "Section 3 product"},
-			{VALUE_DECODE: "Tolerance Petition", VALUE: "Tolerance Petition"},
-		];
-	}
+			{VALUE_DECODE: "Tolerance Petition", VALUE: "Tolerance Petition"}
+        ];
+    }
 	
-	getApplicationTypeOptions() {
-		return [
+    getApplicationTypeOptions() {
+        return [
 			{VALUE_DECODE: "6(a)(2) submission", VALUE: "6(a)(2) submission"},
 			{VALUE_DECODE: "A1 - New active", VALUE: "A1 - New active"},
 			{VALUE_DECODE: "A2 - Known active", VALUE: "A2 - Known active"},
@@ -146,12 +145,12 @@ class PickListService {
 			{VALUE_DECODE: 'Rapid: lesser degree of hazard than an approved substance', VALUE: 'Rapid: lesser degree of hazard than an approved substance'},
 			{VALUE_DECODE: 'Rapid: low hazard', VALUE: 'Rapid: low hazard'},
 			{VALUE_DECODE: 'Rapid: similar substance', VALUE: 'Rapid: similar substance'},
-			{VALUE_DECODE: 'Research Approval', VALUE: 'Research Approval'},
-		];
-	}
+			{VALUE_DECODE: 'Research Approval', VALUE: 'Research Approval'}
+        ];
+    }
 	
-	getFormulationTypeOptions() {
-		return [
+    getFormulationTypeOptions() {
+        return [
 			{VALUE_DECODE: 'AE', VALUE: 'AE'},
 			{VALUE_DECODE: 'AL', VALUE: 'AL'},
 			{VALUE_DECODE: 'BB', VALUE: 'BB'},
@@ -213,13 +212,12 @@ class PickListService {
 			{VALUE_DECODE: 'VP', VALUE: 'VP'},
 			{VALUE_DECODE: 'WG', VALUE: 'WG'},
 			{VALUE_DECODE: 'WP', VALUE: 'WP'},
-			{VALUE_DECODE: 'WS', VALUE: 'WS'},
-			
-		];
-	}
+			{VALUE_DECODE: 'WS', VALUE: 'WS'}	
+        ];
+    }
 	
-	getUnitTypeOptions() {
-		return [
+    getUnitTypeOptions() {
+        return [
 			{VALUE_DECODE: '%(v/v)', VALUE: '%(v/v)'},
 			{VALUE_DECODE: '%(w/w)', VALUE: '%(w/w)'},
 			{VALUE_DECODE: 'B cells/ml', VALUE: 'B cells/ml'},
@@ -248,12 +246,12 @@ class PickListService {
 			{VALUE_DECODE: 'spores/kg', VALUE: 'spores/kg'},
 			{VALUE_DECODE: 'thou IU/mg', VALUE: 'thou IU/mg'},
 			{VALUE_DECODE: 'to pH', VALUE: 'to pH'},
-			{VALUE_DECODE: 'trace', VALUE: 'trace'},
-		];
-	}
+			{VALUE_DECODE: 'trace', VALUE: 'trace'}
+        ];
+    }
 	
-	getRegulatoryTypeOptions() {
-		return [
+    getRegulatoryTypeOptions() {
+        return [
 			{VALUE_DECODE: '1107/2009/EG', VALUE: '1107/2009/EG'},
 			{VALUE_DECODE: '21 CFR Part 11', VALUE: '21 CFR Part 11'},
 			{VALUE_DECODE: '91/414/EEC', VALUE: '91/414/EEC'},
@@ -264,19 +262,19 @@ class PickListService {
 			{VALUE_DECODE: 'Hazardous Substances and New Organisms Act 1996', VALUE: 'Hazardous Substances and New Organisms Act 1996'},
 			{VALUE_DECODE: 'other', VALUE: 'other'},
 			{VALUE_DECODE: 'PCPA-Pest Control Products Act', VALUE: 'PCPA-Pest Control Products Act'},
-			{VALUE_DECODE: 'Pesticide Registration Improvement Act', VALUE: 'Pesticide Registration Improvement Act'},
-		];
-	}
+			{VALUE_DECODE: 'Pesticide Registration Improvement Act', VALUE: 'Pesticide Registration Improvement Act'}
+        ];
+    }
 	
-	getContentStatusOptions() {
-		return [
+    getContentStatusOptions() {
+        return [
 			{VALUE_DECODE: 'Modified', VALUE: 'Modified'},
 			{VALUE_DECODE: 'New', VALUE: 'New'},
 			{VALUE_DECODE: 'No Change', VALUE: 'No Change'},
 			{VALUE_DECODE: 'Replace', VALUE: 'Replace'},
-			{VALUE_DECODE: 'Retired', VALUE: 'Retired'},
-		];
-	}
+			{VALUE_DECODE: 'Retired', VALUE: 'Retired'}
+        ];
+    }
     
     getCountryOptions(){
         return [
@@ -529,21 +527,21 @@ class PickListService {
 			{VALUE_DECODE: "South Africa", VALUE: "ZA"},
 			{VALUE_DECODE: "Zambia", VALUE: "ZM"},
 			{VALUE_DECODE: "Zimbabwe", VALUE: "ZW"}                        
-          ];
+        ];
     }
 	
     getSubstanceIdentifierTypeOptions() {
         return [
-		 	{VALUE_DECODE: "CASNO", VALUE: "CASNO"},		 	
-		 	{VALUE_DECODE: "ECNO", VALUE: "ECNO"},
-		 	{VALUE_DECODE: "IUBMB", VALUE: "IUBMB"},
-		 	{VALUE_DECODE: "other", VALUE: "other"}
-		];
+			{VALUE_DECODE: "CASNO", VALUE: "CASNO"},		 	
+			{VALUE_DECODE: "ECNO", VALUE: "ECNO"},
+			{VALUE_DECODE: "IUBMB", VALUE: "IUBMB"},
+			{VALUE_DECODE: "other", VALUE: "other"}
+        ];
     }
 
-	getOtherValue() {
-		return 'other';
-	}
+    getOtherValue() {
+        return 'other';
+    }
 }
 
 export { PickListService };
