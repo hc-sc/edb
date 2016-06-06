@@ -36,7 +36,6 @@
 
         <md-content layout-padding class="autoScroll">
             <form>
-                <div>
                 <div layout-gt-sm="row">
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Generic Product Name</label>
@@ -95,114 +94,115 @@
                         </md-select>
                     </md-input-container>
                 </div>
-            </div>
 
-            <md-toolbar>
-                <div class="md-toolbar-tools">
-                    <h2>Ingredients</h2>
-                    <span flex></span>
-                    <md-button class="md-icon-button" ng-click="_ctrl.addIngredient()">
-                        <md-icon class="material-icons" aria-label="Add Identifier">add_circle</md-icon>
-                    </md-button>
+                <md-toolbar>
+                    <div class="md-toolbar-tools">
+                        <h2>Ingredients</h2>
+                        <span flex></span>
+                        <md-button class="md-icon-button" ng-click="_ctrl.addIngredient()">
+                            <md-icon class="material-icons" aria-label="Add Identifier">add_circle</md-icon>
+                        </md-button>
+                    </div>
+                </md-toolbar>
+
+                <md-list>
+                    <md-card ng-repeat="ing in _ctrl.selected.INGREDIENTS track by $index" style="padding: 10px">
+                        <div layout-gt-sm="row">
+                            <md-input-container class="md-block" flex>
+                                <label for="substances">Substance</label>
+                                <md-select
+                                name="substances"
+                                ng-model="ing._toSubstanceID">
+                                    <md-option
+                                    ng-repeat="substance in _ctrl.substances"
+                                    value="{{ substance._identifier }}"
+                                    ng-selected="{{ substance._identifier === ing._toSubstanceID }}">
+                                        {{ substance._identifier }}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                        </div>
+                        <div layout-gt-sm="row">
+                            <md-input-container 
+                            class="md-block" 
+                            flex>
+                                <label>Amount</label>
+                                <input 
+                                ng-model="ing.QUANTITY" 
+                                type="text">
+                            </md-input-container>
+                            <md-input-container 
+                            class="md-block" 
+                            flex>
+                                <label>Unit</label>
+                                <md-select 
+                                name="unit"                            
+                                ng-model="ing.UNIT.VALUE" 
+                                ng-change="_ctrl.updateUnit(ing)">
+                                    <md-option 
+                                    ng-repeat="u in _ctrl.units" 
+                                    value="{{ u.VALUE }}"
+                                    ng-selected="{{ u.VALUE === ing.UNIT.VALUE }}">
+                                        {{ u.VALUE_DECODE }}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                            <md-input-container 
+                            ng-show="ing.UNIT.VALUE === 'other'">
+                                <label for="unitValue">Unit Value</label>
+                                <input
+                                id="unitValue"
+                                type="text"
+                                ng-model="ing.UNIT.ATTR_VALUE">
+                            </md-input-container>
+                            <md-input-container 
+                            ng-show="ing.UNIT.VALUE === 'other'">
+                                <label for="unitValueDecode">Unit Decode</label>
+                                <input
+                                id="unitValueDecode"
+                                type="text"
+                                ng-model="ing.UNIT.VALUE_DECODE">
+                            </md-input-container>
+                        </div>
+                        <md-button 
+                        class="md-secondary md-raised" 
+                        layout-align="center" 
+                        ng-click="_ctrl.deleteIngredient(ing._toSubstanceID, $event)">
+                            Delete
+                        </md-button>
+                    </md-card>
+                </md-list>
+
+                <md-toolbar>
+                    <div class="md-toolbar-tools">
+                        <h2>Regulatory Authority Specifics</h2>
+                        <span flex></span>
+                        <md-button class="md-icon-button" ng-click="_ctrl.addProductRA($event)">
+                            <md-icon class="material-icons" aria-label="Add Regulatory Authority">add_circle</md-icon>
+                        </md-button>
+                    </div>
+                </md-toolbar>
+
+                <md-list>
+                    <md-list-item ng-repeat="ra in _ctrl.selected.PRODUCT_RA track by $index" ng-click="_ctrl.showProductRADiag(ra, $event)"
+                        class="noright">
+                        <md-icon class="material-icons" aria-label="Regulatory Authority">business</md-icon>
+                        <p>{{ ra.PRODUCT_NAME }}</p>
+                        <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteProductRA(ra, $event)" aria-label="Delete Regulatory Authority">
+                            Delete
+                        </md-button>
+                    </md-list-item>
+                </md-list>
+
+                <md-divider>
+
+                <div layout="row" layout-sm="column" layout-align="center" layout-wrap>
+                    <md-button class="md-raised md-info" ng-click="_ctrl.newProduct($event)">New Product</md-button>
+                    <md-button class="md-raised md-primary" ng-click="_ctrl.saveProduct()">Save</md-button>
+                    <md-button class="md-raised md-warn" ng-click="_ctrl.deleteProduct()">Delete</md-button>
+                    <md-button class="md-raised md-primary" ng-click="_ctrl.viewProductGHSTS()">View Product GHSTS</md-button>
                 </div>
-            </md-toolbar>
-
-            <md-card ng-repeat="ing in _ctrl.selected.INGREDIENTS track by $index" style="padding: 10px">
-                <div layout-gt-sm="row">
-                    <md-input-container class="md-block" flex>
-                        <label for="substances">Substance</label>
-                        <md-select
-                        name="substances"
-                        ng-model="ing._toSubstanceID">
-                            <md-option
-                            ng-repeat="substance in _ctrl.substances"
-                            value="{{ substance._identifier }}"
-                            ng-selected="{{ substance._identifier === ing._toSubstanceID }}">
-                                {{ substance._identifier }}
-                            </md-option>
-                        </md-select>
-                    </md-input-container>
-                </div>
-                <div layout-gt-sm="row">
-                    <md-input-container 
-                    class="md-block" 
-                    flex>
-                        <label>Amount</label>
-                        <input 
-                        ng-model="ing.QUANTITY" 
-                        type="text">
-                    </md-input-container>
-                    <md-input-container 
-                    class="md-block" 
-                    flex>
-                        <label>Unit</label>
-                        <md-select 
-                        name="unit"                            
-                        ng-model="ing.UNIT.VALUE" 
-                        ng-change="_ctrl.updateUnit(ing)">
-                            <md-option 
-                            ng-repeat="u in _ctrl.units" 
-                            value="{{ u.VALUE }}"
-                            ng-selected="{{ u.VALUE === ing.UNIT.VALUE }}">
-                                {{ u.VALUE_DECODE }}
-                            </md-option>
-                        </md-select>
-                    </md-input-container>
-                    <md-input-container 
-                    ng-show="ing.UNIT.VALUE === 'other'">
-                        <label for="unitValue">Unit Value</label>
-                        <input
-                        id="unitValue"
-                        type="text"
-                        ng-model="ing.UNIT.ATTR_VALUE">
-                    </md-input-container>
-                    <md-input-container 
-                    ng-show="ing.UNIT.VALUE === 'other'">
-                        <label for="unitValueDecode">Unit Decode</label>
-                        <input
-                        id="unitValueDecode"
-                        type="text"
-                        ng-model="ing.UNIT.VALUE_DECODE">
-                    </md-input-container>
-                </div>
-                <md-button 
-                class="md-secondary md-raised" 
-                layout-align="center" 
-                ng-click="_ctrl.deleteIngredient(ing._toSubstanceID, $event)">
-                    Delete
-                </md-button>
-            </md-card>
-
-            <md-toolbar>
-                <div class="md-toolbar-tools">
-                    <h2>Regulatory Authority Specifics</h2>
-                    <span flex></span>
-                    <md-button class="md-icon-button" ng-click="_ctrl.addProductRA($event)">
-                        <md-icon class="material-icons" aria-label="Add Regulatory Authority">add_circle</md-icon>
-                    </md-button>
-                </div>
-            </md-toolbar>
-
-            <md-list>
-                <md-list-item ng-repeat="ra in _ctrl.selected.PRODUCT_RA track by $index" ng-click="_ctrl.showProductRADiag(ra, $event)"
-                    class="noright">
-                    <md-icon class="material-icons" aria-label="Regulatory Authority">business</md-icon>
-                    <p>{{ ra.PRODUCT_NAME }}</p>
-                    <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteProductRA(ra, $event)" aria-label="Delete Regulatory Authority">
-                        Delete
-                    </md-button>
-                </md-list-item>
-            </md-list>
-
-            <md-divider>
-
-            <div layout="row" layout-sm="column" layout-align="center" layout-wrap>
-                <md-button class="md-raised md-info" ng-click="_ctrl.newProduct($event)">New Product</md-button>
-                <md-button class="md-raised md-primary" ng-click="_ctrl.saveProduct()">Save</md-button>
-                <md-button class="md-raised md-warn" ng-click="_ctrl.deleteProduct()">Delete</md-button>
-                <md-button class="md-raised md-primary" ng-click="_ctrl.viewProductGHSTS()">View Product GHSTS</md-button>
-            </div>
-        </form>
+            </form>
         </md-content>
     </div>
 </section>

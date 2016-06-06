@@ -2,7 +2,7 @@ import angular from 'angular';
 import { Dossier, ReferencedDossier, DossierRA } from './dossierModel';
 import { Submission } from '../submission/submissionModel';
 import { SubmissionController } from '../submission/submissionController';
-import { ValueStruct } from '../common/sharedModel';
+import { ExtValueStruct } from '../common/sharedModel';
 import _ from 'lodash';
 
 export class DossierController {
@@ -15,11 +15,11 @@ export class DossierController {
         this.initFromDB();
         
         this.applicationTypes = pickListService.getApplicationTypeOptions().map(appType => {
-           return new ValueStruct(appType.VALUE, appType.VALUE_DECODE); 
+            return new ExtValueStruct(appType.VALUE, appType.VALUE_DECODE); 
         });
         
         this.regulatoryTypes = pickListService.getRegulatoryTypeOptions().map(regType => {
-            return new ValueStruct(regType.VALUE, regType.VALUE_DECODE);
+            return new ExtValueStruct(regType.VALUE, regType.VALUE_DECODE);
         });
     }
     
@@ -96,6 +96,28 @@ export class DossierController {
                 this.dossierService.updateDossier(this.dossier);
             })
             .catch(err => console.log(err.stack));
+    }
+    
+    updateRegulatoryType(dra) {
+        if (dra.REGULATORY_TYPE.VALUE === this.pickListService.getOtherValue()) {
+            dra.REGULATORY_TYPE.ATTR_VALUE = '';
+            dra.setRegulatoryValueDecode('');
+        }
+        else {
+            delete dra.REGULATORY_TYPE.ATTR_VALUE;
+            dra.setRegulatoryValueDecode(dra.REGULATORY_TYPE.VALUE);
+        }
+    }
+    
+    updateApplicationType(dra) {
+        if (dra.APPLICATION_TYPE.VALUE === this.pickListService.getOtherValue()) {
+            dra.APPLICATION_TYPE.ATTR_VALUE = '';
+            dra.setRegulatoryValueDecode('');
+        }
+        else {
+            delete dra.APPLICATION_TYPE.ATTR_VALUE;
+            dra.setRegulatoryValueDecode(dra.APPLICATION_TYPE.VALUE);
+        }
     }
     
     showSubmissionDiag(sub, $event) {

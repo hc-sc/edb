@@ -175,9 +175,7 @@ class ProductService {
                 product.DOSSIER = rawProduct.DOSSIER[0];
                 
                 this.createProduct(product);
-            }).catch(e => {
-                console.log(e.stack);
-            });
+            }).catch(err => console.log(err.stack));
     }
 }
 

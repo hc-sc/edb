@@ -1,5 +1,5 @@
 import { Submission } from '../submission/submissionModel';
-import { ValueStruct } from '../common/sharedModel';
+import { ExtValueStruct } from '../common/sharedModel';
     
 class Dossier {
     constructor(json) {
@@ -8,10 +8,10 @@ class Dossier {
             this.DOSSIER_DESCRIPTION_TITLE = json.DOSSIER_DESCRIPTION_TITLE;
             this.DOSSIER_COMP_ID = json.DOSSIER_COMP_ID;
             this.REFERENCED_DOSSIER = json.REFERENCED_DOSSIER.map(refDos => {
-               return new ReferencedDossier(refDos); 
+                return new ReferencedDossier(refDos); 
             });
             this.DOSSIER_RA = json.DOSSIER_RA.map(dosRA => {
-               return new DossierRA(dosRA);
+                return new DossierRA(dosRA);
             });
             this.SUBMISSION = json.SUBMISSION.map(sub => {
                 return new Submission(sub);
@@ -45,11 +45,11 @@ class Dossier {
     
     toGhstsJson() {
         const refDossiers = this.REFERENCED_DOSSIER.map(rd => {
-           return rd.toGhstsJson(); 
+            return rd.toGhstsJson(); 
         });
         
         const dossierRAs = this.DOSSIER_RA.map(dr => {
-           return dr.toGhstsJson(); 
+            return dr.toGhstsJson(); 
         });
         
         const submissions = this.SUBMISSION.map(sub => {
@@ -91,14 +91,40 @@ class DossierRA {
     constructor(json) {
         if (arguments.length === 1) {
             this._toSpecificForRAId = json._toSpecificForRAId;
-            this.REGULATORY_TYPE = new ValueStruct(json.REGULATORY_TYPE.VALUE, json.REGULATORY_TYPE.VALUE_DECODE);
-            this.APPLICATION_TYPE = new ValueStruct(json.APPLICATION_TYPE.VALUE, json.APPLICATION_TYPE.VALUE_DECODE);
             this.PROJECT_ID_NUMBER = json.PROJECT_ID_NUMBER;
+            
+            if (json.REGULATORY_TYPE.ATTR_VALUE) {
+                this.REGULATORY_TYPE = new ExtValueStruct(
+                    json.REGULATORY_TYPE.VALUE,
+                    json.REGULATORY_TYPE.VALUE_DECODE,
+                    json.REGULATORY_TYPE.ATTR_VALUE
+                );
+            }
+            else {
+                this.REGULATORY_TYPE = new ExtValueStruct(
+                    json.REGULATORY_TYPE.VALUE,
+                    json.REGULATORY_TYPE.VALUE_DECODE
+                );
+            }
+            
+            if (json.APPLICATION_TYPE.ATTR_VALUE) {
+                this.APPLICATION_TYPE = new ExtValueStruct(
+                    json.APPLICATION_TYPE.VALUE,
+                    json.APPLICATION_TYPE.VALUE_DECODE,
+                    json.APPLICATION_TYPE.ATTR_VALUE
+                );
+            }
+            else {
+                this.APPLICATION_TYPE = new ExtValueStruct(
+                    json.APPLICATION_TYPE.VALUE,
+                    json.APPLICATION_TYPE.VALUE_DECODE
+                );
+            }            
         }
         else {
-            this._toSpecificForRAId = 'New';
-            this.REGULATORY_TYPE = new ValueStruct('', '');
-            this.APPLICATION_TYPE = new ValueStruct('', '');
+            this._toSpecificForRAId = '';
+            this.REGULATORY_TYPE = new ExtValueStruct();
+            this.APPLICATION_TYPE = new ExtValueStruct();
             this.PROJECT_ID_NUMBER = [];
         }
     }
@@ -107,12 +133,12 @@ class DossierRA {
         this._toSpecificForRAId = id;
     }
     
-    setRegulatoryTypeValue(value) {
-        this.REGULATORY_TYPE.VALUE = value;
+    setRegulatoryValueDecode(decode) {
+        this.REGULATORY_TYPE.VALUE_DECODE = decode;
     }
     
-    setApplicationTypeValue(value) {
-        this.APPLICATION_TYPE.VALUE = value;
+    setApplicationValueDecode(decode) {
+        this.APPLICATION_TYPE.VALUE_DECODE = decode;
     }
     
     toGhstsJson() {
@@ -130,8 +156,8 @@ class DossierRA {
         
         return {
             attr$: { To_Specific_for_RA_Id: this._toSpecificForRAId },
-            REGULATORY_TYPE: this.REGULATORY_TYPE,
-            APPLICATION_TYPE: this.APPLICATION_TYPE,
+            REGULATORY_TYPE: this.REGULATORY_TYPE.toGhstsJson(),
+            APPLICATION_TYPE: this.APPLICATION_TYPE.toGhstsJson(),
             PROJECT_ID_NUMBER: this.PROJECT_ID_NUMBER
         };
     }

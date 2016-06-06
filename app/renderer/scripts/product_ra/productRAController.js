@@ -1,6 +1,6 @@
 import angular from 'angular';
 import { AdminNumber } from './productRAModel';
-import { ValueStruct } from '../common/sharedModel';
+import { ExtValueStruct } from '../common/sharedModel';
 import _ from 'lodash';
 
 class ProductRAController {
@@ -11,7 +11,7 @@ class ProductRAController {
         this.pickListService = pickListService;
         this.isAddMode= false;
         this.adminNumberTypes = pickListService.getAdminNumberTypeOptions().map(ant => {
-            return new ValueStruct(ant.VALUE, ant.VALUE_DECODE);
+            return new ExtValueStruct(ant.VALUE, ant.VALUE_DECODE);
         });
         
         receiverService.getRAsWithLegalEntityName()

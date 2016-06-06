@@ -3,7 +3,7 @@ import { Ingredient, Product } from './productModel';
 import { ProductRAController } from '../product_ra/productRAController';
 import { ProductRA } from '../product_ra/productRAModel';
 import { Substance } from '../substance/substanceModel';
-import { ValueStruct } from '../common/sharedModel';
+import { ExtValueStruct } from '../common/sharedModel';
 import { ListDialogController } from '../common/listDialogController';
 import { generatePid } from '../common/pid';
 import _ from 'lodash';
@@ -27,10 +27,10 @@ class ProductController {
                         
         this.metadataStatusOptions = this.pickListService.getMetadataStatusOptions();
         this.formulations = this.pickListService.getFormulationTypeOptions().map(formulation => {
-            return new ValueStruct(formulation.VALUE, formulation.VALUE_DECODE);
+            return new ExtValueStruct(formulation.VALUE, formulation.VALUE_DECODE);
         });
         this.units = this.pickListService.getUnitTypeOptions().map(unit => {
-            return new ValueStruct(unit.VALUE, unit.VALUE_DECODE);
+            return new ExtValueStruct(unit.VALUE, unit.VALUE_DECODE);
         });
         
         this.substanceService.getSubstances()

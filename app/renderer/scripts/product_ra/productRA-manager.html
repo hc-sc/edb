@@ -45,55 +45,58 @@
                     </div>
                 </md-toolbar>
                 
-
-                <md-card 
-                style="padding: 10px"
-                ng-repeat="adminNumber in _ctrl.productRA.ADMIN_NUMBER track by $index">
-                    <div layout-gt-sm="row">
-                        <md-input-container class="md-block" flex>
-                            <label>Identifier</label>
-                            <input ng-model="adminNumber.IDENTIFIER" type="text">
-                        </md-input-container>
-                        <md-input-container class="md-block">
-                            <label>Admin Number Type</label>
-                            <md-select 
-                            name="adminNumberType"
-                            ng-model="adminNumber.ADMIN_NUMBER_TYPE.VALUE" 
-                            ng-change="_ctrl.updateAdminNumber(adminNumber)">
-                                <md-option 
-                                ng-repeat="adminNumberType in _ctrl.adminNumberTypes" 
-                                value="{{ adminNumberType.VALUE }}"
-                                ng-selected="{{ adminNumber.ADMIN_NUMBER_TYPE.VALUE === adminNumberType.VALUE }}">
-                                    {{ adminNumberType.VALUE_DECODE }}
-                                </md-option>
-                            </md-select>
-                        </md-input-container>
-                        <md-input-container
-                        ng-show="adminNumber.ADMIN_NUMBER_TYPE.VALUE === 'other'">
-                            <label>Type Value</label>
-                            <input
-                            type="text"
-                            ng-model="adminNumber.ADMIN_NUMBER_TYPE.ATTR_VALUE">
-                        </md-input-container>
-                        <md-input-container
-                        ng-show="adminNumber.ADMIN_NUMBER_TYPE.VALUE === 'other'">
-                            <label>Type Decode</label>
-                            <input
-                            type="text"
-                            ng-model="adminNumber.ADMIN_NUMBER_TYPE.VALUE_DECODE">    
-                        </md-input-container>
-                        <md-button 
-                        class="md-secondary md-raised"
-                        style="width: 97%"
-                        ng-click="_ctrl.deleteAdminNumber(adminNumber, $event)">
-                            Delete
-                        </md-button>
-                    </div>
-                </md-card>
+                <md-list>
+                    <md-card 
+                    style="padding: 10px"
+                    ng-repeat="adminNumber in _ctrl.productRA.ADMIN_NUMBER track by $index">
+                        <div layout-gt-sm="row">
+                            <md-input-container class="md-block" flex>
+                                <label>Identifier</label>
+                                <input ng-model="adminNumber.IDENTIFIER" type="text">
+                            </md-input-container>
+                            <md-input-container class="md-block">
+                                <label>Admin Number Type</label>
+                                <md-select 
+                                name="adminNumberType"
+                                ng-model="adminNumber.ADMIN_NUMBER_TYPE.VALUE" 
+                                ng-change="_ctrl.updateAdminNumber(adminNumber)">
+                                    <md-option 
+                                    ng-repeat="adminNumberType in _ctrl.adminNumberTypes" 
+                                    value="{{ adminNumberType.VALUE }}"
+                                    ng-selected="{{ adminNumber.ADMIN_NUMBER_TYPE.VALUE === adminNumberType.VALUE }}">
+                                        {{ adminNumberType.VALUE_DECODE }}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                            <md-input-container
+                            ng-show="adminNumber.ADMIN_NUMBER_TYPE.VALUE === 'other'"
+                            class="md-block">
+                                <label>Type Value</label>
+                                <input
+                                type="text"
+                                ng-model="adminNumber.ADMIN_NUMBER_TYPE.ATTR_VALUE">
+                            </md-input-container>
+                            <md-input-container
+                            ng-show="adminNumber.ADMIN_NUMBER_TYPE.VALUE === 'other'" 
+                            class="md-block">
+                                <label>Type Decode</label>
+                                <input
+                                type="text"
+                                ng-model="adminNumber.ADMIN_NUMBER_TYPE.VALUE_DECODE">    
+                            </md-input-container>
+                            <md-button 
+                            class="md-secondary md-raised"
+                            style="width: 97%"
+                            ng-click="_ctrl.deleteAdminNumber(adminNumber, $event)">
+                                Delete
+                            </md-button>
+                        </div>
+                    </md-card>
+                </md-list>
                 
                 <md-divider>
                     
-                <div layout="row"> 
+                <div layout="row">
                     <md-button 
                     class="md-raised md-primary" 
                     style="width: 97%"

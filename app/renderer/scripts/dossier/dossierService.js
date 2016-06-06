@@ -3,7 +3,7 @@ import xml2js from 'xml2js';
 import { GHSTS } from '../common/ghsts';
 import { Dossier, ReferencedDossier, DossierRA } from './dossierModel';
 import { Submission } from '../submission/submissionModel';
-import { ValueStruct } from '../common/sharedModel';
+import { ExtValueStruct } from '../common/sharedModel';
 
 class DossierService {
     constructor($q) {
@@ -44,15 +44,15 @@ class DossierService {
     getDossierGHSTSById(id) {
         let deferred = this.$q.defer();
         this.dossiers.find({ '_id': id }, (err, rows) => {
-           if (err) deferred.reject(err);
-           const dossier = new Dossier(rows[0]);
-           const builder = new xml2js.Builder({
-               rootName: 'DOSSIER',
-               attrkey: 'attr$'
-           });
+            if (err) deferred.reject(err);
+            const dossier = new Dossier(rows[0]);
+            const builder = new xml2js.Builder({
+                rootName: 'DOSSIER',
+                attrkey: 'attr$'
+            });
            
-           const xml = builder.buildObject(dossier.toGhstsJson());
-           deferred.resolve(xml);
+            const xml = builder.buildObject(dossier.toGhstsJson());
+            deferred.resolve(xml);
         });
         return deferred.promise;
     }
@@ -76,18 +76,41 @@ class DossierService {
                     dossier.addReferencedDossier(rd);
                 }
                 
-                for (const dossierRA of rawDossier.DOSSIER_RA) {
-                    let dra = new DossierRA();
+                for (const dra of rawDossier.DOSSIER_RA) {
+                    let dossierRA = new DossierRA();
                     
-                    dra._toSpecificForRAId = dossierRA.attr$.To_Specific_for_RA_Id;
-                    
-                    dra.REGULATORY_TYPE = new ValueStruct(dossierRA.REGULATORY_TYPE[0].VALUE[0], dossierRA.REGULATORY_TYPE[0].VALUE_DECODE[0]);
-                    
-                    dra.APPLICATION_TYPE = new ValueStruct(dossierRA.APPLICATION_TYPE[0].VALUE[0], dossierRA.APPLICATION_TYPE[0].VALUE_DECODE[0]);
-              
+                    dossierRA._toSpecificForRAId = dra.attr$.To_Specific_for_RA_Id;
                     dra.PROJECT_ID_NUMBER = dossierRA.PROJECT_ID_NUMBER;
-                          
-                    dossier.addDossierRA(dra);
+
+                    if (typeof dra.REGULATORY_TYPE[0].VALUE[0] === 'object') {
+                        dossierRA.REGULATORY_TYPE = new ExtValueStruct(
+                            dra.REGULATORY_TYPE[0].VALUE[0]._,
+                            dra.REGULATORY_TYPE[0].VALUE_DECODE[0],
+                            dra.REGULATORY_TYPE[0].VALUE[0].attr$.Other_Value
+                        );
+                    }
+                    else {
+                        dossierRA.REGULATORY_TYPE = new ExtValueStruct(
+                            dra.REGULATORY_TYPE[0].VALUE[0],
+                            dra.REGULATORY_TYPE[0].VALUE_DECODE[0]
+                        );
+                    }
+                    
+                    if (typeof dra.APPLICATION_TYPE[0].VALUE[0] === 'object') {
+                        dossierRA.APPLICATION_TYPE = new ExtValueStruct(
+                            dra.APPLICATION_TYPE[0].VALUE[0]._,
+                            dra.APPLICATION_TYPE[0].VALUE_DECODE[0],
+                            dra.APPLICATION_TYPE[0].VALUE[0].attr$.Other_Value
+                        );
+                    }
+                    else {
+                        dossierRA.APPLICATION_TYPE = new ExtValueStruct(
+                            dra.APPLICATION_TYPE[0].VALUE[0],
+                            dra.APPLICATION_TYPE[0].VALUE_DECODE[0]
+                        );
+                    }
+                    
+                    dossier.addDossierRA(dossierRA);
                 }
                 
                 for (const submission of rawDossier.SUBMISSION) {
