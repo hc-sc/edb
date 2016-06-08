@@ -1,5 +1,5 @@
 import angular from 'angular';
-import { OtherNationalGuideLine } from './documentModel';
+import { OtherNationalGuideLine, SubmissionContext } from './documentModel';
 import {_} from 'lodash';
 
 class DocumentRAController {
@@ -27,8 +27,13 @@ class DocumentRAController {
         this.$mdDialog.cancel();
     };    
 
+    // saveDocumentRA($event) {
+    //     this.documentController.saveDocumentRA(this.documentRA, this.isAddMode);  
+    //     this.$mdDialog.hide();
+    // } 
+    
     saveDocumentRA($event) {
-        this.documentController.saveDocumentRA(this.documentRA, this.isAddMode);  
+        this.documentController.saveDocumentRA(this.documentRA);  
         this.$mdDialog.hide();
     } 
     
@@ -48,15 +53,50 @@ class DocumentRAController {
          _.pull(this.documentRA.OTHER_NATIONAL_GUIDELINE, raOgl);     
     }
     
-     updateSelectedStatusDecode(){
+    addRDNSubmissionContext($event){
+        this.documentRA.RA_DOCUMENT_NUMBER.SUBMISSION_CONTEXT.push(new SubmissionContext());
+    }
+    
+    deleteRDNSubmissionContext(sc, $event){      
+         _.pull(this.documentRA.RA_DOCUMENT_NUMBER.SUBMISSION_CONTEXT, sc);     
+    }
+    
+    updateSelectedStatusDecode(){
         // update metadata status value decode upon selection change
-        //let selectedStatusValue = this.selected.METADATA_STATUS.VALUE;
+        let selectedStatusValue = this.documentRA.METADATA_STATUS.VALUE;
         // find the value decode in themetadata status options
-        // let leStatusValueDecode = _(this.metadataStatusOptions)
-        //                                 .filter(c => c.VALUE == selectedStatusValue)
-        //                                 .map(c => c.VALUE_DECODE)
-        //                                 .value()[0];
-        //this.selected.METADATA_STATUS.VALUE_DECODE = leStatusValueDecode;
+        let docRaStatusValueDecode = _(this.metadataStatusOptions)
+                                         .filter(c => c.VALUE == selectedStatusValue)
+                                         .map(c => c.VALUE_DECODE)
+                                         .value()[0];
+        this.documentRA.METADATA_STATUS.VALUE_DECODE = docRaStatusValueDecode;
+    }
+    
+    updateSelectedDataProDecode(){
+        let selectedYesNoValue = this.documentRA.DATA_PROTECTION.VALUE; 
+        let dataValueDecode = _(this.yesnoOptions)
+                                         .filter(c => c.VALUE == selectedYesNoValue)
+                                         .map(c => c.VALUE_DECODE)
+                                         .value()[0];
+        this.documentRA.DATA_PROTECTION.VALUE_DECODE = dataValueDecode;
+    }
+    
+    updateSelectedDataReqDecode(){
+        let selectedYesNoValue = this.documentRA.DATA_REQUIREMENT.VALUE; 
+        let dataValueDecode = _(this.yesnoOptions)
+                                         .filter(c => c.VALUE == selectedYesNoValue)
+                                         .map(c => c.VALUE_DECODE)
+                                         .value()[0];
+        this.documentRA.DATA_REQUIREMENT.VALUE_DECODE = dataValueDecode;
+    }
+    
+    updateSelectedRaDocNumTypeDecode(){
+        let selectedValue = this.documentRA.RA_DOCUMENT_NUMBER.RA_DOCUMENT_NUMBER_TYPE.VALUE; 
+        let valueDecoded = _(this.raDocNumTypeOptions)
+                                         .filter(c => c.VALUE == selectedValue)
+                                         .map(c => c.VALUE_DECODE)
+                                         .value()[0];
+        this.documentRA.RA_DOCUMENT_NUMBER.RA_DOCUMENT_NUMBER_TYPE.VALUE_DECODE = valueDecoded;
     }
 }
 

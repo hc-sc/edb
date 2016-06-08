@@ -151,7 +151,7 @@ class DocumentService {
                     }
                  )
                 
-              
+               docu.DOCUMENT_GENERIC = docGen;
                 
                 // Second Build DocumentRA
                doc.DOCUMENT_RA.forEach(dra => {
@@ -182,39 +182,33 @@ class DocumentService {
                             otherNGL.GUIDELINE_NUMBER = ogl.GUIDELINE_NUMBER[0];
                             docRA.addOtherNationalGuideline(otherNGL);
                         })
-                    }else{
-                          console.log("OTHER_NATIONAL_GUIDELINE is  empty");
-                          //docRA.OTHER_NATIONAL_GUIDELINE = [];
-                     }
-                    
+                    }
                     
                     let raDocNum = new RADocumentNumber();
                     // Need to check if non mandatory element is not present in your xml payload
-                    if(dra.RA_DOCUMENT_NUMBER !== undefined) {
-                        // DO NOT REMOVE THIS FOR LATER TEST attr$.Other_Value
-                        //console.log( "RA_DOCUMENT_NUMBER available ---->>>>>>"  + JSON.stringify(dra.RA_DOCUMENT_NUMBER[0].RA_DOCUMENT_NUMBER_TYPE));
-                        // console.log( "RA_DOCUMENT_NUMBER_TYPE VALUE ---->>>>>>"  + JSON.stringify(dra.RA_DOCUMENT_NUMBER[0].RA_DOCUMENT_NUMBER_TYPE[0].VALUE[0]._));
-                        // console.log( "RA_DOCUMENT_NUMBER_TYPE Other_Value ---->>>>>>"  + JSON.stringify(dra.RA_DOCUMENT_NUMBER[0].RA_DOCUMENT_NUMBER_TYPE[0].VALUE[0].attr$.Other_Value));
-                        // console.log( "RA_DOCUMENT_NUMBER_TYPE VALUE_DECODE ---->>>>>>"  + JSON.stringify(dra.RA_DOCUMENT_NUMBER[0].RA_DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0]));    
+                    if(dra.RA_DOCUMENT_NUMBER !== undefined) { 
                         let raDocNumType = new ValueStruct(dra.RA_DOCUMENT_NUMBER[0].RA_DOCUMENT_NUMBER_TYPE[0].VALUE[0]._ , dra.RA_DOCUMENT_NUMBER[0].RA_DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0]);
                 
                         raDocNum.RA_DOCUMENT_NUMBER_TYPE = raDocNumType;
                         raDocNum.IDENTIFIER = dra.RA_DOCUMENT_NUMBER[0].IDENTIFIER[0];
                         raDocNum.ALREADY_SUBMITTED = dra.RA_DOCUMENT_NUMBER[0].ALREADY_SUBMITTED[0];
-                        //raDocNum.SUBMISSION_CONTEXT= dra.RA_DOCUMENT_NUMBER[0].SUBMISSION_CONTEXT; // assign array directly
+                        
+                        if(dra.RA_DOCUMENT_NUMBER[0].SUBMISSION_CONTEXT  !== undefined){
+                            //console.log(" View SUBMISSION_CONTEXT : " + JSON.stringify(dra.RA_DOCUMENT_NUMBER[0].SUBMISSION_CONTEXT));
+                            dra.RA_DOCUMENT_NUMBER[0].SUBMISSION_CONTEXT.forEach(sc => {
+                                let subContext = new SubmissionContext();
+                                subContext.DOSSIER_PID = sc.DOSSIER_PID[0];
+                                subContext.DOSSIER_NUMBER = sc.DOSSIER_NUMBER[0];
+                                raDocNum.addSubmissionContext(subContext);
+                            })
+                            
+                        }
                         docRA.RA_DOCUMENT_NUMBER =   raDocNum;
                     }
                   
                     docu.addDocumentRA(docRA);
                })
-                
-                 
-                
                
-               
-                docu.DOCUMENT_GENERIC = docGen;
-               
-              
                 console.log('---------------------JSON Model----------------\n' + JSON.stringify(docu));
                 console.log('------------------------GHSTS Format--------------------\n' + JSON.stringify(docu.toGHSTSJson()));
                  // enable the following to insert into db.
