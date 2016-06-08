@@ -14,19 +14,19 @@ class ValueStruct {
 class ExtValueStruct extends ValueStruct {
     constructor(value, decode, attrValue) {
         super(value, decode);
-        if (attrValue) {
+        if (attrValue != undefined && attrValue !== 'undefined') {
             this.ATTR_VALUE = attrValue;
         }
     }
     
     toGhstsJson() {
         let output = {};
-        if (this.ATTR_VALUE) {
+        if (this.ATTR_VALUE != undefined && this.ATTR_VALUE !== 'undefined') {
             output = {
                 VALUE: {
                     '_': this.VALUE,
                     'attr$': {
-                        'Other_Value': this.ATTR_VALUE 
+                        'Other_Value': this.ATTR_VALUE.length > 0 ? this.ATTR_VALUE : this.VALUE_DECODE
                     }
                 },
                 VALUE_DECODE: this.VALUE_DECODE

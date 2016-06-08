@@ -79,9 +79,9 @@ class ProductService {
         this.productsDb.find({ '_id': id }, (err, results) => {
             if (err) deferred.reject(err);  
                     
-            // create Product based on productJSON           
+            // create Product based on productJSON 
             const product = new Product(results[0]);
-                        
+
             // convert to XML
             const builder = new xml2js.Builder({
                 rootName: 'PRODUCT', 

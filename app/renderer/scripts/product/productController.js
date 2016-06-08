@@ -333,16 +333,16 @@ class ProductController {
                 return this.productService.getProducts();
             })
             // map each entry, checking if there are any duplicates. If there are, display a dialog showing the names of all conflicting products
-            // .then(products => {
-            //     return Promise.all(products.map(item => {
-            //         return this.productService.getProductByPid(item.PRODUCT_PID)
-            //             .then(matches => {
-            //                 if (matches.length > 1) {
-            //                     this.showConflictDiag(matches, $event);
-            //                 }
-            //             });
-            //     }));    
-            // })
+            .then(products => {
+                return Promise.all(products.map(item => {
+                    return this.productService.getProductByPid(item.PRODUCT_PID)
+                        .then(matches => {
+                            if (matches.length > 1) {
+                                this.showConflictDiag(matches, $event);
+                            }
+                        });
+                }));    
+            })
             // load from the DB
             .then(() => {
                 this.initFromDB();
