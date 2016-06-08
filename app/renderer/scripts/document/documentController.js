@@ -1,7 +1,7 @@
 import angular from 'angular';
 import {DocumentRAController} from './documentRAController';
 import {ValueStruct} from '../common/sharedModel';
-
+import {Document, DocumentRA}  from './documentModel'
 import uuid from 'node-uuid';
 import {_} from 'lodash';
 
@@ -17,6 +17,9 @@ class DocumentController {
         this.documents = [];
         this.selectedIndex = 0;
         this.filterText = null;
+        
+        // options for metadata status
+        this.metadataStatusOptions = this.pickListService.getMetadataStatusOptions();
         
         this.geDocNumTypeOptions = this.pickListService.getGEDocNumberTypeOptions();
         // Load initial data
@@ -56,6 +59,27 @@ class DocumentController {
         this.$mdSidenav(componentId).toggle();
     }
     
+    updateSelectedStatusDecode(){
+        // update metadata status value decode upon selection change
+        let selectedStatusValue = this.selected.DOCUMENT_GENERIC.METADATA_STATUS.VALUE;
+        // find the value decode in themetadata status options
+        let docStatusValueDecode = _(this.metadataStatusOptions)
+                                        .filter(c => c.VALUE == selectedStatusValue)
+                                        .map(c => c.VALUE_DECODE)
+                                        .value()[0];
+        this.selected.DOCUMENT_GENERIC.METADATA_STATUS.VALUE_DECODE = docStatusValueDecode;
+    }
+    
+    updateSelectedDocNumTypeDecode(){
+        let selectedDocNumTypeValue = this.selected.DOCUMENT_GENERIC.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE.VALUE;
+        
+        let docNumTypeValueDecode = _(this.geDocNumTypeOptions)
+                                        .filter(c => c.VALUE == selectedDocNumTypeValue)
+                                        .map(c => c.VALUE_DECODE)
+                                        .value()[0];
+        this.selected.DOCUMENT_GENERIC.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE.VALUE_DECODE = docNumTypeValueDecode;
+    }
+    
     selectDocument(document, index) {
         this.selected = angular.isNumber(document) ? this.documents[document] : document;
         this.selectedIndex = angular.isNumber(document) ? document: index;
@@ -69,7 +93,7 @@ class DocumentController {
         });
     }
     
-     filterDocument() {
+    filterDocument() {
         if (this.filterText == null || this.filterText == "") {
             this.getAlldocuments();
         }
@@ -81,23 +105,100 @@ class DocumentController {
         }
     }
     
-     deleteDocumentRA(docRA, $event){
-        // let confirm = this.$mdDialog.confirm()
-        //                         .title('Are you sure?')
-        //                         .content('Are you sure you want to delete this Contact Person?')
-        //                         .ok('Yes')
-        //                         .cancel('No')
-        //                         .targetEvent($event);
+    // For Document Generic
+    
+    saveDocument($event) {   
+        // reset form state
+        this._setFormPrestine($event);
+                     
+        let self = this;
+        if (this.selected != null && this.selected._id != null) {
+            this.documentService.updateDocument(this.selected).then(function (affectedRows) {
+                self.$mdDialog.show(
+                    self.$mdDialog
+                        .alert()
+                        .clickOutsideToClose(true)
+                        .title('Success')
+                        .content('Data Updated Successfully!')
+                        .ok('Ok')
+                        .targetEvent($event)
+                );
+            });
+        }
+        else {            
+            this.documentService.createDocument(this.selected).then(affectedRows => {
+                self.$mdDialog.show(
+                    self.$mdDialog
+                        .alert()
+                        .clickOutsideToClose(true)
+                        .title('Success')
+                        .content('Data Added Successfully!')
+                        .ok('Ok')
+                        .targetEvent($event)
+                );
+                
+                // refresh the le list
+                self.getAlldocuments();
+            });
+        }
+    }
+    
+     deleteDocument($event) {
+        let confirm = this.$mdDialog.confirm()
+                                .title('Are you sure?')
+                                .content('Are you sure you want to delete this Document?')
+                                .ok('Yes')
+                                .cancel('No')
+                                .targetEvent($event);
         
-        // this.$mdDialog.show(confirm).then(() => {
-        //     // delete the contact person by matching first and last names
-        //     _.remove(this.selected.CONTACT_PERSON, { FIRSTNAME: person.FIRSTNAME, LASTNAME:  person.LASTNAME });
-        //     // update the legal entity            
-        //     this.legalEntityService.updateLegalEntity(this.selected);
-        // });        
-    }   
+        this.$mdDialog.show(confirm).then(() => {
+            let self = this;
+            self.documentService.deleteDocument(self.selected._id)
+                .then(affectedRows => {self.documents.splice(self.selectedIndex, 1); self.clearSelectedDocument()});
+            });
+    }
+    
+    clearSelectedDocument() {
+        this.selected = {};
+        this.selectedIndex = null;
+    }
+    
+    createDocument(){
+        this.selected = new Document();
+        this.selected.DOCUMENT_GENERIC.DOCUMENT_PID = 'urn:' + uuid.v4(); 
+        this.selectedIndex = null;
+    }
+    
+    // For Document RA
+     addDocumentRA($event){
+         let docRa = new DocumentRA();
+         docRa.toSpecificForRAId = 'ID_RECEIVER_BVL';  // hard code for new document RA for now
+         this.showDocumentRA_Diag(docRa, $event);
+     }
+     
+     deleteDocumentRA(docra, $event) {
+        const confirm = this. $mdDialog.confirm()
+            .title('Are you sure?')
+            .content('Are you sure you want to delete this document RA?')
+            .ok('Yes')
+            .cancel('No')
+            .targetEvent($event);
+            
+        this.$mdDialog.show(confirm).then(() => {
+            _.pull(this.selected.DOCUMENT_RA, docra);
+            this.documentService.updateDocument(this.selected)
+            .catch(err => {
+                console.log(err);
+            }); 
+        });
+    }
     
     showDocumentRA_Diag(docRA, $event) {
+        if(_.isEmpty(docRA) === true){
+            console.log("Ra empty");
+            docRA.toSpecificForRAId = 'ID_RECEIVER_BVL';  // hard code for new document RA for now
+        }
+        
          this.$mdDialog.show( {
             controller: DocumentRAController,
             controllerAs: '_ctrl',
@@ -112,6 +213,26 @@ class DocumentController {
         })
     }
     
+//    saveDocumentRA(docRA, isAddMode){
+//         // save the document RA to the selected document.
+//         console.log("View updated docRA: " + JSON.stringify(docRA));
+//         if(isAddMode === true){
+//             // this is a new document RA
+//             this.selected.DOCUMENT_RA.push(docRA);
+//         } 
+//         // save the new or modified document RA by updating the document            
+//         this.documentService.updateDocument(this.selected);
+//     }
+    
+     saveDocumentRA(docRA){
+       if (!_.includes(this.selected.DOCUMENT_RA, docRA)) {
+            this.selected.DOCUMENT_RA.push(docRA);
+        }
+        // save the new or modified document RA by updating the document            
+        this.documentService.updateDocument(this.selected);
+    }
+    
+  
      // test/debug functions
     viewDocumentJson($event) {
         let self = this;
