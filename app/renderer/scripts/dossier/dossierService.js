@@ -69,18 +69,24 @@ class DossierService {
                 dossier.DOSSIER_DESCRIPTION_TITLE = rawDossier.DOSSIER_DESCRIPTION_TITLE[0];
                 dossier.DOSSIER_COMP_ID = rawDossier.DOSSIER_COMP_ID[0];
                 
-                for (const refDos of rawDossier.REFERENCED_DOSSIER) {
-                    let rd = new ReferencedDossier();
-                    rd.REFERENCED_DOSSIER_NUMBER = refDos.REFERENCED_DOSSIER_NUMBER[0];
-                    rd.REFERENCED_DOSSIER_REASON = refDos.REFERENCED_DOSSIER_REASON[0];
-                    dossier.addReferencedDossier(rd);
+                // can be 0..*
+                if (rawDossier.REFERENCED_DOSSIER) {
+                    for (const refDos of rawDossier.REFERENCED_DOSSIER) {
+                        let rd = new ReferencedDossier();
+                        rd.REFERENCED_DOSSIER_NUMBER = refDos.REFERENCED_DOSSIER_NUMBER[0];
+                        rd.REFERENCED_DOSSIER_REASON = refDos.REFERENCED_DOSSIER_REASON[0];
+                        dossier.addReferencedDossier(rd);
+                    }
                 }
+                else dossier.REFERENCED_DOSSIER = [];
                 
                 for (const dra of rawDossier.DOSSIER_RA) {
                     let dossierRA = new DossierRA();
                     
                     dossierRA._toSpecificForRAId = dra.attr$.To_Specific_for_RA_Id;
-                    dossierRA.PROJECT_ID_NUMBER = dra.PROJECT_ID_NUMBER;
+
+                    // can be 0..*
+                    dossierRA.PROJECT_ID_NUMBER = dra.PROJECT_ID_NUMBER ? dra.PROJECT_ID_NUMBER : [];
 
                     if (typeof dra.REGULATORY_TYPE[0].VALUE[0] === 'object') {
                         dossierRA.REGULATORY_TYPE = new ExtValueStruct(

@@ -7,7 +7,7 @@ class Ingredient {
             this._toSubstanceID = json._toSubstanceID;
             this.QUANTITY = json.QUANTITY;
             
-            if (json.UNIT.ATTR_VALUE) {
+            if (json.UNIT.ATTR_VALUE !== 'undefined') {
                 this.UNIT = new ExtValueStruct(
                     json.UNIT.VALUE,
                     json.UNIT.VALUE_DECODE,
@@ -76,7 +76,6 @@ class Product {
             this.INGREDIENTS = json.INGREDIENTS.map(ing => {
                 return new Ingredient(ing);
             });
-            this.DOSSIER = json.DOSSIER;
             
             this._id = json._id;
         }
@@ -87,10 +86,6 @@ class Product {
             this.FORMULATION_TYPE = new ExtValueStruct();
             this.PRODUCT_RA = [];       // list of ProductRA
             this.INGREDIENTS = [];      // list of Ingredient
-            //since there is no GHSTS schema reference that relates PRODUCT and
-            //DOSSIER, the PRODUCT Tree in the XSD will be constructed when
-            //creating the XML (in ghsts.js).
-            this.DOSSIER = {};
         }     
     }
     
@@ -129,10 +124,7 @@ class Product {
             GENERIC_PRODUCT_NAME: this.GENERIC_PRODUCT_NAME,
             FORMULATION_TYPE: this.FORMULATION_TYPE.toGhstsJson(),
             PRODUCT_RA: productRAs,
-            INGREDIENTS: ingredients,
-            DOSSIER: this.DOSSIER
-            
-
+            INGREDIENTS: ingredients
         };               
     }          
 }    

@@ -107,73 +107,100 @@ class ProductService {
                 product.PRODUCT_PID = rawProduct.PRODUCT_PID[0];
                 product.GENERIC_PRODUCT_NAME = rawProduct.GENERIC_PRODUCT_NAME[0];
                 
-                if (typeof rawProduct.FORMULATION_TYPE[0].VALUE[0] === 'object') {
-                    product.FORMULATION_TYPE = new ExtValueStruct(
-                        rawProduct.FORMULATION_TYPE[0].VALUE[0]._,
-                        rawProduct.FORMULATION_TYPE[0].VALUE_DECODE[0],
-                        rawProduct.FORMULATION_TYPE[0].VALUE[0].attr$.Other_Value
-                    );
+                // non-mandatory field
+                if (rawProduct.FORMULATION_TYPE) {
+                    if (typeof rawProduct.FORMULATION_TYPE[0].VALUE[0] === 'object') {
+                        product.FORMULATION_TYPE = new ExtValueStruct(
+                            rawProduct.FORMULATION_TYPE[0].VALUE[0]._,
+                            rawProduct.FORMULATION_TYPE[0].VALUE_DECODE[0],
+                            rawProduct.FORMULATION_TYPE[0].VALUE[0].attr$.Other_Value
+                        );
+                    }
+                    else {
+                        product.FORMULATION_TYPE = new ExtValueStruct(
+                            rawProduct.FORMULATION_TYPE[0].VALUE[0],
+                            rawProduct.FORMULATION_TYPE[0].VALUE_DECODE[0]
+                        );
+                    }
                 }
                 else {
-                    product.FORMULATION_TYPE = new ExtValueStruct(
-                        rawProduct.FORMULATION_TYPE[0].VALUE[0],
-                        rawProduct.FORMULATION_TYPE[0].VALUE_DECODE[0]
-                    );
+                    product.FORMULATION_TYPE = new ExtValueStruct();
                 }
-                                                
-                for (const pRA of rawProduct.PRODUCT_RA) {
-                    let productRA = new ProductRA();
-                    productRA._toReceiverRaId = pRA.attr$.To_Specific_for_RA_Id;
-                    productRA.PRODUCT_NAME = pRA.PRODUCT_NAME[0];
-                    
-                    for (const an of pRA.ADMIN_NUMBER) {
-                        let adminNumber = new AdminNumber();
-                        adminNumber.IDENTIFIER = an.IDENTIFIER[0];
+
+                // can be 0..*
+                if (rawProduct.PRODUCT_RA) {
+                    for (const pRA of rawProduct.PRODUCT_RA) {
+                        let productRA = new ProductRA();
+                        productRA._toReceiverRaId = pRA.attr$.To_Specific_for_RA_Id;
+
+                        // non-mandatory field
+                        productRA.PRODUCT_NAME = pRA.PRODUCT_NAME[0] ? pRA.PRODUCT_NAME[0] : '';
                         
-                        if (typeof an.ADMIN_NUMBER_TYPE[0].VALUE[0] === 'object') {
-                            adminNumber.ADMIN_NUMBER_TYPE = new ExtValueStruct(
-                                an.ADMIN_NUMBER_TYPE[0].VALUE[0]._,
-                                an.ADMIN_NUMBER_TYPE[0].VALUE_DECODE[0],
-                                an.ADMIN_NUMBER_TYPE[0].VALUE[0].attr$.Other_Value
-                            );
+                        // can be 0..*
+                        if (pRA.ADMIN_NUMBER) {
+                            for (const an of pRA.ADMIN_NUMBER) {
+                                let adminNumber = new AdminNumber();
+                                adminNumber.IDENTIFIER = an.IDENTIFIER[0];
+                                
+                                if (typeof an.ADMIN_NUMBER_TYPE[0].VALUE[0] === 'object') {
+                                    adminNumber.ADMIN_NUMBER_TYPE = new ExtValueStruct(
+                                        an.ADMIN_NUMBER_TYPE[0].VALUE[0]._,
+                                        an.ADMIN_NUMBER_TYPE[0].VALUE_DECODE[0],
+                                        an.ADMIN_NUMBER_TYPE[0].VALUE[0].attr$.Other_Value
+                                    );
+                                }
+                                else {
+                                    adminNumber.ADMIN_NUMBER_TYPE = new ExtValueStruct(
+                                        an.ADMIN_NUMBER_TYPE[0].VALUE[0],
+                                        an.ADMIN_NUMBER_TYPE[0].VALUE_DECODE[0]
+                                    );
+                                }
+                                
+                                productRA.addAdminNum(adminNumber);
+                            }
                         }
                         else {
-                            adminNumber.ADMIN_NUMBER_TYPE = new ExtValueStruct(
-                                an.ADMIN_NUMBER_TYPE[0].VALUE[0],
-                                an.ADMIN_NUMBER_TYPE[0].VALUE_DECODE[0]
-                            );
+                            productRA.ADMIN_NUMBER = [];
                         }
                         
-                        productRA.addAdminNum(adminNumber);
+                        product.addRA(productRA);
                     }
-                    
-                    product.addRA(productRA);
                 }
+                else {
+                    product.PRODUCT_RA = [];
+                }
+                    
                                 
                 for (const ing of rawProduct.INGREDIENTS[0].INGREDIENT) {
                     let ingredient = new Ingredient();
                     ingredient._toSubstanceID = ing.attr$.To_Substance_Id;
-                    ingredient.QUANTITY = ing.QUANTITY[0];
+
+                    // non-mandatory field
+                    ingredient.QUANTITY = ing.QUANTITY[0] ? ing.QUANTITY : '';
                     
-                    if (typeof ing.UNIT[0].VALUE[0] === 'object') {
-                        ingredient.UNIT = new ExtValueStruct(
-                            ing.UNIT[0].VALUE[0]._,
-                            ing.UNIT[0].VALUE_DECODE[0],
-                            ing.UNIT[0].VALUE[0].attr$.Other_Value
-                        );
+                    // non-mandatory field
+                    if (ing.UNIT) {
+                        if (typeof ing.UNIT[0].VALUE[0] === 'object') {
+                            ingredient.UNIT = new ExtValueStruct(
+                                ing.UNIT[0].VALUE[0]._,
+                                ing.UNIT[0].VALUE_DECODE[0],
+                                ing.UNIT[0].VALUE[0].attr$.Other_Value
+                            );
+                        }
+                        else {
+                            ingredient.UNIT = new ExtValueStruct(
+                                ing.UNIT[0].VALUE[0],
+                                ing.UNIT[0].VALUE_DECODE[0]
+                            );
+                        }
                     }
                     else {
-                        ingredient.UNIT = new ExtValueStruct(
-                            ing.UNIT[0].VALUE[0],
-                            ing.UNIT[0].VALUE_DECODE[0]
-                        );
+                        ingredient.UNIT = new ExtValueStruct();
                     }
                     
                     product.addIngredient(ingredient);
                 }
-                
-                product.DOSSIER = rawProduct.DOSSIER[0];
-                
+                                
                 this.createProduct(product);
             }).catch(err => console.log(err.stack));
     }
