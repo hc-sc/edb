@@ -23,7 +23,7 @@ class ExtValueStruct extends ValueStruct {
         let output = {};
         if (this.ATTR_VALUE) {
             output = {
-                VALUE: { 
+                VALUE: {
                     '_': this.VALUE,
                     'attr$': {
                         'Other_Value': this.ATTR_VALUE 

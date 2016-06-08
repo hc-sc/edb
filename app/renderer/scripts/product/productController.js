@@ -105,7 +105,7 @@ class ProductController {
     
     saveProduct($event) {
         if (this.selected._id) {
-            this.productService.updateProduct(this.selected).then(() => {
+            return this.productService.updateProduct(this.selected).then(() => {
                 this.$mdDialog.show(
                     this.$mdDialog
                         .alert()
@@ -119,7 +119,7 @@ class ProductController {
             .catch(err => console.log(err.stack));
         }
         else { // new Product
-            this.productService.createProduct(this.selected).then(createdRow => {
+            return this.productService.createProduct(this.selected).then(createdRow => {
                 this.$mdDialog.show(
                     this.$mdDialog
                         .alert()
@@ -303,36 +303,23 @@ class ProductController {
             }
         });
     }
-
-    viewProductJson($event) {
-        if (!_.isEmpty(this.selected)) {
-            let productJson = JSON.stringify(this.selected);            
-            this.$mdDialog.show(
-                    this.$mdDialog
-                        .alert()
-                        .clickOutsideToClose(true)
-                        .title('Product Database JSON')
-                        .content(productJson)
-                        .ok('Ok')
-                        .targetEvent($event)
-            );
-        }
-    }
     
     viewProductGHSTS($event) {
         if (!_.isEmpty(this.selected)) {
-            this.saveProduct();   
-            this.productService.getProductGHSTSById(this.selected._id)
-                .then(product_xml => { 
-                    this.$mdDialog.show(
-                            this.$mdDialog
-                                .alert()
-                                .clickOutsideToClose(true)
-                                .title('Product GHSTS JSON')
-                                .content(product_xml)
-                                .ok('Ok')
-                                .targetEvent($event)
-                    )
+            this.saveProduct()
+                .then(() => {
+                    this.productService.getProductGHSTSById(this.selected._id)
+                        .then(product_xml => { 
+                            this.$mdDialog.show(
+                                    this.$mdDialog
+                                        .alert()
+                                        .clickOutsideToClose(true)
+                                        .title('Product GHSTS JSON')
+                                        .content(product_xml)
+                                        .ok('Ok')
+                                        .targetEvent($event)
+                            );
+                        });
                 });
         }
     }

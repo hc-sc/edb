@@ -89,7 +89,7 @@ class ProductService {
             });
             
             const xml = builder.buildObject(product.toGhstsJson());
-            deferred.resolve(xml);        
+            deferred.resolve(xml);    
         });       
         return deferred.promise;
     }
