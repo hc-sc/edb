@@ -255,8 +255,8 @@ class DocumentRA {
     
      toGHSTSJson() {
            
-            // let otherNationalGuideLineJson = [];
-            // this.OTHER_NATIONAL_GUIDELINE.forEach(ong => otherNationalGuideLineJson.push(ong));
+            let otherNationalGuideLineJson = [];
+            this.OTHER_NATIONAL_GUIDELINE.forEach(ong => otherNationalGuideLineJson.push(ong));
          
          return{
              attr$ : { To_Specific_for_RA_Id : this._toSpecificforRAId },
@@ -264,7 +264,7 @@ class DocumentRA {
              DATA_PROTECTION 	        :      this.DATA_PROTECTION,
              DATA_REQUIREMENT 	        :      this.DATA_REQUIREMENT,
              DOCUMENT_COMMENT  	        :      this.DOCUMENT_COMMENT,
-             OTHER_NATIONAL_GUIDELINE   :      this.OTHER_NATIONAL_GUIDELINE,
+             OTHER_NATIONAL_GUIDELINE   :      otherNationalGuideLineJson,
              RA_DOCUMENT_NUMBER 	    :      this.RA_DOCUMENT_NUMBER
                       
          }

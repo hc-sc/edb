@@ -58,6 +58,18 @@ class ProductController {
         });
     }
     
+    mapLEsToRecs() {
+        console.log(this.receivers);
+        console.log(this.legalEntities);
+        console.log(this.receivers[0]);
+        console.log(this.legalEntities[0]);
+        console.log(this.receivers[0].attr$.To_Legal_Entity_Id);
+        console.log(this.legalEntities[0]._identifier);
+        // console.log(_.intersectionWith(receivers, legalEntities, (re, le) => {
+        //     re. === le.
+        // })
+    }
+    
     clearSelectedProduct() {
         this.selected = {};
         this.selectedIndex = null;

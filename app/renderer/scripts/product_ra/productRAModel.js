@@ -44,7 +44,8 @@ export class ProductRA {
 export class AdminNumber{
     constructor(json) {  
         if (arguments.length === 1) {
-            if (json.ADMIN_NUMBER_TYPE.ATTR_VALUE !== 'undefined') {
+            if (json.ADMIN_NUMBER_TYPE.ATTR_VALUE != undefined &&
+                json.ADMIN_NUMBER_TYPE.ATTR_VALUE !== 'undefined') {
                 this.ADMIN_NUMBER_TYPE = new ExtValueStruct(
                     json.ADMIN_NUMBER_TYPE.VALUE,
                     json.ADMIN_NUMBER_TYPE.VALUE_DECODE,
