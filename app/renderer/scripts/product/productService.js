@@ -72,7 +72,6 @@ class ProductService {
         return deferred.promise;
     }
     
-    // the following are demo related methods.  can be moved to a dedicated test class later    
     getProductGHSTSById(id) {
         // return GHSTS xml from json. 
         let deferred = this.$q.defer();

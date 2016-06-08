@@ -40,9 +40,6 @@
                 <div class="md-toolbar-tools">
                     <h2>Submissions</h2>
                     <span flex></span>
-                    <md-button class="md-icon-button">
-                        <md-icon class="material-icons" aria-label="Add Submission" ng-click="_ctrl.addSubmission()">add_circle</md-icon>
-                    </md-button>
                 </div>
             </md-toolbar>
             
@@ -157,7 +154,7 @@
                             <md-select 
                             name="applicationType"
                             ng-model="dra.APPLICATION_TYPE.VALUE"
-                            ng-change="dra.updateApplicationType(dra)">
+                            ng-change="_ctrl.updateApplicationType(dra)">
                                 <md-option
                                 ng-repeat="appType in _ctrl.applicationTypes"
                                 value="{{ appType.VALUE }}"
@@ -166,7 +163,8 @@
                                 </md-option>
                             </md-select>
                         </md-input-container>
-                        <div layout-gt-sm="row"
+                        <div 
+                        layout-gt-sm="row"
                         ng-show="dra.APPLICATION_TYPE.VALUE === _ctrl.pickListService.getOtherValue()">
                             <md-input-container 
                             class="md-block"

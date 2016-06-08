@@ -29,18 +29,40 @@ export class DossierController {
                 if (dossiers.length > 0) {
                     this.dossier = new Dossier(dossiers[0]);
                 }
+                else this.dossier = new Dossier();
             })
             .catch(err => console.log(err.stack));
     }
     
-    saveDossier() {
+    saveDossier($event) {
         if (this.dossier._id) {
-            this.dossierService.updateDossier(this.dossier)
+            return this.dossierService.updateDossier(this.dossier)
+                .then(() => {
+                    this.$mdDialog.show(
+                        this.$mdDialog
+                            .alert()
+                            .clickOutsideToClose(true)
+                            .title('Success')
+                            .content('Dossier Updated Successfully!')
+                            .ok('Ok')
+                            .targetEvent($event)
+                    );
+                })
                 .catch(err => console.log(err.stack));
         }
         else {
-            this.dossierService.createDossier(this.dossier)
+            return this.dossierService.createDossier(this.dossier)
                 .then(createdRow => {
+                    this.$mdDialog.show(
+                        this.$mdDialog
+                            .alert()
+                            .clickOutsideToClose(true)
+                            .title('Success')
+                            .content('Dossier Added Successfully!')
+                            .ok('Ok')
+                            .targetEvent($event)
+                    );
+
                     this.dossier = new Dossier(createdRow);
                 })
                 .catch(err => console.log(err.stack));
@@ -112,11 +134,11 @@ export class DossierController {
     updateApplicationType(dra) {
         if (dra.APPLICATION_TYPE.VALUE === this.pickListService.getOtherValue()) {
             dra.APPLICATION_TYPE.ATTR_VALUE = '';
-            dra.setRegulatoryValueDecode('');
+            dra.setApplicationValueDecode('');
         }
         else {
             delete dra.APPLICATION_TYPE.ATTR_VALUE;
-            dra.setRegulatoryValueDecode(dra.APPLICATION_TYPE.VALUE);
+            dra.setApplicationValueDecode(dra.APPLICATION_TYPE.VALUE);
         }
     }
     
@@ -136,19 +158,23 @@ export class DossierController {
     }
     
     viewDossierGHSTS($event) {
-        if (this.dossier) {
-            this.dossierService.getDossierGHSTSById(this.dossier._id)
-                .then(dossier => {
-                    this.$mdDialog.show(
-                        this.$mdDialog
-                            .alert()
-                            .clickOutsideToClose(true)
-                            .title('Dossier GHSTS')
-                            .content(dossier)
-                            .ok('Ok')
-                            .targetEvent($event)
-                    );
-                });
+        if (!_.isEmpty(this.dossier)) {
+            this.saveDossier()
+                .then(() => {
+                    this.dossierService.getDossierGHSTSById(this.dossier._id)
+                        .then(dossier => {
+                            this.$mdDialog.show(
+                                this.$mdDialog
+                                    .alert()
+                                    .clickOutsideToClose(true)
+                                    .title('Dossier GHSTS')
+                                    .content(dossier)
+                                    .ok('Ok')
+                                    .targetEvent($event)
+                            );
+                        });
+                })
+                .catch(err => console.log(err.stack));
         }
     }
     

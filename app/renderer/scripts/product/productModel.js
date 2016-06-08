@@ -7,7 +7,8 @@ class Ingredient {
             this._toSubstanceID = json._toSubstanceID;
             this.QUANTITY = json.QUANTITY;
             
-            if (json.UNIT.ATTR_VALUE !== 'undefined') {
+            if (json.UNIT.ATTR_VALUE != undefined && 
+                json.UNIT.ATTR_VALUE !== 'undefined') {
                 this.UNIT = new ExtValueStruct(
                     json.UNIT.VALUE,
                     json.UNIT.VALUE_DECODE,
@@ -24,7 +25,7 @@ class Ingredient {
         else {    
             this._toSubstanceID = null;
             this.QUANTITY = null;
-            this.UNIT = new ExtValueStruct(); // of ValueStruct
+            this.UNIT = new ExtValueStruct();
         }
     }
     
@@ -56,7 +57,8 @@ class Product {
             this.PRODUCT_PID = json.PRODUCT_PID;
             this.GENERIC_PRODUCT_NAME = json.GENERIC_PRODUCT_NAME;
             
-            if (json.FORMULATION_TYPE.ATTR_VALUE !== 'undefined') {
+            if (json.FORMULATION_TYPE.ATTR_VALUE != undefined && 
+                json.FORMULATION_TYPE.ATTR_VALUE !== 'undefined') {
                 this.FORMULATION_TYPE = new ExtValueStruct(
                     json.FORMULATION_TYPE.VALUE,
                     json.FORMULATION_TYPE.VALUE_DECODE,

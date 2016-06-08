@@ -125,14 +125,15 @@ class ProductController {
                         .alert()
                         .clickOutsideToClose(true)
                         .title('Success')
-                        .content('Product Added Successfully!\r\n')
+                        .content('Product Added Successfully!')
                         .ok('Ok')
                         .targetEvent($event)
                 );
                 this.products.push(new Product(createdRow));
                 this.selectedIndex = this.products.length - 1;
                 this.selected = this.products[this.selectedIndex];
-            });
+            })
+            .catch(err => console.log(err.stack));
         }
     }
    
@@ -320,7 +321,8 @@ class ProductController {
                                         .targetEvent($event)
                             );
                         });
-                });
+                })
+                .catch(err => console.log(err.stack));
         }
     }
         

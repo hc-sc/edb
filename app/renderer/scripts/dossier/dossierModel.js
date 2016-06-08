@@ -93,7 +93,8 @@ class DossierRA {
             this._toSpecificForRAId = json._toSpecificForRAId;
             this.PROJECT_ID_NUMBER = json.PROJECT_ID_NUMBER;
             
-            if (json.REGULATORY_TYPE.ATTR_VALUE) {
+            if (json.REGULATORY_TYPE.ATTR_VALUE != undefined &&
+                json.REGULATORY_TYPE.ATTR_VALUE !== 'undefined') {
                 this.REGULATORY_TYPE = new ExtValueStruct(
                     json.REGULATORY_TYPE.VALUE,
                     json.REGULATORY_TYPE.VALUE_DECODE,
@@ -107,7 +108,8 @@ class DossierRA {
                 );
             }
             
-            if (json.APPLICATION_TYPE.ATTR_VALUE) {
+            if (json.APPLICATION_TYPE.ATTR_VALUE != undefined &&
+                json.APPLICATION_TYPE.ATTR_VALUE !== 'undefined') {
                 this.APPLICATION_TYPE = new ExtValueStruct(
                     json.APPLICATION_TYPE.VALUE,
                     json.APPLICATION_TYPE.VALUE_DECODE,
