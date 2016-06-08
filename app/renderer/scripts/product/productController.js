@@ -105,7 +105,6 @@ class ProductController {
     
     saveProduct($event) {
         if (this.selected._id) {
-            console.log(this.selected.INGREDIENTS);
             this.productService.updateProduct(this.selected).then(() => {
                 this.$mdDialog.show(
                     this.$mdDialog

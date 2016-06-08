@@ -2,7 +2,7 @@
 // <VALUE>value</VALUE>
 // <VALUE_DECODE>decode</VALUE_DECODE>
 class ValueStruct {
-    constructor(value = 'New', decode = 'New'){
+    constructor(value, decode){
         this.VALUE = value;
         this.VALUE_DECODE = decode;
     }
@@ -11,13 +11,12 @@ class ValueStruct {
 // Matches Types that are extensible. They support the standard form above AND attributes of the form
 // <VALUE Other_Value='attr_value'>value</VALUE>
 // <VALUE_DECODE>'the decoded value'</VALUE_DECODE>
-class ExtValueStruct {
+class ExtValueStruct extends ValueStruct {
     constructor(value, decode, attrValue) {
+        super(value, decode);
         if (attrValue) {
             this.ATTR_VALUE = attrValue;
         }
-        this.VALUE = value; // will be value if no attribute, and _ if there is
-        this.VALUE_DECODE = decode; // will be value decode   
     }
     
     toGhstsJson() {

@@ -49,6 +49,18 @@
         <REMARK>no remark</REMARK>
       </SENDER>
     </RECEIVER>
+    <RECEIVER Id="ID_RECEIVER_APVMA" To_Legal_Entity_Id="LE_ID_APVMA">
+      <METADATA_STATUS>
+        <VALUE>New</VALUE>
+        <VALUE_DECODE>New</VALUE_DECODE>
+      </METADATA_STATUS>
+      <SHORT_NAME>APVMA</SHORT_NAME>
+      <ROLE>Recipient</ROLE>
+      <SENDER To_Legal_Entity_Id="LE_ID_PPPWW_AU">
+        <COMPANY_CONTACT_REGULATORY_ROLE>Sender</COMPANY_CONTACT_REGULATORY_ROLE>
+        <REMARK>no remark</REMARK>
+      </SENDER>
+    </RECEIVER>
     <RECEIVER Id="ID_RECEIVER_PMRA" To_Legal_Entity_Id="LE_ID_PMRA">
       <METADATA_STATUS>
         <VALUE>New</VALUE>
@@ -69,18 +81,6 @@
       <SHORT_NAME>IBAMA</SHORT_NAME>
       <ROLE>Recipient</ROLE>
       <SENDER To_Legal_Entity_Id="LE_ID_PPPWW_BR">
-        <COMPANY_CONTACT_REGULATORY_ROLE>Sender</COMPANY_CONTACT_REGULATORY_ROLE>
-        <REMARK>no remark</REMARK>
-      </SENDER>
-    </RECEIVER>
-    <RECEIVER Id="ID_RECEIVER_APVMA" To_Legal_Entity_Id="LE_ID_APVMA">
-      <METADATA_STATUS>
-        <VALUE>New</VALUE>
-        <VALUE_DECODE>New</VALUE_DECODE>
-      </METADATA_STATUS>
-      <SHORT_NAME>APVMA</SHORT_NAME>
-      <ROLE>Recipient</ROLE>
-      <SENDER To_Legal_Entity_Id="LE_ID_PPPWW_AU">
         <COMPANY_CONTACT_REGULATORY_ROLE>Sender</COMPANY_CONTACT_REGULATORY_ROLE>
         <REMARK>no remark</REMARK>
       </SENDER>
@@ -8069,120 +8069,6 @@
         <EMAIL>susan.miller@apvma.gov.au</EMAIL>
       </CONTACT_PERSON>
     </LEGAL_ENTITY>
-    <LEGAL_ENTITY Id="LE_ID_PPPWW_BR">
-      <METADATA_STATUS>
-        <VALUE>New</VALUE>
-        <VALUE_DECODE>New</VALUE_DECODE>
-      </METADATA_STATUS>
-      <LEGALENTITY_PID>urn:ghsts:C9910E3B-8B6E-41ED-AADA-A4E516211866</LEGALENTITY_PID>
-      <LEGALENTITY_NAME>Plant Protection Products Worlwide Brasil</LEGALENTITY_NAME>
-      <LEGALENTITY_TYPE>
-        <VALUE>Company</VALUE>
-        <VALUE_DECODE>Company</VALUE_DECODE>
-      </LEGALENTITY_TYPE>
-      <CONTACT_ADDRESS>
-        <STREET1>Avenida Alfredo Egídio de Souza Aranha, 100</STREET1>
-        <STREET2/>
-        <ZIPCODE>04726-170</ZIPCODE>
-        <CITY>Vila Cruzeiro, São Paulo</CITY>
-        <STATE>SP</STATE>
-        <COUNTRY>
-          <VALUE>BR</VALUE>
-          <VALUE_DECODE>Brasil</VALUE_DECODE>
-        </COUNTRY>
-        <PHONE>+55 11 3444-3500</PHONE>
-        <FAX>+55 11 3444-3501</FAX>
-        <EMAIL>info@pppww.br</EMAIL>
-        <WEBSITE>http://www.pppww.com/br</WEBSITE>
-      </CONTACT_ADDRESS>
-      <CONTACT_PERSON>
-        <ORGANISATION>Plant Protection Products Worlwide Brasil</ORGANISATION>
-        <DEPARTMENT>Regulatory Department</DEPARTMENT>
-        <TITLE/>
-        <FIRSTNAME>Ary</FIRSTNAME>
-        <LASTNAME>Barroso</LASTNAME>
-        <PHONE>+55 11 3444-3500</PHONE>
-        <MOBILE>+55 11 9 7307 1799</MOBILE>
-        <FAX>+55 11 3444-3500</FAX>
-        <EMAIL>ary.barroso@pppww.com</EMAIL>
-      </CONTACT_PERSON>
-    </LEGAL_ENTITY>
-    <LEGAL_ENTITY Id="LE_ID_BVL">
-      <METADATA_STATUS>
-        <VALUE>New</VALUE>
-        <VALUE_DECODE>New</VALUE_DECODE>
-      </METADATA_STATUS>
-      <LEGALENTITY_PID>urn:ghsts:1AB3B93C-4920-4F3A-BE4B-9298E09CC5CC</LEGALENTITY_PID>
-      <LEGALENTITY_NAME>Bundesanstalt für Verbraucherschutz und Landwirtschaft</LEGALENTITY_NAME>
-      <LEGALENTITY_TYPE>
-        <VALUE>Regulatory Authority</VALUE>
-        <VALUE_DECODE>Regulatory Authority</VALUE_DECODE>
-      </LEGALENTITY_TYPE>
-      <CONTACT_ADDRESS>
-        <STREET1>Messeweg 11/12</STREET1>
-        <STREET2>-/-</STREET2>
-        <ZIPCODE>38104</ZIPCODE>
-        <CITY>Braunschweig</CITY>
-        <STATE>...</STATE>
-        <COUNTRY>
-          <VALUE>DE</VALUE>
-          <VALUE_DECODE>Germany</VALUE_DECODE>
-        </COUNTRY>
-        <PHONE>+49 (0)531 299 5</PHONE>
-        <FAX>+49 (0)531 299 3002</FAX>
-        <EMAIL>info@bvl.de</EMAIL>
-        <WEBSITE>ttp://www.bvl.de</WEBSITE>
-      </CONTACT_ADDRESS>
-      <CONTACT_PERSON>
-        <ORGANISATION>Unit 204: EC Procedures</ORGANISATION>
-        <DEPARTMENT>Department 2: Plant Protection Products</DEPARTMENT>
-        <TITLE>Mr.</TITLE>
-        <FIRSTNAME>Hermann</FIRSTNAME>
-        <LASTNAME>Köppen</LASTNAME>
-        <PHONE>+49 531 299 4567</PHONE>
-        <MOBILE>-/-</MOBILE>
-        <FAX>+49 531 299 3003</FAX>
-        <EMAIL>hermann.koeppen@bvl.bund.de</EMAIL>
-      </CONTACT_PERSON>
-    </LEGAL_ENTITY>
-    <LEGAL_ENTITY Id="LE_ID_PPPWW_CA">
-      <METADATA_STATUS>
-        <VALUE>New</VALUE>
-        <VALUE_DECODE>New</VALUE_DECODE>
-      </METADATA_STATUS>
-      <LEGALENTITY_PID>urn:ghsts:60BF5221-9BC5-47C3-A6E6-EC2AD872172B</LEGALENTITY_PID>
-      <LEGALENTITY_NAME>Plant Protection Products Worlwide Canada</LEGALENTITY_NAME>
-      <LEGALENTITY_TYPE>
-        <VALUE>Company</VALUE>
-        <VALUE_DECODE>Company</VALUE_DECODE>
-      </LEGALENTITY_TYPE>
-      <CONTACT_ADDRESS>
-        <STREET1>125 Commerce Valley Drive West</STREET1>
-        <STREET2>-/-</STREET2>
-        <ZIPCODE>L3T 7W4</ZIPCODE>
-        <CITY>Markham</CITY>
-        <STATE>ON</STATE>
-        <COUNTRY>
-          <VALUE>CA</VALUE>
-          <VALUE_DECODE>Canada</VALUE_DECODE>
-        </COUNTRY>
-        <PHONE>+1 905-763-0560</PHONE>
-        <FAX>+41 905-763-0560-11</FAX>
-        <EMAIL>info@pppww.ca</EMAIL>
-        <WEBSITE>http://www.pppww.com/ca</WEBSITE>
-      </CONTACT_ADDRESS>
-      <CONTACT_PERSON>
-        <ORGANISATION>Plant Protection Products Worlwide Canada</ORGANISATION>
-        <DEPARTMENT>Global Regulatory Affairs</DEPARTMENT>
-        <TITLE/>
-        <FIRSTNAME>Peter</FIRSTNAME>
-        <LASTNAME>Walshe</LASTNAME>
-        <PHONE>+1 905-763-0560</PHONE>
-        <MOBILE>+1 379-453-2228</MOBILE>
-        <FAX>+1 905-763-0560-11</FAX>
-        <EMAIL>peter.walshe@pppww.com</EMAIL>
-      </CONTACT_PERSON>
-    </LEGAL_ENTITY>
     <LEGAL_ENTITY Id="LE_ID_IBAMA">
       <METADATA_STATUS>
         <VALUE>New</VALUE>
@@ -8221,42 +8107,42 @@
         <EMAIL>joao.gilberto@ibama.gov.br</EMAIL>
       </CONTACT_PERSON>
     </LEGAL_ENTITY>
-    <LEGAL_ENTITY Id="LE_ID_PMRA">
+    <LEGAL_ENTITY Id="LE_ID_PPPWW_CA">
       <METADATA_STATUS>
         <VALUE>New</VALUE>
         <VALUE_DECODE>New</VALUE_DECODE>
       </METADATA_STATUS>
-      <LEGALENTITY_PID>urn:ghsts:5B39944B-E7CD-4BC9-BFA0-9316D1A9592E</LEGALENTITY_PID>
-      <LEGALENTITY_NAME>Pest Management Regulatory Agency </LEGALENTITY_NAME>
+      <LEGALENTITY_PID>urn:ghsts:60BF5221-9BC5-47C3-A6E6-EC2AD872172B</LEGALENTITY_PID>
+      <LEGALENTITY_NAME>Plant Protection Products Worlwide Canada</LEGALENTITY_NAME>
       <LEGALENTITY_TYPE>
-        <VALUE>Regulatory Authority</VALUE>
-        <VALUE_DECODE>Regulatory Authority</VALUE_DECODE>
+        <VALUE>Company</VALUE>
+        <VALUE_DECODE>Company</VALUE_DECODE>
       </LEGALENTITY_TYPE>
       <CONTACT_ADDRESS>
-        <STREET1>2720 Riverside Drive</STREET1>
-        <STREET2>B2720 Riverside Drive</STREET2>
-        <ZIPCODE>6606D2 / K1A 0K9</ZIPCODE>
-        <CITY>6606D2 / K1A 0K9</CITY>
-        <STATE>Ontario</STATE>
+        <STREET1>125 Commerce Valley Drive West</STREET1>
+        <STREET2>-/-</STREET2>
+        <ZIPCODE>L3T 7W4</ZIPCODE>
+        <CITY>Markham</CITY>
+        <STATE>ON</STATE>
         <COUNTRY>
           <VALUE>CA</VALUE>
           <VALUE_DECODE>Canada</VALUE_DECODE>
         </COUNTRY>
-        <PHONE>1-613-736-3799 or 1-800-267-6315</PHONE>
-        <FAX>1-613-736-3798</FAX>
-        <EMAIL>info@hc-sc.gc.ca</EMAIL>
-        <WEBSITE>http://www.hc-sc.gc.ca/contact/cps-spc/pmra-arla/infoserv-eng.php</WEBSITE>
+        <PHONE>+1 905-763-0560</PHONE>
+        <FAX>+41 905-763-0560-11</FAX>
+        <EMAIL>info@pppww.ca</EMAIL>
+        <WEBSITE>http://www.pppww.com/ca</WEBSITE>
       </CONTACT_ADDRESS>
       <CONTACT_PERSON>
-        <ORGANISATION>Chemicals</ORGANISATION>
-        <DEPARTMENT>Submissions</DEPARTMENT>
-        <TITLE>Mr.</TITLE>
-        <FIRSTNAME>Marcus</FIRSTNAME>
-        <LASTNAME>Miller</LASTNAME>
-        <PHONE>613-736-3602</PHONE>
-        <MOBILE>613-612-0554</MOBILE>
-        <FAX>-/-</FAX>
-        <EMAIL>marcus.miller@hc-sc.gc.ca</EMAIL>
+        <ORGANISATION>Plant Protection Products Worlwide Canada</ORGANISATION>
+        <DEPARTMENT>Global Regulatory Affairs</DEPARTMENT>
+        <TITLE/>
+        <FIRSTNAME>Peter</FIRSTNAME>
+        <LASTNAME>Walshe</LASTNAME>
+        <PHONE>+1 905-763-0560</PHONE>
+        <MOBILE>+1 379-453-2228</MOBILE>
+        <FAX>+1 905-763-0560-11</FAX>
+        <EMAIL>peter.walshe@pppww.com</EMAIL>
       </CONTACT_PERSON>
     </LEGAL_ENTITY>
     <LEGAL_ENTITY Id="LE_ID_PPPWW_DE">
@@ -8346,6 +8232,120 @@
         <EMAIL>marc.planter@pppww.com</EMAIL>
       </CONTACT_PERSON>
     </LEGAL_ENTITY>
+    <LEGAL_ENTITY Id="LE_ID_BVL">
+      <METADATA_STATUS>
+        <VALUE>New</VALUE>
+        <VALUE_DECODE>New</VALUE_DECODE>
+      </METADATA_STATUS>
+      <LEGALENTITY_PID>urn:ghsts:1AB3B93C-4920-4F3A-BE4B-9298E09CC5CC</LEGALENTITY_PID>
+      <LEGALENTITY_NAME>Bundesanstalt für Verbraucherschutz und Landwirtschaft</LEGALENTITY_NAME>
+      <LEGALENTITY_TYPE>
+        <VALUE>Regulatory Authority</VALUE>
+        <VALUE_DECODE>Regulatory Authority</VALUE_DECODE>
+      </LEGALENTITY_TYPE>
+      <CONTACT_ADDRESS>
+        <STREET1>Messeweg 11/12</STREET1>
+        <STREET2>-/-</STREET2>
+        <ZIPCODE>38104</ZIPCODE>
+        <CITY>Braunschweig</CITY>
+        <STATE>...</STATE>
+        <COUNTRY>
+          <VALUE>DE</VALUE>
+          <VALUE_DECODE>Germany</VALUE_DECODE>
+        </COUNTRY>
+        <PHONE>+49 (0)531 299 5</PHONE>
+        <FAX>+49 (0)531 299 3002</FAX>
+        <EMAIL>info@bvl.de</EMAIL>
+        <WEBSITE>ttp://www.bvl.de</WEBSITE>
+      </CONTACT_ADDRESS>
+      <CONTACT_PERSON>
+        <ORGANISATION>Unit 204: EC Procedures</ORGANISATION>
+        <DEPARTMENT>Department 2: Plant Protection Products</DEPARTMENT>
+        <TITLE>Mr.</TITLE>
+        <FIRSTNAME>Hermann</FIRSTNAME>
+        <LASTNAME>Köppen</LASTNAME>
+        <PHONE>+49 531 299 4567</PHONE>
+        <MOBILE>-/-</MOBILE>
+        <FAX>+49 531 299 3003</FAX>
+        <EMAIL>hermann.koeppen@bvl.bund.de</EMAIL>
+      </CONTACT_PERSON>
+    </LEGAL_ENTITY>
+    <LEGAL_ENTITY Id="LE_ID_PPPWW_BR">
+      <METADATA_STATUS>
+        <VALUE>New</VALUE>
+        <VALUE_DECODE>New</VALUE_DECODE>
+      </METADATA_STATUS>
+      <LEGALENTITY_PID>urn:ghsts:C9910E3B-8B6E-41ED-AADA-A4E516211866</LEGALENTITY_PID>
+      <LEGALENTITY_NAME>Plant Protection Products Worlwide Brasil</LEGALENTITY_NAME>
+      <LEGALENTITY_TYPE>
+        <VALUE>Company</VALUE>
+        <VALUE_DECODE>Company</VALUE_DECODE>
+      </LEGALENTITY_TYPE>
+      <CONTACT_ADDRESS>
+        <STREET1>Avenida Alfredo Egídio de Souza Aranha, 100</STREET1>
+        <STREET2/>
+        <ZIPCODE>04726-170</ZIPCODE>
+        <CITY>Vila Cruzeiro, São Paulo</CITY>
+        <STATE>SP</STATE>
+        <COUNTRY>
+          <VALUE>BR</VALUE>
+          <VALUE_DECODE>Brasil</VALUE_DECODE>
+        </COUNTRY>
+        <PHONE>+55 11 3444-3500</PHONE>
+        <FAX>+55 11 3444-3501</FAX>
+        <EMAIL>info@pppww.br</EMAIL>
+        <WEBSITE>http://www.pppww.com/br</WEBSITE>
+      </CONTACT_ADDRESS>
+      <CONTACT_PERSON>
+        <ORGANISATION>Plant Protection Products Worlwide Brasil</ORGANISATION>
+        <DEPARTMENT>Regulatory Department</DEPARTMENT>
+        <TITLE/>
+        <FIRSTNAME>Ary</FIRSTNAME>
+        <LASTNAME>Barroso</LASTNAME>
+        <PHONE>+55 11 3444-3500</PHONE>
+        <MOBILE>+55 11 9 7307 1799</MOBILE>
+        <FAX>+55 11 3444-3500</FAX>
+        <EMAIL>ary.barroso@pppww.com</EMAIL>
+      </CONTACT_PERSON>
+    </LEGAL_ENTITY>
+    <LEGAL_ENTITY Id="LE_ID_PMRA">
+      <METADATA_STATUS>
+        <VALUE>New</VALUE>
+        <VALUE_DECODE>New</VALUE_DECODE>
+      </METADATA_STATUS>
+      <LEGALENTITY_PID>urn:ghsts:5B39944B-E7CD-4BC9-BFA0-9316D1A9592E</LEGALENTITY_PID>
+      <LEGALENTITY_NAME>Pest Management Regulatory Agency </LEGALENTITY_NAME>
+      <LEGALENTITY_TYPE>
+        <VALUE>Regulatory Authority</VALUE>
+        <VALUE_DECODE>Regulatory Authority</VALUE_DECODE>
+      </LEGALENTITY_TYPE>
+      <CONTACT_ADDRESS>
+        <STREET1>2720 Riverside Drive</STREET1>
+        <STREET2>B2720 Riverside Drive</STREET2>
+        <ZIPCODE>6606D2 / K1A 0K9</ZIPCODE>
+        <CITY>6606D2 / K1A 0K9</CITY>
+        <STATE>Ontario</STATE>
+        <COUNTRY>
+          <VALUE>CA</VALUE>
+          <VALUE_DECODE>Canada</VALUE_DECODE>
+        </COUNTRY>
+        <PHONE>1-613-736-3799 or 1-800-267-6315</PHONE>
+        <FAX>1-613-736-3798</FAX>
+        <EMAIL>info@hc-sc.gc.ca</EMAIL>
+        <WEBSITE>http://www.hc-sc.gc.ca/contact/cps-spc/pmra-arla/infoserv-eng.php</WEBSITE>
+      </CONTACT_ADDRESS>
+      <CONTACT_PERSON>
+        <ORGANISATION>Chemicals</ORGANISATION>
+        <DEPARTMENT>Submissions</DEPARTMENT>
+        <TITLE>Mr.</TITLE>
+        <FIRSTNAME>Marcus</FIRSTNAME>
+        <LASTNAME>Miller</LASTNAME>
+        <PHONE>613-736-3602</PHONE>
+        <MOBILE>613-612-0554</MOBILE>
+        <FAX>-/-</FAX>
+        <EMAIL>marcus.miller@hc-sc.gc.ca</EMAIL>
+      </CONTACT_PERSON>
+    </LEGAL_ENTITY>
   </LEGAL_ENTITIES>
   <SUBSTANCES>
     <SUBSTANCE Id="IDS0000000112">
@@ -8429,6 +8429,21 @@
         <IDENTIFIER>4467</IDENTIFIER>
       </SUBSTANCE_IDENTIFIER>
     </SUBSTANCE>
+    <SUBSTANCE Id="IDS0000000112">
+      <METADATA_STATUS>
+        <VALUE>New</VALUE>
+        <VALUE_DECODE>New</VALUE_DECODE>
+      </METADATA_STATUS>
+      <SUBSTANCE_NAME>Fenpyroxymate</SUBSTANCE_NAME>
+      <SUBSTANCE_PID>urn:ghsts:AF92CDE4-E66E-415E-AA9C-49F5EE5568C1</SUBSTANCE_PID>
+      <SUBSTANCE_IDENTIFIER>
+        <SUBSTANCE_IDENTIFIER_TYPE>
+          <VALUE>CASNO</VALUE>
+          <VALUE_DECODE>CASNO</VALUE_DECODE>
+        </SUBSTANCE_IDENTIFIER_TYPE>
+        <IDENTIFIER>134098-61-6</IDENTIFIER>
+      </SUBSTANCE_IDENTIFIER>
+    </SUBSTANCE>
     <SUBSTANCE Id="IDS0000002222">
       <METADATA_STATUS>
         <VALUE>New</VALUE>
@@ -8449,21 +8464,6 @@
           <VALUE_DECODE>CIPAC</VALUE_DECODE>
         </SUBSTANCE_IDENTIFIER_TYPE>
         <IDENTIFIER>678</IDENTIFIER>
-      </SUBSTANCE_IDENTIFIER>
-    </SUBSTANCE>
-    <SUBSTANCE Id="IDS0000000112">
-      <METADATA_STATUS>
-        <VALUE>New</VALUE>
-        <VALUE_DECODE>New</VALUE_DECODE>
-      </METADATA_STATUS>
-      <SUBSTANCE_NAME>Fenpyroxymate</SUBSTANCE_NAME>
-      <SUBSTANCE_PID>urn:ghsts:AF92CDE4-E66E-415E-AA9C-49F5EE5568C1</SUBSTANCE_PID>
-      <SUBSTANCE_IDENTIFIER>
-        <SUBSTANCE_IDENTIFIER_TYPE>
-          <VALUE>CASNO</VALUE>
-          <VALUE_DECODE>CASNO</VALUE_DECODE>
-        </SUBSTANCE_IDENTIFIER_TYPE>
-        <IDENTIFIER>134098-61-6</IDENTIFIER>
       </SUBSTANCE_IDENTIFIER>
     </SUBSTANCE>
   </SUBSTANCES>
