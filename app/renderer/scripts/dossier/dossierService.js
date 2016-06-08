@@ -80,7 +80,7 @@ class DossierService {
                     let dossierRA = new DossierRA();
                     
                     dossierRA._toSpecificForRAId = dra.attr$.To_Specific_for_RA_Id;
-                    dra.PROJECT_ID_NUMBER = dossierRA.PROJECT_ID_NUMBER;
+                    dossierRA.PROJECT_ID_NUMBER = dra.PROJECT_ID_NUMBER;
 
                     if (typeof dra.REGULATORY_TYPE[0].VALUE[0] === 'object') {
                         dossierRA.REGULATORY_TYPE = new ExtValueStruct(

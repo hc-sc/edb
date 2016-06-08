@@ -10,49 +10,19 @@
 
     <md-content layout-padding class="autoScroll">
         <form>
-            <div layout-gt-sm="row">
-                <md-input-container class="md-block" flex-gt-sm>
+            <div>
+                <md-input-container class="md-block" flex>
                     <label>Generic Product Name</label>
                     <input ng-model="_ctrl.selected.GENERIC_PRODUCT_NAME" type="text" ng-required="true">
-                </md-input-container>
-                <md-input-container class="md-block" flex-gt-sm>
-                    <label>PID</label>
-                    <input ng-model="_ctrl.selected.PRODUCT_PID" type="text" ng-required="true" disabled>
                 </md-input-container>
             </div>
 
             <div layout-gt-sm="row">
-                <md-input-container class="md-block" flex-gt-sm style="padding-bottom:20px;">
-                    <label for="formulationType">Formulation Type</label>
-                    <md-select 
-                    name="formulationType" 
-                    id="formulationType"
-                    ng-model="_ctrl.selected.FORMULATION_TYPE.VALUE"
-                    ng-change="_ctrl.updateFormulation()">
-                        <md-option
-                        ng-repeat="formulationType in _ctrl.formulations"
-                        ng-value="formulationType.VALUE">
-                            {{ formulationType.VALUE }}
-                        </md-option>
-                    </md-select>
+                <md-input-container class="md-block" flex>
+                    <label>PID</label>
+                    <input ng-model="_ctrl.selected.PRODUCT_PID" type="text" ng-required="true" disabled>
                 </md-input-container>
-                <md-input-container 
-                ng-show="_ctrl.selected.FORMULATION_TYPE.VALUE === _ctrl.getOtherValue()">
-                    <label for="formulationValueDecode">Display Value</label>
-                    <input 
-                    ng-model="_ctrl.selected.FORMULATION_TYPE.VALUE_DECODE"
-                    id="formulationValueDecode"
-                    type="text">
-                </md-input-container>
-                <md-input-container 
-                ng-show="_ctrl.selected.FORMULATION_TYPE.VALUE === _ctrl.getOtherValue()">
-                    <label for="formulationValue">Encoded Value (optional)</label>
-                    <input 
-                    ng-model="_ctrl.selected.FORMULATION_TYPE.ATTR_VALUE"
-                    id="formulationValue"
-                    type="text">
-                </md-input-container>
-                <md-input-container class="md-block" flex-gt-sm>
+                <md-input-container class="md-block" flex>
                     <label>Status</label>
                     <md-select 
                     name="productStatus"
@@ -66,6 +36,46 @@
                         </md-option>
                     </md-select>
                 </md-input-container>
+            </div>
+
+            <div layout="column">
+                <md-input-container class="md-block">
+                    <label for="formulationType">Formulation Type</label>
+                    <md-select 
+                    name="formulationType" 
+                    id="formulationType"
+                    ng-model="_ctrl.selected.FORMULATION_TYPE.VALUE"
+                    ng-change="_ctrl.updateFormulation()">
+                        <md-option
+                        ng-repeat="formulationType in _ctrl.formulations"
+                        ng-value="formulationType.VALUE">
+                            {{ formulationType.VALUE }}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                <div 
+                style="padding-top:5px;"
+                layout-gt-sm="row"
+                ng-show="_ctrl.selected.FORMULATION_TYPE.VALUE === _ctrl.getOtherValue()">
+                    <md-input-container 
+                    class="md-block"
+                    flex>
+                        <label for="formulationValueDecode">Display Value</label>
+                        <input 
+                        ng-model="_ctrl.selected.FORMULATION_TYPE.VALUE_DECODE"
+                        id="formulationValueDecode"
+                        type="text">
+                    </md-input-container>
+                    <md-input-container 
+                    class="md-block"
+                    flex>
+                        <label for="formulationValue">Encoded Value (optional)</label>
+                        <input 
+                        ng-model="_ctrl.selected.FORMULATION_TYPE.ATTR_VALUE"
+                        id="formulationValue"
+                        type="text">
+                    </md-input-container>
+                </div>
             </div>
 
             <md-toolbar>
@@ -120,22 +130,29 @@
                                 </md-option>
                             </md-select>
                         </md-input-container>
-                        <md-input-container 
+                        <div 
+                        layout-gt-sm="row"
+                        flex-gt-sm="50"
                         ng-show="ing.UNIT.VALUE === _ctrl.getOtherValue()">
-                            <label for="unitValueDecode">Display Value</label>
-                            <input
-                            id="unitValueDecode"
-                            type="text"
-                            ng-model="ing.UNIT.VALUE_DECODE">
-                        </md-input-container>
-                        <md-input-container 
-                        ng-show="ing.UNIT.VALUE === _ctrl.getOtherValue()">
-                            <label for="unitValue">Encoded Value (optional)</label>
-                            <input
-                            id="unitValue"
-                            type="text"
-                            ng-model="ing.UNIT.ATTR_VALUE">
-                        </md-input-container>
+                            <md-input-container
+                            class="md-block"
+                            flex>
+                                <label for="unitValueDecode">Display Value</label>
+                                <input
+                                id="unitValueDecode"
+                                type="text"
+                                ng-model="ing.UNIT.VALUE_DECODE">
+                            </md-input-container>
+                            <md-input-container 
+                            class="md-block"
+                            flex>
+                                <label for="unitValue">Encoded Value (optional)</label>
+                                <input
+                                id="unitValue"
+                                type="text"
+                                ng-model="ing.UNIT.ATTR_VALUE">
+                            </md-input-container>
+                        </div>
                     </div>
                     <md-button 
                     class="md-secondary md-raised" 

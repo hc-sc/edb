@@ -82,7 +82,7 @@
                             ng-model="rd.REFERENCED_DOSSIER_NUMBER"
                             type="text">
                         </md-input-container>
-                        <md-input-container class="md-block">
+                        <md-input-container class="md-block" flex>
                             <label for="reason">Reason</label>
                             <input 
                             id="reason"
@@ -115,7 +115,7 @@
                 <md-card 
                 style="padding: 10px"
                 ng-repeat="dra in _ctrl.dossier.DOSSIER_RA track by $index">
-                    <div layout-gt-sm="row">
+                    <div layout="column">
                         <md-input-container class="md-block">
                             <label for="regulatoryType">
                                 Regulatory Type
@@ -132,17 +132,25 @@
                                 </md-option>
                             </md-select>
                         </md-input-container>
-                        <md-input-container ng-show="dra.REGULATORY_TYPE.VALUE === _ctrl.pickListService.getOtherValue()">
-                            <label>Display Value</label>
-                            <input type="text" ng-model="dra.REGULATORY_TYPE.VALUE_DECODE">
-                        </md-input-container>
-                        <md-input-container ng-show="dra.REGULATORY_TYPE.VALUE === _ctrl.pickListService.getOtherValue()">
-                            <label>Encoded Value (optional)</label>
-                            <input type="text" ng-model="dra.REGULATORY_TYPE.ATTR_VALUE">
-                        </md-input-container>
+                        <div 
+                        layout-gt-sm="row"
+                        ng-show="dra.REGULATORY_TYPE.VALUE === _ctrl.pickListService.getOtherValue()">
+                            <md-input-container 
+                            class="md-block"
+                            flex>
+                                <label>Display Value</label>
+                                <input type="text" ng-model="dra.REGULATORY_TYPE.VALUE_DECODE">
+                            </md-input-container>
+                            <md-input-container 
+                            class="md-block"
+                            flex>
+                                <label>Encoded Value (optional)</label>
+                                <input type="text" ng-model="dra.REGULATORY_TYPE.ATTR_VALUE">
+                            </md-input-container>
+                        </div>
                     </div>
-                    <div layout-gt-sm="row">
-                        <md-input-container class="md-block">
+                    <div layout="column">
+                        <md-input-container class="md-block" flex>
                             <label for="applicationType">
                                 Application Type
                             </label>
@@ -158,18 +166,21 @@
                                 </md-option>
                             </md-select>
                         </md-input-container>
-                        <md-input-container 
-                        class="md-block" flex-gt-sm
+                        <div layout-gt-sm="row"
                         ng-show="dra.APPLICATION_TYPE.VALUE === _ctrl.pickListService.getOtherValue()">
-                            <label>Display Value</label>
-                            <input type="text" ng-model="dra.APPLICATION_TYPE.VALUE_DECODE">
-                        </md-input-container>
-                        <md-input-container 
-                        class="md-block" flex-gt-sm
-                        ng-show="dra.APPLICATION_TYPE.VALUE === _ctrl.pickListService.getOtherValue()">
-                            <label>Encoded Value (optional)</label>
-                            <input type="text" ng-model="dra.APPLICATION_TYPE.ATTR_VALUE">
-                        </md-input-container>
+                            <md-input-container 
+                            class="md-block"
+                            flex>
+                                <label>Display Value</label>
+                                <input type="text" ng-model="dra.APPLICATION_TYPE.VALUE_DECODE">
+                            </md-input-container>
+                            <md-input-container 
+                            class="md-block"
+                            flex>
+                                <label>Encoded Value (optional)</label>
+                                <input type="text" ng-model="dra.APPLICATION_TYPE.ATTR_VALUE">
+                            </md-input-container>
+                        </div>
                     </div>
                 
                     <md-input-container class="md-block">
@@ -189,6 +200,7 @@
                 </md-card>
             </md-list>
         </form>
+        
         <div layout="row" layout-sm="column" layout-align="center" layout-wrap>
             <md-button class="md-raised md-primary"
                 ng-click="_ctrl.saveDossier()">
