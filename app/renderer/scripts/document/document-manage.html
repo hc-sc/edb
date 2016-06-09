@@ -19,6 +19,7 @@
                 <!-- notice work around for nedb. 'track by index'' to fix $$hashkey problem -->                
                 <md-list-item ng-repeat="it in _ctrl.documents track by $index" ng-click="_ctrl.selectDocument(it, $index)">
                     <p>{{it._identifier}}</p>
+                    <!--<p>{{it.DOCUMENT_GENERIC.DOCUMENT_TITLE}}</p>-->
                 </md-list-item>
             </md-list>
         </md-content>
@@ -107,15 +108,34 @@
                         <div class="md-toolbar-tools">
                             <h2>Reference To Files</h2>
                             <span flex></span>
-                      
+                            <md-button class="md-icon-button" ng-click="_ctrl.addReferencedFile()">
+                                <md-icon class="material-icons" aria-label="Add Reference File">add_circle</md-icon>
+                            </md-button>
                         </div>
                     </md-toolbar>
-                    <md-list>
+                    <!--<md-list>
                         <md-list-item ng-repeat=" file in _ctrl.selected.DOCUMENT_GENERIC.REFERENCED_TO_FILE track by $index"  class="noright">
                             <md-icon class="material-icons" aria-label="folder"> folder </md-icon>
                             <p>{{ file._toFileId }}</p>                                                                                                  
                         </md-list-item>
-                    </md-list>
+                    </md-list>-->
+                 <md-card class="inset" ng-repeat=" file in _ctrl.selected.DOCUMENT_GENERIC.REFERENCED_TO_FILE track by $index">                        
+                    <div layout-gt-sm="row">  
+                        <md-input-container class="md-block" flex-gt-sm> 
+                            <label>File Reference</label>
+                            <md-select name="repeatSelectFile" id="repeatSelectFile" ng-model="file._toFileId">
+                                <md-option ng-repeat="fo in _ctrl.fileReferencedOptions" value="{{fo.id}}" ng-selected="{{file._toFileId == fo.id}}">{{fo.name}}</md-option>
+                            </md-select>
+                        </md-input-container>  
+                        <div layout-align="end">
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteReferencedFile(file._toFileId, $event)">Delete</md-button>
+                            </md-input-container>
+                        </div>
+                        
+                    </div>
+                    
+                </md-card>
                 
                    
                  <md-toolbar>

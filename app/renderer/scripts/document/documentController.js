@@ -1,23 +1,27 @@
 import angular from 'angular';
 import {DocumentRAController} from './documentRAController';
 import {ValueStruct} from '../common/sharedModel';
-import {Document, DocumentRA}  from './documentModel'
+import {ReferenceToFile, Document, DocumentRA}  from './documentModel';
 import uuid from 'node-uuid';
 import {_} from 'lodash';
 
 
 class DocumentController {
-    constructor($mdDialog,$mdSidenav, $location, DocumentService, PickListService) {
+    constructor($mdDialog,$mdSidenav, $location, DocumentService, PickListService, FileService) {
         this.documentService = DocumentService;
         this.$mdDialog = $mdDialog; 
         this.pickListService = PickListService;
+        this.fileService = FileService;
         this.$mdSidenav = $mdSidenav;
         this.$location = $location;
         this.selected = null;
         this.documents = [];
         this.selectedIndex = 0;
         this.filterText = null;
+        this.fileReferencedOptions = [];
         
+        // Load options for File selects 
+        this.getFileReferencedOptions();
         // options for metadata status
         this.metadataStatusOptions = this.pickListService.getMetadataStatusOptions();
         
@@ -105,6 +109,37 @@ class DocumentController {
         }
     }
     
+    // get a list of file to be referenced in Document Generic
+    getFileReferencedOptions(){
+        let self = this;
+        this.fileService.getFiles().then(list => {            
+            list.forEach(fi => {               
+                let option = {id: fi._identifier, name: fi.FILE_GENERIC.FILE_COMPANY_ID}; 
+                //console.log(JSON.stringify(option));
+                self.fileReferencedOptions.push(option);
+            })
+         })
+    }
+    
+    addReferencedFile($event){
+       // make sure it is valid to add an new ref File by counting the files in option list.
+        if( this.fileReferencedOptions.length > this.selected.DOCUMENT_GENERIC.REFERENCED_TO_FILE.length){
+            this.selected.DOCUMENT_GENERIC.REFERENCED_TO_FILE.push(new ReferenceToFile());                
+        } else {
+            this.$mdDialog.show(
+                this.$mdDialog
+                    .alert()
+                    .clickOutsideToClose(true)
+                    .title('Invalid Operation')
+                    .content('There are no more potential files to add.')
+                    .ok('Ok')
+            );
+        }
+    }
+    
+    deleteReferencedFile(toFileId, $event){        
+          _.remove(this.selected.DOCUMENT_GENERIC.REFERENCED_TO_FILE, { _toFileId: toFileId } );           
+    }
     // For Document Generic
     
     saveDocument($event) {   
@@ -279,6 +314,6 @@ class DocumentController {
     }
 }
 
-DocumentController.$inject = ['$mdDialog','$mdSidenav', '$location', 'documentService', 'pickListService'];
+DocumentController.$inject = ['$mdDialog','$mdSidenav', '$location', 'documentService', 'pickListService', 'fileService'];
 
 export { DocumentController }
