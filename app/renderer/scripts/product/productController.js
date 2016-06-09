@@ -2,19 +2,16 @@ import angular from 'angular';
 import { Ingredient, Product } from './productModel';
 import { ProductRAController } from '../product_ra/productRAController';
 import { ProductRA } from '../product_ra/productRAModel';
-import { Receiver } from '../receiver/receiverModel';
-import { LegalEntity } from '../legal_entity/legalEntityModel';
 import { Substance } from '../substance/substanceModel';
-import { ValueStruct } from '../common/sharedModel';
+import { ExtValueStruct } from '../common/sharedModel';
 import { ListDialogController } from '../common/listDialogController';
 import { generatePid } from '../common/pid';
 import _ from 'lodash';
 
 class ProductController {
-    constructor($mdDialog, ReceiverService, LegalEntityService, ProductService, SubstanceService, PickListService) {
+    constructor($mdDialog, ReceiverService, ProductService, SubstanceService, PickListService) {
         this.productService = ProductService;
         this.receiverService = ReceiverService;
-        this.legalEntityService = LegalEntityService;
         this.substanceService = SubstanceService;
         this.pickListService = PickListService;
         this.products = [];
@@ -24,44 +21,28 @@ class ProductController {
         this.$mdDialog = $mdDialog;
         this.filterText = null;
         this.metadataStatusOptions = null;
-        this.receivers = [];
+        this.receiversWithNames = [];
         this.legalEntities = [];
         this.substances = [];
-        this.RAs = null;
                         
         this.metadataStatusOptions = this.pickListService.getMetadataStatusOptions();
         this.formulations = this.pickListService.getFormulationTypeOptions().map(formulation => {
-            return new ValueStruct(formulation.VALUE, formulation.VALUE_DECODE);
+            return new ExtValueStruct(formulation.VALUE, formulation.VALUE_DECODE);
         });
         this.units = this.pickListService.getUnitTypeOptions().map(unit => {
-            return new ValueStruct(unit.VALUE, unit.VALUE_DECODE);
+            return new ExtValueStruct(unit.VALUE, unit.VALUE_DECODE);
         });
         
-        // NOTE: these services need to have already called 'initializeFromXML' or their equivalent in order to actually return anything
-        this.receiverService.getReceivers()
-            .then(recs => {
-                this.receivers = recs.map(rec => { 
-                    return new Receiver(rec); 
-                });
-                
-                return this.legalEntityService.getLegalEntities();
-            })
-            .then(les => {
-                this.legalEntities = les.map(le => { 
-                    return new LegalEntity(le); 
-                });
-                
-                return this.substanceService.getSubstances();
-            })
+        this.substanceService.getSubstances()
             .then(substances => {
                 this.substances = substances.map(sub => {
                     return new Substance(sub);
                 });
                 
-                //this.RAs = this.mapLEsToRecs();
                 this.initFromDB();
             })
-            .catch(err => console.log(err.stack));       
+            .catch(err => console.log(err.stack));
+                   
     }
     
     initFromDB() {
@@ -128,7 +109,7 @@ class ProductController {
                         }
                     })
                     .catch(err => {
-                        console.log(err);
+                        console.log(err.stack);
                     });
             });
         }
@@ -136,7 +117,7 @@ class ProductController {
     
     saveProduct($event) {
         if (this.selected._id) {
-            this.productService.updateProduct(this.selected).then(() => {
+            return this.productService.updateProduct(this.selected).then(() => {
                 this.$mdDialog.show(
                     this.$mdDialog
                         .alert()
@@ -147,23 +128,24 @@ class ProductController {
                         .targetEvent($event)
                 );
             })
-            .catch(err => console.log(err));
+            .catch(err => console.log(err.stack));
         }
         else { // new Product
-            this.productService.createProduct(this.selected).then(createdRow => {
+            return this.productService.createProduct(this.selected).then(createdRow => {
                 this.$mdDialog.show(
                     this.$mdDialog
                         .alert()
                         .clickOutsideToClose(true)
                         .title('Success')
-                        .content('Product Added Successfully!\r\n')
+                        .content('Product Added Successfully!')
                         .ok('Ok')
                         .targetEvent($event)
                 );
                 this.products.push(new Product(createdRow));
                 this.selectedIndex = this.products.length - 1;
                 this.selected = this.products[this.selectedIndex];
-            });
+            })
+            .catch(err => console.log(err.stack));
         }
     }
    
@@ -195,7 +177,7 @@ class ProductController {
             this.selectedIndex = null;
            
         })
-        .catch(err => console.log(err));
+        .catch(err => console.log(err.stack));
     }
     
     // recursively calls generateUniquePid until a unique PID is created
@@ -234,7 +216,7 @@ class ProductController {
             });
             this.productService.updateProduct(this.selected)
             .catch(err => {
-                console.log(err);
+                console.log(err.stack);
             });
         });
     }
@@ -256,7 +238,7 @@ class ProductController {
             _.pull(this.selected.PRODUCT_RA, ra);
             this.productService.updateProduct(this.selected)
             .catch(err => {
-                console.log(err);
+                console.log(err.stack);
             }); 
         });
     }
@@ -273,10 +255,33 @@ class ProductController {
         this.selected.setMetadataStatusValue(this.selected.METADATA_STATUS.VALUE_DECODE);
     }
     
-    updateUnitValue(ing) {
-        ing.setUnitValue(ing.UNIT.VALUE_DECODE);
+    updateFormulation() {
+        if (this.selected.FORMULATION_TYPE.VALUE === this.pickListService.getOtherValue()) {
+            this.selected.FORMULATION_TYPE.ATTR_VALUE = '';
+            this.selected.setFormulationTypeValueDecode('');
+        }
+        else {
+            delete this.selected.FORMULATION_TYPE.ATTR_VALUE;
+            this.selected.setFormulationTypeValueDecode(this.selected.FORMULATION_TYPE.VALUE);
+        }
     }
     
+    updateUnit(ing) {
+        if (ing.UNIT.VALUE === this.pickListService.getOtherValue()) {
+            ing.UNIT.ATTR_VALUE = '';
+            ing.setUnitValueDecode('');
+        }
+        else {
+            delete ing.UNIT.ATTR_VALUE;
+            ing.setUnitValueDecode(ing.UNIT.VALUE);
+        }
+    }
+    
+    getOtherValue() {
+        return this.pickListService.getOtherValue();
+    }
+    
+    // NOTE: We would like to have this load ONCE here, and then pass in the values anytime we need to show the ProductRA dialog, but passing in promises (in this case the getReceiversWithLegalEntityName), are NOT resolved in the controller, even if they already have a value. Need to use 'resolve' instead, which would wait and display the dialog only once the call had been resolved, but this is broken as per https://github.com/angular/material/issues/7400. Instead, we load receiverService into ProductRA directly, and call getReceiversWithLegalEntityName everytime we display the dialog
     showProductRADiag(productRA, $event) {
         this.$mdDialog.show({
             controller: ProductRAController,
@@ -311,36 +316,25 @@ class ProductController {
             }
         });
     }
-
-    viewProductJson($event) {
-        if (!_.isEmpty(this.selected)) {
-            let productJson = JSON.stringify(this.selected);            
-            this.$mdDialog.show(
-                    this.$mdDialog
-                        .alert()
-                        .clickOutsideToClose(true)
-                        .title('Product Database JSON')
-                        .content(productJson)
-                        .ok('Ok')
-                        .targetEvent($event)
-            );
-        }
-    }
     
     viewProductGHSTS($event) {
-        if (!_.isEmpty(this.selected)) {   
-            this.productService.getProductGHSTSById(this.selected._id)
-                .then(product_xml =>           
-                    this.$mdDialog.show(
-                            this.$mdDialog
-                                .alert()
-                                .clickOutsideToClose(true)
-                                .title('Product GHSTS JSON')
-                                .content(product_xml)
-                                .ok('Ok')
-                                .targetEvent($event)
-                    )
-            );
+        if (!_.isEmpty(this.selected)) {
+            this.saveProduct()
+                .then(() => {
+                    this.productService.getProductGHSTSById(this.selected._id)
+                        .then(product_xml => { 
+                            this.$mdDialog.show(
+                                    this.$mdDialog
+                                        .alert()
+                                        .clickOutsideToClose(true)
+                                        .title('Product GHSTS JSON')
+                                        .content(product_xml)
+                                        .ok('Ok')
+                                        .targetEvent($event)
+                            );
+                        });
+                })
+                .catch(err => console.log(err.stack));
         }
     }
         
@@ -367,11 +361,11 @@ class ProductController {
             .then(() => {
                 this.initFromDB();
             })
-            .catch(err => console.log(err));
+            .catch(err => console.log(err.stack));
     }
 }
 
-ProductController.$inject = ['$mdDialog', 'receiverService', 'legalEntityService', 'productService', 'substanceService', 'pickListService'];
+ProductController.$inject = ['$mdDialog', 'receiverService', 'productService', 'substanceService', 'pickListService'];
 
 export { ProductController };
 

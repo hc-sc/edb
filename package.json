@@ -13,12 +13,13 @@
     "url": "git+https://github.com/hc-sc/edb.git"
   },
   "author": "hc-sc",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/hc-sc/edb/issues"
   },
   "homepage": "https://github.com/hc-sc/edb#readme",
   "devDependencies": {
+    "electron-prebuilt": "1.2.1",
     "eslint": "^2.11.1"
   }
 }
