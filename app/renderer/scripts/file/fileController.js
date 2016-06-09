@@ -15,7 +15,6 @@ class FileController {
         this.selectedIndex = 0;
         this.filterText = null;
         this.getAllFiles();
-        //   this.metadataStatusOptions = null;
         this.metadataStatusOptions = this.pickListService.getMetadataStatusOptions();
     }
     toggleSidenav(componentId) {
@@ -200,7 +199,7 @@ class FileController {
     }
 }
 
-
 FileController.$inject = ['$mdDialog', '$mdSidenav', 'fileService', 'pickListService'];
+
 
 export { FileController }
