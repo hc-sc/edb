@@ -1,9 +1,11 @@
 import angular from 'angular';
+//import crypto from 'crypto';
+import {MD5GenController} from './MD5GenController.js';
 import {ValueStruct, IdentifierStruct} from '../common/sharedModel.js';
 import {FileRA, FileGeneric, File} from './fileModel.js'
 //import uuid from 'node-uuid';
 class FileController {
-    constructor($mdDialog, $mdSidenav, fileService,PickListService) {
+    constructor($mdDialog, $mdSidenav, fileService, PickListService) {
         this.fileService = fileService;
         this.$mdDialog = $mdDialog;
         this.$mdSidenav = $mdSidenav;
@@ -13,13 +15,13 @@ class FileController {
         this.selectedIndex = 0;
         this.filterText = null;
         this.getAllFiles();
-     //   this.metadataStatusOptions = null;
+        //   this.metadataStatusOptions = null;
         this.metadataStatusOptions = this.pickListService.getMetadataStatusOptions();
     }
-    toggleSidenav(componentId){  
+    toggleSidenav(componentId) {
         // toggle the side nave by component identifer   
-         this.$mdSidenav(componentId).toggle();  
-     }
+        this.$mdSidenav(componentId).toggle();
+    }
     // clear all fields
     createFile() {
         this.selected = { FILE_RA: [] };
@@ -126,6 +128,25 @@ class FileController {
             this.fileService.updateFile(this.selected);
         });
     }
+    generateMD(inputLetter) {
+        var crypto = require('crypto');
+        var md5 = crypto.createHash('md5').update(inputLetter).digest("hex");
+        return md5;
+    }
+    showMD5Diag(inputLetter, $event) {
+        this.$mdDialog.show({
+            controller: MD5GenController,// md controller
+            controllerAs: '_ctrl',
+            templateUrl: './scripts/file/MD5Gen.html',
+            parent: angular.element(document.body),
+            targetEvent: $event,
+            clickOutsideToClose: false,
+            locals: {
+                md5: inputLetter,
+                fileController: this
+            }
+        })
+    }
     addTestFile() {
         // read from sample ghsts and populate the database with legal entities.       
         this.fileService.addFileToDB().then(this.getAllFiles());
@@ -178,8 +199,8 @@ class FileController {
         };
     }
 }
-  
 
-FileController.$inject = ['$mdDialog','$mdSidenav', 'fileService', 'pickListService'];
+
+FileController.$inject = ['$mdDialog', '$mdSidenav', 'fileService', 'pickListService'];
 
 export { FileController }
