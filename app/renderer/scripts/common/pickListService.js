@@ -16,7 +16,8 @@ class PickListService {
 	getYesNoOptions() {
         return [
             {VALUE_DECODE: "Yes", VALUE: "Y"},		 	
-		 	{VALUE_DECODE: "No", VALUE: "N"}
+		 	{VALUE_DECODE: "No", VALUE: "N"},
+			{VALUE_DECODE: "Open", VALUE: "O"}
 		 	
         ];
     }
@@ -24,13 +25,17 @@ class PickListService {
 	getGEDocNumberTypeOptions() {
         return [
             {VALUE_DECODE: "Company ID", VALUE: "COMPID"},
+			{VALUE_DECODE: "Company ID 1", VALUE: "COMPID_1"},
+			{VALUE_DECODE: "Company ID 2", VALUE: "COMPID_2"},
 			{VALUE_DECODE: "other", VALUE: "other"}		
         ];
     }
 	
 	getRADocNumberTypeOptions() {
         return [
-            {VALUE_DECODE: "MRID", VALUE: "MRID"}		
+            {VALUE_DECODE: "MRID", VALUE: "MRID"},
+			{VALUE_DECODE: "PRMA", VALUE: "PRMA"},
+			{VALUE_DECODE: "other", VALUE: "other"}		
         ];
     }
     

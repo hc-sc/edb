@@ -3,16 +3,18 @@ import {ValueStruct, IdentifierStruct} from '../common/sharedModel.js';
 import {FileRA, FileGeneric, File} from './fileModel.js'
 //import uuid from 'node-uuid';
 class FileController {
-    constructor($mdDialog, $mdSidenav, fileService) {
+    constructor($mdDialog, $mdSidenav, fileService,PickListService) {
         this.fileService = fileService;
-        //  this.legalEntityService = LegalEntityService;
         this.$mdDialog = $mdDialog;
         this.$mdSidenav = $mdSidenav;
+        this.pickListService = PickListService;
         this.selected = null;
         this.files = [];
         this.selectedIndex = 0;
         this.filterText = null;
         this.getAllFiles();
+     //   this.metadataStatusOptions = null;
+        this.metadataStatusOptions = this.pickListService.getMetadataStatusOptions();
     }
     toggleSidenav(componentId){  
         // toggle the side nave by component identifer   
@@ -52,22 +54,7 @@ class FileController {
             );
         }
     }
-    /*
-    updateFile($event){
-                let self = this;
-            this.fileService.updateFile(this.selected).then(function (affectedRows) {
-                self.$mdDialog.show(
-                    self.$mdDialog
-                        .alert()
-                        .clickOutsideToClose(true)
-                        .title('Success')
-                        .content('Data Updated Successfully!')
-                        .ok('Ok')
-                        .targetEvent($event)
-                    );
-            });
-    }
-    */
+
     deleteFile($event) {
         let confirm = this.$mdDialog.confirm()
             .title('Are you sure?')
@@ -154,6 +141,11 @@ class FileController {
         //this.getAllFiles(); 
 
     }
+    /*
+        updateMetadataValue() {
+        this.selected.setMetadataStatusValue(this.selected.METADATA_STATUS.VALUE_DECODE);
+    }
+    */
     viewFileJson($event) {
         let self = this;
         if (this.selected != null && this.selected._id != null) {
@@ -188,6 +180,6 @@ class FileController {
 }
   
 
-FileController.$inject = ['$mdDialog','$mdSidenav', 'fileService'];
+FileController.$inject = ['$mdDialog','$mdSidenav', 'fileService', 'pickListService'];
 
 export { FileController }
