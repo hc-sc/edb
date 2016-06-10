@@ -22,6 +22,25 @@ class PickListService {
         ];
     }
 	
+	getSpecificRaIdOptions(){
+		return [
+            {VALUE_DECODE: "ID_RECEIVER_BVL", VALUE: "ID_RECEIVER_BVL"},		 	
+		 	{VALUE_DECODE: "ID_RECEIVER_PMRA", VALUE: "ID_RECEIVER_PMRA"},
+			{VALUE_DECODE: "ID_RECEIVER_APVMA", VALUE: "ID_RECEIVER_APVMA"},
+			{VALUE_DECODE: "ID_RECEIVER_IBAMA", VALUE: "ID_RECEIVER_IBAMA"}
+		 	
+        ];
+	}
+	
+	getGEDocReferenceTypeOptions() {
+        return [
+            {VALUE_DECODE: "document to replaced document", VALUE: "document to replaced document"},		 	
+		 	{VALUE_DECODE: "document to submitted document", VALUE: "document to submitted document"},
+			{VALUE_DECODE: "document to unchanged predecessor document", VALUE: "document to unchanged predecessor document"},
+			{VALUE_DECODE: "translation to document", VALUE: "translation to document"}	
+        ];
+    }
+	
 	getGEDocNumberTypeOptions() {
         return [
             {VALUE_DECODE: "Company ID", VALUE: "COMPID"},

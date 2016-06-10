@@ -121,7 +121,29 @@ class DocumentService {
                 doc.DOCUMENT_GENERIC[0].CONTENT_STATUS_HISTORY.forEach(csh => 
                     docGen.addContentStatusHistory(new ContentStatusHistory(new ValueStruct(csh.CONTENT_STATUS[0].VALUE[0], csh.CONTENT_STATUS[0].VALUE_DECODE[0]), csh.SUBMISSION_NUMBER[0]) )   
                 );            
-                //doc.REFERENCED_DOCUMENT.forEach(refDoc =>
+                //Build array of REFERENCED_DOCUMENT
+                // Need to check if this non mandatory element is present in your xml payload
+                if(doc.DOCUMENT_GENERIC[0].REFERENCED_DOCUMENT !== undefined){
+                      doc.DOCUMENT_GENERIC[0].REFERENCED_DOCUMENT.forEach(rdc => {
+                            //console.log("REFERENCED_DOCUMENT ====>"  + JSON.stringify(rdc));
+                            let geRefDoc = new ReferencedDocument();
+                            let refType = new ValueStruct(rdc.REFERENCE_TYPE[0].VALUE[0], rdc.REFERENCE_TYPE[0].VALUE_DECODE[0]);
+                    
+                            geRefDoc.REFERENCE_TYPE = refType;
+                            geRefDoc.INTERNAL =   (rdc.INTERNAL[0] === undefined ? null : rdc.INTERNAL[0]);
+                            geRefDoc.DOCUMENT_PID =  (rdc.DOCUMENT_PID[0] === undefined ? null : rdc.DOCUMENT_PID[0]);
+                            if(rdc.DOCUMENT_NUMBER !== undefined){                                  
+                                 geRefDoc.DOCUMENT_NUMBER = new DocumentNumber(new ValueStruct(rdc.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE[0].VALUE[0].attr$.Other_Value, rdc.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0]), rdc.DOCUMENT_NUMBER[0].IDENTIFIER[0]);                                    
+                            }   
+                         docGen.addReferencedDocument(geRefDoc);   
+                      }) /// 
+                    
+                }
+              
+               
+                
+                
+                
 			    //doc.RELATED_TO_SUBSTANCE.forEach(relSub => // rarely used or later      
                 
                 if(doc.DOCUMENT_GENERIC[0].DOCUMENT_NUMBER !== undefined){
@@ -137,10 +159,10 @@ class DocumentService {
                 docGen.DOCUMENT_TITLE               = doc.DOCUMENT_GENERIC[0].DOCUMENT_TITLE[0];  
                 docGen.DOCUMENT_AUTHOR              = doc.DOCUMENT_GENERIC[0].DOCUMENT_AUTHOR[0];
                 docGen.DOCUMENT_ISSUE_DATE          = doc.DOCUMENT_GENERIC[0].DOCUMENT_ISSUE_DATE[0];
-                docGen.DOCUMENT_OWNER               = doc.DOCUMENT_GENERIC[0].DOCUMENT_OWNER[0];
+                docGen.DOCUMENT_OWNER               = doc.DOCUMENT_GENERIC[0].DOCUMENT_OWNER[0];                // MUST BE array supported
                 docGen.PUBLISHED_INDICATOR          = doc.DOCUMENT_GENERIC[0].PUBLISHED_INDICATOR[0];
                 docGen.COMPLETE_DOCUMENT_SOURCE     = doc.DOCUMENT_GENERIC[0].COMPLETE_DOCUMENT_SOURCE[0];
-                docGen.TEST_LABORATORY              = doc.DOCUMENT_GENERIC[0].TEST_LABORATORY[0];
+                docGen.TEST_LABORATORY              = doc.DOCUMENT_GENERIC[0].TEST_LABORATORY[0];             // MUST BE array supported  
                 docGen.GXP_INDICATOR                = doc.DOCUMENT_GENERIC[0].GXP_INDICATOR[0];
                 docGen.TESTED_ON_VERTEBRATE         = doc.DOCUMENT_GENERIC[0].TESTED_ON_VERTEBRATE[0];
               
@@ -209,8 +231,8 @@ class DocumentService {
                     docu.addDocumentRA(docRA);
                })
                
-                console.log('---------------------JSON Model----------------\n' + JSON.stringify(docu));
-                console.log('------------------------GHSTS Format--------------------\n' + JSON.stringify(docu.toGHSTSJson()));
+               // console.log('---------------------JSON Model----------------\n' + JSON.stringify(docu));
+                //console.log('------------------------GHSTS Format--------------------\n' + JSON.stringify(docu.toGHSTSJson()));
                  // enable the following to insert into db.
                 self.createDocument(docu);  
             })

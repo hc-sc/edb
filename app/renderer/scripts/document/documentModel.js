@@ -15,15 +15,18 @@ class ReferencedDocument {
            this.REFERENCE_TYPE = {};          // of ValueStruct
            this.INTERNAL = null;
            this.DOCUMENT_PID = null;
+           this.DOCUMENT_NUMBER = new DocumentNumber();
            
         }
-    }  
+    } 
+    
     
     toGHSTSJson() {   
         return {
             REFERENCE_TYPE : this.REFERENCE_TYPE ,          
             INTERNAL : this.INTERNAL ,
-            DOCUMENT_PID : this.DOCUMENT_PID       
+            DOCUMENT_PID : this.DOCUMENT_PID,
+            DOCUMENT_NUMBER : this.DOCUMENT_NUMBER       
         };          
     } 
 }
@@ -89,12 +92,13 @@ class DocumentGeneric {
             // load from json
             Object.assign(this, json);
         }else{          
-            this.METADATA_STATUS = {};         // of ValueStruct		
+            this.METADATA_STATUS = {};         		
             this.DOCUMENT_PID =  null;
 			this.DOCUMENT_FAMILY_PID =  null;
 			this.DOCUMENT_FAMILY =  null;
-			this.CONTENT_STATUS_HISTORY = []   ;  // SubmissionIdentifierStruct
-			this.DOCUMENT_NUMBER =   [] ;	  // DocumentIdentifierStruct
+			this.CONTENT_STATUS_HISTORY = []   ;  
+            this.REFERENCED_DOCUMENT = [];
+			this.DOCUMENT_NUMBER =   [] ;	  
 			this.DOCUMENT_TITLE =   null;
 			this.DOCUMENT_AUTHOR =   null;
 			this.DOCUMENT_ISSUE_DATE =   null;
@@ -113,9 +117,9 @@ class DocumentGeneric {
          this.CONTENT_STATUS_HISTORY.push(contentStatusHistory);
      }
      
-    //  addReferencedDocument(referencedDocument){
-    //      this.REFERENCED_DOCUMENT.push(referencedDocument);
-    //  }
+     addReferencedDocument(referencedDocument){
+         this.REFERENCED_DOCUMENT.push(referencedDocument);
+     }
      
     //  addRelatedToSubstance(relatedToSubstance){
     //      this.RELATED_TO_SUBSTANCE.push(relatedToSubstance);
@@ -136,8 +140,8 @@ class DocumentGeneric {
         let documentNumberJson = [];
         this.DOCUMENT_NUMBER.forEach(docNum=> documentNumberJson.push(docNum));
         
-        // let referencedDocumentJson = [];
-        // this.REFERENCED_DOCUMENT.forEach(refDoc => referencedDocumentJson.push(refDoc));
+        let referencedDocumentJson = [];
+        this.REFERENCED_DOCUMENT.forEach(refDoc => referencedDocumentJson.push(refDoc));
         
         // let relatedToSubstanceJson = [];
         // this.RELATED_TO_SUBSTANCE.forEach(relSub => relatedToSubstanceJson.push(relSub));
@@ -157,6 +161,7 @@ class DocumentGeneric {
 				DOCUMENT_FAMILY_PID 	   :      this.DOCUMENT_FAMILY_PID ,	
 				DOCUMENT_FAMILY 		   :      this.DOCUMENT_FAMILY ,		
 				CONTENT_STATUS_HISTORY 	   :      contentStatusHistoryJson ,
+                REFERENCED_DOCUMENT        :      referencedDocumentJson,
 				DOCUMENT_NUMBER 		   :      documentNumberJson, 		
 				DOCUMENT_TITLE 			   :      this.DOCUMENT_TITLE ,		
 				DOCUMENT_AUTHOR 		   :      this.DOCUMENT_AUTHOR ,		

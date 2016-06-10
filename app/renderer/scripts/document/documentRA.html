@@ -5,7 +5,7 @@
             <md-button class="md-icon-button">
                 <md-icon class="material-icons" aria-label="Add Document RA">folder</md-icon>
             </md-button>
-            <h2>{{_ctrl.documentRA._toSpecificforRAId}} Document RA</h2>
+            <h2>{{_ctrl.documentRA._toSpecificforRAId}}</h2>
             <span flex></span>
             <md-button class="md-icon-button" ng-click="_ctrl.cancel()">
                 <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
@@ -14,6 +14,14 @@
     </md-toolbar>
     <md-dialog-content class='autoScroll'>
         <div class="md-dialog-content">
+            <div layout-gt-sm="row">                
+                   <md-input-container class="md-block" flex-gt-sm>
+                        <label>Specific RA ID</label>
+                        <md-select name="repeatSelectStatus" id="repeatSelectStatus" ng-model="_ctrl.documentRA._toSpecificforRAId" ng-change="_ctrl.updateSelectedSpecRAIdDecode()">
+                            <md-option ng-repeat="docRaSpec in _ctrl.specificRaIdOptions" value="{{docRaSpec.VALUE}}" ng-selected="{{_ctrl.documentRA._toSpecificforRAId == docRaSpec.VALUE}}">{{ docRaSpec.VALUE_DECODE }}</md-option>
+                        </md-select>  
+                    </md-input-container>                               
+            </div>
             <div layout-gt-sm="row">                
                    <md-input-container class="md-block" flex-gt-sm>
                         <label>Status</label>

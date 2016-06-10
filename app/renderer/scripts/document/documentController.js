@@ -1,7 +1,7 @@
 import angular from 'angular';
 import {DocumentRAController} from './documentRAController';
 import {ValueStruct} from '../common/sharedModel';
-import {ReferenceToFile, Document, DocumentRA}  from './documentModel';
+import {ReferencedDocument, ReferenceToFile, Document, DocumentRA}  from './documentModel';
 import uuid from 'node-uuid';
 import {_} from 'lodash';
 
@@ -26,6 +26,9 @@ class DocumentController {
         this.metadataStatusOptions = this.pickListService.getMetadataStatusOptions();
         
         this.geDocNumTypeOptions = this.pickListService.getGEDocNumberTypeOptions();
+        
+        this.geDocReferenceTypeOptions = this.pickListService.getGEDocReferenceTypeOptions();
+        
         // Load initial data
         this.getAlldocuments();       
         
@@ -108,7 +111,24 @@ class DocumentController {
             });
         }
     }
+    // REFERENCED_DOCUMENT
+    addReferencedDocument($event){
+         this.selected.DOCUMENT_GENERIC.REFERENCED_DOCUMENT.push(new ReferencedDocument());  
+    }
     
+    deleteReferencedDocument(refDoc, $event){        
+          _.pull(this.selected.DOCUMENT_GENERIC.REFERENCED_DOCUMENT, refDoc);           
+    }
+    
+    updateSelectedRefTypeDecode(){
+        
+    }
+    
+    updateSelectedDocTypeDecode(){
+        
+    }
+    
+    // REFERENCED_TO_FILE
     // get a list of file to be referenced in Document Generic
     getFileReferencedOptions(){
         let self = this;
@@ -207,7 +227,6 @@ class DocumentController {
     // For Document RA
      addDocumentRA($event){
          let docRa = new DocumentRA();
-         docRa.toSpecificForRAId = 'ID_RECEIVER_BVL';  // hard code for new document RA for now
          this.showDocumentRA_Diag(docRa, $event);
      }
      

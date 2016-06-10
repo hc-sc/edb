@@ -103,8 +103,53 @@
                        
                     </div>
                     
-                     
-                     <md-toolbar>
+                 <md-toolbar>
+                        <div class="md-toolbar-tools">
+                            <h2>Reference Documents</h2>
+                            <span flex></span>
+                            <md-button class="md-icon-button" ng-click="_ctrl.addReferencedDocument()">
+                                <md-icon class="material-icons" aria-label="Add Reference Document">add_circle</md-icon>
+                            </md-button>
+                        </div>
+                 </md-toolbar>  
+                 <md-card class="inset" ng-repeat=" refDoc in _ctrl.selected.DOCUMENT_GENERIC.REFERENCED_DOCUMENT track by $index">  
+                      <div layout-gt-sm="row">   
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>INTERNAL</label>
+                            <input ng-model="refDoc.INTERNAL" type="text">
+                        </md-input-container>        
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Reference Type</label>
+                            <md-select name="repeatRefType" id="repeatRefType" ng-model="refDoc.REFERENCE_TYPE.VALUE" ng-change="_ctrl.updateSelectedRefTypeDecode()">
+                                <md-option ng-repeat="refType in _ctrl.geDocReferenceTypeOptions" value="{{refType.VALUE}}" ng-selected="{{refDoc.REFERENCE_TYPE.VALUE == refType.VALUE}}">{{ refType.VALUE_DECODE }}</md-option>
+                            </md-select>  
+                        </md-input-container>
+                       
+                    </div>                               
+                    <div layout-gt-sm="row">
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Document PID</label>
+                            <input ng-model="refDoc.DOCUMENT_PID" type="text">
+                        </md-input-container>                       
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Document Number</label>
+                            <md-select name="repeatDocType" id="repeatDocType" ng-model="refDoc.DOCUMENT_NUMBER.DOCUMENT_NUMBER_TYPE.VALUE" ng-change="_ctrl.updateSelectedDocTypeDecode()">
+                                <md-option ng-repeat="docType in _ctrl.geDocNumTypeOptions" value="{{docType.VALUE}}" ng-selected="{{refDoc.DOCUMENT_NUMBER.DOCUMENT_NUMBER_TYPE.VALUE == docType.VALUE}}">{{ docType.VALUE_DECODE }}</md-option>
+                            </md-select>  
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Identifier</label>
+                            <input ng-model="refDoc.IDENTIFIER" type="text">
+                        </md-input-container>
+                        <div layout-align="end">
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteReferencedDocument(refDoc, $event)">Delete</md-button>
+                            </md-input-container>
+                        </div>               
+                    </div>         
+                </md-card>
+                    
+                 <md-toolbar>
                         <div class="md-toolbar-tools">
                             <h2>Reference To Files</h2>
                             <span flex></span>
@@ -112,13 +157,7 @@
                                 <md-icon class="material-icons" aria-label="Add Reference File">add_circle</md-icon>
                             </md-button>
                         </div>
-                    </md-toolbar>
-                    <!--<md-list>
-                        <md-list-item ng-repeat=" file in _ctrl.selected.DOCUMENT_GENERIC.REFERENCED_TO_FILE track by $index"  class="noright">
-                            <md-icon class="material-icons" aria-label="folder"> folder </md-icon>
-                            <p>{{ file._toFileId }}</p>                                                                                                  
-                        </md-list-item>
-                    </md-list>-->
+                 </md-toolbar>  
                  <md-card class="inset" ng-repeat=" file in _ctrl.selected.DOCUMENT_GENERIC.REFERENCED_TO_FILE track by $index">                        
                     <div layout-gt-sm="row">  
                         <md-input-container class="md-block" flex-gt-sm> 
@@ -131,10 +170,8 @@
                             <md-input-container class="md-block" flex-gt-sm>
                                 <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteReferencedFile(file._toFileId, $event)">Delete</md-button>
                             </md-input-container>
-                        </div>
-                        
-                    </div>
-                    
+                        </div>               
+                    </div>         
                 </md-card>
                 
                    

@@ -22,7 +22,7 @@ class FileService {
     getFiles() {
         let deferred = this.$q.defer();
         this.files.find({}, function (err, rows) {
-            console.log(rows);
+            //console.log(rows);
             if (err) deferred.reject(err);
             deferred.resolve(rows);
         });
