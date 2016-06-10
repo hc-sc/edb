@@ -11,18 +11,38 @@ export class DossierController {
         this.dossierService = dossierService;
         this.pickListService = pickListService;
         this.dossier = {};
-        
+
         this.initFromDB();
-        
+
         this.applicationTypes = pickListService.getApplicationTypeOptions().map(appType => {
-            return new ExtValueStruct(appType.VALUE, appType.VALUE_DECODE); 
+            return new ExtValueStruct(appType.VALUE, appType.VALUE_DECODE);
         });
-        
+
         this.regulatoryTypes = pickListService.getRegulatoryTypeOptions().map(regType => {
             return new ExtValueStruct(regType.VALUE, regType.VALUE_DECODE);
         });
+
+        // this.pickListService.getType('EXTENSION_TYPE_APPLICATION_TYPE')
+        //     .then(appTypes => {
+        //         console.log('results', appTypes)
+        //         this.applicationTypes = appTypes.map(appType => {
+        //             return new ExtValueStruct(
+        //                 appType.VALUE,
+        //                 appType.VALUE_DECODE);
+        //         });
+        //
+        //         return this.pickListService.getType('EXTENSION_TYPE_REGULATORY_TYPE');
+        //     })
+        //     .then(regTypes => {
+        //         this.regulatoryTypes = regTypes.map(regType => {
+        //             return new ExtValueStruct(
+        //                 regType.VALUE,
+        //                 regType.VALUE_DECODE);
+        //         });
+        //     })
+        //     .catch(err => console.log(err.stack));
     }
-    
+
     initFromDB() {
         this.dossierService.getDossiers()
             .then(dossiers => {
@@ -33,7 +53,7 @@ export class DossierController {
             })
             .catch(err => console.log(err.stack));
     }
-    
+
     saveDossier($event) {
         if (this.dossier._id) {
             return this.dossierService.updateDossier(this.dossier)
@@ -68,22 +88,22 @@ export class DossierController {
                 .catch(err => console.log(err.stack));
         }
     }
-    
+
     addSubmission() {
         this.showSubmissionDiag(new Submission());
     }
-    
+
     saveSubmission(sub) {
         if (!_.includes(this.dossier.SUBMISSION, sub)) {
             this.dossier.addSubmission(sub);
         }
         this.dossierService.updateDossier(this.dossier);
     }
-    
+
     addReferencedDossier() {
         this.dossier.addReferencedDossier(new ReferencedDossier());
     }
-    
+
     deleteReferencedDossier(rd, $event) {
         const confirm = this.$mdDialog.confirm()
             .title('Are you sure?')
@@ -91,7 +111,7 @@ export class DossierController {
             .ok('Yes')
             .cancel('No')
             .targetEvent($event)
-            
+
         this.$mdDialog.show(confirm)
             .then(() => {
                 _.pull(this.dossier.REFERENCED_DOSSIER, rd);
@@ -99,11 +119,11 @@ export class DossierController {
             })
             .catch(err => console.log(err.stack));
     }
-    
+
     addDossierRA() {
         this.dossier.addDossierRA(new DossierRA());
     }
-    
+
     deleteDossierRA(dra, $event) {
         const confirm = this.$mdDialog.confirm()
             .title('Are you sure?')
@@ -111,7 +131,7 @@ export class DossierController {
             .ok('Yes')
             .cancel('No')
             .targetEvent($event)
-            
+
         this.$mdDialog.show(confirm)
             .then(() => {
                 _.pull(this.dossier.DOSSIER_RA, dra);
@@ -119,7 +139,7 @@ export class DossierController {
             })
             .catch(err => console.log(err.stack));
     }
-    
+
     updateRegulatoryType(dra) {
         if (dra.REGULATORY_TYPE.VALUE === this.pickListService.getOtherValue()) {
             dra.REGULATORY_TYPE.ATTR_VALUE = '';
@@ -130,7 +150,7 @@ export class DossierController {
             dra.setRegulatoryValueDecode(dra.REGULATORY_TYPE.VALUE);
         }
     }
-    
+
     updateApplicationType(dra) {
         if (dra.APPLICATION_TYPE.VALUE === this.pickListService.getOtherValue()) {
             dra.APPLICATION_TYPE.ATTR_VALUE = '';
@@ -141,7 +161,7 @@ export class DossierController {
             dra.setApplicationValueDecode(dra.APPLICATION_TYPE.VALUE);
         }
     }
-    
+
     showSubmissionDiag(sub, $event) {
         this.$mdDialog.show({
             controller: SubmissionController,
@@ -156,7 +176,7 @@ export class DossierController {
             }
         });
     }
-    
+
     viewDossierGHSTS($event) {
         if (!_.isEmpty(this.dossier)) {
             this.saveDossier()
@@ -177,7 +197,7 @@ export class DossierController {
                 .catch(err => console.log(err.stack));
         }
     }
-    
+
     initializeDossierFromXml() {
         this.dossierService.initializeDossiers()
             .then(() => {
