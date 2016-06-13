@@ -125,7 +125,13 @@ class DocumentController {
     }
     
     updateSelectedDocTypeDecode(){
+         let selectedDocNumTypeValue = this.selected.DOCUMENT_GENERIC.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE.VALUE;
         
+        let docNumTypeValueDecode = _(this.geDocNumTypeOptions)
+                                        .filter(c => c.VALUE == selectedDocNumTypeValue)
+                                        .map(c => c.VALUE_DECODE)
+                                        .value()[0];
+        this.selected.DOCUMENT_GENERIC.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE.VALUE_DECODE = docNumTypeValueDecode;
     }
     
     // REFERENCED_TO_FILE
