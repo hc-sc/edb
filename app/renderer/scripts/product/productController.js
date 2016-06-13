@@ -3,7 +3,7 @@ import { Ingredient, Product } from './productModel';
 import { ProductRAController } from '../product_ra/productRAController';
 import { ProductRA } from '../product_ra/productRAModel';
 import { Substance } from '../substance/substanceModel';
-import { ExtValueStruct } from '../common/sharedModel';
+import { ValueStruct, ExtValueStruct } from '../common/sharedModel';
 import { ListDialogController } from '../common/listDialogController';
 import { generatePid } from '../common/pid';
 import _ from 'lodash';
@@ -25,21 +25,47 @@ class ProductController {
         this.legalEntities = [];
         this.substances = [];
 
-        this.metadataStatusOptions = this.pickListService.getMetadataStatusOptions();
-        this.formulations = this.pickListService.getFormulationTypeOptions().map(formulation => {
-            return new ExtValueStruct(formulation.VALUE, formulation.VALUE_DECODE);
-        });
-        this.units = this.pickListService.getUnitTypeOptions().map(unit => {
-            return new ExtValueStruct(unit.VALUE, unit.VALUE_DECODE);
-        });
+        // this.metadataStatusOptions = this.pickListService.getMetadataStatusOptions();
+        // this.formulations = this.pickListService.getFormulationTypeOptions().map(formulation => {
+        //     return new ExtValueStruct(formulation.VALUE, formulation.VALUE_DECODE);
+        // });
+        // this.units = this.pickListService.getUnitTypeOptions().map(unit => {
+        //     return new ExtValueStruct(unit.VALUE, unit.VALUE_DECODE);
+        // });
 
+        this.metdataStatusOptions = this.pickListService.getType('TYPE_')
         this.pickListService.getType('TYPE_METADATA_STATUS')
-            .then(results => {
-                console.log(results);
-            })
-            .catch(err => console.log(err.stack));
+            .then(metadataStatusOptions => {
+                this.metadataStatusOptions = metadataStatusOptions.map(option => {
+                    return new ValueStruct(
+                        option.VALUE,
+                        option.VALUE_DECODE
+                    );
+                });
 
-        this.substanceService.getSubstances()
+                return this.pickListService.getType('EXTENSION_TYPE_FORMULATION_TYPE');
+            })
+            .then(formulationTypes => {
+                this.formulations = formulationTypes.map(type => {
+                    return new ExtValueStruct(
+                        type.VALUE,
+                        type.VALUE_DECODE
+                    );
+                });
+
+                return this.pickListService.getType('EXTENSION_TYPE_UNIT');
+            })
+            .then(unitTypes => {
+                console.log(unitTypes);
+                this.units = unitTypes.map(type => {
+                    return new ExtValueStruct(
+                        type.VALUE,
+                        type.VALUE_DECODE
+                    );
+                });
+
+                return this.substanceService.getSubstances()
+            })
             .then(substances => {
                 this.substances = substances.map(sub => {
                     return new Substance(sub);
@@ -48,8 +74,7 @@ class ProductController {
                 this.initFromDB();
             })
             .catch(err => console.log(err.stack));
-
-    }
+        }
 
     initFromDB() {
         this.productService.getProducts().then(dbProducts => {
