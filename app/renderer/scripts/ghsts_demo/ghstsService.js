@@ -3,18 +3,31 @@ import {ContactPerson, ContactAddress, LegalEntity} from '../legal_entity/legalE
 import {Receiver, Sender} from '../receiver/receiverModel.js';
 import {ValueStruct} from '../common/sharedModel.js';
 import {Product} from '../product/productModel.js';
-import { Submission } from '../submission/submissionModel';
 import { Dossier } from '../dossier/dossierModel';
+import { Substance, SubstanceIdentifierStruct } from '../substance/substanceModel';
+
 
 const outputFile = './app/renderer/data/DemoGHSTS.xml';
 
 class GhstsService {
-    constructor(ReceiverService, LegalEntityService, ProductService, SubmissionService, DossierService) {
+    constructor(ReceiverService, LegalEntityService, ProductService, DossierService, SubstanceService) {
         this.receiverService = ReceiverService;
         this.legalEntityService = LegalEntityService;
         this.productService = ProductService;
-        this.submissionService = SubmissionService;
         this.dossierService = DossierService;
+        this.substanceService = SubstanceService; 
+    }
+    
+    loadXml() {
+        Promise.all([
+            this.receiverService.initializeReceivers(),
+            this.legalEntityService.initializeLE(),
+            this.productService.initializeProducts(),
+            this.dossierService.initializeDossiers(),
+            this.substanceService.initializeSubstances()
+        ])
+        .then(() => console.log("Successfully loaded submission"))
+        .catch(err => console.log(err.stack));
     }
             
     assembleDemoGHSTS(){          
@@ -45,18 +58,21 @@ class GhstsService {
                 return this.productService.getProducts();
             })
             .then(products => {
+                console.log(products);
                 ghsts.setProduct(new Product(products[0]).toGhstsJson());
                 
                 return this.dossierService.getDossiers();
             })
             .then(dossiers => {
                 ghsts.setDossier(new Dossier(dossiers[0]).toGhstsJson());
-                  
-                return this.submissionService.getAllSubmissions();
-            })
-            .then(submissions => {
-                ghsts.addSubmission(new Submission(submissions[0]).toGhstsJson());
                 
+                return this.substanceService.getSubstances();
+            })
+            .then(substances => {
+                for (const substance of substances) {
+                    ghsts.addSubstance(new Substance(substance).toGHSTSJson());    
+                }
+                                
                 return ghsts.writeXML(outputFile);
             })
             .then(() => {
@@ -65,7 +81,7 @@ class GhstsService {
     }        
 }
 
-GhstsService.$inject = [ 'receiverService', 'legalEntityService', 'productService', 'submissionService', 'dossierService'];
+GhstsService.$inject = [ 'receiverService', 'legalEntityService', 'productService', 'dossierService', 'substanceService'];
 
 export { GhstsService };
 

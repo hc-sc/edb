@@ -125,7 +125,7 @@ class DocumentService {
                 // Need to check if this non mandatory element is present in your xml payload
                 if(doc.DOCUMENT_GENERIC[0].REFERENCED_DOCUMENT !== undefined){
                       doc.DOCUMENT_GENERIC[0].REFERENCED_DOCUMENT.forEach(rdc => {
-                            //console.log("REFERENCED_DOCUMENT ====>"  + JSON.stringify(rdc));
+                            console.log("REFERENCED_DOCUMENT ====>"  + JSON.stringify(rdc));
                             let geRefDoc = new ReferencedDocument();
                             let refType = new ValueStruct(rdc.REFERENCE_TYPE[0].VALUE[0], rdc.REFERENCE_TYPE[0].VALUE_DECODE[0]);
                     
@@ -231,8 +231,10 @@ class DocumentService {
                     docu.addDocumentRA(docRA);
                })
                
-               // console.log('---------------------JSON Model----------------\n' + JSON.stringify(docu));
-                //console.log('------------------------GHSTS Format--------------------\n' + JSON.stringify(docu.toGHSTSJson()));
+
+                console.log('---------------------JSON Model----------------\n' + JSON.stringify(docu));
+                console.log('------------------------GHSTS Format--------------------\n' + JSON.stringify(docu.toGHSTSJson()));
+
                  // enable the following to insert into db.
                 self.createDocument(docu);  
             })

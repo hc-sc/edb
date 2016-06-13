@@ -1,12 +1,15 @@
 import Nedb from 'nedb';
 import xml2js from 'xml2js';
-import {GHSTS} from '../common/ghsts.js'
+import {GHSTS} from '../common/ghsts.js';
 import {ValueStruct} from '../common/sharedModel.js';
-import {Receiver, Sender} from './receiverModel.js'
+import {Receiver, Sender} from './receiverModel.js';
+import { LegalEntity } from '../legal_entity/legalEntityModel';
+import _ from 'lodash';
 
 class ReceiverService {
-    constructor($q) {
+    constructor($q, legalEntityService) {
         this.$q = $q;
+        this.legalEntityService = legalEntityService;
         this.receivers = new Nedb({ filename: __dirname + '/db/receivers', autoload: true });
     }
 
@@ -38,11 +41,45 @@ class ReceiverService {
         });
         return deferred.promise;
     }
+    
+    getRAsWithLegalEntityName() {
+        let legalEntities = [];
+        let receivers = [];
+
+        return this.legalEntityService.getLegalEntities()
+            .then(les => {
+                legalEntities = les.map(le => {
+                    return le;
+                });
+                
+                return this.getReceivers();
+            })
+            .then(res => {
+                receivers = res.map(re => {
+                    return re;
+                });
+                
+                let receiversWithNames = [];
+                
+                for (const rec of receivers) {
+                    for (const le of legalEntities) {
+                        if (le._identifier === rec._toLegalEntityId) {
+                            receiversWithNames.push({
+                                xsId: rec._identifier,
+                                name: le.LEGALENTITY_NAME
+                            });
+                            
+                            break;
+                        }
+                    }
+                }
+                return receiversWithNames;
+            });
+    }
 
     createReceiver(Receiver) {
         let deferred = this.$q.defer();
         this.receivers.insert(Receiver, function (err, result) {
-            console.log(err)
             if (err) deferred.reject(err);
             deferred.resolve(result);
         });
@@ -53,7 +90,6 @@ class ReceiverService {
         let deferred = this.$q.defer();
         this.receivers.remove({ '_id': id }, function (err, res) {
             if (err) deferred.reject(err);
-            console.log(res);
             deferred.resolve(res.affectedRows);
         });
         return deferred.promise;
@@ -93,7 +129,7 @@ class ReceiverService {
         let ghsts = new GHSTS("./app/renderer/data/ghsts.xml");
         let promise = ghsts.readObjects();
         let self = this;
-        promise.then(function (contents) {
+        return promise.then(function (contents) {
             let entities = ghsts.receivers;
             entities.forEach(rcvr => {
                 // convert GHSTS json to receivers objects
@@ -113,15 +149,12 @@ class ReceiverService {
                 sender.REMARK =  (rcvr.SENDER[0].REMARK[0] === undefined ? null : rcvr.SENDER[0].REMARK[0]);
                 receiver.addSender(sender);                
 
-                console.log('---------------------JSON Model----------------\n' + JSON.stringify(receiver));
-                console.log('------------------------GHSTS Format--------------------\n' + JSON.stringify(receiver.toGHSTSJson()));
                 // enable the following to insert into db.
                 self.createReceiver(receiver);
 
-            }).catch(function (e) {
-                console.log(e);
-            })
-        });
+            });
+        })
+        .catch(err => console.log(err.stack));
     }
 
     _createSampleReceiver() {
@@ -151,7 +184,7 @@ class ReceiverService {
 
 }
 
-ReceiverService.$inject = ['$q'];
+ReceiverService.$inject = ['$q', 'legalEntityService'];
 
 export { ReceiverService }
 

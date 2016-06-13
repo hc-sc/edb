@@ -1,0 +1,25 @@
+{
+  "name": "oecd-edossier-builder",
+  "version": "1.0.0",
+  "description": "eDB was commissioned by PMRA to provide desktop tooling that builds Regulatory Submissions that conform to the [Global Harmonised Submission Transport Standard](http://www.oecd.org/chemicalsafety/submission-transport-standard/) (GHSTS).",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "cd app && npm install && cd ..",
+    "start": "electron app",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hc-sc/edb.git"
+  },
+  "author": "hc-sc",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/hc-sc/edb/issues"
+  },
+  "homepage": "https://github.com/hc-sc/edb#readme",
+  "devDependencies": {
+    "electron-prebuilt": "1.2.1",
+    "eslint": "^2.11.1"
+  }
+}

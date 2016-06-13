@@ -1,7 +1,7 @@
 import angular from 'angular';
 import {DocumentRAController} from './documentRAController';
 import {ValueStruct} from '../common/sharedModel';
-import {ReferencedDocument, ReferenceToFile, Document, DocumentRA}  from './documentModel';
+import {DocumentNumber, ReferencedDocument, ReferenceToFile, Document, DocumentRA}  from './documentModel';
 import uuid from 'node-uuid';
 import {_} from 'lodash';
 
@@ -22,6 +22,9 @@ class DocumentController {
         
         // Load options for File selects 
         this.getFileReferencedOptions();
+        // options for metadata status
+        this.metadataStatusOptions = this.pickListService.getMetadataStatusOptions();
+        
         // options for metadata status
         this.metadataStatusOptions = this.pickListService.getMetadataStatusOptions();
         
@@ -113,15 +116,52 @@ class DocumentController {
     }
     // REFERENCED_DOCUMENT
     addReferencedDocument($event){
-         this.selected.DOCUMENT_GENERIC.REFERENCED_DOCUMENT.push(new ReferencedDocument());  
+        let newRefDocument = new ReferencedDocument();
+        // let RefType =  new ValueStruct("translation to document", "translation to document");
+        // let docNumType = new ValueStruct("Company ID", "COMPID"); 
+        // let newDocNumber = new DocumentNumber(docNumType, "");
+        // newRefDocument.REFERENCE_TYPE = RefType;
+        // newRefDocument.INTERNAL = "true";
+        // newRefDocument.DOCUMENT_PID = "123";
+        // newRefDocument.DOCUMENT_NUMBER = newDocNumber;
+        
+         
+        this.selected.DOCUMENT_GENERIC.REFERENCED_DOCUMENT.push(newRefDocument);  
     }
     
     deleteReferencedDocument(refDoc, $event){        
           _.pull(this.selected.DOCUMENT_GENERIC.REFERENCED_DOCUMENT, refDoc);           
     }
     
-    updateSelectedRefTypeDecode(){
+
+    updateSelectedRefTypeDecode(refIndex){
+        let selectedRefTypeValue = this.selected.DOCUMENT_GENERIC.REFERENCED_DOCUMENT[refIndex].REFERENCE_TYPE.VALUE;
+       
+        let refTypeValueDecode = _(this.geDocReferenceTypeOptions)
+                                         .filter(c => c.VALUE == selectedRefTypeValue)
+                                        .map(c => c.VALUE_DECODE)
+                                        .value()[0];
+       this.selected.DOCUMENT_GENERIC.REFERENCED_DOCUMENT[refIndex].REFERENCE_TYPE.VALUE_DECODE = refTypeValueDecode;
+     
+    }
+    
+    updateSelectedRefDocTypeDecode(docIndex){
+        let selectedDocNumTypeValue = this.selected.DOCUMENT_GENERIC.REFERENCED_DOCUMENT[docIndex].DOCUMENT_NUMBER.DOCUMENT_NUMBER_TYPE.VALUE;
         
+        let docNumTypeValueDecode = _(this.geDocNumTypeOptions)
+                                        .filter(c => c.VALUE == selectedDocNumTypeValue)
+                                        .map(c => c.VALUE_DECODE)
+                                         .value()[0];
+        this.selected.DOCUMENT_GENERIC.REFERENCED_DOCUMENT[docIndex].DOCUMENT_NUMBER.DOCUMENT_NUMBER_TYPE.VALUE_DECODE = docNumTypeValueDecode;
+       
+}
+    // DOCUMENT_NUMBER
+    addDocumentNumber($event){
+        
+    }
+    
+    deleteDocumentNumber(refDoc, $event){        
+               
     }
     
     updateSelectedDocTypeDecode(){
@@ -211,7 +251,58 @@ class DocumentController {
                                 .ok('Yes')
                                 .cancel('No')
                                 .targetEvent($event);
+        this.$mdDialog.show(confirm).then(() => {
+            let self = this;
+            self.documentService.deleteDocument(self.selected._id)
+        })
+     }
+    // For Document Generic
+    
+    saveDocument($event) {   
+        // reset form state
+        this._setFormPrestine($event);
+                     
+        let self = this;
+        if (this.selected != null && this.selected._id != null) {
+            this.documentService.updateDocument(this.selected).then(function (affectedRows) {
+                self.$mdDialog.show(
+                    self.$mdDialog
+                        .alert()
+                        .clickOutsideToClose(true)
+                        .title('Success')
+                        .content('Data Updated Successfully!')
+                        .ok('Ok')
+                        .targetEvent($event)
+                );
+            });
+        }
+        else {            
+            this.documentService.createDocument(this.selected).then(affectedRows => {
+                self.$mdDialog.show(
+                    self.$mdDialog
+                        .alert()
+                        .clickOutsideToClose(true)
+                        .title('Success')
+                        .content('Data Added Successfully!')
+                        .ok('Ok')
+                        .targetEvent($event)
+                );
+                
+                // refresh the le list
+                self.getAlldocuments();
+            });
+        }
+    }
+    
+     deleteDocument($event) {
+        let confirm = this.$mdDialog.confirm()
+                                .title('Are you sure?')
+                                .content('Are you sure you want to delete this Document?')
+                                .ok('Yes')
+                                .cancel('No')
+                                .targetEvent($event);
         
+
         this.$mdDialog.show(confirm).then(() => {
             let self = this;
             self.documentService.deleteDocument(self.selected._id)

@@ -6,12 +6,7 @@
         "node": true
     },
     "extends": "eslint:recommended",
-    "installedESLint": true,
     "parserOptions": {
-        "ecmaFeatures": {
-            "experimentalObjectRestSpread": true,
-            "jsx": true
-        },
         "sourceType": "module"
     },
     "rules": {
@@ -20,9 +15,11 @@
             4
         ],
         "semi": [
-            2,
+            1,
             "always"
         ],
-        "no-console": 0
+        "no-console": 1,
+        "no-unused-vars": 1,
+        "no-debugger": 1
     }
 }

@@ -3,9 +3,7 @@ import xml2js from 'xml2js';
 import { GHSTS } from '../common/ghsts';
 import { Ingredient, Product } from './productModel';
 import { ProductRA, AdminNumber } from '../product_ra/productRAModel';
-//import {Dossier} from '../dossier/dossierModel.js';
-//import {Submission} from '../submission/submissionModel.js';
-import { ValueStruct } from '../common/sharedModel';
+import { ValueStruct, ExtValueStruct } from '../common/sharedModel';
 
 class ProductService {
     constructor($q) {        
@@ -74,16 +72,15 @@ class ProductService {
         return deferred.promise;
     }
     
-    // the following are demo related methods.  can be moved to a dedicated test class later    
     getProductGHSTSById(id) {
         // return GHSTS xml from json. 
         let deferred = this.$q.defer();
         this.productsDb.find({ '_id': id }, (err, results) => {
             if (err) deferred.reject(err);  
                     
-            // create Product based on productJSON           
+            // create Product based on productJSON 
             const product = new Product(results[0]);
-            
+
             // convert to XML
             const builder = new xml2js.Builder({
                 rootName: 'PRODUCT', 
@@ -91,85 +88,120 @@ class ProductService {
             });
             
             const xml = builder.buildObject(product.toGhstsJson());
-            deferred.resolve(xml);        
+            deferred.resolve(xml);    
         });       
         return deferred.promise;
     }
 
-//********************** Testing/Stub/Mock functions below ********************
-    initializeProductFromXml(){
+    initializeProducts(){
         // read from sample ghsts and populate the database with product node.
         let obj_ghsts = new GHSTS("./app/renderer/data/ghsts.xml");     
-        return obj_ghsts.readObjects().then(() => {
-            let rawP = obj_ghsts.product[0];
-            // convert GHSTS json to the product object
-            // xml2js' use-and-abuse array setting is on to play safe for now, 
-            // hence the default array references.   
-            let mds = new ValueStruct(rawP.METADATA_STATUS[0].VALUE[0], rawP.METADATA_STATUS[0].VALUE_DECODE[0]);
-            let ftype = null;
-            if (rawP.FORMULATION_TYPE[0].VALUE[0].attr$){
-                ftype = new ValueStruct(
-                                rawP.FORMULATION_TYPE[0].VALUE[0].attr$.Other_Value,// until Extensible structs are done VALUE[0]
-                                rawP.FORMULATION_TYPE[0].VALUE_DECODE[0] 
-                             );
-            }else {
-                ftype = new ValueStruct(
-                                rawP.FORMULATION_TYPE[0].VALUE[0],
-                                rawP.FORMULATION_TYPE[0].VALUE_DECODE[0] 
-                             );
-             }
-            //let obj_Doss = new Dossier(obj_ghsts.PRODUCT.DOSSIER);
-            let product = new Product();
-            product.METADATA_STATUS = mds;
-            product.FORMULATION_TYPE = ftype === null ? 
-                                           {'ERROR':'Formulation Type'} :
-                                           ftype;
-            let doss = {}; //empty dossier until Dossier is finised new Dossier();
-            
-            product.PRODUCT_PID = rawP.PRODUCT_PID[0];
-            product.GENERIC_PRODUCT_NAME = rawP.GENERIC_PRODUCT_NAME[0];
-            rawP.PRODUCT_RA.forEach(rawPRA =>{
-                // create and populate an RA object using raw data
-                let pra = new ProductRA();
-                pra.toReceiverRaId = rawPRA.attr$.To_Specific_for_RA_Id;
-                if (rawPRA.PRODUCT_NAME[0] === undefined){
-                    pra.PRODUCT_NAME = null;
+        return obj_ghsts.readObjects()
+            .then(() => {
+                const rawProduct = obj_ghsts.product[0];
+                
+                let product = new Product();
+                
+                product.METADATA_STATUS = new ValueStruct(rawProduct.METADATA_STATUS[0].VALUE[0], rawProduct.METADATA_STATUS[0].VALUE_DECODE[0]);
+                product.PRODUCT_PID = rawProduct.PRODUCT_PID[0];
+                product.GENERIC_PRODUCT_NAME = rawProduct.GENERIC_PRODUCT_NAME[0];
+                
+                // non-mandatory field
+                if (rawProduct.FORMULATION_TYPE) {
+                    if (typeof rawProduct.FORMULATION_TYPE[0].VALUE[0] === 'object') {
+                        product.FORMULATION_TYPE = new ExtValueStruct(
+                            rawProduct.FORMULATION_TYPE[0].VALUE[0]._,
+                            rawProduct.FORMULATION_TYPE[0].VALUE_DECODE[0],
+                            rawProduct.FORMULATION_TYPE[0].VALUE[0].attr$.Other_Value
+                        );
+                    }
+                    else {
+                        product.FORMULATION_TYPE = new ExtValueStruct(
+                            rawProduct.FORMULATION_TYPE[0].VALUE[0],
+                            rawProduct.FORMULATION_TYPE[0].VALUE_DECODE[0]
+                        );
+                    }
                 }
-                else{
-                    pra.PRODUCT_NAME = rawPRA.PRODUCT_NAME[0];
+                else {
+                    product.FORMULATION_TYPE = new ExtValueStruct();
                 }
 
-                // loop over the raw admin numbers and add to pra
-                rawPRA.ADMIN_NUMBER.forEach(rawAN =>{
-                    // create and populate an Admin Number object using raw
-                    let an = new AdminNumber();
-                    an.IDENTIFIER = rawAN.IDENTIFIER[0];
-                    an.ADMIN_NUMBER_TYPE.VALUE = rawAN.ADMIN_NUMBER_TYPE[0]
-                                                       .VALUE[0];
-                    an.ADMIN_NUMBER_TYPE.VALUE_DECODE = rawAN
-                                                         .ADMIN_NUMBER_TYPE[0]
-                                                          .VALUE_DECODE[0];
-                    //Now stringify it to JSON and use the JSON constructor
-                    // to add it to the ProductRA object.
-                    pra.addAdminNum(new AdminNumber(an));
-                }); //end foreach rawP AdminNumber
-                product.addRA(pra);
-            });// end foreach on rawP PRA
-            rawP.INGREDIENTS[0].INGREDIENT.forEach(rawIng =>{
-                let ing = new Ingredient();
-                ing.toSubstanceID = rawIng.attr$.To_Substance_Id;
-                ing.QUANTITY = rawIng.QUANTITY[0];
-                ing.UNIT = new ValueStruct(rawIng.UNIT[0].VALUE[0],
-                                           rawIng.UNIT[0].VALUE_DECODE[0]);
-                product.addIngredient(ing);
-            });
-            product.DOSSIER = doss;
+                // can be 0..*
+                if (rawProduct.PRODUCT_RA) {
+                    for (const pRA of rawProduct.PRODUCT_RA) {
+                        let productRA = new ProductRA();
+                        productRA._toReceiverRaId = pRA.attr$.To_Specific_for_RA_Id;
 
-            // insert the above into db.
-            this.createProduct(product);
-        }).catch(e => {
-            console.log(e);
-        });
+                        // non-mandatory field
+                        productRA.PRODUCT_NAME = pRA.PRODUCT_NAME[0] ? pRA.PRODUCT_NAME[0] : '';
+                        
+                        // can be 0..*
+                        if (pRA.ADMIN_NUMBER) {
+                            for (const an of pRA.ADMIN_NUMBER) {
+                                let adminNumber = new AdminNumber();
+                                adminNumber.IDENTIFIER = an.IDENTIFIER[0];
+                                
+                                if (typeof an.ADMIN_NUMBER_TYPE[0].VALUE[0] === 'object') {
+                                    adminNumber.ADMIN_NUMBER_TYPE = new ExtValueStruct(
+                                        an.ADMIN_NUMBER_TYPE[0].VALUE[0]._,
+                                        an.ADMIN_NUMBER_TYPE[0].VALUE_DECODE[0],
+                                        an.ADMIN_NUMBER_TYPE[0].VALUE[0].attr$.Other_Value
+                                    );
+                                }
+                                else {
+                                    adminNumber.ADMIN_NUMBER_TYPE = new ExtValueStruct(
+                                        an.ADMIN_NUMBER_TYPE[0].VALUE[0],
+                                        an.ADMIN_NUMBER_TYPE[0].VALUE_DECODE[0]
+                                    );
+                                }
+                                
+                                productRA.addAdminNum(adminNumber);
+                            }
+                        }
+                        else {
+                            productRA.ADMIN_NUMBER = [];
+                        }
+                        
+                        product.addRA(productRA);
+                    }
+                }
+                else {
+                    product.PRODUCT_RA = [];
+                }
+                    
+                                
+                for (const ing of rawProduct.INGREDIENTS[0].INGREDIENT) {
+                    let ingredient = new Ingredient();
+                    ingredient._toSubstanceID = ing.attr$.To_Substance_Id;
+
+                    // non-mandatory field
+                    ingredient.QUANTITY = ing.QUANTITY[0] ? ing.QUANTITY : '';
+                    
+                    // non-mandatory field
+                    if (ing.UNIT) {
+                        if (typeof ing.UNIT[0].VALUE[0] === 'object') {
+                            ingredient.UNIT = new ExtValueStruct(
+                                ing.UNIT[0].VALUE[0]._,
+                                ing.UNIT[0].VALUE_DECODE[0],
+                                ing.UNIT[0].VALUE[0].attr$.Other_Value
+                            );
+                        }
+                        else {
+                            ingredient.UNIT = new ExtValueStruct(
+                                ing.UNIT[0].VALUE[0],
+                                ing.UNIT[0].VALUE_DECODE[0]
+                            );
+                        }
+                    }
+                    else {
+                        ingredient.UNIT = new ExtValueStruct();
+                    }
+                    
+                    product.addIngredient(ingredient);
+                }
+                                
+                this.createProduct(product);
+            }).catch(err => console.log(err.stack));
     }
 }
 
