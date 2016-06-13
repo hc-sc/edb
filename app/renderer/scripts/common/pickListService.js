@@ -12,7 +12,7 @@ class PickListService {
             autoload: true
         });
 
-        // make sure we aren't duplicating entries...
+        // make sure we aren't duplicating entries when we reload...
         this.pickListTypes.find({}, (err, results) => {
             if (results.length === 0) {
                 console.log('Loading pick lists from XSD');
@@ -45,8 +45,6 @@ class PickListService {
                                 types.push(type);
                             }
                         }
-
-                        console.log(types);
 
                         this.pickListTypes.insert(types, (err, added) => {
                             if (err) throw err;

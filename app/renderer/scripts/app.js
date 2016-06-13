@@ -7,15 +7,15 @@ import {LegalEntityService} from './legal_entity/legalEntityService';
 import {LegalEntityController} from './legal_entity/legalEntityController';
 import {ProductService} from './product/productService';
 import {ProductController} from './product/productController';
-import {ReceiverService} from './receiver/receiverService'; 
+import {ReceiverService} from './receiver/receiverService';
 import {ReceiverController} from './receiver/receiverController';
 import {FileService} from './file/fileService';
 import {FileController} from './file/fileController';
-import {DocumentService} from './document/documentService'; 
+import {DocumentService} from './document/documentService';
 import {DocumentController} from './document/documentController';
 import {DossierService} from './dossier/dossierService';
 import {DossierController} from './dossier/dossierController';
-import {SubstanceService} from './substance/substanceService'; 
+import {SubstanceService} from './substance/substanceService';
 import {SubstanceController} from './substance/substanceController';
 import {GhstsService} from './ghsts_demo/ghstsService';
 import {GhstsController} from './ghsts_demo/ghstsController';
@@ -40,7 +40,7 @@ angular.module('ghstsApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages'])
     .service('documentService', ['$q', DocumentService])
     .controller('documentController', ['$mdSidenav', '$location','pickListService','$mdDialog', 'documentService', DocumentController])
     .service('dossierService', ['$q', DossierService])
-    .controller('dossierController', ['$mdDialog', 'dossierService', 'pickListService'])
+    .controller('dossierController', ['$mdDialog', 'dossierService', 'pickListService', 'receiverService', DossierController])
     .service('substanceService', ['$q', SubstanceService])
     .controller('substanceController', ['$mdDialog', 'substanceService']);
 
@@ -101,4 +101,3 @@ function config($routeProvider, $mdThemingProvider) {
 }
 
 config.$inject = ['$routeProvider', '$mdThemingProvider'];
-

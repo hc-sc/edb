@@ -114,6 +114,20 @@
                 ng-repeat="dra in _ctrl.dossier.DOSSIER_RA track by $index">
                     <div layout="column">
                         <md-input-container class="md-block">
+                            <label for="ras">Regulatory Authority</label>
+                            <md-select
+                            name="ras"
+                            ng-model="dra._toSpecificForRAId"
+                            ng-change="_ctrl.updateRA(dra)">
+                                <md-option
+                                ng-repeat="ra in _ctrl.receiversWithNames"
+                                value="{{ ra.xsId }}"
+                                ng-selected="{{ ra.xsId === dra._toSpecificForRAId }}">
+                                    {{ ra.name }}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                        <md-input-container class="md-block">
                             <label for="regulatoryType">
                                 Regulatory Type
                             </label>

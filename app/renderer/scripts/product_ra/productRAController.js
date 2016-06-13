@@ -10,10 +10,6 @@ class ProductRAController {
         this.productRA = productRA;
         this.pickListService = pickListService;
         this.receiverService = receiverService;
-        this.isAddMode= false;
-        // this.adminNumberTypes = pickListService.getAdminNumberTypeOptions().map(ant => {
-        //     return new ExtValueStruct(ant.VALUE, ant.VALUE_DECODE);
-        // });
 
         this.pickListService.getType('EXTENSION_TYPE_ADMIN_NUMBER_TYPE')
             .then(types => {
@@ -30,10 +26,6 @@ class ProductRAController {
                 this.receiversWithNames = recs;
             })
             .catch(err => console.log(err.stack));
-
-        if (_.isEmpty(productRA) === true) {
-            this.isAddMode = true;
-        }
     }
 
     cancel() {

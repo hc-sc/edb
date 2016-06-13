@@ -6,10 +6,11 @@ import { ExtValueStruct } from '../common/sharedModel';
 import _ from 'lodash';
 
 export class DossierController {
-    constructor($mdDialog, dossierService, pickListService) {
+    constructor($mdDialog, dossierService, pickListService, receiverService) {
         this.$mdDialog = $mdDialog;
         this.dossierService = dossierService;
         this.pickListService = pickListService;
+        this.receiverService = receiverService;
         this.dossier = {};
 
         this.pickListService.getType('EXTENSION_TYPE_APPLICATION_TYPE')
@@ -29,6 +30,10 @@ export class DossierController {
                         regType.VALUE_DECODE);
                 });
 
+                return this.receiverService.getRAsWithLegalEntityName();
+            })
+            .then(ras => {
+                this.receiversWithNames = ras;
                 return this.initFromDB();
             })
             .catch(err => console.log(err.stack));
@@ -198,6 +203,7 @@ export class DossierController {
     }
 }
 
-DossierController.$inject = ['$mdDialog', 'dossierService', 'pickListService'];
+// don't need these if in app.js we pass as the last element in the array the constructor function
+DossierController.$inject = ['$mdDialog', 'dossierService', 'pickListService', 'receiverService'];
 
 export { DossierController }
