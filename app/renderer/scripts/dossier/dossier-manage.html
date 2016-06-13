@@ -35,17 +35,17 @@
                         type="text">
                 </md-input-container>
             </div>
-            
+
             <md-toolbar>
                 <div class="md-toolbar-tools">
                     <h2>Submissions</h2>
                     <span flex></span>
                 </div>
             </md-toolbar>
-            
+
             <md-list>
-                <md-list-item 
-                ng-repeat="sub in _ctrl.dossier.SUBMISSION track by $index" 
+                <md-list-item
+                ng-repeat="sub in _ctrl.dossier.SUBMISSION track by $index"
                 ng-click="_ctrl.showSubmissionDiag(sub, $event)"
                 ng-hidden="!$last"
                 class="noright">
@@ -53,22 +53,22 @@
                     <p>{{ sub.SUBMISSION_TITLE }}</p>
                 </md-list-item>
             </md-list>
-            
+
             <md-toolbar>
                 <div class="md-toolbar-tools">
                     <h2>Referenced Dossiers</h2>
                     <span flex></span>
                     <md-button class="md-icon-button">
-                        <md-icon 
+                        <md-icon
                         class="material-icons"
                         aria-label="Add Referenced Dossier"
                         ng-click="_ctrl.addReferencedDossier()">add_circle</md-icon>
                     </md-button>
                 </div>
             </md-toolbar>
-            
+
             <md-list>
-                <md-card 
+                <md-card
                 style="padding: 10px"
                 ng-repeat="rd in _ctrl.dossier.REFERENCED_DOSSIER track by $index">
                     <div layout-gt-sm="row">
@@ -81,13 +81,13 @@
                         </md-input-container>
                         <md-input-container class="md-block" flex>
                             <label for="reason">Reason</label>
-                            <input 
+                            <input
                             id="reason"
                             ng-model="rd.REFERENCED_DOSSIER_REASON"
                             type="text">
                         </md-input-container>
                     </div>
-                    <md-button 
+                    <md-button
                     class="md-secondary md-raised"
                     ng-click="_ctrl.deleteReferencedDossier(rd, $event)">
                             Delete
@@ -100,16 +100,16 @@
                     <h2>Dossier RA</h2>
                     <span flex></span>
                     <md-button class="md-icon-button">
-                        <md-icon 
-                            class="material-icons" 
+                        <md-icon
+                            class="material-icons"
                             aria-label="Add Dossier RA"
                             ng-click="_ctrl.addDossierRA()">add_circle</md-icon>
                     </md-button>
                 </div>
             </md-toolbar>
-            
+
             <md-list>
-                <md-card 
+                <md-card
                 style="padding: 10px"
                 ng-repeat="dra in _ctrl.dossier.DOSSIER_RA track by $index">
                     <div layout="column">
@@ -125,20 +125,20 @@
                                 ng-repeat="regType in _ctrl.regulatoryTypes"
                                 value="{{ regType.VALUE }}"
                                 ng-selected="{{ regType.VALUE === dra.REGULATORY_TYPE.VALUE }}">
-                                    {{ regType.VALUE_DECODE }}
+                                    {{ regType.VALUE }}
                                 </md-option>
                             </md-select>
                         </md-input-container>
-                        <div 
+                        <div
                         layout-gt-sm="row"
                         ng-show="dra.REGULATORY_TYPE.VALUE === _ctrl.pickListService.getOtherValue()">
-                            <md-input-container 
+                            <md-input-container
                             class="md-block"
                             flex>
                                 <label>Display Value</label>
                                 <input type="text" ng-model="dra.REGULATORY_TYPE.VALUE_DECODE">
                             </md-input-container>
-                            <md-input-container 
+                            <md-input-container
                             class="md-block"
                             flex>
                                 <label>Encoded Value (optional)</label>
@@ -151,7 +151,7 @@
                             <label for="applicationType">
                                 Application Type
                             </label>
-                            <md-select 
+                            <md-select
                             name="applicationType"
                             ng-model="dra.APPLICATION_TYPE.VALUE"
                             ng-change="_ctrl.updateApplicationType(dra)">
@@ -159,20 +159,20 @@
                                 ng-repeat="appType in _ctrl.applicationTypes"
                                 value="{{ appType.VALUE }}"
                                 ng-selected="{{ appType.VALUE === dra.APPLICATION_TYPE.VALUE }}">
-                                    {{ appType.VALUE_DECODE }}
+                                    {{ appType.VALUE }}
                                 </md-option>
                             </md-select>
                         </md-input-container>
-                        <div 
+                        <div
                         layout-gt-sm="row"
                         ng-show="dra.APPLICATION_TYPE.VALUE === _ctrl.pickListService.getOtherValue()">
-                            <md-input-container 
+                            <md-input-container
                             class="md-block"
                             flex>
                                 <label>Display Value</label>
                                 <input type="text" ng-model="dra.APPLICATION_TYPE.VALUE_DECODE">
                             </md-input-container>
-                            <md-input-container 
+                            <md-input-container
                             class="md-block"
                             flex>
                                 <label>Encoded Value (optional)</label>
@@ -180,17 +180,17 @@
                             </md-input-container>
                         </div>
                     </div>
-                
+
                     <md-input-container class="md-block">
                         <label for="projectIdNumber">
                             Project ID Number (separate numbers by a comma)
                         </label>
-                        <input 
+                        <input
                         id="projectIdNumber"
                         ng-model="dra.PROJECT_ID_NUMBER"
                         type="text">
                     </md-input-container>
-                    <md-button 
+                    <md-button
                     class="md-secondary md-raised"
                     ng-click="_ctrl.deleteDossierRA(dra)">
                         Delete
@@ -207,7 +207,7 @@
             <md-button class="md-raised md-primary"
             ng-click="_ctrl.viewDossierGHSTS()">
                 View Dossier GHSTS
-            </md-button>  
-        </div>                
+            </md-button>
+        </div>
     </md-content>
 </main>

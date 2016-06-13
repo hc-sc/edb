@@ -25,14 +25,6 @@ class ProductController {
         this.legalEntities = [];
         this.substances = [];
 
-        // this.metadataStatusOptions = this.pickListService.getMetadataStatusOptions();
-        // this.formulations = this.pickListService.getFormulationTypeOptions().map(formulation => {
-        //     return new ExtValueStruct(formulation.VALUE, formulation.VALUE_DECODE);
-        // });
-        // this.units = this.pickListService.getUnitTypeOptions().map(unit => {
-        //     return new ExtValueStruct(unit.VALUE, unit.VALUE_DECODE);
-        // });
-
         this.metdataStatusOptions = this.pickListService.getType('TYPE_')
         this.pickListService.getType('TYPE_METADATA_STATUS')
             .then(metadataStatusOptions => {
@@ -56,7 +48,6 @@ class ProductController {
                 return this.pickListService.getType('EXTENSION_TYPE_UNIT');
             })
             .then(unitTypes => {
-                console.log(unitTypes);
                 this.units = unitTypes.map(type => {
                     return new ExtValueStruct(
                         type.VALUE,
@@ -74,7 +65,7 @@ class ProductController {
                 this.initFromDB();
             })
             .catch(err => console.log(err.stack));
-        }
+    }
 
     initFromDB() {
         this.productService.getProducts().then(dbProducts => {
@@ -87,18 +78,6 @@ class ProductController {
                 this.selectedIndex = 0;
             }
         });
-    }
-
-    mapLEsToRecs() {
-        console.log(this.receivers);
-        console.log(this.legalEntities);
-        console.log(this.receivers[0]);
-        console.log(this.legalEntities[0]);
-        console.log(this.receivers[0].attr$.To_Legal_Entity_Id);
-        console.log(this.legalEntities[0]._identifier);
-        // console.log(_.intersectionWith(receivers, legalEntities, (re, le) => {
-        //     re. === le.
-        // })
     }
 
     clearSelectedProduct() {

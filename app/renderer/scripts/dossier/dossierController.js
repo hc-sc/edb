@@ -12,35 +12,26 @@ export class DossierController {
         this.pickListService = pickListService;
         this.dossier = {};
 
-        this.initFromDB();
+        this.pickListService.getType('EXTENSION_TYPE_APPLICATION_TYPE')
+            .then(appTypes => {
+                this.applicationTypes = appTypes.map(appType => {
+                    return new ExtValueStruct(
+                        appType.VALUE,
+                        appType.VALUE_DECODE);
+                });
 
-        this.applicationTypes = pickListService.getApplicationTypeOptions().map(appType => {
-            return new ExtValueStruct(appType.VALUE, appType.VALUE_DECODE);
-        });
+                return this.pickListService.getType('EXTENSION_TYPE_REGULATORY_TYPE');
+            })
+            .then(regTypes => {
+                this.regulatoryTypes = regTypes.map(regType => {
+                    return new ExtValueStruct(
+                        regType.VALUE,
+                        regType.VALUE_DECODE);
+                });
 
-        this.regulatoryTypes = pickListService.getRegulatoryTypeOptions().map(regType => {
-            return new ExtValueStruct(regType.VALUE, regType.VALUE_DECODE);
-        });
-
-        // this.pickListService.getType('EXTENSION_TYPE_APPLICATION_TYPE')
-        //     .then(appTypes => {
-        //         console.log('results', appTypes)
-        //         this.applicationTypes = appTypes.map(appType => {
-        //             return new ExtValueStruct(
-        //                 appType.VALUE,
-        //                 appType.VALUE_DECODE);
-        //         });
-        //
-        //         return this.pickListService.getType('EXTENSION_TYPE_REGULATORY_TYPE');
-        //     })
-        //     .then(regTypes => {
-        //         this.regulatoryTypes = regTypes.map(regType => {
-        //             return new ExtValueStruct(
-        //                 regType.VALUE,
-        //                 regType.VALUE_DECODE);
-        //         });
-        //     })
-        //     .catch(err => console.log(err.stack));
+                return this.initFromDB();
+            })
+            .catch(err => console.log(err.stack));
     }
 
     initFromDB() {

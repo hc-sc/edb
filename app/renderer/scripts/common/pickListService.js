@@ -67,12 +67,14 @@ class PickListService {
                 query.status = 'enabled';
             }
 
-            console.log(query);
 
-            this.pickListTypes.find(query, (err, results) => {
-                if (err) reject(err);
-                resolve(results);
-            });
+
+            this.pickListTypes.find(query)
+                .sort({ VALUE: 1 })
+                .exec((err, results) => {
+                    if (err) reject(err);
+                    resolve(results);
+                });
         });
     }
 
