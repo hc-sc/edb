@@ -6,8 +6,8 @@ import {Product} from '../product/productModel.js';
 import { Dossier } from '../dossier/dossierModel';
 import { Substance, SubstanceIdentifierStruct } from '../substance/substanceModel';
 
-
-const outputFile = './app/renderer/data/DemoGHSTS.xml';
+const DATA_DIR = 'data'
+const OUTPUT_FILE = './app/renderer/data/DemoGHSTS.xml';
 
 class GhstsService {
     constructor(ReceiverService, LegalEntityService, ProductService, DossierService, SubstanceService) {
@@ -16,18 +16,28 @@ class GhstsService {
         this.productService = ProductService;
         this.dossierService = DossierService;
         this.substanceService = SubstanceService;
+        this.submission = {};
     }
 
-    loadXml() {
-        Promise.all([
-            this.receiverService.initializeReceivers(),
-            this.legalEntityService.initializeLE(),
-            this.productService.initializeProducts(),
-            this.dossierService.initializeDossiers(),
-            this.substanceService.initializeSubstances()
-        ])
-        .then(() => console.log("Successfully loaded submission"))
-        .catch(err => console.log(err.stack));
+    loadXml(fileName) {
+        const FILE_PATH = `${__dirname}/${DATA_DIR}/${fileName}`
+        new GHSTS(FILE_PATH).readObjects()
+            .then(result => {
+                this.submission = result;
+
+                console.log('result', this.submission);
+
+                return Promise.all([
+                    this.receiverService.initializeReceivers(),
+                    this.legalEntityService.initializeLE(),
+                    this.productService.initializeProducts(),
+                    this.dossierService.initializeDossiers(this.submission),
+                    this.substanceService.initializeSubstances()
+                ])
+                .catch(err => console.log(err.stack));
+            })
+            .then(() => console.log(`Successfully loaded ${fileName}`))
+            .catch(err => console.log(err.stack));
     }
 
     assembleDemoGHSTS(){
@@ -58,7 +68,6 @@ class GhstsService {
                 return this.productService.getProducts();
             })
             .then(products => {
-                console.log(products);
                 ghsts.setProduct(new Product(products[0]).toGhstsJson());
 
                 return this.dossierService.getDossiers();
@@ -73,10 +82,10 @@ class GhstsService {
                     ghsts.addSubstance(new Substance(substance).toGHSTSJson());
                 }
 
-                return ghsts.writeXML(outputFile);
+                return ghsts.writeXML(OUTPUT_FILE);
             })
             .then(() => {
-                console.log(`Successfully written to ${outputFile}`);
+                console.log(`Successfully written to ${OUTPUT_FILE}`);
             });
     }
 }
