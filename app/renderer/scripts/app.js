@@ -24,6 +24,8 @@ import {PickListService} from './common/pickListService';
 // notice stylesheet loading from app.js
 import '../jspm_packages/github/angular/bower-material@1.0.4/angular-material.css!';
 
+import '../styles.css!';
+
 angular.module('ghstsApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages'])
     .config(config)
     .service('pickListService', [PickListService])
@@ -48,9 +50,14 @@ angular.module('ghstsApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages'])
 function config($routeProvider, $mdThemingProvider) {
     $routeProvider
         .when('/home', {
-            templateUrl: './splash.html',
-            controller: LegalEntityController,
-            controllerAs: '_ctrl'
+            templateUrl: './home.html',
+            // NOTE, we need this for right now, as we need pickListService
+            // to instantiate as soon as possible. Giving it a controller that
+            // requires pickListService as a controller forces it to be made
+            // We should move
+            // pickListService to a separate module, and inject it into the
+            // main module as a dependency
+            controller: LegalEntityController
         })
         .when('/demoGHSTS', {
             templateUrl: './scripts/ghsts_demo/ghsts.html',
@@ -91,7 +98,10 @@ function config($routeProvider, $mdThemingProvider) {
             templateUrl: './scripts/substance/substance-manage.html' ,
             controller: SubstanceController,
             controllerAs: '_ctrl'
-        });
+        })
+        .when('/manage', {
+            templateUrl: './manage.html'
+        })
     $routeProvider.otherwise({ redirectTo: '/home' });
 
     // set the theme

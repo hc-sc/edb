@@ -1,8 +1,8 @@
 <main layout-fill layout="column" tabIndex="-1" role="main" class="md-whiteframe-z2">
     <md-toolbar layout="row" class="md-whiteframe-z1">
         <div class="md-toolbar-tools">
-            <md-button class="md-icon-button" aria-label="Home" ng-href="#/home">
-                <md-icon class="material-icons" aria-label="Home">home</md-icon>
+            <md-button class="md-icon-button" aria-label="Home" ng-href="#/manage">
+                <md-icon class="material-icons" aria-label="back">navigate_before</md-icon>
             </md-button>
             <md-headline layout-padding> {{ _ctrl.selected.GENERIC_PRODUCT_NAME }}</md-headline>
         </div>
@@ -100,7 +100,7 @@
                                 ng-repeat="substance in _ctrl.substances"
                                 value="{{ substance._identifier }}"
                                 ng-selected="{{ substance._identifier === ing._toSubstanceID }}">
-                                    {{ substance._identifier }}
+                                    {{ substance.SUBSTANCE_NAME }}
                                 </md-option>
                             </md-select>
                         </md-input-container>
@@ -187,9 +187,7 @@
             <md-divider>
 
             <div layout="row" layout-sm="column" layout-align="center" layout-wrap>
-                <md-button class="md-raised md-info" ng-click="_ctrl.newProduct($event)">New Product</md-button>
                 <md-button class="md-raised md-primary" ng-click="_ctrl.saveProduct()">Save</md-button>
-                <md-button class="md-raised md-warn" ng-click="_ctrl.deleteProduct()">Delete</md-button>
                 <md-button class="md-raised md-primary" ng-click="_ctrl.viewProductGHSTS()">View Product GHSTS</md-button>
             </div>
         </form>

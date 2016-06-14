@@ -13,12 +13,7 @@ class ProductRAController {
 
         this.pickListService.getType('EXTENSION_TYPE_ADMIN_NUMBER_TYPE')
             .then(types => {
-                this.adminNumberTypes = types.map(type => {
-                    return new ExtValueStruct(
-                        type.VALUE,
-                        type.VALUE_DECODE
-                    );
-                });
+                this.adminNumberTypes = types;
 
                 return this.receiverService.getRAsWithLegalEntityName()
             })

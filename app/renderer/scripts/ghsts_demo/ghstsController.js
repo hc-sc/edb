@@ -13,11 +13,24 @@ class GhstsController {
         // fat-arrow. However, because we're calling another service, and we're
         // using class based methods, we need to be able to reference
         // ghstsService that was passed in as a dependency.
+        // YOU CANNOT MOVE THIS WITHOUT BREAKING IT
         this.fileInput = document.getElementById('submissionName');
         this.fileInput.addEventListener(
             'change',
             function() {
-                ghstsService.loadXml(this.files[0].name);
+                if (this.files[0].name === 'ghsts.xml') {
+                    ghstsService.loadXml(this.files[0].name);
+                }
+                else {
+                    $mdDialog.show(
+                        $mdDialog
+                            .alert()
+                            .clickOutsideToClose(true)
+                            .title('Error')
+                            .content('Incorrect file name')
+                            .ok('Ok')
+                    );
+                }
             },
             false
         );

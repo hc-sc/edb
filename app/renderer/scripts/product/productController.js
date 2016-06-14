@@ -25,35 +25,19 @@ class ProductController {
         this.legalEntities = [];
         this.substances = [];
 
-        this.metdataStatusOptions = this.pickListService.getType('TYPE_')
         this.pickListService.getType('TYPE_METADATA_STATUS')
             .then(metadataStatusOptions => {
-                this.metadataStatusOptions = metadataStatusOptions.map(option => {
-                    return new ValueStruct(
-                        option.VALUE,
-                        option.VALUE_DECODE
-                    );
-                });
+                this.metadataStatusOptions = metadataStatusOptions;
 
                 return this.pickListService.getType('EXTENSION_TYPE_FORMULATION_TYPE');
             })
             .then(formulationTypes => {
-                this.formulations = formulationTypes.map(type => {
-                    return new ExtValueStruct(
-                        type.VALUE,
-                        type.VALUE_DECODE
-                    );
-                });
+                this.formulations = formulationTypes;
 
                 return this.pickListService.getType('EXTENSION_TYPE_UNIT');
             })
             .then(unitTypes => {
-                this.units = unitTypes.map(type => {
-                    return new ExtValueStruct(
-                        type.VALUE,
-                        type.VALUE_DECODE
-                    );
-                });
+                this.units = unitTypes;
 
                 return this.substanceService.getSubstances()
             })

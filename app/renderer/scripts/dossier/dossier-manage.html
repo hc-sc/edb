@@ -2,8 +2,8 @@
 <main layout-fill layout="column" tabIndex="-1" role="main" class="md-whiteframe-z2">
     <md-toolbar layout="row" class="md-whiteframe-z1">
         <div class="md-toolbar-tools">
-            <md-button class="md-icon-button" aria-label="Home" ng-href="#/home">
-                <md-icon class="material-icons" aria-label="Home">home</md-icon>
+            <md-button class="md-icon-button" aria-label="back" ng-href="#/manage">
+                <md-icon class="material-icons" aria-label="back">navigate_before</md-icon>
             </md-button>
             <h2>
                 <span>Dossier</span>
@@ -211,17 +211,18 @@
                     </md-button>
                 </md-card>
             </md-list>
-        </form>
 
-        <div layout="row" layout-sm="column" layout-align="center" layout-wrap>
-            <md-button class="md-raised md-primary"
-                ng-click="_ctrl.saveDossier()">
-                Save
-            </md-button>
-            <md-button class="md-raised md-primary"
-            ng-click="_ctrl.viewDossierGHSTS()">
-                View Dossier GHSTS
-            </md-button>
-        </div>
+            <md-divider>
+            <div layout="row" layout-sm="column" layout-align="center" layout-wrap>
+                <md-button class="md-raised md-primary"
+                    ng-click="_ctrl.saveDossier()">
+                    Save
+                </md-button>
+                <md-button class="md-raised md-primary"
+                ng-click="_ctrl.viewDossierGHSTS()">
+                    View Dossier GHSTS
+                </md-button>
+            </div>
+        </form>
     </md-content>
 </main>

@@ -15,25 +15,18 @@ export class DossierController {
 
         this.pickListService.getType('EXTENSION_TYPE_APPLICATION_TYPE')
             .then(appTypes => {
-                this.applicationTypes = appTypes.map(appType => {
-                    return new ExtValueStruct(
-                        appType.VALUE,
-                        appType.VALUE_DECODE);
-                });
+                this.applicationTypes = appTypes;
 
                 return this.pickListService.getType('EXTENSION_TYPE_REGULATORY_TYPE');
             })
             .then(regTypes => {
-                this.regulatoryTypes = regTypes.map(regType => {
-                    return new ExtValueStruct(
-                        regType.VALUE,
-                        regType.VALUE_DECODE);
-                });
+                this.regulatoryTypes = regTypes;
 
                 return this.receiverService.getRAsWithLegalEntityName();
             })
             .then(ras => {
                 this.receiversWithNames = ras;
+                
                 return this.initFromDB();
             })
             .catch(err => console.log(err.stack));

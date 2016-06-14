@@ -2,6 +2,7 @@ import angular from 'angular';
 var fs = require('fs');
 import xml2js from 'xml2js';
 import Nedb from 'nedb';
+import { ValueStruct, ExtValueStruct } from './sharedModel';
 
 const version = __dirname + '/data/ghsts-picklists.xsd';
 
@@ -70,7 +71,25 @@ class PickListService {
                 .exec((err, results) => {
                     if (err) reject(err);
 
-                    resolve(results);
+                    let types = [];
+                    if (typeName.indexOf('EXTENSION') >= 0) {
+                        types = results.map(item => {
+                            return new ExtValueStruct(
+                                item.VALUE,
+                                item.VALUE_DECODE
+                            );
+                        });
+                    }
+                    else {
+                        types = results.map(item => {
+                            return new ValueStruct(
+                                item.VALUE,
+                                item.VALUE_DECODE
+                            );
+                        });
+                    }
+
+                    resolve(types);
                 });
         });
     }
