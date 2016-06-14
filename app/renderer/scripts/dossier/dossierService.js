@@ -50,13 +50,11 @@ class DossierService {
                 rootName: 'DOSSIER',
                 attrkey: 'attr$'
             });
-
             const xml = builder.buildObject(dossier.toGhstsJson());
             deferred.resolve(xml);
         });
         return deferred.promise;
     }
-<<<<<<< HEAD
 
     initializeDossiers(submission) {
         const rawDossier = submission.dossier;
