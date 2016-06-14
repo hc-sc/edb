@@ -66,6 +66,7 @@ class GhstsService {
                 return this.productService.getProducts();
             })
             .then(products => {
+                console.log(products);
                 ghsts.setProduct(new Product(products[0]).toGhstsJson());
 
                 return this.dossierService.getDossiers();

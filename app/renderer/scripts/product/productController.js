@@ -310,7 +310,7 @@ class ProductController {
             }
         });
     }
-
+	
     viewProductGHSTS($event) {
         if (!_.isEmpty(this.selected)) {
             this.saveProduct()

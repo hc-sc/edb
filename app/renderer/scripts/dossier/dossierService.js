@@ -56,6 +56,7 @@ class DossierService {
         });
         return deferred.promise;
     }
+<<<<<<< HEAD
 
     initializeDossiers(submission) {
         const rawDossier = submission.dossier;

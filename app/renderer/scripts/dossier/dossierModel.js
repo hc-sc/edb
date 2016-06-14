@@ -138,7 +138,7 @@ class DossierRA {
     setRegulatoryValueDecode(decode) {
         this.REGULATORY_TYPE.VALUE_DECODE = decode;
     }
-
+	
     setApplicationValueDecode(decode) {
         this.APPLICATION_TYPE.VALUE_DECODE = decode;
     }
