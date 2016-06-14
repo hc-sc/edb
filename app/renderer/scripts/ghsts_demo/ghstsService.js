@@ -25,12 +25,10 @@ class GhstsService {
             .then(result => {
                 this.submission = result;
 
-                console.log('result', this.submission);
-
                 return Promise.all([
                     this.receiverService.initializeReceivers(),
                     this.legalEntityService.initializeLE(),
-                    this.productService.initializeProducts(),
+                    this.productService.initializeProducts(this.submission),
                     this.dossierService.initializeDossiers(this.submission),
                     this.substanceService.initializeSubstances()
                 ])

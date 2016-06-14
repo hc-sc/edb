@@ -58,7 +58,6 @@ class DossierService {
     }
 
     initializeDossiers(submission) {
-        console.log(submission);
         const rawDossier = submission.dossier;
 
         let dossier = new Dossier();
