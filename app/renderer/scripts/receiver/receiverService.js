@@ -1,12 +1,15 @@
 import Nedb from 'nedb';
 import xml2js from 'xml2js';
-import {GHSTS} from '../common/ghsts.js'
+import {GHSTS} from '../common/ghsts.js';
 import {ValueStruct} from '../common/sharedModel.js';
-import {Receiver, Sender} from './receiverModel.js'
+import {Receiver, Sender} from './receiverModel.js';
+import { LegalEntity } from '../legal_entity/legalEntityModel';
+import _ from 'lodash';
 
 class ReceiverService {
-    constructor($q) {
+    constructor($q, legalEntityService) {
         this.$q = $q;
+        this.legalEntityService = legalEntityService;
         this.receivers = new Nedb({ filename: __dirname + '/db/receivers', autoload: true });
     }
 
@@ -37,6 +40,41 @@ class ReceiverService {
             deferred.resolve(result);
         });
         return deferred.promise;
+    }
+    
+    getRAsWithLegalEntityName() {
+        let legalEntities = [];
+        let receivers = [];
+
+        return this.legalEntityService.getLegalEntities()
+            .then(les => {
+                legalEntities = les.map(le => {
+                    return le;
+                });
+                
+                return this.getReceivers();
+            })
+            .then(res => {
+                receivers = res.map(re => {
+                    return re;
+                });
+                
+                let receiversWithNames = [];
+                
+                for (const rec of receivers) {
+                    for (const le of legalEntities) {
+                        if (le._identifier === rec._toLegalEntityId) {
+                            receiversWithNames.push({
+                                xsId: rec._identifier,
+                                name: le.LEGALENTITY_NAME
+                            });
+                            
+                            break;
+                        }
+                    }
+                }
+                return receiversWithNames;
+            });
     }
 
     createReceiver(Receiver) {
@@ -146,7 +184,7 @@ class ReceiverService {
 
 }
 
-ReceiverService.$inject = ['$q'];
+ReceiverService.$inject = ['$q', 'legalEntityService'];
 
 export { ReceiverService }
 
