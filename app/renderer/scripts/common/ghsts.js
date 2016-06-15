@@ -3,8 +3,8 @@ import path from 'path';
 var fs = require('fs');
 
 class GHSTS {
-    constructor(filename) {
-        this.filename = filename;
+    constructor(filePath) {
+        this.filename = filePath;
         this.ghsts = {};
         this.legalEntities = [];
         this.receivers = [];
@@ -37,7 +37,7 @@ class GHSTS {
     addSubmission(submission) {
         this.ghsts.PRODUCT.DOSSIER.SUBMISSION = submission;
     }
-    
+
     addfile(file) {
         this.files.push(file);
     }
@@ -45,19 +45,19 @@ class GHSTS {
     setfiles(files) {
         this.files = files;
     }
-    
+
     setProduct(productGhstsJson){
         this.ghsts.PRODUCT = productGhstsJson;
     }
-    
+
     addDocument(document){
         this.documents.push(document);
     }
-    
+
     setDocuments(documents){
         this.documents = documents;
     }
-    
+
     setDossier(dossier) {
         this.ghsts.PRODUCT.DOSSIER = dossier;
     }
@@ -65,46 +65,45 @@ class GHSTS {
     addSubstance(substance){
         this.substances.push(substance);
     }
-    
+
     setSubstances(substances){
         this.substances = substances;
     }
 
     readObjects() {
-        // read json objects from ghsts xml    
-        let self = this;
-        return new Promise(function (resolve, reject) {
-            fs.readFile(self.filename, { encoding: "utf8" }, function (err, xmlStr) {
+        // read json objects from ghsts xml
+        return new Promise((resolve, reject) => {
+            fs.readFile(this.filename, { encoding: "utf8" }, (err, xmlStr) => {
                 if (err) throw (err);
-                // parse the xml to json object                
-                xml2js.parseString(xmlStr, { attrkey: 'attr$' }, function (err, obj) {
+                // parse the xml to json object
+                xml2js.parseString(xmlStr, { attrkey: 'attr$' }, (err, obj) => {
                     // check for errors
                     if (err) {
                         reject(err);
                     }
                     // the read succeeded
-                    resolve(obj);      
-                    self.ghsts = obj.GHSTS;
-                    
+                    this.ghsts = obj.GHSTS;
+
                     // set legal entities
-                    self.legalEntities = obj.GHSTS.LEGAL_ENTITIES[0].LEGAL_ENTITY;
-                    // set receivers 
-                    self.receivers = obj.GHSTS.RECEIVERS[0].RECEIVER;
+                    this.legalEntities = obj.GHSTS.LEGAL_ENTITIES[0].LEGAL_ENTITY;
+                    // set receivers
+                    this.receivers = obj.GHSTS.RECEIVERS[0].RECEIVER;
 
                     // set the Product from the xml
-                    self.product = obj.GHSTS.PRODUCT;
+                    this.product = obj.GHSTS.PRODUCT;
 
                     // set other objects here
                     // ...
 
-                    self.files=obj.GHSTS.FILES[0].FILE;
+                    this.files = obj.GHSTS.FILES[0].FILE;
                     // set documents
-                    self.documents = obj.GHSTS.DOCUMENTS[0].DOCUMENT; 
-                    
+                    this.documents = obj.GHSTS.DOCUMENTS[0].DOCUMENT;
 
-                    self.dossier = obj.GHSTS.PRODUCT[0].DOSSIER[0];
-                    self.substances = obj.GHSTS.SUBSTANCES[0].SUBSTANCE;  
-                    
+
+                    this.dossier = obj.GHSTS.PRODUCT[0].DOSSIER[0];
+                    this.substances = obj.GHSTS.SUBSTANCES[0].SUBSTANCE;
+
+                    resolve(this);
                 })
             });
         })
