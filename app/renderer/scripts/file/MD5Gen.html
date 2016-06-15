@@ -1,0 +1,34 @@
+<md-dialog aria-label="Contact Person" ng-cloak>
+    <form name="md5Form">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <md-button class="md-icon-button">
+                    <md-icon class="material-icons" aria-label="MD5Gen">person</md-icon>
+                </md-button>
+                <h2>MD5 Generator</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="_ctrl.cancel()">
+                    <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+
+            <div class="md-dialog-content">
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>MD5 Checksum</label>
+                        <input ng-model="_ctrl.inputLetter" type="text" ng-required="true">
+                    </md-input-container>
+
+                </div>
+     
+                <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                 <!--   <md-button class="md-raised md-primary" ng-click="_ctrl.cancel()">Cancel</md-button>-->
+                    <md-button class="md-raised md-primary" ng-click="_ctrl.getMD5Checksum(_ctrl.inputLetter)" ng-disabled="md5Form.$invalid">Generate</md-button>
+                </section>
+            </div>
+
+        </md-dialog-content>
+    </form>
+</md-dialog>
