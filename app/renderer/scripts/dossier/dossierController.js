@@ -2,7 +2,7 @@ import angular from 'angular';
 import { Dossier, ReferencedDossier, DossierRA } from './dossierModel';
 import { Submission } from '../submission/submissionModel';
 import { SubmissionController } from '../submission/submissionController';
-import { ValueStruct } from '../common/sharedModel';
+import { ExtValueStruct } from '../common/sharedModel';
 import _ from 'lodash';
 
 export class DossierController {
@@ -15,11 +15,11 @@ export class DossierController {
         this.initFromDB();
         
         this.applicationTypes = pickListService.getApplicationTypeOptions().map(appType => {
-           return new ValueStruct(appType.VALUE, appType.VALUE_DECODE); 
+            return new ExtValueStruct(appType.VALUE, appType.VALUE_DECODE); 
         });
         
         this.regulatoryTypes = pickListService.getRegulatoryTypeOptions().map(regType => {
-            return new ValueStruct(regType.VALUE, regType.VALUE_DECODE);
+            return new ExtValueStruct(regType.VALUE, regType.VALUE_DECODE);
         });
     }
     
@@ -29,18 +29,40 @@ export class DossierController {
                 if (dossiers.length > 0) {
                     this.dossier = new Dossier(dossiers[0]);
                 }
+                else this.dossier = new Dossier();
             })
             .catch(err => console.log(err.stack));
     }
     
-    saveDossier() {
+    saveDossier($event) {
         if (this.dossier._id) {
-            this.dossierService.updateDossier(this.dossier)
+            return this.dossierService.updateDossier(this.dossier)
+                .then(() => {
+                    this.$mdDialog.show(
+                        this.$mdDialog
+                            .alert()
+                            .clickOutsideToClose(true)
+                            .title('Success')
+                            .content('Dossier Updated Successfully!')
+                            .ok('Ok')
+                            .targetEvent($event)
+                    );
+                })
                 .catch(err => console.log(err.stack));
         }
         else {
-            this.dossierService.createDossier(this.dossier)
+            return this.dossierService.createDossier(this.dossier)
                 .then(createdRow => {
+                    this.$mdDialog.show(
+                        this.$mdDialog
+                            .alert()
+                            .clickOutsideToClose(true)
+                            .title('Success')
+                            .content('Dossier Added Successfully!')
+                            .ok('Ok')
+                            .targetEvent($event)
+                    );
+
                     this.dossier = new Dossier(createdRow);
                 })
                 .catch(err => console.log(err.stack));
@@ -98,6 +120,28 @@ export class DossierController {
             .catch(err => console.log(err.stack));
     }
     
+    updateRegulatoryType(dra) {
+        if (dra.REGULATORY_TYPE.VALUE === this.pickListService.getOtherValue()) {
+            dra.REGULATORY_TYPE.ATTR_VALUE = '';
+            dra.setRegulatoryValueDecode('');
+        }
+        else {
+            delete dra.REGULATORY_TYPE.ATTR_VALUE;
+            dra.setRegulatoryValueDecode(dra.REGULATORY_TYPE.VALUE);
+        }
+    }
+    
+    updateApplicationType(dra) {
+        if (dra.APPLICATION_TYPE.VALUE === this.pickListService.getOtherValue()) {
+            dra.APPLICATION_TYPE.ATTR_VALUE = '';
+            dra.setApplicationValueDecode('');
+        }
+        else {
+            delete dra.APPLICATION_TYPE.ATTR_VALUE;
+            dra.setApplicationValueDecode(dra.APPLICATION_TYPE.VALUE);
+        }
+    }
+    
     showSubmissionDiag(sub, $event) {
         this.$mdDialog.show({
             controller: SubmissionController,
@@ -114,19 +158,23 @@ export class DossierController {
     }
     
     viewDossierGHSTS($event) {
-        if (this.dossier) {
-            this.dossierService.getDossierGHSTSById(this.dossier._id)
-                .then(dossier => {
-                    this.$mdDialog.show(
-                        this.$mdDialog
-                            .alert()
-                            .clickOutsideToClose(true)
-                            .title('Dossier GHSTS')
-                            .content(dossier)
-                            .ok('Ok')
-                            .targetEvent($event)
-                    );
-                });
+        if (!_.isEmpty(this.dossier)) {
+            this.saveDossier()
+                .then(() => {
+                    this.dossierService.getDossierGHSTSById(this.dossier._id)
+                        .then(dossier => {
+                            this.$mdDialog.show(
+                                this.$mdDialog
+                                    .alert()
+                                    .clickOutsideToClose(true)
+                                    .title('Dossier GHSTS')
+                                    .content(dossier)
+                                    .ok('Ok')
+                                    .targetEvent($event)
+                            );
+                        });
+                })
+                .catch(err => console.log(err.stack));
         }
     }
     

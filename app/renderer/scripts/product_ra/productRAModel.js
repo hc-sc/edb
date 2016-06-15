@@ -1,4 +1,4 @@
-import { ValueStruct } from '../common/sharedModel';
+import { ExtValueStruct } from '../common/sharedModel';
 
 export class ProductRA {
     constructor(json) {  
@@ -44,26 +44,39 @@ export class ProductRA {
 export class AdminNumber{
     constructor(json) {  
         if (arguments.length === 1) {
-            this.ADMIN_NUMBER_TYPE = new ValueStruct(json.ADMIN_NUMBER_TYPE.VALUE, json.ADMIN_NUMBER_TYPE.VALUE_DECODE);
+            if (json.ADMIN_NUMBER_TYPE.ATTR_VALUE != undefined &&
+                json.ADMIN_NUMBER_TYPE.ATTR_VALUE !== 'undefined') {
+                this.ADMIN_NUMBER_TYPE = new ExtValueStruct(
+                    json.ADMIN_NUMBER_TYPE.VALUE,
+                    json.ADMIN_NUMBER_TYPE.VALUE_DECODE,
+                    json.ADMIN_NUMBER_TYPE.ATTR_VALUE
+                );
+            }
+            else {
+                this.ADMIN_NUMBER_TYPE = new ExtValueStruct(
+                    json.ADMIN_NUMBER_TYPE.VALUE,
+                    json.ADMIN_NUMBER_TYPE.VALUE_DECODE
+                );
+            }
             this.IDENTIFIER = json.IDENTIFIER;
         }
         else {
-            this.ADMIN_NUMBER_TYPE = new ValueStruct('', '');
+            this.ADMIN_NUMBER_TYPE = new ExtValueStruct();
             this.IDENTIFIER = null;
         }
     }
     
-    setAdminNumberTypeValue(value) {
+    setAdminNumberValue(value) {
         this.ADMIN_NUMBER_TYPE.VALUE = value;
     }
     
-    setAdminNumberTypeValueDecode(decode) {
+    setAdminNumberValueDecode(decode) {
         this.ADMIN_NUMBER_TYPE.VALUE_DECODE = decode;
     }
     
     toGhstsJson() {
         return { 
-            ADMIN_NUMBER_TYPE : this.ADMIN_NUMBER_TYPE,
+            ADMIN_NUMBER_TYPE : this.ADMIN_NUMBER_TYPE.toGhstsJson(),
             IDENTIFIER : this.IDENTIFIER
         };
     }
