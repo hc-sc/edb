@@ -51,6 +51,18 @@ class PickListService {
         ];
     }
 	
+	getGEDocContentStatusTypeOptions() {
+        return [
+            {VALUE_DECODE: "New", VALUE: "New"},
+			{VALUE_DECODE: "Modified", VALUE: "Modified"},
+			{VALUE_DECODE: "No Change", VALUE: "No Change"},
+			{VALUE_DECODE: "Replace", VALUE: "Replace"},
+			{VALUE_DECODE: "Retired", VALUE: "Retired"}	
+        ];
+    }
+	
+	
+	
     getRADocNumberTypeOptions() {
         return [
             {VALUE_DECODE: "MRID", VALUE: "MRID"},

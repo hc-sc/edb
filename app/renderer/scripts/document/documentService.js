@@ -2,7 +2,7 @@ import Nedb from 'nedb';
 import xml2js from 'xml2js';
 import uuid from 'node-uuid';
 import {GHSTS} from '../common/ghsts.js'
-import { ContentStatusHistory, ReferencedDocument, ReferenceToSubstance,  DocumentNumber, ReferenceToFile, DocumentGeneric, OtherNationalGuideLine, SubmissionContext, RADocumentNumber, DocumentRA, Document} from './documentModel.js';
+import { ContentStatusHistory, ReferencedDocument, RelatedToSubstance,  DocumentNumber, ReferenceToFile, DocumentGeneric, OtherNationalGuideLine, SubmissionContext, RADocumentNumber, DocumentRA, Document} from './documentModel.js';
 import {ValueStruct, IdentifierStruct} from '../common/sharedModel.js'
 
 class DocumentService {
@@ -120,12 +120,14 @@ class DocumentService {
               
                 doc.DOCUMENT_GENERIC[0].CONTENT_STATUS_HISTORY.forEach(csh => 
                     docGen.addContentStatusHistory(new ContentStatusHistory(new ValueStruct(csh.CONTENT_STATUS[0].VALUE[0], csh.CONTENT_STATUS[0].VALUE_DECODE[0]), csh.SUBMISSION_NUMBER[0]) )   
-                );            
+                );  
+                
+                          
                 //Build array of REFERENCED_DOCUMENT
                 // Need to check if this non mandatory element is present in your xml payload
                 if(doc.DOCUMENT_GENERIC[0].REFERENCED_DOCUMENT !== undefined){
                       doc.DOCUMENT_GENERIC[0].REFERENCED_DOCUMENT.forEach(rdc => {
-                            console.log("REFERENCED_DOCUMENT ====>"  + JSON.stringify(rdc));
+                            
                             let geRefDoc = new ReferencedDocument();
                             let refType = new ValueStruct(rdc.REFERENCE_TYPE[0].VALUE[0], rdc.REFERENCE_TYPE[0].VALUE_DECODE[0]);
                     
@@ -139,30 +141,40 @@ class DocumentService {
                       }) /// 
                     
                 }
-              
-               
                 
-                
-                
-			    //doc.RELATED_TO_SUBSTANCE.forEach(relSub => // rarely used or later      
-                
+                if(doc.DOCUMENT_GENERIC[0].RELATED_TO_SUBSTANCE !== undefined){
+                        doc.DOCUMENT_GENERIC[0].RELATED_TO_SUBSTANCE.forEach(relSub => {         
+                            let relObj = new RelatedToSubstance();  
+                            relObj.toSubstanceId = relSub.attr$.To_Substance_Id; 
+                            docGen.addRelatedToSubstance(relObj);
+                        })    
+                 }
+                  
                 if(doc.DOCUMENT_GENERIC[0].DOCUMENT_NUMBER !== undefined){
                             doc.DOCUMENT_GENERIC[0].DOCUMENT_NUMBER.forEach(docNum => {
                                 // console.log(" View  Value"  + JSON.stringify(docNum.DOCUMENT_NUMBER_TYPE[0].VALUE[0]._));
                                 // console.log(" View  Value Other"  + JSON.stringify(docNum.DOCUMENT_NUMBER_TYPE[0].VALUE[0].attr$.Other_Value));
                                 // console.log(" View  Value Code"  + JSON.stringify(docNum.DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0]));
-                                docGen.addDocumentNumber(new DocumentNumber(new ValueStruct(docNum.DOCUMENT_NUMBER_TYPE[0].VALUE[0].attr$.Other_Value, docNum.DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0]), docNum.IDENTIFIER[0]) );
-                               }
-                      
-                           ); 
-                }                   
+                             docGen.addDocumentNumber(new DocumentNumber(new ValueStruct(docNum.DOCUMENT_NUMBER_TYPE[0].VALUE[0].attr$.Other_Value, docNum.DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0]), docNum.IDENTIFIER[0]) );
+                          }); 
+                }             
+               
+                                 
                 docGen.DOCUMENT_TITLE               = doc.DOCUMENT_GENERIC[0].DOCUMENT_TITLE[0];  
                 docGen.DOCUMENT_AUTHOR              = doc.DOCUMENT_GENERIC[0].DOCUMENT_AUTHOR[0];
                 docGen.DOCUMENT_ISSUE_DATE          = doc.DOCUMENT_GENERIC[0].DOCUMENT_ISSUE_DATE[0];
-                docGen.DOCUMENT_OWNER               = doc.DOCUMENT_GENERIC[0].DOCUMENT_OWNER[0];                // MUST BE array supported
+                
+                if(doc.DOCUMENT_GENERIC[0].DOCUMENT_OWNER !== undefined){
+                     docGen.DOCUMENT_OWNER = doc.DOCUMENT_GENERIC[0].DOCUMENT_OWNER;
+                }                 
+                               
                 docGen.PUBLISHED_INDICATOR          = doc.DOCUMENT_GENERIC[0].PUBLISHED_INDICATOR[0];
                 docGen.COMPLETE_DOCUMENT_SOURCE     = doc.DOCUMENT_GENERIC[0].COMPLETE_DOCUMENT_SOURCE[0];
-                docGen.TEST_LABORATORY              = doc.DOCUMENT_GENERIC[0].TEST_LABORATORY[0];             // MUST BE array supported  
+                 
+                if(doc.DOCUMENT_GENERIC[0].TEST_LABORATORY !== undefined){
+                     docGen.TEST_LABORATORY = doc.DOCUMENT_GENERIC[0].TEST_LABORATORY;
+                }     
+                
                 docGen.GXP_INDICATOR                = doc.DOCUMENT_GENERIC[0].GXP_INDICATOR[0];
                 docGen.TESTED_ON_VERTEBRATE         = doc.DOCUMENT_GENERIC[0].TESTED_ON_VERTEBRATE[0];
               
@@ -190,7 +202,7 @@ class DocumentService {
                     docRA.DATA_PROTECTION = raDataProtection;
                     docRA.DATA_REQUIREMENT = raDataReq;
                     
-                  
+                  // NEED TO REVERIFY THIS ARRAY
                     if(dra.DOCUMENT_COMMENT !== undefined){
                         docRA.DOCUMENT_COMMENT = dra.DOCUMENT_COMMENT;
                     }else{

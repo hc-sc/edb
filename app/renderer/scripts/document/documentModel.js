@@ -32,7 +32,7 @@ class ReferencedDocument {
 }
 
 // For class DocumentGeneric
-class ReferenceToSubstance {
+class RelatedToSubstance {
      constructor(json){   
         if(arguments.length === 1){
             // load from json
@@ -98,14 +98,15 @@ class DocumentGeneric {
 			this.DOCUMENT_FAMILY =  null;
 			this.CONTENT_STATUS_HISTORY = []   ;  
             this.REFERENCED_DOCUMENT = [];
+            this.RELATED_TO_SUBSTANCE = [];
 			this.DOCUMENT_NUMBER =   [] ;	  
 			this.DOCUMENT_TITLE =   null;
 			this.DOCUMENT_AUTHOR =   null;
 			this.DOCUMENT_ISSUE_DATE =   null;
-			this.DOCUMENT_OWNER =   null ;     // treat it as a single for now
+			this.DOCUMENT_OWNER =   [] ;     // treat it as a single for now
 			this.PUBLISHED_INDICATOR =   null;
 			this.COMPLETE_DOCUMENT_SOURCE =   null ;
-			this.TEST_LABORATORY =   null ;
+			this.TEST_LABORATORY =   [] ;
 			this.GXP_INDICATOR =   null;
 			this.TESTED_ON_VERTEBRATE =   null;
             this.REFERENCED_TO_FILE =  [];
@@ -121,16 +122,24 @@ class DocumentGeneric {
          this.REFERENCED_DOCUMENT.push(referencedDocument);
      }
      
-    //  addRelatedToSubstance(relatedToSubstance){
-    //      this.RELATED_TO_SUBSTANCE.push(relatedToSubstance);
-    //  }
+     addRelatedToSubstance(relatedToSubstance){
+          this.RELATED_TO_SUBSTANCE.push(relatedToSubstance);
+     }
      
      addDocumentNumber(documentNumber){
          this.DOCUMENT_NUMBER.push(documentNumber);
      }
      
+     addDocumentOwner(documentOwner){
+         this.DOCUMENT_OWNER.push(documentOwner);
+     }
+     
      addReferenceToFile(refToFile){
           this.REFERENCED_TO_FILE.push(refToFile);
+     }
+     
+     addTestLaboratory(tlab){
+         this.TEST_LABORATORY.push(tlab);
      }
      
      toGHSTSJson() {   
@@ -140,16 +149,22 @@ class DocumentGeneric {
         let documentNumberJson = [];
         this.DOCUMENT_NUMBER.forEach(docNum=> documentNumberJson.push(docNum));
         
+        // let documentOwnerJson = [];
+        // this.DOCUMENT_OWNER.forEach(docOwn=> documentOwnerJson.push(docOwn));
+        
         let referencedDocumentJson = [];
         this.REFERENCED_DOCUMENT.forEach(refDoc => referencedDocumentJson.push(refDoc));
         
-        // let relatedToSubstanceJson = [];
+        let relatedToSubstanceJson = [];
         // this.RELATED_TO_SUBSTANCE.forEach(relSub => relatedToSubstanceJson.push(relSub));
+        this.RELATED_TO_SUBSTANCE.forEach(relToSub => {
+             let refObj = new RelatedToSubstance(relToSub);
+             relatedToSubstanceJson.push(refObj.toGHSTSJson());
+         }); 
         
         let referencedToFileJson = [];
        
         this.REFERENCED_TO_FILE.forEach(refToFile => {
-             //let refObj = new ReferenceToFile();  
              let refObj = new ReferenceToFile(refToFile);
              referencedToFileJson.push(refObj.toGHSTSJson());
          }); 
@@ -162,6 +177,7 @@ class DocumentGeneric {
 				DOCUMENT_FAMILY 		   :      this.DOCUMENT_FAMILY ,		
 				CONTENT_STATUS_HISTORY 	   :      contentStatusHistoryJson ,
                 REFERENCED_DOCUMENT        :      referencedDocumentJson,
+                RELATED_TO_SUBSTANCE       :      relatedToSubstanceJson,
 				DOCUMENT_NUMBER 		   :      documentNumberJson, 		
 				DOCUMENT_TITLE 			   :      this.DOCUMENT_TITLE ,		
 				DOCUMENT_AUTHOR 		   :      this.DOCUMENT_AUTHOR ,		
@@ -321,4 +337,4 @@ class Document {
     }                
 }   
 
-export { ContentStatusHistory, ReferencedDocument, ReferenceToSubstance,  DocumentNumber, ReferenceToFile, DocumentGeneric, OtherNationalGuideLine, SubmissionContext, RADocumentNumber, DocumentRA, Document}
+export { ContentStatusHistory, ReferencedDocument, RelatedToSubstance,  DocumentNumber, ReferenceToFile, DocumentGeneric, OtherNationalGuideLine, SubmissionContext, RADocumentNumber, DocumentRA, Document}

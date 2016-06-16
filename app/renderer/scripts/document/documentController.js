@@ -1,17 +1,18 @@
 import angular from 'angular';
 import {DocumentRAController} from './documentRAController';
 import {ValueStruct} from '../common/sharedModel';
-import {DocumentNumber, ReferencedDocument, ReferenceToFile, Document, DocumentRA}  from './documentModel';
+import {ContentStatusHistory, DocumentNumber, ReferencedDocument, RelatedToSubstance, ReferenceToFile, Document, DocumentRA}  from './documentModel';
 import uuid from 'node-uuid';
 import {_} from 'lodash';
 
 
 class DocumentController {
-    constructor($mdDialog,$mdSidenav, $location, DocumentService, PickListService, FileService) {
+    constructor($mdDialog,$mdSidenav, $location, DocumentService, PickListService, FileService, SubstanceService) {
         this.documentService = DocumentService;
         this.$mdDialog = $mdDialog; 
         this.pickListService = PickListService;
         this.fileService = FileService;
+        this.substanceService = SubstanceService;
         this.$mdSidenav = $mdSidenav;
         this.$location = $location;
         this.selected = null;
@@ -19,14 +20,19 @@ class DocumentController {
         this.selectedIndex = 0;
         this.filterText = null;
         this.fileReferencedOptions = [];
+        this.subReferencedOptions = [];
         
         // Load options for File selects 
         this.getFileReferencedOptions();
-        // options for metadata status
-        this.metadataStatusOptions = this.pickListService.getMetadataStatusOptions();
+        
+        // Load options for Substance selects 
+        this.getSubstanceOptions();
         
         // options for metadata status
         this.metadataStatusOptions = this.pickListService.getMetadataStatusOptions();
+        
+        // options for content status history 
+        this.geDocContStatTypeOptions = this.pickListService.getGEDocContentStatusTypeOptions();
         
         this.geDocNumTypeOptions = this.pickListService.getGEDocNumberTypeOptions();
         
@@ -114,18 +120,32 @@ class DocumentController {
             });
         }
     }
+    
+    // CONTENT_STATUS_HISTORY
+    addContentStatusHistory($event){
+        let newContentStatus = new ContentStatusHistory();      
+        this.selected.DOCUMENT_GENERIC.CONTENT_STATUS_HISTORY.push(newContentStatus);  
+    }
+    
+    deleteContentStatusHistory(contStat, $event){        
+          _.pull(this.selected.DOCUMENT_GENERIC.CONTENT_STATUS_HISTORY, contStat);           
+    }
+    
+
+    updateSelectedContStatDecode(refIndex){
+        let selectedConStatTypeValue = this.selected.DOCUMENT_GENERIC.CONTENT_STATUS_HISTORY[refIndex].CONTENT_STATUS.VALUE;
+       
+        let conStatTypeValueDecode = _(this.geDocContStatTypeOptions)
+                                         .filter(c => c.VALUE == selectedConStatTypeValue)
+                                        .map(c => c.VALUE_DECODE)
+                                        .value()[0];
+       this.selected.DOCUMENT_GENERIC.CONTENT_STATUS_HISTORY[refIndex].CONTENT_STATUS.VALUE_DECODE = conStatTypeValueDecode;
+     
+    }
+    
     // REFERENCED_DOCUMENT
     addReferencedDocument($event){
-        let newRefDocument = new ReferencedDocument();
-        // let RefType =  new ValueStruct("translation to document", "translation to document");
-        // let docNumType = new ValueStruct("Company ID", "COMPID"); 
-        // let newDocNumber = new DocumentNumber(docNumType, "");
-        // newRefDocument.REFERENCE_TYPE = RefType;
-        // newRefDocument.INTERNAL = "true";
-        // newRefDocument.DOCUMENT_PID = "123";
-        // newRefDocument.DOCUMENT_NUMBER = newDocNumber;
-        
-         
+        let newRefDocument = new ReferencedDocument();      
         this.selected.DOCUMENT_GENERIC.REFERENCED_DOCUMENT.push(newRefDocument);  
     }
     
@@ -157,22 +177,33 @@ class DocumentController {
 }
     // DOCUMENT_NUMBER
     addDocumentNumber($event){
-        
+        let newDocumentNumber = new DocumentNumber();
+        this.selected.DOCUMENT_GENERIC.DOCUMENT_NUMBER.push(newDocumentNumber);  
     }
     
     deleteDocumentNumber(refDoc, $event){        
-               
+         _.pull(this.selected.DOCUMENT_GENERIC.DOCUMENT_NUMBER, refDoc);      
     }
     
-    updateSelectedDocTypeDecode(){
-         let selectedDocNumTypeValue = this.selected.DOCUMENT_GENERIC.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE.VALUE;
+    updateSelectedDocTypeDecode(docIndex){
+         let selectedDocNumTypeValue = this.selected.DOCUMENT_GENERIC.DOCUMENT_NUMBER[docIndex].DOCUMENT_NUMBER_TYPE.VALUE;
         
         let docNumTypeValueDecode = _(this.geDocNumTypeOptions)
                                         .filter(c => c.VALUE == selectedDocNumTypeValue)
                                         .map(c => c.VALUE_DECODE)
                                         .value()[0];
-        this.selected.DOCUMENT_GENERIC.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE.VALUE_DECODE = docNumTypeValueDecode;
+        this.selected.DOCUMENT_GENERIC.DOCUMENT_NUMBER[docIndex].DOCUMENT_NUMBER_TYPE.VALUE_DECODE = docNumTypeValueDecode;
     }
+    
+    // DOCUMENT_OWNER
+    addDocumentOwner($event){   
+        this.selected.DOCUMENT_GENERIC.DOCUMENT_OWNER.push('');  
+    }
+    
+    deleteDocumentOwner(docOwn, $event){        
+         _.pull(this.selected.DOCUMENT_GENERIC.DOCUMENT_OWNER, docOwn);      
+    }
+    
     
     // REFERENCED_TO_FILE
     // get a list of file to be referenced in Document Generic
@@ -206,6 +237,49 @@ class DocumentController {
     deleteReferencedFile(toFileId, $event){        
           _.remove(this.selected.DOCUMENT_GENERIC.REFERENCED_TO_FILE, { _toFileId: toFileId } );           
     }
+    
+    // RELATED_TO_SUBSTANCE
+    // get a list of substance to be referenced in Document Generic
+    getSubstanceOptions(){
+        let self = this;
+        this.substanceService.getSubstances().then(list => {            
+            list.forEach(sub => {               
+                let option = {id: sub._identifier, name: sub.SUBSTANCE_NAME}; 
+                //console.log(JSON.stringify(option));
+                self.subReferencedOptions.push(option);
+            })
+         })
+    }
+    
+    addRelatedSubstance($event){
+       // make sure it is valid to add an new ref Sub by counting the substances in option list.
+        if( this.subReferencedOptions.length > this.selected.DOCUMENT_GENERIC.RELATED_TO_SUBSTANCE.length){
+            this.selected.DOCUMENT_GENERIC.RELATED_TO_SUBSTANCE.push(new RelatedToSubstance());                
+        } else {
+            this.$mdDialog.show(
+                this.$mdDialog
+                    .alert()
+                    .clickOutsideToClose(true)
+                    .title('Invalid Operation')
+                    .content('There are no more potential substances to add.')
+                    .ok('Ok')
+            );
+        }
+    }
+    
+    deleteRelatedSubstance(toSubId, $event){        
+          _.remove(this.selected.DOCUMENT_GENERIC.RELATED_TO_SUBSTANCE, { _toSubstanceId: toSubId } );           
+    }
+    
+    // TEST LABORATORY
+    addTestLab($event){   
+        this.selected.DOCUMENT_GENERIC.TEST_LABORATORY.push('');  
+    }
+    
+    deleteTestLab(tLab, $event){        
+         _.pull(this.selected.DOCUMENT_GENERIC.TEST_LABORATORY, tLab);      
+    }
+    
     // For Document Generic
     
     saveDocument($event) {   
@@ -364,17 +438,6 @@ class DocumentController {
         })
     }
     
-//    saveDocumentRA(docRA, isAddMode){
-//         // save the document RA to the selected document.
-//         console.log("View updated docRA: " + JSON.stringify(docRA));
-//         if(isAddMode === true){
-//             // this is a new document RA
-//             this.selected.DOCUMENT_RA.push(docRA);
-//         } 
-//         // save the new or modified document RA by updating the document            
-//         this.documentService.updateDocument(this.selected);
-//     }
-    
      saveDocumentRA(docRA){
        if (!_.includes(this.selected.DOCUMENT_RA, docRA)) {
             this.selected.DOCUMENT_RA.push(docRA);
@@ -430,6 +493,6 @@ class DocumentController {
     }
 }
 
-DocumentController.$inject = ['$mdDialog','$mdSidenav', '$location', 'documentService', 'pickListService', 'fileService'];
+DocumentController.$inject = ['$mdDialog','$mdSidenav', '$location', 'documentService', 'pickListService', 'fileService', 'substanceService'];
 
 export { DocumentController }
