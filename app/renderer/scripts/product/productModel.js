@@ -124,9 +124,11 @@ class Product {
             METADATA_STATUS: this.METADATA_STATUS,
             PRODUCT_PID: this.PRODUCT_PID,
             GENERIC_PRODUCT_NAME: this.GENERIC_PRODUCT_NAME,
-            FORMULATION_TYPE: this.FORMULATION_TYPE.toGhstsJson(),
             PRODUCT_RA: productRAs,
-            INGREDIENTS: ingredients
+            FORMULATION_TYPE: this.FORMULATION_TYPE.toGhstsJson(),
+            INGREDIENTS: {
+                INGREDIENT: ingredients
+            }
         };               
     }          
 }    
