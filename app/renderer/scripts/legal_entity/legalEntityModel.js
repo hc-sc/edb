@@ -1,13 +1,15 @@
 
+import { ValueStruct, ExtValueStruct } from '../common/sharedModel';
+
 class LegalEntityIdentifier {
-    constructor(value, identifier){              
+    constructor(value, identifier) {
         this.LEGALENTITY_IDENTIFIER_TYPE = value,         // of ValueStruct
-        this.IDENTIFIER = identifier;
+            this.IDENTIFIER = identifier;
     }
 }
 
 class ContactPerson {
-    constructor(organisation, department, title, firstName, lastName, phone, mobile, fax, email){    
+    constructor(organisation, department, title, firstName, lastName, phone, mobile, fax, email) {
         this.ORGANISATION = organisation;
         this.DEPARTMENT = department;
         this.TITLE = title;
@@ -17,8 +19,8 @@ class ContactPerson {
         this.MOBILE = mobile;
         this.FAX = fax;
         this.EMAIL = email;
-    }  
-}    
+    }
+}
 
 class ContactAddress {
     constructor(street1, street2, zipCode, city, state, country, phone, fax, email, website) {
@@ -32,65 +34,89 @@ class ContactAddress {
         this.FAX = fax;
         this.EMAIL = email;
         this.WEBSITE = website;
-    }  
-}    
+    }
+}
 
 class LegalEntity {
-    constructor(json){  
-        if(arguments.length === 1){
+    constructor(json) {
+        if (arguments.length === 1) {
             // load from json
             Object.assign(this, json);
-        }else{          
-            this._identifier = null;            
+            if (json.LEGALENTITY_TYPE.ATTR_VALUE != undefined &&
+                json.LEGALENTITY_TYPE.ATTR_VALUE !== 'undefined') {
+                this.LEGALENTITY_TYPE = new ExtValueStruct(
+                    json.LEGALENTITY_TYPE.VALUE,
+                    json.LEGALENTITY_TYPE.VALUE_DECODE,
+                    json.LEGALENTITY_TYPE.ATTR_VALUE
+                );
+            }
+            else {
+                this.LEGALENTITY_TYPE = new ExtValueStruct(
+                    json.LEGALENTITY_TYPE.VALUE,
+                    json.LEGALENTITY_TYPE.VALUE_DECODE
+                );
+            }
+        } else {
+            this._identifier = null;
             this.METADATA_STATUS = {};              // of ValueStruct
             this.LEGALENTITY_PID = null;
             this.LEGALENTITY_NAME = null;
-            this.LEGALENTITY_TYPE = {};             // of ValueStruct
+            //     this.LEGALENTITY_TYPE = {};             // of ValueStruct
+            this.LEGALENTITY_TYPE = new ExtValueStruct();
+            /*
+
+            */
             this.OTHER_NAME = [];
             this.LEGALENTITY_IDENTIFIER = [];       // list of LegalEntityIdentifier
             this.CONTACT_PERSON = [];               // list of ContactPerson     
             this.CONTACT_ADDRESS = {};              // of ContactAddress   
-        }     
+        }
     }
-    
-    set legalEntityId(id){
+
+    set legalEntityId(id) {
         this._identifier = id;
     }
-    
-    addContact(contactPerson){
+    addLeType(leType) {
+        this.LEGALENTITY_TYPE.push(leType);
+    }
+
+    updateLeTypeValue(lt) {
+        lt.setLegalEntityTypeValue(an.VALUE_DECODE);
+    }
+    addContact(contactPerson) {
         this.CONTACT_PERSON.push(contactPerson);
     }
-    
-    set contactAddress(contactAddress){
+
+    set contactAddress(contactAddress) {
         this.CONTACT_ADDRESS = contactAddress;
-    } 
-    
-    addOtherName(otherName){
+    }
+
+    addOtherName(otherName) {
         this.OTHER_NAME.push(otherName);
-    } 
-    
-    addIdentifier(identifier){
+    }
+
+    addIdentifier(identifier) {
         this.LEGALENTITY_IDENTIFIER.push(identifier);
-    } 
-    
-    toGHSTSJson() {     
+    }
+
+    toGHSTSJson() {
         let contactsJson = [];
-        this.CONTACT_PERSON.forEach(contact => contactsJson.push(contact));   
+        this.CONTACT_PERSON.forEach(contact => contactsJson.push(contact));
         let idsJson = [];
         this.LEGALENTITY_IDENTIFIER.forEach(id => idsJson.push(id));
-        
+
         return {
-            attr$ : {  Id : this._identifier  },
-            METADATA_STATUS  : this.METADATA_STATUS,            
-            LEGALENTITY_PID  : this.LEGALENTITY_PID,
-            LEGALENTITY_NAME : this.LEGALENTITY_NAME,
-            LEGALENTITY_TYPE : this.LEGALENTITY_TYPE,
-            OTHER_NAME       : this.OTHER_NAME,
-            LEGALENTITY_IDENTIFIER : idsJson,        
-            CONTACT_ADDRESS  : this.CONTACT_ADDRESS,
-            CONTACT_PERSON   : contactsJson              
-        };               
-    }          
-}    
+            attr$: { Id: this._identifier },
+            METADATA_STATUS: this.METADATA_STATUS,
+            LEGALENTITY_PID: this.LEGALENTITY_PID,
+            LEGALENTITY_NAME: this.LEGALENTITY_NAME,
+            LEGALENTITY_TYPE: this.LEGALENTITY_TYPE,
+            OTHER_NAME: this.OTHER_NAME,
+            LEGALENTITY_IDENTIFIER: idsJson,
+            CONTACT_ADDRESS: this.CONTACT_ADDRESS,
+            CONTACT_PERSON: contactsJson
+        };
+    }
+}
 
 export {LegalEntityIdentifier, ContactPerson, ContactAddress, LegalEntity}
