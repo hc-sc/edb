@@ -12,7 +12,7 @@
                 </md-button>
             </div>
         </md-toolbar>
-        
+
         <md-dialog-content class="autoScroll">
             <div class="md-dialog-content">
                 <md-input-container class="md-block" flex-gt-sm>
@@ -32,7 +32,7 @@
                     <label>RA's Name for this Product</label>
                     <input ng-model="_ctrl.productRA.PRODUCT_NAME" ng-required="true" type="text">
                 </md-input-container>
-                
+
                 <md-toolbar>
                     <div class="md-toolbar-tools">
                         <h2>Admin Number</h2>
@@ -44,9 +44,9 @@
                         </md-button>
                     </div>
                 </md-toolbar>
-                
+
                 <md-list>
-                    <md-card 
+                    <md-card
                     style="padding: 10px"
                     ng-repeat="adminNumber in _ctrl.productRA.ADMIN_NUMBER track by $index">
                         <div layout-gt-sm="row">
@@ -56,15 +56,15 @@
                             </md-input-container>
                             <md-input-container class="md-block">
                                 <label>Admin Number Type</label>
-                                <md-select 
+                                <md-select
                                 name="adminNumberType"
-                                ng-model="adminNumber.ADMIN_NUMBER_TYPE.VALUE" 
+                                ng-model="adminNumber.ADMIN_NUMBER_TYPE.VALUE"
                                 ng-change="_ctrl.updateAdminNumber(adminNumber)">
-                                    <md-option 
-                                    ng-repeat="adminNumberType in _ctrl.adminNumberTypes" 
+                                    <md-option
+                                    ng-repeat="adminNumberType in _ctrl.adminNumberTypes"
                                     value="{{ adminNumberType.VALUE }}"
                                     ng-selected="{{ adminNumber.ADMIN_NUMBER_TYPE.VALUE === adminNumberType.VALUE }}">
-                                        {{ adminNumberType.VALUE_DECODE }}
+                                        {{ adminNumberType.VALUE }}
                                     </md-option>
                                 </md-select>
                             </md-input-container>
@@ -77,7 +77,7 @@
                                     <label>Display Value</label>
                                     <input
                                     type="text"
-                                    ng-model="adminNumber.ADMIN_NUMBER_TYPE.VALUE_DECODE">    
+                                    ng-model="adminNumber.ADMIN_NUMBER_TYPE.VALUE_DECODE">
                                 </md-input-container>
                                 <md-input-container
                                 class="md-block"
@@ -88,7 +88,7 @@
                                     ng-model="adminNumber.ADMIN_NUMBER_TYPE.ATTR_VALUE">
                                 </md-input-container>
                             </div>
-                            <md-button 
+                            <md-button
                             class="md-secondary md-raised"
                             style="width: 97%"
                             ng-click="_ctrl.deleteAdminNumber(adminNumber, $event)">
@@ -97,15 +97,15 @@
                         </div>
                     </md-card>
                 </md-list>
-                
+
                 <md-divider>
-                    
+
                 <div layout="row">
-                    <md-button 
-                    class="md-raised md-primary" 
+                    <md-button
+                    class="md-raised md-primary"
                     style="width: 97%"
                     ng-click="_ctrl.saveProductRA($event)">
-                        Save
+                        Ok
                     </md-button>
                 </div>
             </div>

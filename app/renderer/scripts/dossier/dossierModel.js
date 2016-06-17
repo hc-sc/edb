@@ -1,6 +1,6 @@
 import { Submission } from '../submission/submissionModel';
 import { ExtValueStruct } from '../common/sharedModel';
-    
+
 class Dossier {
     constructor(json) {
         if (arguments.length === 1) {
@@ -8,7 +8,7 @@ class Dossier {
             this.DOSSIER_DESCRIPTION_TITLE = json.DOSSIER_DESCRIPTION_TITLE;
             this.DOSSIER_COMP_ID = json.DOSSIER_COMP_ID;
             this.REFERENCED_DOSSIER = json.REFERENCED_DOSSIER.map(refDos => {
-                return new ReferencedDossier(refDos); 
+                return new ReferencedDossier(refDos);
             });
             this.DOSSIER_RA = json.DOSSIER_RA.map(dosRA => {
                 return new DossierRA(dosRA);
@@ -16,7 +16,7 @@ class Dossier {
             this.SUBMISSION = json.SUBMISSION.map(sub => {
                 return new Submission(sub);
             });
-            
+
             if (json._id) {
                 this._id = json._id;
             }
@@ -30,32 +30,32 @@ class Dossier {
             this.SUBMISSION = [];
         }
     }
-    
+
     addReferencedDossier(rd) {
         this.REFERENCED_DOSSIER.push(rd);
     }
-    
+
     addDossierRA(dr) {
         this.DOSSIER_RA.push(dr);
     }
-    
+
     addSubmission(sub) {
         this.SUBMISSION.push(sub);
     }
-    
+
     toGhstsJson() {
         const refDossiers = this.REFERENCED_DOSSIER.map(rd => {
-            return rd.toGhstsJson(); 
+            return rd.toGhstsJson();
         });
-        
+
         const dossierRAs = this.DOSSIER_RA.map(dr => {
-            return dr.toGhstsJson(); 
+            return dr.toGhstsJson();
         });
-        
+
         const submissions = this.SUBMISSION.map(sub => {
             return sub.toGhstsJson();
         });
-        
+
         return {
             DOSSIER_PID: this.DOSSIER_PID,
             DOSSIER_DESCRIPTION_TITLE: this.DOSSIER_DESCRIPTION_TITLE,
@@ -78,7 +78,7 @@ class ReferencedDossier {
             this.REFERENCED_DOSSIER_REASON = null;
         }
     }
-    
+
     toGhstsJson() {
         return {
             REFERENCED_DOSSIER_NUMBER: this.REFERENCED_DOSSIER_NUMBER,
@@ -92,7 +92,7 @@ class DossierRA {
         if (arguments.length === 1) {
             this._toSpecificForRAId = json._toSpecificForRAId;
             this.PROJECT_ID_NUMBER = json.PROJECT_ID_NUMBER;
-            
+
             if (json.REGULATORY_TYPE.ATTR_VALUE != undefined &&
                 json.REGULATORY_TYPE.ATTR_VALUE !== 'undefined') {
                 this.REGULATORY_TYPE = new ExtValueStruct(
@@ -107,7 +107,7 @@ class DossierRA {
                     json.REGULATORY_TYPE.VALUE_DECODE
                 );
             }
-            
+
             if (json.APPLICATION_TYPE.ATTR_VALUE != undefined &&
                 json.APPLICATION_TYPE.ATTR_VALUE !== 'undefined') {
                 this.APPLICATION_TYPE = new ExtValueStruct(
@@ -121,7 +121,7 @@ class DossierRA {
                     json.APPLICATION_TYPE.VALUE,
                     json.APPLICATION_TYPE.VALUE_DECODE
                 );
-            }            
+            }
         }
         else {
             this._toSpecificForRAId = '';
@@ -130,19 +130,19 @@ class DossierRA {
             this.PROJECT_ID_NUMBER = [];
         }
     }
-    
+
     setRAId(id) {
         this._toSpecificForRAId = id;
     }
-    
+
     setRegulatoryValueDecode(decode) {
         this.REGULATORY_TYPE.VALUE_DECODE = decode;
     }
-    
+	
     setApplicationValueDecode(decode) {
         this.APPLICATION_TYPE.VALUE_DECODE = decode;
     }
-    
+
     toGhstsJson() {
         // the project id numbers taken from the DB are an array,
         // but if we create a new DossierRA, they are a string value,
@@ -152,10 +152,10 @@ class DossierRA {
             numbers = numbers.map(item => {
                 return item.trim();
             });
-            
+
             this.PROJECT_ID_NUMBER = numbers;
         }
-        
+
         return {
             attr$: { To_Specific_for_RA_Id: this._toSpecificForRAId },
             REGULATORY_TYPE: this.REGULATORY_TYPE.toGhstsJson(),
