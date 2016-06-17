@@ -22,16 +22,20 @@ class GHSTS {
         this.legalEntities.push(legalEntity);
     }
 
-    setLegalEntities(legalEntities) {
-        this.legalEntities = legalEntities;
+    setLegalEntities() {
+        this.ghsts.LEGAL_ENTITIES = {
+            LEGAL_ENTITY: this.legalEntities
+        }
     }
 
     addReceiver(receiver) {
         this.receivers.push(receiver);
     }
 
-    setReceivers(receivers) {
-        this.receivers = receivers;
+    setReceivers() {
+        this.ghsts.RECEIVERS = {
+            RECEIVER: this.receivers
+        }
     }
 
     addSubmission(submission) {
@@ -66,8 +70,10 @@ class GHSTS {
         this.substances.push(substance);
     }
 
-    setSubstances(substances){
-        this.substances = substances;
+    setSubstances(){
+        this.ghsts.SUBSTANCES = {
+            SUBSTANCE: this.substances
+        }
     }
 
     readObjects() {

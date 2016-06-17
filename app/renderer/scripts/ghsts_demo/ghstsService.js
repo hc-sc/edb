@@ -54,43 +54,104 @@ class GhstsService {
         // submission perspective.  For demo purposes only, don't try this
         // at home... I mean in prod.
 
-        let ghsts = new GHSTS(__dirname + "/app/renderer/data/ghsts.xml");
+        // let ghsts = new GHSTS("./app/renderer/data/ghsts.xml");
+        //
+        // return ghsts.readObjects()
+        //     .then(() => {
+        //         console.log('XML read into GHSTS object. Read DB to update');
+        //         return this.legalEntityService.getLegalEntities();
+        //     })
+        //     .then(leList => {
+        //         for (const le of leList) {
+        //             ghsts.addLegalEntity(new LegalEntity(le).toGHSTSJson());
+        //         }
+        //
+        //         ghsts.setLegalEntities();
+        //
+        //         return this.receiverService.getReceivers();
+        //     })
+        //     .then(rcvrList => {
+        //         for (const receiver of rcvrList) {
+        //             ghsts.addReceiver(new Receiver(receiver).toGHSTSJson());
+        //         }
+        //
+        //         ghsts.setReceivers();
+        //
+        //         return this.productService.getProducts();
+        //     })
+        //     .then(products => {
+        //         ghsts.setProduct(new Product(products[0]).toGhstsJson());
+        //
+        //         return this.dossierService.getDossiers();
+        //     })
+        //     .then(dossiers => {
+        //         ghsts.setDossier(new Dossier(dossiers[0]).toGhstsJson());
+        //
+        //         return this.substanceService.getSubstances();
+        //     })
+        //     .then(substances => {
+        //         for (const substance of substances) {
+        //             ghsts.addSubstance(new Substance(substance).toGHSTSJson());
+        //         }
+        //
+        //         ghsts.setSubstances();
+        //
+        //         console.log(ghsts.ghsts);
+        //
+        //         return ghsts.writeXML(OUTPUT_FILE);
+        //     })
+        //     .then(() => {
+        //         console.log(`Successfully written to ${OUTPUT_FILE}`);
+        //     });
 
-        return ghsts.readObjects()
-            .then(() => {
-                console.log('XML read into GHSTS object. Read DB to update');
-                return this.legalEntityService.getLegalEntities();
-            })
-            .then(leList => {
-                for (const le of leList) {
-                    ghsts.addLegalEntity(new LegalEntity(le).toGHSTSJson());
+        let outputObj = new GHSTS();
+
+        // PATCH FOR RIGHT NOW, SINCE WE ARE MISSING FILES, DOCUMENTS, and TOC
+        console.log(this.submission);
+
+        outputObj.ghsts.TOC = this.submission.ghsts.TOC[0];
+        outputObj.ghsts.FILES = this.submission.ghsts.FILES[0];
+        outputObj.ghsts.DOCUMENTS = this.submission.ghsts.DOCUMENTS[0];
+
+        return this.legalEntityService.getLegalEntities()
+            .then(les => {
+                for (const le of les) {
+                    outputObj.addLegalEntity(new LegalEntity(le).toGHSTSJson());
                 }
+
+                outputObj.setLegalEntities();
 
                 return this.receiverService.getReceivers();
             })
-            .then(rcvrList => {
-                for (const receiver of rcvrList) {
-                    ghsts.addReceiver(new Receiver(receiver).toGHSTSJson());
+            .then(res => {
+                for (const re of res) {
+                    outputObj.addReceiver(new Receiver(re).toGHSTSJson());
                 }
+
+                outputObj.setReceivers();
 
                 return this.productService.getProducts();
             })
             .then(products => {
-                ghsts.setProduct(new Product(products[0]).toGhstsJson());
+                outputObj.setProduct(new Product(products[0]).toGhstsJson());
 
                 return this.dossierService.getDossiers();
             })
             .then(dossiers => {
-                ghsts.setDossier(new Dossier(dossiers[0]).toGhstsJson());
+                outputObj.setDossier(new Dossier(dossiers[0]).toGhstsJson());
 
                 return this.substanceService.getSubstances();
             })
             .then(substances => {
                 for (const substance of substances) {
-                    ghsts.addSubstance(new Substance(substance).toGHSTSJson());
+                    outputObj.addSubstance(new Substance(substance).toGHSTSJson());
                 }
 
-                return ghsts.writeXML(OUTPUT_FILE);
+                outputObj.setSubstances();
+
+                console.log(outputObj.ghsts);
+
+                return outputObj.writeXML(OUTPUT_FILE);
             })
             .then(() => {
                 console.log(`Successfully written to ${OUTPUT_FILE}`);
