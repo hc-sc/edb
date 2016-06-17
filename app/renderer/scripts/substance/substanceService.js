@@ -31,7 +31,7 @@ class SubstanceService {
         let now = Date.now();
 
         sub2DB.METADATA_STATUS = sub2DB.METADATA_STATUS ? sub2DB.METADATA_STATUS : status;
-        //TODO: temporary set value for new Id
+        //TODO: temporary set value for new Id, needs to be defected to the new business role   
         sub2DB._identifier = sub2DB._identifier ? sub2DB._identifier : 'IDS' + now;
         sub2DB.SUBSTANCE_PID = sub2DB.SUBSTANCE_PID ? (validatePid(sub2DB.SUBSTANCE_PID) ? sub2DB.SUBSTANCE_PID : generatePid()) : generatePid();
         this.substancesDb.insert(sub2DB, (err, result) => {
@@ -103,7 +103,7 @@ class SubstanceService {
                 attrkey: 'attr$'
             });
 
-            let xml = builder.buildObject(substance.toGHSTSJson());
+            let xml = builder.buildObject(substance.toGhstsJson());
             deferred.resolve(xml);
         });
         return deferred.promise;

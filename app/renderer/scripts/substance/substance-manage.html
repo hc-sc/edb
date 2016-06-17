@@ -16,7 +16,6 @@
         </md-input-container>
         <md-content>
             <md-list>
-                <!-- notice work around for nedb. 'track by index'' to fix $$hashkey problem -->
                 <md-list-item ng-repeat="it in _ctrl.substances track by $index" ng-click="_ctrl.selectSubstance(it, $index)">
                     <md-icon class="material-icons" aria-label="Substance">business</md-icon>
                     <p>{{it.SUBSTANCE_NAME}}</p>
