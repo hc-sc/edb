@@ -30,7 +30,7 @@ class GhstsService {
                     this.legalEntityService.initializeLE(),
                     this.productService.initializeProducts(this.submission),
                     this.dossierService.initializeDossiers(this.submission),
-                    this.substanceService.initializeSubstances()
+                    this.substanceService.initializeSubstances(this.submission)
                 ])
                 .catch(err => console.log(err.stack));
             })
@@ -78,7 +78,7 @@ class GhstsService {
             })
             .then(substances => {
                 for (const substance of substances) {
-                    ghsts.addSubstance(new Substance(substance).toGHSTSJson());
+                    ghsts.addSubstance(new Substance(substance).toGhstsJson());
                 }
 
                 return ghsts.writeXML(OUTPUT_FILE);

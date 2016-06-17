@@ -44,7 +44,7 @@ angular.module('ghstsApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages'])
     .service('dossierService', ['$q', DossierService])
     .controller('dossierController', ['$mdDialog', 'dossierService', 'pickListService', 'receiverService', DossierController])
     .service('substanceService', ['$q', SubstanceService])
-    .controller('substanceController', ['$mdDialog', 'substanceService']);
+    .controller('substanceController', ['$mdDialog', 'substanceService', SubstanceController]);
 
 
 function config($routeProvider, $mdThemingProvider) {
