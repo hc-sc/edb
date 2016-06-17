@@ -29,11 +29,11 @@ class SubstanceService {
         let status = new ValueStruct();
         let sub2DB = sub;
         let now = Date.now();
-        
+
         sub2DB.METADATA_STATUS = sub2DB.METADATA_STATUS ? sub2DB.METADATA_STATUS : status;
         //TODO: temporary set value for new Id
-        sub2DB._identifier = sub2DB._identifier ? sub2DB._identifier : 'IDS' + now; 
-        sub2DB.SUBSTANCE_PID = sub2DB.SUBSTANCE_PID ? (validatePid(sub2DB.SUBSTANCE_PID) ? sub2DB.SUBSTANCE_PID : generatePid()) : generatePid();  
+        sub2DB._identifier = sub2DB._identifier ? sub2DB._identifier : 'IDS' + now;
+        sub2DB.SUBSTANCE_PID = sub2DB.SUBSTANCE_PID ? (validatePid(sub2DB.SUBSTANCE_PID) ? sub2DB.SUBSTANCE_PID : generatePid()) : generatePid();
         this.substances.insert(sub2DB, (err, result) => {
             if (err) deferred.reject(err);
             deferred.resolve(result);
@@ -61,11 +61,8 @@ class SubstanceService {
     }
 
     // inits the db, grabs info from a file and inserts it. NOTE that xml2js creates arrays
-    initializeSubstances() {
-        let ghsts = new GHSTS('./app/renderer/data/ghsts.xml');
-        let promise = ghsts.readObjects();
-        promise.then(() => {
-            let entities = ghsts.substances;
+    initializeSubstances(submission) {
+            let entities = submission.substances;
 
             entities.map(item => {
                 let substance = new Substance();
@@ -83,7 +80,6 @@ class SubstanceService {
                 // insert into db
                 this.createSubstance(substance);
             })
-        });
     }
 
     getSubstanceGHSTSById(id) {

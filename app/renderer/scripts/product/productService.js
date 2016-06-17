@@ -96,6 +96,8 @@ class ProductService {
     initializeProducts(submission){
         const rawProduct = submission.product[0];
 
+        console.log(rawProduct);
+
         let product = new Product();
 
         product.METADATA_STATUS = new ValueStruct(

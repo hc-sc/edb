@@ -17,17 +17,17 @@ app.on('window-all-closed', function () {
 
 app.on('ready', function () {
     mainWindow = new BrowserWindow({
-        width: 1730,
-        height: 1000,
+        width: 1200,
+        height: 800,
         show: false
     });
 
     mainWindow.on('closed', function () {
         mainWindow = null;
     });
-    
+
     // mainWindow.openDevTools();
-    
+
     mainWindow.loadURL('file://' + __dirname + '/../renderer/index.html');
     mainWindow.webContents.on('did-finish-load', function () {
         // TODO: setTitle is being deprecated, find and use alternative

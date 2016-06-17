@@ -19,23 +19,32 @@ class GhstsService {
         this.submission = {};
     }
 
-    loadXml(fileName) {
-        const FILE_PATH = `${__dirname}/${DATA_DIR}/${fileName}`
-        new GHSTS(FILE_PATH).readObjects()
+    loadXml(filePath) {
+        new GHSTS(filePath).readObjects()
             .then(result => {
                 this.submission = result;
 
                 return Promise.all([
-                    this.receiverService.initializeReceivers(),
-                    this.legalEntityService.initializeLE(),
+                    this.receiverService.initializeReceivers(this.submission),
+                    this.legalEntityService.initializeLE(this.submission),
                     this.productService.initializeProducts(this.submission),
                     this.dossierService.initializeDossiers(this.submission),
-                    this.substanceService.initializeSubstances()
+                    this.substanceService.initializeSubstances(this.submission)
                 ])
                 .catch(err => console.log(err.stack));
             })
-            .then(() => console.log(`Successfully loaded ${fileName}`))
+            .then(() => console.log(`Successfully loaded file`))
             .catch(err => console.log(err.stack));
+    }
+
+    clearSubmission() {
+        return Promise.all([
+            this.receiverService.receivers.remove({}, { multi: true }),
+            this.legalEntityService.legalEntities.remove({}, { multi: true }),
+            this.productService.productsDb.remove({}, { multi: true }),
+            this.dossierService.dossiers.remove({}, { multi: true }),
+            this.substanceService.substances.remove({}, { multi: true })
+        ]);
     }
 
     assembleDemoGHSTS(){
@@ -44,7 +53,8 @@ class GhstsService {
         // in the database.  It does not care which one is "correct" from a
         // submission perspective.  For demo purposes only, don't try this
         // at home... I mean in prod.
-        let ghsts = new GHSTS("./app/renderer/data/ghsts.xml");
+
+        let ghsts = new GHSTS(__dirname + "/app/renderer/data/ghsts.xml");
 
         return ghsts.readObjects()
             .then(() => {
@@ -66,7 +76,6 @@ class GhstsService {
                 return this.productService.getProducts();
             })
             .then(products => {
-                console.log(products);
                 ghsts.setProduct(new Product(products[0]).toGhstsJson());
 
                 return this.dossierService.getDossiers();

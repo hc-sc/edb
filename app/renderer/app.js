@@ -1,34 +1,35 @@
 import angular from 'angular';
 import ngRouter from 'angular-route';
 import ngMaterial from 'angular-material';
-import ngAnimate from '../jspm_packages/github/angular/bower-angular-animate@1.4.9/angular-animate';
+import ngAnimate from 'angular-animate';
 import ngMessages from 'angular-messages';
-import {LegalEntityService} from './legal_entity/legalEntityService';
-import {LegalEntityController} from './legal_entity/legalEntityController';
-import {ProductService} from './product/productService';
-import {ProductController} from './product/productController';
-import {ReceiverService} from './receiver/receiverService';
-import {ReceiverController} from './receiver/receiverController';
-import {FileService} from './file/fileService';
-import {FileController} from './file/fileController';
-import {DocumentService} from './document/documentService';
-import {DocumentController} from './document/documentController';
-import {DossierService} from './dossier/dossierService';
-import {DossierController} from './dossier/dossierController';
-import {SubstanceService} from './substance/substanceService';
-import {SubstanceController} from './substance/substanceController';
-import {GhstsService} from './ghsts_demo/ghstsService';
-import {GhstsController} from './ghsts_demo/ghstsController';
-import {PickListService} from './common/pickListService';
+import {LegalEntityService} from './scripts/legal_entity/legalEntityService';
+import {LegalEntityController} from './scripts/legal_entity/legalEntityController';
+import {ProductService} from './scripts/product/productService';
+import {ProductController} from './scripts/product/productController';
+import {ReceiverService} from './scripts/receiver/receiverService';
+import {ReceiverController} from './scripts/receiver/receiverController';
+import {FileService} from './scripts/file/fileService';
+import {FileController} from './scripts/file/fileController';
+import {DocumentService} from './scripts/document/documentService';
+import {DocumentController} from './scripts/document/documentController';
+import {DossierService} from './scripts/dossier/dossierService';
+import {DossierController} from './scripts/dossier/dossierController';
+import {SubstanceService} from './scripts/substance/substanceService';
+import {SubstanceController} from './scripts/substance/substanceController';
+import {GhstsService} from './scripts/ghsts_demo/ghstsService';
+import {GhstsController} from './scripts/ghsts_demo/ghstsController';
+import {HomeController} from './scripts/home/HomeController';
+import {PickListService} from './scripts/common/pickListService';
 
 // notice stylesheet loading from app.js
-import '../jspm_packages/github/angular/bower-material@1.0.4/angular-material.css!';
+import './jspm_packages/github/angular/bower-material@1.0.4/angular-material.css!';
 
-import '../styles.css!';
+import './styles.css!';
 
 angular.module('ghstsApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages'])
     .config(config)
-    .service('pickListService', [PickListService])
+    .provider('pickListService', PickListService)
     .service('legalEntityService', ['$q', LegalEntityService])
     .controller('legalEntityController', ['$mdSidenav', '$location', 'pickListService', '$mdDialog', 'legalEntityService', LegalEntityController])
     .service('receiverService', ['$q', 'legalEntityService', ReceiverService])
@@ -44,20 +45,16 @@ angular.module('ghstsApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages'])
     .service('dossierService', ['$q', DossierService])
     .controller('dossierController', ['$mdDialog', 'dossierService', 'pickListService', 'receiverService', DossierController])
     .service('substanceService', ['$q', SubstanceService])
-    .controller('substanceController', ['$mdDialog', 'substanceService']);
+    .controller('substanceController', ['$mdDialog', 'substanceService'])
+    .controller('homeController', ['$rootScope', '$location', 'ghstsService', HomeController]);
 
 
 function config($routeProvider, $mdThemingProvider) {
     $routeProvider
         .when('/home', {
-            templateUrl: './home.html',
-            // NOTE, we need this for right now, as we need pickListService
-            // to instantiate as soon as possible. Giving it a controller that
-            // requires pickListService as a controller forces it to be made
-            // We should move
-            // pickListService to a separate module, and inject it into the
-            // main module as a dependency
-            controller: LegalEntityController
+            templateUrl: './scripts/home/home.html',
+            controller: HomeController,
+            controllerAs: '_ctrl'
         })
         .when('/demoGHSTS', {
             templateUrl: './scripts/ghsts_demo/ghsts.html',
@@ -101,7 +98,7 @@ function config($routeProvider, $mdThemingProvider) {
         })
         .when('/manage', {
             templateUrl: './manage.html'
-        })
+        });
     $routeProvider.otherwise({ redirectTo: '/home' });
 
     // set the theme

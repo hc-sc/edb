@@ -126,13 +126,9 @@ class LegalEntityService {
         return deferred.promise;
     }
 
-    initializeLE(){
-        // read from sample ghsts and populate the database with legal entities.
-        let ghsts = new GHSTS("./app/renderer/data/ghsts.xml");
-        let promise = ghsts.readObjects();
+    initializeLE(submission){
         let self = this;
-        promise.then(function(contents) {
-            let entities = ghsts.legalEntities;
+            let entities = submission.legalEntities;
             entities.forEach(le => {
                 // convert GHSTS json to legalEntities objects
                 // xml2js' use-and-abuse array setting is on to play safe for now, hence the default array references.
@@ -180,8 +176,6 @@ class LegalEntityService {
                  self.createLegalEntity(legalEntity);
 
             });
-        })
-        .catch(err => console.log(err.stack));
     }
 
     _createSampleLegalEntity(){

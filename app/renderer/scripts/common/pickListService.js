@@ -8,6 +8,7 @@ const version = __dirname + '/data/ghsts-picklists.xsd';
 
 class PickListService {
     constructor() {
+        console.log('picklist ctor');
         this.pickListTypes = new Nedb({
             filename: `${__dirname}/db/pickListTypes`,
             autoload: true
@@ -94,6 +95,8 @@ class PickListService {
         });
     }
 
+    $get() { return this; }
+
     getMetadataStatusOptions() {
         return [
             {VALUE_DECODE: "New", VALUE: "New"},
@@ -109,7 +112,7 @@ class PickListService {
 			{VALUE_DECODE: "Open", VALUE: "O"}
         ];
     }
-	
+
     getGEDocNumberTypeOptions() {
         return [
             {VALUE_DECODE: "Company ID", VALUE: "COMPID"},

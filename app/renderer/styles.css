@@ -10,6 +10,7 @@
 .anchor-card:hover {
     text-decoration: none;
     color: black;
+    cursor: pointer;
 }
 
 .card:hover {

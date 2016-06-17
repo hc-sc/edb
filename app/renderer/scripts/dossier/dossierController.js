@@ -2,7 +2,6 @@ import angular from 'angular';
 import { Dossier, ReferencedDossier, DossierRA } from './dossierModel';
 import { Submission } from '../submission/submissionModel';
 import { SubmissionController } from '../submission/submissionController';
-import { ExtValueStruct } from '../common/sharedModel';
 import _ from 'lodash';
 
 export class DossierController {
@@ -26,7 +25,7 @@ export class DossierController {
             })
             .then(ras => {
                 this.receiversWithNames = ras;
-                
+
                 return this.initFromDB();
             })
             .catch(err => console.log(err.stack));
@@ -99,7 +98,7 @@ export class DossierController {
             .content('Are you sure you want to delete this Referenced Dossier?')
             .ok('Yes')
             .cancel('No')
-            .targetEvent($event)
+            .targetEvent($event);
 
         this.$mdDialog.show(confirm)
             .then(() => {
@@ -119,7 +118,7 @@ export class DossierController {
             .content('Are you sure you want to delete this Dossier RA?')
             .ok('Yes')
             .cancel('No')
-            .targetEvent($event)
+            .targetEvent($event);
 
         this.$mdDialog.show(confirm)
             .then(() => {
@@ -196,7 +195,7 @@ export class DossierController {
     }
 }
 
-// don't need these if in app.js we pass as the last element in the array the constructor function
+// don't need these if in app.js we pass these in in order as the first element of the array, as the last element in the array the Class
 DossierController.$inject = ['$mdDialog', 'dossierService', 'pickListService', 'receiverService'];
 
-export { DossierController }
+export { DossierController };

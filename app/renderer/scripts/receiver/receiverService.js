@@ -41,7 +41,7 @@ class ReceiverService {
         });
         return deferred.promise;
     }
-    
+
     getRAsWithLegalEntityName() {
         let legalEntities = [];
         let receivers = [];
@@ -51,16 +51,16 @@ class ReceiverService {
                 legalEntities = les.map(le => {
                     return le;
                 });
-                
+
                 return this.getReceivers();
             })
             .then(res => {
                 receivers = res.map(re => {
                     return re;
                 });
-                
+
                 let receiversWithNames = [];
-                
+
                 for (const rec of receivers) {
                     for (const le of legalEntities) {
                         if (le._identifier === rec._toLegalEntityId) {
@@ -68,7 +68,7 @@ class ReceiverService {
                                 xsId: rec._identifier,
                                 name: le.LEGALENTITY_NAME
                             });
-                            
+
                             break;
                         }
                     }
@@ -106,34 +106,31 @@ class ReceiverService {
 
     // the following are demo related methods.  can be moved to a dedicated test class later
     getReceiverGHSTSById(id) {
-        // return GHSTS xml from receiver json. 
+        // return GHSTS xml from receiver json.
         let deferred = this.$q.defer();
         this.receivers.find({ '_id': id }, function (err, result) {
-            if (err) deferred.reject(err);           
-            
+            if (err) deferred.reject(err);
+
             // retrieved Json from database
             let rcvrJSON = result[0];
-            // create Receiver based on receiver JSON    
+            // create Receiver based on receiver JSON
             let rcvr = new Receiver(rcvrJSON);
-                        
+
             // convert to XML
             let builder = new xml2js.Builder({ rootName: 'RECEIVER', attrkey: 'attr$' });
             let xml = builder.buildObject(rcvr.toGHSTSJson());
             deferred.resolve(xml);
         });
         return deferred.promise;
-    }   
-    
-    initializeReceivers() {
+    }
+
+    initializeReceivers(submission) {
         // read from sample ghsts and populate the database with receivers.
-        let ghsts = new GHSTS("./app/renderer/data/ghsts.xml");
-        let promise = ghsts.readObjects();
         let self = this;
-        return promise.then(function (contents) {
-            let entities = ghsts.receivers;
+            let entities = submission.receivers;
             entities.forEach(rcvr => {
                 // convert GHSTS json to receivers objects
-                // xml2js' use-and-abuse array setting is on to play safe for now, hence the default array references.   
+                // xml2js' use-and-abuse array setting is on to play safe for now, hence the default array references.
                 let status = new ValueStruct(rcvr.METADATA_STATUS[0].VALUE[0], rcvr.METADATA_STATUS[0].VALUE_DECODE[0]);
                 let receiver = new Receiver();
                 receiver.receiverId = rcvr.attr$.Id;
@@ -143,18 +140,16 @@ class ReceiverService {
                 receiver.SHORT_NAME = rcvr.SHORT_NAME[0];
 
                 let sender = new Sender();
-                // the sample only has one sender in each receiver, otherwise we need to loop through the senders 
+                // the sample only has one sender in each receiver, otherwise we need to loop through the senders
                 sender.toLegalEntityId = rcvr.SENDER[0].attr$.To_Legal_Entity_Id,
                 sender.COMPANY_CONTACT_REGULATORY_ROLE = rcvr.SENDER[0].COMPANY_CONTACT_REGULATORY_ROLE[0],
                 sender.REMARK =  (rcvr.SENDER[0].REMARK[0] === undefined ? null : rcvr.SENDER[0].REMARK[0]);
-                receiver.addSender(sender);                
+                receiver.addSender(sender);
 
                 // enable the following to insert into db.
                 self.createReceiver(receiver);
 
             });
-        })
-        .catch(err => console.log(err.stack));
     }
 
     _createSampleReceiver() {
@@ -169,14 +164,14 @@ class ReceiverService {
         sender.toLegalEntityId = 'LE_CA_DRUGSYS';
         sender.COMPANY_CONTACT_REGULATORY_ROLE = 'Sender';
         sender.REMARK = 'Kanata Drug System';
-        
+
         rcvr.addSender(sender);
 
         console.log(JSON.stringify(rcvr));
         return rcvr;
     }
 
-    addReceiverToDB() {  
+    addReceiverToDB() {
         // add a new receiver to database
         let rcvr = this._createSampleReceiver();
         this.createReceiver(rcvr);
@@ -187,5 +182,3 @@ class ReceiverService {
 ReceiverService.$inject = ['$q', 'legalEntityService'];
 
 export { ReceiverService }
-
-

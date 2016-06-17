@@ -2,12 +2,15 @@
     <md-content class="md-padding" layout="column">
         <header layout="row" layout-align="center center" style="padding:10px; margin-bottom:20px">
             <img src="./img/GHSTS_logo.png" alt="GHSTS Logo" height="100%">
-            <h1 style="padding-left:10px">Welcome to the OECD GHSTS Submission Builder<h1>
+            <h1 style="padding-left:10px">Welcome to the GHSTS Submission Builder<h1>
         </header>
 
         <div layout-xs="column" layout="row">
-            <a class="anchor-card" ng-href="#" flex>
-                <md-card class="card">
+            <a class="anchor-card"
+            ng-href="#"
+            flex>
+                <md-card class="card"
+                style="background-color: gray; opacity: 0.3">
                     <md-card-title layout-align="center center">
                         <div layout="row" layout-align="center center">
                             <md-icon class="material-icons" aria-label="add new dossier">add</md-icon>
@@ -18,7 +21,8 @@
             </a>
 
             <a class="anchor-card" ng-href="#" flex>
-                <md-card class="card">
+                <md-card class="card"
+                style="background-color: gray; opacity: 0.3">
                     <md-card-title layout-align="center center">
                         <div layout="row" layout-align="center center">
                             <md-icon class="material-icons" aria-label="add new submission">add_box</md-icon>
@@ -28,8 +32,11 @@
                 </md-card>
             </a>
 
-            <a class="anchor-card" ng-href="#/manage" flex>
-                <md-card class="card">
+            <div class="anchor-card"
+            ng-click="_ctrl.showFilePicker()"
+            flex>
+                <md-card class="card"
+                style="color: white; background-color: rgb(17, 98, 154)">
                     <md-card-title layout-align="center center">
                         <div layout="row" layout-align="center center">
                             <md-icon class="material-icons" aria-label="edit submission">mode_edit</md-icon>
@@ -37,10 +44,11 @@
                         </div>
                     </md-card-title>
                 </md-card>
-            </a>
+            </div>
 
             <a class="anchor-card" ng-href="#" flex>
-                <md-card class="card">
+                <md-card class="card"
+                style="background-color: gray; opacity: 0.3">
                     <md-card-title layout-align="center center">
                         <div layout="row" layout-align="center center">
                             <md-icon class="material-icons" aria-label="edit submission">visibility</md-icon>
