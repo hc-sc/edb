@@ -21,6 +21,7 @@ class DocumentRAController {
         
         this.raDocNumTypeOptions = this.pickListService.getRADocNumberTypeOptions();
         
+        this.specificRaIdOptions = this.pickListService.getSpecificRaIdOptions();
     }      
   
     cancel($event) {
