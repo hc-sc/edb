@@ -24,7 +24,7 @@ import {PickListService} from './scripts/common/pickListService';
 
 // notice stylesheet loading from app.js
 import './jspm_packages/github/angular/bower-material@1.0.4/angular-material.css!';
-
+import './jspm_packages/github/twbs/bootstrap@3.3.6/css/bootstrap.min.css!';
 import './styles.css!';
 
 angular.module('ghstsApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages'])
@@ -46,7 +46,7 @@ angular.module('ghstsApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages'])
     .controller('dossierController', ['$mdDialog', 'dossierService', 'pickListService', 'receiverService', DossierController])
     .service('substanceService', ['$q', SubstanceService])
     .controller('substanceController', ['$mdDialog', 'substanceService'])
-    .controller('homeController', ['$rootScope', '$location', 'ghstsService', HomeController]);
+    .controller('homeController', ['$rootScope', '$location', '$mdDialog', 'ghstsService', HomeController]);
 
 
 function config($routeProvider, $mdThemingProvider, $mdIconProvider) {
@@ -97,12 +97,16 @@ function config($routeProvider, $mdThemingProvider, $mdIconProvider) {
             controllerAs: '_ctrl'
         })
         .when('/manage', {
-            templateUrl: './manage.html'
+            templateUrl: './scripts/manage/manage.html'
         });
     $routeProvider.otherwise({ redirectTo: '/home' });
 
     // set the theme
-    $mdThemingProvider.theme('default');
+    let newTheme = $mdThemingProvider.extendPalette('blue', {
+        '500': '#11629A'
+    });
+    $mdThemingProvider.definePalette('oecdColours', newTheme);
+    $mdThemingProvider.theme('default').primaryPalette('oecdColours');
     // test color
     //$mdThemingProvider.theme('default').primaryPalette('pink').accentPalette('orange');
 
@@ -138,7 +142,9 @@ function config($routeProvider, $mdThemingProvider, $mdIconProvider) {
         .icon('person-add-black', 'img/ic_person_add_black_24px.svg')
         .icon('person-add', 'img/ic_person_add_white_24px.svg')
         .icon('visibility-black', 'img/ic_visibility_black_24px.svg')
-        .icon('visiblity', 'img/ic_visibility_white_24px.svg');
+        .icon('visiblity', 'img/ic_visibility_white_24px.svg')
+        .icon('folder-black', 'img/ic_folder_black_24px.svg')
+        .icon('folder', 'img/ic_folder_white_24px.svg');
 }
 
 config.$inject = ['$routeProvider', '$mdThemingProvider', '$mdIconProvider'];

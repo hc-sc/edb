@@ -7,10 +7,10 @@
   "scripts": {
     "postinstall": "cd app && npm install && cd ..",
     "start": "electron app",
+    "start:bundled": "electron build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint . --quiet",
-    "tdd": "gulp tdd",
-    "bundle": "gulp bundle",
+    "bundle": "gulp bundle:clean",
     "bundle:map": "gulp bundle:map",
     "build": "gulp build",
     "clean": "gulp clean",

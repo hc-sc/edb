@@ -10,7 +10,7 @@
             ng-href="#"
             flex>
                 <md-card class="card"
-                style="background-color: gray; opacity: 0.3">
+                style="background-color: gray; opacity: 0.3; cursor: not-allowed">
                     <md-card-title layout-align="center center">
                         <div layout="row" layout-align="center center">
                             <md-icon md-svg-icon="add-black" aria-label="add new dossier"></md-icon>
@@ -22,7 +22,7 @@
 
             <a class="anchor-card" ng-href="#" flex>
                 <md-card class="card"
-                style="background-color: gray; opacity: 0.3">
+                style="background-color: gray; opacity: 0.3; cursor: not-allowed">
                     <md-card-title layout-align="center center">
                         <div layout="row" layout-align="center center">
                             <md-icon md-svg-icon="add-box-black" aria-label="add new submission"></md-icon>
@@ -48,7 +48,7 @@
 
             <a class="anchor-card" ng-href="#" flex>
                 <md-card class="card"
-                style="background-color: gray; opacity: 0.3">
+                style="background-color: gray; opacity: 0.3; cursor: not-allowed">
                     <md-card-title layout-align="center center">
                         <div layout="row" layout-align="center center">
                             <md-icon md-svg-icon="visibility-black" aria-label="edit submission"></md-icon>
@@ -58,5 +58,25 @@
                 </md-card>
             </a>
         </div>
+
+        <fieldset id="recents">
+            <legend id="recent-legend">Recent</legend>
+            <p class="recent-item" ng-repeat="recent in _ctrl.recents">
+                {{ recent.title }}
+            </p>
+        </fieldset>
+
+        <footer layout-xs="column" layout="row">
+            <div>
+                <md-button class="md-raised config-button" style="background-color: #3d3d3d; color: white; cursor: not-allowed">Configurations</md-button>
+            </div>
+            <span flex></span>
+            <div>
+                <md-button class="md-primary md-raised"
+                    ng-click="_ctrl.showHelp()">Help</md-button>
+                <md-button class="md-primary md-raised"
+                    ng-click="_ctrl.showAbout()">About</md-button>
+            </div>
+        </footer>
     </md-content>
 </main>
