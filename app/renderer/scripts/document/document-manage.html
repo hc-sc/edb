@@ -8,7 +8,7 @@
                 <h2>
                     <span>Documents</span>
                 </h2>
-            </div>                
+            </div>
    </md-toolbar>
         <md-input-container style="margin-bottom:0">
                 <label>Document</label>
@@ -16,7 +16,7 @@
         </md-input-container>
         <md-content>
             <md-list>
-                <!-- notice work around for nedb. 'track by index'' to fix $$hashkey problem -->                
+                <!-- notice work around for nedb. 'track by index'' to fix $$hashkey problem -->
                 <md-list-item ng-repeat="it in _ctrl.documents track by $index" ng-click="_ctrl.selectDocument(it, $index)">
                     <p>{{it._identifier}}</p>
                 </md-list-item>
@@ -24,20 +24,20 @@
         </md-content>
  </md-sidenav>
 
-        <div flex layout="column" tabIndex="-1" role="main" class="md-whiteframe-z2">            
-           
-              <md-toolbar layout="row" class="md-whiteframe-z1">   
-                 <div class="md-toolbar-tools">                
+        <div flex layout="column" tabIndex="-1" role="main" class="md-whiteframe-z2">
+
+              <md-toolbar layout="row" class="md-whiteframe-z1">
+                 <div class="md-toolbar-tools">
                      <md-button class="md-icon-button" aria-label="Document" ng-click="_ctrl.toggleSidenav('left')" hide-gt-sm>
-                         <md-icon class="material-icons" aria-label="Document">business</md-icon> 
+                         <md-icon class="material-icons" aria-label="Document">business</md-icon>
                      </md-button>
-                     <h2> {{ _ctrl.selected._identifier}}</h2> 
-                </div>                
-              </md-toolbar>     
+                     <h2> {{ _ctrl.selected._identifier}}</h2>
+                </div>
+              </md-toolbar>
               <md-content layout-padding >
                 <form id = "docform" name = "docform">
                     <div layout-gt-xs="row">
-                        <md-input-container class="md-block" flex-gt-sm>                        
+                        <md-input-container class="md-block" flex-gt-sm>
                             <label>Document ID</label>
                             <input ng-model="_ctrl.selected._identifier" type="text">
                         </md-input-container>
@@ -47,9 +47,9 @@
                             <label>Status</label>
                             <md-select name="repeatSelectStatus" id="repeatSelectStatus" ng-model="_ctrl.selected.DOCUMENT_GENERIC.METADATA_STATUS.VALUE" ng-change="_ctrl.updateSelectedStatusDecode()">
                                 <md-option ng-repeat="docStatus in _ctrl.metadataStatusOptions" value="{{docStatus.VALUE}}" ng-selected="{{_ctrl.selected.DOCUMENT_GENERIC.METADATA_STATUS.VALUE == docStatus.VALUE}}">{{ docStatus.VALUE_DECODE }}</md-option>
-                            </md-select>  
-                        </md-input-container>  
-                        <md-input-container class="md-block" flex-gt-sm>                        
+                            </md-select>
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm>
                             <label>PID</label>
                             <input ng-model="_ctrl.selected.DOCUMENT_GENERIC.DOCUMENT_PID" type="text">
                         </md-input-container>
@@ -67,14 +67,14 @@
                             <label>Document Number Type</label>
                             <md-select name="repeatDocNumType" id="repeatDocNumType" ng-model="_ctrl.selected.DOCUMENT_GENERIC.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE.VALUE" ng-change="_ctrl.updateSelectedDocNumTypeDecode()">
                                 <md-option ng-repeat="docGeDocNumType in _ctrl.geDocNumTypeOptions" value="{{docGeDocNumType.VALUE}}" ng-selected="{{_ctrl.selected.DOCUMENT_GENERIC.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE.VALUE == docGeDocNumType.VALUE}}">{{ docGeDocNumType.VALUE_DECODE }}</md-option>
-                            </md-select>  
+                            </md-select>
                         </md-input-container>
                     </div>
                     <div layout-gt-sm="row">
                         <md-input-container class="md-block" flex-gt-sm>
                             <label>DOCUMENT_TITLE</label>
                             <input ng-model="_ctrl.selected.DOCUMENT_GENERIC.DOCUMENT_TITLE" type="text">
-                        </md-input-container>                        
+                        </md-input-container>
                         <md-input-container class="md-block" flex-gt-sm>
                             <label>DOCUMENT_AUTHOR</label>
                             <input ng-model="_ctrl.selected.DOCUMENT_GENERIC.DOCUMENT_AUTHOR" type="text">
@@ -94,30 +94,30 @@
                         <md-input-container class="md-block" flex-gt-sm>
                             <label>COMPLETE_DOCUMENT_SOURCE</label>
                             <input ng-model="_ctrl.selected.DOCUMENT_GENERIC.COMPLETE_DOCUMENT_SOURCE" type="text">
-                        </md-input-container>                        
+                        </md-input-container>
                         <md-input-container class="md-block" flex-gt-sm>
                             <label>TEST_LABORATORY</label>
                             <input ng-model="_ctrl.selected.DOCUMENT_GENERIC.TEST_LABORATORY" type="text">
                         </md-input-container>
-                       
+
                     </div>
-                    
-                     
+
+
                      <md-toolbar>
                         <div class="md-toolbar-tools">
                             <h2>Reference To Files</h2>
                             <span flex></span>
-                      
+
                         </div>
                     </md-toolbar>
                     <md-list>
                         <md-list-item ng-repeat=" file in _ctrl.selected.DOCUMENT_GENERIC.REFERENCED_TO_FILE track by $index"  class="noright">
                             <md-icon class="material-icons" aria-label="folder"> folder </md-icon>
-                            <p>{{ file._toFileId }}</p>                                                                                                  
+                            <p>{{ file._toFileId }}</p>
                         </md-list-item>
                     </md-list>
-                
-                   
+
+
                  <md-toolbar>
                     <div class="md-toolbar-tools">
                         <h2>Document RAs</h2>
@@ -130,28 +130,28 @@
                 <md-list>
                     <md-list-item ng-repeat=" docRA in _ctrl.selected.DOCUMENT_RA track by $index" ng-click="_ctrl.showDocumentRA_Diag(docRA, $event)" class="noright">
                         <md-icon class="material-icons" aria-label="Document RA">folder</md-icon>
-                        <p>{{docRA._toSpecificforRAId }}</p>     
-                        <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteDocumentRA(docRA, $event)">Delete</md-button>                                                          
+                        <p>{{docRA._toSpecificforRAId }}</p>
+                        <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteDocumentRA(docRA, $event)">Delete</md-button>
                     </md-list-item>
                 </md-list>
-              
-                   
+
+
                 </form>
-              </md-content> 
-              
-            <section layout="row" layout-xs="column" layout-align="center center" layout-wrap>     
+              </md-content>
+
+            <section layout="row" layout-xs="column" layout-align="center center" layout-wrap>
                 <md-button class="md-raised md-info" ng-click="_ctrl.createDocument()">Add</md-button>
                 <md-button class="md-raised md-primary" ng-click="_ctrl.saveDocument($event)">Save</md-button>
                 <md-button class="md-raised md-danger" ng-click="_ctrl.cancelEdit()">Cancel</md-button>
-                <md-button class="md-raised md-warn" ng-click="_ctrl.deleteDocument()">Delete</md-button>     
-            </section>          
-           
-            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>  
-               <md-button class="md-raised md-primary" ng-click="_ctrl.viewDocumentJson()">View DOC JSON</md-button>                
-               <md-button class="md-raised md-primary" ng-click="_ctrl.viewDocumentGHSTS()">View DOC GHSTS</md-button>                                         
-               <md-button class="md-raised md-warn" ng-click="_ctrl.addTestDOC()">Add Sample DOC to DB</md-button>   
-               <md-button class="md-raised md-warn" ng-click="_ctrl.initializeDOC()">Initalize DB with Sample GHSTS DOC</md-button> 
-            </section>  
+                <md-button class="md-raised md-warn" ng-click="_ctrl.deleteDocument()">Delete</md-button>
+            </section>
+
+            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+               <md-button class="md-raised md-primary" ng-click="_ctrl.viewDocumentJson()">View DOC JSON</md-button>
+               <md-button class="md-raised md-primary" ng-click="_ctrl.viewDocumentGHSTS()">View DOC GHSTS</md-button>
+               <md-button class="md-raised md-warn" ng-click="_ctrl.addTestDOC()">Add Sample DOC to DB</md-button>
+               <md-button class="md-raised md-warn" ng-click="_ctrl.initializeDOC()">Initalize DB with Sample GHSTS DOC</md-button>
+            </section>
         </div>
 
 

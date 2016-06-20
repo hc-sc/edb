@@ -28,7 +28,7 @@ gulp.task('clean', function() {
 
 // just bundles
 gulp.task('bundle', shell.task(
-    'cd app && jspm bundle app.js renderer/bundle.js --skip-source-maps'
+    'cd app && jspm bundle-sfx app.js renderer/bundle.js'
 ));
 
 // bundles and produces source-maps

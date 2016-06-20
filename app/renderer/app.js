@@ -49,7 +49,7 @@ angular.module('ghstsApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages'])
     .controller('homeController', ['$rootScope', '$location', 'ghstsService', HomeController]);
 
 
-function config($routeProvider, $mdThemingProvider) {
+function config($routeProvider, $mdThemingProvider, $mdIconProvider) {
     $routeProvider
         .when('/home', {
             templateUrl: './scripts/home/home.html',
@@ -105,6 +105,40 @@ function config($routeProvider, $mdThemingProvider) {
     $mdThemingProvider.theme('default');
     // test color
     //$mdThemingProvider.theme('default').primaryPalette('pink').accentPalette('orange');
+
+    $mdIconProvider
+        .icon('home-black', 'img/ic_home_black_24px.svg')
+        .icon('home', 'img/ic_home_white_24px.svg')
+        .icon('menu-black', 'img/ic_menu_black_24px.svg')
+        .icon('menu', 'img/ic_menu_white_24px.svg')
+        .icon('add-black', 'img/ic_add_black_24px.svg')
+        .icon('add', 'img/ic_add_white_24px.svg')
+        .icon('add-circle-black', 'img/ic_add_circle_black_24px.svg')
+        .icon('add-circle', 'img/ic_add_circle_white_24px.svg')
+        .icon('add-box-black', 'img/ic_add_box_black_24px.svg')
+        .icon('add-box', 'img/ic_add_box_white_24px.svg')
+        .icon('edit-black', 'img/ic_mode_edit_black_24px.svg')
+        .icon('edit', 'img/ic_mode_edit_white_24px.svg')
+        .icon('check-black', 'img/ic_business_black_24px.svg')
+        .icon('check', 'img/ic_business_white_24px.svg')
+        .icon('close-black', 'img/ic_close_black_24px.svg')
+        .icon('close', 'img/ic_close_white_24px.svg')
+        .icon('done-black', 'img/ic_done_black_24px.svg')
+        .icon('done', 'img/ic_done_white_24px.svg')
+        .icon('assignment-black', 'img/ic_assignment_black_24px.svg')
+        .icon('assignment', 'img/ic_assignment_white_24px.svg')
+        .icon('business-black', 'img/ic_business_black_24px.svg')
+        .icon('business', 'img/ic_business_white_24px.svg')
+        .icon('back-black', 'img/ic_chevron_left_black_24px.svg')
+        .icon('back', 'img/ic_chevron_left_white_24px.svg')
+        .icon('forward-black', 'img/ic_chevron_right_black_24px.svg')
+        .icon('forward', 'img/ic_chevron_right_white_24px.svg')
+        .icon('expand-black', 'img/ic_expand_black_24px.svg')
+        .icon('expand', 'img/ic_expand_white_24px.svg')
+        .icon('person-add-black', 'img/ic_person_add_black_24px.svg')
+        .icon('person-add', 'img/ic_person_add_white_24px.svg')
+        .icon('visibility-black', 'img/ic_visibility_black_24px.svg')
+        .icon('visiblity', 'img/ic_visibility_white_24px.svg');
 }
 
-config.$inject = ['$routeProvider', '$mdThemingProvider'];
+config.$inject = ['$routeProvider', '$mdThemingProvider', '$mdIconProvider'];

@@ -2,8 +2,7 @@
     <md-toolbar layout="row" class="md-whiteframe-z1">
         <div class="md-toolbar-tools">
             <md-button class="md-icon-button" aria-label="Home" ng-href="#/manage">
-                <md-icon class="material-icons" aria-label="back">navigate_before</md-icon>
-
+                <md-icon md-svg-icon="back" aria-label="back"></md-icon>
             </md-button>
             <md-headline layout-padding> {{ _ctrl.selected.GENERIC_PRODUCT_NAME }}</md-headline>
         </div>
@@ -84,7 +83,7 @@
                     <h2>Ingredients</h2>
                     <span flex></span>
                     <md-button class="md-icon-button" ng-click="_ctrl.addIngredient()">
-                        <md-icon class="material-icons" aria-label="Add Identifier">add_circle</md-icon>
+                        <md-icon md-svg-icon="add-circle" aria-label="Add Identifier"></md-icon>
                     </md-button>
                 </div>
             </md-toolbar>
@@ -169,7 +168,7 @@
                     <h2>Regulatory Authority Specifics</h2>
                     <span flex></span>
                     <md-button class="md-icon-button" ng-click="_ctrl.addProductRA($event)">
-                        <md-icon class="material-icons" aria-label="Add Regulatory Authority">add_circle</md-icon>
+                        <md-icon md-svg-icon="add-circle" aria-label="Add Regulatory Authority"></md-icon>
                     </md-button>
                 </div>
             </md-toolbar>
@@ -177,7 +176,7 @@
             <md-list>
                 <md-list-item ng-repeat="ra in _ctrl.selected.PRODUCT_RA track by $index" ng-click="_ctrl.showProductRADiag(ra, $event)"
                     class="noright">
-                    <md-icon class="material-icons" aria-label="Regulatory Authority">business</md-icon>
+                    <md-icon md-svg-icon="business-black" aria-label="Regulatory Authority"></md-icon>
                     <p>{{ ra.PRODUCT_NAME }}</p>
                     <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteProductRA(ra, $event)" aria-label="Delete Regulatory Authority">
                         Delete

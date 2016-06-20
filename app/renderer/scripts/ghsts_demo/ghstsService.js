@@ -105,14 +105,10 @@ class GhstsService {
         //     });
 
         let outputObj = new GHSTS();
-
-        // PATCH FOR RIGHT NOW, SINCE WE ARE MISSING FILES, DOCUMENTS, and TOC
         console.log(this.submission);
 
-        outputObj.ghsts.TOC = this.submission.ghsts.TOC[0];
-        outputObj.ghsts.FILES = this.submission.ghsts.FILES[0];
-        outputObj.ghsts.DOCUMENTS = this.submission.ghsts.DOCUMENTS[0];
-
+        // PATCH FOR RIGHT NOW, SINCE WE ARE MISSING FILES, DOCUMENTS, and TOC
+        outputObj.ghsts = this.submission.ghsts;
         return this.legalEntityService.getLegalEntities()
             .then(les => {
                 for (const le of les) {

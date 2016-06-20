@@ -6,7 +6,7 @@ role="main">
     <md-toolbar layout="row" class="md-whiteframe-z1">
         <div class="md-toolbar-tools">
             <md-button class="md-icon-button" aria-label="back" ng-href="#/manage">
-                <md-icon class="material-icons" aria-label="back">navigate_before</md-icon>
+                <md-icon md-svg-icon="back" aria-label="back"></md-icon>
             </md-button>
             <h2><span>Demo Submission</span></h2>
         </div>
@@ -18,12 +18,6 @@ role="main">
             ng-click="_ctrl.assembleGHSTS()">
                 Package Submission
             </md-button>
-            <input
-            class="ng-hide"
-            type="file"
-            id="submissionName"
-            accept=".xml">
-            <label for="submissionName" class="md-button md-raised md-primary">Choose File</label>
         </div>
     </md-content>
 </main>
