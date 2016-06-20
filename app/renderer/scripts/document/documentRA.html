@@ -5,7 +5,7 @@
             <md-button class="md-icon-button">
                 <md-icon class="material-icons" aria-label="Add Document RA">folder</md-icon>
             </md-button>
-            <h2>{{_ctrl.documentRA._toSpecificforRAId}} Document RA</h2>
+            <h2>{{_ctrl.documentRA._toSpecificforRAId}}</h2>
             <span flex></span>
             <md-button class="md-icon-button" ng-click="_ctrl.cancel()">
                 <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
@@ -14,8 +14,17 @@
     </md-toolbar>
     <md-dialog-content class='autoScroll'>
         <div class="md-dialog-content">
+            <div layout-gt-sm="row">                
+                   <md-input-container class="md-block" flex-gt-sm>
+                        <label>Specific RA ID</label>
+                        <md-select name="repeatSelectStatus" id="repeatSelectStatus" ng-model="_ctrl.documentRA._toSpecificforRAId" ng-change="_ctrl.updateSelectedSpecRAIdDecode()">
+                            <md-option ng-repeat="docRaSpec in _ctrl.specificRaIdOptions" value="{{docRaSpec.VALUE}}" ng-selected="{{_ctrl.documentRA._toSpecificforRAId == docRaSpec.VALUE}}">{{ docRaSpec.VALUE_DECODE }}</md-option>
+                        </md-select>  
+                    </md-input-container>                               
+            </div>
+                    
             <div layout-gt-sm="row">
-                        
+                      
                    <md-input-container class="md-block" flex-gt-sm>
                         <label>Status</label>
                         <md-select name="repeatSelectStatus" id="repeatSelectStatus" ng-model="_ctrl.documentRA.METADATA_STATUS.VALUE" ng-change="_ctrl.updateSelectedStatusDecode()">
@@ -101,25 +110,29 @@
                    </div>                                                                         
                 </md-list-item>
             </md-list>
-            
-            <md-toolbar>
-                 <div class="md-toolbar-tools">
-                     <h2>Document RAs comment</h2>
-                     <span flex></span> 
-                     <md-button class="md-icon-button" ng-click="_ctrl.addDocumentRAComment()">
-                            <md-icon class="material-icons" aria-label="Add Comment">add_circle</md-icon>
-                     </md-button>
-                 </div>
-            </md-toolbar>
-            <md-list>
-                <md-list-item ng-repeat=" coment in _ctrl.documentRA.DOCUMENT_COMMENT track by $index"  class="noright">         
-                     <md-input-container class="md-block" flex-gt-sm>
+       
+                  <md-toolbar>
+                        <div class="md-toolbar-tools">
+                            <h2>Document RAs comment</h2>
+                            <span flex></span>
+                            <md-button class="md-icon-button" ng-click="_ctrl.addDocumentRAComment()">
+                                <md-icon class="material-icons" aria-label="Add Comment">add_circle</md-icon>
+                            </md-button>
+                        </div>
+                 </md-toolbar>  
+                 <md-card class="inset" ng-repeat=" coment in _ctrl.documentRA.DOCUMENT_COMMENT track by $index" >                        
+                    <div layout-gt-sm="row">         
+                        <md-input-container class="md-block" flex-gt-sm>
                           <label>Comment</label> 
-                          <input ng-model="_ctrl.documentRA.DOCUMENT_COMMENT[$index]" type="text">
-                     </md-input-container>   
-                     <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteDocumentRAComment(coment, $event)">Delete</md-button>                                                                  
-                </md-list-item>
-            </md-list>
+                          <textarea name="labInfo" ng-model="_ctrl.documentRA.DOCUMENT_COMMENT[$index]" md-maxlength="2000"></textarea>
+                        </md-input-container> 
+                        <div layout-align="end">
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteDocumentRAComment(coment, $event)">Delete</md-button> 
+                            </md-input-container>
+                        </div>               
+                    </div>         
+                </md-card>
            
             <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
                 <md-button class="md-raised md-primary" ng-click="_ctrl.cancel()">Cancel</md-button>    
