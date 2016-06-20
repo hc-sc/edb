@@ -4,18 +4,20 @@ import {Receiver, Sender} from '../receiver/receiverModel.js';
 import {ValueStruct} from '../common/sharedModel.js';
 import {Product} from '../product/productModel.js';
 import { Dossier } from '../dossier/dossierModel';
+import { Document } from '../document/documentModel';
 import { Substance, SubstanceIdentifierStruct } from '../substance/substanceModel';
 
 const DATA_DIR = 'data'
 const OUTPUT_FILE = './app/renderer/data/DemoGHSTS.xml';
 
 class GhstsService {
-    constructor(ReceiverService, LegalEntityService, ProductService, DossierService, SubstanceService) {
+    constructor(ReceiverService, LegalEntityService, ProductService, DossierService, SubstanceService, DocumentService) {
         this.receiverService = ReceiverService;
         this.legalEntityService = LegalEntityService;
         this.productService = ProductService;
         this.dossierService = DossierService;
         this.substanceService = SubstanceService;
+        this.documentService = DocumentService;
         this.submission = {};
     }
 
@@ -30,7 +32,8 @@ class GhstsService {
                     this.legalEntityService.initializeLE(),
                     this.productService.initializeProducts(this.submission),
                     this.dossierService.initializeDossiers(this.submission),
-                    this.substanceService.initializeSubstances(this.submission)
+                    this.substanceService.initializeSubstances(this.submission),
+                    this.documentService.initializeDOC()
                 ])
                 .catch(err => console.log(err.stack));
             })
@@ -63,6 +66,13 @@ class GhstsService {
                     ghsts.addReceiver(new Receiver(receiver).toGHSTSJson());
                 }
 
+                return this.documentService.getDocuments();
+            })
+            .then(docList => {
+                for (const document of docList) {
+                    ghsts.addDocument(new Document(document).toGHSTSJson());
+                }
+
                 return this.productService.getProducts();
             })
             .then(products => {
@@ -89,6 +99,6 @@ class GhstsService {
     }
 }
 
-GhstsService.$inject = [ 'receiverService', 'legalEntityService', 'productService', 'dossierService', 'substanceService'];
+GhstsService.$inject = [ 'receiverService', 'legalEntityService', 'productService', 'dossierService', 'substanceService', 'documentService'];
 
 export { GhstsService };

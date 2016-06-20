@@ -2,7 +2,7 @@
   <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
     <md-toolbar class="md-whiteframe-z1" layout="row">
             <div class="md-toolbar-tools">
-                <md-button class="md-icon-button" aria-label="Home" ng-href="#/home" ng-click="_ctrl.confirmLeavePage($event)">
+                <md-button class="md-icon-button" aria-label="Home" ng-href="#/manage" ng-click="_ctrl.confirmLeavePage($event)">
                     <md-icon class="material-icons" aria-label="Home">home</md-icon>    
                 </md-button>
                 <h2>
@@ -19,6 +19,7 @@
                 <!-- notice work around for nedb. 'track by index'' to fix $$hashkey problem -->                
                 <md-list-item ng-repeat="it in _ctrl.documents track by $index" ng-click="_ctrl.selectDocument(it, $index)">
                     <p>{{it._identifier}}</p>
+                    <!--<p>{{it.DOCUMENT_GENERIC.DOCUMENT_TITLE}}</p>-->
                 </md-list-item>
             </md-list>
         </md-content>
@@ -63,12 +64,7 @@
                             <label>Document Family</label>
                             <input ng-model="_ctrl.selected.DOCUMENT_GENERIC.DOCUMENT_FAMILY" type="text">
                         </md-input-container>
-                        <md-input-container class="md-block" flex-gt-sm>
-                            <label>Document Number Type</label>
-                            <md-select name="repeatDocNumType" id="repeatDocNumType" ng-model="_ctrl.selected.DOCUMENT_GENERIC.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE.VALUE" ng-change="_ctrl.updateSelectedDocNumTypeDecode()">
-                                <md-option ng-repeat="docGeDocNumType in _ctrl.geDocNumTypeOptions" value="{{docGeDocNumType.VALUE}}" ng-selected="{{_ctrl.selected.DOCUMENT_GENERIC.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE.VALUE == docGeDocNumType.VALUE}}">{{ docGeDocNumType.VALUE_DECODE }}</md-option>
-                            </md-select>  
-                        </md-input-container>
+                        
                     </div>
                     <div layout-gt-sm="row">
                         <md-input-container class="md-block" flex-gt-sm>
@@ -85,37 +81,212 @@
                             <label>DOCUMENT_ISSUE_DATE</label>
                             <input ng-model="_ctrl.selected.DOCUMENT_GENERIC.DOCUMENT_ISSUE_DATE" type="text">
                         </md-input-container>
-                        <md-input-container class="md-block" flex-gt-sm>
-                            <label>DOCUMENT_OWNER</label>
-                            <input ng-model="_ctrl.selected.DOCUMENT_GENERIC.DOCUMENT_OWNER" type="text">
-                        </md-input-container>
                     </div>
                     <div layout-gt-sm="row">
                         <md-input-container class="md-block" flex-gt-sm>
                             <label>COMPLETE_DOCUMENT_SOURCE</label>
                             <input ng-model="_ctrl.selected.DOCUMENT_GENERIC.COMPLETE_DOCUMENT_SOURCE" type="text">
                         </md-input-container>                        
+                    </div>
+                 <md-toolbar>
+                        <div class="md-toolbar-tools">
+                            <h2>Document Number</h2>
+                            <span flex></span>
+                            <md-button class="md-icon-button" ng-click="_ctrl.addDocumentNumber()">
+                                <md-icon class="material-icons" aria-label="Add Document Number">add_circle</md-icon>
+                            </md-button>
+                        </div>
+                 </md-toolbar>  
+                 <md-card class="inset" ng-repeat=" docnum in _ctrl.selected.DOCUMENT_GENERIC.DOCUMENT_NUMBER track by $index">                        
+                    <div layout-gt-sm="row">  
                         <md-input-container class="md-block" flex-gt-sm>
-                            <label>TEST_LABORATORY</label>
-                            <input ng-model="_ctrl.selected.DOCUMENT_GENERIC.TEST_LABORATORY" type="text">
+                            <label>Document Number Type</label>
+                            <md-select name="repeatDocNumType" id="repeatDocNumType" ng-model="docnum.DOCUMENT_NUMBER_TYPE.VALUE" ng-change="_ctrl.updateSelectedDocTypeDecode($index)">
+                                <md-option ng-repeat="docGeDocNumType in _ctrl.geDocNumTypeOptions" value="{{docGeDocNumType.VALUE}}" ng-selected="{{docnum.DOCUMENT_NUMBER_TYPE.VALUE == docGeDocNumType.VALUE}}">{{ docGeDocNumType.VALUE_DECODE }}</md-option>
+                            </md-select>  
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Identifier</label>
+                            <input ng-model="docnum.IDENTIFIER" type="text">
+                        </md-input-container>
+                        <div layout-align="end">
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteDocumentNumber(docnum, $event)">Delete</md-button>
+                            </md-input-container>
+                        </div>               
+                    </div>         
+                </md-card>
+                
+                 <md-toolbar>
+                        <div class="md-toolbar-tools">
+                            <h2>Document Owner</h2>
+                            <span flex></span>
+                            <md-button class="md-icon-button" ng-click="_ctrl.addDocumentOwner()">
+                                <md-icon class="material-icons" aria-label="Add Document Owner">add_circle</md-icon>
+                            </md-button>
+                        </div>
+                 </md-toolbar>  
+                 <md-card class="inset" ng-repeat=" docOwn in _ctrl.selected.DOCUMENT_GENERIC.DOCUMENT_OWNER track by $index">                        
+                    <div layout-gt-sm="row">         
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Document Owner</label>
+                            <input ng-model="_ctrl.selected.DOCUMENT_GENERIC.DOCUMENT_OWNER[$index]" type="text">
+                        </md-input-container> 
+                        <div layout-align="end">
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteDocumentOwner(docOwn, $event)">Delete</md-button>
+                            </md-input-container>
+                        </div>               
+                    </div>         
+                </md-card>
+                
+                 <md-toolbar>
+                        <div class="md-toolbar-tools">
+                            <h2>Test Laboratory</h2>
+                            <span flex></span>
+                            <md-button class="md-icon-button" ng-click="_ctrl.addTestLab()">
+                                <md-icon class="material-icons" aria-label="Add Test Lab">add_circle</md-icon>
+                            </md-button>
+                        </div>
+                 </md-toolbar>  
+                 <md-card class="inset" ng-repeat=" tlab in _ctrl.selected.DOCUMENT_GENERIC.TEST_LABORATORY  track by $index">                        
+                    <div layout-gt-sm="row">         
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Test Laboratory</label>
+                            <textarea name="labInfo" ng-model="_ctrl.selected.DOCUMENT_GENERIC.TEST_LABORATORY[$index]" md-maxlength="2000"></textarea>
+                        </md-input-container> 
+                        <div layout-align="end">
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteTestLab(tlab, $event)">Delete</md-button>
+                            </md-input-container>
+                        </div>               
+                    </div>         
+                </md-card>
+                
+                 <md-toolbar>
+                        <div class="md-toolbar-tools">
+                            <h2>Content Status History</h2>
+                            <span flex></span>
+                            <md-button class="md-icon-button" ng-click="_ctrl.addContentStatusHistory()">
+                                <md-icon class="material-icons" aria-label="Add Content Status History">add_circle</md-icon>
+                            </md-button>
+                        </div>
+                 </md-toolbar>  
+                 <md-card class="inset" ng-repeat=" con in _ctrl.selected.DOCUMENT_GENERIC.CONTENT_STATUS_HISTORY track by $index">  
+                      <div layout-gt-sm="row">       
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Content Status</label>
+                            <md-select name="repeatConType" id="repeatConType" ng-model="con.CONTENT_STATUS.VALUE" ng-change="_ctrl.updateSelectedContStatDecode($index)">
+                                <md-option ng-repeat="contType in _ctrl.geDocContStatTypeOptions" value="{{contType.VALUE}}" ng-selected="{{con.CONTENT_STATUS.VALUE == contType.VALUE}}">{{ contType.VALUE_DECODE }}</md-option>
+                            </md-select>  
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Submission Number</label>
+                            <input ng-model="con.SUBMISSION_NUMBER" type="text">
+                        </md-input-container>
+                        <div layout-align="end">
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteContentStatusHistory(con, $event)">Delete</md-button>
+                            </md-input-container>
+                        </div>                  
+                    </div>                                  
+                 </md-card>
+                
+                 <md-toolbar>
+                        <div class="md-toolbar-tools">
+                            <h2>Reference Documents</h2>
+                            <span flex></span>
+                            <md-button class="md-icon-button" ng-click="_ctrl.addReferencedDocument()">
+                                <md-icon class="material-icons" aria-label="Add Reference Document">add_circle</md-icon>
+                            </md-button>
+                        </div>
+                 </md-toolbar>  
+                 <md-card class="inset" ng-repeat=" refDoc in _ctrl.selected.DOCUMENT_GENERIC.REFERENCED_DOCUMENT track by $index">  
+                      <div layout-gt-sm="row">   
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>INTERNAL</label>
+                            <input ng-model="refDoc.INTERNAL" type="text">
+                        </md-input-container>        
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Reference Type</label>
+                            <md-select name="repeatRefType" id="repeatRefType" ng-model="refDoc.REFERENCE_TYPE.VALUE" ng-change="_ctrl.updateSelectedRefTypeDecode($index)">
+                                <md-option ng-repeat="refType in _ctrl.geDocReferenceTypeOptions" value="{{refType.VALUE}}" ng-selected="{{refDoc.REFERENCE_TYPE.VALUE == refType.VALUE}}">{{ refType.VALUE_DECODE }}</md-option>
+                            </md-select>  
                         </md-input-container>
                        
-                    </div>
+                    </div>                               
+                    <div layout-gt-sm="row">
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Document PID</label>
+                            <input ng-model="refDoc.DOCUMENT_PID" type="text">
+                        </md-input-container>                       
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Document Number</label>
+                            <md-select name="repeatDocType" id="repeatDocType" ng-model="refDoc.DOCUMENT_NUMBER.DOCUMENT_NUMBER_TYPE.VALUE" ng-change="_ctrl.updateSelectedRefDocTypeDecode($index)">
+                                <md-option ng-repeat="docType in _ctrl.geDocNumTypeOptions" value="{{docType.VALUE}}" ng-selected="{{refDoc.DOCUMENT_NUMBER.DOCUMENT_NUMBER_TYPE.VALUE == docType.VALUE}}">{{ docType.VALUE_DECODE }}</md-option>
+                            </md-select>  
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Identifier</label>
+                            <input ng-model="refDoc.DOCUMENT_NUMBER.IDENTIFIER" type="text">
+                        </md-input-container>
+                        <div layout-align="end">
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteReferencedDocument(refDoc, $event)">Delete</md-button>
+                            </md-input-container>
+                        </div>               
+                    </div>         
+                </md-card>
+                
+                 <md-toolbar>
+                        <div class="md-toolbar-tools">
+                            <h2>Related To Substances</h2>
+                            <span flex></span>
+                            <md-button class="md-icon-button" ng-click="_ctrl.addRelatedSubstance()">
+                                <md-icon class="material-icons" aria-label="Add Reference Substance">add_circle</md-icon>
+                            </md-button>
+                        </div>
+                 </md-toolbar>  
+                 <md-card class="inset" ng-repeat=" sub in _ctrl.selected.DOCUMENT_GENERIC.RELATED_TO_SUBSTANCE track by $index">                        
+                    <div layout-gt-sm="row">  
+                        <md-input-container class="md-block" flex-gt-sm> 
+                            <label>Substance</label>
+                            <md-select name="repeatSelectSub" id="repeatSelectSub" ng-model="sub._toSubstanceId">
+                                <md-option ng-repeat="sbo in _ctrl.subReferencedOptions" value="{{sbo.id}}" ng-selected="{{sub._toSubstanceId == sbo.id}}">{{sbo.name}}</md-option>
+                            </md-select>
+                        </md-input-container>  
+                        <div layout-align="end">
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteRelatedSubstance(sub._toSubstanceId, $event)">Delete</md-button>
+                            </md-input-container>
+                        </div>               
+                    </div>         
+                </md-card>
                     
-                     
-                     <md-toolbar>
+                 <md-toolbar>
                         <div class="md-toolbar-tools">
                             <h2>Reference To Files</h2>
                             <span flex></span>
-                      
+                            <md-button class="md-icon-button" ng-click="_ctrl.addReferencedFile()">
+                                <md-icon class="material-icons" aria-label="Add Reference File">add_circle</md-icon>
+                            </md-button>
                         </div>
-                    </md-toolbar>
-                    <md-list>
-                        <md-list-item ng-repeat=" file in _ctrl.selected.DOCUMENT_GENERIC.REFERENCED_TO_FILE track by $index"  class="noright">
-                            <md-icon class="material-icons" aria-label="folder"> folder </md-icon>
-                            <p>{{ file._toFileId }}</p>                                                                                                  
-                        </md-list-item>
-                    </md-list>
+                 </md-toolbar>  
+                 <md-card class="inset" ng-repeat=" file in _ctrl.selected.DOCUMENT_GENERIC.REFERENCED_TO_FILE track by $index">                        
+                    <div layout-gt-sm="row">  
+                        <md-input-container class="md-block" flex-gt-sm> 
+                            <label>File Reference</label>
+                            <md-select name="repeatSelectFile" id="repeatSelectFile" ng-model="file._toFileId">
+                                <md-option ng-repeat="fo in _ctrl.fileReferencedOptions" value="{{fo.id}}" ng-selected="{{file._toFileId == fo.id}}">{{fo.name}}</md-option>
+                            </md-select>
+                        </md-input-container>  
+                        <div layout-align="end">
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteReferencedFile(file._toFileId, $event)">Delete</md-button>
+                            </md-input-container>
+                        </div>               
+                    </div>         
+                </md-card>
                 
                    
                  <md-toolbar>
@@ -146,12 +317,12 @@
                 <md-button class="md-raised md-warn" ng-click="_ctrl.deleteDocument()">Delete</md-button>     
             </section>          
            
-            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>  
+            <!--<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>  
                <md-button class="md-raised md-primary" ng-click="_ctrl.viewDocumentJson()">View DOC JSON</md-button>                
                <md-button class="md-raised md-primary" ng-click="_ctrl.viewDocumentGHSTS()">View DOC GHSTS</md-button>                                         
                <md-button class="md-raised md-warn" ng-click="_ctrl.addTestDOC()">Add Sample DOC to DB</md-button>   
                <md-button class="md-raised md-warn" ng-click="_ctrl.initializeDOC()">Initalize DB with Sample GHSTS DOC</md-button> 
-            </section>  
+            </section>  -->
         </div>
 
 
