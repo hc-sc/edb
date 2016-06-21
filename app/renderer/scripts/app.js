@@ -25,9 +25,13 @@ import {PickListService} from './common/pickListService';
 import '../jspm_packages/github/angular/bower-material@1.0.4/angular-material.css!';
 
 import '../styles.css!';
+import '../css/bootstrap.css!';
+import '../css/angular-ui-tree.css!';
+import '../css/app.css!';
 
-angular.module('ghstsApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages'])
-    .config(config)
+var app = angular.module('ghstsApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages']);
+
+    app.config(config)
     .service('pickListService', [PickListService])
     .service('legalEntityService', ['$q', LegalEntityService])
     .controller('legalEntityController', ['$mdSidenav', '$location', 'pickListService', '$mdDialog', 'legalEntityService', LegalEntityController])
@@ -47,7 +51,7 @@ angular.module('ghstsApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages'])
     .controller('substanceController', ['$mdDialog', 'substanceService', SubstanceController]);
 
 
-function config($routeProvider, $mdThemingProvider) {
+function config($routeProvider, $mdThemingProvider, $controllerProvider, $provide, $compileProvider, $filterProvider) {
     $routeProvider
         .when('/home', {
             templateUrl: './home.html',
@@ -102,12 +106,55 @@ function config($routeProvider, $mdThemingProvider) {
         .when('/manage', {
             templateUrl: './manage.html'
         })
+        .when('/demoTOC', {
+            templateUrl: './scripts/toc/tocview.html', 
+            controller: 'TocController'
+        });
     $routeProvider.otherwise({ redirectTo: '/home' });
 
     // set the theme
     $mdThemingProvider.theme('default');
     // test color
     //$mdThemingProvider.theme('default').primaryPalette('pink').accentPalette('orange');
+
+    app._controller = app.controller;
+    app._service = app.service;
+    app._factory = app.factory;
+    app._value = app.value;
+    app._directive = app.directive;
+
+    app.controller = function(name, constructor){
+        $controllerProvider.register(name, constructor);
+        return (this);
+    }
+
+    app.service = function(name, constructor){
+        $provide.service(name, constructor);
+        return(this);
+    }
+
+    app.factory = function(name, factory){
+        $provide.factory(name, factory);
+        return (this);
+    }
+
+    app.value = function(name, value){
+        $provide.value(name, value);
+        return (this);
+    }
+
+    app.constant = function(name, value){
+        $provide.constant(name, value);
+    }
+
+    app.directive = function(name, factory){
+        $compileProvider.directive(name, factory);
+        return (this);
+    }
+
+    app.filter = function(name, factory){
+        $filterProvider.register(name, constructor);
+    }
 }
 
-config.$inject = ['$routeProvider', '$mdThemingProvider'];
+config.$inject = ['$routeProvider', '$mdThemingProvider', '$controllerProvider', '$provide', '$compileProvider', '$filterProvider'];

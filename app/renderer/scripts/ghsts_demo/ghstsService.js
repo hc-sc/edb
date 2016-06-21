@@ -41,6 +41,11 @@ class GhstsService {
             .catch(err => console.log(err.stack));
     }
 
+    getGhstsJson(){
+        let ghsts = new GHSTS("./app/renderer/data/ghsts.xml");     
+        return ghsts.readObjects();
+    }
+
     assembleDemoGHSTS(){
         // this function reads from an existing ghsts.xml file and then
         // overwrites the various nodes in the xml with the collection it finds
