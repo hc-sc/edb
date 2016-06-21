@@ -10,10 +10,11 @@
     "start:bundled": "electron build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint . --quiet",
-    "bundle": "gulp bundle:clean",
+    "bundle": "gulp bundle",
     "bundle:map": "gulp bundle:map",
     "build": "gulp build",
     "clean": "gulp clean",
+    "clean:full": "gulp clean:full",
     "pack": "gulp pack"
   },
   "repository": {

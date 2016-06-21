@@ -36,7 +36,7 @@ angular.module('ghstsApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages'])
     .controller('receiverController', ['$mdDialog', '$mdSidenav', 'receiverService', 'legalEntityService', ReceiverController])
     .service('productService', ['$q', ProductService])
     .controller('productController', ['$mdDialog', 'receiverService', 'productService', 'substanceService', 'pickListService', ProductController])
-    .service('ghstsService', ['receiverService', 'legalEntityService', 'productService', 'dossierService', 'substanceService', 'documentService', GhstsService])
+    .service('ghstsService', ['receiverService', 'legalEntityService', 'productService', 'dossierService', 'substanceService', 'documentService', 'fileService', GhstsService])
     .controller('ghstsController', ['$mdDialog', 'ghstsService', GhstsController])
     .service('fileService', ['$q', FileService])
     .controller('fileController', ['$mdDialog','$mdSidenav', 'fileService', FileController])
@@ -45,7 +45,7 @@ angular.module('ghstsApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages'])
     .service('dossierService', ['$q', DossierService])
     .controller('dossierController', ['$mdDialog', 'dossierService', 'pickListService', 'receiverService', DossierController])
     .service('substanceService', ['$q', SubstanceService])
-    .controller('substanceController', ['$mdDialog', 'substanceService'])
+    .controller('substanceController', ['$mdDialog', 'substanceService', SubstanceController])
     .controller('homeController', ['$rootScope', '$location', '$mdDialog', 'ghstsService', HomeController]);
 
 
@@ -139,12 +139,16 @@ function config($routeProvider, $mdThemingProvider, $mdIconProvider) {
         .icon('forward', 'img/ic_chevron_right_white_24px.svg')
         .icon('expand-black', 'img/ic_expand_black_24px.svg')
         .icon('expand', 'img/ic_expand_white_24px.svg')
+        .icon('person-black', 'img/ic_person_black_24px.svg')
+        .icon('person', 'img/ic_person_white_24px.svg')
         .icon('person-add-black', 'img/ic_person_add_black_24px.svg')
         .icon('person-add', 'img/ic_person_add_white_24px.svg')
         .icon('visibility-black', 'img/ic_visibility_black_24px.svg')
         .icon('visiblity', 'img/ic_visibility_white_24px.svg')
         .icon('folder-black', 'img/ic_folder_black_24px.svg')
-        .icon('folder', 'img/ic_folder_white_24px.svg');
+        .icon('folder', 'img/ic_folder_white_24px.svg')
+        .icon('description-black', 'img/ic_folder_black_24px.svg')
+        .icon('description', 'img/ic_folder_white_24px.svg');
 }
 
 config.$inject = ['$routeProvider', '$mdThemingProvider', '$mdIconProvider'];

@@ -43,7 +43,6 @@ class DocumentService {
      createDocument(document) {
         let deferred = this.$q.defer();
         this.documents.insert(document, function (err, result) {
-            console.log(err)
             if (err) deferred.reject(err);
             deferred.resolve(result);
         });
@@ -54,7 +53,6 @@ class DocumentService {
         let deferred = this.$q.defer();
         this.documents.remove({'_id': id}, function (err, res) {
             if (err) deferred.reject(err);
-            console.log(res);
             deferred.resolve(res.affectedRows);
         });
         return deferred.promise;
@@ -66,7 +64,6 @@ class DocumentService {
         this.documents.update({_id: document._id}, document, {}, function (err, numReplaced) {
             if (err) {
                 deferred.reject(err);
-                console.log(err);
             }
             deferred.resolve(numReplaced);
         });
@@ -285,8 +282,6 @@ class DocumentService {
 
         //doc.addDocumentRA(docRA);
        doc.DOCUMENT_GENERIC = docGeneric;
-
-       console.log(JSON.stringify(doc));
 
        return doc;
     }
