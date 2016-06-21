@@ -1,10 +1,7 @@
 import Nedb from 'nedb';
 import xml2js from 'xml2js';
-import {GHSTS} from '../common/ghsts.js';
 import {ValueStruct} from '../common/sharedModel.js';
 import {Receiver, Sender} from './receiverModel.js';
-import { LegalEntity } from '../legal_entity/legalEntityModel';
-import _ from 'lodash';
 
 class ReceiverService {
     constructor($q, legalEntityService) {
@@ -126,30 +123,29 @@ class ReceiverService {
 
     initializeReceivers(submission) {
         // read from sample ghsts and populate the database with receivers.
-        let self = this;
-            let entities = submission.receivers;
-            entities.forEach(rcvr => {
-                // convert GHSTS json to receivers objects
-                // xml2js' use-and-abuse array setting is on to play safe for now, hence the default array references.
-                let status = new ValueStruct(rcvr.METADATA_STATUS[0].VALUE[0], rcvr.METADATA_STATUS[0].VALUE_DECODE[0]);
-                let receiver = new Receiver();
-                receiver.receiverId = rcvr.attr$.Id;
-                receiver.toLegalEntityId = rcvr.attr$.To_Legal_Entity_Id;
-                receiver.METADATA_STATUS = status;
-                receiver.ROLE = rcvr.ROLE[0];
-                receiver.SHORT_NAME = rcvr.SHORT_NAME[0];
+        let entities = submission.receivers;
+        entities.forEach(rcvr => {
+            // convert GHSTS json to receivers objects
+            // xml2js' use-and-abuse array setting is on to play safe for now, hence the default array references.
+            let status = new ValueStruct(rcvr.METADATA_STATUS[0].VALUE[0], rcvr.METADATA_STATUS[0].VALUE_DECODE[0]);
+            let receiver = new Receiver();
+            receiver.receiverId = rcvr.attr$.Id;
+            receiver.toLegalEntityId = rcvr.attr$.To_Legal_Entity_Id;
+            receiver.METADATA_STATUS = status;
+            receiver.ROLE = rcvr.ROLE ? rcvr.ROLE[0] : '';
+            receiver.SHORT_NAME = rcvr.SHORT_NAME[0];
 
-                let sender = new Sender();
-                // the sample only has one sender in each receiver, otherwise we need to loop through the senders
-                sender.toLegalEntityId = rcvr.SENDER[0].attr$.To_Legal_Entity_Id,
-                sender.COMPANY_CONTACT_REGULATORY_ROLE = rcvr.SENDER[0].COMPANY_CONTACT_REGULATORY_ROLE[0],
-                sender.REMARK =  (rcvr.SENDER[0].REMARK[0] === undefined ? null : rcvr.SENDER[0].REMARK[0]);
-                receiver.addSender(sender);
+            let sender = new Sender();
+            // the sample only has one sender in each receiver, otherwise we need to loop through the senders
+            sender.toLegalEntityId = rcvr.SENDER[0].attr$.To_Legal_Entity_Id;
+            sender.COMPANY_CONTACT_REGULATORY_ROLE = rcvr.SENDER[0].COMPANY_CONTACT_REGULATORY_ROLE ? rcvr.SENDER[0].COMPANY_CONTACT_REGULATORY_ROLE[0] : '';
+            sender.REMARK =  rcvr.SENDER[0].REMARK ? rcvr.SENDER[0].REMARK[0] : '';
+            receiver.addSender(sender);
 
-                // enable the following to insert into db.
-                self.createReceiver(receiver);
+            // enable the following to insert into db.
+            this.createReceiver(receiver);
 
-            });
+        });
     }
 
     _createSampleReceiver() {
@@ -181,4 +177,4 @@ class ReceiverService {
 
 ReceiverService.$inject = ['$q', 'legalEntityService'];
 
-export { ReceiverService }
+export { ReceiverService };
