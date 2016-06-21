@@ -89,7 +89,7 @@
             </md-toolbar>
 
             <md-list>
-                <md-card ng-repeat="ing in _ctrl.selected.INGREDIENTS track by $index" style="padding: 10px">
+                <md-card ng-repeat="ing in _ctrl.selected.INGREDIENTS track by $index" class="list-item-card">
                     <div layout-gt-sm="row">
                         <md-input-container class="md-block" flex>
                             <label for="substances">Substance</label>
@@ -186,9 +186,8 @@
 
             <md-divider>
 
-            <div layout="row" layout-sm="column" layout-align="center" layout-wrap>
+            <div layout="row" layout-xs="column" layout-align="center" layout-wrap>
                 <md-button class="md-raised md-primary" ng-click="_ctrl.saveProduct()">Save</md-button>
-                <md-button class="md-raised md-primary" ng-click="_ctrl.viewProductGHSTS()">View Product GHSTS</md-button>
             </div>
         </form>
     </md-content>

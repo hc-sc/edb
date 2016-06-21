@@ -77,4 +77,14 @@ export class HomeController {
         });
         this.$mdDialog.show(alert);
     }
+
+    // DEMO
+    goToManageScreen() {
+        console.log('Slipping to manage screen');
+        this.ghstsService.clearSubmission()
+            .then(() => {
+                this.$location.path('/manage');
+                this.$rootScope.$apply();
+            });
+    }
 }

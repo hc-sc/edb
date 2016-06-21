@@ -69,7 +69,7 @@
 
             <md-list>
                 <md-card
-                style="padding: 10px"
+                class="list-item-card"
                 ng-repeat="rd in _ctrl.dossier.REFERENCED_DOSSIER track by $index">
                     <div layout-gt-sm="row">
                         <md-input-container class="md-block" flex>
@@ -111,7 +111,7 @@
 
             <md-list>
                 <md-card
-                style="padding: 10px"
+                class="list-item-card"
                 ng-repeat="dra in _ctrl.dossier.DOSSIER_RA track by $index">
                     <div layout="column">
                         <md-input-container class="md-block">
@@ -214,15 +214,16 @@
             </md-list>
 
             <md-divider>
-            <div layout="row" layout-sm="column" layout-align="center" layout-wrap>
+
+            <div layout="row" layout-xs="column" layout-align="center" layout-wrap>
                 <md-button class="md-raised md-primary"
                     ng-click="_ctrl.saveDossier()">
                     Save
                 </md-button>
-                <md-button class="md-raised md-primary"
+                <!-- <md-button class="md-raised md-primary"
                 ng-click="_ctrl.viewDossierGHSTS()">
                     View Dossier GHSTS
-                </md-button>
+                </md-button> -->
             </div>
         </form>
     </md-content>

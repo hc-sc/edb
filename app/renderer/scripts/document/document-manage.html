@@ -97,7 +97,8 @@
                             </md-button>
                         </div>
                  </md-toolbar>
-                 <md-card class="inset" ng-repeat=" docnum in _ctrl.selected.DOCUMENT_GENERIC.DOCUMENT_NUMBER track by $index">
+                 <md-list>
+                 <md-card class="list-item-card" ng-repeat=" docnum in _ctrl.selected.DOCUMENT_GENERIC.DOCUMENT_NUMBER track by $index">
                     <div layout-gt-sm="row">
                         <md-input-container class="md-block" flex-gt-sm>
                             <label>Document Number Type</label>
@@ -116,6 +117,7 @@
                         </div>
                     </div>
                 </md-card>
+            </md-list>
 
                  <md-toolbar>
                         <div class="md-toolbar-tools">
@@ -126,7 +128,8 @@
                             </md-button>
                         </div>
                  </md-toolbar>
-                 <md-card class="inset" ng-repeat=" docOwn in _ctrl.selected.DOCUMENT_GENERIC.DOCUMENT_OWNER track by $index">
+                 <md-list>
+                 <md-card class="list-item-card" ng-repeat=" docOwn in _ctrl.selected.DOCUMENT_GENERIC.DOCUMENT_OWNER track by $index">
                     <div layout-gt-sm="row">
                         <md-input-container class="md-block" flex-gt-sm>
                             <label>Document Owner</label>
@@ -139,6 +142,7 @@
                         </div>
                     </div>
                 </md-card>
+            </md-list>
 
                  <md-toolbar>
                         <div class="md-toolbar-tools">
@@ -149,7 +153,8 @@
                             </md-button>
                         </div>
                  </md-toolbar>
-                 <md-card class="inset" ng-repeat=" tlab in _ctrl.selected.DOCUMENT_GENERIC.TEST_LABORATORY  track by $index">
+                 <md-list>
+                 <md-card class="list-item-card" ng-repeat=" tlab in _ctrl.selected.DOCUMENT_GENERIC.TEST_LABORATORY  track by $index">
                     <div layout-gt-sm="row">
                         <md-input-container class="md-block" flex-gt-sm>
                             <label>Test Laboratory</label>
@@ -162,6 +167,7 @@
                         </div>
                     </div>
                 </md-card>
+            </md-list>
 
                  <md-toolbar>
                         <div class="md-toolbar-tools">
@@ -172,7 +178,8 @@
                             </md-button>
                         </div>
                  </md-toolbar>
-                 <md-card class="inset" ng-repeat=" con in _ctrl.selected.DOCUMENT_GENERIC.CONTENT_STATUS_HISTORY track by $index">
+                 <md-list>
+                 <md-card class="list-item-card" ng-repeat=" con in _ctrl.selected.DOCUMENT_GENERIC.CONTENT_STATUS_HISTORY track by $index">
                       <div layout-gt-sm="row">
                         <md-input-container class="md-block" flex-gt-sm>
                             <label>Content Status</label>
@@ -191,6 +198,7 @@
                         </div>
                     </div>
                  </md-card>
+             </md-list>
 
                  <md-toolbar>
                         <div class="md-toolbar-tools">
@@ -201,7 +209,8 @@
                             </md-button>
                         </div>
                  </md-toolbar>
-                 <md-card class="inset" ng-repeat=" refDoc in _ctrl.selected.DOCUMENT_GENERIC.REFERENCED_DOCUMENT track by $index">
+                 <md-list>
+                 <md-card class="list-item-card" ng-repeat=" refDoc in _ctrl.selected.DOCUMENT_GENERIC.REFERENCED_DOCUMENT track by $index">
                       <div layout-gt-sm="row">
                         <md-input-container class="md-block" flex-gt-sm>
                             <label>INTERNAL</label>
@@ -237,6 +246,7 @@
                         </div>
                     </div>
                 </md-card>
+            </md-list>
 
                  <md-toolbar>
                         <div class="md-toolbar-tools">
@@ -247,7 +257,8 @@
                             </md-button>
                         </div>
                  </md-toolbar>
-                 <md-card class="inset" ng-repeat=" sub in _ctrl.selected.DOCUMENT_GENERIC.RELATED_TO_SUBSTANCE track by $index">
+                 <md-list>
+                 <md-card class="list-item-card" ng-repeat=" sub in _ctrl.selected.DOCUMENT_GENERIC.RELATED_TO_SUBSTANCE track by $index">
                     <div layout-gt-sm="row">
                         <md-input-container class="md-block" flex-gt-sm>
                             <label>Substance</label>
@@ -262,6 +273,7 @@
                         </div>
                     </div>
                 </md-card>
+            </md-list>
 
                  <md-toolbar>
                         <div class="md-toolbar-tools">
@@ -272,7 +284,9 @@
                             </md-button>
                         </div>
                  </md-toolbar>
-                 <md-card class="inset" ng-repeat=" file in _ctrl.selected.DOCUMENT_GENERIC.REFERENCED_TO_FILE track by $index">
+
+                 <md-list>
+                 <md-card class="list-item-card" ng-repeat=" file in _ctrl.selected.DOCUMENT_GENERIC.REFERENCED_TO_FILE track by $index">
                     <div layout-gt-sm="row">
                         <md-input-container class="md-block" flex-gt-sm>
                             <label>File Reference</label>
@@ -287,6 +301,7 @@
                         </div>
                     </div>
                 </md-card>
+            </md-list>
 
 
                  <md-toolbar>
@@ -306,23 +321,17 @@
                     </md-list-item>
                 </md-list>
 
-
                 </form>
-              </md-content>
 
-            <section layout="row" layout-xs="column" layout-align="center center" layout-wrap>
-                <md-button class="md-raised md-info" ng-click="_ctrl.createDocument()">Add</md-button>
-                <md-button class="md-raised md-primary" ng-click="_ctrl.saveDocument($event)">Save</md-button>
-                <md-button class="md-raised md-danger" ng-click="_ctrl.cancelEdit()">Cancel</md-button>
-                <md-button class="md-raised md-warn" ng-click="_ctrl.deleteDocument()">Delete</md-button>
-            </section>
+                <md-divider>
 
-            <!--<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-               <md-button class="md-raised md-primary" ng-click="_ctrl.viewDocumentJson()">View DOC JSON</md-button>
-               <md-button class="md-raised md-primary" ng-click="_ctrl.viewDocumentGHSTS()">View DOC GHSTS</md-button>
-               <md-button class="md-raised md-warn" ng-click="_ctrl.addTestDOC()">Add Sample DOC to DB</md-button>
-               <md-button class="md-raised md-warn" ng-click="_ctrl.initializeDOC()">Initalize DB with Sample GHSTS DOC</md-button>
-            </section>  -->
+                <section layout="row" layout-xs="column" layout-align="center" layout-wrap>
+                    <md-button class="md-raised md-primary" ng-click="_ctrl.createDocument()">Add</md-button>
+                    <md-button class="md-raised md-primary" ng-click="_ctrl.saveDocument($event)">Save</md-button>
+                    <md-button class="md-raised md-primary" ng-click="_ctrl.cancelEdit()">Cancel</md-button>
+                    <md-button class="md-raised md-primary" ng-click="_ctrl.deleteDocument()">Delete</md-button>
+                </section>
+            </md-content>
         </div>
 
 

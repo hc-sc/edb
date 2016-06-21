@@ -37,7 +37,7 @@
         </md-toolbar>
 
         <md-content layout-padding>
-            <form id = "leForm" name = "leForm">
+            <form id="leForm" name="leForm">
                 <div layout-gt-xs="row">
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Identifier</label>
@@ -184,22 +184,15 @@
                     </md-list-item>
                 </md-list>
             </form>
+
+            <md-divider>
+
+            <section layout="row" layout-xs="column" layout-align="center" layout-wrap>
+                <md-button class="md-raised md-primary" ng-click="_ctrl.createLegalEntity()">Add</md-button>
+                <md-button class="md-raised md-primary" ng-click="_ctrl.saveLegalEntity($event)">Save</md-button>
+                <md-button class="md-raised md-primary" ng-click="_ctrl.cancelEdit()">Cancel</md-button>
+                <md-button class="md-raised md-primary" ng-click="_ctrl.deleteLegalEntity()">Delete</md-button>
+            </section>
         </md-content>
-
-        <section layout="row" layout-xs="column" layout-align="center center" layout-wrap>
-            <md-button class="md-raised md-info" ng-click="_ctrl.createLegalEntity()">Add</md-button>
-            <md-button class="md-raised md-primary" ng-click="_ctrl.saveLegalEntity($event)">Save</md-button>
-            <md-button class="md-raised md-danger" ng-click="_ctrl.cancelEdit()">Cancel</md-button>
-            <md-button class="md-raised md-warn" ng-click="_ctrl.deleteLegalEntity()">Delete</md-button>
-        </section>
-
-        <section layout="row" hide-xs layout-align="center center" layout-wrap>
-            <md-button class="md-raised md-primary" ng-click="_ctrl.viewLegalEntityJson()">View LE JSON</md-button>
-            <md-button class="md-raised md-primary" ng-click="_ctrl.viewLegalEntityGHSTS()">View LE GHSTS</md-button>
-
-            <md-button class="md-raised md-warn" ng-click="_ctrl.addTestLE()">Add Sample LE to DB</md-button>
-   <!--    <md-button class="md-raised md-warn" ng-click="_ctrl.initializeLE()">Initalize DB with Sample GHSTS LE</md-button> -->
-        </section>
-
     </div>
 </section>

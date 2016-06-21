@@ -7,8 +7,8 @@ import { Dossier } from '../dossier/dossierModel';
 import { Substance, SubstanceIdentifierStruct } from '../substance/substanceModel';
 import { Document } from '../document/documentModel';
 
-const DATA_DIR = 'app/renderer/data'
-const OUTPUT_FILE = `${__dirname}/output.xml`;
+const DATA_DIR = 'data'
+const OUTPUT_FILE = `${__dirname}/${DATA_DIR}/output.xml`;
 
 class GhstsService {
     constructor(ReceiverService, LegalEntityService, ProductService, DossierService, SubstanceService, DocumentService, FileService) {

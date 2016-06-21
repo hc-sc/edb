@@ -7,7 +7,7 @@
   "scripts": {
     "postinstall": "cd app && npm install && cd ..",
     "start": "electron app",
-    "start:bundled": "electron build",
+    "start:bundle": "electron build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint . --quiet",
     "bundle": "gulp bundle",
@@ -15,7 +15,8 @@
     "build": "gulp build",
     "clean": "gulp clean",
     "clean:full": "gulp clean:full",
-    "pack": "gulp pack"
+    "pack": "gulp pack",
+    "pack:bundle": "gulp pack:bundle"
   },
   "repository": {
     "type": "git",

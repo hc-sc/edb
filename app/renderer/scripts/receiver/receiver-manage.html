@@ -71,7 +71,8 @@
                     </div>
                 </md-toolbar>
 
-                <md-card class="inset" ng-repeat="sender in _ctrl.selected.SENDER track by $index">
+                <md-list>
+                <md-card class="list-item-card" ng-repeat="sender in _ctrl.selected.SENDER track by $index">
                     <div layout-gt-sm="row">
                         <md-input-container class="md-block" flex-gt-sm>
                             <label>Sender Legal Entity Name</label>
@@ -97,23 +98,17 @@
                         </div>
                     </div>
                 </md-card>
+            </md-list>
             </form>
+
+            <md-divider>
+
+            <section layout="row" layout-xs="column" layout-align="center" layout-wrap>
+                <md-button class="md-raised md-primary" ng-click="_ctrl.createReceiver()">Add</md-button>
+                <md-button class="md-raised md-primary" ng-click="_ctrl.saveReceiver()" ng-disabled="recevierForm.$invalid">Save</md-button>
+                <md-button class="md-raised md-primary" ng-click="_ctrl.cancelEdit()">Cancel</md-button>
+                <md-button class="md-raised md-primary" ng-click="_ctrl.deleteReceiver()">Delete</md-button>
+            </section>
         </md-content>
-
-        <section layout="row" layout-xs="column" layout-align="center center" layout-wrap>
-            <md-button class="md-raised md-info" ng-click="_ctrl.createReceiver()">Add</md-button>
-            <md-button class="md-raised md-primary" ng-click="_ctrl.saveReceiver()" ng-disabled="recevierForm.$invalid">Save</md-button>
-            <md-button class="md-raised md-danger" ng-click="_ctrl.cancelEdit()">Cancel</md-button>
-            <md-button class="md-raised md-warn" ng-click="_ctrl.deleteReceiver()">Delete</md-button>
-        </section>
-
-        <section layout="row" hide-xs layout-align="center center" layout-wrap>
-            <md-button class="md-raised md-primary" ng-click="_ctrl.viewReceiverJson()">View Receiver JSON</md-button>
-            <md-button class="md-raised md-primary" ng-click="_ctrl.viewReceiverGHSTS()">View Receiver GHSTS</md-button>
-            <md-button class="md-raised md-warn" ng-click="_ctrl.addTestRcvr()">Add Sample Receiver to DB</md-button>
-
-     <!--       <md-button class="md-raised md-warn" ng-click="_ctrl.initializeRcvr()">Initalize DB with Sample GHSTS Recivers</md-button> -->
-
-        </section>
     </div>
 </section>

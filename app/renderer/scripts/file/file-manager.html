@@ -152,23 +152,16 @@
                     </md-list-item>
                 </md-list>
             </form>
+
+            <md-divider>
+
+            <section layout="row" layout-xs="column" layout-align="center" layout-wrap>
+                <md-button class="md-raised md-primary" ng-click="_ctrl.createFile()">Add</md-button>
+                <md-button class="md-raised md-primary" ng-click="_ctrl.saveFile()" ng-disabled="fileForm.$invalid">Save</md-button>
+                <md-button class="md-raised md-primary" ng-click="_ctrl.deleteFile()">Delete</md-button>
+            </section>
+
         </md-content>
-            </form>
-        </md-content>
-
-        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-            <md-button class="md-raised md-info" ng-click="_ctrl.createFile()">Add</md-button>
-            <md-button class="md-raised md-primary" ng-click="_ctrl.saveFile()" ng-disabled="fileForm.$invalid">Save</md-button>
-     <!--       <md-button class="md-raised md-danger" ng-click="_ctrl.generateMD('test')">Cancel</md-button> -->
-            <md-button class="md-raised md-warn" ng-click="_ctrl.deleteFile()">Delete</md-button>
-            <md-button class="md-raised md-primary" ng-click="_ctrl.viewFileJson()">View File JSON</md-button>
-            <md-button class="md-raised md-primary" ng-click="_ctrl.viewFileGHSTS()">View File GHSTS</md-button>
-
-            <md-button class="md-raised md-warn" ng-click="_ctrl.addTestFile()">Add Sample File to DB</md-button>
-
-     <!--       <md-button class="md-raised md-warn" ng-click="_ctrl.initializeFile()">Initalize DB with Sample GHSTS Files</md-button> -->
-
-        </section>
     </div>
     </div>
 </section>

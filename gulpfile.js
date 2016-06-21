@@ -74,6 +74,10 @@ gulp.task('pack', function() {
     ]);
 });
 
+gulp.task('pack:bundle', function() {
+    runSequence('clean', 'pack', 'bundle');
+});
+
 gulp.task('dist', shell.task(
     'electron-packager build --platform=win32 --arch=x64 --version=1.2.3 --icon=resources/worldwide_128px_1201435_easyicon.net.ico --out=release --overwrite'
 ));
