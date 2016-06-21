@@ -10,12 +10,13 @@ const DATA_DIR = 'data'
 const OUTPUT_FILE = './app/renderer/data/DemoGHSTS.xml';
 
 class GhstsService {
-    constructor(ReceiverService, LegalEntityService, ProductService, DossierService, SubstanceService) {
+    constructor(ReceiverService, LegalEntityService, ProductService, DossierService, SubstanceService, DocumentService) {
         this.receiverService = ReceiverService;
         this.legalEntityService = LegalEntityService;
         this.productService = ProductService;
         this.dossierService = DossierService;
         this.substanceService = SubstanceService;
+        this.documentService = DocumentService;
         this.submission = {};
     }
 
@@ -29,7 +30,8 @@ class GhstsService {
                     this.legalEntityService.initializeLE(this.submission),
                     this.productService.initializeProducts(this.submission),
                     this.dossierService.initializeDossiers(this.submission),
-                    this.substanceService.initializeSubstances(this.submission)
+                    this.substanceService.initializeSubstances(this.submission),
+                    this.documentService.initializeDOC(this.submission)
                 ])
                 .catch(err => console.log(err.stack));
             })
@@ -43,72 +45,17 @@ class GhstsService {
             this.legalEntityService.legalEntities.remove({}, { multi: true }),
             this.productService.productsDb.remove({}, { multi: true }),
             this.dossierService.dossiers.remove({}, { multi: true }),
-            this.substanceService.substances.remove({}, { multi: true })
+            this.substanceService.substances.remove({}, { multi: true }),
+            this.documentService.documents.remove({}, { multi: true })
         ]);
     }
 
     assembleDemoGHSTS(){
-        // this function reads from an existing ghsts.xml file and then
-        // overwrites the various nodes in the xml with the collection it finds
-        // in the database.  It does not care which one is "correct" from a
-        // submission perspective.  For demo purposes only, don't try this
-        // at home... I mean in prod.
-
-        // let ghsts = new GHSTS("./app/renderer/data/ghsts.xml");
-        //
-        // return ghsts.readObjects()
-        //     .then(() => {
-        //         console.log('XML read into GHSTS object. Read DB to update');
-        //         return this.legalEntityService.getLegalEntities();
-        //     })
-        //     .then(leList => {
-        //         for (const le of leList) {
-        //             ghsts.addLegalEntity(new LegalEntity(le).toGHSTSJson());
-        //         }
-        //
-        //         ghsts.setLegalEntities();
-        //
-        //         return this.receiverService.getReceivers();
-        //     })
-        //     .then(rcvrList => {
-        //         for (const receiver of rcvrList) {
-        //             ghsts.addReceiver(new Receiver(receiver).toGHSTSJson());
-        //         }
-        //
-        //         ghsts.setReceivers();
-        //
-        //         return this.productService.getProducts();
-        //     })
-        //     .then(products => {
-        //         ghsts.setProduct(new Product(products[0]).toGhstsJson());
-        //
-        //         return this.dossierService.getDossiers();
-        //     })
-        //     .then(dossiers => {
-        //         ghsts.setDossier(new Dossier(dossiers[0]).toGhstsJson());
-        //
-        //         return this.substanceService.getSubstances();
-        //     })
-        //     .then(substances => {
-        //         for (const substance of substances) {
-        //             ghsts.addSubstance(new Substance(substance).toGHSTSJson());
-        //         }
-        //
-        //         ghsts.setSubstances();
-        //
-        //         console.log(ghsts.ghsts);
-        //
-        //         return ghsts.writeXML(OUTPUT_FILE);
-        //     })
-        //     .then(() => {
-        //         console.log(`Successfully written to ${OUTPUT_FILE}`);
-        //     });
-
         let outputObj = new GHSTS();
-        console.log(this.submission);
 
-        // PATCH FOR RIGHT NOW, SINCE WE ARE MISSING FILES, DOCUMENTS, and TOC
+        // PATCH FOR RIGHT NOW, SINCE WE ARE MISSING FILES and TOC
         outputObj.ghsts = this.submission.ghsts;
+
         return this.legalEntityService.getLegalEntities()
             .then(les => {
                 for (const le of les) {
@@ -125,6 +72,15 @@ class GhstsService {
                 }
 
                 outputObj.setReceivers();
+
+                return this.documentService.getDocuments();
+            })
+            .then(docList => {
+                for (const document of docList) {
+                    outputObj.addDocument(new Document(document).toGHSTSJson());
+                }
+
+                outputObj.setDocuments();
 
                 return this.productService.getProducts();
             })
@@ -155,6 +111,6 @@ class GhstsService {
     }
 }
 
-GhstsService.$inject = [ 'receiverService', 'legalEntityService', 'productService', 'dossierService', 'substanceService'];
+GhstsService.$inject = [ 'receiverService', 'legalEntityService', 'productService', 'dossierService', 'substanceService', 'documentService'];
 
 export { GhstsService };

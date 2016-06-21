@@ -1,5 +1,4 @@
 import xml2js from 'xml2js';
-import path from 'path';
 var fs = require('fs');
 
 class GHSTS {
@@ -25,7 +24,7 @@ class GHSTS {
     setLegalEntities() {
         this.ghsts.LEGAL_ENTITIES = {
             LEGAL_ENTITY: this.legalEntities
-        }
+        };
     }
 
     addReceiver(receiver) {
@@ -35,7 +34,7 @@ class GHSTS {
     setReceivers() {
         this.ghsts.RECEIVERS = {
             RECEIVER: this.receivers
-        }
+        };
     }
 
     addSubmission(submission) {
@@ -58,8 +57,10 @@ class GHSTS {
         this.documents.push(document);
     }
 
-    setDocuments(documents){
-        this.documents = documents;
+    setDocuments(){
+        this.ghsts.DOCUMENTS = {
+            DOCUMENT: this.documents
+        };
     }
 
     setDossier(dossier) {
@@ -73,7 +74,7 @@ class GHSTS {
     setSubstances(){
         this.ghsts.SUBSTANCES = {
             SUBSTANCE: this.substances
-        }
+        };
     }
 
     readObjects() {
@@ -110,9 +111,9 @@ class GHSTS {
                     this.substances = obj.GHSTS.SUBSTANCES[0].SUBSTANCE;
 
                     resolve(this);
-                })
+                });
             });
-        })
+        });
     }
 
     writeXML(filename) {
@@ -125,4 +126,4 @@ class GHSTS {
     }
 }
 
-export {GHSTS}
+export {GHSTS};

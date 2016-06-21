@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-const {dialog} = require('electron').remote;
+const { dialog, BrowserWindow } = require('electron').remote;
 
 export class HomeController {
     constructor($rootScope, $location, $mdDialog, ghstsService) {
@@ -51,7 +51,21 @@ export class HomeController {
     }
 
     showHelp() {
-        window.open('../help/help.html');
+        let win = new BrowserWindow({
+            useContentSize: true,
+            title: 'Help',
+            show: false
+        });
+
+        win.on('closed', () => {
+            win = null;
+        });
+
+        win.loadURL(`${__dirname}/scripts/help/help.html`);
+
+        win.once('ready-to-show', () => {
+            win.show();
+        })
     }
 
     showAbout() {
