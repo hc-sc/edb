@@ -32,7 +32,8 @@ export class HomeController {
             properties: ['openFile'],
             filters: [
                 { name: 'XML', extensions: ['xml'] }
-            ]
+            ],
+            defaultPath: `${__dirname}/data/`
         });
 
         if (FILE_PATH) {
@@ -80,7 +81,7 @@ export class HomeController {
 
     // DEMO
     goToManageScreen() {
-        console.log('Slipping to manage screen');
+        console.log('Skipping to manage screen');
         this.ghstsService.clearSubmission()
             .then(() => {
                 this.$location.path('/manage');

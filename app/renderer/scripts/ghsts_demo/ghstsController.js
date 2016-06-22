@@ -20,7 +20,7 @@ class GhstsController {
                         .alert()
                         .clickOutsideToClose(true)
                         .title('Success')
-                        .content('DemoGHSTS.xml Written Successfully!')
+                        .content('File Written Successfully!')
                         .ok('Ok')
                         .targetEvent($event)
                 );
