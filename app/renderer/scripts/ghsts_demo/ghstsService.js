@@ -54,6 +54,11 @@ class GhstsService {
         ]);
     }
 
+    getGhstsJson(){
+        let ghsts = new GHSTS("./app/renderer/data/ghsts.xml");     
+        return ghsts.readObjects();
+    }
+            
     assembleDemoGHSTS(){
         let outputObj = new GHSTS();
 
