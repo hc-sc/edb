@@ -28,19 +28,18 @@ gulp.task('clean', function(callback) {
         'build/renderer/data/',
         'build/renderer/bundle.js',
         'build/package.json'
-    ])
-    .then(() => console.log('All files cleaned'));
+    ]).then(() => console.log('All files cleaned'));
 });
 
 // deletes the release dir
-gulp.task('clean:release', function() {
-    return del(['release'])
-    .then(() => console.log('Release dir cleaned'));
+gulp.task('clean:dist', function() {
+    return del(['dist'])
+        .then(() => console.log('Dist dir cleaned'));
 })
 
 // cleans everything
 gulp.task('clean:full', function() {
-    runSequence('clean', 'clean:release');
+    runSequence('clean', 'clean:dist');
 });
 
 // tdd
@@ -79,7 +78,7 @@ gulp.task('pack:bundle', function() {
 });
 
 gulp.task('dist', shell.task(
-    'electron-packager build --platform=win32 --arch=x64 --version=1.2.3 --icon=resources/worldwide_128px_1201435_easyicon.net.ico --out=release --overwrite'
+    'electron-packager build --platform=win32 --arch=x64 --version=1.2.3 --icon=resources/worldwide_128px_1201435_easyicon.net.ico --out=dist --overwrite'
 ));
 
 // build the executable. NOTE should lint first!
