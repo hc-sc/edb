@@ -25,7 +25,7 @@ import {PickListService} from './scripts/common/pickListService';
 // notice stylesheet loading from app.js
 import './jspm_packages/github/angular/bower-material@1.0.4/angular-material.css!';
 import './jspm_packages/github/twbs/bootstrap@3.3.6/css/bootstrap.min.css!';
-import './styles.css!';
+import './css/styles.css!';
 import './css/angular-ui-tree.css!';
 import './css/app.css!';
 
