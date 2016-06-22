@@ -26,9 +26,12 @@ import {PickListService} from './scripts/common/pickListService';
 import './jspm_packages/github/angular/bower-material@1.0.4/angular-material.css!';
 import './jspm_packages/github/twbs/bootstrap@3.3.6/css/bootstrap.min.css!';
 import './styles.css!';
+import './css/angular-ui-tree.css!';
+import './css/app.css!';
 
-angular.module('ghstsApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages'])
-    .config(config)
+var app = angular.module('ghstsApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages']);
+
+app.config(config)
     .provider('pickListService', PickListService)
     .service('legalEntityService', ['$q', LegalEntityService])
     .controller('legalEntityController', ['$mdSidenav', '$location', 'pickListService', '$mdDialog', 'legalEntityService', LegalEntityController])
@@ -49,7 +52,7 @@ angular.module('ghstsApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages'])
     .controller('homeController', ['$rootScope', '$location', '$mdDialog', 'ghstsService', HomeController]);
 
 
-function config($routeProvider, $mdThemingProvider, $mdIconProvider) {
+function config($routeProvider, $mdThemingProvider, $mdIconProvider, $controllerProvider, $provide, $compileProvider, $filterProvider) {
     $routeProvider
         .when('/home', {
             templateUrl: './scripts/home/home.html',
@@ -95,6 +98,10 @@ function config($routeProvider, $mdThemingProvider, $mdIconProvider) {
             templateUrl: './scripts/substance/substance-manage.html' ,
             controller: SubstanceController,
             controllerAs: '_ctrl'
+        })
+        .when('/demoTOC', {
+            templateUrl: './scripts/toc/tocview.html', 
+            controller: 'TocController'
         })
         .when('/manage', {
             templateUrl: './scripts/manage/manage.html'
@@ -149,6 +156,39 @@ function config($routeProvider, $mdThemingProvider, $mdIconProvider) {
         .icon('folder', 'img/ic_folder_white_24px.svg')
         .icon('description-black', 'img/ic_folder_black_24px.svg')
         .icon('description', 'img/ic_folder_white_24px.svg');
+
+    app.controller = function(name, constructor){
+        $controllerProvider.register(name, constructor);
+        return (this);
+    }
+
+    app.service = function(name, constructor){
+        $provide.service(name, constructor);
+        return(this);
+    }
+
+    app.factory = function(name, factory){
+        $provide.factory(name, factory);
+        return (this);
+    }
+
+    app.value = function(name, value){
+        $provide.value(name, value);
+        return (this);
+    }
+
+    app.constant = function(name, value){
+        $provide.constant(name, value);
+    }
+
+    app.directive = function(name, factory){
+        $compileProvider.directive(name, factory);
+        return (this);
+    }
+
+    app.filter = function(name, factory){
+        $filterProvider.register(name, constructor);
+    }
 }
 
-config.$inject = ['$routeProvider', '$mdThemingProvider', '$mdIconProvider'];
+config.$inject = ['$routeProvider', '$mdThemingProvider', '$mdIconProvider', '$controllerProvider', '$provide', '$compileProvider', '$filterProvider'];

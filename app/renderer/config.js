@@ -37,9 +37,6 @@ System.config({
     "github:angular/bower-angular-animate@1.5.7": {
       "angular": "github:angular/bower-angular@1.5.7"
     },
-    "github:angular/bower-angular-animate@1.5.7": {
-      "angular": "github:angular/bower-angular@1.5.7"
-    },
     "github:angular/bower-angular-aria@1.4.9": {
       "angular": "github:angular/bower-angular@1.5.7"
     },
