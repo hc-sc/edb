@@ -23,21 +23,31 @@
         </li>
     </ol>
 </script>
-<div class="row">
-    <div class="col-sm-12">
-        <h3>Table of Content</h3>
-        <button ng-click="expandAll()">Expand all</button>
-        <button ng-click="collapseAll()">Collapse all</button>
-        <button ng-click="loadToc()">Load Table of Content</button>
-        <button ng-click="clearToc()">Clear Table of Content</button>
-    </div>
-</div>
-<div class="row">
-    <div class="col-sm-6">
-        <div ui-tree id="tree-root">
-            <ol ui-tree-nodes ng-model="data">
-                <li ng-repeat="node in data" ui-tree-node ng-include="'nodes_renderer.html'"></li>
-            </ol>
+<main layout-fill layout="column" tabIndex="-1" role="main" class="md-whiteframe-z2">
+    <md-toolbar layout="row" class="md-whiteframe-z1">
+        <div class="md-toolbar-tools">
+            <md-button class="md-icon-button" aria-label="back" ng-href="#/manage">
+                <md-icon md-svg-icon="back" aria-label="back"></md-icon>
+            </md-button>
+            <md-headline layout-padding>Table of Contents</md-headline>
         </div>
-    </div>
-</div>
+    </md-toolbar>
+
+    <md-content layout-padding class="autoScroll" layout="column">
+        <div layout-align="center">
+            <md-button class="md-primary md-raised"  ng-click="expandAll()">Expand all</md-button>
+            <md-button class="md-primary md-raised"  ng-click="collapseAll()">Collapse all</md-button>
+            <md-button class="md-primary md-raised"  ng-click="loadToc()">Load Table of Content</md-button>
+            <md-button class="md-primary md-raised"  ng-click="clearToc()">Clear Table of Content</md-button>
+        </div>
+        <div layout="row">
+            <div ui-tree id="tree-root" flex>
+                <ol ui-tree-nodes ng-model="data">
+                    <li ng-repeat="node in data" ui-tree-node ng-include="'nodes_renderer.html'"></li>
+                </ol>
+            </div>
+            <div flex>
+            </div>
+        </div>
+    </md-content>
+</main>

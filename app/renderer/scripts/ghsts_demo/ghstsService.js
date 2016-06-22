@@ -55,10 +55,9 @@ class GhstsService {
     }
 
     getGhstsJson(){
-        let ghsts = new GHSTS("./app/renderer/data/ghsts.xml");     
-        return ghsts.readObjects();
+        return this.submission;
     }
-            
+
     assembleDemoGHSTS(){
         let outputObj = new GHSTS();
 
@@ -109,8 +108,6 @@ class GhstsService {
                 }
 
                 outputObj.setSubstances();
-
-                console.log(outputObj.ghsts);
 
                 return outputObj.writeXML(OUTPUT_FILE);
             })

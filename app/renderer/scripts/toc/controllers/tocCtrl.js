@@ -38,22 +38,19 @@
       };
 
       $scope.loadToc = function() {
-          var promise = ghstsService.getGhstsJson();
-          promise.then(function (contents) {
+        const contents = ghstsService.getGhstsJson();
+        console.log(contents);
+        if (contents) {
 
-              if (contents) {
-
-                  var data = [];
-                  data[0] = {
-                      isRoot: true,
-                      NODE_NAME : contents.ghsts.TOC[0].TOC_FULL_NAME[0],
-                      TOC_NODE: contents.ghsts.TOC[0].STRUCTURE[0].TOC_NODE
-                  };
-                  processNode(data[0]);
-                  $scope.data = data;
-                  $scope.$apply();
-              }
-          });
+              var data = [];
+              data[0] = {
+                  isRoot: true,
+                  NODE_NAME : contents.ghsts.TOC[0].TOC_FULL_NAME[0],
+                  TOC_NODE: contents.ghsts.TOC[0].STRUCTURE[0].TOC_NODE
+              };
+              processNode(data[0]);
+              $scope.data = data;
+        }
       }
 
       $scope.clearToc = function () {
@@ -68,6 +65,7 @@
       }
 
       $scope.clearToc();
+      $scope.loadToc();
 
         function processNode(node) {
 
@@ -159,7 +157,7 @@
         ]
       }];
 
-      
+
 
     }]);
 
