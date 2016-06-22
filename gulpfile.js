@@ -55,7 +55,7 @@ gulp.task('bundle', shell.task(
 
 // bundles and produces source-maps
 gulp.task('bundle:map', shell.task(
-    'cd app && jspm bundle app.js renderer/bundle.js'
+    'cd app && jspm bundle-sfx app.js ../build/renderer/bundle.js --no-mangle'
 ));
 
 // transfers resources to the build dir for packaging
@@ -86,3 +86,7 @@ gulp.task('dist', shell.task(
 gulp.task('build', function() {
     runSequence('clean', 'pack', 'bundle', 'dist');
 });
+
+gulp.task('build:map', function() {
+    runSequence('clean', 'pack', 'bundle:map', 'dist');
+})

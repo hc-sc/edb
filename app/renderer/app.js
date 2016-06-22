@@ -100,7 +100,7 @@ function config($routeProvider, $mdThemingProvider, $mdIconProvider, $controller
             controllerAs: '_ctrl'
         })
         .when('/demoTOC', {
-            templateUrl: './scripts/toc/tocview.html', 
+            templateUrl: './scripts/toc/tocview.html',
             controller: 'TocController'
         })
         .when('/manage', {

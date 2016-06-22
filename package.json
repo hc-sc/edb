@@ -13,6 +13,7 @@
     "bundle": "gulp bundle",
     "bundle:map": "gulp bundle:map",
     "build": "gulp build",
+    "build:map": "gulp build:map",
     "clean": "gulp clean",
     "clean:full": "gulp clean:full",
     "pack": "gulp pack",
