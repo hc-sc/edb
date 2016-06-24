@@ -14,7 +14,7 @@ class GHSTS {
 
         this.submission = [];
         this.dossier = {};
-
+        this.files=[];
         this.substances = [];
     }
 
@@ -38,11 +38,11 @@ class GHSTS {
         this.ghsts.PRODUCT.DOSSIER.SUBMISSION = submission;
     }
 
-    addfile(file) {
+    addFile(file) {
         this.files.push(file);
     }
 
-    setfiles(files) {
+    setFiles(files) {
         this.files = files;
     }
 

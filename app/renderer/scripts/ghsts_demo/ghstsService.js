@@ -6,18 +6,19 @@ import {Product} from '../product/productModel.js';
 import { Dossier } from '../dossier/dossierModel';
 import { Document } from '../document/documentModel';
 import { Substance, SubstanceIdentifierStruct } from '../substance/substanceModel';
-
+import {FileRA, FileGeneric, File} from '../file/fileModel.js';
 const DATA_DIR = 'data'
 const OUTPUT_FILE = './app/renderer/data/DemoGHSTS.xml';
 
 class GhstsService {
-    constructor(ReceiverService, LegalEntityService, ProductService, DossierService, SubstanceService, DocumentService) {
+    constructor(ReceiverService, LegalEntityService, ProductService, DossierService, SubstanceService, DocumentService,FileService) {
         this.receiverService = ReceiverService;
         this.legalEntityService = LegalEntityService;
         this.productService = ProductService;
         this.dossierService = DossierService;
         this.substanceService = SubstanceService;
         this.documentService = DocumentService;
+        this.fileService=FileService;
         this.submission = {};
     }
 
@@ -33,7 +34,8 @@ class GhstsService {
                     this.productService.initializeProducts(this.submission),
                     this.dossierService.initializeDossiers(this.submission),
                     this.substanceService.initializeSubstances(this.submission),
-                    this.documentService.initializeDOC()
+                    this.documentService.initializeDOC(),
+                    this.fileService.initializeFile()
                 ])
                 .catch(err => console.log(err.stack));
             })
@@ -91,6 +93,12 @@ class GhstsService {
                     ghsts.addSubstance(new Substance(substance).toGhstsJson());
                 }
 
+               return this.fileService.getFiles();
+            })
+            .then(files=>{
+                for(const file of files){
+                    ghsts.addFile(new File(file).toGHSTSJson())
+                }
                 return ghsts.writeXML(OUTPUT_FILE);
             })
             .then(() => {
@@ -99,6 +107,6 @@ class GhstsService {
     }
 }
 
-GhstsService.$inject = [ 'receiverService', 'legalEntityService', 'productService', 'dossierService', 'substanceService', 'documentService'];
+GhstsService.$inject = [ 'receiverService', 'legalEntityService', 'productService', 'dossierService', 'substanceService', 'documentService', 'fileService'];
 
 export { GhstsService };
