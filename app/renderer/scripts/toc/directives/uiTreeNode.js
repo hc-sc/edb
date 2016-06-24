@@ -581,7 +581,7 @@
                 dragDelay.cancel();
               });
             };
-            bindDragStartEvents();
+            //bindDragStartEvents();
 
             /**
              * Binds mouse/touch events that handle moving/dropping this dragged node

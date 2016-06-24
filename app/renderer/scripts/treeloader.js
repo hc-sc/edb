@@ -11,7 +11,8 @@
         else {
             clearTimeout(_timer);
             //registerToc();
-            require('scripts/main.js');
+            require('scripts/toc/contextMenu.js');
+            require('scripts/toc/main.js');
             require('scripts/toc/controllers/tocCtrl.js');
             require('scripts/toc/controllers/handleCtrl.js');
             require('scripts/toc/controllers/nodeCtrl.js');

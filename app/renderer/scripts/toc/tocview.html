@@ -19,7 +19,7 @@
 
     </div>
     <ol ui-tree-nodes="" ng-model="node.TOC_NODE" ng-class="{hidden: collapsed}">
-        <li ng-repeat="node in node.TOC_NODE" ui-tree-node ng-include="'nodes_renderer.html'">
+        <li ng-repeat="node in node.TOC_NODE" ui-tree-node context-menu="{{getMenu()}}" ng-include="'nodes_renderer.html'">
         </li>
     </ol>
 </script>
@@ -43,7 +43,7 @@
         <div layout="row">
             <div ui-tree id="tree-root" flex>
                 <ol ui-tree-nodes ng-model="data">
-                    <li ng-repeat="node in data" ui-tree-node ng-include="'nodes_renderer.html'"></li>
+                    <li ng-repeat="node in data" ui-tree-node context-menu="{{getMenu()}}" ng-include="'nodes_renderer.html'"></li>
                 </ol>
             </div>
             <div flex>

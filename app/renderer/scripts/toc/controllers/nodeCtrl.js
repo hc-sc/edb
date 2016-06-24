@@ -33,6 +33,40 @@
           });
         };
 
+        $scope.nodeMenuOptions = [
+            ["Menu1", function ($itemScope) {
+            }],
+            null,
+            ["Menu2", function ($itemScope) {
+
+            }]
+
+        ];
+
+        $scope.getMenu = function () {
+            if ($scope.$modelValue && $scope.$modelValue.isDocument) {
+                return [
+                    ["Replace", function ($itemScope) {
+                    }],
+                    null,
+                    ["Retire", function ($itemScope) {
+
+                    }],
+                    null,
+                    ["Associate another node", function ($itemScope) {
+
+                    }],
+                ];
+            }
+            else {
+                return[
+                    ["Associate Doc", function ($itemScope) {
+                    }]
+                ];
+            }
+            return $scope.nodeMenuOptions;
+        }
+
         $scope.index = function () {
           return $scope.$parentNodesScope.$modelValue.indexOf($scope.$modelValue);
         };
