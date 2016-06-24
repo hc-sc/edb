@@ -1,36 +1,38 @@
 <section layout-fill layout="row">
-  <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
-    <md-toolbar class="md-whiteframe-z1" layout="row">
+    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
+        <md-toolbar class="md-whiteframe-z1" layout="row">
             <div class="md-toolbar-tools">
                 <md-button class="md-icon-button" aria-label="Home" ng-href="#/manage" ng-click="_ctrl.confirmLeavePage($event)">
                     <md-icon md-svg-icon="back" aria-label="back"></md-icon>
                 </md-button>
                 <h2>
-                    <span>Documents</span>
-                </h2>
+                        <span>Documents</span>
+                    </h2>
             </div>
-   </md-toolbar>
-        <md-input-container style="margin-bottom:0">
+        </md-toolbar>
+
+        <md-content>
+            <md-input-container style="margin-bottom:0" class="md-block">
                 <label>Document</label>
                 <input required name="documentID" ng-model="_ctrl.filterText" ng-change="_ctrl.filterDocument()">
-        </md-input-container>
-        <md-content>
+            </md-input-container>
             <md-list>
                 <!-- notice work around for nedb. 'track by index'' to fix $$hashkey problem -->
                 <md-list-item ng-repeat="it in _ctrl.documents track by $index" ng-click="_ctrl.selectDocument(it, $index)">
-                    <p>{{it._identifier}}</p>
-                    <!--<p>{{it.DOCUMENT_GENERIC.DOCUMENT_TITLE}}</p>-->
+                    <md-icon class="black" md-svg-icon="assignment" aria-label="description"></md-icon>
+                    <p>{{it.DOCUMENT_GENERIC.DOCUMENT_TITLE}}</p>
+                    <md-divider ng-if="!$last">
                 </md-list-item>
             </md-list>
         </md-content>
- </md-sidenav>
+    </md-sidenav>
 
         <div flex layout="column" tabIndex="-1" role="main" class="md-whiteframe-z2">
 
               <md-toolbar layout="row" class="md-whiteframe-z1">
                  <div class="md-toolbar-tools">
                      <md-button class="md-icon-button" aria-label="Document" ng-click="_ctrl.toggleSidenav('left')" hide-gt-sm>
-                         <md-icon md-svg-icon="business" aria-label="Document"></md-icon>
+                         <md-icon md-svg-icon="assignment" aria-label="Document"></md-icon>
                      </md-button>
                      <h2> {{ _ctrl.selected._identifier}}</h2>
                 </div>
@@ -315,7 +317,7 @@
                 </md-toolbar>
                 <md-list>
                     <md-list-item ng-repeat=" docRA in _ctrl.selected.DOCUMENT_RA track by $index" ng-click="_ctrl.showDocumentRA_Diag(docRA, $event)" class="noright">
-                        <md-icon md-svg-icon="folder-black" aria-label="Document RA"></md-icon>
+                        <md-icon class="black" md-svg-icon="folder-black" aria-label="Document RA"></md-icon>
                         <p>{{docRA._toSpecificforRAId }}</p>
                         <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteDocumentRA(docRA, $event)">Delete</md-button>
                     </md-list-item>

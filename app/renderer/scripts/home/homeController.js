@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-const { dialog, BrowserWindow } = require('electron').remote;
+const { dialog, BrowserWindow, ipcRenderer } = require('electron').remote;
 
 export class HomeController {
     constructor($rootScope, $location, $mdDialog, ghstsService) {
@@ -54,11 +54,13 @@ export class HomeController {
     showHelp() {
         let win = new BrowserWindow({
             useContentSize: true,
-            title: 'Help',
+            title: 'Help Pages',
+            nodeIntegration: false,
             show: false
         });
 
         win.on('closed', () => {
+
             win = null;
         });
 
@@ -66,7 +68,7 @@ export class HomeController {
 
         win.once('ready-to-show', () => {
             win.show();
-        })
+        });
     }
 
     showAbout() {

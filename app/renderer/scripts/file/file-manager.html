@@ -18,8 +18,9 @@
             <md-list>
                 <!-- notice work around for nedb. 'track by index'' to fix $$hashkey problem -->
                 <md-list-item ng-repeat="it in _ctrl.files track by $index" ng-click="_ctrl.selectFile(it, $index)">
-                    <md-icon md-svg-icon="description-black" aria-label="File"></md-icon>
+                    <md-icon class="black" md-svg-icon="description-black" aria-label="File"></md-icon>
                     <p>{{it.FILE_GENERIC.FILENAME}}</p>
+                    <md-divider ng-if="!$last"></md-divider>
                 </md-list-item>
             </md-list>
         </md-content>
@@ -29,7 +30,7 @@
         <md-toolbar layout="row" class="md-whiteframe-z1">
             <div class="md-toolbar-tools">
                 <md-button class="md-icon-button" aria-label="Document" ng-click="_ctrl.toggleSidenav('left')" hide-gt-sm>
-                    <md-icon md-svg-icon="business" aria-label="Document"></md-icon>
+                    <md-icon md-svg-icon="description" aria-label="Document"></md-icon>
                 </md-button>
                 <h2> {{ _ctrl.selected.FILE_GENERIC.FILENAME}}</h2>
             </div>

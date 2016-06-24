@@ -4,6 +4,7 @@ import uuid from 'node-uuid';
 import {GHSTS} from '../common/ghsts.js'
 import { ContentStatusHistory, ReferencedDocument, RelatedToSubstance,  DocumentNumber, ReferenceToFile, DocumentGeneric, OtherNationalGuideLine, SubmissionContext, RADocumentNumber, DocumentRA, Document} from './documentModel.js';
 import {ValueStruct, IdentifierStruct} from '../common/sharedModel.js'
+import { escapeRegExp } from 'lodash';
 
 class DocumentService {
 
@@ -27,6 +28,19 @@ class DocumentService {
         this.documents.find({}, function (err, rows) {
             if (err) deferred.reject(err);
             deferred.resolve(rows);
+        });
+        return deferred.promise;
+    }
+
+    getDocumentByName(name) {
+        let deferred = this.$q.defer();
+        const re = new RegExp(name, 'i');
+        const condition = { $regex: re };
+        this.documents.find({
+            'DOCUMENT_GENERIC.DOCUMENT_TITLE': condition
+        }, (err, result) => {
+            if (err) deferred.reject(err);
+            deferred.resolve(result);
         });
         return deferred.promise;
     }

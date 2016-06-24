@@ -3,7 +3,7 @@
 }
 
 .card-header {
-    padding-left: 5px;
+    padding: 5px;
 }
 
 .anchor-card {
@@ -45,4 +45,36 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.primary {
+    color: #043d13;
+}
+
+.primary-background {
+    background-color: #b4b4b4;
+}
+
+.accent {
+    color: #b4b4b4;
+}
+
+.accent-background {
+    background-color: #b4b4b4;
+}
+
+.primary>svg {
+    fill: #043d13;
+}
+
+.accent>svg {
+    fill: #b4b4b4;
+}
+
+.white>svg {
+    fill: white;
+}
+
+.black>svg {
+    fill: #999;
 }

@@ -18,7 +18,7 @@
             <md-list>
                 <!-- notice work around for nedb. 'track by index'' to fix $$hashkey problem -->
                 <md-list-item ng-repeat="it in _ctrl.legalEntities track by $index" ng-click="_ctrl.selectLegalEntity(it, $index)">
-                    <md-icon md-svg-icon="business-black" aria-label="Legal Entity"></md-icon>
+                    <md-icon class="black" md-svg-icon="business-black" aria-label="Legal Entity"></md-icon>
                     <p>{{it.LEGALENTITY_NAME}}</p>
                     <md-divider ng-if="!$last"></md-divider>
                 </md-list-item>

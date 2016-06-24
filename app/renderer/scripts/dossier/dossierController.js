@@ -46,30 +46,30 @@ export class DossierController {
         if (this.dossier._id) {
             return this.dossierService.updateDossier(this.dossier)
                 .then(() => {
-                    this.$mdDialog.show(
-                        this.$mdDialog
-                            .alert()
-                            .clickOutsideToClose(true)
-                            .title('Success')
-                            .content('Dossier Updated Successfully!')
-                            .ok('Ok')
-                            .targetEvent($event)
-                    );
+                    // this.$mdDialog.show(
+                    //     this.$mdDialog
+                    //         .alert()
+                    //         .clickOutsideToClose(true)
+                    //         .title('Success')
+                    //         .content('Dossier Updated Successfully!')
+                    //         .ok('Ok')
+                    //         .targetEvent($event)
+                    // );
                 })
                 .catch(err => console.log(err.stack));
         }
         else {
             return this.dossierService.createDossier(this.dossier)
                 .then(createdRow => {
-                    this.$mdDialog.show(
-                        this.$mdDialog
-                            .alert()
-                            .clickOutsideToClose(true)
-                            .title('Success')
-                            .content('Dossier Added Successfully!')
-                            .ok('Ok')
-                            .targetEvent($event)
-                    );
+                    // this.$mdDialog.show(
+                    //     this.$mdDialog
+                    //         .alert()
+                    //         .clickOutsideToClose(true)
+                    //         .title('Success')
+                    //         .content('Dossier Added Successfully!')
+                    //         .ok('Ok')
+                    //         .targetEvent($event)
+                    // );
 
                     this.dossier = new Dossier(createdRow);
                 })
@@ -94,7 +94,7 @@ export class DossierController {
 
     deleteReferencedDossier(rd, $event) {
         const confirm = this.$mdDialog.confirm()
-            .title('Are you sure?')
+            .title('Delete Referenced Dossier')
             .content('Are you sure you want to delete this Referenced Dossier?')
             .ok('Yes')
             .cancel('No')
@@ -114,7 +114,7 @@ export class DossierController {
 
     deleteDossierRA(dra, $event) {
         const confirm = this.$mdDialog.confirm()
-            .title('Are you sure?')
+            .title('Delete Dossier RA')
             .content('Are you sure you want to delete this Dossier RA?')
             .ok('Yes')
             .cancel('No')

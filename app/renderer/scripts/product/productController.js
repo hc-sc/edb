@@ -112,29 +112,29 @@ class ProductController {
     saveProduct($event) {
         if (this.selected._id) {
             return this.productService.updateProduct(this.selected).then(() => {
-                this.$mdDialog.show(
-                    this.$mdDialog
-                        .alert()
-                        .clickOutsideToClose(true)
-                        .title('Success')
-                        .content('Product Updated Successfully!')
-                        .ok('Ok')
-                        .targetEvent($event)
-                );
+                // this.$mdDialog.show(
+                //     this.$mdDialog
+                //         .alert()
+                //         .clickOutsideToClose(true)
+                //         .title('Success')
+                //         .content('Product Updated Successfully!')
+                //         .ok('Ok')
+                //         .targetEvent($event)
+                // );
             })
             .catch(err => console.log(err.stack));
         }
         else { // new Product
             return this.productService.createProduct(this.selected).then(createdRow => {
-                this.$mdDialog.show(
-                    this.$mdDialog
-                        .alert()
-                        .clickOutsideToClose(true)
-                        .title('Success')
-                        .content('Product Added Successfully!')
-                        .ok('Ok')
-                        .targetEvent($event)
-                );
+                // this.$mdDialog.show(
+                //     this.$mdDialog
+                //         .alert()
+                //         .clickOutsideToClose(true)
+                //         .title('Success')
+                //         .content('Product Added Successfully!')
+                //         .ok('Ok')
+                //         .targetEvent($event)
+                // );
                 this.products.push(new Product(createdRow));
                 this.selectedIndex = this.products.length - 1;
                 this.selected = this.products[this.selectedIndex];
@@ -310,7 +310,7 @@ class ProductController {
             }
         });
     }
-	
+
     viewProductGHSTS($event) {
         if (!_.isEmpty(this.selected)) {
             this.saveProduct()

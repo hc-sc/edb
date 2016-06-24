@@ -18,7 +18,7 @@
             <md-list>
                 <!-- notice work around for nedb. 'track by index'' to fix $$hashkey problem -->
                 <md-list-item ng-repeat="it in _ctrl.receivers track by $index" ng-click="_ctrl.selectReceiver(it, $index)">
-                    <md-icon md-svg-icon="business-black" aria-label="Receiver"></md-icon>
+                    <md-icon class="black" md-svg-icon="supervisor-black" aria-label="Receiver"></md-icon>
                     <p>{{it.SHORT_NAME}}</p>
                     <md-divider ng-if="!$last"></md-divider>
                 </md-list-item>
@@ -30,7 +30,7 @@
         <md-toolbar layout="row" class="md-whiteframe-z1">
             <div class="md-toolbar-tools">
                 <md-button class="md-icon-button" aria-label="Receivers" ng-click="_ctrl.toggleSidenav('left')" hide-gt-sm>
-                    <md-icon md-svg-icon="business" aria-label="Receiver"></md-icon>
+                    <md-icon class="white" md-svg-icon="supervisor-black" aria-label="Receiver"></md-icon>
                 </md-button>
                 <h2>{{ _ctrl.selected.SHORT_NAME }}</h2>
             </div>

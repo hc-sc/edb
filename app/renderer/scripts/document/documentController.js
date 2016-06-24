@@ -110,14 +110,19 @@ class DocumentController {
     }
 
     filterDocument() {
-        if (this.filterText == null || this.filterText == "") {
-            this.getAlldocuments();
+        if (this.filterText) {
+            this.documentService.getDocumentByName(this.filterText)
+                .then(documents => {
+                    this.documents = [].concat(documents);
+                    this.selected = this.documents[0];
+                });
         }
         else {
-            this.documentService.getDocumentByDOCId(this.filterText).then(documents => {
-                this.documents = [].concat(documents);
-                this.selected = documents[0];
-            });
+            this.documentService.getDocuments()
+                .then(documents => {
+                    this.documents = [].concat(documents);
+                    this.selected = this.documents[0];
+                })
         }
     }
 
@@ -289,28 +294,28 @@ class DocumentController {
         let self = this;
         if (this.selected != null && this.selected._id != null) {
             this.documentService.updateDocument(this.selected).then(function (affectedRows) {
-                self.$mdDialog.show(
-                    self.$mdDialog
-                        .alert()
-                        .clickOutsideToClose(true)
-                        .title('Success')
-                        .content('Data Updated Successfully!')
-                        .ok('Ok')
-                        .targetEvent($event)
-                );
+                // self.$mdDialog.show(
+                //     self.$mdDialog
+                //         .alert()
+                //         .clickOutsideToClose(true)
+                //         .title('Success')
+                //         .content('Data Updated Successfully!')
+                //         .ok('Ok')
+                //         .targetEvent($event)
+                // );
             });
         }
         else {
             this.documentService.createDocument(this.selected).then(affectedRows => {
-                self.$mdDialog.show(
-                    self.$mdDialog
-                        .alert()
-                        .clickOutsideToClose(true)
-                        .title('Success')
-                        .content('Data Added Successfully!')
-                        .ok('Ok')
-                        .targetEvent($event)
-                );
+                // self.$mdDialog.show(
+                //     self.$mdDialog
+                //         .alert()
+                //         .clickOutsideToClose(true)
+                //         .title('Success')
+                //         .content('Data Added Successfully!')
+                //         .ok('Ok')
+                //         .targetEvent($event)
+                // );
 
                 // refresh the le list
                 self.getAlldocuments();
@@ -339,28 +344,28 @@ class DocumentController {
         let self = this;
         if (this.selected != null && this.selected._id != null) {
             this.documentService.updateDocument(this.selected).then(function (affectedRows) {
-                self.$mdDialog.show(
-                    self.$mdDialog
-                        .alert()
-                        .clickOutsideToClose(true)
-                        .title('Success')
-                        .content('Data Updated Successfully!')
-                        .ok('Ok')
-                        .targetEvent($event)
-                );
+                // self.$mdDialog.show(
+                //     self.$mdDialog
+                //         .alert()
+                //         .clickOutsideToClose(true)
+                //         .title('Success')
+                //         .content('Data Updated Successfully!')
+                //         .ok('Ok')
+                //         .targetEvent($event)
+                // );
             });
         }
         else {
             this.documentService.createDocument(this.selected).then(affectedRows => {
-                self.$mdDialog.show(
-                    self.$mdDialog
-                        .alert()
-                        .clickOutsideToClose(true)
-                        .title('Success')
-                        .content('Data Added Successfully!')
-                        .ok('Ok')
-                        .targetEvent($event)
-                );
+                // self.$mdDialog.show(
+                //     self.$mdDialog
+                //         .alert()
+                //         .clickOutsideToClose(true)
+                //         .title('Success')
+                //         .content('Data Added Successfully!')
+                //         .ok('Ok')
+                //         .targetEvent($event)
+                // );
 
                 // refresh the le list
                 self.getAlldocuments();

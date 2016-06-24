@@ -113,9 +113,9 @@ function config($routeProvider, $mdThemingProvider, $mdIconProvider, $controller
         '500': '#11629A'
     });
     $mdThemingProvider.definePalette('oecdColours', newTheme);
-    $mdThemingProvider.theme('default').primaryPalette('oecdColours');
-    // test color
-    //$mdThemingProvider.theme('default').primaryPalette('pink').accentPalette('orange');
+    $mdThemingProvider.theme('default')
+        .primaryPalette('oecdColours')
+
 
     $mdIconProvider
         .icon('home-black', 'img/ic_home_black_24px.svg')
@@ -154,8 +154,14 @@ function config($routeProvider, $mdThemingProvider, $mdIconProvider, $controller
         .icon('visiblity', 'img/ic_visibility_white_24px.svg')
         .icon('folder-black', 'img/ic_folder_black_24px.svg')
         .icon('folder', 'img/ic_folder_white_24px.svg')
-        .icon('description-black', 'img/ic_folder_black_24px.svg')
-        .icon('description', 'img/ic_folder_white_24px.svg');
+        .icon('description-black', 'img/ic_description_black_24px.svg')
+        .icon('description', 'img/ic_description_white_24px.svg')
+        .icon('album-black', 'img/ic_album_black_24px.svg')
+        .icon('archive-black', 'img/ic_archive_black_24px.svg')
+        .icon('supervisor-black', 'img/ic_supervisor_account_black_24px.svg')
+        .icon('toc-black', 'img/ic_toc_black_24px.svg')
+        .icon('work-black', 'img/ic_work_black_24px.svg')
+        .icon('pmra', 'img/pmra-app-01.svg');
 
     app.controller = function(name, constructor){
         $controllerProvider.register(name, constructor);

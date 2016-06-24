@@ -1,8 +1,9 @@
 <main role="main">
     <md-content class="md-padding" layout="column">
         <header layout="row" layout-align="center center" style="padding:10px; margin-bottom:20px">
-                <img class="no-display" src="./img/GHSTS_logo.png" alt="GHSTS Logo" height="100%" ng-click="_ctrl.goToManageScreen()">
+            <img class="no-display" src="./img/GHSTS_logo.png" alt="GHSTS Logo" height="100%" ng-click="_ctrl.goToManageScreen()">
             <h1 style="padding-left:10px">Welcome to the GHSTS Submission Builder<h1>
+            <md-icon md-svg-icon="pmra" aria-label="pmra logo" height="100%"></md-icon>
         </header>
 
         <div layout-xs="column" layout="row">
@@ -39,7 +40,7 @@
                 style="color: white; background-color: rgb(17, 98, 154)">
                     <md-card-title layout-align="center center">
                         <div layout="row" layout-align="center center">
-                            <md-icon md-svg-icon="edit" aria-label="edit submission"></md-icon>
+                            <md-icon md-svg-icon="edit" style="fill: blue;" aria-label="edit submission"></md-icon>
                             <div class="card-header">Edit Submission</div>
                         </div>
                     </md-card-title>
@@ -72,10 +73,15 @@
             </div>
             <span flex></span>
             <div flex-xs="100" layout-xs="column">
-                <md-button class="md-primary md-raised"
-                    ng-click="_ctrl.showHelp()">Help</md-button>
-                <md-button class="md-primary md-raised"
-                    ng-click="_ctrl.showAbout()">About</md-button>
+                <md-button class="md-primary md-raised accent-background" ng-click="_ctrl.showHelp()">
+                    Help
+                </md-button>
+
+                <md-button
+                class="md-primary md-raised"
+                ng-click="_ctrl.showAbout()">
+                    About
+                </md-button>
             </div>
         </footer>
     </md-content>

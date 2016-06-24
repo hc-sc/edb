@@ -17,7 +17,7 @@
         <md-content>
             <md-list>
                 <md-list-item ng-repeat="it in _ctrl.substances track by $index" ng-click="_ctrl.selectSubstance(it, $index)">
-                    <md-icon md-svg-icon="description-black" aria-label="description"></md-icon>
+                    <md-icon class="black" md-svg-icon="album-black" aria-label="description"></md-icon>
                     <p>{{it.SUBSTANCE_NAME}}</p>
                     <md-divider ng-if="!$last"></md-divider>
                 </md-list-item>
@@ -29,7 +29,7 @@
         <md-toolbar layout="row" class="md-whiteframe-z1">
             <div class="md-toolbar-tools">
                 <md-button class="md-icon-button" aria-label="substances" ng-click="_ctrl.toggleSidenav('left')" hide-gt-sm>
-                    <md-icon md-svg-icon="business" aria-label="business"></md-icon>
+                    <md-icon class="white" md-svg-icon="album-black" aria-label="substance"></md-icon>
                 </md-button>
                 <h2> {{ _ctrl.selected.SUBSTANCE_NAME }}</h2>
             </div>
