@@ -3,7 +3,7 @@
     <md-toolbar layout="row" class="md-whiteframe-z1">
         <div class="md-toolbar-tools">
             <md-button class="md-icon-button" aria-label="back" ng-href="#/manage">
-                <md-icon class="material-icons" aria-label="back">navigate_before</md-icon>
+                <md-icon md-svg-icon="back" aria-label="back"></md-icon>
             </md-button>
             <h2>
                 <span>Dossier</span>
@@ -49,27 +49,27 @@
                 ng-click="_ctrl.showSubmissionDiag(sub, $event)"
                 ng-hidden="!$last"
                 class="noright">
-                    <md-icon class="material-icons" aria-hidden>assignment</md-icon>
+                    <md-icon class="black" md-svg-icon="assignment-black" aria-label="submission"></md-icon>
                     <p>{{ sub.SUBMISSION_TITLE }}</p>
                 </md-list-item>
             </md-list>
-			
+
             <md-toolbar>
                 <div class="md-toolbar-tools">
                     <h2>Referenced Dossiers</h2>
                     <span flex></span>
                     <md-button class="md-icon-button">
                         <md-icon
-                        class="material-icons"
+                        md-svg-icon="add-circle"
                         aria-label="Add Referenced Dossier"
-                        ng-click="_ctrl.addReferencedDossier()">add_circle</md-icon>
+                        ng-click="_ctrl.addReferencedDossier()"></md-icon>
                     </md-button>
                 </div>
             </md-toolbar>
 
             <md-list>
                 <md-card
-                style="padding: 10px"
+                class="list-item-card"
                 ng-repeat="rd in _ctrl.dossier.REFERENCED_DOSSIER track by $index">
                     <div layout-gt-sm="row">
                         <md-input-container class="md-block" flex>
@@ -102,16 +102,16 @@
                     <span flex></span>
                     <md-button class="md-icon-button">
                         <md-icon
-                            class="material-icons"
+                            md-svg-icon="add-circle"
                             aria-label="Add Dossier RA"
-                            ng-click="_ctrl.addDossierRA()">add_circle</md-icon>
+                            ng-click="_ctrl.addDossierRA()"></md-icon>
                     </md-button>
                 </div>
             </md-toolbar>
 
             <md-list>
                 <md-card
-                style="padding: 10px"
+                class="list-item-card"
                 ng-repeat="dra in _ctrl.dossier.DOSSIER_RA track by $index">
                     <div layout="column">
                         <md-input-container class="md-block">
@@ -214,15 +214,16 @@
             </md-list>
 
             <md-divider>
-            <div layout="row" layout-sm="column" layout-align="center" layout-wrap>
+
+            <div layout="row" layout-xs="column" layout-align="center" layout-wrap>
                 <md-button class="md-raised md-primary"
                     ng-click="_ctrl.saveDossier()">
                     Save
                 </md-button>
-                <md-button class="md-raised md-primary"
+                <!-- <md-button class="md-raised md-primary"
                 ng-click="_ctrl.viewDossierGHSTS()">
                     View Dossier GHSTS
-                </md-button>
+                </md-button> -->
             </div>
         </form>
     </md-content>

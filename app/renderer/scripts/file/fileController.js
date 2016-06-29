@@ -18,7 +18,7 @@ class FileController {
         this.metadataStatusOptions = this.pickListService.getMetadataStatusOptions();
     }
     toggleSidenav(componentId) {
-        // toggle the side nave by component identifer   
+        // toggle the side nave by component identifer
         this.$mdSidenav(componentId).toggle();
     }
     // clear all fields
@@ -30,29 +30,29 @@ class FileController {
         let self = this;
         if (this.selected != null && this.selected._id != null) {
             this.fileService.updateFile(this.selected).then(function (affectedRows) {
-                self.$mdDialog.show(
-                    self.$mdDialog
-                        .alert()
-                        .clickOutsideToClose(true)
-                        .title('Success')
-                        .content('Data Updated Successfully!')
-                        .ok('Ok')
-                        .targetEvent($event)
-                );
+                // self.$mdDialog.show(
+                //     self.$mdDialog
+                //         .alert()
+                //         .clickOutsideToClose(true)
+                //         .title('Success')
+                //         .content('Data Updated Successfully!')
+                //         .ok('Ok')
+                //         .targetEvent($event)
+                // );
             });
         }
         else {
-            this.fileService.createFile(this.selected).then(affectedRows =>
-                self.$mdDialog.show(
-                    self.$mdDialog
-                        .alert()
-                        .clickOutsideToClose(true)
-                        .title('Success')
-                        .content('Data Added Successfully!')
-                        .ok('Ok')
-                        .targetEvent($event)
-                ).then(this.getAllFiles())
-            );
+            this.fileService.createFile(this.selected).then(affectedRows => {
+                // self.$mdDialog.show(
+                //     self.$mdDialog
+                //         .alert()
+                //         .clickOutsideToClose(true)
+                //         .title('Success')
+                //         .content('Data Added Successfully!')
+                //         .ok('Ok')
+                //         .targetEvent($event)
+                // ).then(this.getAllFiles())
+            });
         }
     }
 
@@ -100,7 +100,7 @@ class FileController {
     }
     addFileRA() {
         // this.selected.FILE_RA.push(''); METADATA_STATUS
-        // let metaStatus = new ValueStruct("DUNS-number", "DUNS-number"); 
+        // let metaStatus = new ValueStruct("DUNS-number", "DUNS-number");
         if (this.selected == null) this.createFile();
         let fileRA = new FileRA();
         fileRA.METADATA_STATUS = { VALUE: '', VALUE_DECODE: '' };
@@ -123,7 +123,7 @@ class FileController {
             // _.remove(this.selected.FILE_RA, { IDENTIFIER: identifier });
             // let pos=selected.FILE_RA.indexof(fileRA)
             this.selected.FILE_RA.splice(index, 1);
-            // update the legal entity            
+            // update the legal entity
             this.fileService.updateFile(this.selected);
         });
     }
@@ -147,18 +147,18 @@ class FileController {
         })
     }
     addTestFile() {
-        // read from sample ghsts and populate the database with legal entities.       
+        // read from sample ghsts and populate the database with legal entities.
         this.fileService.addFileToDB().then(this.getAllFiles());
     }
     initializeFile() {
-        // read from sample ghsts and populate the database with legal entities. 
+        // read from sample ghsts and populate the database with legal entities.
         let self = this;
-        //pass controller self to service method   
+        //pass controller self to service method
         this.fileService.initializeFile().then(files => {
             self.files = [].concat(files);
             self.selected = files[0];
         });
-        //this.getAllFiles(); 
+        //this.getAllFiles();
 
     }
     /*

@@ -1,5 +1,4 @@
 import xml2js from 'xml2js';
-import path from 'path';
 var fs = require('fs');
 
 class GHSTS {
@@ -10,11 +9,9 @@ class GHSTS {
         this.receivers = [];
         this.product = {};
         this.documents = [];
-        // add other sub objects here
-
         this.submission = [];
         this.dossier = {};
-
+        this.files=[];
         this.substances = [];
     }
 
@@ -22,28 +19,34 @@ class GHSTS {
         this.legalEntities.push(legalEntity);
     }
 
-    setLegalEntities(legalEntities) {
-        this.legalEntities = legalEntities;
+    setLegalEntities() {
+        this.ghsts.LEGAL_ENTITIES = {
+            LEGAL_ENTITY: this.legalEntities
+        };
     }
 
     addReceiver(receiver) {
         this.receivers.push(receiver);
     }
 
-    setReceivers(receivers) {
-        this.receivers = receivers;
+    setReceivers() {
+        this.ghsts.RECEIVERS = {
+            RECEIVER: this.receivers
+        };
     }
 
     addSubmission(submission) {
         this.ghsts.PRODUCT.DOSSIER.SUBMISSION = submission;
     }
 
-    addfile(file) {
+    addFile(file) {
         this.files.push(file);
     }
 
-    setfiles(files) {
-        this.files = files;
+    setFiles() {
+        this.ghsts.FILES = {
+			FILE: this.files
+		}
     }
 
     setProduct(productGhstsJson){
@@ -54,8 +57,10 @@ class GHSTS {
         this.documents.push(document);
     }
 
-    setDocuments(documents){
-        this.documents = documents;
+    setDocuments(){
+        this.ghsts.DOCUMENTS = {
+            DOCUMENT: this.documents
+        };
     }
 
     setDossier(dossier) {
@@ -66,8 +71,10 @@ class GHSTS {
         this.substances.push(substance);
     }
 
-    setSubstances(substances){
-        this.substances = substances;
+    setSubstances(){
+        this.ghsts.SUBSTANCES = {
+            SUBSTANCE: this.substances
+        };
     }
 
     readObjects() {
@@ -104,9 +111,9 @@ class GHSTS {
                     this.substances = obj.GHSTS.SUBSTANCES[0].SUBSTANCE;
 
                     resolve(this);
-                })
+                });
             });
-        })
+        });
     }
 
     writeXML(filename) {
@@ -119,4 +126,4 @@ class GHSTS {
     }
 }
 
-export {GHSTS}
+export {GHSTS};
