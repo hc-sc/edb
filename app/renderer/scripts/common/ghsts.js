@@ -9,11 +9,9 @@ class GHSTS {
         this.receivers = [];
         this.product = {};
         this.documents = [];
-        // add other sub objects here
-
         this.submission = [];
         this.dossier = {};
-
+        this.files=[];
         this.substances = [];
     }
 
@@ -41,12 +39,14 @@ class GHSTS {
         this.ghsts.PRODUCT.DOSSIER.SUBMISSION = submission;
     }
 
-    addfile(file) {
+    addFile(file) {
         this.files.push(file);
     }
 
-    setfiles(files) {
-        this.files = files;
+    setFiles() {
+        this.ghsts.FILES = {
+			FILE: this.files
+		}
     }
 
     setProduct(productGhstsJson){

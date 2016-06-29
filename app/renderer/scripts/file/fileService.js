@@ -98,7 +98,6 @@ class FileService {
         let file = this._createSampleFile();
         return this.createFile(file);
     }
-
     initializeFile(submission) {
         let entities = submission.files;
         entities.forEach(f => {
@@ -130,7 +129,37 @@ class FileService {
         })
     }
 
+    initializeFile(submission) {
+        let entities = submission.files;
+        entities.forEach(f => {
+            let file = new File();
+            file.fileId = f.attr$.Id;
+
+            file.FILE_GENERIC = new FileGeneric();
+            file.FILE_GENERIC.METADATA_STATUS = f.FILE_GENERIC[0].METADATA_STATUS[0];
+            file.FILE_GENERIC.FILENAME = f.FILE_GENERIC[0].FILENAME[0];
+            file.FILE_GENERIC.FILE_PID = f.FILE_GENERIC[0].FILE_PID[0];
+            file.FILE_GENERIC.FILE_COMPANY_ID = f.FILE_GENERIC[0].FILE_COMPANY_ID[0];
+            file.FILE_GENERIC.CONTENT_STATUS = new ValueStruct(f.FILE_GENERIC[0].CONTENT_STATUS[0].VALUE[0], f.FILE_GENERIC[0].CONTENT_STATUS[0].VALUE_DECODE[0]);
+            file.FILE_GENERIC.FILE_TYPE = new ValueStruct(f.FILE_GENERIC[0].FILE_TYPE[0].VALUE[0], f.FILE_GENERIC[0].FILE_TYPE[0].VALUE_DECODE[0]);
+            file.FILE_GENERIC.REPLACED_FILE_PID = (f.FILE_GENERIC[0].REPLACED_FILE_PID === undefined ? null : f.FILE_GENERIC[0].REPLACED_FILE_PID);
+            file.FILE_GENERIC.FORMAT_COMMENT = f.FILE_GENERIC[0].FORMAT_COMMENT[0];
+            file.FILE_GENERIC.MD5CHECKSUM = f.FILE_GENERIC[0].MD5CHECKSUM[0];
+            file.FILE_GENERIC.FILENAME = f.FILE_GENERIC[0].FILENAME[0];
+
+            f.FILE_RA.forEach(fr => {
+                let fileRA = new FileRA();
+                fileRA.METADATA_STATUS = new ValueStruct(fr.METADATA_STATUS[0].VALUE[0], fr.METADATA_STATUS[0].VALUE_DECODE[0]);
+                fileRA.CBI_DESIGNATION = fr.CBI_DESIGNATION[0];
+                fileRA.FILE_COMMENT = (fr.FILE_COMMENT === undefined ? null : fr.FILE_COMMENT[0]);
+                file.addFileRA(fileRA);
+            })
+
+            this.createFile(file);
+        })
+    }
 }
+
 FileService.$inject = ['$q'];
 
-export { FileService }
+export { FileService };

@@ -6,7 +6,7 @@ import {Product} from '../product/productModel.js';
 import { Dossier } from '../dossier/dossierModel';
 import { Document } from '../document/documentModel';
 import { Substance, SubstanceIdentifierStruct } from '../substance/substanceModel';
-
+import {FileRA, FileGeneric, File} from '../file/fileModel.js';
 const DATA_DIR = 'data'
 const OUTPUT_FILE = `${__dirname}/${DATA_DIR}/output.xml`;
 
@@ -109,6 +109,15 @@ class GhstsService {
 
                 outputObj.setSubstances();
 
+               return this.fileService.getFiles();
+            })
+            .then(files => {
+                for(const file of files){
+                    outputObj.addFile(new File(file).toGHSTSJson())
+                }
+				
+				outputObj.setFiles();
+				
                 return outputObj.writeXML(OUTPUT_FILE);
             })
             .then(() => {
