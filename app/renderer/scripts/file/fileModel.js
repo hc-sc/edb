@@ -60,8 +60,9 @@ class File {
             Object.assign(this, json);
         } else {
             this._identifier = null;
+            this.FILE_GENERIC = {};
             this.FILE_RA = [];
-            this.FILE_GENERIC = {};             // of ContactAddress   
+                          
         }
     }
     set fileId(id) {
@@ -85,8 +86,9 @@ class File {
 
         return {
             attr$: { Id: this._identifier },
-            FILE_GENERIC: this.FILE_GENERIC,
-            FILE_RA: fileRAJson
+            FILE_RA: fileRAJson,
+            FILE_GENERIC: this.FILE_GENERIC
+            
         };
     }
 }

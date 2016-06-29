@@ -35,7 +35,7 @@ class GhstsService {
                     this.dossierService.initializeDossiers(this.submission),
                     this.substanceService.initializeSubstances(this.submission),
                     this.documentService.initializeDOC(),
-                    this.fileService.initializeFile()
+                    this.fileService.initializeFile(this.submission)
                 ])
                 .catch(err => console.log(err.stack));
             })
