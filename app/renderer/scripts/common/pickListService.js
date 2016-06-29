@@ -105,28 +105,31 @@ class PickListService {
         ];
     }
 
-    getYesNoOptions() {
+      getYesNoOptions() {
         return [
-            {VALUE_DECODE: "Yes", VALUE: "Y"},
-			{VALUE_DECODE: "No", VALUE: "N"},
+            {VALUE_DECODE: "Yes", VALUE: "Y"},		 	
+		 	{VALUE_DECODE: "No", VALUE: "N"},
 			{VALUE_DECODE: "Open", VALUE: "O"}
+		 	
         ];
     }
-
-    getSpecificRaIdOptions(){
-        return [
-            {VALUE_DECODE: "ID_RECEIVER_BVL", VALUE: "ID_RECEIVER_BVL"},
-            {VALUE_DECODE: "ID_RECEIVER_PMRA", VALUE: "ID_RECEIVER_PMRA"},
+	
+	getSpecificRaIdOptions(){
+		return [
+            {VALUE_DECODE: "ID_RECEIVER_BVL", VALUE: "ID_RECEIVER_BVL"},		 	
+		 	{VALUE_DECODE: "ID_RECEIVER_PMRA", VALUE: "ID_RECEIVER_PMRA"},
 			{VALUE_DECODE: "ID_RECEIVER_APVMA", VALUE: "ID_RECEIVER_APVMA"},
 			{VALUE_DECODE: "ID_RECEIVER_IBAMA", VALUE: "ID_RECEIVER_IBAMA"}
+		 	
         ];
-    }
-
-    getGEDocReferenceTypeOptions() {
+	}
+	
+	getGEDocReferenceTypeOptions() {
         return [
-            {VALUE_DECODE: "document to replaced document", VALUE: "document to replaced document"},		 	{VALUE_DECODE: "document to submitted document", VALUE: "document to submitted document"},
+            {VALUE_DECODE: "document to replaced document", VALUE: "document to replaced document"},		 	
+		 	{VALUE_DECODE: "document to submitted document", VALUE: "document to submitted document"},
 			{VALUE_DECODE: "document to unchanged predecessor document", VALUE: "document to unchanged predecessor document"},
-			{VALUE_DECODE: "translation to document", VALUE: "translation to document"}
+			{VALUE_DECODE: "translation to document", VALUE: "translation to document"}	
         ];
     }
 
@@ -135,15 +138,27 @@ class PickListService {
             {VALUE_DECODE: "Company ID", VALUE: "COMPID"},
 			{VALUE_DECODE: "Company ID 1", VALUE: "COMPID_1"},
 			{VALUE_DECODE: "Company ID 2", VALUE: "COMPID_2"},
-			{VALUE_DECODE: "other", VALUE: "other"}
+			{VALUE_DECODE: "other", VALUE: "other"}		
         ];
     }
-
+	
+	getGEDocContentStatusTypeOptions() {
+        return [
+            {VALUE_DECODE: "New", VALUE: "New"},
+			{VALUE_DECODE: "Modified", VALUE: "Modified"},
+			{VALUE_DECODE: "No Change", VALUE: "No Change"},
+			{VALUE_DECODE: "Replace", VALUE: "Replace"},
+			{VALUE_DECODE: "Retired", VALUE: "Retired"}	
+        ];
+    }
+	
+	
+	
     getRADocNumberTypeOptions() {
         return [
             {VALUE_DECODE: "MRID", VALUE: "MRID"},
 			{VALUE_DECODE: "PRMA", VALUE: "PRMA"},
-			{VALUE_DECODE: "other", VALUE: "other"}
+			{VALUE_DECODE: "other", VALUE: "other"}		
         ];
     }
 
@@ -440,15 +455,6 @@ class PickListService {
 			{VALUE_DECODE: "South Africa", VALUE: "ZA"},
 			{VALUE_DECODE: "Zambia", VALUE: "ZM"},
 			{VALUE_DECODE: "Zimbabwe", VALUE: "ZW"}
-        ];
-    }
-
-    getSubstanceIdentifierTypeOptions() {
-        return [
-			{VALUE_DECODE: "CASNO", VALUE: "CASNO"},
-			{VALUE_DECODE: "ECNO", VALUE: "ECNO"},
-			{VALUE_DECODE: "IUBMB", VALUE: "IUBMB"},
-			{VALUE_DECODE: "other", VALUE: "other"}
         ];
     }
 

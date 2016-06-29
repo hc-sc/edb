@@ -126,59 +126,58 @@ class DocumentService {
                     docGen.addContentStatusHistory(new ContentStatusHistory(new ValueStruct(csh.CONTENT_STATUS[0].VALUE[0], csh.CONTENT_STATUS[0].VALUE_DECODE[0]), csh.SUBMISSION_NUMBER[0]) )
                 );
 
-
                 //Build array of REFERENCED_DOCUMENT
                 // Need to check if this non mandatory element is present in your xml payload
                 if(doc.DOCUMENT_GENERIC[0].REFERENCED_DOCUMENT !== undefined){
                       doc.DOCUMENT_GENERIC[0].REFERENCED_DOCUMENT.forEach(rdc => {
-
+                            
                             let geRefDoc = new ReferencedDocument();
                             let refType = new ValueStruct(rdc.REFERENCE_TYPE[0].VALUE[0], rdc.REFERENCE_TYPE[0].VALUE_DECODE[0]);
-
+                    
                             geRefDoc.REFERENCE_TYPE = refType;
                             geRefDoc.INTERNAL =   (rdc.INTERNAL[0] === undefined ? null : rdc.INTERNAL[0]);
                             geRefDoc.DOCUMENT_PID =  (rdc.DOCUMENT_PID[0] === undefined ? null : rdc.DOCUMENT_PID[0]);
-                            if(rdc.DOCUMENT_NUMBER !== undefined){
-                                 geRefDoc.DOCUMENT_NUMBER = new DocumentNumber(new ValueStruct(rdc.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE[0].VALUE[0].attr$.Other_Value, rdc.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0]), rdc.DOCUMENT_NUMBER[0].IDENTIFIER[0]);
-                            }
-                         docGen.addReferencedDocument(geRefDoc);
-                      }) ///
-
+                            if(rdc.DOCUMENT_NUMBER !== undefined){                                  
+                                 geRefDoc.DOCUMENT_NUMBER = new DocumentNumber(new ValueStruct(rdc.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE[0].VALUE[0].attr$.Other_Value, rdc.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0]), rdc.DOCUMENT_NUMBER[0].IDENTIFIER[0]);                                    
+                            }   
+                         docGen.addReferencedDocument(geRefDoc);   
+                      }) /// 
+                    
                 }
-
+                
                 if(doc.DOCUMENT_GENERIC[0].RELATED_TO_SUBSTANCE !== undefined){
-                        doc.DOCUMENT_GENERIC[0].RELATED_TO_SUBSTANCE.forEach(relSub => {
-                            let relObj = new RelatedToSubstance();
-                            relObj.toSubstanceId = relSub.attr$.To_Substance_Id;
+                        doc.DOCUMENT_GENERIC[0].RELATED_TO_SUBSTANCE.forEach(relSub => {         
+                            let relObj = new RelatedToSubstance();  
+                            relObj.toSubstanceId = relSub.attr$.To_Substance_Id; 
                             docGen.addRelatedToSubstance(relObj);
-                        })
+                        })    
                  }
-
+                  
                 if(doc.DOCUMENT_GENERIC[0].DOCUMENT_NUMBER !== undefined){
                             doc.DOCUMENT_GENERIC[0].DOCUMENT_NUMBER.forEach(docNum => {
                                 // console.log(" View  Value"  + JSON.stringify(docNum.DOCUMENT_NUMBER_TYPE[0].VALUE[0]._));
                                 // console.log(" View  Value Other"  + JSON.stringify(docNum.DOCUMENT_NUMBER_TYPE[0].VALUE[0].attr$.Other_Value));
                                 // console.log(" View  Value Code"  + JSON.stringify(docNum.DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0]));
                              docGen.addDocumentNumber(new DocumentNumber(new ValueStruct(docNum.DOCUMENT_NUMBER_TYPE[0].VALUE[0].attr$.Other_Value, docNum.DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0]), docNum.IDENTIFIER[0]) );
-                          });
-                }
-
-
-                docGen.DOCUMENT_TITLE               = doc.DOCUMENT_GENERIC[0].DOCUMENT_TITLE[0];
+                          }); 
+                }             
+               
+                                 
+                docGen.DOCUMENT_TITLE               = doc.DOCUMENT_GENERIC[0].DOCUMENT_TITLE[0];  
                 docGen.DOCUMENT_AUTHOR              = doc.DOCUMENT_GENERIC[0].DOCUMENT_AUTHOR[0];
                 docGen.DOCUMENT_ISSUE_DATE          = doc.DOCUMENT_GENERIC[0].DOCUMENT_ISSUE_DATE[0];
-
+                
                 if(doc.DOCUMENT_GENERIC[0].DOCUMENT_OWNER !== undefined){
                      docGen.DOCUMENT_OWNER = doc.DOCUMENT_GENERIC[0].DOCUMENT_OWNER;
-                }
-
+                }                 
+                               
                 docGen.PUBLISHED_INDICATOR          = doc.DOCUMENT_GENERIC[0].PUBLISHED_INDICATOR[0];
                 docGen.COMPLETE_DOCUMENT_SOURCE     = doc.DOCUMENT_GENERIC[0].COMPLETE_DOCUMENT_SOURCE[0];
-
+                 
                 if(doc.DOCUMENT_GENERIC[0].TEST_LABORATORY !== undefined){
                      docGen.TEST_LABORATORY = doc.DOCUMENT_GENERIC[0].TEST_LABORATORY;
-                }
-
+                }     
+                
                 docGen.GXP_INDICATOR                = doc.DOCUMENT_GENERIC[0].GXP_INDICATOR[0];
                 docGen.TESTED_ON_VERTEBRATE         = doc.DOCUMENT_GENERIC[0].TESTED_ON_VERTEBRATE[0];
 
@@ -247,7 +246,6 @@ class DocumentService {
                     docu.addDocumentRA(docRA);
                })
 
-
                // console.log('---------------------JSON Model----------------\n' + JSON.stringify(docu));
                // console.log('------------------------GHSTS Format--------------------\n' + JSON.stringify(docu.toGHSTSJson()));
 
@@ -311,4 +309,4 @@ class DocumentService {
 
 DocumentService.$inject = ['$q'];
 
-export { DocumentService }
+export { DocumentService };

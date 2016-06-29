@@ -16,12 +16,11 @@ class ReferencedDocument {
            this.INTERNAL = null;
            this.DOCUMENT_PID = null;
            this.DOCUMENT_NUMBER = new DocumentNumber();
-
+           
         }
-    }
-
-
-    toGHSTSJson() {
+    } 
+    
+    toGHSTSJson() {   
         return {
             REFERENCE_TYPE : this.REFERENCE_TYPE ,
             INTERNAL : this.INTERNAL ,
@@ -96,7 +95,7 @@ class DocumentGeneric {
             this.DOCUMENT_PID =  null;
 			this.DOCUMENT_FAMILY_PID =  null;
 			this.DOCUMENT_FAMILY =  null;
-			this.CONTENT_STATUS_HISTORY = []   ;
+			this.CONTENT_STATUS_HISTORY = [];
             this.REFERENCED_DOCUMENT = [];
             this.RELATED_TO_SUBSTANCE = [];
 			this.DOCUMENT_NUMBER =   [] ;
@@ -117,44 +116,44 @@ class DocumentGeneric {
      addContentStatusHistory(contentStatusHistory){
          this.CONTENT_STATUS_HISTORY.push(contentStatusHistory);
      }
-
+     
      addReferencedDocument(referencedDocument){
          this.REFERENCED_DOCUMENT.push(referencedDocument);
      }
-
+     
      addRelatedToSubstance(relatedToSubstance){
           this.RELATED_TO_SUBSTANCE.push(relatedToSubstance);
      }
-
+     
      addDocumentNumber(documentNumber){
          this.DOCUMENT_NUMBER.push(documentNumber);
      }
-
+     
      addDocumentOwner(documentOwner){
          this.DOCUMENT_OWNER.push(documentOwner);
      }
-
+     
      addReferenceToFile(refToFile){
           this.REFERENCED_TO_FILE.push(refToFile);
      }
-
+     
      addTestLaboratory(tlab){
          this.TEST_LABORATORY.push(tlab);
      }
-
-     toGHSTSJson() {
+     
+     toGHSTSJson() {   
         let contentStatusHistoryJson = [];
         this.CONTENT_STATUS_HISTORY.forEach(content => contentStatusHistoryJson.push(content));
 
         let documentNumberJson = [];
         this.DOCUMENT_NUMBER.forEach(docNum=> documentNumberJson.push(docNum));
-
+        
         // let documentOwnerJson = [];
         // this.DOCUMENT_OWNER.forEach(docOwn=> documentOwnerJson.push(docOwn));
-
+        
         let referencedDocumentJson = [];
         this.REFERENCED_DOCUMENT.forEach(refDoc => referencedDocumentJson.push(refDoc));
-
+        
         let relatedToSubstanceJson = [];
         // this.RELATED_TO_SUBSTANCE.forEach(relSub => relatedToSubstanceJson.push(relSub));
         this.RELATED_TO_SUBSTANCE.forEach(relToSub => {
@@ -178,16 +177,16 @@ class DocumentGeneric {
 				CONTENT_STATUS_HISTORY 	   :      contentStatusHistoryJson ,
                 REFERENCED_DOCUMENT        :      referencedDocumentJson,
                 RELATED_TO_SUBSTANCE       :      relatedToSubstanceJson,
-				DOCUMENT_NUMBER 		   :      documentNumberJson,
-				DOCUMENT_TITLE 			   :      this.DOCUMENT_TITLE ,
-				DOCUMENT_AUTHOR 		   :      this.DOCUMENT_AUTHOR ,
-				DOCUMENT_ISSUE_DATE 	   :      this.DOCUMENT_ISSUE_DATE ,
-				DOCUMENT_OWNER 			   :      this.DOCUMENT_OWNER ,
-				PUBLISHED_INDICATOR 	   :      this.PUBLISHED_INDICATOR ,
-				COMPLETE_DOCUMENT_SOURCE   :      this.COMPLETE_DOCUMENT_SOURCE ,
-				TEST_LABORATORY 		   :      this.TEST_LABORATORY ,
-				GXP_INDICATOR 			   :      this.GXP_INDICATOR,
-				TESTED_ON_VERTEBRATE 	   :      this.TESTED_ON_VERTEBRATE ,
+				DOCUMENT_NUMBER 		   :      documentNumberJson, 		
+				DOCUMENT_TITLE 			   :      this.DOCUMENT_TITLE ,		
+				DOCUMENT_AUTHOR 		   :      this.DOCUMENT_AUTHOR ,		
+				DOCUMENT_ISSUE_DATE 	   :      this.DOCUMENT_ISSUE_DATE ,	
+				DOCUMENT_OWNER 			   :      this.DOCUMENT_OWNER ,		
+				PUBLISHED_INDICATOR 	   :      this.PUBLISHED_INDICATOR ,	
+				COMPLETE_DOCUMENT_SOURCE   :      this.COMPLETE_DOCUMENT_SOURCE ,	
+				TEST_LABORATORY 		   :      this.TEST_LABORATORY ,		
+				GXP_INDICATOR 			   :      this.GXP_INDICATOR, 		
+				TESTED_ON_VERTEBRATE 	   :      this.TESTED_ON_VERTEBRATE ,	
                 REFERENCED_TO_FILE         :      referencedToFileJson
 
 
@@ -337,4 +336,4 @@ class Document {
     }
 }
 
-export { ContentStatusHistory, ReferencedDocument, RelatedToSubstance,  DocumentNumber, ReferenceToFile, DocumentGeneric, OtherNationalGuideLine, SubmissionContext, RADocumentNumber, DocumentRA, Document}
+export { ContentStatusHistory, ReferencedDocument, RelatedToSubstance,  DocumentNumber, ReferenceToFile, DocumentGeneric, OtherNationalGuideLine, SubmissionContext, RADocumentNumber, DocumentRA, Document};

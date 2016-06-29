@@ -20,9 +20,9 @@ class DocumentRAController {
         this.yesnoOptions = this.pickListService.getYesNoOptions();
 
         this.raDocNumTypeOptions = this.pickListService.getRADocNumberTypeOptions();
-
+        
         this.specificRaIdOptions = this.pickListService.getSpecificRaIdOptions();
-    }
+    }      
 
     cancel($event) {
         this.$mdDialog.cancel();

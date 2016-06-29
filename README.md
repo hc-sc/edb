@@ -25,11 +25,11 @@ It is advisable to locally install jspm in addition to globally installing it in
 
 ## Install dependencies
 
-After cloning the repo execute `npm install` in the 'app' subdirectory to install all dependencies including the local JSPM.
+After cloning the repo execute `npm install` in the repository directory (edb) to install all dependencies including the local JSPM.
 
 ## Run the application
 
-Go the parent directory of app, type 'electron app'.
+Enter command `npm start` at the repository directory.
 
 ## Creating the Electorn App package
 

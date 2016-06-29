@@ -4,8 +4,8 @@ import {Receiver, Sender} from '../receiver/receiverModel.js';
 import {ValueStruct} from '../common/sharedModel.js';
 import {Product} from '../product/productModel.js';
 import { Dossier } from '../dossier/dossierModel';
-import { Substance, SubstanceIdentifierStruct } from '../substance/substanceModel';
 import { Document } from '../document/documentModel';
+import { Substance, SubstanceIdentifierStruct } from '../substance/substanceModel';
 
 const DATA_DIR = 'data'
 const OUTPUT_FILE = `${__dirname}/${DATA_DIR}/output.xml`;

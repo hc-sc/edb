@@ -31,7 +31,7 @@ class SubstanceService {
         let now = Date.now();
 
         sub2DB.METADATA_STATUS = sub2DB.METADATA_STATUS ? sub2DB.METADATA_STATUS : status;
-        //TODO: temporary set value for new Id, needs to be defected to the new business role
+        //TODO: temporary set value for new Id, needs to be defected to the new business role   
         sub2DB._identifier = sub2DB._identifier ? sub2DB._identifier : 'IDS' + now;
         sub2DB.SUBSTANCE_PID = sub2DB.SUBSTANCE_PID ? (validatePid(sub2DB.SUBSTANCE_PID) ? sub2DB.SUBSTANCE_PID : generatePid()) : generatePid();
         this.substancesDb.insert(sub2DB, (err, result) => {
@@ -74,11 +74,11 @@ class SubstanceService {
             item.SUBSTANCE_IDENTIFIER.forEach(it => {
                 let idType = (typeof(it.SUBSTANCE_IDENTIFIER_TYPE[0].VALUE[0]) === 'string') ?
                     new ExtValueStruct(
-                        it.SUBSTANCE_IDENTIFIER_TYPE[0].VALUE[0],
+                        it.SUBSTANCE_IDENTIFIER_TYPE[0].VALUE[0], 
                         it.SUBSTANCE_IDENTIFIER_TYPE[0].VALUE_DECODE[0]
                     ) :
                     new ExtValueStruct(
-                        it.SUBSTANCE_IDENTIFIER_TYPE[0].VALUE[0]._,
+                        it.SUBSTANCE_IDENTIFIER_TYPE[0].VALUE[0]._, 
                         it.SUBSTANCE_IDENTIFIER_TYPE[0].VALUE_DECODE[0],
                         it.SUBSTANCE_IDENTIFIER_TYPE[0].VALUE[0].attr$.Other_Value
                     );

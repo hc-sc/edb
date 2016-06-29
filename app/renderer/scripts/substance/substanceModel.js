@@ -2,7 +2,7 @@ import { ExtValueStruct } from '../common/sharedModel';
 
 class SubstanceIdentifierStruct {
     constructor(value, identifier) {
-        this.SUBSTANCE_IDENTIFIER_TYPE = new ExtValueStruct(value.VALUE, value.VALUE_DECODE, value.ATTR_VALUE),
+        this.SUBSTANCE_IDENTIFIER_TYPE = new ExtValueStruct(value.VALUE, value.VALUE_DECODE, value.ATTR_VALUE), 
         this.IDENTIFIER = identifier;
     }
 
@@ -39,11 +39,10 @@ class Substance {
         this.SUBSTANCE_IDENTIFIER.push(identifier);
     }
 
-
     toGhstsJson() {
         let idsJson = [];
         this.SUBSTANCE_IDENTIFIER.forEach(id => {idsJson.push(id.toGhstsJson())});
-
+        
         return {
             attr$ : {  Id : this._identifier  },
             METADATA_STATUS : this.METADATA_STATUS,

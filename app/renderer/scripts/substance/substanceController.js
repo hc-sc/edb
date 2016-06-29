@@ -33,7 +33,7 @@ class SubstanceController {
     }
 
     confirmLeavePage($event) {
-        // confirm with user if the form has been modified before leaving the page
+        // confirm with user if the form has been modified before leaving the page   
         var scope = angular.element($event.target.ownerDocument.substanceForm).scope();
         let isFormPristine = scope.substanceForm.$pristine;
         if (!isFormPristine) {
@@ -54,7 +54,7 @@ class SubstanceController {
     }
 
     toggleSidenav(componentId) {
-        // toggle the side nave by component identifer
+        // toggle the side nave by component identifer 
         this.$mdSidenav(componentId).toggle();
     }
 
@@ -107,7 +107,7 @@ class SubstanceController {
         this._setFormPrestine($event);
 
         if (this.selected && this.selected._id) {
-            this.substanceService.updateSubstance(this.selected).then(affectedRows =>
+            this.substanceService.updateSubstance(this.selected).then(affectedRows => 
                 self.$mdDialog.show(
                     self.$mdDialog
                         .alert()

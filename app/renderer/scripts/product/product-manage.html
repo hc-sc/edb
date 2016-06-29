@@ -176,7 +176,7 @@
             <md-list>
                 <md-list-item ng-repeat="ra in _ctrl.selected.PRODUCT_RA track by $index" ng-click="_ctrl.showProductRADiag(ra, $event)"
                     class="noright">
-                    <md-icon md-svg-icon="business-black" aria-label="Regulatory Authority"></md-icon>
+                    <md-icon class="black" md-svg-icon="business-black" aria-label="Regulatory Authority"></md-icon>
                     <p>{{ ra.PRODUCT_NAME }}</p>
                     <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteProductRA(ra, $event)" aria-label="Delete Regulatory Authority">
                         Delete

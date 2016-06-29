@@ -21,21 +21,21 @@ class DocumentController {
         this.filterText = null;
         this.fileReferencedOptions = [];
         this.subReferencedOptions = [];
-
-        // Load options for File selects
+        
+        // Load options for File selects 
         this.getFileReferencedOptions();
-
-        // Load options for Substance selects
+        
+        // Load options for Substance selects 
         this.getSubstanceOptions();
-
+        
         // options for metadata status
         this.metadataStatusOptions = this.pickListService.getMetadataStatusOptions();
-
-        // options for content status history
+        
+        // options for content status history 
         this.geDocContStatTypeOptions = this.pickListService.getGEDocContentStatusTypeOptions();
-
+        
         this.geDocNumTypeOptions = this.pickListService.getGEDocNumberTypeOptions();
-
+        
         this.geDocReferenceTypeOptions = this.pickListService.getGEDocReferenceTypeOptions();
 
         // Load initial data
@@ -322,7 +322,204 @@ class DocumentController {
             });
         }
     }
+    
+    // CONTENT_STATUS_HISTORY
+    addContentStatusHistory($event){
+        let newContentStatus = new ContentStatusHistory();      
+        this.selected.DOCUMENT_GENERIC.CONTENT_STATUS_HISTORY.push(newContentStatus);  
+    }
+    
+    deleteContentStatusHistory(contStat, $event){        
+          _.pull(this.selected.DOCUMENT_GENERIC.CONTENT_STATUS_HISTORY, contStat);           
+    }
+    
 
+    updateSelectedContStatDecode(refIndex){
+        let selectedConStatTypeValue = this.selected.DOCUMENT_GENERIC.CONTENT_STATUS_HISTORY[refIndex].CONTENT_STATUS.VALUE;
+       
+        let conStatTypeValueDecode = _(this.geDocContStatTypeOptions)
+                                         .filter(c => c.VALUE == selectedConStatTypeValue)
+                                        .map(c => c.VALUE_DECODE)
+                                        .value()[0];
+       this.selected.DOCUMENT_GENERIC.CONTENT_STATUS_HISTORY[refIndex].CONTENT_STATUS.VALUE_DECODE = conStatTypeValueDecode;
+     
+    }
+    
+    // REFERENCED_DOCUMENT
+    addReferencedDocument($event){
+        let newRefDocument = new ReferencedDocument();      
+        this.selected.DOCUMENT_GENERIC.REFERENCED_DOCUMENT.push(newRefDocument);  
+    }
+    
+    deleteReferencedDocument(refDoc, $event){        
+          _.pull(this.selected.DOCUMENT_GENERIC.REFERENCED_DOCUMENT, refDoc);           
+    }
+    
+
+    updateSelectedRefTypeDecode(refIndex){
+        let selectedRefTypeValue = this.selected.DOCUMENT_GENERIC.REFERENCED_DOCUMENT[refIndex].REFERENCE_TYPE.VALUE;
+       
+        let refTypeValueDecode = _(this.geDocReferenceTypeOptions)
+                                         .filter(c => c.VALUE == selectedRefTypeValue)
+                                        .map(c => c.VALUE_DECODE)
+                                        .value()[0];
+       this.selected.DOCUMENT_GENERIC.REFERENCED_DOCUMENT[refIndex].REFERENCE_TYPE.VALUE_DECODE = refTypeValueDecode;
+     
+    }
+    
+    updateSelectedRefDocTypeDecode(docIndex){
+        let selectedDocNumTypeValue = this.selected.DOCUMENT_GENERIC.REFERENCED_DOCUMENT[docIndex].DOCUMENT_NUMBER.DOCUMENT_NUMBER_TYPE.VALUE;
+        
+        let docNumTypeValueDecode = _(this.geDocNumTypeOptions)
+                                        .filter(c => c.VALUE == selectedDocNumTypeValue)
+                                        .map(c => c.VALUE_DECODE)
+                                         .value()[0];
+        this.selected.DOCUMENT_GENERIC.REFERENCED_DOCUMENT[docIndex].DOCUMENT_NUMBER.DOCUMENT_NUMBER_TYPE.VALUE_DECODE = docNumTypeValueDecode;
+       
+}
+    // DOCUMENT_NUMBER
+    addDocumentNumber($event){
+        let newDocumentNumber = new DocumentNumber();
+        this.selected.DOCUMENT_GENERIC.DOCUMENT_NUMBER.push(newDocumentNumber);  
+    }
+    
+    deleteDocumentNumber(refDoc, $event){        
+         _.pull(this.selected.DOCUMENT_GENERIC.DOCUMENT_NUMBER, refDoc);      
+    }
+    
+    updateSelectedDocTypeDecode(docIndex){
+         let selectedDocNumTypeValue = this.selected.DOCUMENT_GENERIC.DOCUMENT_NUMBER[docIndex].DOCUMENT_NUMBER_TYPE.VALUE;
+        
+        let docNumTypeValueDecode = _(this.geDocNumTypeOptions)
+                                        .filter(c => c.VALUE == selectedDocNumTypeValue)
+                                        .map(c => c.VALUE_DECODE)
+                                        .value()[0];
+        this.selected.DOCUMENT_GENERIC.DOCUMENT_NUMBER[docIndex].DOCUMENT_NUMBER_TYPE.VALUE_DECODE = docNumTypeValueDecode;
+    }
+    
+    // DOCUMENT_OWNER
+    addDocumentOwner($event){   
+        this.selected.DOCUMENT_GENERIC.DOCUMENT_OWNER.push('');  
+    }
+    
+    deleteDocumentOwner(docOwn, $event){        
+         _.pull(this.selected.DOCUMENT_GENERIC.DOCUMENT_OWNER, docOwn);      
+    }
+    
+    
+    // REFERENCED_TO_FILE
+    // get a list of file to be referenced in Document Generic
+    getFileReferencedOptions(){
+        let self = this;
+        this.fileService.getFiles().then(list => {            
+            list.forEach(fi => {               
+                let option = {id: fi._identifier, name: fi.FILE_GENERIC.FILE_COMPANY_ID}; 
+                //console.log(JSON.stringify(option));
+                self.fileReferencedOptions.push(option);
+            })
+         })
+    }
+    
+    addReferencedFile($event){
+       // make sure it is valid to add an new ref File by counting the files in option list.
+        if( this.fileReferencedOptions.length > this.selected.DOCUMENT_GENERIC.REFERENCED_TO_FILE.length){
+            this.selected.DOCUMENT_GENERIC.REFERENCED_TO_FILE.push(new ReferenceToFile());                
+        } else {
+            this.$mdDialog.show(
+                this.$mdDialog
+                    .alert()
+                    .clickOutsideToClose(true)
+                    .title('Invalid Operation')
+                    .content('There are no more potential files to add.')
+                    .ok('Ok')
+            );
+        }
+    }
+    
+    deleteReferencedFile(toFileId, $event){        
+          _.remove(this.selected.DOCUMENT_GENERIC.REFERENCED_TO_FILE, { _toFileId: toFileId } );           
+    }
+    
+    // RELATED_TO_SUBSTANCE
+    // get a list of substance to be referenced in Document Generic
+    getSubstanceOptions(){
+        let self = this;
+        this.substanceService.getSubstances().then(list => {            
+            list.forEach(sub => {               
+                let option = {id: sub._identifier, name: sub.SUBSTANCE_NAME}; 
+                //console.log(JSON.stringify(option));
+                self.subReferencedOptions.push(option);
+            })
+         })
+    }
+    
+    addRelatedSubstance($event){
+       // make sure it is valid to add an new ref Sub by counting the substances in option list.
+        if( this.subReferencedOptions.length > this.selected.DOCUMENT_GENERIC.RELATED_TO_SUBSTANCE.length){
+            this.selected.DOCUMENT_GENERIC.RELATED_TO_SUBSTANCE.push(new RelatedToSubstance());                
+        } else {
+            this.$mdDialog.show(
+                this.$mdDialog
+                    .alert()
+                    .clickOutsideToClose(true)
+                    .title('Invalid Operation')
+                    .content('There are no more potential substances to add.')
+                    .ok('Ok')
+            );
+        }
+    }
+    
+    deleteRelatedSubstance(toSubId, $event){        
+          _.remove(this.selected.DOCUMENT_GENERIC.RELATED_TO_SUBSTANCE, { _toSubstanceId: toSubId } );           
+    }
+    
+    // TEST LABORATORY
+    addTestLab($event){   
+        this.selected.DOCUMENT_GENERIC.TEST_LABORATORY.push('');  
+    }
+    
+    deleteTestLab(tLab, $event){        
+         _.pull(this.selected.DOCUMENT_GENERIC.TEST_LABORATORY, tLab);      
+    }
+    
+    // For Document Generic
+    
+    saveDocument($event) {   
+        // reset form state
+        this._setFormPrestine($event);
+                     
+        let self = this;
+        if (this.selected != null && this.selected._id != null) {
+            this.documentService.updateDocument(this.selected).then(function (affectedRows) {
+                self.$mdDialog.show(
+                    self.$mdDialog
+                        .alert()
+                        .clickOutsideToClose(true)
+                        .title('Success')
+                        .content('Data Updated Successfully!')
+                        .ok('Ok')
+                        .targetEvent($event)
+                );
+            });
+        }
+        else {            
+            this.documentService.createDocument(this.selected).then(affectedRows => {
+                self.$mdDialog.show(
+                    self.$mdDialog
+                        .alert()
+                        .clickOutsideToClose(true)
+                        .title('Success')
+                        .content('Data Added Successfully!')
+                        .ok('Ok')
+                        .targetEvent($event)
+                );
+                
+                // refresh the le list
+                self.getAlldocuments();
+            });
+        }
+    }
+    
      deleteDocument($event) {
         let confirm = this.$mdDialog.confirm()
                                 .title('Are you sure?')
@@ -380,7 +577,6 @@ class DocumentController {
                                 .ok('Yes')
                                 .cancel('No')
                                 .targetEvent($event);
-
 
         this.$mdDialog.show(confirm).then(() => {
             let self = this;
