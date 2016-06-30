@@ -2,8 +2,8 @@
     <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
         <md-toolbar class="md-whiteframe-z1" layout="row">
             <div class="md-toolbar-tools">
-                <md-button class="md-icon-button" aria-label="Home" ng-href="#/home">
-                    <md-icon class="material-icons" aria-label="Home">home</md-icon>
+                <md-button class="md-icon-button" aria-label="back" ng-href="#/manage">
+                    <md-icon md-svg-icon="back" aria-label="back"></md-icon>
                 </md-button>
                 <h2>
                     <span>File Management</span>
@@ -18,8 +18,9 @@
             <md-list>
                 <!-- notice work around for nedb. 'track by index'' to fix $$hashkey problem -->
                 <md-list-item ng-repeat="it in _ctrl.files track by $index" ng-click="_ctrl.selectFile(it, $index)">
-                    <md-icon class="material-icons" aria-label="File">description</md-icon>
+                    <md-icon class="black" md-svg-icon="description-black" aria-label="File"></md-icon>
                     <p>{{it.FILE_GENERIC.FILENAME}}</p>
+                    <md-divider ng-if="!$last"></md-divider>
                 </md-list-item>
             </md-list>
         </md-content>
@@ -29,7 +30,7 @@
         <md-toolbar layout="row" class="md-whiteframe-z1">
             <div class="md-toolbar-tools">
                 <md-button class="md-icon-button" aria-label="Document" ng-click="_ctrl.toggleSidenav('left')" hide-gt-sm>
-                    <md-icon class="material-icons" aria-label="Document">business</md-icon>
+                    <md-icon md-svg-icon="description" aria-label="Document"></md-icon>
                 </md-button>
                 <h2> {{ _ctrl.selected.FILE_GENERIC.FILENAME}}</h2>
             </div>
@@ -117,7 +118,7 @@
                         <h2>File RA</h2>
                         <span flex></span>
                         <md-button class="md-icon-button" ng-click="_ctrl.addFileRA()">
-                            <md-icon class="material-icons" aria-label="Add File RA">add_circle</md-icon>
+                            <md-icon md-svg-icon="add-circle" aria-label="Add File RA"></md-icon>
                         </md-button>
                     </div>
                 </md-toolbar>
@@ -152,23 +153,16 @@
                     </md-list-item>
                 </md-list>
             </form>
+
+            <md-divider>
+
+            <section layout="row" layout-xs="column" layout-align="center" layout-wrap>
+                <md-button class="md-raised md-primary" ng-click="_ctrl.createFile()">Add</md-button>
+                <md-button class="md-raised md-primary" ng-click="_ctrl.saveFile()" ng-disabled="fileForm.$invalid">Save</md-button>
+                <md-button class="md-raised md-primary" ng-click="_ctrl.deleteFile()">Delete</md-button>
+            </section>
+
         </md-content>
-            </form>
-        </md-content>
-
-        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-            <md-button class="md-raised md-info" ng-click="_ctrl.createFile()">Add</md-button>
-            <md-button class="md-raised md-primary" ng-click="_ctrl.saveFile()" ng-disabled="fileForm.$invalid">Save</md-button>
-     <!--       <md-button class="md-raised md-danger" ng-click="_ctrl.generateMD('test')">Cancel</md-button> -->
-            <md-button class="md-raised md-warn" ng-click="_ctrl.deleteFile()">Delete</md-button>
-            <md-button class="md-raised md-primary" ng-click="_ctrl.viewFileJson()">View File JSON</md-button>
-            <md-button class="md-raised md-primary" ng-click="_ctrl.viewFileGHSTS()">View File GHSTS</md-button>
-
-            <md-button class="md-raised md-warn" ng-click="_ctrl.addTestFile()">Add Sample File to DB</md-button>
-
-     <!--       <md-button class="md-raised md-warn" ng-click="_ctrl.initializeFile()">Initalize DB with Sample GHSTS Files</md-button> -->
-
-        </section>
     </div>
     </div>
 </section>

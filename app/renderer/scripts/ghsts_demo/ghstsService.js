@@ -8,98 +8,117 @@ import { Document } from '../document/documentModel';
 import { Substance, SubstanceIdentifierStruct } from '../substance/substanceModel';
 import {FileRA, FileGeneric, File} from '../file/fileModel.js';
 const DATA_DIR = 'data'
-const OUTPUT_FILE = './app/renderer/data/DemoGHSTS.xml';
+const OUTPUT_FILE = `${__dirname}/${DATA_DIR}/output.xml`;
 
 class GhstsService {
-    constructor(ReceiverService, LegalEntityService, ProductService, DossierService, SubstanceService, DocumentService,FileService) {
+    constructor(ReceiverService, LegalEntityService, ProductService, DossierService, SubstanceService, DocumentService, FileService) {
         this.receiverService = ReceiverService;
         this.legalEntityService = LegalEntityService;
         this.productService = ProductService;
         this.dossierService = DossierService;
         this.substanceService = SubstanceService;
         this.documentService = DocumentService;
-        this.fileService=FileService;
+        this.fileService = FileService;
         this.submission = {};
     }
 
-    loadXml(fileName) {
-        const FILE_PATH = `${__dirname}/${DATA_DIR}/${fileName}`
-        new GHSTS(FILE_PATH).readObjects()
+    loadXml(filePath) {
+        new GHSTS(filePath).readObjects()
             .then(result => {
                 this.submission = result;
 
                 return Promise.all([
-                    this.receiverService.initializeReceivers(),
-                    this.legalEntityService.initializeLE(),
+                    this.receiverService.initializeReceivers(this.submission),
+                    this.legalEntityService.initializeLE(this.submission),
                     this.productService.initializeProducts(this.submission),
                     this.dossierService.initializeDossiers(this.submission),
                     this.substanceService.initializeSubstances(this.submission),
-                    this.documentService.initializeDOC(),
+                    this.documentService.initializeDOC(this.submission),
                     this.fileService.initializeFile(this.submission)
                 ])
                 .catch(err => console.log(err.stack));
             })
-            .then(() => console.log(`Successfully loaded ${fileName}`))
+            .then(() => console.log(`Successfully loaded file`))
             .catch(err => console.log(err.stack));
     }
 
-    assembleDemoGHSTS(){
-        // this function reads from an existing ghsts.xml file and then
-        // overwrites the various nodes in the xml with the collection it finds
-        // in the database.  It does not care which one is "correct" from a
-        // submission perspective.  For demo purposes only, don't try this
-        // at home... I mean in prod.
-        let ghsts = new GHSTS("./app/renderer/data/ghsts.xml");
+    clearSubmission() {
+        return Promise.all([
+            this.receiverService.receivers.remove({}, { multi: true }),
+            this.legalEntityService.legalEntities.remove({}, { multi: true }),
+            this.productService.productsDb.remove({}, { multi: true }),
+            this.dossierService.dossiers.remove({}, { multi: true }),
+            this.substanceService.substancesDb.remove({}, { multi: true }),
+            this.documentService.documents.remove({}, { multi: true }),
+            this.fileService.files.remove({}, { multi: true })
+        ]);
+    }
 
-        return ghsts.readObjects()
-            .then(() => {
-                console.log('XML read into GHSTS object. Read DB to update');
-                return this.legalEntityService.getLegalEntities();
-            })
-            .then(leList => {
-                for (const le of leList) {
-                    ghsts.addLegalEntity(new LegalEntity(le).toGHSTSJson());
+    getGhstsJson(){
+        return this.submission;
+    }
+
+    assembleDemoGHSTS(){
+        let outputObj = new GHSTS();
+
+        // PATCH FOR RIGHT NOW, SINCE WE ARE MISSING FILES and TOC
+        outputObj.ghsts = this.submission.ghsts;
+
+        return this.legalEntityService.getLegalEntities()
+            .then(les => {
+                for (const le of les) {
+                    outputObj.addLegalEntity(new LegalEntity(le).toGHSTSJson());
                 }
+
+                outputObj.setLegalEntities();
 
                 return this.receiverService.getReceivers();
             })
-            .then(rcvrList => {
-                for (const receiver of rcvrList) {
-                    ghsts.addReceiver(new Receiver(receiver).toGHSTSJson());
+            .then(res => {
+                for (const re of res) {
+                    outputObj.addReceiver(new Receiver(re).toGHSTSJson());
                 }
+
+                outputObj.setReceivers();
 
                 return this.documentService.getDocuments();
             })
             .then(docList => {
                 for (const document of docList) {
-                    ghsts.addDocument(new Document(document).toGHSTSJson());
+                    outputObj.addDocument(new Document(document).toGHSTSJson());
                 }
+
+                outputObj.setDocuments();
 
                 return this.productService.getProducts();
             })
             .then(products => {
-                console.log(products);
-                ghsts.setProduct(new Product(products[0]).toGhstsJson());
+                outputObj.setProduct(new Product(products[0]).toGhstsJson());
 
                 return this.dossierService.getDossiers();
             })
             .then(dossiers => {
-                ghsts.setDossier(new Dossier(dossiers[0]).toGhstsJson());
+                outputObj.setDossier(new Dossier(dossiers[0]).toGhstsJson());
 
                 return this.substanceService.getSubstances();
             })
             .then(substances => {
                 for (const substance of substances) {
-                    ghsts.addSubstance(new Substance(substance).toGhstsJson());
+                    outputObj.addSubstance(new Substance(substance).toGhstsJson());
                 }
+
+                outputObj.setSubstances();
 
                return this.fileService.getFiles();
             })
-            .then(files=>{
+            .then(files => {
                 for(const file of files){
-                    ghsts.addFile(new File(file).toGHSTSJson())
+                    outputObj.addFile(new File(file).toGHSTSJson())
                 }
-                return ghsts.writeXML(OUTPUT_FILE);
+				
+				outputObj.setFiles();
+				
+                return outputObj.writeXML(OUTPUT_FILE);
             })
             .then(() => {
                 console.log(`Successfully written to ${OUTPUT_FILE}`);

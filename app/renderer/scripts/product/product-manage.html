@@ -2,8 +2,7 @@
     <md-toolbar layout="row" class="md-whiteframe-z1">
         <div class="md-toolbar-tools">
             <md-button class="md-icon-button" aria-label="Home" ng-href="#/manage">
-                <md-icon class="material-icons" aria-label="back">navigate_before</md-icon>
-
+                <md-icon md-svg-icon="back" aria-label="back"></md-icon>
             </md-button>
             <md-headline layout-padding> {{ _ctrl.selected.GENERIC_PRODUCT_NAME }}</md-headline>
         </div>
@@ -84,13 +83,13 @@
                     <h2>Ingredients</h2>
                     <span flex></span>
                     <md-button class="md-icon-button" ng-click="_ctrl.addIngredient()">
-                        <md-icon class="material-icons" aria-label="Add Identifier">add_circle</md-icon>
+                        <md-icon md-svg-icon="add-circle" aria-label="Add Identifier"></md-icon>
                     </md-button>
                 </div>
             </md-toolbar>
 
             <md-list>
-                <md-card ng-repeat="ing in _ctrl.selected.INGREDIENTS track by $index" style="padding: 10px">
+                <md-card ng-repeat="ing in _ctrl.selected.INGREDIENTS track by $index" class="list-item-card">
                     <div layout-gt-sm="row">
                         <md-input-container class="md-block" flex>
                             <label for="substances">Substance</label>
@@ -169,7 +168,7 @@
                     <h2>Regulatory Authority Specifics</h2>
                     <span flex></span>
                     <md-button class="md-icon-button" ng-click="_ctrl.addProductRA($event)">
-                        <md-icon class="material-icons" aria-label="Add Regulatory Authority">add_circle</md-icon>
+                        <md-icon md-svg-icon="add-circle" aria-label="Add Regulatory Authority"></md-icon>
                     </md-button>
                 </div>
             </md-toolbar>
@@ -177,7 +176,7 @@
             <md-list>
                 <md-list-item ng-repeat="ra in _ctrl.selected.PRODUCT_RA track by $index" ng-click="_ctrl.showProductRADiag(ra, $event)"
                     class="noright">
-                    <md-icon class="material-icons" aria-label="Regulatory Authority">business</md-icon>
+                    <md-icon class="black" md-svg-icon="business-black" aria-label="Regulatory Authority"></md-icon>
                     <p>{{ ra.PRODUCT_NAME }}</p>
                     <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteProductRA(ra, $event)" aria-label="Delete Regulatory Authority">
                         Delete
@@ -187,9 +186,8 @@
 
             <md-divider>
 
-            <div layout="row" layout-sm="column" layout-align="center" layout-wrap>
+            <div layout="row" layout-xs="column" layout-align="center" layout-wrap>
                 <md-button class="md-raised md-primary" ng-click="_ctrl.saveProduct()">Save</md-button>
-                <md-button class="md-raised md-primary" ng-click="_ctrl.viewProductGHSTS()">View Product GHSTS</md-button>
             </div>
         </form>
     </md-content>

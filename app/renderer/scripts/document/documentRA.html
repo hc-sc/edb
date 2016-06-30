@@ -3,12 +3,12 @@
     <md-toolbar>
         <div class="md-toolbar-tools">
             <md-button class="md-icon-button">
-                <md-icon class="material-icons" aria-label="Add Document RA">folder</md-icon>
+                <md-icon md-svg-icon="folder" aria-label="Add Document RA"></md-icon>
             </md-button>
             <h2>{{_ctrl.documentRA._toSpecificforRAId}}</h2>
             <span flex></span>
             <md-button class="md-icon-button" ng-click="_ctrl.cancel()">
-                <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
+                <md-icon md-svg-icon="close" aria-label="Close dialog"></md-icon>
             </md-button>
         </div>
     </md-toolbar>
@@ -24,34 +24,42 @@
             </div>
                     
             <div layout-gt-sm="row">
-                      
+                   <md-input-container class="md-block" flex-gt-sm>
+                        <label>Specific RA ID</label>
+                        <md-select name="repeatSelectStatus" id="repeatSelectStatus" ng-model="_ctrl.documentRA._toSpecificforRAId" ng-change="_ctrl.updateSelectedSpecRAIdDecode()">
+                            <md-option ng-repeat="docRaSpec in _ctrl.specificRaIdOptions" value="{{docRaSpec.VALUE}}" ng-selected="{{_ctrl.documentRA._toSpecificforRAId == docRaSpec.VALUE}}">{{ docRaSpec.VALUE_DECODE }}</md-option>
+                        </md-select>
+                    </md-input-container>
+            </div>
+
+            <div layout-gt-sm="row">
                    <md-input-container class="md-block" flex-gt-sm>
                         <label>Status</label>
                         <md-select name="repeatSelectStatus" id="repeatSelectStatus" ng-model="_ctrl.documentRA.METADATA_STATUS.VALUE" ng-change="_ctrl.updateSelectedStatusDecode()">
                             <md-option ng-repeat="docRaStatus in _ctrl.metadataStatusOptions" value="{{docRaStatus.VALUE}}" ng-selected="{{_ctrl.documentRA.METADATA_STATUS.VALUE == docRaStatus.VALUE}}">{{ docRaStatus.VALUE_DECODE }}</md-option>
-                        </md-select>  
-                    </md-input-container>  
+                        </md-select>
+                    </md-input-container>
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Data Protection</label>
                         <md-select name="repeatDataPro" id="repeatDataPro" ng-model="_ctrl.documentRA.DATA_PROTECTION.VALUE" ng-change="_ctrl.updateSelectedDataProDecode()">
                             <md-option ng-repeat="docRaDataPr in _ctrl.yesnoOptions" value="{{docRaDataPr.VALUE}}" ng-selected="{{_ctrl.documentRA.DATA_PROTECTION.VALUE == docRaDataPr.VALUE}}">{{ docRaDataPr.VALUE_DECODE }}</md-option>
-                        </md-select>  
-                    </md-input-container>  
+                        </md-select>
+                    </md-input-container>
                    <md-input-container class="md-block" flex-gt-sm>
                         <label>Data Requirement</label>
                         <md-select name="repeatDataReq" id="repeatDataReq" ng-model="_ctrl.documentRA.DATA_REQUIREMENT.VALUE" ng-change="_ctrl.updateSelectedDataReqDecode()">
                             <md-option ng-repeat="docRaDataRq in _ctrl.yesnoOptions" value="{{docRaDataRq.VALUE}}" ng-selected="{{_ctrl.documentRA.DATA_REQUIREMENT.VALUE == docRaDataRq.VALUE}}">{{ docRaDataRq.VALUE_DECODE }}</md-option>
-                        </md-select>  
-                    </md-input-container>                                      
+                        </md-select>
+                    </md-input-container>
             </div>
-            
+
              <div layout-gt-sm="row">
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Type</label>
                         <md-select name="repeatDocNumType" id="repeatDocNumType" ng-model="_ctrl.documentRA.RA_DOCUMENT_NUMBER.RA_DOCUMENT_NUMBER_TYPE.VALUE" ng-change="_ctrl.updateSelectedRaDocNumTypeDecode()">
                             <md-option ng-repeat="docRaDocNumType in _ctrl.raDocNumTypeOptions" value="{{docRaDocNumType.VALUE}}" ng-selected="{{_ctrl.documentRA.RA_DOCUMENT_NUMBER.RA_DOCUMENT_NUMBER_TYPE.VALUE == docRaDocNumType.VALUE}}">{{ docRaDocNumType.VALUE_DECODE }}</md-option>
-                        </md-select>  
-                    </md-input-container>  
+                        </md-select>
+                    </md-input-container>
                     <md-input-container class="md-block" flex-gt-sm>
                             <label>Identifier</label>
                             <input ng-model="_ctrl.documentRA.RA_DOCUMENT_NUMBER.IDENTIFIER" type="text">
@@ -64,82 +72,81 @@
              <md-toolbar>
                  <div class="md-toolbar-tools">
                      <h2>Submission Context</h2>
-                     <span flex></span> 
+                     <span flex></span>
                      <md-button class="md-icon-button" ng-click="_ctrl.addRDNSubmissionContext()">
-                            <md-icon class="material-icons" aria-label="Add submission context">add_circle</md-icon>
+                            <md-icon md-svg-icon="add-circle" aria-label="Add submission context"></md-icon>
                      </md-button>
                  </div>
             </md-toolbar>
             <md-list>
-                <md-list-item ng-repeat=" subcon in _ctrl.documentRA.RA_DOCUMENT_NUMBER.SUBMISSION_CONTEXT track by $index"  class="noright">         
-                   <div layout-gt-sm="row">  
+                <md-list-item ng-repeat=" subcon in _ctrl.documentRA.RA_DOCUMENT_NUMBER.SUBMISSION_CONTEXT track by $index"  class="noright">
+                   <div layout-gt-sm="row">
                      <md-input-container class="md-block" flex-gt-sm>
-                          <label>Dossier PID</label>  
+                          <label>Dossier PID</label>
                           <input ng-model="subcon.DOSSIER_PID" type="text">
-                     </md-input-container> 
+                     </md-input-container>
                      <md-input-container class="md-block" flex-gt-sm>
-                          <label>Dossier number</label>  
+                          <label>Dossier number</label>
                           <input ng-model="subcon.DOSSIER_NUMBER" type="text">
-                     </md-input-container> 
-                     <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteRDNSubmissionContext(subcon, $event)">Delete</md-button>   
-                   </div>                                                                         
+                     </md-input-container>
+                     <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteRDNSubmissionContext(subcon, $event)">Delete</md-button>
+                   </div>
                 </md-list-item>
             </md-list>
-            
+
             <md-toolbar>
                  <div class="md-toolbar-tools">
                      <h2>Other national Guideline</h2>
-                     <span flex></span> 
+                     <span flex></span>
                      <md-button class="md-icon-button" ng-click="_ctrl.addDocumentRAONG()">
-                            <md-icon class="material-icons" aria-label="Add Other Guide">add_circle</md-icon>
+                            <md-icon md-svg-icon="add-circle" aria-label="Add Other Guide"></md-icon>
                      </md-button>
                  </div>
             </md-toolbar>
             <md-list>
-                <md-list-item ng-repeat=" oth in _ctrl.documentRA.OTHER_NATIONAL_GUIDELINE track by $index"  class="noright">         
-                   <div layout-gt-sm="row">  
+                <md-list-item ng-repeat=" oth in _ctrl.documentRA.OTHER_NATIONAL_GUIDELINE track by $index"  class="noright">
+                   <div layout-gt-sm="row">
                      <md-input-container class="md-block" flex-gt-sm>
-                          <label>Guide Line system</label>  
+                          <label>Guide Line system</label>
                           <input ng-model="oth.GUIDELINE_SYSTEM" type="text">
-                     </md-input-container> 
+                     </md-input-container>
                      <md-input-container class="md-block" flex-gt-sm>
-                          <label>Guide Line number</label>  
+                          <label>Guide Line number</label>
                           <input ng-model="oth.GUIDELINE_NUMBER" type="text">
-                     </md-input-container> 
-                     <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteDocumentRAONG(oth, $event)">Delete</md-button>   
-                   </div>                                                                         
+                     </md-input-container>
+                     <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteDocumentRAONG(oth, $event)">Delete</md-button>
+                   </div>
                 </md-list-item>
             </md-list>
-       
                   <md-toolbar>
                         <div class="md-toolbar-tools">
                             <h2>Document RAs comment</h2>
                             <span flex></span>
                             <md-button class="md-icon-button" ng-click="_ctrl.addDocumentRAComment()">
-                                <md-icon class="material-icons" aria-label="Add Comment">add_circle</md-icon>
+                                <md-icon md-svg-icon="add-circle" aria-label="Add Comment"></md-icon>
                             </md-button>
                         </div>
-                 </md-toolbar>  
-                 <md-card class="inset" ng-repeat=" coment in _ctrl.documentRA.DOCUMENT_COMMENT track by $index" >                        
-                    <div layout-gt-sm="row">         
-                        <md-input-container class="md-block" flex-gt-sm>
-                          <label>Comment</label> 
-                          <textarea name="labInfo" ng-model="_ctrl.documentRA.DOCUMENT_COMMENT[$index]" md-maxlength="2000"></textarea>
-                        </md-input-container> 
-                        <div layout-align="end">
-                            <md-input-container class="md-block" flex-gt-sm>
-                                <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteDocumentRAComment(coment, $event)">Delete</md-button> 
-                            </md-input-container>
-                        </div>               
-                    </div>         
-                </md-card>
-           
+                 </md-toolbar>
+				 <md-list>
+					 <md-card class="inset" ng-repeat=" coment in _ctrl.documentRA.DOCUMENT_COMMENT track by $index" >
+						<div layout-gt-sm="row">
+							<md-input-container class="md-block" flex-gt-sm>
+							  <label>Comment</label>
+							  <textarea name="labInfo" ng-model="_ctrl.documentRA.DOCUMENT_COMMENT[$index]" md-maxlength="2000"></textarea>
+							</md-input-container>
+							<div layout-align="end">
+								<md-input-container class="md-block" flex-gt-sm>
+									<md-button class="md-secondary md-raised" ng-click="_ctrl.deleteDocumentRAComment(coment, $event)">Delete</md-button>
+								</md-input-container>
+							</div>
+						</div>
+					</md-card>
+				</md-list>
             <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-                <md-button class="md-raised md-primary" ng-click="_ctrl.cancel()">Cancel</md-button>    
-                <md-button class="md-raised md-primary" ng-click="_ctrl.saveDocumentRA()" ng-disabled="documentRAForm.$invalid">Save</md-button>                             
-            </section>  
+                <md-button class="md-raised md-primary" ng-click="_ctrl.cancel()">Cancel</md-button>
+                <md-button class="md-raised md-primary" ng-click="_ctrl.saveDocumentRA()" ng-disabled="documentRAForm.$invalid">Save</md-button>
+            </section>
         </div>
     </md-dialog-content>
   </form>
 </md-dialog>
-
