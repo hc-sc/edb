@@ -2,55 +2,82 @@ import angular from 'angular';
 import { Ingredient, Product } from './productModel';
 import { ProductRAController } from '../product_ra/productRAController';
 import { ProductRA } from '../product_ra/productRAModel';
+import { Substance } from '../substance/substanceModel';
+import { ValueStruct, ExtValueStruct } from '../common/sharedModel';
 import { ListDialogController } from '../common/listDialogController';
 import { generatePid } from '../common/pid';
 import _ from 'lodash';
 
 class ProductController {
-    constructor($mdDialog, ReceiverService, ProductService, PickListService) {
+    constructor($mdDialog, ReceiverService, ProductService, SubstanceService, PickListService) {
         this.productService = ProductService;
         this.receiverService = ReceiverService;
+        this.substanceService = SubstanceService;
         this.pickListService = PickListService;
         this.products = [];
-        this.selected = {};
+        this.selected = new Product();
         this.selectedIndex = null;
 
         this.$mdDialog = $mdDialog;
         this.filterText = null;
-                
-        // Load initial data
-        this.initFromDB();
-        
-        this.metadataStatusOptions = this.pickListService.getMetadataStatusOptions();
+        this.metadataStatusOptions = null;
+        this.receiversWithNames = [];
+        this.legalEntities = [];
+        this.substances = [];
+
+        this.pickListService.getType('TYPE_METADATA_STATUS')
+            .then(metadataStatusOptions => {
+                this.metadataStatusOptions = metadataStatusOptions;
+
+                return this.pickListService.getType('EXTENSION_TYPE_FORMULATION_TYPE');
+            })
+            .then(formulationTypes => {
+                this.formulations = formulationTypes;
+
+                return this.pickListService.getType('EXTENSION_TYPE_UNIT');
+            })
+            .then(unitTypes => {
+                this.units = unitTypes;
+
+                return this.substanceService.getSubstances()
+            })
+            .then(substances => {
+                this.substances = substances.map(sub => {
+                    return new Substance(sub);
+                });
+
+                this.initFromDB();
+            })
+            .catch(err => console.log(err.stack));
     }
-    
+
     initFromDB() {
         this.productService.getProducts().then(dbProducts => {
             this.products = dbProducts.map(product => {
                 return new Product(product);
             });
-            
+
             if (this.products.length > 0) {
                 this.selected = this.products[0];
                 this.selectedIndex = 0;
             }
         });
     }
-    
+
     clearSelectedProduct() {
         this.selected = {};
         this.selectedIndex = null;
     }
-    
+
     selectProduct(product, index) {
-        this.selected = angular.isNumber(product) 
-                         ? this.products[product]  
+        this.selected = angular.isNumber(product)
+                         ? this.products[product]
                          : product;
-        this.selectedIndex = angular.isNumber(product) 
-                              ? product 
+        this.selectedIndex = angular.isNumber(product)
+                              ? product
                               : index;
     }
-    
+
     deleteProduct($event) {
         if (!_.isEmpty(this.selected)) {
             let confirm = this.$mdDialog.confirm()
@@ -60,7 +87,7 @@ class ProductController {
                                     .ok('Yes')
                                     .cancel('No')
                                     .targetEvent($event);
-            
+
             this.$mdDialog.show(confirm).then(() => {
                 this.productService.deleteProduct(this.selected._id)
                     .then(() => {
@@ -76,47 +103,48 @@ class ProductController {
                         }
                     })
                     .catch(err => {
-                        console.log(err);
+                        console.log(err.stack);
                     });
             });
         }
     }
-    
+
     saveProduct($event) {
         if (this.selected._id) {
-            this.productService.updateProduct(this.selected).then(() => {
-                this.$mdDialog.show(
-                    this.$mdDialog
-                        .alert()
-                        .clickOutsideToClose(true)
-                        .title('Success')
-                        .content('Product Updated Successfully!')
-                        .ok('Ok')
-                        .targetEvent($event)
-                );
+            return this.productService.updateProduct(this.selected).then(() => {
+                // this.$mdDialog.show(
+                //     this.$mdDialog
+                //         .alert()
+                //         .clickOutsideToClose(true)
+                //         .title('Success')
+                //         .content('Product Updated Successfully!')
+                //         .ok('Ok')
+                //         .targetEvent($event)
+                // );
             })
-            .catch(err => console.log(err));
+            .catch(err => console.log(err.stack));
         }
         else { // new Product
-            this.productService.createProduct(this.selected).then(createdRow => {
-                this.$mdDialog.show(
-                    this.$mdDialog
-                        .alert()
-                        .clickOutsideToClose(true)
-                        .title('Success')
-                        .content('Product Added Successfully!\r\n')
-                        .ok('Ok')
-                        .targetEvent($event)
-                );
+            return this.productService.createProduct(this.selected).then(createdRow => {
+                // this.$mdDialog.show(
+                //     this.$mdDialog
+                //         .alert()
+                //         .clickOutsideToClose(true)
+                //         .title('Success')
+                //         .content('Product Added Successfully!')
+                //         .ok('Ok')
+                //         .targetEvent($event)
+                // );
                 this.products.push(new Product(createdRow));
                 this.selectedIndex = this.products.length - 1;
                 this.selected = this.products[this.selectedIndex];
-            });
+            })
+            .catch(err => console.log(err.stack));
         }
     }
-   
+
     filterProduct() {
-        if (this.filterText != null) {        
+        if (this.filterText != null) {
             this.productService.getProductByName(this.filterText)
                 .then(products => {
                     this.products = [].concat(products);
@@ -124,7 +152,7 @@ class ProductController {
                 });
         }
     }
-    
+
     // creates a new product, clears all fields and generates a unique pid
     newProduct($event) {
         const confirm = this.$mdDialog.confirm()
@@ -133,7 +161,7 @@ class ProductController {
             .ok('Yes')
             .cancel('No')
             .targetEvent($event);
-            
+
         this.$mdDialog.show(confirm).then(() => {
             return this.generateUniquePid();
         })
@@ -141,11 +169,11 @@ class ProductController {
             this.selected = new Product();
             this.selected.PRODUCT_PID = uniquePid;
             this.selectedIndex = null;
-           
+
         })
-        .catch(err => console.log(err));
+        .catch(err => console.log(err.stack));
     }
-    
+
     // recursively calls generateUniquePid until a unique PID is created
     generateUniquePid() {
         let pid = generatePid();
@@ -154,7 +182,7 @@ class ProductController {
             else return this.generateUniquePid();
         });
     }
-    
+
     // checks if a duplicate PID exists in the DB.
     isUniquePid(pid) {
         return this.productService.getProductByPid(pid)
@@ -162,12 +190,12 @@ class ProductController {
                 return products.length == 0 ? true : false;
             });
     }
-    
+
     addIngredient() {
         let ingredient = new Ingredient();
         this.selected.INGREDIENTS.push(ingredient);
     }
-    
+
     deleteIngredient(ingredient, $event) {
         const confirm = this. $mdDialog.confirm()
             .title('Are you sure?')
@@ -175,23 +203,23 @@ class ProductController {
             .ok('Yes')
             .cancel('No')
             .targetEvent($event);
-            
+
         this.$mdDialog.show(confirm).then(() => {
             _.remove(this.selected.INGREDIENTS, (n) => {
                 return n._toSubstanceID === ingredient;
             });
             this.productService.updateProduct(this.selected)
             .catch(err => {
-                console.log(err);
+                console.log(err.stack);
             });
         });
     }
-    
+
     addProductRA($event) {
         let ra = new ProductRA();
         this.showProductRADiag(ra, $event);
     }
-    
+
     deleteProductRA(ra, $event) {
         const confirm = this. $mdDialog.confirm()
             .title('Are you sure?')
@@ -199,16 +227,16 @@ class ProductController {
             .ok('Yes')
             .cancel('No')
             .targetEvent($event);
-            
+
         this.$mdDialog.show(confirm).then(() => {
             _.pull(this.selected.PRODUCT_RA, ra);
             this.productService.updateProduct(this.selected)
             .catch(err => {
-                console.log(err);
-            }); 
+                console.log(err.stack);
+            });
         });
     }
-    
+
     // if the product RA isn't already there, add it to the list
     saveProductRA(ra) {
         if (!_.includes(this.selected.PRODUCT_RA, ra)) {
@@ -216,15 +244,38 @@ class ProductController {
         }
         this.productService.updateProduct(this.selected);
     }
-    
+
     updateMetadataValue() {
         this.selected.setMetadataStatusValue(this.selected.METADATA_STATUS.VALUE_DECODE);
     }
-    
-    updateUnitValue(ing) {
-        ing.setUnitValue(ing.UNIT.VALUE_DECODE);
+
+    updateFormulation() {
+        if (this.selected.FORMULATION_TYPE.VALUE === this.pickListService.getOtherValue()) {
+            this.selected.FORMULATION_TYPE.ATTR_VALUE = '';
+            this.selected.setFormulationTypeValueDecode('');
+        }
+        else {
+            delete this.selected.FORMULATION_TYPE.ATTR_VALUE;
+            this.selected.setFormulationTypeValueDecode(this.selected.FORMULATION_TYPE.VALUE);
+        }
     }
-    
+
+    updateUnit(ing) {
+        if (ing.UNIT.VALUE === this.pickListService.getOtherValue()) {
+            ing.UNIT.ATTR_VALUE = '';
+            ing.setUnitValueDecode('');
+        }
+        else {
+            delete ing.UNIT.ATTR_VALUE;
+            ing.setUnitValueDecode(ing.UNIT.VALUE);
+        }
+    }
+
+    getOtherValue() {
+        return this.pickListService.getOtherValue();
+    }
+
+    // NOTE: We would like to have this load ONCE here, and then pass in the values anytime we need to show the ProductRA dialog, but passing in promises (in this case the getReceiversWithLegalEntityName), are NOT resolved in the controller, even if they already have a value. Need to use 'resolve' instead, which would wait and display the dialog only once the call had been resolved, but this is broken as per https://github.com/angular/material/issues/7400. Instead, we load receiverService into ProductRA directly, and call getReceiversWithLegalEntityName everytime we display the dialog
     showProductRADiag(productRA, $event) {
         this.$mdDialog.show({
             controller: ProductRAController,
@@ -239,7 +290,7 @@ class ProductController {
             }
         });
     }
-    
+
     showConflictDiag(conflictingProducts, $event) {
         this.$mdDialog.show({
             controller: ListDialogController,
@@ -260,42 +311,31 @@ class ProductController {
         });
     }
 
-    viewProductJson($event) {
-        if (!_.isEmpty(this.selected)) {
-            let productJson = JSON.stringify(this.selected);            
-            this.$mdDialog.show(
-                    this.$mdDialog
-                        .alert()
-                        .clickOutsideToClose(true)
-                        .title('Product Database JSON')
-                        .content(productJson)
-                        .ok('Ok')
-                        .targetEvent($event)
-            );
-        }
-    }
-    
     viewProductGHSTS($event) {
-        if (!_.isEmpty(this.selected)) {   
-            this.productService.getProductGHSTSById(this.selected._id)
-                .then(product_xml =>           
-                    this.$mdDialog.show(
-                            this.$mdDialog
-                                .alert()
-                                .clickOutsideToClose(true)
-                                .title('Product GHSTS JSON')
-                                .content(product_xml)
-                                .ok('Ok')
-                                .targetEvent($event)
-                    )
-            );
+        if (!_.isEmpty(this.selected)) {
+            this.saveProduct()
+                .then(() => {
+                    this.productService.getProductGHSTSById(this.selected._id)
+                        .then(product_xml => {
+                            this.$mdDialog.show(
+                                    this.$mdDialog
+                                        .alert()
+                                        .clickOutsideToClose(true)
+                                        .title('Product GHSTS JSON')
+                                        .content(product_xml)
+                                        .ok('Ok')
+                                        .targetEvent($event)
+                            );
+                        });
+                })
+                .catch(err => console.log(err.stack));
         }
     }
-        
+
     initializeProductFromXml($event){
         // read from sample ghsts and populate the database with that Product.
-        
-        this.productService.initializeProductFromXml()
+
+        this.productService.initializeProducts()
             // get all entries
             .then(() => {
                 return this.productService.getProducts();
@@ -309,17 +349,16 @@ class ProductController {
                                 this.showConflictDiag(matches, $event);
                             }
                         });
-                }));    
+                }));
             })
             // load from the DB
             .then(() => {
                 this.initFromDB();
             })
-            .catch(err => console.log(err));
+            .catch(err => console.log(err.stack));
     }
 }
 
-ProductController.$inject = ['$mdDialog', 'receiverService', 'productService', 'pickListService'];
+ProductController.$inject = ['$mdDialog', 'receiverService', 'productService', 'substanceService', 'pickListService'];
 
 export { ProductController };
-

@@ -1,15 +1,13 @@
 {
   "author": "Health Canada - Santé Canada",
-  "name": "edb",
+  "name": "eDossierBuilder",
   "main": "main/index.js",
   "scripts": {
-    "postinstall": "jspm install",
-    "lint": "node_modules/eslint/bin/eslint.js "
+    "postinstall": "jspm install"
   },
   "keywords": [
     "electron-app"
   ],
-  "appName": "electronic Dossier Builder",
   "description": "GHSTS compliant Submission Builder",
   "version": "0.1.0",
   "homepage": "https://github.com/hc-sc/edb",
@@ -28,26 +26,21 @@
   "private": true,
   "repository": "https://github.com/hc-sc/edb",
   "devDependencies": {
-    "del": "^1.2.0",
-    "eslint": "^2.10.2",
-    "gulp": "^3.9.0",
-    "gulp-atom-electron": "^0.12.0",
-    "gulp-babel": "^5.1.0",
-    "gulp-rename": "^1.2.2",
-    "jspm": "^0.16.29",
-    "run-sequence": "^1.1.2"
+    "jspm": "^0.16.29"
   },
   "jspm": {
     "directories": {
       "baseURL": "renderer"
     },
     "dependencies": {
-      "angular": "github:angular/bower-angular@^1.4.9",
+      "angular": "github:angular/bower-angular@^1.5.7",
+      "angular-animate": "github:angular/bower-angular-animate@^1.5.7",
       "angular-material": "github:angular/bower-material@^1.0.4",
       "angular-material-icons": "npm:angular-material-icons@^0.7.0",
       "angular-messages": "github:angular/bower-angular-messages@^1.5.3",
       "angular-route": "github:angular/bower-angular-route@^1.4.9",
       "bootstrap": "github:twbs/bootstrap@^3.3.6",
+      "clean-css": "npm:clean-css@^3.4.18",
       "css": "github:systemjs/plugin-css@^0.1.20",
       "json": "github:systemjs/plugin-json@^0.1.0",
       "lodash": "npm:lodash@^4.11.1",

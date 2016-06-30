@@ -1,10 +1,10 @@
 import angular from 'angular';
-import { ValueStruct } from '../common/sharedModel';
+import { ValueStruct, ExtValueStruct } from '../common/sharedModel';
 import { Substance, SubstanceIdentifierStruct } from './substanceModel';
 import {_} from 'lodash';
 
 class SubstanceController {
-    constructor($mdDialog, $mdSidenav,  $location, substanceService, pickListService) {
+    constructor($mdDialog, $mdSidenav, $location, substanceService, pickListService) {
         this.substanceService = substanceService;
         this.pickListService = pickListService;
         this.$mdDialog = $mdDialog;
@@ -16,65 +16,80 @@ class SubstanceController {
         this.filterText = null;
 
         // options for metadata status
-        this.metadataStatusOptions = this.pickListService.getMetadataStatusOptions();
-        // options for identifier types
-        this.identifierTypeOptions = this.pickListService.getSubstanceIdentifierTypeOptions(); 
+        this.pickListService.getType('TYPE_METADATA_STATUS')
+            .then(metadataStatusOptions => {
+                this.metadataStatusOptions = metadataStatusOptions;
+                return this.pickListService.getType('EXTENSION_TYPE_SUBSTANCE_IDENTIFIER_TYPE');
+            }).then(identifierTypeOptions => {
+                // options for identifier types
+                this.identifierTypeOptions = identifierTypeOptions;
+            })
 
         this.getAllSubstances();
     }
 
-    confirmLeavePage($event){
+    getOtherValue() {
+        return this.pickListService.getOtherValue();
+    }
+
+    confirmLeavePage($event) {
         // confirm with user if the form has been modified before leaving the page   
-        var scope = angular.element($event.target.ownerDocument.substanceForm).scope();    
-        let isFormPristine = scope.substanceForm.$pristine;   
-        if(! isFormPristine){
-            $event.preventDefault();   
+        var scope = angular.element($event.target.ownerDocument.substanceForm).scope();
+        let isFormPristine = scope.substanceForm.$pristine;
+        if (!isFormPristine) {
+            $event.preventDefault();
             // ask the user to confirm before leaving page
             let confirm = this.$mdDialog.confirm()
-                                .title('Form Modified')
-                                .content('Are you sure you want to leave this page?')
-                                .ok('Yes')
-                                .cancel('No')
-                                .targetEvent($event);
-        
-            this.$mdDialog.show(confirm).then(() => {                
+                .title('Form Modified')
+                .content('Are you sure you want to leave this page?')
+                .ok('Yes')
+                .cancel('No')
+                .targetEvent($event);
+
+            this.$mdDialog.show(confirm).then(() => {
                 console.log('taking the user to the page');
-                this.$location.path('/home');
+                this.$location.path('/manage');
             })
         }
     }
 
-    toggleSidenav(componentId){
+    toggleSidenav(componentId) {
         // toggle the side nave by component identifer 
         this.$mdSidenav(componentId).toggle();
     }
 
-    updateSelectedStatusDecode(){
+    updateSelectedStatusDecode() {
         // update metadata status value decode upon selection change
-        let selectedStatusValue = this.selected.METADATA_STATUS.VALUE;
+        let mDSValue = this.selected.METADATA_STATUS.VALUE;
         // find the value decode in themetadata status options
-        let leStatusValueDecode = _(this.metadataStatusOptions)
-                                        .filter(c => c.VALUE == selectedStatusValue)
-                                        .map(c => c.VALUE_DECODE)
-                                        .value()[0];
-        this.selected.METADATA_STATUS.VALUE_DECODE = leStatusValueDecode;
+        let mDSValueDecode = _(this.metadataStatusOptions)
+            .filter(c => c.VALUE == mDSValue)
+            .map(c => c.VALUE_DECODE)
+            .value()[0];
+        this.selected.METADATA_STATUS.VALUE_DECODE = mDSValueDecode;
     }
 
-    updateIdTypeDecodeByIdentifierIndex(identiferIndex){
+    updateIdTypeDecodeByIdentifierIndex(identiferIndex) {
         // update identifer type value decode by identifier index upon selection change
-        let selectedTypeValue = this.selected.SUBSTANCE_IDENTIFIER[identiferIndex].SUBSTANCE_IDENTIFIER_TYPE.VALUE;
-        // find value decode from identifierTypeOptions 
-        let idTypeValueDecode = _(this.identifierTypeOptions)
-                                        .filter(c => c.VALUE == selectedTypeValue)
-                                        .map(c => c.VALUE_DECODE)
-                                        .value()[0];
-        this.selected.SUBSTANCE_IDENTIFIER[identiferIndex].SUBSTANCE_IDENTIFIER_TYPE.VALUE_DECODE = idTypeValueDecode;
+        let selectedIdentifier = this.selected.SUBSTANCE_IDENTIFIER[identiferIndex];
+        let selectedTypeValue = selectedIdentifier.SUBSTANCE_IDENTIFIER_TYPE.VALUE;
+        // find value decode from identifierTypeOptions
+        if (selectedTypeValue === this.getOtherValue()) {
+            selectedIdentifier.SUBSTANCE_IDENTIFIER_TYPE.ATTR_VALUE = '';
+            selectedIdentifier.SUBSTANCE_IDENTIFIER_TYPE.VALUE_DECODE = '';
+        } else {
+            delete selectedIdentifier.SUBSTANCE_IDENTIFIER_TYPE.ATTR_VALUE;
+            selectedIdentifier.SUBSTANCE_IDENTIFIER_TYPE.VALUE_DECODE = _(this.identifierTypeOptions)
+                .filter(c => c.VALUE == selectedTypeValue)
+                .map(c => c.VALUE_DECODE)
+                .value()[0];
+        }
     }
 
-    _setFormPrestine($event){
+    _setFormPrestine($event) {
         // private - set the to its prestine state after save or update
-        var scope = angular.element($event.target.ownerDocument.substanceForm).scope();    
-        scope.substanceForm.$setPristine();   
+        var scope = angular.element($event.target.ownerDocument.substanceForm).scope();
+        scope.substanceForm.$setPristine();
     }
 
     addSubstance() {
@@ -84,15 +99,15 @@ class SubstanceController {
         this.selected = substance;
         this.selectedIndex = this.substances.length - 1;
     }
-    
+
     saveSubstance($event) {
         let self = this;
 
-       // reset form state
-       this._setFormPrestine($event);
-        
+        // reset form state
+        this._setFormPrestine($event);
+
         if (this.selected && this.selected._id) {
-            this.substanceService.updateSubstance(this.selected).then(function (affectedRows) {
+            this.substanceService.updateSubstance(this.selected).then(affectedRows => 
                 self.$mdDialog.show(
                     self.$mdDialog
                         .alert()
@@ -101,11 +116,11 @@ class SubstanceController {
                         .content('Data Updated Successfully!')
                         .ok('Ok')
                         .targetEvent($event)
-                );
-            });
+                )
+            );
         }
-        else {            
-            this.substanceService.createSubstance(this.selected).then(affectedRows => 
+        else {
+            this.substanceService.createSubstance(this.selected).then(affectedRows =>
                 self.$mdDialog.show(
                     self.$mdDialog
                         .alert()
@@ -117,17 +132,17 @@ class SubstanceController {
                 )
             );
 
-           // refresh the le list
-           self.getAllSubstances();
+            // refresh the substance list
+            self.getAllSubstances();
         }
     }
-    
+
     addSubstanceIdentfier() {
-        let idType = new ValueStruct('CASNO', 'CASNO');
+        let idType = new ExtValueStruct('', '');
         let identifier = new SubstanceIdentifierStruct(idType, '');
         this.selected.SUBSTANCE_IDENTIFIER.push(identifier);
     }
-    
+
     deleteSubstanceIdentfier(identifier, event) {
         let confirm = this.$mdDialog.confirm()
             .title('Are you sure?')
@@ -192,10 +207,6 @@ class SubstanceController {
         });
     }
 
-    initializeSubstances() {
-        // read from sample ghsts and populate the database with legal entities.       
-        this.substanceService.initializeSubstances();
-    }
 }
 
 SubstanceController.$inject = ['$mdDialog', '$mdSidenav', '$location', 'substanceService', 'pickListService'];

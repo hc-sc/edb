@@ -1,0 +1,44 @@
+{
+  "name": "oecd-edossier-builder",
+  "productName": "eDossier",
+  "version": "1.0.0",
+  "description": "eDB was commissioned by PMRA to provide desktop tooling that builds Regulatory Submissions that conform to the [Global Harmonised Submission Transport Standard](http://www.oecd.org/chemicalsafety/submission-transport-standard/) (GHSTS).",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "cd app && npm install && cd ..",
+    "start": "electron app",
+    "start:bundle": "electron build",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint . --quiet",
+    "bundle": "gulp bundle",
+    "bundle:map": "gulp bundle:map",
+    "build": "gulp build",
+    "build:map": "gulp build:map",
+    "clean": "gulp clean",
+    "clean:full": "gulp clean:full",
+    "pack": "gulp pack",
+    "pack:bundle": "gulp pack:bundle"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hc-sc/edb.git"
+  },
+  "author": "hc-sc",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/hc-sc/edb/issues"
+  },
+  "homepage": "https://github.com/hc-sc/edb#readme",
+  "devDependencies": {
+    "del": "^2.2.0",
+    "electron-packager": "^7.0.4",
+    "eslint": "^2.11.1",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^2.0.0",
+    "gulp-shell": "^0.5.2",
+    "run-sequence": "^1.2.1"
+  },
+  "dependencies": {
+    "electron-prebuilt": "1.2.3"
+  }
+}

@@ -1,40 +1,65 @@
 import angular from 'angular';
 import { AdminNumber } from './productRAModel';
+import { ExtValueStruct } from '../common/sharedModel';
 import _ from 'lodash';
 
 class ProductRAController {
-    constructor(productRA, productController, $mdDialog) {
+    constructor(productRA, productController, $mdDialog, pickListService, receiverService) {
         this.productController = productController;
         this.$mdDialog = $mdDialog;
         this.productRA = productRA;
-        this.isAddMode= false;
-        if (_.isEmpty(productRA) === true) {
-            this.isAddMode = true;
-        }
+        this.pickListService = pickListService;
+        this.receiverService = receiverService;
+
+        this.pickListService.getType('EXTENSION_TYPE_ADMIN_NUMBER_TYPE')
+            .then(types => {
+                this.adminNumberTypes = types;
+
+                return this.receiverService.getRAsWithLegalEntityName()
+            })
+            .then(recs => {
+                this.receiversWithNames = recs;
+            })
+            .catch(err => console.log(err.stack));
     }
-    
-    cancel($event) {
+
+    cancel() {
         this.$mdDialog.cancel();
     }
-    
-    saveProductRA($event) {
+
+    saveProductRA() {
         this.productController.saveProductRA(this.productRA);
         this.$mdDialog.hide();
     }
-    
-    addAdminNumber($event) {
+
+    addAdminNumber() {
         this.productRA.ADMIN_NUMBER.push(new AdminNumber());
     }
-    
-    deleteAdminNumber(adminNumber, $event) {
+
+    deleteAdminNumber(adminNumber) {
         _.pull(this.productRA.ADMIN_NUMBER, adminNumber);
     }
-    
-    updateAdminNumberFields(adminNumber, $event) {
+
+    updateAdminNumberFields(adminNumber) {
         adminNumber.setAdminNumberTypeValue(adminNumber.ADMIN_NUMBER_TYPE.VALUE_DECODE);
+    }
+
+    updateAdminNumber(adminNumber) {
+        if (adminNumber.ADMIN_NUMBER_TYPE.VALUE === this.pickListService.getOtherValue()) {
+            adminNumber.ADMIN_NUMBER_TYPE.ATTR_VALUE = '';
+            adminNumber.setAdminNumberValueDecode('');
+        }
+        else {
+            delete adminNumber.ADMIN_NUMBER_TYPE.ATTR_VALUE;
+            adminNumber.setAdminNumberValueDecode(adminNumber.ADMIN_NUMBER_TYPE.VALUE);
+        }
+    }
+
+    getOtherValue() {
+        return this.pickListService.getOtherValue();
     }
 }
 
-ProductRAController.$inject = ['productRA', 'productController', '$mdDialog'];
+ProductRAController.$inject = ['productRA', 'productController', '$mdDialog', 'pickListService', 'receiverService'];
 
 export { ProductRAController };

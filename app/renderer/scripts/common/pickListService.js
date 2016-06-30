@@ -1,61 +1,209 @@
 import angular from 'angular';
-import {ValueStruct} from '../common/sharedModel';
+var fs = require('fs');
+import xml2js from 'xml2js';
+import Nedb from 'nedb';
+import { ValueStruct, ExtValueStruct } from './sharedModel';
+
+const version = __dirname + '/data/ghsts-picklists.xsd';
 
 class PickListService {
     constructor() {
+        console.log('picklist ctor');
+        this.pickListTypes = new Nedb({
+            filename: `${__dirname}/db/pickListTypes`,
+            autoload: true
+        });
+
+        // make sure we aren't duplicating entries when we reload...
+        this.pickListTypes.find({}, (err, results) => {
+            if (results.length === 0) {
+                console.log('Loading pick lists from XSD');
+
+                fs.readFile(version, { encoding: 'utf8' }, (err, data) => {
+                    if (err) throw err;
+
+                    xml2js.parseString(data, { attrkey: 'attr$' }, (err, obj) => {
+                        if (err) throw err;
+
+                        let types = [];
+
+                        const COMPLEX_TYPES = obj['xs:schema']['xs:complexType'].map(type => {
+                            return type['xs:simpleContent'][0]['xs:extension'][0].attr$.base;
+                        });
+
+                        for (const item of obj['xs:schema']['xs:simpleType']) {
+                            const INDEX = COMPLEX_TYPES.indexOf(item.attr$.name);
+
+                            for (const enumeration of item['xs:restriction'][0]['xs:enumeration']) {
+                                const APP_INFO = enumeration['xs:annotation'][0]['xs:appinfo'][0];
+                                let type = {};
+
+                                type.name = INDEX >= 0 ?
+                                    `EXTENSION_${item.attr$.name}` : item.attr$.name;
+                                type.VALUE = enumeration.attr$.value;
+                                type.VALUE_DECODE = APP_INFO.DECODE[0];
+                                type.STATUS = APP_INFO.STATUS[0];
+
+                                types.push(type);
+                            }
+                        }
+
+                        this.pickListTypes.insert(types, (err, added) => {
+                            if (err) throw err;
+                            console.log(`${added.length} added.`);
+                        });
+                    });
+                });
+            }
+        });
     }
+
+    // used to get all types with a given name. Can additionally provide a true/false status, which only returns enabled types
+    getType(typeName, isEnabled) {
+        return new Promise((resolve, reject) => {
+            let query = { name: typeName };
+
+            if (isEnabled === true) {
+                query.status = 'enabled';
+            }
+
+            this.pickListTypes.find(query)
+                .sort({ VALUE: 1 })
+                .exec((err, results) => {
+                    if (err) reject(err);
+
+                    let types = [];
+                    if (typeName.indexOf('EXTENSION') >= 0) {
+                        types = results.map(item => {
+                            return new ExtValueStruct(
+                                item.VALUE,
+                                item.VALUE_DECODE
+                            );
+                        });
+                    }
+                    else {
+                        types = results.map(item => {
+                            return new ValueStruct(
+                                item.VALUE,
+                                item.VALUE_DECODE
+                            );
+                        });
+                    }
+
+                    resolve(types);
+                });
+        });
+    }
+
+    $get() { return this; }
 
     getMetadataStatusOptions() {
         return [
-            {VALUE_DECODE: "New", VALUE: "New"},		 	
-		 	{VALUE_DECODE: "No Change", VALUE: "No Change"},
-		 	{VALUE_DECODE: "Modified", VALUE: "Modified"}
+            {VALUE_DECODE: "New", VALUE: "New"},
+            {VALUE_DECODE: "No Change", VALUE: "No Change"},
+            {VALUE_DECODE: "Modified", VALUE: "Modified"}
         ];
     }
-	
-	getYesNoOptions() {
+
+      getYesNoOptions() {
         return [
             {VALUE_DECODE: "Yes", VALUE: "Y"},		 	
-		 	{VALUE_DECODE: "No", VALUE: "N"}
+		 	{VALUE_DECODE: "No", VALUE: "N"},
+			{VALUE_DECODE: "Open", VALUE: "O"}
 		 	
         ];
     }
 	
-	getGEDocNumberTypeOptions() {
+	getSpecificRaIdOptions(){
+		return [
+            {VALUE_DECODE: "ID_RECEIVER_BVL", VALUE: "ID_RECEIVER_BVL"},		 	
+		 	{VALUE_DECODE: "ID_RECEIVER_PMRA", VALUE: "ID_RECEIVER_PMRA"},
+			{VALUE_DECODE: "ID_RECEIVER_APVMA", VALUE: "ID_RECEIVER_APVMA"},
+			{VALUE_DECODE: "ID_RECEIVER_IBAMA", VALUE: "ID_RECEIVER_IBAMA"}
+		 	
+        ];
+	}
+	
+	getGEDocReferenceTypeOptions() {
+        return [
+            {VALUE_DECODE: "document to replaced document", VALUE: "document to replaced document"},		 	
+		 	{VALUE_DECODE: "document to submitted document", VALUE: "document to submitted document"},
+			{VALUE_DECODE: "document to unchanged predecessor document", VALUE: "document to unchanged predecessor document"},
+			{VALUE_DECODE: "translation to document", VALUE: "translation to document"}	
+        ];
+    }
+
+    getGEDocNumberTypeOptions() {
         return [
             {VALUE_DECODE: "Company ID", VALUE: "COMPID"},
+			{VALUE_DECODE: "Company ID 1", VALUE: "COMPID_1"},
+			{VALUE_DECODE: "Company ID 2", VALUE: "COMPID_2"},
 			{VALUE_DECODE: "other", VALUE: "other"}		
         ];
     }
 	
-	getRADocNumberTypeOptions() {
+	getGEDocContentStatusTypeOptions() {
         return [
-            {VALUE_DECODE: "MRID", VALUE: "MRID"}		
+            {VALUE_DECODE: "New", VALUE: "New"},
+			{VALUE_DECODE: "Modified", VALUE: "Modified"},
+			{VALUE_DECODE: "No Change", VALUE: "No Change"},
+			{VALUE_DECODE: "Replace", VALUE: "Replace"},
+			{VALUE_DECODE: "Retired", VALUE: "Retired"}	
         ];
     }
-    
+	
+	
+	
+    getRADocNumberTypeOptions() {
+        return [
+            {VALUE_DECODE: "MRID", VALUE: "MRID"},
+			{VALUE_DECODE: "PRMA", VALUE: "PRMA"},
+			{VALUE_DECODE: "other", VALUE: "other"}		
+        ];
+    }
+
+    getGEDocContentStatusTypeOptions() {
+        return [
+            {VALUE_DECODE: "New", VALUE: "New"},
+            {VALUE_DECODE: "Modified", VALUE: "Modified"},
+            {VALUE_DECODE: "No Change", VALUE: "No Change"},
+            {VALUE_DECODE: "Replace", VALUE: "Replace"},
+            {VALUE_DECODE: "Retired", VALUE: "Retired"}
+        ];
+    }
+
     getLegalEntityIdentifierTypeOptions() {
         return [
-            {VALUE_DECODE: "DUNS-number", VALUE: "DUNS-number"},		 	
-		 	{VALUE_DECODE: "REACH", VALUE: "REACH"},
-		 	{VALUE_DECODE: "SAP", VALUE: "SAP"},
-		 	{VALUE_DECODE: "VAT-number", VALUE: "VAT-number"},
+            {VALUE_DECODE: "DUNS-number", VALUE: "DUNS-number"},
+            {VALUE_DECODE: "REACH", VALUE: "REACH"},
+            {VALUE_DECODE: "SAP", VALUE: "SAP"},
+            {VALUE_DECODE: "VAT-number", VALUE: "VAT-number"},
             {VALUE_DECODE: "other", VALUE: "other"}
         ];
     }
-    
+
     getLegalEntityTypeOptions(){
         return [
             {VALUE_DECODE: "Company", VALUE: "Company"},
-		 	{VALUE_DECODE: "Consultant", VALUE: "Consultant"},
-		 	{VALUE_DECODE: "other", VALUE: "other"},
-		 	{VALUE_DECODE: "Regulatory Authority", VALUE: "Regulatory Authority"},
-		 	{VALUE_DECODE: "Test House", VALUE: "Test House", },
-		 	{VALUE_DECODE: "Third Party", VALUE: "Third Party"},
-		 	{VALUE_DECODE: "University", VALUE: "University"}
+            {VALUE_DECODE: "Consultant", VALUE: "Consultant"},
+            {VALUE_DECODE: "other", VALUE: "other"},
+            {VALUE_DECODE: "Regulatory Authority", VALUE: "Regulatory Authority"},
+            {VALUE_DECODE: "Test House", VALUE: "Test House"},
+            {VALUE_DECODE: "Third Party", VALUE: "Third Party"},
+            {VALUE_DECODE: "University", VALUE: "University"}
         ];
     }
-    
+
+    getContentStatusOptions() {
+        return [
+			{VALUE_DECODE: 'Modified', VALUE: 'Modified'},
+			{VALUE_DECODE: 'New', VALUE: 'New'},
+			{VALUE_DECODE: 'No Change', VALUE: 'No Change'},
+			{VALUE_DECODE: 'Replace', VALUE: 'Replace'},
+			{VALUE_DECODE: 'Retired', VALUE: 'Retired'}
+        ];
+    }
+
     getCountryOptions(){
         return [
             {VALUE_DECODE: "Andorra", VALUE: "AD"},
@@ -306,8 +454,12 @@ class PickListService {
 			{VALUE_DECODE: "Mayotte", VALUE: "YT"},
 			{VALUE_DECODE: "South Africa", VALUE: "ZA"},
 			{VALUE_DECODE: "Zambia", VALUE: "ZM"},
-			{VALUE_DECODE: "Zimbabwe", VALUE: "ZW"}                        
-          ];
+			{VALUE_DECODE: "Zimbabwe", VALUE: "ZW"}
+        ];
+    }
+
+    getOtherValue() {
+        return 'other';
     }
 	
     getSubstanceIdentifierTypeOptions() {

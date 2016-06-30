@@ -1,11 +1,16 @@
 import angular from 'angular';
 
 class GhstsController {
-    constructor($mdDialog, GhstsService) {
-        this.ghstsService = GhstsService;
-        this.$mdDialog = $mdDialog;     
-    }      
-    
+    constructor($mdDialog, ghstsService) {
+        this.ghstsService = ghstsService;
+        this.$mdDialog = $mdDialog;
+        this.fileName = null;
+    }
+
+    editSubmission() {
+        this.ghstsService.loadXml();
+    }
+
     assembleGHSTS($event) {
         // call service to assemble Demo GHSTS and report result
         this.ghstsService.assembleDemoGHSTS()
@@ -15,7 +20,7 @@ class GhstsController {
                         .alert()
                         .clickOutsideToClose(true)
                         .title('Success')
-                        .content('DemoGHSTS.xml Written Successfully!')
+                        .content('File Written Successfully!')
                         .ok('Ok')
                         .targetEvent($event)
                 );
@@ -28,4 +33,3 @@ class GhstsController {
 GhstsController.$inject = ['$mdDialog', 'ghstsService'];
 
 export { GhstsController }
-

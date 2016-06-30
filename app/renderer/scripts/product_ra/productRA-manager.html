@@ -1,67 +1,110 @@
-<md-dialog aria-label='Product Regulatory Specifics' ng-cloak>
-    <form name='productRAForm'>
+<md-dialog aria-label="Product Regulatory Specifics" ng-cloak>
+    <form name="productRAForm">
         <md-toolbar>
-            <div class='md-toolbar-tools'>
-                <md-button class='md-icon-button'>
-                    <md-icon class='material-icons' aria-label='Add Regulatory Authority'>business</md-icon>
+            <div class="md-toolbar-tools">
+                <md-button class="md-icon-button">
+                    <md-icon md-svg-icon="business" aria-label="regulatory authority name"></md-icon>
                 </md-button>
                 <h2>Product Regulatory Authority</h2>
                 <span flex></span>
-                <md-button class='md-icon-button' ng-click='_ctrl.cancel()'>
-                    <md-icon class='material-icons' aria-label='Close dialog'>close</md-icon>
+                <md-button class="md-icon-button" ng-click="_ctrl.cancel()">
+                    <md-icon md-svg-icon="close" aria-label="Close dialog"></md-icon>
                 </md-button>
             </div>
         </md-toolbar>
-        
-        <md-dialog-content class='autoScroll'>
-            
-            <div class='md-dialog-content'>
-                <md-input-container class='md-block' flex-gt-sm>
-                    <label>Product Name</label>
-                    <input ng-model='_ctrl.productRA.PRODUCT_NAME' ng-required='true' type='text'>
+
+        <md-dialog-content class="autoScroll">
+            <div class="md-dialog-content">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label for="ra">Regulatory Authority</label>
+                    <md-select
+                    name="ra"
+                    ng-model="_ctrl.productRA._toReceiverRaId">
+                        <md-option
+                        ng-repeat="ra in _ctrl.receiversWithNames"
+                        value="{{ ra.xsId }}"
+                        ng-selected="{{ ra.xsId === _ctrl.productRA._toReceiverRaId }}">
+                            {{ ra.name }}
+                        </md-option>
+                    </md-select>
                 </md-input-container>
-                <md-input-container class='md-block' flex-gt-sm>
-                    <label>_toReceiverRaId</label>
-                    <input ng-model='_ctrl.productRA._toReceiverRaId' ng-required='true' type='text'>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>RA's Name for this Product</label>
+                    <input ng-model="_ctrl.productRA.PRODUCT_NAME" ng-required="true" type="text">
                 </md-input-container>
-                
+
                 <md-toolbar>
-                    <div class='md-toolbar-tools'>
+                    <div class="md-toolbar-tools">
                         <h2>Admin Number</h2>
                         <span flex></span>
-                        <md-button class='md-icon-button' ng-click='_ctrl.addAdminNumber($event)'>
-                            <md-icon class='material-icons' aria-label='Add Admin Number'>
-                                add_circle
-                            </md-icon>
+                        <md-button class="md-icon-button" ng-click="_ctrl.addAdminNumber($event)">
+                            <md-icon md-svg-icon="add-circle" aria-label="Add Admin Number"></md-icon>
                         </md-button>
                     </div>
                 </md-toolbar>
-                
-                <div layout-align='center'>
-                    <md-list>
-                        <md-list-item ng-repeat='adminNumber in _ctrl.productRA.ADMIN_NUMBER track by $index' class='noright'>
-                            <div class='row'>
-                                <!-- There are issues with flex inside the md-dialog, aligning md-button after md-input-container throws off alignment, so used bootstraps class='row' instead of md layout='row' -->
-                                <md-input-container class='md-block'>
-                                    <label>Identifier</label>
-                                    <input ng-model='adminNumber.IDENTIFIER' type='text'>
+
+                <md-list>
+                    <md-card
+                    style="padding: 10px"
+                    ng-repeat="adminNumber in _ctrl.productRA.ADMIN_NUMBER track by $index">
+                        <div>
+                            <md-input-container class="md-block" flex>
+                                <label>Identifier</label>
+                                <input ng-model="adminNumber.IDENTIFIER" type="text">
+                            </md-input-container>
+                            <md-input-container class="md-block">
+                                <label>Admin Number Type</label>
+                                <md-select
+                                name="adminNumberType"
+                                ng-model="adminNumber.ADMIN_NUMBER_TYPE.VALUE"
+                                ng-change="_ctrl.updateAdminNumber(adminNumber)">
+                                    <md-option
+                                    ng-repeat="adminNumberType in _ctrl.adminNumberTypes"
+                                    value="{{ adminNumberType.VALUE }}"
+                                    ng-selected="{{ adminNumber.ADMIN_NUMBER_TYPE.VALUE === adminNumberType.VALUE }}">
+                                        {{ adminNumberType.VALUE }}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                            <div
+                            style="padding-top:5px;"
+                            ng-show="adminNumber.ADMIN_NUMBER_TYPE.VALUE === _ctrl.getOtherValue()">
+                                <md-input-container
+                                class="md-block"
+                                flex>
+                                    <label>Display Value</label>
+                                    <input
+                                    type="text"
+                                    ng-model="adminNumber.ADMIN_NUMBER_TYPE.VALUE_DECODE">
                                 </md-input-container>
-                                <md-input-container class='md-block'>
-                                    <label>Admin Number Type</label>
-                                    <input ng-model='adminNumber.ADMIN_NUMBER_TYPE.VALUE_DECODE' ng-change='_ctrl.updateAdminNumberFields(adminNumber, $event)' type='text'>
+                                <md-input-container
+                                class="md-block"
+                                flex>
+                                    <label>Encoded Value (optional)</label>
+                                    <input
+                                    type="text"
+                                    ng-model="adminNumber.ADMIN_NUMBER_TYPE.ATTR_VALUE">
                                 </md-input-container>
-                                <md-button class='md-secondary md-raised' ng-click='_ctrl.deleteAdminNumber(adminNumber, $event)'>
-                                    Delete
-                                </md-button>
                             </div>
-                        </md-list-item>
-                    </md-list>
-                    
-                    <div layout='row' layout-align='center'>
-                        <md-button class='md-raised md-primary' layout-align='center' ng-click='_ctrl.saveProductRA($event)'>
-                            Save
-                        </md-button>
-                    </div>
+                            <md-button
+                            class="md-secondary md-raised"
+                            style="width: 97%"
+                            ng-click="_ctrl.deleteAdminNumber(adminNumber, $event)">
+                                Delete
+                            </md-button>
+                        </div>
+                    </md-card>
+                </md-list>
+
+                <md-divider>
+
+                <div layout="row">
+                    <md-button
+                    class="md-raised md-primary"
+                    style="width: 97%"
+                    ng-click="_ctrl.saveProductRA($event)">
+                        Ok
+                    </md-button>
                 </div>
             </div>
         </md-dialog-content>
