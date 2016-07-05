@@ -1,13 +1,17 @@
 import angular from 'angular';
+var fs = require('fs');
+var path = require('path');
 
 const { dialog, BrowserWindow, ipcRenderer } = require('electron').remote;
 
+
 export class HomeController {
-    constructor($rootScope, $location, $mdDialog, ghstsService) {
+    constructor($rootScope, $location, $mdDialog, ghstsService, dossierService) {
         this.$rootScope = $rootScope;
         this.$location = $location;
         this.$mdDialog = $mdDialog;
         this.ghstsService = ghstsService;
+        this.dossierService = dossierService;
 
         //DEMO
         this.recents = [
@@ -24,6 +28,29 @@ export class HomeController {
                 title: 'Submission (01) [invalid, not packaged, new dossier]: Product = Scabbard DR 11, Dossier Title = "Request for Scientific Inquiry"'
             }
         ];
+
+    }
+
+    showNewDossierPathPicker() {
+        const DOSSIER_PATH = dialog.showOpenDialog({
+            title: 'Choose or new a Dossier folder',
+            properties: ['openDirectory'],
+            defaultPath: `${__dirname}/data/`
+        });
+
+        if (DOSSIER_PATH) {
+            if (this.dossierService.validBaseDossierPath(DOSSIER_PATH)) {
+                let self = this;
+                self.ghstsService.clearSubmission()
+                    .then(() => {
+                        self.dossierService.createDossierFolders(DOSSIER_PATH)
+                            .then(()=>{
+                                self.$location.path('/dossier');
+                            }); 
+                    })
+                    .catch(err => console.log(err.stack));
+            }
+        }
     }
 
     showFilePicker() {
@@ -91,3 +118,4 @@ export class HomeController {
             });
     }
 }
+

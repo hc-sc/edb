@@ -19,7 +19,7 @@ import {SubstanceService} from './scripts/substance/substanceService';
 import {SubstanceController} from './scripts/substance/substanceController';
 import {GhstsService} from './scripts/ghsts_demo/ghstsService';
 import {GhstsController} from './scripts/ghsts_demo/ghstsController';
-import {HomeController} from './scripts/home/HomeController';
+import {HomeController} from './scripts/home/homeController';
 import {PickListService} from './scripts/common/pickListService';
 
 // notice stylesheet loading from app.js
@@ -49,7 +49,7 @@ app.config(config)
     .controller('dossierController', ['$mdDialog', 'dossierService', 'pickListService', 'receiverService', DossierController])
     .service('substanceService', ['$q', SubstanceService])
     .controller('substanceController', ['$mdDialog', 'substanceService', SubstanceController])
-    .controller('homeController', ['$rootScope', '$location', '$mdDialog', 'ghstsService', HomeController]);
+    .controller('homeController', ['$rootScope', '$location', '$mdDialog', 'ghstsService', 'dossierService', HomeController]);
 
 
 function config($routeProvider, $mdThemingProvider, $mdIconProvider, $controllerProvider, $provide, $compileProvider, $filterProvider) {
