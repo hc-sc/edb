@@ -1,6 +1,5 @@
 import angular from 'angular';
-var fs = require('fs');
-var path = require('path');
+import path from 'path';
 
 const { dialog, BrowserWindow, ipcRenderer } = require('electron').remote;
 
@@ -28,22 +27,23 @@ export class HomeController {
                 title: 'Submission (01) [invalid, not packaged, new dossier]: Product = Scabbard DR 11, Dossier Title = "Request for Scientific Inquiry"'
             }
         ];
-
     }
 
     showNewDossierPathPicker() {
-        const DOSSIER_PATH = dialog.showOpenDialog({
+        let self = this;
+        let CUR_DOSSIER_PATH = this.dossierService.getBaseDossierPath() || __dirname + '\\data';
+        const NEW_DOSSIER_PATH = dialog.showOpenDialog({
             title: 'Choose or new a Dossier folder',
             properties: ['openDirectory'],
-            defaultPath: `${__dirname}/data/`
+            defaultPath: CUR_DOSSIER_PATH
         });
 
-        if (DOSSIER_PATH) {
-            if (this.dossierService.validBaseDossierPath(DOSSIER_PATH)) {
-                let self = this;
+        if (NEW_DOSSIER_PATH) {
+            if (this.dossierService.validBaseDossierPath(NEW_DOSSIER_PATH[0])) {
+                self.dossierService.setBaseDossierPath(NEW_DOSSIER_PATH[0]);
                 self.ghstsService.clearSubmission()
                     .then(() => {
-                        self.dossierService.createDossierFolders(DOSSIER_PATH)
+                        self.dossierService.createDossierFolders(NEW_DOSSIER_PATH[0])
                             .then(()=>{
                                 self.$location.path('/dossier');
                             }); 
@@ -60,7 +60,7 @@ export class HomeController {
             filters: [
                 { name: 'XML', extensions: ['xml'] }
             ],
-            defaultPath: `${__dirname}/data/`
+            defaultPath: `${__dirname}\\data`
         });
 
         if (FILE_PATH) {
