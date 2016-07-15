@@ -99,24 +99,36 @@
                         </div>
                  </md-toolbar>
 				 <md-list>
-					 <md-card class="inset" ng-repeat=" docnum in _ctrl.selected.DOCUMENT_GENERIC.DOCUMENT_NUMBER track by $index">                        
-						<div layout-gt-sm="row">  
-							<md-input-container class="md-block" flex-gt-sm>
-								<label>Document Number Type</label>
-								<md-select name="repeatDocNumType" id="repeatDocNumType" ng-model="docnum.DOCUMENT_NUMBER_TYPE.VALUE" ng-change="_ctrl.updateSelectedDocTypeDecode($index)">
-									<md-option ng-repeat="docGeDocNumType in _ctrl.geDocNumTypeOptions" value="{{docGeDocNumType.VALUE}}" ng-selected="{{docnum.DOCUMENT_NUMBER_TYPE.VALUE == docGeDocNumType.VALUE}}">{{ docGeDocNumType.VALUE_DECODE }}</md-option>
-								</md-select>  
-							</md-input-container>
+					 <md-card class="inset" ng-repeat=" docnum in _ctrl.selected.DOCUMENT_GENERIC.DOCUMENT_NUMBER track by $index">   
+                         <div layout-gt-sm="row" flex>  						
 							<md-input-container class="md-block" flex-gt-sm>
 								<label>Identifier</label>
 								<input ng-model="docnum.IDENTIFIER" type="text">
+							</md-input-container>		    
+						</div>                              
+						<div layout-gt-sm="row" flex>  
+							<md-input-container class="md-block" flex-gt-sm>
+								<label>Document Number Type</label>
+								<md-select name="repeatDocNumType" id="repeatDocNumType" ng-model="docnum.DOCUMENT_NUMBER_TYPE.VALUE" ng-change="_ctrl.updateSelectedDocTypeDecode($index)">
+									<md-option ng-repeat="docGeDocNumType in _ctrl.geDocNumTypeOptions" value="{{docGeDocNumType.VALUE}}" ng-selected="{{ docGeDocNumType.VALUE === docnum.DOCUMENT_NUMBER_TYPE.VALUE }}">{{ docGeDocNumType.VALUE }}</md-option>
+								</md-select>  
 							</md-input-container>
-							<div layout-align="end">
-								<md-input-container class="md-block" flex-gt-sm>
-									<md-button class="md-secondary md-raised" ng-click="_ctrl.deleteDocumentNumber(docnum, $event)">Delete</md-button>
-								</md-input-container>
-							</div>               
-						</div>         
+							<div flex-gt-sm="25" ng-show="docnum.DOCUMENT_NUMBER_TYPE.VALUE === _ctrl.getOtherValue()">
+                                <md-input-container class='md-block'>
+                                    <label for='docExtTypeValueDecode'>Display Value </label>
+                                    <input id='docExtTypeValueDecode' ng-model='docnum.DOCUMENT_NUMBER_TYPE.VALUE_DECODE' type="text">
+                                </md-input-container>
+                            </div>
+                            <div flex-gt-sm="25" ng-show="docnum.DOCUMENT_NUMBER_TYPE.VALUE === _ctrl.getOtherValue()">
+                                <md-input-container class='md-block'>
+                                    <label for='docExtTypeValue'>Encoded Value (optional)</label>
+                                    <input id='docExtTypeValue' ng-model='docnum.DOCUMENT_NUMBER_TYPE.ATTR_VALUE' type="text">
+                                </md-input-container>
+                            </div>       
+						</div>  
+                        <div layout='row' layout-align="center center">
+							<md-button class="md-secondary md-raised" ng-click="_ctrl.deleteDocumentNumber(docnum, $event)">Delete</md-button>
+						</div>                
 					</md-card>
                 </md-list>
 				
@@ -232,7 +244,7 @@
 							<md-input-container class="md-block" flex-gt-sm>
 								<label>Document Number</label>
 								<md-select name="repeatDocType" id="repeatDocType" ng-model="refDoc.DOCUMENT_NUMBER.DOCUMENT_NUMBER_TYPE.VALUE" ng-change="_ctrl.updateSelectedRefDocTypeDecode($index)">
-									<md-option ng-repeat="docType in _ctrl.geDocNumTypeOptions" value="{{docType.VALUE}}" ng-selected="{{refDoc.DOCUMENT_NUMBER.DOCUMENT_NUMBER_TYPE.VALUE == docType.VALUE}}">{{ docType.VALUE_DECODE }}</md-option>
+									<md-option ng-repeat="docType in _ctrl.geDocNumTypeOptions" value="{{docType.VALUE}}" ng-selected="{{docType.VALUE == refDoc.DOCUMENT_NUMBER.DOCUMENT_NUMBER_TYPE.VALUE}}">{{ docType.VALUE }}</md-option>
 								</md-select>
 							</md-input-container>
 							<md-input-container class="md-block" flex-gt-sm>
@@ -253,7 +265,7 @@
                         <h2>Related To Substances</h2>
                         <span flex></span>
                         <md-button class="md-icon-button" ng-click="_ctrl.addRelatedSubstance()">
-                            <md-icon class="material-icons" aria-label="Add Reference Substance">add_circle</md-icon>
+                            <md-icon md-svg-icon="add-circle" aria-label="Add Reference Substance"></md-icon>
                         </md-button>
                     </div>
                 </md-toolbar>
@@ -262,7 +274,7 @@
 						<div layout-gt-sm="row">  
 							<md-input-container class="md-block" flex-gt-sm> 
 								<label>Substance</label>
-								<md-select name="repeatSelectSub" id="repeatSelectSub" ng-model="sub._toSubstanceId">
+								<md-select name="repeatSelectSub" id="repeatSelectSub" ng-model="sub._toSubstanceId" >
 									<md-option ng-repeat="sbo in _ctrl.subReferencedOptions" value="{{sbo.id}}" ng-selected="{{sub._toSubstanceId == sbo.id}}">{{sbo.name}}</md-option>
 								</md-select>
 							</md-input-container>
@@ -328,12 +340,11 @@
                 <md-button class="md-raised md-primary" ng-click="_ctrl.deleteDocument()">Delete</md-button>
             </section>
 				
-			<!--<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>  
+			<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>  
                <md-button class="md-raised md-primary" ng-click="_ctrl.viewDocumentJson()">View DOC JSON</md-button>                
                <md-button class="md-raised md-primary" ng-click="_ctrl.viewDocumentGHSTS()">View DOC GHSTS</md-button>                                         
-               <md-button class="md-raised md-warn" ng-click="_ctrl.addTestDOC()">Add Sample DOC to DB</md-button>   
-               <md-button class="md-raised md-warn" ng-click="_ctrl.initializeDOC()">Initalize DB with Sample GHSTS DOC</md-button> 
-            </section>  -->
+              
+            </section>  
             </md-content>
         </div>
 </section>

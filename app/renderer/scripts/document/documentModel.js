@@ -1,3 +1,4 @@
+import { ExtValueStruct } from '../common/sharedModel';
 // For class DocumentGeneric
 class ContentStatusHistory {
      constructor(value, identifier){
@@ -11,11 +12,12 @@ class ReferencedDocument {
         if(arguments.length === 1){
             // load from json
             Object.assign(this, json);
+           
         }else{
            this.REFERENCE_TYPE = {};          // of ValueStruct
            this.INTERNAL = null;
            this.DOCUMENT_PID = null;
-           this.DOCUMENT_NUMBER = new DocumentNumber();
+           this.DOCUMENT_NUMBER = {};
            
         }
     } 
@@ -55,9 +57,16 @@ class RelatedToSubstance {
 
 // For class DocumentGeneric
 class DocumentNumber {
-     constructor(value, identifier){
-        this.DOCUMENT_NUMBER_TYPE = value,         // of ValueStruct
+    constructor(value, identifier) {
+        this.DOCUMENT_NUMBER_TYPE = new ExtValueStruct(value.VALUE, value.VALUE_DECODE, value.ATTR_VALUE), 
         this.IDENTIFIER = identifier;
+    }
+
+    toGhstsJson() {
+        return {
+            DOCUMENT_NUMBER_TYPE: this.DOCUMENT_NUMBER_TYPE.toGhstsJson(),
+            IDENTIFIER: this.IDENTIFIER
+        }
     }
 }
 
@@ -90,6 +99,9 @@ class DocumentGeneric {
         if(arguments.length === 1){
             // load from json
             Object.assign(this, json);
+            this.DOCUMENT_NUMBER = json.DOCUMENT_NUMBER.map(doc => {
+                 return new DocumentNumber(doc.DOCUMENT_NUMBER_TYPE, doc.IDENTIFIER);
+            });
         }else{
             this.METADATA_STATUS = {};
             this.DOCUMENT_PID =  null;
@@ -98,7 +110,7 @@ class DocumentGeneric {
 			this.CONTENT_STATUS_HISTORY = [];
             this.REFERENCED_DOCUMENT = [];
             this.RELATED_TO_SUBSTANCE = [];
-			this.DOCUMENT_NUMBER =   [] ;
+			this.DOCUMENT_NUMBER =   [] ;    //DocumentNumber
 			this.DOCUMENT_TITLE =   null;
 			this.DOCUMENT_AUTHOR =   null;
 			this.DOCUMENT_ISSUE_DATE =   null;
@@ -146,8 +158,8 @@ class DocumentGeneric {
         this.CONTENT_STATUS_HISTORY.forEach(content => contentStatusHistoryJson.push(content));
 
         let documentNumberJson = [];
-        this.DOCUMENT_NUMBER.forEach(docNum=> documentNumberJson.push(docNum));
-        
+        this.DOCUMENT_NUMBER.forEach(docNum => {documentNumberJson.push(docNum.toGhstsJson())});
+
         // let documentOwnerJson = [];
         // this.DOCUMENT_OWNER.forEach(docOwn=> documentOwnerJson.push(docOwn));
         

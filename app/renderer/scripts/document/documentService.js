@@ -3,7 +3,7 @@ import xml2js from 'xml2js';
 import uuid from 'node-uuid';
 import {GHSTS} from '../common/ghsts.js'
 import { ContentStatusHistory, ReferencedDocument, RelatedToSubstance,  DocumentNumber, ReferenceToFile, DocumentGeneric, OtherNationalGuideLine, SubmissionContext, RADocumentNumber, DocumentRA, Document} from './documentModel.js';
-import {ValueStruct, IdentifierStruct} from '../common/sharedModel.js'
+import {ValueStruct, ExtValueStruct} from '../common/sharedModel.js'
 import { escapeRegExp } from 'lodash';
 
 class DocumentService {
@@ -93,7 +93,7 @@ class DocumentService {
 
             // retrieved Json from database
             let docJSON = result[0];
-
+            //console.log("View docJSON " + JSON.stringify(docJSON));
             // create Document based on docJSON
             let doc = new Document(docJSON);
 
@@ -137,8 +137,20 @@ class DocumentService {
                             geRefDoc.REFERENCE_TYPE = refType;
                             geRefDoc.INTERNAL =   (rdc.INTERNAL[0] === undefined ? null : rdc.INTERNAL[0]);
                             geRefDoc.DOCUMENT_PID =  (rdc.DOCUMENT_PID[0] === undefined ? null : rdc.DOCUMENT_PID[0]);
-                            if(rdc.DOCUMENT_NUMBER !== undefined){                                  
-                                 geRefDoc.DOCUMENT_NUMBER = new DocumentNumber(new ValueStruct(rdc.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE[0].VALUE[0].attr$.Other_Value, rdc.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0]), rdc.DOCUMENT_NUMBER[0].IDENTIFIER[0]);                                    
+                            if(rdc.DOCUMENT_NUMBER !== undefined){  
+                                        let identifier =  (rdc.DOCUMENT_NUMBER[0].IDENTIFIER[0] === undefined ? null : rdc.DOCUMENT_NUMBER[0].IDENTIFIER[0]);
+                                        let docuType = (typeof  rdc.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE[0] === 'string') ?
+                                            new ExtValueStruct(
+                                                rdc.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE[0].VALUE[0],
+                                                rdc.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0]
+                                            ):
+
+                                            new ExtValueStruct(
+                                                rdc.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE[0].VALUE[0]._,
+                                                rdc.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0],
+                                                rdc.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE[0].VALUE[0].attr$.Other_Value);  
+
+                                  geRefDoc.DOCUMENT_NUMBER = new DocumentNumber(docuType,identifier);                                    
                             }   
                          docGen.addReferencedDocument(geRefDoc);   
                       }) /// 
@@ -153,15 +165,27 @@ class DocumentService {
                         })    
                  }
                   
+
                 if(doc.DOCUMENT_GENERIC[0].DOCUMENT_NUMBER !== undefined){
-                            doc.DOCUMENT_GENERIC[0].DOCUMENT_NUMBER.forEach(docNum => {
-                                // console.log(" View  Value"  + JSON.stringify(docNum.DOCUMENT_NUMBER_TYPE[0].VALUE[0]._));
-                                // console.log(" View  Value Other"  + JSON.stringify(docNum.DOCUMENT_NUMBER_TYPE[0].VALUE[0].attr$.Other_Value));
-                                // console.log(" View  Value Code"  + JSON.stringify(docNum.DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0]));
-                             docGen.addDocumentNumber(new DocumentNumber(new ValueStruct(docNum.DOCUMENT_NUMBER_TYPE[0].VALUE[0].attr$.Other_Value, docNum.DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0]), docNum.IDENTIFIER[0]) );
-                          }); 
-                }             
-               
+                        doc.DOCUMENT_GENERIC[0].DOCUMENT_NUMBER.forEach(docNum => {
+                               
+                            let docuType = (typeof  docNum.DOCUMENT_NUMBER_TYPE[0].VALUE[0] === 'string') ?
+                                 new ExtValueStruct(
+                                    docNum.DOCUMENT_NUMBER_TYPE[0].VALUE[0],
+                                    docNum.DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0]
+                                 ):
+
+                                 new ExtValueStruct(
+                                    docNum.DOCUMENT_NUMBER_TYPE[0].VALUE[0]._,
+                                    docNum.DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0],
+                                    docNum.DOCUMENT_NUMBER_TYPE[0].VALUE[0].attr$.Other_Value);                  
+                           
+                             let docNumber = new DocumentNumber(docuType,docNum.IDENTIFIER[0]);
+                            docGen.addDocumentNumber(docNumber);
+                        }); 
+                }
+              
+
                                  
                 docGen.DOCUMENT_TITLE               = doc.DOCUMENT_GENERIC[0].DOCUMENT_TITLE[0];  
                 docGen.DOCUMENT_AUTHOR              = doc.DOCUMENT_GENERIC[0].DOCUMENT_AUTHOR[0];
@@ -246,8 +270,8 @@ class DocumentService {
                     docu.addDocumentRA(docRA);
                })
 
-               // console.log('---------------------JSON Model----------------\n' + JSON.stringify(docu));
-               // console.log('------------------------GHSTS Format--------------------\n' + JSON.stringify(docu.toGHSTSJson()));
+                //console.log('---------------------JSON Model----------------\n' + JSON.stringify(docu));
+                //console.log('------------------------GHSTS Format--------------------\n' + JSON.stringify(docu.toGHSTSJson()));
 
                  // enable the following to insert into db.
                 this.createDocument(docu);
