@@ -1,6 +1,7 @@
 var del = require('del');
 var gulp = require('gulp');
 var eslint = require('gulp-eslint');
+var jspm = require('gulp-jspm');
 var shell = require('gulp-shell');
 var runSequence = require('run-sequence');
 
@@ -39,7 +40,7 @@ gulp.task('clean:dist', function() {
 
 // cleans everything
 gulp.task('clean:full', function() {
-    runSequence('clean', 'clean:dist');
+    return runSequence('clean', 'clean:dist');
 });
 
 // tdd
@@ -47,10 +48,18 @@ gulp.task('tdd', function() {
 
 });
 
-// just bundles
-gulp.task('bundle', shell.task(
-    'cd app && jspm bundle-sfx app.js ../build/renderer/bundle.js --skip-source-maps --minify --no-mangle'
-));
+// // just bundles
+
+gulp.task('bundle', function() {
+    return gulp.src('app/renderer/app.js')
+        .pipe(jspm({
+            selfExecutingBundle: true,
+            minify: true,
+            mangle: false,
+            skipSourceMaps: true
+        }))
+        .pipe(gulp.dest('build/renderer/bundle.js'))
+});
 
 // bundles and produces source-maps
 gulp.task('bundle:map', shell.task(
@@ -66,10 +75,8 @@ gulp.task('pack', function() {
             .pipe(gulp.dest('build/renderer/data')),
         gulp.src(['app/renderer/img/**/*.*'])
             .pipe(gulp.dest('build/renderer/img')),
-        gulp.src(['app/renderer/scripts/**/*.*'])
-            .pipe(gulp.dest('build/renderer/scripts')),
-        gulp.src(['app/renderer/app.js'])
-            .pipe(gulp.dest('build/renderer'))
+        gulp.src(['app/renderer/scripts/**/*.html'])
+            .pipe(gulp.dest('build/renderer/scripts'))
     ]);
 });
 

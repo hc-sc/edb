@@ -11,7 +11,11 @@ const DATA_DIR = 'data'
 const OUTPUT_FILE = `${__dirname}/${DATA_DIR}/output.xml`;
 
 class GhstsService {
-    constructor(ReceiverService, LegalEntityService, ProductService, DossierService, SubstanceService, DocumentService, FileService) {
+    constructor(ReceiverService, LegalEntityService,
+            ProductService, DossierService,
+            SubstanceService, DocumentService,
+            FileService, TocService) {
+
         this.receiverService = ReceiverService;
         this.legalEntityService = LegalEntityService;
         this.productService = ProductService;
@@ -19,6 +23,7 @@ class GhstsService {
         this.substanceService = SubstanceService;
         this.documentService = DocumentService;
         this.fileService = FileService;
+        this.tocService = TocService;
         this.submission = {};
     }
 
@@ -54,7 +59,7 @@ class GhstsService {
         ]);
     }
 
-    getGhstsJson(){
+    getGhstsObject(){
         return this.submission;
     }
 
@@ -115,9 +120,9 @@ class GhstsService {
                 for(const file of files){
                     outputObj.addFile(new File(file).toGHSTSJson())
                 }
-				
+
 				outputObj.setFiles();
-				
+
                 return outputObj.writeXML(OUTPUT_FILE);
             })
             .then(() => {

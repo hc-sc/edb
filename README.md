@@ -4,11 +4,11 @@ eDB was commissioned by PMRA to provide desktop tooling that builds Regulatory S
 It is built on [electron](https://github.com/atom/electron) using the [Application Boilerplate for Electron by Thorsten Hans](https://www.xplatform.rocks/2015/05/04/writing-an-electron-atom-shell-app-using-angular-and-es6/).  The salient components currently include:
 
  * Electron
- * Angular 1.4
+ * Angular 1.5
  * ES6
  * Angular Material
  * XML2JS
- * NoSQL Javascript Database [NeDB](https://github.com/louischatriot/nedb)
+ * NoSQL Javascript Database [NeDB](https://github.com/louischatriot/nedb) via IndexDB via Electron.
 
 
 # Instructions for Windows

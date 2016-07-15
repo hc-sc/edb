@@ -3,6 +3,7 @@ import ngRouter from 'angular-route';
 import ngMaterial from 'angular-material';
 import ngAnimate from 'angular-animate';
 import ngMessages from 'angular-messages';
+import uitree from 'angular-ui-tree';
 import {LegalEntityService} from './scripts/legal_entity/legalEntityService';
 import {LegalEntityController} from './scripts/legal_entity/legalEntityController';
 import {ProductService} from './scripts/product/productService';
@@ -21,6 +22,8 @@ import {GhstsService} from './scripts/ghsts_demo/ghstsService';
 import {GhstsController} from './scripts/ghsts_demo/ghstsController';
 import {HomeController} from './scripts/home/homeController';
 import {PickListService} from './scripts/common/pickListService';
+import {TocController} from './scripts/toc/tocController.js';
+import {TocService} from './scripts/toc/tocService';
 
 // notice stylesheet loading from app.js
 import './jspm_packages/github/angular/bower-material@1.0.4/angular-material.css!';
@@ -29,7 +32,7 @@ import './css/styles.css!';
 import './css/angular-ui-tree.css!';
 import './css/app.css!';
 
-var app = angular.module('ghstsApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages']);
+var app = angular.module('ghstsApp', ['ui.tree', 'ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages']);
 
 app.config(config)
     .provider('pickListService', PickListService)
@@ -39,7 +42,7 @@ app.config(config)
     .controller('receiverController', ['$mdDialog', '$mdSidenav', 'receiverService', 'legalEntityService', ReceiverController])
     .service('productService', ['$q', ProductService])
     .controller('productController', ['$mdDialog', 'receiverService', 'productService', 'substanceService', 'pickListService', ProductController])
-    .service('ghstsService', ['receiverService', 'legalEntityService', 'productService', 'dossierService', 'substanceService', 'documentService', 'fileService', GhstsService])
+    .service('ghstsService', ['receiverService', 'legalEntityService', 'productService', 'dossierService', 'substanceService', 'documentService', 'fileService', 'tocService', GhstsService])
     .controller('ghstsController', ['$mdDialog', 'ghstsService', GhstsController])
     .service('fileService', ['$q', FileService])
     .controller('fileController', ['$mdDialog','$mdSidenav', 'fileService', FileController])
@@ -49,10 +52,12 @@ app.config(config)
     .controller('dossierController', ['$mdDialog', 'dossierService', 'pickListService', 'receiverService', DossierController])
     .service('substanceService', ['$q', SubstanceService])
     .controller('substanceController', ['$mdDialog', 'substanceService', SubstanceController])
-    .controller('homeController', ['$rootScope', '$location', '$mdDialog', 'ghstsService', 'dossierService', HomeController]);
+    .controller('homeController', ['$rootScope', '$location', '$mdDialog', 'ghstsService', HomeController])
+    .service('tocService', [TocService])
+    .controller('tocController', ['$rootScope', 'tocService', 'ghstsService', 'documentService', TocController]);
 
 
-function config($routeProvider, $mdThemingProvider, $mdIconProvider, $controllerProvider, $provide, $compileProvider, $filterProvider) {
+function config($routeProvider, $mdThemingProvider, $mdIconProvider) {
     $routeProvider
         .when('/home', {
             templateUrl: './scripts/home/home.html',
@@ -99,9 +104,10 @@ function config($routeProvider, $mdThemingProvider, $mdIconProvider, $controller
             controller: SubstanceController,
             controllerAs: '_ctrl'
         })
-        .when('/demoTOC', {
-            templateUrl: './scripts/toc/tocview.html',
-            controller: 'TocController'
+        .when('/manageTOC', {
+            templateUrl: './scripts/toc/toc-manage.html',
+            controller: TocController,
+            controllerAs: '_ctrl'
         })
         .when('/manage', {
             templateUrl: './scripts/manage/manage.html'
@@ -114,7 +120,7 @@ function config($routeProvider, $mdThemingProvider, $mdIconProvider, $controller
     });
     $mdThemingProvider.definePalette('oecdColours', newTheme);
     $mdThemingProvider.theme('default')
-        .primaryPalette('oecdColours')
+        .primaryPalette('oecdColours');
 
 
     $mdIconProvider
@@ -162,39 +168,6 @@ function config($routeProvider, $mdThemingProvider, $mdIconProvider, $controller
         .icon('toc-black', 'img/ic_toc_black_24px.svg')
         .icon('work-black', 'img/ic_work_black_24px.svg')
         .icon('pmra', 'img/pmra-app-01.svg');
-
-    app.controller = function(name, constructor){
-        $controllerProvider.register(name, constructor);
-        return (this);
-    }
-
-    app.service = function(name, constructor){
-        $provide.service(name, constructor);
-        return(this);
-    }
-
-    app.factory = function(name, factory){
-        $provide.factory(name, factory);
-        return (this);
-    }
-
-    app.value = function(name, value){
-        $provide.value(name, value);
-        return (this);
-    }
-
-    app.constant = function(name, value){
-        $provide.constant(name, value);
-    }
-
-    app.directive = function(name, factory){
-        $compileProvider.directive(name, factory);
-        return (this);
-    }
-
-    app.filter = function(name, factory){
-        $filterProvider.register(name, constructor);
-    }
 }
 
-config.$inject = ['$routeProvider', '$mdThemingProvider', '$mdIconProvider', '$controllerProvider', '$provide', '$compileProvider', '$filterProvider'];
+config.$inject = ['$routeProvider', '$mdThemingProvider', '$mdIconProvider'];
