@@ -25,9 +25,7 @@
   ],
   "private": true,
   "repository": "https://github.com/hc-sc/edb",
-  "devDependencies": {
-    "jspm": "^0.16.29"
-  },
+  "devDependencies": {},
   "jspm": {
     "directories": {
       "baseURL": "renderer"
@@ -39,6 +37,7 @@
       "angular-material-icons": "npm:angular-material-icons@^0.7.0",
       "angular-messages": "github:angular/bower-angular-messages@^1.5.3",
       "angular-route": "github:angular/bower-angular-route@^1.4.9",
+      "angular-ui-tree": "github:angular-ui-tree/angular-ui-tree@^2.17.0",
       "bootstrap": "github:twbs/bootstrap@^3.3.6",
       "clean-css": "npm:clean-css@^3.4.18",
       "css": "github:systemjs/plugin-css@^0.1.20",
@@ -56,5 +55,8 @@
       "babel-runtime": "npm:babel-runtime@^5.8.24",
       "core-js": "npm:core-js@^1.1.4"
     }
+  },
+  "dependencies": {
+    "jspm": "^0.16.39"
   }
 }
