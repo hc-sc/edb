@@ -20,7 +20,7 @@ import {SubstanceService} from './scripts/substance/substanceService';
 import {SubstanceController} from './scripts/substance/substanceController';
 import {GhstsService} from './scripts/ghsts_demo/ghstsService';
 import {GhstsController} from './scripts/ghsts_demo/ghstsController';
-import {HomeController} from './scripts/home/HomeController';
+import {HomeController} from './scripts/home/homeController';
 import {PickListService} from './scripts/common/pickListService';
 import {TocController} from './scripts/toc/tocController.js';
 import {TocService} from './scripts/toc/tocService';
