@@ -4,8 +4,11 @@ jspm_packages
 *.swp
 .DS_Store
 package
+build/renderer/scripts
 dist
 *.bak
 .vscode
 data/Demo*
 release
+
+
