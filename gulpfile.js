@@ -27,7 +27,7 @@ gulp.task('clean', function(callback) {
         'build/renderer/scripts/',
         'build/renderer/img/',
         'build/renderer/data/',
-        'build/renderer/bundle.js',
+        'build/renderer/app.bundle.js',
         'build/package.json'
     ]).then(() => console.log('All files cleaned'));
 });
@@ -58,7 +58,7 @@ gulp.task('bundle', function() {
             mangle: false,
             skipSourceMaps: true
         }))
-        .pipe(gulp.dest('build/renderer/bundle.js'))
+        .pipe(gulp.dest('build/renderer/'))
 });
 
 // bundles and produces source-maps
