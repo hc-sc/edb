@@ -8,5 +8,4 @@ dist
 *.bak
 .vscode
 data/Demo*
-build
 release

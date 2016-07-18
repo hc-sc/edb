@@ -1,14 +1,12 @@
 <script type="text/ng-template" id="nodes_renderer.html">
     <div ui-tree-handle class="row tree-node tree-node-content" ng-style="node.isRoot && {'border' : '2px solid #7c9eb2'}">
         <a class="nodewidget btn btn-success btn-xs" ng-if="node.TOC_NODE && node.TOC_NODE.length > 0" data-nodrag ng-click="toggle(this)">
-            <!-- <span class="glyphicon"
+            <span class="glyphicon"
                 ng-class="{
                     'glyphicon-chevron-right': collapsed,
                     'glyphicon-chevron-down': !collapsed
                 }">
-            </span> -->
-            <md-icon ng-if="collapsed" md-svg-icon="expand" class="black"></md-icon>
-            <md-icon ng-if="collapsed" md-svg-icon="collapse" class="black"></md-icon>
+            </span>
         </a>
         <a class="btn btn-primary btn-xs doc" ng-if="node.isDocument">
             <span class="glyphicon glyphicon-file"></span>
