@@ -5,21 +5,13 @@
 ; Variables
 ; --------------------------------
 
-!define dest "C:\VSCWS\edb\release\eDossierBuilderInstaller-win32-x64.exe"
-!define src "C:\VSCWS\edb\dist\eDossierBuilder-win32-x64"
-!define name "test"
-!define productName "eDossierBuilder"
-!define version "1.0.0"
-!define icon "icon.ico"
-!define banner "banner.bmp"
-
-;!define dest "{{dest}}"
-;!define src "{{src}}"
-;!define name "{{name}}"
-;!define productName "{{productName}}"
-;!define version "{{version}}"
-;!define icon "{{icon}}"
-;!define banner "{{banner}}"
+!define dest "{{dest}}"
+!define src "{{src}}"
+!define name "{{name}}"
+!define productName "{{productName}}"
+!define version "{{version}}"
+!define icon "{{icon}}"
+!define banner "{{banner}}"
 
 !define exec "{{productName}}.exe"
 

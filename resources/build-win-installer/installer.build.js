@@ -3,29 +3,23 @@ var Q = require('q');
 var jetPack = require('fs-jetpack');
 var childProcess = require('child_process');
 var projectDir = jetPack;
-// Build directory is our destination where the final build will be placed
-var buildDir;
+// Release directory is our destination where the final installer will be placed
+var distDir;
 // angular application directory
 var appDir;
-// angular application's package.json file
-var distDir;
-
-var instDir;
-
+// Source of executeable files folder
+var sourceDir;
+// NSIS builder script folder
+var scriptDir;
+// reading variables from package.json under edb\app 
 var manifest;
 
 function init() {
-    instDir = projectDir.dir('./resources/windows');
-
-    buildDir = projectDir.dir('./release', { empty: true });
-    // angular application directory
-    appDir = projectDir.dir('./build');
-    // angular application's package.json file
-    manifest = appDir.read('./package.json', 'json');
-
-    distDir = projectDir.dir('./dist/eDossierBuilder-win32-x64');
-
-    console.log(manifest);
+    scriptDir = projectDir.dir('resources/build-win-installer');
+    distDir = projectDir.dir('release', { empty: true });
+    appDir = projectDir.dir('app');
+    manifest = appDir.read('package.json', 'json');
+    sourceDir = projectDir.dir('dist/eDossierBuilder-win32-x64');
     return Q();
 }
 
@@ -35,28 +29,27 @@ function createInstaller() {
 
     function replace(str, patterns) {
         Object.keys(patterns).forEach(function (pattern) {
-            console.log(pattern);
             var matcher = new RegExp('{{' + pattern + '}}', 'g');
             str = str.replace(matcher, patterns[pattern]);
         });
         return str;
     }
 
-    var installScript = instDir.read('./installer.nsi');
+    var installScript = scriptDir.read('installer.nsi');
 
     installScript = replace(installScript, {
         name: manifest.name,
         productName: manifest.name,
         version: manifest.version,
-        src: distDir.path(),
-        dest: buildDir.path(),
-        icon: instDir.path('icon.ico'),
-        setupIcon: instDir.path('icon.ico'),
-        banner: instDir.path('banner.bmp')
+        src: sourceDir.path(),
+        dest: distDir.path('eDossierBuilderInstaller-win32-x64.exe'),
+        icon: scriptDir.path('icon.ico'),
+        setupIcon: scriptDir.path('icon.ico'),
+        banner: scriptDir.path('banner.bmp')
     });
-    buildDir.write('installer.nsi', installScript);
+    distDir.write('installer.nsi', installScript);
 
-    var nsis = childProcess.spawn('makensis', [buildDir.path('installer.nsi')], {
+    var nsis = childProcess.spawn('makensis', [distDir.path('installer.nsi')], {
         stdio: 'inherit'
     });
 
@@ -77,9 +70,14 @@ function createInstaller() {
 
 }
 
+function removeTemp() {
+    return distDir.remove('installer.nsi');
+}
+
 function release() {
     return init()
-        .then(createInstaller);
+        .then(createInstaller)
+        .then(removeTemp);
 }
 
 module.exports = {

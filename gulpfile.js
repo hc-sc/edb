@@ -5,7 +5,7 @@ var jspm = require('gulp-jspm');
 var shell = require('gulp-shell');
 var runSequence = require('run-sequence');
 var os = require('os');
-var installer_windows = require('./installer_windows.js');
+var winInstaller = require('./resources/build-win-installer/installer.build');
 
 
 const INCLUDES = ['app/renderer/**/*.js'];
@@ -99,7 +99,7 @@ gulp.task('build:map', function() {
     runSequence('clean', 'pack', 'bundle:map', 'dist');
 });
 
-gulp.task('create-windows-installer', function(done) {
+gulp.task('create-windows-installer', function() {
     console.log("Create Windows Installer using NSIS for - " + os.platform());
     switch(os.platform()) {
          case 'darwin': 
@@ -109,6 +109,6 @@ gulp.task('create-windows-installer', function(done) {
          //execute build.linux.js 
          break; 
          case 'win32': 
-         return installer_windows.release();        
+         return winInstaller.release();        
     }
 });
