@@ -4,6 +4,8 @@ var eslint = require('gulp-eslint');
 var jspm = require('gulp-jspm');
 var shell = require('gulp-shell');
 var runSequence = require('run-sequence');
+var os = require('os');
+var installer_windows = require('./installer_windows.js');
 
 
 const INCLUDES = ['app/renderer/**/*.js'];
@@ -95,4 +97,18 @@ gulp.task('build', function() {
 
 gulp.task('build:map', function() {
     runSequence('clean', 'pack', 'bundle:map', 'dist');
-})
+});
+
+gulp.task('create-windows-installer', function(done) {
+    console.log("Create Windows Installer using NSIS for - " + os.platform());
+    switch(os.platform()) {
+         case 'darwin': 
+         // execute build.osx.js 
+         break; 
+         case 'linux': 
+         //execute build.linux.js 
+         break; 
+         case 'win32': 
+         return installer_windows.release();        
+    }
+});
