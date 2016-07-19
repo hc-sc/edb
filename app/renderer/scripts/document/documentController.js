@@ -148,80 +148,7 @@ class DocumentController {
         }
     }
 
-    // CONTENT_STATUS_HISTORY
-    addContentStatusHistory($event){
-        let newContentStatus = new ContentStatusHistory();
-        this.selected.DOCUMENT_GENERIC.CONTENT_STATUS_HISTORY.push(newContentStatus);
-    }
-
-    deleteContentStatusHistory(contStat, $event){
-          _.pull(this.selected.DOCUMENT_GENERIC.CONTENT_STATUS_HISTORY, contStat);
-    }
-
-
-    updateSelectedContStatDecode(refIndex){
-        let selectedConStatTypeValue = this.selected.DOCUMENT_GENERIC.CONTENT_STATUS_HISTORY[refIndex].CONTENT_STATUS.VALUE;
-
-        let conStatTypeValueDecode = _(this.geDocContStatTypeOptions)
-                                         .filter(c => c.VALUE == selectedConStatTypeValue)
-                                        .map(c => c.VALUE_DECODE)
-                                        .value()[0];
-       this.selected.DOCUMENT_GENERIC.CONTENT_STATUS_HISTORY[refIndex].CONTENT_STATUS.VALUE_DECODE = conStatTypeValueDecode;
-
-    }
-
-    // REFERENCED_DOCUMENT
-    addReferencedDocument($event){
-        let newRefDocument = new ReferencedDocument();
-        this.selected.DOCUMENT_GENERIC.REFERENCED_DOCUMENT.push(newRefDocument);
-    }
-
-    deleteReferencedDocument(refDoc, $event){
-          _.pull(this.selected.DOCUMENT_GENERIC.REFERENCED_DOCUMENT, refDoc);
-    }
-
-
-    updateSelectedRefTypeDecode(refIndex){
-        let selectedRefTypeValue = this.selected.DOCUMENT_GENERIC.REFERENCED_DOCUMENT[refIndex].REFERENCE_TYPE.VALUE;
-
-        let refTypeValueDecode = _(this.geDocReferenceTypeOptions)
-                                         .filter(c => c.VALUE == selectedRefTypeValue)
-                                        .map(c => c.VALUE_DECODE)
-                                        .value()[0];
-       this.selected.DOCUMENT_GENERIC.REFERENCED_DOCUMENT[refIndex].REFERENCE_TYPE.VALUE_DECODE = refTypeValueDecode;
-
-    }
-
-    updateSelectedRefDocTypeDecode(docIndex){
-        // let selectedDocNumTypeValue = this.selected.DOCUMENT_GENERIC.REFERENCED_DOCUMENT[docIndex].DOCUMENT_NUMBER.DOCUMENT_NUMBER_TYPE.VALUE;
-
-        // let docNumTypeValueDecode = _(this.geDocNumTypeOptions)
-        //                                 .filter(c => c.VALUE == selectedDocNumTypeValue)
-        //                                 .map(c => c.VALUE_DECODE)
-        //                                  .value()[0];
-        // this.selected.DOCUMENT_GENERIC.REFERENCED_DOCUMENT[docIndex].DOCUMENT_NUMBER.DOCUMENT_NUMBER_TYPE.VALUE_DECODE = docNumTypeValueDecode;
-
-        let selectedDocNum = this.selected.DOCUMENT_GENERIC.REFERENCED_DOCUMENT[docIndex].DOCUMENT_NUMBER;
-        let selectedTypeValue = this.selected.DOCUMENT_GENERIC.REFERENCED_DOCUMENT[docIndex].DOCUMENT_NUMBER.DOCUMENT_NUMBER_TYPE.VALUE;
-
-        if (selectedTypeValue === this.getOtherValue()) {
-             selectedDocNum.DOCUMENT_NUMBER_TYPE.ATTR_VALUE = '';
-             selectedDocNum.DOCUMENT_NUMBER_TYPE.VALUE_DECODE = '';
-         } else {
-             delete selectedDocNum.DOCUMENT_NUMBER_TYPE.ATTR_VALUE;
-             selectedDocNum.DOCUMENT_NUMBER_TYPE.VALUE_DECODE = _(this.geDocNumTypeOptions)
-                 .filter(c => c.VALUE == selectedTypeValue)
-                 .map(c => c.VALUE_DECODE)
-                 .value()[0];
-             let docNumTypeValueDecode = _(this.geDocNumTypeOptions)
-                                         .filter(c => c.VALUE == selectedTypeValue)
-                                         .map(c => c.VALUE_DECODE)
-                                         .value()[0];
-            this.selected.DOCUMENT_GENERIC.REFERENCED_DOCUMENT[docIndex].DOCUMENT_NUMBER.DOCUMENT_NUMBER_TYPE.VALUE_DECODE = docNumTypeValueDecode;
-         }
-
-
-}
+  
    
     // REFERENCED_TO_FILE
     // get a list of file to be referenced in Document Generic
@@ -326,7 +253,7 @@ class DocumentController {
     
     // REFERENCED_DOCUMENT
     addReferencedDocument($event){
-        let newRefDocument = new ReferencedDocument();      
+        let newRefDocument = new ReferencedDocument();  
         this.selected.DOCUMENT_GENERIC.REFERENCED_DOCUMENT.push(newRefDocument);  
     }
     
@@ -347,15 +274,28 @@ class DocumentController {
     }
     
     updateSelectedRefDocTypeDecode(docIndex){
-        let selectedDocNumTypeValue = this.selected.DOCUMENT_GENERIC.REFERENCED_DOCUMENT[docIndex].DOCUMENT_NUMBER.DOCUMENT_NUMBER_TYPE.VALUE;
-        
-        let docNumTypeValueDecode = _(this.geDocNumTypeOptions)
-                                        .filter(c => c.VALUE == selectedDocNumTypeValue)
-                                        .map(c => c.VALUE_DECODE)
-                                         .value()[0];
-        this.selected.DOCUMENT_GENERIC.REFERENCED_DOCUMENT[docIndex].DOCUMENT_NUMBER.DOCUMENT_NUMBER_TYPE.VALUE_DECODE = docNumTypeValueDecode;
+      
+        let selectedDocNum = this.selected.DOCUMENT_GENERIC.REFERENCED_DOCUMENT[docIndex].DOCUMENT_NUMBER;
        
-}
+        let selectedTypeValue = this.selected.DOCUMENT_GENERIC.REFERENCED_DOCUMENT[docIndex].DOCUMENT_NUMBER.DOCUMENT_NUMBER_TYPE.VALUE;
+
+          if (selectedTypeValue === this.getOtherValue()) {
+              selectedDocNum.DOCUMENT_NUMBER_TYPE.ATTR_VALUE = '';
+              selectedDocNum.DOCUMENT_NUMBER_TYPE.VALUE_DECODE = '';
+          } else {
+              delete selectedDocNum.DOCUMENT_NUMBER_TYPE.ATTR_VALUE;
+              selectedDocNum.DOCUMENT_NUMBER_TYPE.VALUE_DECODE = _(this.geDocNumTypeOptions)
+                  .filter(c => c.VALUE == selectedTypeValue)
+                  .map(c => c.VALUE_DECODE)
+                  .value()[0];
+              let docNumTypeValueDecode = _(this.geDocNumTypeOptions)
+                                          .filter(c => c.VALUE == selectedTypeValue)
+                                          .map(c => c.VALUE_DECODE)
+                                          .value()[0];
+             this.selected.DOCUMENT_GENERIC.REFERENCED_DOCUMENT[docIndex].DOCUMENT_NUMBER.DOCUMENT_NUMBER_TYPE.VALUE_DECODE = docNumTypeValueDecode;
+          }
+       
+    }
     // DOCUMENT_NUMBER
     addDocumentNumber($event){
      

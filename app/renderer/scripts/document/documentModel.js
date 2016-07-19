@@ -1,4 +1,4 @@
-import { ExtValueStruct } from '../common/sharedModel';
+import { ValueStruct, ExtValueStruct } from '../common/sharedModel';
 // For class DocumentGeneric
 class ContentStatusHistory {
      constructor(value, identifier){
@@ -7,17 +7,45 @@ class ContentStatusHistory {
     }
 }
 // For class DocumentGeneric
+// class ReferencedDocument {
+//      constructor(json){
+//         if(arguments.length === 1){
+//             // load from json
+//             Object.assign(this, json);
+         
+//         }else{
+//            this.REFERENCE_TYPE = {};          // of ValueStruct
+//            this.INTERNAL = null;
+//            this.DOCUMENT_PID = null;
+//            this.DOCUMENT_NUMBER = {};
+           
+//         }
+//     } 
+    
+//     toGHSTSJson() {   
+//         return {
+//             REFERENCE_TYPE : this.REFERENCE_TYPE ,
+//             INTERNAL : this.INTERNAL ,
+//             DOCUMENT_PID : this.DOCUMENT_PID,
+//             DOCUMENT_NUMBER : this.DOCUMENT_NUMBER
+//         };
+//     }
+// }
+
 class ReferencedDocument {
      constructor(json){
         if(arguments.length === 1){
-            // load from json
-            Object.assign(this, json);
-           
+           this.REFERENCE_TYPE = json.REFERENCE_TYPE;          // of ValueStruct
+           this.INTERNAL = json.INTERNAL;
+           this.DOCUMENT_PID = json.DOCUMENT_PID;
+           this.DOCUMENT_NUMBER = json.DOCUMENT_NUMBER;
+
+            
         }else{
-           this.REFERENCE_TYPE = {};          // of ValueStruct
+           this.REFERENCE_TYPE = new ValueStruct();          // of ValueStruct
            this.INTERNAL = null;
            this.DOCUMENT_PID = null;
-           this.DOCUMENT_NUMBER = {};
+           this.DOCUMENT_NUMBER = new DocumentNumber();
            
         }
     } 
@@ -27,7 +55,7 @@ class ReferencedDocument {
             REFERENCE_TYPE : this.REFERENCE_TYPE ,
             INTERNAL : this.INTERNAL ,
             DOCUMENT_PID : this.DOCUMENT_PID,
-            DOCUMENT_NUMBER : this.DOCUMENT_NUMBER
+            DOCUMENT_NUMBER : this.DOCUMENT_NUMBER.toGhstsJson()
         };
     }
 }
@@ -56,10 +84,44 @@ class RelatedToSubstance {
 }
 
 // For class DocumentGeneric
+// class DocumentNumber {
+//     constructor(value, identifier) {
+//         this.DOCUMENT_NUMBER_TYPE = new ExtValueStruct(value.VALUE, value.VALUE_DECODE, value.ATTR_VALUE), 
+//         this.IDENTIFIER = identifier;
+//     }
+
+//     toGhstsJson() {
+//         return {
+//             DOCUMENT_NUMBER_TYPE: this.DOCUMENT_NUMBER_TYPE.toGhstsJson(),
+//             IDENTIFIER: this.IDENTIFIER
+//         }
+//     }
+// }
+
 class DocumentNumber {
-    constructor(value, identifier) {
-        this.DOCUMENT_NUMBER_TYPE = new ExtValueStruct(value.VALUE, value.VALUE_DECODE, value.ATTR_VALUE), 
-        this.IDENTIFIER = identifier;
+    constructor(json) {
+         if (arguments.length === 1){
+             this.IDENTIFIER = json.IDENTIFIER;
+
+             if (json.DOCUMENT_NUMBER_TYPE.ATTR_VALUE != undefined &&
+                json.DOCUMENT_NUMBER_TYPE.ATTR_VALUE !== 'undefined') {
+                this.DOCUMENT_NUMBER_TYPE = new ExtValueStruct(
+                    json.DOCUMENT_NUMBER_TYPE.VALUE,
+                    json.DOCUMENT_NUMBER_TYPE.VALUE_DECODE,
+                    json.DOCUMENT_NUMBER_TYPE.ATTR_VALUE
+                );
+            }
+            else {
+                this.DOCUMENT_NUMBER_TYPE = new ExtValueStruct(
+                    json.DOCUMENT_NUMBER_TYPE.VALUE,
+                    json.DOCUMENT_NUMBER_TYPE.VALUE_DECODE
+                );
+            }
+         }
+         else{
+             this.IDENTIFIER = null;
+             this.DOCUMENT_NUMBER_TYPE = new ExtValueStruct();
+         }
     }
 
     toGhstsJson() {
@@ -100,8 +162,12 @@ class DocumentGeneric {
             // load from json
             Object.assign(this, json);
             this.DOCUMENT_NUMBER = json.DOCUMENT_NUMBER.map(doc => {
-                 return new DocumentNumber(doc.DOCUMENT_NUMBER_TYPE, doc.IDENTIFIER);
+                 //return new DocumentNumber(doc.DOCUMENT_NUMBER_TYPE, doc.IDENTIFIER);
+                  return new DocumentNumber(doc);
             });
+            this.REFERENCED_DOCUMENT = json.REFERENCED_DOCUMENT.map(refdoc => {
+                 return new DocumentNumber(refdoc.DOCUMENT_NUMBER);
+             });
         }else{
             this.METADATA_STATUS = {};
             this.DOCUMENT_PID =  null;
@@ -164,7 +230,11 @@ class DocumentGeneric {
         // this.DOCUMENT_OWNER.forEach(docOwn=> documentOwnerJson.push(docOwn));
         
         let referencedDocumentJson = [];
-        this.REFERENCED_DOCUMENT.forEach(refDoc => referencedDocumentJson.push(refDoc));
+        //this.REFERENCED_DOCUMENT.forEach(refDoc => referencedDocumentJson.push(refDoc));
+         this.REFERENCED_DOCUMENT.forEach(refDoc => {
+              let refDocObj = new ReferencedDocument(refDoc);
+             referencedDocumentJson.push(refDocObj.toGHSTSJson());
+          });
         
         let relatedToSubstanceJson = [];
         // this.RELATED_TO_SUBSTANCE.forEach(relSub => relatedToSubstanceJson.push(relSub));

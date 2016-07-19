@@ -242,21 +242,33 @@
 								<input ng-model="refDoc.DOCUMENT_PID" type="text">
 							</md-input-container>
 							<md-input-container class="md-block" flex-gt-sm>
-								<label>Document Number</label>
-								<md-select name="repeatDocType" id="repeatDocType" ng-model="refDoc.DOCUMENT_NUMBER.DOCUMENT_NUMBER_TYPE.VALUE" ng-change="_ctrl.updateSelectedRefDocTypeDecode($index)">
-									<md-option ng-repeat="docType in _ctrl.geDocNumTypeOptions" value="{{docType.VALUE}}" ng-selected="{{docType.VALUE == refDoc.DOCUMENT_NUMBER.DOCUMENT_NUMBER_TYPE.VALUE}}">{{ docType.VALUE }}</md-option>
-								</md-select>
-							</md-input-container>
-							<md-input-container class="md-block" flex-gt-sm>
 								<label>Identifier</label>
 								<input ng-model="refDoc.DOCUMENT_NUMBER.IDENTIFIER" type="text">
 							</md-input-container>
-							<div layout-align="end">
-								<md-input-container class="md-block" flex-gt-sm>
-									<md-button class="md-secondary md-raised" ng-click="_ctrl.deleteReferencedDocument(refDoc, $event)">Delete</md-button>
-								</md-input-container>
-							</div>
+							
 						</div>
+                        <div layout-gt-sm="row" flex>  
+							<md-input-container class="md-block" flex-gt-sm>
+								<label>Document Number Type</label>
+								<md-select name="repeatDocType" id="repeatDocType" ng-model="refDoc.DOCUMENT_NUMBER.DOCUMENT_NUMBER_TYPE.VALUE" ng-change="_ctrl.updateSelectedRefDocTypeDecode($index)">
+									<md-option ng-repeat="docType in _ctrl.geDocNumTypeOptions" value="{{docType.VALUE}}" ng-selected="{{docType.VALUE == refDoc.DOCUMENT_NUMBER.DOCUMENT_NUMBER_TYPE.VALUE}}">{{ docType.VALUE }}</md-option>
+							</md-input-container>
+							<div flex-gt-sm="25" ng-show="refDoc.DOCUMENT_NUMBER.DOCUMENT_NUMBER_TYPE.VALUE === _ctrl.getOtherValue()">
+                                <md-input-container class='md-block'>
+                                    <label for='docExtTypeValueDecode'>Display Value </label>
+                                    <input id='docExtTypeValueDecode' ng-model='refDoc.DOCUMENT_NUMBER.DOCUMENT_NUMBER_TYPE.VALUE_DECODE' type="text">
+                                </md-input-container>
+                            </div>
+                            <div flex-gt-sm="25" ng-show="refDoc.DOCUMENT_NUMBER.DOCUMENT_NUMBER_TYPE.VALUE === _ctrl.getOtherValue()">
+                                <md-input-container class='md-block'>
+                                    <label for='docExtTypeValue'>Encoded Value (optional)</label>
+                                    <input id='docExtTypeValue' ng-model='refDoc.DOCUMENT_NUMBER.DOCUMENT_NUMBER_TYPE.ATTR_VALUE' type="text">
+                                </md-input-container>
+                            </div>       
+						 </div>
+                         <div layout='row' layout-align="center center">
+							 <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteReferencedDocument(refDoc, $event)">Delete</md-button>
+						 </div>  
 					</md-card>
 				</md-list>
 
@@ -342,7 +354,7 @@
 				
 			<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>  
                <md-button class="md-raised md-primary" ng-click="_ctrl.viewDocumentJson()">View DOC JSON</md-button>                
-               <md-button class="md-raised md-primary" ng-click="_ctrl.viewDocumentGHSTS()">View DOC GHSTS</md-button>                                         
+               <!--<md-button class="md-raised md-primary" ng-click="_ctrl.viewDocumentGHSTS()">View DOC GHSTS</md-button>                                         -->
               
             </section>  
             </md-content>

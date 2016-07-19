@@ -137,23 +137,31 @@ class DocumentService {
                             geRefDoc.REFERENCE_TYPE = refType;
                             geRefDoc.INTERNAL =   (rdc.INTERNAL[0] === undefined ? null : rdc.INTERNAL[0]);
                             geRefDoc.DOCUMENT_PID =  (rdc.DOCUMENT_PID[0] === undefined ? null : rdc.DOCUMENT_PID[0]);
-                            if(rdc.DOCUMENT_NUMBER !== undefined){  
-                                        let identifier =  (rdc.DOCUMENT_NUMBER[0].IDENTIFIER[0] === undefined ? null : rdc.DOCUMENT_NUMBER[0].IDENTIFIER[0]);
-                                        let docuType = (typeof  rdc.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE[0] === 'string') ?
-                                            new ExtValueStruct(
-                                                rdc.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE[0].VALUE[0],
-                                                rdc.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0]
-                                            ):
+                         
+                            if(rdc.DOCUMENT_NUMBER !== undefined){ 
+                                 //let docNumber = new DocumentNumber();
+                                 geRefDoc.DOCUMENT_NUMBER.IDENTIFIER = rdc.DOCUMENT_NUMBER[0].IDENTIFIER[0] ? rdc.DOCUMENT_NUMBER[0].IDENTIFIER[0] : '';
+                                    if(rdc.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE){
+                                        if(typeof   rdc.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE[0].VALUE[0] === 'object'){
+                                            geRefDoc.DOCUMENT_NUMBER.DOCUMENT_NUMBER_TYPE = new ExtValueStruct(
+                                                        rdc.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE[0].VALUE[0]._,
+                                                        rdc.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0],
+                                                        rdc.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE[0].VALUE[0].attr$.Other_Value); 
+                                        }
+                                        else{
+                                            geRefDoc.DOCUMENT_NUMBER.DOCUMENT_NUMBER_TYPE = new ExtValueStruct(
+                                                        rdc.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE[0].VALUE[0],
+                                                        rdc.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0]);
+                                        }
+                                    }
+                                    else{
+                                        geRefDoc.DOCUMENT_NUMBER.DOCUMENT_NUMBER_TYPE = new ExtValueStruct();
+                                    }
+                              
+                             }
 
-                                            new ExtValueStruct(
-                                                rdc.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE[0].VALUE[0]._,
-                                                rdc.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0],
-                                                rdc.DOCUMENT_NUMBER[0].DOCUMENT_NUMBER_TYPE[0].VALUE[0].attr$.Other_Value);  
-
-                                  geRefDoc.DOCUMENT_NUMBER = new DocumentNumber(docuType,identifier);                                    
-                            }   
-                         docGen.addReferencedDocument(geRefDoc);   
-                      }) /// 
+                           docGen.addReferencedDocument(geRefDoc);
+                      })  
                     
                 }
                 
@@ -165,27 +173,32 @@ class DocumentService {
                         })    
                  }
                   
-
-                if(doc.DOCUMENT_GENERIC[0].DOCUMENT_NUMBER !== undefined){
-                        doc.DOCUMENT_GENERIC[0].DOCUMENT_NUMBER.forEach(docNum => {
-                               
-                            let docuType = (typeof  docNum.DOCUMENT_NUMBER_TYPE[0].VALUE[0] === 'string') ?
-                                 new ExtValueStruct(
-                                    docNum.DOCUMENT_NUMBER_TYPE[0].VALUE[0],
-                                    docNum.DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0]
-                                 ):
-
-                                 new ExtValueStruct(
-                                    docNum.DOCUMENT_NUMBER_TYPE[0].VALUE[0]._,
-                                    docNum.DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0],
-                                    docNum.DOCUMENT_NUMBER_TYPE[0].VALUE[0].attr$.Other_Value);                  
-                           
-                             let docNumber = new DocumentNumber(docuType,docNum.IDENTIFIER[0]);
-                            docGen.addDocumentNumber(docNumber);
-                        }); 
-                }
               
+                if(doc.DOCUMENT_GENERIC[0].DOCUMENT_NUMBER !== undefined){
+                        for (const docNum of doc.DOCUMENT_GENERIC[0].DOCUMENT_NUMBER) { 
+                            let docNumber = new DocumentNumber();
+                            docNumber.IDENTIFIER = docNum.IDENTIFIER[0] ? docNum.IDENTIFIER : '';
 
+                            if(docNum.DOCUMENT_NUMBER_TYPE){
+                                if(typeof  docNum.DOCUMENT_NUMBER_TYPE[0].VALUE[0] === 'object'){
+                                    docNumber.DOCUMENT_NUMBER_TYPE = new ExtValueStruct(
+                                     docNum.DOCUMENT_NUMBER_TYPE[0].VALUE[0]._,
+                                     docNum.DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0],
+                                     docNum.DOCUMENT_NUMBER_TYPE[0].VALUE[0].attr$.Other_Value); 
+                                }
+                                else{
+                                    docNumber.DOCUMENT_NUMBER_TYPE = new ExtValueStruct(
+                                     docNum.DOCUMENT_NUMBER_TYPE[0].VALUE[0],
+                                     docNum.DOCUMENT_NUMBER_TYPE[0].VALUE_DECODE[0]);
+                                }
+                            }
+                            else{
+                                docNumber.DOCUMENT_NUMBER_TYPE = new ExtValueStruct();
+                            }
+                            docGen.addDocumentNumber(docNumber);
+                        }
+
+                }
                                  
                 docGen.DOCUMENT_TITLE               = doc.DOCUMENT_GENERIC[0].DOCUMENT_TITLE[0];  
                 docGen.DOCUMENT_AUTHOR              = doc.DOCUMENT_GENERIC[0].DOCUMENT_AUTHOR[0];
