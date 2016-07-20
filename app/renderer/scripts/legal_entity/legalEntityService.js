@@ -4,7 +4,7 @@ import uuid from 'node-uuid';
 import {GHSTS} from '../common/ghsts.js'
 import {LegalEntityIdentifier, ContactPerson, ContactAddress, LegalEntity} from './legalEntityModel.js';
 import {ValueStruct} from '../common/sharedModel.js'
-
+import { ExtValueStruct } from '../common/sharedModel.js';
 class LegalEntityService {
     constructor($q) {
         this.$q = $q;
@@ -126,56 +126,106 @@ class LegalEntityService {
         return deferred.promise;
     }
 
-    initializeLE(submission){
+     initializeLE(submission) {
         let self = this;
-            let entities = submission.legalEntities;
-            entities.forEach(le => {
-                // convert GHSTS json to legalEntities objects
-                // xml2js' use-and-abuse array setting is on to play safe for now, hence the default array references.
-                let status = new ValueStruct(le.METADATA_STATUS[0].VALUE[0], le.METADATA_STATUS[0].VALUE_DECODE[0]);
-                let type = new ValueStruct(le.LEGALENTITY_TYPE[0].VALUE[0], le.LEGALENTITY_TYPE[0].VALUE_DECODE[0]);
-                //let legalEntity = new LegalEntity(status, le.LEGALENTITY_PID[0], le.LEGALENTITY_NAME[0], type);
-                let legalEntity = new LegalEntity();
-                legalEntity.legalEntityId = le.attr$.Id;
-                legalEntity.METADATA_STATUS = status;
-                legalEntity.LEGALENTITY_PID = le.LEGALENTITY_PID[0];
-                legalEntity.LEGALENTITY_NAME = le.LEGALENTITY_NAME[0];
-                legalEntity.LEGALENTITY_TYPE = type;
-                //let IdType = new ValueStruct(le.COUNTRY[0].VALUE[0], le.COUNTRY[0].VALUE_DECODE[0]);
-                //let identifier = new LegalEntityIdentifier(IdType, "DUNS00001")
+        let entities = submission.legalEntities;
+        entities.forEach(le => { //le is a json object
+            // convert GHSTS json to legalEntities objects
+            // xml2js' use-and-abuse array setting is on to play safe for now, hence the default array references.
+            let status = new ValueStruct(le.METADATA_STATUS[0].VALUE[0], le.METADATA_STATUS[0].VALUE_DECODE[0]);
+            // let type = new ValueStruct(le.LEGALENTITY_TYPE[0].VALUE[0], le.LEGALENTITY_TYPE[0].VALUE_DECODE[0]);
+            //let legalEntity = new LegalEntity(status, le.LEGALENTITY_PID[0], le.LEGALENTITY_NAME[0], type);
+            let legalEntity = new LegalEntity();
+            legalEntity.legalEntityId = le.attr$.Id;
+            legalEntity.METADATA_STATUS = status;
+            legalEntity.LEGALENTITY_PID = le.LEGALENTITY_PID[0];
+            legalEntity.LEGALENTITY_NAME = le.LEGALENTITY_NAME[0];
+            legalEntity.LEGALENTITY_TYPE = new ExtValueStruct(
+                le.LEGALENTITY_TYPE[0].VALUE[0],
+                le.LEGALENTITY_TYPE[0].VALUE_DECODE[0]
+            );
+            //let IdType = new ValueStruct(le.COUNTRY[0].VALUE[0], le.COUNTRY[0].VALUE_DECODE[0]);
+            //let identifier = new LegalEntityIdentifier(IdType, "DUNS00001")
+            if (le.LEGALENTITY_IDENTIFIER) {
+                for (const leId of le.LEGALENTITY_IDENTIFIER) {
+                    let identifier = new LegalEntityIdentifier();
 
-                legalEntity.CONTACT_ADDRESS = new ContactAddress(
-                    le.CONTACT_ADDRESS[0].STREET1[0],
-                    (le.CONTACT_ADDRESS[0].STREET2 === undefined ? null : le.CONTACT_ADDRESS[0].STREET2[0]),
-                    le.CONTACT_ADDRESS[0].ZIPCODE[0],
-                    le.CONTACT_ADDRESS[0].CITY[0],
-                    le.CONTACT_ADDRESS[0].STATE[0],
-                    new ValueStruct(le.CONTACT_ADDRESS[0].COUNTRY[0].VALUE[0], le.CONTACT_ADDRESS[0].COUNTRY[0].VALUE_DECODE[0]),
-                    le.CONTACT_ADDRESS[0].PHONE[0],
-                    le.CONTACT_ADDRESS[0].FAX[0],
-                    le.CONTACT_ADDRESS[0].EMAIL[0],
-                    le.CONTACT_ADDRESS[0].WEBSITE[0]
-                );
+                    // non-mandatory field
+                    identifier.IDENTIFIER = leId.IDENTIFIER[0] ? leId.IDENTIFIER : '';
 
-                le.CONTACT_PERSON.forEach(cp =>
-                    legalEntity.addContact(
-                        new ContactPerson(
-                            cp.ORGANISATION[0],
-                            (cp.DEPARTMENT === undefined ? null : cp.DEPARTMENT[0]),
-                            (cp.TITLE === undefined ? null : cp.TITLE[0]),
-                            cp.FIRSTNAME[0],
-                            cp.LASTNAME[0],
-                            (cp.PHONE === undefined ? null : cp.PHONE[0]),
-                            (cp.MOBILE === undefined ? null : cp.MOBILE[0]),
-                            (cp.FAX === undefined ? null : cp.FAX[0]),
-                            (cp.EMAIL === undefined ? null : cp.EMAIL[0])
-                        ))
-                 );
+                    // non-mandatory field
+                    if (leId.LEGALENTITY_IDENTIFIER_TYPE) {
+                        if (typeof leId.LEGALENTITY_IDENTIFIER_TYPE[0].VALUE[0] === 'object') {
+                            identifier.LEGALENTITY_IDENTIFIER_TYPE = new ExtValueStruct(
+                                leId.LEGALENTITY_IDENTIFIER_TYPE[0].VALUE[0]._,
+                                leId.LEGALENTITY_IDENTIFIER_TYPE[0].VALUE_DECODE[0],
+                                leId.LEGALENTITY_IDENTIFIER_TYPE[0].VALUE[0].attr$.Other_Value
+                            );
+                        }
+                        else {
+                            identifier.LEGALENTITY_IDENTIFIER_TYPE = new ExtValueStruct(
+                                leId.LEGALENTITY_IDENTIFIER_TYPE[0].VALUE[0],
+                                leId.LEGALENTITY_IDENTIFIER_TYPE[0].VALUE_DECODE[0]
+                            );
+                        }
+                    }
+                    else {
+                        identifier.LEGALENTITY_IDENTIFIER_TYPE = new ExtValueStruct();
+                    }
 
-                 // enable the following to insert into db.
-                 self.createLegalEntity(legalEntity);
+                    legalEntity.addIdentifier(identifier);
+                }
+            }
 
-            });
+            legalEntity.CONTACT_ADDRESS = new ContactAddress();
+            legalEntity.CONTACT_ADDRESS.STREET1 = le.CONTACT_ADDRESS[0].STREET1[0];
+            legalEntity.CONTACT_ADDRESS.STREET2 = (le.CONTACT_ADDRESS[0].STREET2 === undefined ? null : le.CONTACT_ADDRESS[0].STREET2[0]);
+            legalEntity.CONTACT_ADDRESS.ZIPCODE = le.CONTACT_ADDRESS[0].ZIPCODE[0];
+            legalEntity.CONTACT_ADDRESS.CITY = le.CONTACT_ADDRESS[0].CITY[0];
+            legalEntity.CONTACT_ADDRESS.STATE = le.CONTACT_ADDRESS[0].STATE[0];
+            //  new ValueStruct(le.CONTACT_ADDRESS[0].COUNTRY[0].VALUE[0], le.CONTACT_ADDRESS[0].COUNTRY[0].VALUE_DECODE[0]),
+            legalEntity.CONTACT_ADDRESS.PHONE = le.CONTACT_ADDRESS[0].PHONE[0];
+            legalEntity.CONTACT_ADDRESS.FAX = le.CONTACT_ADDRESS[0].FAX[0];
+            legalEntity.CONTACT_ADDRESS.EMAIL = le.CONTACT_ADDRESS[0].EMAIL[0];
+            legalEntity.CONTACT_ADDRESS.WEBSITE = le.CONTACT_ADDRESS[0].WEBSITE[0];
+
+            if (le.CONTACT_ADDRESS[0].COUNTRY[0]) {
+                if (typeof le.CONTACT_ADDRESS[0].COUNTRY[0].VALUE[0] === 'object') {
+                    legalEntity.CONTACT_ADDRESS.COUNTRY = new ExtValueStruct(
+                        le.CONTACT_ADDRESS[0].COUNTRY[0].VALUE[0]._,
+                        le.CONTACT_ADDRESS[0].COUNTRY[0].VALUE_DECODE[0],
+                        le.CONTACT_ADDRESS[0].COUNTRY[0].VALUE[0].attr$.Other_Value
+                    );
+                }
+                else {
+                    legalEntity.CONTACT_ADDRESS.COUNTRY = new ExtValueStruct(
+                        le.CONTACT_ADDRESS[0].COUNTRY[0].VALUE[0],
+                        le.CONTACT_ADDRESS[0].COUNTRY[0].VALUE_DECODE[0]
+                    );
+                }
+            }
+            else {
+                legalEntity.CONTACT_ADDRESS.COUNTRY = new ExtValueStruct();
+            }
+            le.CONTACT_PERSON.forEach(cp =>
+                legalEntity.addContact(
+                    new ContactPerson(
+                        cp.ORGANISATION[0],
+                        (cp.DEPARTMENT === undefined ? null : cp.DEPARTMENT[0]),
+                        (cp.TITLE === undefined ? null : cp.TITLE[0]),
+                        cp.FIRSTNAME[0],
+                        cp.LASTNAME[0],
+                        (cp.PHONE === undefined ? null : cp.PHONE[0]),
+                        (cp.MOBILE === undefined ? null : cp.MOBILE[0]),
+                        (cp.FAX === undefined ? null : cp.FAX[0]),
+                        (cp.EMAIL === undefined ? null : cp.EMAIL[0])
+                    ))
+            );
+
+            // enable the following to insert into db.
+            self.createLegalEntity(legalEntity);
+
+        });
     }
 
     _createSampleLegalEntity(){

@@ -5,17 +5,28 @@ import {ValueStruct, IdentifierStruct} from '../common/sharedModel.js';
 import {FileRA, FileGeneric, File} from './fileModel.js'
 //import uuid from 'node-uuid';
 class FileController {
-    constructor($mdDialog, $mdSidenav, fileService, PickListService) {
+    constructor($mdDialog, $mdSidenav, fileService, PickListService, receiverService) {
         this.fileService = fileService;
         this.$mdDialog = $mdDialog;
         this.$mdSidenav = $mdSidenav;
         this.pickListService = PickListService;
+        this.receiverService = receiverService;
         this.selected = null;
         this.files = [];
         this.selectedIndex = 0;
         this.filterText = null;
         this.getAllFiles();
         this.metadataStatusOptions = this.pickListService.getMetadataStatusOptions();
+        this.pickListService.getType('EXTENSION_TYPE_APPLICATION_TYPE')
+            .then(appTypes => {
+                return this.receiverService.getRAsWithLegalEntityName();
+            })
+            .then(ras => {
+                this.receiversWithNames = ras;
+                this.getAllFiles();
+                // return this.initFromDB();
+            })
+            .catch(err => console.log(err.stack));
     }
     toggleSidenav(componentId) {
         // toggle the side nave by component identifer
@@ -199,7 +210,7 @@ class FileController {
     }
 }
 
-FileController.$inject = ['$mdDialog', '$mdSidenav', 'fileService', 'pickListService'];
+FileController.$inject = ['$mdDialog', '$mdSidenav', 'fileService', 'pickListService', 'receiverService'];
 
 
 export { FileController }
