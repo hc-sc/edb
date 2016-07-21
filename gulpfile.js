@@ -2,16 +2,75 @@ var del = require('del');
 var gulp = require('gulp');
 var eslint = require('gulp-eslint');
 var jspm = require('gulp-jspm');
+var rename = require('gulp-rename');
 var shell = require('gulp-shell');
 var runSequence = require('run-sequence');
-var os = require('os');
-var winInstaller = require('./resources/build-win-installer/installer.build');
+var Q = require('q');
 
+var distF = function() {
+    return Q.all(shell.task(
+        'electron-packager build --platform=win32 --arch=x64 --version=1.2.3 --icon=resources/worldwide_128px_1201435_easyicon.net.ico --out=dist --overwrite'
+    ));
+};
 
 const INCLUDES = ['app/renderer/**/*.js'];
 const EXCLUDES = [];
 
 const GLOB = INCLUDES.concat(EXCLUDES);
+
+var copyBundledIndexHtml = function() {
+    return Q.all(gulp.src('app/renderer/index.html.bundled')
+        .pipe(rename('index.html'))
+        .pipe(gulp.dest('build/renderer')));
+};
+
+var bundleJS = function() {
+    return Q.all(gulp.src('app/renderer/app.js')
+        .pipe(jspm({
+            selfExecutingBundle: true,
+            minify: true,
+            mangle: false,
+            skipSourceMaps: true
+        }))
+        .pipe(gulp.dest('build/renderer/')));
+};
+
+var bundle = function() {
+    return copyBundledIndexHtml().then(bundleJS);
+};
+
+var buildF = function() {
+    return packF().then(bundle).then(distF);
+}
+
+var packF = function() {
+    return Q.all([
+        gulp.src(['app/package.json'])
+            .pipe(gulp.dest('build')),
+        gulp.src(['app/renderer/data/**/*.*'])
+            .pipe(gulp.dest('build/renderer/data')),
+        gulp.src(['app/renderer/projects/**/*.*'])
+            .pipe(gulp.dest('build/projects')),
+        gulp.src(['app/renderer/img/**/*.*'])
+            .pipe(gulp.dest('build/renderer/img')),
+        gulp.src(['app/renderer/scripts/**/*.html'])
+            .pipe(gulp.dest('build/renderer/scripts')),
+        gulp.src(['app/main/**/*.js'])
+            .pipe(gulp.dest('build/main'))
+    ]);
+}
+
+var cleanF = function() {
+    return del(['build', 'dist']);
+}
+
+var distF = function() {
+//    return Q.all(
+shell.task(
+    'electron-packager build --platform=win32 --arch=x64 --version=1.2.3 --icon=resources/worldwide_128px_1201435_easyicon.net.ico --out=dist --overwrite'
+);       
+//    );
+}
 
 // make sure the linter doesn't spot any errors
 gulp.task('lint', function() {
@@ -24,14 +83,8 @@ gulp.task('lint', function() {
 });
 
 // deletes any files that will be copied over with 'pack'
-gulp.task('clean', function(callback) {
-    return del([
-        'build/renderer/scripts/',
-        'build/renderer/img/',
-        'build/renderer/data/',
-        'build/renderer/app.bundle.js',
-        'build/package.json'
-    ]).then(() => console.log('All files cleaned'));
+gulp.task('clean:build', function() {
+    return del(['build']).then(() => console.log('All files cleaned'));
 });
 
 // deletes the release dir
@@ -41,8 +94,8 @@ gulp.task('clean:dist', function() {
 })
 
 // cleans everything
-gulp.task('clean:full', function() {
-    return runSequence('clean', 'clean:dist');
+gulp.task('clean', function() {
+    return runSequence('clean:build', 'clean:dist');
 });
 
 // tdd
@@ -52,16 +105,7 @@ gulp.task('tdd', function() {
 
 // // just bundles
 
-gulp.task('bundle', function() {
-    return gulp.src('app/renderer/app.js')
-        .pipe(jspm({
-            selfExecutingBundle: true,
-            minify: true,
-            mangle: false,
-            skipSourceMaps: true
-        }))
-        .pipe(gulp.dest('build/renderer/'))
-});
+gulp.task('bundle', bundle);
 
 // bundles and produces source-maps
 gulp.task('bundle:map', shell.task(
@@ -70,15 +114,19 @@ gulp.task('bundle:map', shell.task(
 
 // transfers resources to the build dir for packaging
 gulp.task('pack', function() {
-    return Promise.all([
+    return Q.all([
         gulp.src(['app/package.json'])
-            .pipe(gulp.dest('build/')),
+            .pipe(gulp.dest('build')),
         gulp.src(['app/renderer/data/**/*.*'])
             .pipe(gulp.dest('build/renderer/data')),
+        gulp.src(['app/renderer/projects/**/*.*'])
+            .pipe(gulp.dest('build/projects')),
         gulp.src(['app/renderer/img/**/*.*'])
             .pipe(gulp.dest('build/renderer/img')),
         gulp.src(['app/renderer/scripts/**/*.html'])
-            .pipe(gulp.dest('build/renderer/scripts'))
+            .pipe(gulp.dest('build/renderer/scripts')),
+        gulp.src(['app/main/**/*.js'])
+            .pipe(gulp.dest('build/main'))
     ]);
 });
 
@@ -92,7 +140,7 @@ gulp.task('dist', shell.task(
 
 // build the executable. NOTE should lint first!
 gulp.task('build', function() {
-    runSequence('clean', 'pack', 'bundle', 'dist');
+    return cleanF().then(packF).then(bundle).then(distF);
 });
 
 gulp.task('build:map', function() {

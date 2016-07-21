@@ -31,7 +31,7 @@ export class HomeController {
 
     showNewDossierPathPicker() {
         let self = this;
-        let CUR_DOSSIER_PATH = this.dossierService.getBaseDossierPath() || __dirname + '\\data';
+        let CUR_DOSSIER_PATH = this.dossierService.getBaseDossierPath() || __dirname + '\\projects';
         const NEW_DOSSIER_PATH = dialog.showOpenDialog({
             title: 'Choose or new a Dossier folder',
             properties: ['openDirectory'],
@@ -60,7 +60,7 @@ export class HomeController {
             filters: [
                 { name: 'XML', extensions: ['xml'] }
             ],
-            defaultPath: `${__dirname}\\data`
+            defaultPath: `${__dirname}\\projects`
         });
 
         if (FILE_PATH) {
