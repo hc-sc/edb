@@ -28,7 +28,7 @@
     <div layout-fill layout='column' tabIndex='-1' role='main' class='md-whiteframe-z2'>
         <md-toolbar layout="row" class="md-whiteframe-z1">
             <div class="md-toolbar-tools">
-                <md-button class="md-icon-button" aria-label="substances" ng-click="_ctrl.toggleSidenav('left')" hide-gt-sm>
+                <md-button class="md-icon-button" aria-label="Substances" ng-click="_ctrl.toggleSidenav('left')" hide-gt-sm>
                     <md-icon class="white" md-svg-icon="album-black" aria-label="substance"></md-icon>
                 </md-button>
                 <h2> {{ _ctrl.selected.SUBSTANCE_NAME }}</h2>
@@ -98,7 +98,7 @@
                             </div>
                         </div>
                         <div layout='row' layout-align="center center">
-                            <md-button class="md-secondary md-raised " ng-click="_ctrl.deleteSubstanceIdentfier(it.IDENTIFIER, $event)">Delete</md-button>
+                            <md-button class="md-secondary md-raised" aria-label="Delete" ng-click="_ctrl.deleteSubstanceIdentfier(it.IDENTIFIER, $event)">Delete</md-button>
                         </div>
                     </md-card>
                 </md-list>
