@@ -7,39 +7,27 @@ var shell = require('gulp-shell');
 var runSequence = require('run-sequence');
 var Q = require('q');
 
-var distF = function() {
-    return Q.all(shell.task(
-        'electron-packager build --platform=win32 --arch=x64 --version=1.2.3 --icon=resources/worldwide_128px_1201435_easyicon.net.ico --out=dist --overwrite'
-    ));
-};
-
 const INCLUDES = ['app/renderer/**/*.js'];
 const EXCLUDES = [];
 
 const GLOB = INCLUDES.concat(EXCLUDES);
 
-var copyBundledIndexHtml = function() {
-    return Q.all(gulp.src('app/renderer/index.html.bundled')
-        .pipe(rename('index.html'))
-        .pipe(gulp.dest('build/renderer')));
-};
-
-var bundleJS = function() {
-    return Q.all(gulp.src('app/renderer/app.js')
+var bundle = function() {
+    return gulp.src('app/renderer/app.js')
         .pipe(jspm({
             selfExecutingBundle: true,
             minify: true,
             mangle: false,
             skipSourceMaps: true
         }))
-        .pipe(gulp.dest('build/renderer/')));
+        .pipe(gulp.dest('build/renderer/'));
 };
 
-var bundle = function() {
-    return copyBundledIndexHtml().then(bundleJS);
+var clean = function() {
+    return del(['build', 'dist']);
 };
 
-var packF = function() {
+var pack = function() {
     return Q.all([
         gulp.src(['app/package.json'])
             .pipe(gulp.dest('build')),
@@ -52,13 +40,12 @@ var packF = function() {
         gulp.src(['app/renderer/scripts/**/*.html'])
             .pipe(gulp.dest('build/renderer/scripts')),
         gulp.src(['app/main/**/*.js'])
-            .pipe(gulp.dest('build/main'))
+            .pipe(gulp.dest('build/main')),
+        gulp.src('app/renderer/index.html.bundled')
+            .pipe(rename('index.html'))
+            .pipe(gulp.dest('build/renderer'))
     ]);
-}
-
-var cleanF = function() {
-    return del(['build', 'dist']);
-}
+};
 
 // make sure the linter doesn't spot any errors
 gulp.task('lint', function() {
@@ -70,30 +57,14 @@ gulp.task('lint', function() {
         .pipe(eslint.failAfterError());
 });
 
-// deletes any files that will be copied over with 'pack'
-gulp.task('clean:build', function() {
-    return del(['build']).then(() => console.log('All files cleaned'));
-});
-
-// deletes the release dir
-gulp.task('clean:dist', function() {
-    return del(['dist'])
-        .then(() => console.log('Dist dir cleaned'));
-})
-
 // cleans everything
-gulp.task('clean', function() {
-    return runSequence('clean:build', 'clean:dist');
-});
+gulp.task('clean', ['lint'], clean);
 
-// tdd
-gulp.task('tdd', function() {
+gulp.task('clean:no-lint', clean);
 
-});
+gulp.task('bundle', ['pack'], bundle);
 
-// // just bundles
-
-gulp.task('bundle', bundle);
+gulp.task('bundle:no-lint', ['pack:no-lint'], bundle);
 
 // bundles and produces source-maps
 gulp.task('bundle:map', shell.task(
@@ -101,35 +72,20 @@ gulp.task('bundle:map', shell.task(
 ));
 
 // transfers resources to the build dir for packaging
-gulp.task('pack', function() {
-    return Q.all([
-        gulp.src(['app/package.json'])
-            .pipe(gulp.dest('build')),
-        gulp.src(['app/renderer/data/**/*.*'])
-            .pipe(gulp.dest('build/renderer/data')),
-        gulp.src(['app/renderer/projects/**/*.*'])
-            .pipe(gulp.dest('build/projects')),
-        gulp.src(['app/renderer/img/**/*.*'])
-            .pipe(gulp.dest('build/renderer/img')),
-        gulp.src(['app/renderer/scripts/**/*.html'])
-            .pipe(gulp.dest('build/renderer/scripts')),
-        gulp.src(['app/main/**/*.js'])
-            .pipe(gulp.dest('build/main'))
-    ]);
-});
+gulp.task('pack', ['clean'], pack);
 
-gulp.task('pack:bundle', function() {
-    runSequence('clean', 'pack', 'bundle');
-});
+gulp.task('pack:no-lint', ['clean:no-lint'], pack);
 
-gulp.task('dist', ['build'], shell.task(
+gulp.task('dist:no-lint', ['bundle:no-lint'], shell.task(
+    'electron-packager build --platform=win32 --arch=x64 --version=1.2.3 --icon=resources/worldwide_128px_1201435_easyicon.net.ico --out=dist --overwrite'
+));
+
+gulp.task('dist', ['bundle'], shell.task(
     'electron-packager build --platform=win32 --arch=x64 --version=1.2.3 --icon=resources/worldwide_128px_1201435_easyicon.net.ico --out=dist --overwrite'
 ));
 
 // build the executable. NOTE should lint first!
-gulp.task('build', ['pack'], function() {
-    return bundle();
-});
+gulp.task('build', ['pack'], bundle);
 
 gulp.task('build:map', function() {
     runSequence('clean', 'pack', 'bundle:map', 'dist');

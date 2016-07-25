@@ -11,14 +11,16 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint . --quiet",
     "bundle": "gulp bundle",
+    "bundle:no-lint": "gulp bundle:no-lint",
     "bundle:map": "gulp bundle:map",
     "build": "gulp build",
     "build:map": "gulp build:map",
     "clean": "gulp clean",
-    "clean:full": "gulp clean:full",
+    "clean:no-lint": "gulp clean:no-lint",
     "pack": "gulp pack",
-    "pack:bundle": "gulp pack:bundle",
-    "dist": "gulp dist"
+    "pack:no-lint": "gulp pack:no-lint",
+    "dist": "gulp dist",
+    "dist:no-lint": "gulp dist:no-lint"
   },
   "repository": {
     "type": "git",
