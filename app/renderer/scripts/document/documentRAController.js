@@ -3,25 +3,44 @@ import { OtherNationalGuideLine, SubmissionContext } from './documentModel';
 import {_} from 'lodash';
 
 class DocumentRAController {
-    constructor(documentRA, documentController, $mdDialog, PickListService) {
+    constructor(documentRA, documentController, $mdDialog, PickListService, ReceiverService) {
         this.documentController = documentController;
         this.documentRA = documentRA;
         this.$mdDialog = $mdDialog;
         this.pickListService = PickListService;
+        this.receiverService = ReceiverService;
 
         this.isAddMode = false;
         if(_.isEmpty(documentRA) === true){
             this.isAddMode = true;
         }
 
-        // options for metadata status
-        this.metadataStatusOptions = this.pickListService.getMetadataStatusOptions();
 
-        this.yesnoOptions = this.pickListService.getYesNoOptions();
+        this.pickListService.getType('TYPE_METADATA_STATUS')
+            .then(metadataStatusOptions => {
+                this.metadataStatusOptions = metadataStatusOptions;
+                return this.pickListService.getType('TYPE_RA_DOCUMENT_NUMBER_TYPE');
+            })
 
-        this.raDocNumTypeOptions = this.pickListService.getRADocNumberTypeOptions();
-        
-        this.specificRaIdOptions = this.pickListService.getSpecificRaIdOptions();
+            .then(radocNumTypes => {
+                this.raDocNumTypeOptions = radocNumTypes;
+                return this.pickListService.getType('TYPE_DATA_PROTECTION');            
+            })
+
+            .then(radataPro => {
+                this.radataProOptions = radataPro;
+                return this.pickListService.getType('TYPE_DATA_REQUIREMENT');
+            })
+
+            .then(radataReq => {
+                this.radataReqOptions = radataReq;  
+                return this.receiverService.getRAsWithLegalEntityName();
+            })
+            .then(recs => {
+                this.receiversWithNames = recs;
+            })
+                  
+            .catch(err => console.log(err.stack));
     }      
 
     cancel($event) {
@@ -101,6 +120,6 @@ class DocumentRAController {
     }
 }
 
-DocumentRAController.$inject = ['documentRA', 'documentController', '$mdDialog', 'pickListService'];
+DocumentRAController.$inject = ['documentRA', 'documentController', '$mdDialog', 'pickListService', 'receiverService'];
 
 export { DocumentRAController }

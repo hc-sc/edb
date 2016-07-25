@@ -73,39 +73,59 @@ class LegalEntityController {
         this.selected.METADATA_STATUS.VALUE_DECODE = leStatusValueDecode;
     }
 
-    updateSelectedLETypeDecode(){
+      updateSelectedLETypeDecode() {
         // update legal entity type value decode upon selection change
         let selectedLETypeValue = this.selected.LEGALENTITY_TYPE.VALUE;
         // find the value decode in the legal entity type options
         let leTypeValueDecode = _(this.legalEntityTypeOptions)
-                                        .filter(c => c.VALUE == selectedLETypeValue)
-                                        .map(c => c.VALUE_DECODE)
-                                        .value()[0];
+            .filter(c => c.VALUE == selectedLETypeValue)
+            .map(c => c.VALUE_DECODE)
+            .value()[0];
         this.selected.LEGALENTITY_TYPE.VALUE_DECODE = leTypeValueDecode;
     }
-
-    updateSelectedCountryDecode(){
-        // update country value decode for the selected country upon selection change
-        let selectedCountryValue = this.selected.CONTACT_ADDRESS.COUNTRY.VALUE;
-        // find the value decode in the country options
-        let countryValueDecode = _(this.countryOptions)
-                                        .filter(c => c.VALUE == selectedCountryValue)
-                                        .map(c => c.VALUE_DECODE)
-                                        .value()[0];
-        this.selected.CONTACT_ADDRESS.COUNTRY.VALUE_DECODE = countryValueDecode;
+    updateLEType(leType) {
+        if (leType.VALUE === this.pickListService.getOtherValue()) {
+            leType.ATTR_VALUE = '';
+            // leType.setLegalEntityTypeValueDecode('');
+            this.selected.LEGALENTITY_TYPE.VALUE_DECODE = '';
+        }
+        else {
+            delete leType.ATTR_VALUE;
+            // leType.setLegalEntityTypeValueDecode(leType.VALUE);
+            this.selected.LEGALENTITY_TYPE.VALUE_DECODE = leType.VALUE_DECODE;
+        }
     }
 
-    updateIdTypeDecodeByIdentifierIndex(identiferIndex){
-        // update identifer type value decode by identifier index upon selection change
-        let selectedTypeValue = this.selected.LEGALENTITY_IDENTIFIER[identiferIndex].LEGALENTITY_IDENTIFIER_TYPE.VALUE;
-        // find value decode from identifierTypeOptions
-        let idTypeValueDecode = _(this.identifierTypeOptions)
-                                        .filter(c => c.VALUE == selectedTypeValue)
-                                        .map(c => c.VALUE_DECODE)
-                                        .value()[0];
-        this.selected.LEGALENTITY_IDENTIFIER[identiferIndex].LEGALENTITY_IDENTIFIER_TYPE.VALUE_DECODE = idTypeValueDecode;
+    getOtherValue() {
+        return this.pickListService.getOtherValue();
     }
 
+    updateSelectedCountryDecode(country) {
+        if (country.VALUE === this.pickListService.getOtherValue()) {
+            country.ATTR_VALUE = '';
+            // leType.setLegalEntityTypeValueDecode('');
+            this.selected.CONTACT_ADDRESS.COUNTRY.VALUE_DECODE = '';
+        }
+        else {
+            delete country.ATTR_VALUE;
+            // leType.setLegalEntityTypeValueDecode(leType.VALUE);
+            this.selected.CONTACT_ADDRESS.COUNTRY.VALUE_DECODE = country.VALUE_DECODE;
+        }
+    }
+    updateIdTypeDecodeByIdentifierIndex(identifer) {
+        if (identifer.LEGALENTITY_IDENTIFIER_TYPE.VALUE === this.pickListService.getOtherValue()) {
+            identifer.LEGALENTITY_IDENTIFIER_TYPE.ATTR_VALUE = '';
+            // leType.setLegalEntityTypeValueDecode('');
+            // this.selected.LEGALENTITY_IDENTIFIER.LEGALENTITY_IDENTIFIER_TYPE.VALUE_DECODE = '';
+           new LegalEntityIdentifier(identifer).setLEGALENTITY_IDENTIFIER_TYPEValueDecode('');
+        }
+        else {
+            delete identifer.LEGALENTITY_IDENTIFIER_TYPE.ATTR_VALUE;
+            // leType.setLegalEntityTypeValueDecode(leType.VALUE);
+            // this.selected.LEGALENTITY_IDENTIFIER.LEGALENTITY_IDENTIFIER_TYPE.VALUE_DECODE = identifer.LEGALENTITY_IDENTIFIER_TYPE.VALUE_DECODE;
+            new LegalEntityIdentifier(identifer).setLEGALENTITY_IDENTIFIER_TYPEValueDecode(identifer.LEGALENTITY_IDENTIFIER_TYPE.VALUE);
+        }
+    }
     selectLegalEntity(legalEntity, index) {
         this.selected = angular.isNumber(legalEntity) ? this.legalEntities[legalEntity] : legalEntity;
         this.selectedIndex = angular.isNumber(legalEntity) ? legalEntity: index;
