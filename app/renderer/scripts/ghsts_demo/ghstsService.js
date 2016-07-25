@@ -4,15 +4,6 @@ import {Receiver, Sender} from '../receiver/receiverModel.js';
 import {ValueStruct} from '../common/sharedModel.js';
 import {Product} from '../product/productModel.js';
 import { Dossier } from '../dossier/dossierModel';
-<<<<<<< HEAD
-import { Substance, SubstanceIdentifierStruct } from '../substance/substanceModel';
-
-
-const outputFile = './app/renderer/data/DemoGHSTS.xml';
-
-class GhstsService {
-    constructor(ReceiverService, LegalEntityService, ProductService, SubmissionService, DossierService, SubstanceService) {
-=======
 import { Document } from '../document/documentModel';
 import { Substance, SubstanceIdentifierStruct } from '../substance/substanceModel';
 import {FileRA, FileGeneric, File} from '../file/fileModel.js';
@@ -20,20 +11,20 @@ const DATA_DIR = 'data'
 const OUTPUT_FILE = `${__dirname}/${DATA_DIR}/output.xml`;
 
 class GhstsService {
-    constructor(ReceiverService, LegalEntityService, ProductService, DossierService, SubstanceService, DocumentService, FileService) {
->>>>>>> cd630f60ae327cfdb91a79bb5199b9a7cd0c1bba
+    constructor(ReceiverService, LegalEntityService,
+            ProductService, DossierService,
+            SubstanceService, DocumentService,
+            FileService, TocService) {
+
         this.receiverService = ReceiverService;
         this.legalEntityService = LegalEntityService;
         this.productService = ProductService;
         this.dossierService = DossierService;
-<<<<<<< HEAD
-        this.substanceService = SubstanceService; 
-=======
         this.substanceService = SubstanceService;
         this.documentService = DocumentService;
         this.fileService = FileService;
+        this.tocService = TocService;
         this.submission = {};
->>>>>>> cd630f60ae327cfdb91a79bb5199b9a7cd0c1bba
     }
 
     loadXml(filePath) {
@@ -68,7 +59,7 @@ class GhstsService {
         ]);
     }
 
-    getGhstsJson(){
+    getGhstsObject(){
         return this.submission;
     }
 
@@ -142,9 +133,9 @@ class GhstsService {
                 for(const file of files){
                     outputObj.addFile(new File(file).toGHSTSJson())
                 }
-				
+
 				outputObj.setFiles();
-				
+
                 return outputObj.writeXML(OUTPUT_FILE);
 >>>>>>> cd630f60ae327cfdb91a79bb5199b9a7cd0c1bba
             })
