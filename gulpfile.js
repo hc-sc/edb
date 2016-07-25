@@ -39,10 +39,6 @@ var bundle = function() {
     return copyBundledIndexHtml().then(bundleJS);
 };
 
-var buildF = function() {
-    return packF().then(bundle).then(distF);
-}
-
 var packF = function() {
     return Q.all([
         gulp.src(['app/package.json'])
@@ -62,14 +58,6 @@ var packF = function() {
 
 var cleanF = function() {
     return del(['build', 'dist']);
-}
-
-var distF = function() {
-//    return Q.all(
-shell.task(
-    'electron-packager build --platform=win32 --arch=x64 --version=1.2.3 --icon=resources/worldwide_128px_1201435_easyicon.net.ico --out=dist --overwrite'
-);       
-//    );
 }
 
 // make sure the linter doesn't spot any errors
@@ -134,13 +122,13 @@ gulp.task('pack:bundle', function() {
     runSequence('clean', 'pack', 'bundle');
 });
 
-gulp.task('dist', shell.task(
+gulp.task('dist', ['build'], shell.task(
     'electron-packager build --platform=win32 --arch=x64 --version=1.2.3 --icon=resources/worldwide_128px_1201435_easyicon.net.ico --out=dist --overwrite'
 ));
 
 // build the executable. NOTE should lint first!
-gulp.task('build', function() {
-    return cleanF().then(packF).then(bundle).then(distF);
+gulp.task('build', ['pack'], function() {
+    return bundle();
 });
 
 gulp.task('build:map', function() {
