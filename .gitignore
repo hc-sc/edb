@@ -4,7 +4,6 @@ jspm_packages
 *.swp
 .DS_Store
 package
-build
 dist
 *.bak
 .vscode
