@@ -126,6 +126,14 @@
                     <md-list-item ng-repeat="it in _ctrl.selected.FILE_RA track by $index" class="noright" flex-gt-sm>
 
                         <div layout-gt-sm="row">
+                            <md-input-container class="md-block">
+                                <label for="ras">Regulatory Authority</label>
+                                <md-select name="ras" ng-model="it._toSpecificForRAId">
+                                    <md-option ng-repeat="ra in _ctrl.receiversWithNames" value="{{ ra.xsId }}" ng-selected="{{ ra.xsId === it._toSpecificForRAId }}">
+                                        {{ ra.name }}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
                             <!--
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>File Status</label>
@@ -156,11 +164,11 @@
 
             <md-divider>
 
-            <section layout="row" layout-xs="column" layout-align="center" layout-wrap>
-                <md-button class="md-raised md-primary" ng-click="_ctrl.createFile()">Add</md-button>
-                <md-button class="md-raised md-primary" ng-click="_ctrl.saveFile()" ng-disabled="fileForm.$invalid">Save</md-button>
-                <md-button class="md-raised md-primary" ng-click="_ctrl.deleteFile()">Delete</md-button>
-            </section>
+                <section layout="row" layout-xs="column" layout-align="center" layout-wrap>
+                    <md-button class="md-raised md-primary" ng-click="_ctrl.createFile()">Add</md-button>
+                    <md-button class="md-raised md-primary" ng-click="_ctrl.saveFile()" ng-disabled="fileForm.$invalid">Save</md-button>
+                    <md-button class="md-raised md-primary" ng-click="_ctrl.deleteFile()">Delete</md-button>
+                </section>
 
         </md-content>
     </div>

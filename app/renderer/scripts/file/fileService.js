@@ -118,6 +118,7 @@ class FileService {
 
             f.FILE_RA.forEach(fr => {
                 let fileRA = new FileRA();
+                fileRA._toSpecificForRAId = fr.attr$.To_Specific_for_RA_Id
                 fileRA.METADATA_STATUS = new ValueStruct(fr.METADATA_STATUS[0].VALUE[0], fr.METADATA_STATUS[0].VALUE_DECODE[0]);
                 fileRA.CBI_DESIGNATION = fr.CBI_DESIGNATION[0];
                 fileRA.FILE_COMMENT = (fr.FILE_COMMENT === undefined ? null : fr.FILE_COMMENT[0]);
@@ -149,6 +150,7 @@ class FileService {
 
             f.FILE_RA.forEach(fr => {
                 let fileRA = new FileRA();
+                fileRA._toSpecificForRAId = fr.attr$.To_Specific_for_RA_Id;
                 fileRA.METADATA_STATUS = new ValueStruct(fr.METADATA_STATUS[0].VALUE[0], fr.METADATA_STATUS[0].VALUE_DECODE[0]);
                 fileRA.CBI_DESIGNATION = fr.CBI_DESIGNATION[0];
                 fileRA.FILE_COMMENT = (fr.FILE_COMMENT === undefined ? null : fr.FILE_COMMENT[0]);
