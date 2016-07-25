@@ -31,8 +31,12 @@ After cloning the repo execute `npm install` in the repository directory (edb) t
 
 Enter command `npm start` at the repository directory.
 
-## Creating the Electorn App package
+## Creating the Electron App Installer package
 
-TBD
+After cloning the repo execute 'npm run build' to generate clean installer with lint called first. 
+
+Generated installer located at 'dist' folder of the project folder; one unpacked executable version under 'dist' for testing. (In Windows, the folder named 'dist/win-unpacked').  
+
+Execute 'npm run build:no-lint' to generate clean installer without lint.
 
 Let [me](https://github.com/jhaydt) know if you have any problems.
