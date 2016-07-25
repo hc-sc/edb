@@ -11,10 +11,7 @@ class GHSTS {
         this.documents = [];
         this.submission = [];
         this.dossier = {};
-<<<<<<< HEAD
-=======
         this.files=[];
->>>>>>> cd630f60ae327cfdb91a79bb5199b9a7cd0c1bba
         this.substances = [];
     }
 
@@ -73,17 +70,11 @@ class GHSTS {
     addSubstance(substance){
         this.substances.push(substance);
     }
-<<<<<<< HEAD
-    
-    setSubstances(substances){
-        this.substances = substances;
-=======
 
     setSubstances(){
         this.ghsts.SUBSTANCES = {
             SUBSTANCE: this.substances
         };
->>>>>>> cd630f60ae327cfdb91a79bb5199b9a7cd0c1bba
     }
 
     readObjects() {
@@ -91,13 +82,8 @@ class GHSTS {
         return new Promise((resolve, reject) => {
             fs.readFile(this.filename, { encoding: "utf8" }, (err, xmlStr) => {
                 if (err) throw (err);
-<<<<<<< HEAD
-                // parse the xml to json object                
-                xml2js.parseString(xmlStr, { attrkey: 'attr$', charkey: 'value$' }, function (err, obj) {
-=======
                 // parse the xml to json object
                 xml2js.parseString(xmlStr, { attrkey: 'attr$' }, (err, obj) => {
->>>>>>> cd630f60ae327cfdb91a79bb5199b9a7cd0c1bba
                     // check for errors
                     if (err) {
                         reject(err);
@@ -118,23 +104,12 @@ class GHSTS {
 
                     this.files = obj.GHSTS.FILES[0].FILE;
                     // set documents
-<<<<<<< HEAD
-                    self.documents = obj.GHSTS.DOCUMENTS[0].DOCUMENT; 
-                    
-                    self.dossier = obj.GHSTS.PRODUCT[0].DOSSIER;
-                    self.substances = obj.GHSTS.SUBSTANCES[0].SUBSTANCE;  
-                    
-                })
-=======
                     this.documents = obj.GHSTS.DOCUMENTS[0].DOCUMENT;
-
-
                     this.dossier = obj.GHSTS.PRODUCT[0].DOSSIER[0];
                     this.substances = obj.GHSTS.SUBSTANCES[0].SUBSTANCE;
 
                     resolve(this);
                 });
->>>>>>> cd630f60ae327cfdb91a79bb5199b9a7cd0c1bba
             });
         });
     }

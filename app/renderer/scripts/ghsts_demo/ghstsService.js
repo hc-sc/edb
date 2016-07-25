@@ -107,19 +107,6 @@ class GhstsService {
 
                 return this.substanceService.getSubstances();
             })
-<<<<<<< HEAD
-            .then(submissions => {
-                ghsts.addSubmission(new Submission(submissions[0]).toGhstsJson());
-                
-                return this.substanceService.getSubstances();
-            })
-            .then(substances => {
-                for (const substance of substances) {
-                    ghsts.addSubstance(new Substance(substance).toGHSTSJson());    
-                }
-                                
-                return ghsts.writeXML(outputFile);
-=======
             .then(substances => {
                 for (const substance of substances) {
                     outputObj.addSubstance(new Substance(substance).toGhstsJson());
@@ -137,7 +124,6 @@ class GhstsService {
 				outputObj.setFiles();
 
                 return outputObj.writeXML(OUTPUT_FILE);
->>>>>>> cd630f60ae327cfdb91a79bb5199b9a7cd0c1bba
             })
             .then(() => {
                 console.log(`Successfully written to ${OUTPUT_FILE}`);
@@ -145,10 +131,6 @@ class GhstsService {
     }
 }
 
-<<<<<<< HEAD
-GhstsService.$inject = [ 'receiverService', 'legalEntityService', 'productService', 'submissionService', 'dossierService', 'substanceService'];
-=======
 GhstsService.$inject = [ 'receiverService', 'legalEntityService', 'productService', 'dossierService', 'substanceService', 'documentService', 'fileService'];
->>>>>>> cd630f60ae327cfdb91a79bb5199b9a7cd0c1bba
 
 export { GhstsService };
