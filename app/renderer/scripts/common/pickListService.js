@@ -386,16 +386,6 @@ class PickListService {
     getOtherValue() {
         return 'other';
     }
-	
-    getSubstanceIdentifierTypeOptions() {
-        return [
-		 	{VALUE_DECODE: "CASNO", VALUE: "CASNO"},		 	
-		 	{VALUE_DECODE: "ECNO", VALUE: "ECNO"},
-		 	{VALUE_DECODE: "IUBMB", VALUE: "IUBMB"},
-		 	{VALUE_DECODE: "other", VALUE: "other"}
-		];
-    }
-
 }
 
 export { PickListService };
