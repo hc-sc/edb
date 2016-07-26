@@ -11,34 +11,55 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint . --quiet",
     "bundle": "gulp bundle",
+    "bundle:no-lint": "gulp bundle:no-lint",
     "bundle:map": "gulp bundle:map",
-    "build": "gulp build",
-    "build:map": "gulp build:map",
     "clean": "gulp clean",
-    "clean:full": "gulp clean:full",
+    "clean:no-lint": "gulp clean:no-lint",
     "pack": "gulp pack",
-    "pack:bundle": "gulp pack:bundle"
+    "pack:no-lint": "gulp pack:no-lint",
+    "build": "gulp bundle && build --publish never",
+    "build:no-lint": "gulp bundle:no-lint && build --publish never",
+    "release": "gulp bundle && build"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/hc-sc/edb.git"
-  },
-  "author": "hc-sc",
-  "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/hc-sc/edb/issues"
-  },
-  "homepage": "https://github.com/hc-sc/edb#readme",
   "devDependencies": {
     "del": "^2.2.0",
-    "electron-packager": "^7.0.4",
+    "electron-builder": "^5.14.2",
     "eslint": "^2.11.1",
     "gulp": "^3.9.1",
     "gulp-eslint": "^2.0.0",
-    "gulp-shell": "^0.5.2",
-    "run-sequence": "^1.2.1"
+    "gulp-jspm": "^0.5.12",
+    "gulp-rename": "^1.2.2",
+    "q": "^1.4.1"
   },
   "dependencies": {
     "electron-prebuilt": "1.2.3"
+  },
+  "build": {
+    "appId": "ca.canada.eDossierBuilder",
+    "app-category-type": "electron.dossier.builder.type",
+    "asar": false,
+    "win": {
+      "target": [
+        "nsis",
+        "zip"
+      ],
+      "icon": "resources/windows/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "installerHeaderIcon": "resources/windows/setup-icon.ico",
+      "installerHeader": "resources/windows/pmralogo.bmp"
+    },
+    "mac": {
+      "icon": "resources/osx/icon.icns"
+    },
+    "dmg": {
+      "icon": "resources/osx/dmg-icon.icns",
+      "background": "resources/osx/dmg-background.png"
+    }
+  },
+  "directories": {
+    "buildResources": "resources",
+    "app": "build"
   }
 }

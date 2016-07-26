@@ -1,13 +1,16 @@
 import angular from 'angular';
+import path from 'path';
 
 const { dialog, BrowserWindow, ipcRenderer } = require('electron').remote;
 
+
 export class HomeController {
-    constructor($rootScope, $location, $mdDialog, ghstsService) {
+    constructor($rootScope, $location, $mdDialog, ghstsService, dossierService) {
         this.$rootScope = $rootScope;
         this.$location = $location;
         this.$mdDialog = $mdDialog;
         this.ghstsService = ghstsService;
+        this.dossierService = dossierService;
 
         //DEMO
         this.recents = [
@@ -26,6 +29,30 @@ export class HomeController {
         ];
     }
 
+    showNewDossierPathPicker() {
+        let self = this;
+        let CUR_DOSSIER_PATH = this.dossierService.getBaseDossierPath() || __dirname + '\\projects';
+        const NEW_DOSSIER_PATH = dialog.showOpenDialog({
+            title: 'Choose or new a Dossier folder',
+            properties: ['openDirectory'],
+            defaultPath: CUR_DOSSIER_PATH
+        });
+
+        if (NEW_DOSSIER_PATH) {
+            if (this.dossierService.validBaseDossierPath(NEW_DOSSIER_PATH[0])) {
+                self.dossierService.setBaseDossierPath(NEW_DOSSIER_PATH[0]);
+                self.ghstsService.clearSubmission()
+                    .then(() => {
+                        self.dossierService.createDossierFolders(NEW_DOSSIER_PATH[0])
+                            .then(()=>{
+                                self.$location.path('/dossier');
+                            }); 
+                    })
+                    .catch(err => console.log(err.stack));
+            }
+        }
+    }
+
     showFilePicker() {
         const FILE_PATH = dialog.showOpenDialog({
             title: 'Choose a Submission',
@@ -33,7 +60,7 @@ export class HomeController {
             filters: [
                 { name: 'XML', extensions: ['xml'] }
             ],
-            defaultPath: `${__dirname}/data/`
+            defaultPath: `${__dirname}\\projects`
         });
 
         if (FILE_PATH) {
@@ -91,3 +118,4 @@ export class HomeController {
             });
     }
 }
+

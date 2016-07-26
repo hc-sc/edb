@@ -1,14 +1,49 @@
 var del = require('del');
 var gulp = require('gulp');
 var eslint = require('gulp-eslint');
-var shell = require('gulp-shell');
-var runSequence = require('run-sequence');
-
+var jspm = require('gulp-jspm');
+var rename = require('gulp-rename');
+var Q = require('q');
 
 const INCLUDES = ['app/renderer/**/*.js'];
 const EXCLUDES = [];
 
 const GLOB = INCLUDES.concat(EXCLUDES);
+
+var bundle = function() {
+    return gulp.src('app/renderer/app.js')
+        .pipe(jspm({
+            selfExecutingBundle: true,
+            minify: true,
+            mangle: false,
+            skipSourceMaps: true
+        }))
+        .pipe(gulp.dest('build/renderer/'));
+};
+
+var clean = function() {
+    return del(['build', 'dist']);
+};
+
+var pack = function() {
+    return Q.all([
+        gulp.src(['app/package.json'])
+            .pipe(gulp.dest('build')),
+        gulp.src(['app/renderer/data/**/*.*'])
+            .pipe(gulp.dest('build/renderer/data')),
+        gulp.src(['app/renderer/projects/**/*.*'])
+            .pipe(gulp.dest('build/projects')),
+        gulp.src(['app/renderer/img/**/*.*'])
+            .pipe(gulp.dest('build/renderer/img')),
+        gulp.src(['app/renderer/scripts/**/*.html'])
+            .pipe(gulp.dest('build/renderer/scripts')),
+        gulp.src(['app/main/**/*.js'])
+            .pipe(gulp.dest('build/main')),
+        gulp.src('app/renderer/index.html.bundled')
+            .pipe(rename('index.html'))
+            .pipe(gulp.dest('build/renderer'))
+    ]);
+};
 
 // make sure the linter doesn't spot any errors
 gulp.task('lint', function() {
@@ -20,72 +55,16 @@ gulp.task('lint', function() {
         .pipe(eslint.failAfterError());
 });
 
-// deletes any files that will be copied over with 'pack'
-gulp.task('clean', function(callback) {
-    return del([
-        'build/renderer/scripts/',
-        'build/renderer/img/',
-        'build/renderer/data/',
-        'build/renderer/bundle.js',
-        'build/package.json'
-    ]).then(() => console.log('All files cleaned'));
-});
-
-// deletes the release dir
-gulp.task('clean:dist', function() {
-    return del(['dist'])
-        .then(() => console.log('Dist dir cleaned'));
-})
-
 // cleans everything
-gulp.task('clean:full', function() {
-    runSequence('clean', 'clean:dist');
-});
+gulp.task('clean', ['lint'], clean);
 
-// tdd
-gulp.task('tdd', function() {
+gulp.task('clean:no-lint', clean);
 
-});
+gulp.task('bundle', ['pack'], bundle);
 
-// just bundles
-gulp.task('bundle', shell.task(
-    'cd app && jspm bundle-sfx app.js ../build/renderer/bundle.js --skip-source-maps --minify --no-mangle'
-));
-
-// bundles and produces source-maps
-gulp.task('bundle:map', shell.task(
-    'cd app && jspm bundle-sfx app.js ../build/renderer/bundle.js --no-mangle'
-));
+gulp.task('bundle:no-lint', ['pack:no-lint'], bundle);
 
 // transfers resources to the build dir for packaging
-gulp.task('pack', function() {
-    return Promise.all([
-        gulp.src(['app/package.json'])
-            .pipe(gulp.dest('build/')),
-        gulp.src(['app/renderer/data/**/*.*'])
-            .pipe(gulp.dest('build/renderer/data')),
-        gulp.src(['app/renderer/img/**/*.*'])
-            .pipe(gulp.dest('build/renderer/img')),
-        gulp.src(['app/renderer/scripts/**/*.*'])
-            .pipe(gulp.dest('build/renderer/scripts')),
-        gulp.src(['app/renderer/app.js'])
-            .pipe(gulp.dest('build/renderer'))
-    ]);
-});
+gulp.task('pack', ['clean'], pack);
 
-gulp.task('pack:bundle', function() {
-    runSequence('clean', 'pack', 'bundle');
-});
-
-gulp.task('dist', shell.task(
-    'electron-packager build --platform=win32 --arch=x64 --version=1.2.3 --icon=resources/worldwide_128px_1201435_easyicon.net.ico --out=dist --overwrite'
-));
-
-// build the executable. NOTE should lint first!
-gulp.task('build', function() {
-    runSequence('clean', 'pack', 'bundle', 'dist');
-});
-
-gulp.task('build:map', function() {
-    runSequence('clean', 'pack', 'bundle:map', 'dist');
-})
+gulp.task('pack:no-lint', ['clean:no-lint'], pack);

@@ -105,8 +105,6 @@ class GHSTS {
                     this.files = obj.GHSTS.FILES[0].FILE;
                     // set documents
                     this.documents = obj.GHSTS.DOCUMENTS[0].DOCUMENT;
-
-
                     this.dossier = obj.GHSTS.PRODUCT[0].DOSSIER[0];
                     this.substances = obj.GHSTS.SUBSTANCES[0].SUBSTANCE;
 
@@ -118,7 +116,7 @@ class GHSTS {
 
     writeXML(filename) {
         // write ghsts json tree back to xml
-        let builder = new xml2js.Builder({ rootName: 'GHSTS', attrkey: 'attr$' });
+        let builder = new xml2js.Builder({ rootName: 'GHSTS', attrkey: 'attr$', charkey: "value$" });
         let xml = builder.buildObject(this.ghsts);
         fs.writeFile(filename, xml, function (err) {
             if (err) console.log(err);

@@ -5,6 +5,9 @@ import { Dossier, ReferencedDossier, DossierRA } from './dossierModel';
 import { Submission } from '../submission/submissionModel';
 import { ExtValueStruct } from '../common/sharedModel';
 
+const fs = require('fs');
+const path = require('path');
+
 class DossierService {
     constructor($q) {
         this.$q = $q;
@@ -12,6 +15,8 @@ class DossierService {
             filename: `${__dirname}/db/dossiers`,
             autoload: true
         });
+
+        this.basePathName = null;
     }
 
     getDossiers() {
@@ -128,8 +133,74 @@ class DossierService {
 
         this.createDossier(dossier);
     }
+
+    validBaseDossierPath(pathName) {
+        return pathName;
+    }
+
+    setBaseDossierPath(basePathName) {
+        this.basePathName = basePathName;
+    }
+
+    getBaseDossierPath() {
+        return this.basePathName;
+    }
+
+    createDossierFolders(baseFolderName) {
+        let deferred = this.$q.defer();
+        let sep = path.sep;
+        let self = this;
+
+        if (baseFolderName) {
+            self.setBaseDossierPath(baseFolderName);
+        }
+
+        self._createFolder(self.getBaseDossierPath() + sep + '01')
+            .then((folder) => {
+                self._createFolder(folder + sep + 'content');
+                self._createFolder(folder + sep + 'confidential');
+                self._createFolder(folder + sep + 'utils')
+                    .then((folder) => {
+                        self._createFolder(folder + sep + 'viewer');
+                        self._createFolder(folder + sep + 'toc');
+                        self._createFolder(folder + sep + 'resources')
+                    });
+            })
+            .then(() => {
+                fs.writeFile(
+                    self.getBaseDossierPath() + sep + '01' + sep + '.incomplete',
+                    'The submission is not complated.',
+                    (err) => {
+                        if (err) console.log(err);
+                    }
+                );
+            })
+            .catch(err => {
+                console.log(err);
+            });
+            deferred.resolve('The new dossier folder created.');
+            return deferred.promise;
+    }
+
+    _createFolder(folderName) {
+        let deferred = this.$q.defer();
+        fs.mkdir(folderName, (err) => {
+            if (err) {
+                if (err.code === 'EEXIST') {
+                    deferred.resolve(folderName);
+                } else {
+                    deferred.reject(err);
+                } 
+            } else {
+                deferred.resolve(folderName);
+            }
+        });
+        return deferred.promise;
+    }
+
 }
 
 DossierService.$inject = ['$q'];
 
 export { DossierService };
+

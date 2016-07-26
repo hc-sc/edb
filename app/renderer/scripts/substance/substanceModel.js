@@ -30,7 +30,6 @@ class Substance {
             this.SUBSTANCE_IDENTIFIER = []; // of SubstanceIdentifierStruct
         }
     }
-
     set substanceId(id){
         this._identifier = id;
     }

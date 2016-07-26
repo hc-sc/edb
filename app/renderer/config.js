@@ -20,6 +20,7 @@ System.config({
     "angular-material-icons": "npm:angular-material-icons@0.7.0",
     "angular-messages": "github:angular/bower-angular-messages@1.5.3",
     "angular-route": "github:angular/bower-angular-route@1.4.9",
+    "angular-ui-tree": "github:angular-ui-tree/angular-ui-tree@2.17.0",
     "babel": "npm:babel-core@5.8.25",
     "babel-runtime": "npm:babel-runtime@5.8.24",
     "bootstrap": "github:twbs/bootstrap@3.3.6",
