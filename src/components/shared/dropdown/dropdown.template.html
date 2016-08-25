@@ -1,0 +1,11 @@
+<div layout='row' flex>
+  <md-input-container class='md-block'>
+    <label for='$ctrl.type'>{{ $ctrl.type }}</label>
+    <md-select id='$ctrl.type' ng-model='$ctrl.value' ng-change='$ctrl.addType()'>
+      <md-option ng-repeat='option in $ctrl.options' ng-value='option.value'>
+        {{ option.value }}
+      </md-option>
+    </md-select>
+  </md-input-container>
+  <icon-button icon='add' colour='dark' label='Add New'></icon-button>
+</div>

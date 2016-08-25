@@ -1,7 +1,6 @@
-config.js
-gulpfile.js
 node_modules
 jspm_packages
-bundle.*
-build
-release
+*.log
+.vscode
+jspm.config.js
+angular-material.scss

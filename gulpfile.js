@@ -1,98 +1,76 @@
 var del = require('del');
 var gulp = require('gulp');
-var eslint = require('gulp-eslint');
-var jspm = require('gulp-jspm');
-var shell = require('gulp-shell');
-var runSequence = require('run-sequence');
+var sass = require('gulp-sass');
+var rename = require('gulp-rename');
+var Q = require('q');
+var browserSync = require('browser-sync').create();
+var childProcess = require('child_process');
+var electron;
 
+const WATCH_GLOB_RELOAD = ['./src/**/**.**', '!./src/scss/**/*.*', '!./src/*.*'];
+const WATCH_GLOB_RESTART = ['./src/index.html', './src/index.js', './src/jspm.config.js'];
 
-const INCLUDES = ['app/renderer/**/*.js'];
-const EXCLUDES = [];
+const GLOB_INCLUDE = WATCH_GLOB_RELOAD.concat(['!./src/jspm_packages/**/*.*', '!./src/components/**/*.*']);
 
-const GLOB = INCLUDES.concat(EXCLUDES);
+var clean = function () {
+  return del(['build', 'dist']);
+};
 
-// make sure the linter doesn't spot any errors
-gulp.task('lint', function() {
-    return gulp.src(GLOB)
-        .pipe(eslint({
-            "quiet": true
-        }))
-        .pipe(eslint.format())
-        .pipe(eslint.failAfterError());
+var compileSCSS = function () {
+  return Q.all([gulp.src('./src/scss/style.scss')
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest('./src/css'))]);
+};
+
+var pack = function () {
+  return Q.all([
+    gulp.src(GLOB_INCLUDE)
+      .pipe(gulp.dest('build')),
+    gulp.src(['src/package.build'])
+      .pipe(rename('package.json'))
+      .pipe(gulp.dest('build')),
+    gulp.src(['src/components/**/*.html'])
+      .pipe(gulp.dest('build/components')),
+    gulp.src(['src/index.prod.js'])
+      .pipe(rename('index.js'))
+      .pipe(gulp.dest('build')),
+    gulp.src('src/index.prod.html')
+      .pipe(rename('index.html'))
+      .pipe(gulp.dest('build'))
+  ]);
+};
+
+gulp.task('sass', function () {
+  return compileSCSS();
 });
 
-// deletes any files that will be copied over with 'pack'
-gulp.task('clean', function(callback) {
-    return del([
-        'build/renderer/scripts/',
-        'build/renderer/img/',
-        'build/renderer/data/',
-        'build/renderer/app.bundle.js',
-        'build/package.json'
-    ]).then(() => console.log('All files cleaned'));
+gulp.task('default', ['sass'], function () {
+  electron = require('electron-prebuilt');
+  childProcess.spawn(electron, ['./src/index.prod.js'], { stdio: 'inherit' });
 });
 
-// deletes the release dir
-gulp.task('clean:dist', function() {
-    return del(['dist'])
-        .then(() => console.log('Dist dir cleaned'));
-})
+gulp.task('server', ['sass'], function () {
+  browserSync.init([
+    './src/+(components|scss|img)/**/**.+(js|html|scss)',
+    './src/index.html'
+  ], {
+      server: './src/'
+    });
 
-// cleans everything
-gulp.task('clean:full', function() {
-    return runSequence('clean', 'clean:dist');
+  gulp.watch('./src/scss/**/**.**', ['sass']);
 });
 
-// tdd
-gulp.task('tdd', function() {
-
+gulp.task('dev', ['sass'], function () {
+  electron = require('electron-connect').server.create({ 'port': 2000 });
+  electron.start();
+  gulp.watch('./src/scss/**/*.*', ['sass']);
+  gulp.watch(WATCH_GLOB_RELOAD, electron.reload);
+  gulp.watch(WATCH_GLOB_RESTART, electron.restart);
 });
 
-// // just bundles
-
-gulp.task('bundle', function() {
-    return gulp.src('app/renderer/app.js')
-        .pipe(jspm({
-            selfExecutingBundle: true,
-            minify: true,
-            mangle: false,
-            skipSourceMaps: true
-        }))
-        .pipe(gulp.dest('build/renderer/'))
+gulp.task('prebuild', ['clean'], function () {
+  return compileSCSS().then(pack);
 });
 
-// bundles and produces source-maps
-gulp.task('bundle:map', shell.task(
-    'cd app && jspm bundle-sfx app.js ../build/renderer/bundle.js --no-mangle'
-));
+gulp.task('clean', clean);
 
-// transfers resources to the build dir for packaging
-gulp.task('pack', function() {
-    return Promise.all([
-        gulp.src(['app/package.json'])
-            .pipe(gulp.dest('build/')),
-        gulp.src(['app/renderer/data/**/*.*'])
-            .pipe(gulp.dest('build/renderer/data')),
-        gulp.src(['app/renderer/img/**/*.*'])
-            .pipe(gulp.dest('build/renderer/img')),
-        gulp.src(['app/renderer/scripts/**/*.html'])
-            .pipe(gulp.dest('build/renderer/scripts'))
-    ]);
-});
-
-gulp.task('pack:bundle', function() {
-    runSequence('clean', 'pack', 'bundle');
-});
-
-gulp.task('dist', shell.task(
-    'electron-packager build --platform=win32 --arch=x64 --version=1.2.3 --icon=resources/worldwide_128px_1201435_easyicon.net.ico --out=dist --overwrite'
-));
-
-// build the executable. NOTE should lint first!
-gulp.task('build', function() {
-    runSequence('clean', 'pack', 'bundle', 'dist');
-});
-
-gulp.task('build:map', function() {
-    runSequence('clean', 'pack', 'bundle:map', 'dist');
-})

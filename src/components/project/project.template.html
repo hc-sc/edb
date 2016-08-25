@@ -1,0 +1,15 @@
+<app-header icons='$ctrl.icons' back='$ctrl.back' project='$ctrl.project'></app-header>
+<md-content class='md-padding'>
+  <!--<card-button ng-repeat='link in $ctrl.links' link='link' colour='dark' on-click='link.onClick()'></card-button>-->
+  <h2>Submissions</h2>
+  <div ng-repeat='item in $ctrl.dossiers' flex>
+    <!--<h3>{{ item.title }}</h3>-->
+    <div ng-repeat='sub in item.submissions' layout='row' flex>
+      <h4>{{ sub.title }}</h4>
+      <!-- check if the viewer is configured first too -->
+      <md-button ng-if='sub.isPackaged' ng-click='$ctrl.viewSubmission()'>View</md-button>
+      <md-button ng-if='!sub.isPackaged' ng-click='$ctrl.editSubmission()'>Edit</md-button>
+    </div>
+  </div>
+  <md-button ng-if='$ctrl.lastIsPackaged' ng-click='$ctrl.createNewSubmission()'>New</md-button>
+</md-content>

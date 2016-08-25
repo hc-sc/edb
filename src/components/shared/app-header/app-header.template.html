@@ -1,0 +1,13 @@
+<header>
+  <nav>
+    <md-toolbar layout='row'>
+      <div class='md-toolbar-tools'>
+        <icon-button icon='left' ui-sref='{{ $ctrl.back.link }}' colour='light' label='{{ $ctrl.back.label }}'></icon-button>
+        <h2 ng-if='!$ctrl.project.submission' class='contrast'>{{ $ctrl.project.product }}</h2>
+        <h2 ng-if='$ctrl.project.submission' class='contrast'>{{ $ctrl.project.product }} - {{ $ctrl.project.submission }}</h2>
+        <span flex></span>
+        <icon-button ng-repeat='item in $ctrl.icons' icon='{{ item.icon }}' colour='{{ $ctrl.colour }}' label='{{ item.label }}' on-click='item.onClick()'></icon-button>
+      </div>
+    </md-toolbar>
+  </nav>
+</header>

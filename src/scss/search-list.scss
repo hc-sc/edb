@@ -1,0 +1,12 @@
+@import 'constants';
+
+search-list {
+  border-right: 1px solid gray;
+}
+
+.search-list-item {
+  :hover {
+    background-color: $hover-colour;
+    cursor: pointer;
+  }
+}

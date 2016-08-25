@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang='en' ng-app='app'>
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <meta name='author' content='alexgagnon'>
+  <title>eDossier Builder</title>
+<!-- build:remove -->
+<!-- Connect to server process -->
+<script>require('electron-connect').client.create({'port': 2000})</script> 
+<!-- end:build -->
+  <script src='jspm_packages/system.js'></script>
+  <script src='jspm.config.js'></script>
+  <script>
+    System.import('./components/app')
+  </script>
+  <!--<script src='bundle.js'></script>-->
+</head>
+<body>
+  <main class='site' ui-view></main>
+</body>
+</html>

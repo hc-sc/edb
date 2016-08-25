@@ -1,0 +1,8 @@
+  <section class='sidenav-navs'>
+    <a class='sidenav-item' ng-class='{ "active-nav" : nav.isActive }' ng-repeat='nav in $ctrl.navs' ng-click='nav.onClick()'>
+      <md-tooltip md-direction='bottom' md-delay='$ctrl.tooltipDelay'>{{ nav.title }}</md-tooltip>
+      <md-icon class='{{ $ctrl.colour }}' md-svg-icon='{{ nav.icon }}'></md-icon>
+      <p>{{ nav.title }}</p>
+    </a>
+  </section>
+

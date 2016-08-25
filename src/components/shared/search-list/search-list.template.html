@@ -1,0 +1,32 @@
+
+<md-content ng-if='$ctrl.isOpen'>
+  <md-input-container md-no-float class='md-block input-padding'>
+    <md-icon md-svg-icon='search'></md-icon>
+    <input ng-model='$ctrl.searchTerm' type='text' placeholder='Search'>
+  </md-input-container>
+  <hr />
+  <md-list>
+    <md-list-item class='search-list-item' ng-repeat='item in $ctrl.items'>
+      <div class='md-list-item-text'>
+        <p>{{ item.title }}</p>
+      </div>
+      <md-divider ng-if='!$last'></md-divider>
+    </md-list-item>
+  </md-list>
+</md-content>
+
+<!--<md-sidenav class='md-sidenav-left md-whiteframe-z2' md-component-id='left' md-is-open='$ctrl.isOpen'>
+  <md-content>
+    <md-input-container class='md-block'>
+      <label>{{ $ctrl.label }}</label>
+      <input name='searchTerm' ng-model='$ctrl.searchTerm' ng-change='$ctrl.search()'>
+    </md-input-container>
+    <md-list>
+      <md-list-item ng-repeat='item in $ctrl.results track by $index' ng-click='$ctrl.select($index)'>
+        <md-icon class='{{ $ctrl.colour }}' md-svg-icon='{{ $ctrl.icon }}' aria-label='{{ $ctrl.label }}'></md-icon>
+        <p>{{ item.title }}</p>
+        <md-divider ng-if='!$last'></md-divider>
+      </md-list-item>
+    </md-list>
+  </md-content>
+</md-sidenav>-->
