@@ -1,3 +1,152 @@
-<section>
-  <h1>Dossier</h1>
-</section>
+<md-content layout-padding>
+  <form name="dossierForm" class="autoScroll">
+    <div layout-gt-sm="row">
+      <md-input-container class="md-block" flex-gt-sm>
+        <label for="dossierPID">PID</label>
+        <input id="dossierPID" ng-model="_ctrl.dossier.DOSSIER_PID" type="text" disabled>
+      </md-input-container>
+      <md-input-container class="md-block" flex-gt-sm>
+        <label for="compID">Comp ID</label>
+        <input id="compID" ng-model="_ctrl.dossier.DOSSIER_COMP_ID" type="text">
+      </md-input-container>
+    </div>
+    <div layout-gt-sm="row">
+      <md-input-container class="md-block" flex-gt-sm>
+        <label for="description">Description</label>
+        <input id="description" ng-model="_ctrl.dossier.DOSSIER_DESCRIPTION_TITLE" type="text">
+      </md-input-container>
+    </div>
+
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Submissions</h2>
+        <span flex></span>
+      </div>
+    </md-toolbar>
+
+    <md-list>
+      <md-list-item ng-repeat="sub in _ctrl.dossier.SUBMISSION track by $index" ng-click="_ctrl.showSubmissionDiag(sub, $event)" ng-hidden="!$last" class="noright">
+        <md-icon class="black" md-svg-icon="assignment-black" aria-label="submission"></md-icon>
+        <p>{{ sub.SUBMISSION_TITLE }}</p>
+      </md-list-item>
+    </md-list>
+
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Referenced Dossiers</h2>
+        <span flex></span>
+        <md-button class="md-icon-button">
+          <md-icon md-svg-icon="add" aria-label="Add Referenced Dossier" ng-click="_ctrl.addReferencedDossier()"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-list>
+      <md-card class="list-item-card" ng-repeat="rd in _ctrl.dossier.REFERENCED_DOSSIER track by $index">
+        <div layout-gt-sm="row">
+          <md-input-container class="md-block" flex>
+            <label for="dossierNumber">Dossier Number</label>
+            <input id="dossierNumber" ng-model="rd.REFERENCED_DOSSIER_NUMBER" type="text">
+          </md-input-container>
+          <md-input-container class="md-block" flex>
+            <label for="reason">Reason</label>
+            <input id="reason" ng-model="rd.REFERENCED_DOSSIER_REASON" type="text">
+          </md-input-container>
+        </div>
+
+        <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteReferencedDossier(rd, $event)">
+          Delete
+        </md-button>
+      </md-card>
+    </md-list>
+
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Dossier RA</h2>
+        <span flex></span>
+        <md-button class="md-icon-button">
+          <md-icon md-svg-icon="add" aria-label="Add Dossier RA" ng-click="_ctrl.addDossierRA()"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-list>
+      <md-card class="list-item-card" ng-repeat="dra in _ctrl.dossier.DOSSIER_RA track by $index">
+        <div layout="column">
+          <md-input-container class="md-block">
+            <label for="ras">Regulatory Authority</label>
+            <md-select name="ras" ng-model="dra._toSpecificForRAId" ng-change="_ctrl.updateRA(dra)">
+              <md-option ng-repeat="ra in _ctrl.receiversWithNames" value="{{ ra.xsId }}" ng-selected="{{ ra.xsId === dra._toSpecificForRAId }}">
+                {{ ra.name }}
+              </md-option>
+            </md-select>
+          </md-input-container>
+          <md-input-container class="md-block">
+            <label for="regulatoryType">
+                                Regulatory Type
+                            </label>
+            <md-select name="regulatoryType" ng-model="dra.REGULATORY_TYPE.VALUE" ng-change="_ctrl.updateRegulatoryType(dra)">
+              <md-option ng-repeat="regType in _ctrl.regulatoryTypes" value="{{ regType.VALUE }}" ng-selected="{{ regType.VALUE === dra.REGULATORY_TYPE.VALUE }}">
+                {{ regType.VALUE }}
+              </md-option>
+            </md-select>
+          </md-input-container>
+          <div layout-gt-sm="row" ng-show="dra.REGULATORY_TYPE.VALUE === _ctrl.pickListService.getOtherValue()">
+            <md-input-container class="md-block" flex>
+              <label>Display Value</label>
+              <input type="text" ng-model="dra.REGULATORY_TYPE.VALUE_DECODE">
+            </md-input-container>
+            <md-input-container class="md-block" flex>
+              <label>Encoded Value (optional)</label>
+              <input type="text" ng-model="dra.REGULATORY_TYPE.ATTR_VALUE">
+            </md-input-container>
+          </div>
+        </div>
+        <div layout="column">
+          <md-input-container class="md-block" flex>
+            <label for="applicationType">
+                                Application Type
+                            </label>
+            <md-select name="applicationType" ng-model="dra.APPLICATION_TYPE.VALUE" ng-change="_ctrl.updateApplicationType(dra)">
+              <md-option ng-repeat="appType in _ctrl.applicationTypes" value="{{ appType.VALUE }}" ng-selected="{{ appType.VALUE === dra.APPLICATION_TYPE.VALUE }}">
+                {{ appType.VALUE }}
+              </md-option>
+            </md-select>
+          </md-input-container>
+          <div layout-gt-sm="row" ng-show="dra.APPLICATION_TYPE.VALUE === _ctrl.pickListService.getOtherValue()">
+            <md-input-container class="md-block" flex>
+              <label>Display Value</label>
+              <input type="text" ng-model="dra.APPLICATION_TYPE.VALUE_DECODE">
+            </md-input-container>
+            <md-input-container class="md-block" flex>
+              <label>Encoded Value (optional)</label>
+              <input type="text" ng-model="dra.APPLICATION_TYPE.ATTR_VALUE">
+            </md-input-container>
+          </div>
+        </div>
+
+        <md-input-container class="md-block">
+          <label for="projectIdNumber">
+                            Project ID Number (separate numbers by a comma)
+                        </label>
+          <input id="projectIdNumber" ng-model="dra.PROJECT_ID_NUMBER" type="text">
+        </md-input-container>
+        <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteDossierRA(dra)">
+          Delete
+        </md-button>
+      </md-card>
+    </md-list>
+
+    <md-divider>
+
+      <div layout="row" layout-xs="column" layout-align="center" layout-wrap>
+        <md-button class="md-raised md-primary" ng-click="_ctrl.saveDossier()">
+          Save
+        </md-button>
+        <!-- <md-button class="md-raised md-primary"
+                ng-click="_ctrl.viewDossierGHSTS()">
+                    View Dossier GHSTS
+                </md-button> -->
+      </div>
+  </form>
+</md-content>

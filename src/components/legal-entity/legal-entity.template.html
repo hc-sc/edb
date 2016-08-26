@@ -1,0 +1,189 @@
+<md-content layout-padding>
+  <form id="leForm" name="leForm">
+    <div layout-gt-xs="row">
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>Identifier</label>
+        <input ng-model="_ctrl.selected._identifier">
+      </md-input-container>
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>PID</label>
+        <input ng-model="_ctrl.selected.LEGALENTITY_PID" type="text" ng-required="false">
+      </md-input-container>
+    </div>
+    <div layout-gt-sm="row">
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>Name</label>
+        <input ng-model="_ctrl.selected.LEGALENTITY_NAME" type="text">
+      </md-input-container>
+
+      <md-input-container class="md-block" flex="20">
+        <label>Status</label>
+        <md-select name="repeatSelectStatus" id="repeatSelectStatus" ng-model="_ctrl.selected.METADATA_STATUS.VALUE" ng-change="_ctrl.updateSelectedStatusDecode()">
+          <md-option ng-repeat="leStatus in _ctrl.metadataStatusOptions" value="{{leStatus.VALUE}}" ng-selected="{{_ctrl.selected.METADATA_STATUS.VALUE == leStatus.VALUE}}">{{ leStatus.VALUE_DECODE }}</md-option>
+        </md-select>
+      </md-input-container>
+    </div>
+    <div layout-gt-sm="row">
+      <md-input-container class="md-block" flex>
+        <label>Type</label>
+        <md-select name="type" ng-model="_ctrl.selected.LEGALENTITY_TYPE.VALUE" ng-change="_ctrl.updateLEType(_ctrl.selected.LEGALENTITY_TYPE)">
+          <md-option ng-repeat="leType in _ctrl.legalEntityTypeOptions" value="{{leType.VALUE}}" ng-selected="{{_ctrl.selected.LEGALENTITY_TYPE.VALUE == leType.VALUE}}">{{ leType.VALUE_DECODE }}
+          </md-option>
+        </md-select>
+      </md-input-container>
+      <div layout-gt-sm="row" flex-gt-sm="50" ng-show="_ctrl.selected.LEGALENTITY_TYPE.VALUE === _ctrl.getOtherValue()">
+        <md-input-container class="md-block" flex>
+          <label for="leTypeValueDecode">Display Value</label>
+          <input id="leTypeValueDecode" type="text" ng-model="_ctrl.selected.LEGALENTITY_TYPE.VALUE_DECODE">
+        </md-input-container>
+        <md-input-container class="md-block" flex>
+          <label for="leTypeValue">Encoded Value (optional)</label>
+          <input id="leTypeValue" type="text" ng-model="_ctrl.selected.LEGALENTITY_TYPE.ATTR_VALUE">
+        </md-input-container>
+      </div>
+    </div>
+    <div layout-gt-sm="row">
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>Address</label>
+        <input ng-model="_ctrl.selected.CONTACT_ADDRESS.STREET1" type="text">
+      </md-input-container>
+      <md-input-container class="md-block" flex-gt-sm>
+        <input ng-model="_ctrl.selected.CONTACT_ADDRESS.STREET2" placeholder="Address Line 2" type="text">
+      </md-input-container>
+    </div>
+    <div layout-gt-sm="row">
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>City</label>
+        <input ng-model="_ctrl.selected.CONTACT_ADDRESS.CITY" type="text">
+      </md-input-container>
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>State/Provice</label>
+        <input ng-model="_ctrl.selected.CONTACT_ADDRESS.STATE" type="text">
+      </md-input-container>
+
+    </div>
+    <div layout-gt-sm="row">
+      <md-input-container class="md-block" flex>
+        <label>Country</label>
+        <md-select name="type" ng-model="_ctrl.selected.CONTACT_ADDRESS.COUNTRY.VALUE" ng-change="_ctrl.updateSelectedCountryDecode(_ctrl.selected.CONTACT_ADDRESS.COUNTRY)">
+          <md-option ng-repeat="country in _ctrl.countryOptions" value="{{country.VALUE}}" ng-selected="{{_ctrl.selected.CONTACT_ADDRESS.COUNTRY.VALUE == country.VALUE}}">{{ country.VALUE_DECODE }}
+          </md-option>
+        </md-select>
+      </md-input-container>
+      <div layout-gt-sm="row" flex-gt-sm="50" ng-show="_ctrl.selected.CONTACT_ADDRESS.COUNTRY.VALUE === _ctrl.getOtherValue()">
+        <md-input-container class="md-block" flex>
+          <label for="countryValueDecode">Display Value</label>
+          <input id="countryValueDecode" type="text" ng-model="_ctrl.selected.CONTACT_ADDRESS.COUNTRY.VALUE_DECODE">
+        </md-input-container>
+        <md-input-container class="md-block" flex>
+          <label for="countryValue">Encoded Value (optional)</label>
+          <input id="countryValue" type="text" ng-model="_ctrl.selected.CONTACT_ADDRESS.COUNTRY.ATTR_VALUE">
+        </md-input-container>
+      </div>
+    </div>
+    <div layout-gt-sm="row">
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>Phone</label>
+        <input ng-model="_ctrl.selected.CONTACT_ADDRESS.PHONE" type="text">
+      </md-input-container>
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>Fax</label>
+        <input ng-model="_ctrl.selected.CONTACT_ADDRESS.FAX" type="text">
+      </md-input-container>
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>Email</label>
+        <input ng-model="_ctrl.selected.CONTACT_ADDRESS.EMAIL" type="text">
+      </md-input-container>
+    </div>
+
+    <div layout-gt-sm="row">
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>Web Site</label>
+        <input ng-model="_ctrl.selected.CONTACT_ADDRESS.WEBSITE" type="text">
+      </md-input-container>
+    </div>
+
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Identifiers</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="_ctrl.addIdentifier()">
+          <md-icon md-svg-icon="add" aria-label="Add Identifier"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-list>
+      <md-list-item ng-repeat="leId in _ctrl.selected.LEGALENTITY_IDENTIFIER track by $index" class="noright">
+        <div layout-gt-sm="row" flex-gt-sm>
+          <md-input-container class="md-block">
+            <label>Identifer</label>
+            <input ng-model="leId.IDENTIFIER" type="text">
+          </md-input-container>
+          <md-input-container class="md-block">
+            <label>Type</label>
+            <md-select name="repeatSelectIdType" id="repeatSelectIdType" ng-model="leId.LEGALENTITY_IDENTIFIER_TYPE.VALUE" ng-change="_ctrl.updateIdTypeDecodeByIdentifierIndex(leId)">
+              <md-option ng-repeat="idType in _ctrl.identifierTypeOptions" value="{{idType.VALUE}}" ng-selected="{{leId.LEGALENTITY_IDENTIFIER_TYPE.VALUE == idType.VALUE}}">{{ idType.VALUE_DECODE }}</md-option>
+            </md-select>
+          </md-input-container>
+          <div layout-gt-sm="row" flex-gt-sm="50" ng-show="leId.LEGALENTITY_IDENTIFIER_TYPE.VALUE === _ctrl.getOtherValue()">
+            <md-input-container class="md-block" flex>
+              <label for="leIdentifierValueDecode">Display Value</label>
+              <input id="leIdentifierValueDecode" type="text" ng-model="leId.LEGALENTITY_IDENTIFIER_TYPE.VALUE_DECODE">
+            </md-input-container>
+            <md-input-container class="md-block" flex>
+              <label for="leIdentifierValue">Encoded Value (optional)</label>
+              <input id="leIdentifierValue" type="text" ng-model="leId.LEGALENTITY_IDENTIFIER_TYPE.ATTR_VALUE">
+            </md-input-container>
+          </div>
+          <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteIdentifier(leId.IDENTIFIER, $event)">Delete</md-button>
+        </div>
+      </md-list-item>
+    </md-list>
+
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Other Names</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="_ctrl.addOtherName()">
+          <md-icon md-svg-icon="add" aria-label="Add Other Name"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-list>
+      <md-list-item ng-repeat="otherName in _ctrl.selected.OTHER_NAME track by $index" class="noright">
+        <md-input-container class="md-block" flex="80">
+          <!--md-icon class="material-icons" aria-label="Other Name">note</md-icon-->
+          <label>Other Name</label>
+          <input ng-model="_ctrl.selected.OTHER_NAME[$index]" type="text">
+        </md-input-container>
+        <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteOtherName(otherName, $event)">Delete</md-button>
+      </md-list-item>
+    </md-list>
+
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Contact Persons</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="_ctrl.showContactPersonDiag({}, $event)">
+          <md-icon md-svg-icon="add" aria-label="Add Person"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-list>
+      <md-list-item ng-repeat=" person in _ctrl.selected.CONTACT_PERSON track by $index" ng-click="_ctrl.showContactPersonDiag(person, $event)" class="noright">
+        <md-icon md-svg-icon="person" aria-label="Person"></md-icon>
+        <p>{{ person.FIRSTNAME + ' ' + person.LASTNAME }}</p>
+        <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteContactPerson(person, $event)">Delete</md-button>
+      </md-list-item>
+    </md-list>
+  </form>
+
+  <md-divider>
+
+    <section layout="row" layout-xs="column" layout-align="center" layout-wrap>
+      <md-button class="md-raised md-primary" ng-click="_ctrl.createLegalEntity()">Add</md-button>
+      <md-button class="md-raised md-primary" ng-click="_ctrl.saveLegalEntity($event)">Save</md-button>
+      <md-button class="md-raised md-primary" ng-click="_ctrl.cancelEdit()">Cancel</md-button>
+      <md-button class="md-raised md-primary" ng-click="_ctrl.deleteLegalEntity()">Delete</md-button>
+    </section>
+</md-content>

@@ -16,9 +16,9 @@ module.exports = {
     ,"indent": [1, 2]
     // ,"linebreak-style": [1, "unix"]
     ,"quotes": [1, "single"]
-    ,"no-console": 1
+    ,"no-console": 0
     ,"no-unused-vars": 1
     ,"no-debugger": 1
-    ,"brace-style": [1, "stroustrup"]
+    // ,"brace-style": [1, "stroustrup"]
   }
 }

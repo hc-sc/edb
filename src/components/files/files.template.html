@@ -1,1 +1,115 @@
-<h1>Files</h1>
+<md-content layout-padding autoscroll>
+    <form name="fileForm">
+        <div layout-gt-xs="row">
+            <md-input-container class="md-block" flex-gt-xs>
+                <label>Identifier</label>
+                <input ng-model="_ctrl.selected._identifier">
+            </md-input-container>
+        </div>
+        <div layout-gt-sm="row">
+            <md-input-container class="md-block" flex-gt-sm>
+                <label>Name</label>
+                <input ng-model="_ctrl.selected.FILE_GENERIC.FILENAME" type="text">
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm>
+                <label>PID</label>
+                <input ng-model="_ctrl.selected.FILE_GENERIC.FILE_PID" type="text" ng-required="false">
+            </md-input-container>
+        </div>
+        <div layout-gt-sm="row">
+            <md-input-container class="md-block" flex-gt-sm>
+                <label>File Type</label>
+                <input ng-model="_ctrl.selected.FILE_GENERIC.FILE_TYPE.VALUE" type="text">
+            </md-input-container>
+
+            <md-input-container class="md-block" flex-gt-sm>
+                <label>Status</label>
+                <md-select name='Status' id='Status' ng-model='_ctrl.selected.FILE_GENERIC.METADATA_STATUS.VALUE'>
+                    <md-option ng-repeat='status in _ctrl.metadataStatusOptions' value='{{ status.VALUE }}' ng-selected='{{ _ctrl.selected.FILE_GENERIC.METADATA_STATUS.VALUE === status.VALUE }}'>
+                        {{status.VALUE_DECODE }}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+        <div layout-gt-sm="row">
+            <md-input-container class="md-block" flex-gt-sm>
+                <label>File Company Id</label>
+                <input ng-model="_ctrl.selected.FILE_GENERIC.FILE_COMPANY_ID" type="text">
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm>
+                <label>File Content Status</label>
+                <md-select name='file-content-Status' id='file-content-Status' ng-model='_ctrl.selected.FILE_GENERIC.CONTENT_STATUS.VALUE'>
+                    <md-option ng-repeat='status in _ctrl.metadataStatusOptions' value='{{ status.VALUE }}' ng-selected='{{ _ctrl.selected.METADATA_STATUS.VALUE === status.VALUE }}'>
+                        {{status.VALUE_DECODE }}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+
+        <div layout-gt-sm="row">
+            <md-input-container class="md-block" flex-gt-sm>
+                <label>Format Comment</label>
+                <input ng-model="_ctrl.selected.FILE_GENERIC.FORMAT_COMMENT" type="text">
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm>
+                <label>MD 5</label>
+                <input ng-model="_ctrl.selected.FILE_GENERIC.MD5CHECKSUM" type="text">
+            </md-input-container>
+        </div>
+        <!--
+                    add File RA
+                -->
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>File RA</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="_ctrl.addFileRA()">
+                    <!--add a new FileRA to selected File Object-->
+                    <md-icon md-svg-icon="add" aria-label="Add File RA"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-list class="md-block" flex-gt-sm>
+            <!-- display FileRA array in the selected File-->
+            <md-list-item ng-repeat="it in _ctrl.selected.FILE_RA track by $index" class="noright" flex-gt-sm>
+                    <!-- 'it' is one single FileRA -->
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block">
+                        <label for="ras">Regulatory Authority</label>
+                        <md-select name="ras" ng-model="it._toSpecificForRAId">
+                            <md-option ng-repeat="ra in _ctrl.receiversWithNames" value="{{ ra.xsId }}" ng-selected="{{ ra.xsId === it._toSpecificForRAId }}">
+                                {{ ra.name }}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>File Status</label>
+                        <md-select name='file-Status' id='file-Status' ng-model="it.METADATA_STATUS.VALUE">
+                            <md-option ng-repeat='status in _ctrl.metadataStatusOptions' value='{{ status.VALUE }}' ng-selected='{{ _ctrl.selected.METADATA_STATUS.VALUE === status.VALUE }}'>
+                                {{status.VALUE_DECODE }}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>CBI DESIGNATION</label>
+                        <input ng-model="it.CBI_DESIGNATION" type="text">
+                    </md-input-container>
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>FILE COMMENT</label>
+                        <input ng-model="it.FILE_COMMENT" type="text">
+                    </md-input-container>
+                    <md-button class="md-secondary md-raised" ng-click="_ctrl.deleteFileRA($index, $event)">Delete</md-button>
+                </div>
+            </md-list-item>
+        </md-list>
+    </form>
+
+    <md-divider>
+
+        <section layout="row" layout-xs="column" layout-align="center" layout-wrap>
+            <md-button class="md-raised md-primary" ng-click="_ctrl.createFile()">Add</md-button>
+            <md-button class="md-raised md-primary" ng-click="_ctrl.saveFile()" ng-disabled="fileForm.$invalid">Save</md-button>
+            <md-button class="md-raised md-primary" ng-click="_ctrl.deleteFile()">Delete</md-button>
+        </section>
+
+</md-content>

@@ -1,1 +1,43 @@
-Helloooo...
+<md-dialog aria-label="Submission" ng-cloak>
+  <form name="submission">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <md-button class="md-icon-button">
+          <md-icon md-svg-icon="assignment" aria-label="Manage Submission"></md-icon>
+        </md-button>
+        <h2>Submission</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="_ctrl.cancel()">
+          <md-icon md-svg-icon="close" aria-label="Close dialog"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content class="autoScroll">
+      <div class="md-dialog-content">
+        <md-input-container class='md-block'>
+          <label for='number'>Submission Number</label>
+          <input ng-model='_ctrl.submission.SUBMISSION_NUMBER' name='number' disabled />
+        </md-input-container>
+        <md-input-container class='md-block'>
+          <label for='date'>Version Date (dd/mm/yyyy)</label>
+          <input type='date' ng-model='_ctrl.submission.SUBMISSION_VERSION_DATE' name='date' disabled/>
+        </md-input-container>
+        <md-input-container class='md-block' flex-gt-sm>
+          <label for="title">Title</label>
+          <input ng-model='_ctrl.submission.SUBMISSION_TITLE' name='title' />
+        </md-input-container>
+        <div layout='row'>
+          <md-switch class='md-primary' ng-model='_ctrl.submission.INCREMENTAL' aria-label='Incremental'>
+            Incremental: {{ _ctrl.submission.INCREMENTAL }}
+          </md-switch>
+        </div>
+        <div layout="row" layout-align="center">
+          <md-button class="md-raised md-primary" ng-click="_ctrl.saveSubmission($event)">
+            Save
+          </md-button>
+        </div>
+      </div>
+    </md-dialog-content>
+  </form>
+</md-dialog>

@@ -7,9 +7,9 @@ import Documents from '../documents/documents.component';
 import Dossier from '../dossier/dossier.component';
 import Product from '../product/product.component';
 import Files from '../files/files.component';
-import LegalEntities from '../legal-entities/legal-entities.component';
 import Receivers from '../receivers/receivers.component';
-import Substances from '../substance/substance.component';
+import Substance from '../substance/substance.component';
+import LegalEntity from '../legal-entity/legal-entity.component';
 
 export default angular.module('app.edit', [
   'ui.router',
@@ -21,8 +21,8 @@ export default angular.module('app.edit', [
   Product.name,
   Files.name,
   Receivers.name,
-  Substances.name,
-  LegalEntities.name
+  Substance.name,
+  LegalEntity.name
 ])
 .component('edit', {
   templateUrl: './components/edit/edit.template.html',

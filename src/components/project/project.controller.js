@@ -37,7 +37,7 @@ export default class ProjectCtrl {
     .cancel('Cancel');
 
     this.$mdDialog.show(prompt)
-    .then(result => {
+    .then(() => {
       // initialize project and go to edit submission screen
       this.$state.go('app.edit.product');
     });
@@ -45,7 +45,7 @@ export default class ProjectCtrl {
 
   editSubmission() {
     // load in most recent un-packaged submission
-    this.$state.go('app.edit.product');
+    this.$state.go('app.edit.legal-entities');
   }
 
   viewSubmission() {
