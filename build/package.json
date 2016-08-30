@@ -1,7 +1,10 @@
 {
-  "name": "jspm-angular-poc",
+  "name": "edb",
   "version": "1.0.0",
-  "description": "eDossierBuilder for Webpack",
+  "description": "eDossierBuilder",
   "author": "alex gagnon",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "nedb": "^1.8.0"
+  }
 }

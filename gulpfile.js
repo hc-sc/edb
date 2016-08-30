@@ -6,6 +6,7 @@ var Q = require('q');
 var browserSync = require('browser-sync').create();
 var childProcess = require('child_process');
 var electron;
+var webpack = require('webpack');
 
 const WATCH_GLOB_RELOAD = ['./src/**/**.**', '!./src/scss/**/*.*', '!./src/*.*'];
 const WATCH_GLOB_RESTART = ['./src/index.html', './src/index.js', './src/jspm.config.js'];
@@ -22,6 +23,24 @@ var compileSCSS = function () {
     .pipe(gulp.dest('./src/css'))]);
 };
 
+// var pack = function () {
+//   return Q.all([
+//     gulp.src(GLOB_INCLUDE)
+//       .pipe(gulp.dest('build')),
+//     gulp.src(['src/package.build'])
+//       .pipe(rename('package.json'))
+//       .pipe(gulp.dest('build')),
+//     gulp.src(['src/components/**/*.html'])
+//       .pipe(gulp.dest('build/components')),
+//     gulp.src(['src/index.prod.js'])
+//       .pipe(rename('index.js'))
+//       .pipe(gulp.dest('build')),
+//     gulp.src('src/index.prod.html')
+//       .pipe(rename('index.html'))
+//       .pipe(gulp.dest('build'))
+//   ]);
+// };
+
 var pack = function () {
   return Q.all([
     gulp.src(GLOB_INCLUDE)
@@ -31,11 +50,11 @@ var pack = function () {
       .pipe(gulp.dest('build')),
     gulp.src(['src/components/**/*.html'])
       .pipe(gulp.dest('build/components')),
-    gulp.src(['src/index.prod.js'])
-      .pipe(rename('index.js'))
+    gulp.src(['src/index.js'])
       .pipe(gulp.dest('build')),
-    gulp.src('src/index.prod.html')
-      .pipe(rename('index.html'))
+    gulp.src(['src/bundle.js'])
+      .pipe(gulp.dest('build')),
+    gulp.src('src/index.html')
       .pipe(gulp.dest('build'))
   ]);
 };
