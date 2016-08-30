@@ -4,6 +4,7 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
+    "postinstall": "cd build && npm install",
     "server": "gulp server",
     "start": "electron .",
     "dev": "gulp pack:w",
@@ -39,7 +40,9 @@
     "html-webpack-plugin": "^2.22.0",
     "jquery": "^3.1.0",
     "mocha": "^2.5.3",
-    "protractor": "^4.0.0"
+    "protractor": "^4.0.0",
+    "webpack-merge": "^0.14.1",
+    "webpack-validator": "^2.2.7"
   },
   "devDependencies": {
     "babel-loader": "^6.2.4",

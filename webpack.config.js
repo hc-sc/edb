@@ -1,5 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
+const merge = require('webpack-merge');
+const validate = require('webpack-validator');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
 
@@ -8,7 +10,7 @@ const PATHS = {
   build: path.join(__dirname, 'build')
 }
 
-module.exports = {
+const common = {
   entry: {
     app: PATHS.app
   },
@@ -16,7 +18,7 @@ module.exports = {
   module: {
     loaders: [
       { test: /\.js$/, loader: 'babel' },
-      { test: /\.css$/, loader: ExtractTextWebpackPlugin.extract('style!css') },
+      { test: /\.css$/, loader: 'style!css' },
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
       { test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?prefix=font/&limit=10000' },
       { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream' },
@@ -33,7 +35,6 @@ module.exports = {
   },
   resolve: {
     extensions: ['', '.js'],
-    // modulesDirectories: ['src/components', 'node_modules']
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -49,7 +50,21 @@ module.exports = {
       },
       mangle: false
     })
-  ],
-  devtool: '#eval-source-map',
-  cache: true
+  ]
 };
+
+var config;
+
+switch (process.env.npm_lifecycle_event) {
+  case 'build':
+    config = common;
+    break;
+  default:
+    config = merge(common, {
+      watch: true,
+      devtool: '#eval-source-map',
+      cache: true
+    })
+}
+
+module.exports = validate(config);
