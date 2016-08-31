@@ -37,37 +37,38 @@ var pack = function () {
   ]);
 };
 
+gulp.task('prebuild', ['clean'], function () {
+  return pack();
+});
+
+gulp.task('clean', clean);
+
 gulp.task('sass', function () {
   return compileSCSS();
 });
 
-gulp.task('default', ['sass'], function () {
-  electron = require('electron-prebuilt');
-  childProcess.spawn(electron, ['./src/index.prod.js'], { stdio: 'inherit' });
-});
+gulp.task('default', function() {});
 
-gulp.task('server', ['sass'], function () {
-  browserSync.init([
-    './src/+(components|scss|img)/**/**.+(js|html|scss)',
-    './src/index.html'
-  ], {
-      server: './src/'
-    });
+// gulp.task('default', ['sass'], function () {
+//   electron = require('electron-prebuilt');
+//   childProcess.spawn(electron, ['./src/index.prod.js'], { stdio: 'inherit' });
+// });
 
-  gulp.watch('./src/scss/**/**.**', ['sass']);
-});
+// gulp.task('server', ['sass'], function () {
+//   browserSync.init([
+//     './src/+(components|scss|img)/**/**.+(js|html|scss)',
+//     './src/index.html'
+//   ], {
+//       server: './src/'
+//     });
 
-gulp.task('dev', ['sass'], function () {
-  electron = require('electron-connect').server.create({ 'port': 2000 });
-  electron.start();
-  gulp.watch('./src/scss/**/*.*', ['sass']);
-  gulp.watch(WATCH_GLOB_RELOAD, electron.reload);
-  gulp.watch(WATCH_GLOB_RESTART, electron.restart);
-});
+//   gulp.watch('./src/scss/**/**.**', ['sass']);
+// });
 
-gulp.task('prebuild', ['clean'], function () {
-  return compileSCSS()
-  .then(pack)
-});
-
-gulp.task('clean', clean);
+// gulp.task('dev', ['sass'], function () {
+//   electron = require('electron-connect').server.create({ 'port': 2000 });
+//   electron.start();
+//   gulp.watch('./src/scss/**/*.*', ['sass']);
+//   gulp.watch(WATCH_GLOB_RELOAD, electron.reload);
+//   gulp.watch(WATCH_GLOB_RESTART, electron.restart);
+// });
