@@ -1,6 +1,6 @@
 
 import 'angular-material/angular-material.css';
-// import '../css/style.css';
+import '../scss/style.scss'
 // import 'bootstrap/dist/css/bootstrap.css';
 
 import 'bluebird';

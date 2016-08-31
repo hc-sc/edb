@@ -23,38 +23,16 @@ var compileSCSS = function () {
     .pipe(gulp.dest('./src/css'))]);
 };
 
-// var pack = function () {
-//   return Q.all([
-//     gulp.src(GLOB_INCLUDE)
-//       .pipe(gulp.dest('build')),
-//     gulp.src(['src/package.build'])
-//       .pipe(rename('package.json'))
-//       .pipe(gulp.dest('build')),
-//     gulp.src(['src/components/**/*.html'])
-//       .pipe(gulp.dest('build/components')),
-//     gulp.src(['src/index.prod.js'])
-//       .pipe(rename('index.js'))
-//       .pipe(gulp.dest('build')),
-//     gulp.src('src/index.prod.html')
-//       .pipe(rename('index.html'))
-//       .pipe(gulp.dest('build'))
-//   ]);
-// };
-
 var pack = function () {
   return Q.all([
-    gulp.src(GLOB_INCLUDE)
-      .pipe(gulp.dest('build')),
+    gulp.src('src/img/**/*.*')
+      .pipe(gulp.dest('build/img/')),
     gulp.src(['src/package.build'])
       .pipe(rename('package.json'))
       .pipe(gulp.dest('build')),
     gulp.src(['src/components/**/*.html'])
       .pipe(gulp.dest('build/components')),
     gulp.src(['src/index.js'])
-      .pipe(gulp.dest('build')),
-    gulp.src(['src/bundle.js'])
-      .pipe(gulp.dest('build')),
-    gulp.src('src/index.html')
       .pipe(gulp.dest('build'))
   ]);
 };

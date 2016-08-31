@@ -17,8 +17,9 @@ const common = {
   target: 'electron',
   module: {
     loaders: [
-      { test: /\.js$/, loader: 'babel' },
+      { test: /\.js$/, exclude: /node_modules/, loader: 'babel' },
       { test: /\.css$/, loader: 'style!css' },
+      { test: /\.scss$/, loader: 'style!css!sass' },
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
       { test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?prefix=font/&limit=10000' },
       { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream' },
@@ -38,7 +39,7 @@ const common = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'eDossier Builder'
+      template: 'src/index.html'
     }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
@@ -57,7 +58,9 @@ var config;
 
 switch (process.env.npm_lifecycle_event) {
   case 'build':
-    config = common;
+    config = merge(common, {
+      devtool: '#source-map'
+    });
     break;
   default:
     config = merge(common, {
