@@ -67,9 +67,9 @@ gulp.task('default', function() {});
 //   gulp.watch('./src/scss/**/**.**', ['sass']);
 // });
 
-gulp.task('dev', function () {
-  electron = require('electron-connect').server.create({ 'port': 2000 });
-  electron.start();
-  gulp.watch(WATCH_GLOB_RELOAD, electron.reload);
-  gulp.watch(WATCH_GLOB_RESTART, electron.restart);
-});
+// gulp.task('dev', function () {
+//   electron = require('electron-connect').server.create({ 'port': 2000 });
+//   electron.start();
+//   gulp.watch(WATCH_GLOB_RELOAD, electron.reload);
+//   gulp.watch(WATCH_GLOB_RESTART, electron.restart);
+// });
