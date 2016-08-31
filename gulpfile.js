@@ -8,8 +8,8 @@ var childProcess = require('child_process');
 var electron;
 var webpack = require('webpack');
 
-const WATCH_GLOB_RELOAD = ['./src/**/**.**', '!./src/scss/**/*.*', '!./src/*.*'];
-const WATCH_GLOB_RESTART = ['./src/index.html', './src/index.js', './src/jspm.config.js'];
+const WATCH_GLOB_RELOAD = ['./build/components/**/*.*', './build/app.js', './build/img/**/*.*'];
+const WATCH_GLOB_RESTART = ['./build/index.html', './build/index.js'];
 
 const GLOB_INCLUDE = WATCH_GLOB_RELOAD.concat(['!./src/jspm_packages/**/*.*', '!./src/components/**/*.*']);
 
@@ -41,6 +41,8 @@ gulp.task('prebuild', ['clean'], function () {
   return pack();
 });
 
+gulp.task('pack', pack);
+
 gulp.task('clean', clean);
 
 gulp.task('sass', function () {
@@ -65,10 +67,9 @@ gulp.task('default', function() {});
 //   gulp.watch('./src/scss/**/**.**', ['sass']);
 // });
 
-// gulp.task('dev', ['sass'], function () {
-//   electron = require('electron-connect').server.create({ 'port': 2000 });
-//   electron.start();
-//   gulp.watch('./src/scss/**/*.*', ['sass']);
-//   gulp.watch(WATCH_GLOB_RELOAD, electron.reload);
-//   gulp.watch(WATCH_GLOB_RESTART, electron.restart);
-// });
+gulp.task('dev', function () {
+  electron = require('electron-connect').server.create({ 'port': 2000 });
+  electron.start();
+  gulp.watch(WATCH_GLOB_RELOAD, electron.reload);
+  gulp.watch(WATCH_GLOB_RESTART, electron.restart);
+});
