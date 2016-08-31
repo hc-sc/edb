@@ -6,8 +6,8 @@
   "scripts": {
     "postinstall": "cd build && npm install",
     "server": "gulp server",
-    "start": "electron build",
-    "dev": "gulp pack:w",
+    "start": "gulp prebuild && webpack && electron build",
+    "dev": "gulp",
     "debug": "gulp debug",
     "pack": "webpack --watch",
     "sass": "gulp sass",

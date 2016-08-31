@@ -42,15 +42,14 @@ const common = {
       template: 'src/index.html'
     }),
     new webpack.optimize.UglifyJsPlugin({
+      comments: false,
       compress: {
         warnings: false,
-        keep_fnames: true
-      },
-      output: {
-        comments: false,
+        drop_console: true
       },
       mangle: false
-    })
+    }),
+    new webpack.optimize.DedupePlugin()
   ]
 };
 
@@ -64,7 +63,6 @@ switch (process.env.npm_lifecycle_event) {
     break;
   default:
     config = merge(common, {
-      watch: true,
       devtool: '#eval-source-map',
       cache: true
     })

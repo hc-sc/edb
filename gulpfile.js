@@ -66,8 +66,8 @@ gulp.task('dev', ['sass'], function () {
 });
 
 gulp.task('prebuild', ['clean'], function () {
-  return compileSCSS().then(pack);
+  return compileSCSS()
+  .then(pack)
 });
 
 gulp.task('clean', clean);
-
