@@ -6,37 +6,67 @@
 // <VALUE Other_Value='attr_value'>value</VALUE>
 // <VALUE_DECODE>'the decoded value'</VALUE_DECODE>
 
+const OTHER_VALUE = 'other';
+
 export default class PicklistModel {
-  constructor(name, value, decode, attrValue, status) {
-    if (name && typeof name === 'object') {
-      this._initObj(name);
-    } else if (name && value && decode && !attrValue) {
-      this._initNoExt(name, value, decode, status);
-    } else if (name && attrValue) {
-      this._initExt(name, value, decode, attrValue, status);
+  constructor(typename, value, decode, attrValue, status) {
+    if (typename && typeof typename === 'object') {
+      this._initObj(typename);
+    } else if (typename && value && decode && !attrValue) {
+      this._initNoExt(typename, value, decode, status);
+    } else if (typename && attrValue) {
+      this._initExt(typename, value, decode, attrValue, status);
+    } else if (typename && typeof typename === 'string' && !value && !decode && !attrValue && !status) {
+      this._initNoExt(typename);
     } else {
-      console.log('Error: wrong use PicklistModel constructor with Name: [' + name + '] / Value: [' + value + ']');
+      console.log('Error: wrong using of PicklistModel constructor with Type_Name: [' + typename + '] / Value: [' + value + ']');
     }
   }
 
-  _initExt(name, value, decode, attrValue, status) {
-    this._initNoExt(name, value, decode, status);
+  _initExt(typename, value, decode, attrValue, status) {
+    this._initNoExt(typename, value, decode, status);
     this.VALUE_DECODE = attrValue;
     this.isExt = true;
   }
 
-  _initNoExt(name, value, decode, status) {
+  _initNoExt(typename, value, decode, status) {
     this._id = null;
-    this.NAME = name;
+    this.TYPE_NAME = typename;
     this.VALUE = value;
     this.VALUE_DECODE = decode;
-    this.STATUS = status;
+    this.STATUS = status ? status : 'enabled';
     this.isExt = false;
   }
 
   _initObj(obj) {
     Object.assign(this, obj);
   }
+
+  toGhstsJson() {
+    let output = {};
+    if (this.isExt) {
+      output = {
+        VALUE: {
+          '_': this.getOtherValue(),
+          'attr$': {
+            'Other_Value': this.VALUE.length > 0 ? this.VALUE : this.VALUE_DECODE
+          }
+        },
+        VALUE_DECODE: this.VALUE_DECODE
+      };
+    }
+    else {
+      output = {
+        VALUE: this.VALUE,
+        VALUE_DECODE: this.VALUE_DECODE
+      };
+    }
+    return output;
+  }
+
+  static getOtherValue() {
+    return OTHER_VALUE;
+  } 
 }
 
 // Matches non extensible types, whose form is

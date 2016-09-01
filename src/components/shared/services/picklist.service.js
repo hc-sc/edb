@@ -6,8 +6,9 @@ const Nedb = require('nedb');
 //import Nedb from 'nedb'; 
 import { PicklistModel } from '../shared.model';
 
+const standardsPath = path.resolve(fs.realpathSync('./'), 'standards');
 const dbPath = path.resolve(fs.realpathSync('./'), 'data');
-const version = path.resolve(dbPath, 'ghsts-picklists.xsd');
+const version = path.resolve(standardsPath, 'ghsts-picklists.xsd');
 const filename = path.resolve(dbPath, 'pickListTypes.db');
 
 /*const moduleName = 'app.picklistService';
@@ -45,7 +46,7 @@ export default class PickListService {
     // make sure we aren't duplicating entries when we reload...
     this.pickListTypes.find({}, (err, results) => {
       if (results.length === 0) {
-        console.log('Loading pick lists from XSD');
+        console.log('Loading pick lists from XSD from ' + version);
 
         fs.readFile(version, { encoding: 'utf8' }, (err, data) => {
           if (err) throw err;
@@ -106,23 +107,9 @@ export default class PickListService {
           if (err) reject(err);
 
           let types = [];
-          if (typeName.indexOf('EXTENSION') >= 0) {
-            types = results.map(item => {
-              return new ExtValueStruct(
-                item.VALUE,
-                item.VALUE_DECODE
-              );
-            });
-          }
-          else {
-            types = results.map(item => {
-              return new ValueStruct(
-                item.VALUE,
-                item.VALUE_DECODE
-              );
-            });
-          }
-
+          types = results.map(item => {
+            return new PicklistModel(item);
+          });
           resolve(types);
         });
     });
@@ -419,7 +406,7 @@ export default class PickListService {
   }
 
   getOtherValue() {
-    return 'other';
+    return PicklistModel.getOtherValue();
   }
 }
 

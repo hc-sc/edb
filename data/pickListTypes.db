@@ -1,478 +1,478 @@
-{"name":"EXTENSION_TYPE_ADMIN_NUMBER_TYPE","VALUE":"Application Number","VALUE_DECODE":"Application Number","STATUS":"enabled","isExt":false,"_id":"BWH3nRQTMNQxDtC9"}
-{"name":"EXTENSION_TYPE_ADMIN_NUMBER_TYPE","VALUE":"BVL Kenn-Nr.","VALUE_DECODE":"BVL Kenn-Nr.","STATUS":"enabled","isExt":false,"_id":"GkhJO7VGJ6TDQQZa"}
-{"name":"EXTENSION_TYPE_ADMIN_NUMBER_TYPE","VALUE":"EPA Decision No","VALUE_DECODE":"EPA Decision No","STATUS":"enabled","isExt":false,"_id":"FGySJMDxW656IqDR"}
-{"name":"EXTENSION_TYPE_ADMIN_NUMBER_TYPE","VALUE":"Experimental Use Permit","VALUE_DECODE":"Experimental Use Permit","STATUS":"enabled","isExt":false,"_id":"zRSlDv1MFSFgqyJD"}
-{"name":"EXTENSION_TYPE_ADMIN_NUMBER_TYPE","VALUE":"Inert Ingredient clearance request","VALUE_DECODE":"Inert Ingredient clearance request","STATUS":"enabled","isExt":false,"_id":"CUWwlOrBhxshgS6b"}
-{"name":"EXTENSION_TYPE_ADMIN_NUMBER_TYPE","VALUE":"PMRA Decision No","VALUE_DECODE":"PMRA Decision No","STATUS":"enabled","isExt":false,"_id":"3yR7paSOBDxrTchN"}
-{"name":"EXTENSION_TYPE_ADMIN_NUMBER_TYPE","VALUE":"PRIA Pre-application","VALUE_DECODE":"PRIA Pre-application","STATUS":"enabled","isExt":false,"_id":"owTsuSdlRPd7G3Za"}
-{"name":"EXTENSION_TYPE_ADMIN_NUMBER_TYPE","VALUE":"Section 3 product","VALUE_DECODE":"Section 3 product","STATUS":"enabled","isExt":false,"_id":"FsJ3wjSA9Le9Ijwl"}
-{"name":"EXTENSION_TYPE_ADMIN_NUMBER_TYPE","VALUE":"Tolerance Petition","VALUE_DECODE":"Tolerance Petition","STATUS":"enabled","isExt":false,"_id":"qn7HmtTlHZ6oTsN2"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"6(a)(2) submission","VALUE_DECODE":"6(a)(2) submission","STATUS":"enabled","isExt":false,"_id":"qucD1Y70Db2iKMPo"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"A1 - New active","VALUE_DECODE":"A1 - New active","STATUS":"enabled","isExt":false,"_id":"Gapco83u9scGyOhr"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"A2 - Known active","VALUE_DECODE":"A2 - Known active","STATUS":"enabled","isExt":false,"_id":"Rz6Sq9VCvZww4Yrk"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"ACVM Registration","VALUE_DECODE":"ACVM Registration","STATUS":"enabled","isExt":false,"_id":"B6c1bxGI4lINMO5o"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Amendment","VALUE_DECODE":"Amendment","STATUS":"enabled","isExt":false,"_id":"51aYTIBg7MgNyZga"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"B1 - Identical","VALUE_DECODE":"B1 - Identical","STATUS":"enabled","isExt":false,"_id":"4ULjE6ywCXkY6fOo"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"B2 - Similar","VALUE_DECODE":"B2 - Similar","STATUS":"enabled","isExt":false,"_id":"nXYrjifFdby92PAE"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"C1 - Formulation","VALUE_DECODE":"C1 - Formulation","STATUS":"enabled","isExt":false,"_id":"D0ucD6sdYqLAC5Ew"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"C10 - Reassessment","VALUE_DECODE":"C10 - Reassessment","STATUS":"enabled","isExt":false,"_id":"pStRsed4P7x2pVaS"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"C11 - Refilling/Se","VALUE_DECODE":"C11 - Refilling/Se","STATUS":"enabled","isExt":false,"_id":"BLxUNX4AQeBmwzDT"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"C12 - Registration Condition Change","VALUE_DECODE":"C12 - Registration Condition Change","STATUS":"enabled","isExt":false,"_id":"5D2XhFMvSXSvinbk"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"C2 - Manufacturing","VALUE_DECODE":"C2 - Manufacturing","STATUS":"enabled","isExt":false,"_id":"D5ih78x6IdHmhckZ"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"C3 - Shelf life/pa","VALUE_DECODE":"C3 - Shelf life/pa","STATUS":"enabled","isExt":false,"_id":"i6fLAQuE4QxbuAhP"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"C4 - Target host","VALUE_DECODE":"C4 - Target host","STATUS":"enabled","isExt":false,"_id":"C0KYvAemPQM3QSNF"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"C5 - Pest/disease","VALUE_DECODE":"C5 - Pest/disease","STATUS":"enabled","isExt":false,"_id":"o16kuNaGaQSW1WrC"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"C6 - Dose/rate","VALUE_DECODE":"C6 - Dose/rate","STATUS":"enabled","isExt":false,"_id":"hj7D4xcvOSaWIDid"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"C7 - Admin method","VALUE_DECODE":"C7 - Admin method","STATUS":"enabled","isExt":false,"_id":"sQyYalc0ozU6Irfg"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"C8 - WHP","VALUE_DECODE":"C8 - WHP","STATUS":"enabled","isExt":false,"_id":"GbLWLzzdHA0HTwns"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"C9 - Admin change","VALUE_DECODE":"C9 - Admin change","STATUS":"enabled","isExt":false,"_id":"V3M8nw9ajBjcizxr"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"C9 - Reg Renewal","VALUE_DECODE":"C9 - Reg Renewal","STATUS":"enabled","isExt":false,"_id":"lVHpsZUgyCSBJy1Q"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Cat A: Similar product already registered (cite approval number of precedent product in the cover letter), EPA  approval","VALUE_DECODE":"Cat A: Similar product already registered (cite approval number of precedent product in the cover letter), EPA  approval","STATUS":"enabled","isExt":false,"_id":"KmYfvuz4SbURLbFu"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Cat B: New or amended label statements, EPA  approval","VALUE_DECODE":"Cat B: New or amended label statements, EPA  approval","STATUS":"enabled","isExt":false,"_id":"O62091zzoCdTEVy0"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Cat B: New or amended product chemistry, EPA approval","VALUE_DECODE":"Cat B: New or amended product chemistry, EPA approval","STATUS":"enabled","isExt":false,"_id":"itce91dVx7nZcxG2"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Cat B: Other (specify in the cover letter), EPA approval","VALUE_DECODE":"Cat B: Other (specify in the cover letter), EPA approval","STATUS":"enabled","isExt":false,"_id":"Ix8GVMn7XXC0TEz4"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Cat C: New active ingredient, EPA approval","VALUE_DECODE":"Cat C: New active ingredient, EPA approval","STATUS":"enabled","isExt":false,"_id":"jk5A5qDG0jgO62H0"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category A: New Active Ingredient, Canadian Registration","VALUE_DECODE":"Category A: New Active Ingredient, Canadian Registration","STATUS":"enabled","isExt":false,"_id":"ivNSOz7ygZpOgVQF"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category A: New Active Ingredient, Import MRL only","VALUE_DECODE":"Category A: New Active Ingredient, Import MRL only","STATUS":"enabled","isExt":false,"_id":"DfPWDJfiJ4BcmrPM"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category A: New Active Ingredient, Minor New Use","VALUE_DECODE":"Category A: New Active Ingredient, Minor New Use","STATUS":"enabled","isExt":false,"_id":"wvSStMv9fvpZS3Y0"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category A: New Active Ingredient, URMUR","VALUE_DECODE":"Category A: New Active Ingredient, URMUR","STATUS":"enabled","isExt":false,"_id":"bRYB7CU7JbcrEqE3"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category B: Conversion/Renewal of Conditional Registration","VALUE_DECODE":"Category B: Conversion/Renewal of Conditional Registration","STATUS":"enabled","isExt":false,"_id":"kLDu20QsoP5MvoTV"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category B: Emergency Registration","VALUE_DECODE":"Category B: Emergency Registration","STATUS":"enabled","isExt":false,"_id":"hBxqP6zNt7QebQdn"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category B: New MRL(s) for previously assessed active ingredient","VALUE_DECODE":"Category B: New MRL(s) for previously assessed active ingredient","STATUS":"enabled","isExt":false,"_id":"nj2S7mNwMWJox6NI"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category B: New or amended label statements","VALUE_DECODE":"Category B: New or amended label statements","STATUS":"enabled","isExt":false,"_id":"9o9laOdP2Pl2i7vz"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category B: New or amended product chemistry","VALUE_DECODE":"Category B: New or amended product chemistry","STATUS":"enabled","isExt":false,"_id":"k8xrFS7aftSxHqAR"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category B: Other (specify in the cover letter)","VALUE_DECODE":"Category B: Other (specify in the cover letter)","STATUS":"enabled","isExt":false,"_id":"PiQHMG0csoc0BCV0"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category C: New or amended label statements","VALUE_DECODE":"Category C: New or amended label statements","STATUS":"enabled","isExt":false,"_id":"ADPLfJ52cFnMZumX"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category C: New or amended product chemistry","VALUE_DECODE":"Category C: New or amended product chemistry","STATUS":"enabled","isExt":false,"_id":"FBPCg7D6axdCjq5q"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category C: Reinstatement of Previously Registered Product","VALUE_DECODE":"Category C: Reinstatement of Previously Registered Product","STATUS":"enabled","isExt":false,"_id":"9uiXIoFRaAdo8Ai8"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category C: Similar product or use already registered (cite Registration number of precedent product in the cover letter)","VALUE_DECODE":"Category C: Similar product or use already registered (cite Registration number of precedent product in the cover letter)","STATUS":"enabled","isExt":false,"_id":"nrRB0SPLh1tRGjF7"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category D: IMEP","VALUE_DECODE":"Category D: IMEP","STATUS":"enabled","isExt":false,"_id":"Y0yqSA7En0prVMIf"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category D: Label Improvement Program","VALUE_DECODE":"Category D: Label Improvement Program","STATUS":"enabled","isExt":false,"_id":"vNI2b54JCTwb16gy"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category D: New Master Copy based on Master Product (specify in the cover letter)","VALUE_DECODE":"Category D: New Master Copy based on Master Product (specify in the cover letter)","STATUS":"enabled","isExt":false,"_id":"fdo9qcpVIrNNN6bn"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category D: New Minor Use","VALUE_DECODE":"Category D: New Minor Use","STATUS":"enabled","isExt":false,"_id":"o56T2saF4PDBXA1w"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category D: New Private Label","VALUE_DECODE":"Category D: New Private Label","STATUS":"enabled","isExt":false,"_id":"H7MUoiFyObpqg5jj"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category D: Renewal","VALUE_DECODE":"Category D: Renewal","STATUS":"enabled","isExt":false,"_id":"MbDoRDaGK0e0VygM"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category E: Research Authorization","VALUE_DECODE":"Category E: Research Authorization","STATUS":"enabled","isExt":false,"_id":"2EnBx6XfOXittkGn"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category F: Administrative changes: Change in source of registered active ingredient","VALUE_DECODE":"Category F: Administrative changes: Change in source of registered active ingredient","STATUS":"enabled","isExt":false,"_id":"KTIX2eCliOsjedYm"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category F: Administrative changes: Other (specify in the cover letter)","VALUE_DECODE":"Category F: Administrative changes: Other (specify in the cover letter)","STATUS":"enabled","isExt":false,"_id":"52B1sDPnp7Hw2PW4"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category F: Administrative changes: Registration or addition of minor use","VALUE_DECODE":"Category F: Administrative changes: Registration or addition of minor use","STATUS":"enabled","isExt":false,"_id":"4g7j8Zy1iQIBtzhd"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category F: Discontinue a registered product","VALUE_DECODE":"Category F: Discontinue a registered product","STATUS":"enabled","isExt":false,"_id":"32C8CJNoZ91M6WRr"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category G: Submit Information as a Third Party","VALUE_DECODE":"Category G: Submit Information as a Third Party","STATUS":"enabled","isExt":false,"_id":"sGjOnMNhtszr5S9v"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category G: Voluntary Submission of Data","VALUE_DECODE":"Category G: Voluntary Submission of Data","STATUS":"enabled","isExt":false,"_id":"i9JjEsQ3fHkTRZDg"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category H: Submit a Notice of Objection","VALUE_DECODE":"Category H: Submit a Notice of Objection","STATUS":"enabled","isExt":false,"_id":"fz359Cn0ztgFjeGN"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category R: Data for Re-evaluation","VALUE_DECODE":"Category R: Data for Re-evaluation","STATUS":"enabled","isExt":false,"_id":"9nOpibmgOf7h5Qqc"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category R: Request a Special Review","VALUE_DECODE":"Category R: Request a Special Review","STATUS":"enabled","isExt":false,"_id":"Kjd88lWdMLSyak8g"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category S: Sales Report","VALUE_DECODE":"Category S: Sales Report","STATUS":"enabled","isExt":false,"_id":"6S0PuAhtl7UwiTPq"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category X: Incident Report","VALUE_DECODE":"Category X: Incident Report","STATUS":"enabled","isExt":false,"_id":"Bs95dNQCeHldQHYd"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Change in source of registered active ingredient","VALUE_DECODE":"Change in source of registered active ingredient","STATUS":"enabled","isExt":false,"_id":"4KR82HZTqXpk77kf"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Containment","VALUE_DECODE":"Containment","STATUS":"enabled","isExt":false,"_id":"spMmDRfmXfLuS9aY"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"DAS","VALUE_DECODE":"DAS","STATUS":"enabled","isExt":false,"_id":"rko8V65ZjjrCYIA0"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"EPA OPPTS","VALUE_DECODE":"EPA OPPTS","STATUS":"enabled","isExt":false,"_id":"OZDhSdjjNtmMvJNG"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"EU OECD dRR","VALUE_DECODE":"EU OECD dRR","STATUS":"enabled","isExt":false,"_id":"1AdB5dCrSpZCnt3z"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Joint Review, other","VALUE_DECODE":"Joint Review, other","STATUS":"enabled","isExt":false,"_id":"2rTU8pHfKQxjQxO5"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"New application","VALUE_DECODE":"New application","STATUS":"enabled","isExt":false,"_id":"qsXVC1k41N1Okah7"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"OECD Annex II","VALUE_DECODE":"OECD Annex II","STATUS":"enabled","isExt":false,"_id":"EyaptQ8jjfSGYvOQ"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"OECD Annex II Joint Review","VALUE_DECODE":"OECD Annex II Joint Review","STATUS":"enabled","isExt":false,"_id":"5SP4tutgZPOJ17sg"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"OECD Annex III","VALUE_DECODE":"OECD Annex III","STATUS":"enabled","isExt":false,"_id":"5Qqjx0bTD2nPzbyz"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"PMRA DACO","VALUE_DECODE":"PMRA DACO","STATUS":"enabled","isExt":false,"_id":"U4sji4JPH3X5pqaF"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Provisional","VALUE_DECODE":"Provisional","STATUS":"enabled","isExt":false,"_id":"3rv7QzAAvUmCLC3P"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Rapid: lesser degree of hazard than an approved substance","VALUE_DECODE":"Rapid: lesser degree of hazard than an approved substance","STATUS":"enabled","isExt":false,"_id":"i0xjA701RUKUK6Dz"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Rapid: low hazard","VALUE_DECODE":"Rapid: low hazard","STATUS":"enabled","isExt":false,"_id":"xMWmBu9A2t3JhLzn"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Rapid: similar substance","VALUE_DECODE":"Rapid: similar substance","STATUS":"enabled","isExt":false,"_id":"seKUVqX7fXWzzC0w"}
-{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Research Approval","VALUE_DECODE":"Research Approval","STATUS":"enabled","isExt":false,"_id":"pH836dIa8U5p9Ag8"}
-{"name":"TYPE_CONTENT_STATUS","VALUE":"Modified","VALUE_DECODE":"Modified","STATUS":"enabled","isExt":false,"_id":"gfLhhmVV0dqPKtgy"}
-{"name":"TYPE_CONTENT_STATUS","VALUE":"New","VALUE_DECODE":"New","STATUS":"enabled","isExt":false,"_id":"5FTDxjP7HUSsarrS"}
-{"name":"TYPE_CONTENT_STATUS","VALUE":"No Change","VALUE_DECODE":"No Change","STATUS":"enabled","isExt":false,"_id":"iC6HU3IUNRaxo6jB"}
-{"name":"TYPE_CONTENT_STATUS","VALUE":"Replace","VALUE_DECODE":"Replace","STATUS":"enabled","isExt":false,"_id":"IzC3UW6fzyool4v7"}
-{"name":"TYPE_CONTENT_STATUS","VALUE":"Retired","VALUE_DECODE":"Retired","STATUS":"enabled","isExt":false,"_id":"0giBXeclt3UZ2MMi"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"AD","VALUE_DECODE":"Andorra","STATUS":"enabled","isExt":false,"_id":"Ai6xHf5QaOwzUKIi"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"AE","VALUE_DECODE":"United Arab Emirates","STATUS":"enabled","isExt":false,"_id":"tG38XKSfyjNNgNix"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"AF","VALUE_DECODE":"Afghanistan","STATUS":"enabled","isExt":false,"_id":"a2WZi49O9gXXHbl9"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"AG","VALUE_DECODE":"Antigua and Barbuda","STATUS":"enabled","isExt":false,"_id":"hLWKqgVrrbUB5PaJ"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"AI","VALUE_DECODE":"Anguilla","STATUS":"enabled","isExt":false,"_id":"VN5CHhZcGP1i7riM"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"AL","VALUE_DECODE":"Albania","STATUS":"enabled","isExt":false,"_id":"ZF9ei80GhvdijLyx"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"AM","VALUE_DECODE":"Armenia","STATUS":"enabled","isExt":false,"_id":"gRhl054Htgzn3Ctx"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"AO","VALUE_DECODE":"Angola","STATUS":"enabled","isExt":false,"_id":"sgQHyncnu5ORzw5A"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"AQ","VALUE_DECODE":"Antarctica","STATUS":"enabled","isExt":false,"_id":"VP649qNRNkY8IHme"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"AR","VALUE_DECODE":"Argentina","STATUS":"enabled","isExt":false,"_id":"6mVvfzLG0b16jdD5"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"AS","VALUE_DECODE":"American Samoa","STATUS":"enabled","isExt":false,"_id":"gY6BFkLDdqhVK8ne"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"AT","VALUE_DECODE":"Austria","STATUS":"enabled","isExt":false,"_id":"8sryQ9EeBpPyRckf"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"AU","VALUE_DECODE":"Australia","STATUS":"enabled","isExt":false,"_id":"ipBqgzHX8zD3ijx3"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"AW","VALUE_DECODE":"Aruba","STATUS":"enabled","isExt":false,"_id":"5WK2VM70CRj6DRW2"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"AX","VALUE_DECODE":"Åland","STATUS":"enabled","isExt":false,"_id":"K3h8jV8VD1wkXp0Q"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"AZ","VALUE_DECODE":"Azerbaijan","STATUS":"enabled","isExt":false,"_id":"VshEfRKLshZ0Axo5"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BA","VALUE_DECODE":"Bosnia and Herzegovina","STATUS":"enabled","isExt":false,"_id":"mdPTb4AblIMMWXLY"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BB","VALUE_DECODE":"Barbados","STATUS":"enabled","isExt":false,"_id":"RkfZ2KXzTMzoKnqS"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BD","VALUE_DECODE":"Bangladesh","STATUS":"enabled","isExt":false,"_id":"BkMAyfYLkGLFMkvX"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BE","VALUE_DECODE":"Belgium","STATUS":"enabled","isExt":false,"_id":"9Rxa3G0gc1rNUr4M"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BF","VALUE_DECODE":"Burkina Faso","STATUS":"enabled","isExt":false,"_id":"q5AAd1j53uM0byoA"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BG","VALUE_DECODE":"Bulgaria","STATUS":"enabled","isExt":false,"_id":"5URP138PHmTqmKpi"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BH","VALUE_DECODE":"Bahrain","STATUS":"enabled","isExt":false,"_id":"uhytakiIlFRu7yR8"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BI","VALUE_DECODE":"Burundi","STATUS":"enabled","isExt":false,"_id":"9uWAC7ZvSKfSkhGp"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BJ","VALUE_DECODE":"Benin","STATUS":"enabled","isExt":false,"_id":"E82GOGd2veWvfD5p"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BL","VALUE_DECODE":"Saint Barthélemy","STATUS":"enabled","isExt":false,"_id":"RVXtqMaw0RNSOrIe"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BM","VALUE_DECODE":"Bermuda","STATUS":"enabled","isExt":false,"_id":"HpnBLX9xHSzXEh32"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BN","VALUE_DECODE":"Brunei Darussalam","STATUS":"enabled","isExt":false,"_id":"HQSuRvS5cybAHMT7"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BO","VALUE_DECODE":"Bolivia (Plurinational State of)","STATUS":"enabled","isExt":false,"_id":"Lg5ru5xBR4TnpqDg"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BQ","VALUE_DECODE":"Bonaire, Sint Eustatius and Saba","STATUS":"enabled","isExt":false,"_id":"xmIOX6zzNtldzu8t"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BR","VALUE_DECODE":"Brazil","STATUS":"enabled","isExt":false,"_id":"SKpqbxhpQOjQDlHY"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BS","VALUE_DECODE":"Bahamas","STATUS":"enabled","isExt":false,"_id":"ZDsqZkMAn8BvGyx0"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BT","VALUE_DECODE":"Bhutan","STATUS":"enabled","isExt":false,"_id":"bi4z7SU7OjsjncMF"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BV","VALUE_DECODE":"Bouvet Island","STATUS":"enabled","isExt":false,"_id":"40yivyelv8eRvdjT"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BW","VALUE_DECODE":"Botswana","STATUS":"enabled","isExt":false,"_id":"wM9YOrtN3vGIGIG6"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BY","VALUE_DECODE":"Belarus","STATUS":"enabled","isExt":false,"_id":"vHU8JWGNvb2VUeYo"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BZ","VALUE_DECODE":"Belize","STATUS":"enabled","isExt":false,"_id":"KaS7xQw5jVsJ35yD"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CA","VALUE_DECODE":"Canada","STATUS":"enabled","isExt":false,"_id":"3gD0eh7wBkGxVIH1"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CC","VALUE_DECODE":"Cocos (Keeling) Islands","STATUS":"enabled","isExt":false,"_id":"XKFzWULn3W433P0e"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CD","VALUE_DECODE":"Democratic Republic of the Congo","STATUS":"enabled","isExt":false,"_id":"aDSJVWBKRaM545C7"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CF","VALUE_DECODE":"Central African Republic","STATUS":"enabled","isExt":false,"_id":"kzJ8B8diOY42fYcG"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CG","VALUE_DECODE":"Congo","STATUS":"enabled","isExt":false,"_id":"ywhVgiuEnxVKxv5O"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CH","VALUE_DECODE":"Switzerland","STATUS":"enabled","isExt":false,"_id":"Dz81L3o0YcESuskX"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CI","VALUE_DECODE":"Côte d'Ivoire","STATUS":"enabled","isExt":false,"_id":"gWCrDdTINqU0UPGW"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CK","VALUE_DECODE":"Cook Islands","STATUS":"enabled","isExt":false,"_id":"4nvSnoRlhj9EAKCr"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CL","VALUE_DECODE":"Chile","STATUS":"enabled","isExt":false,"_id":"u5Xwcf1SWTTxirqV"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CM","VALUE_DECODE":"Cameroon","STATUS":"enabled","isExt":false,"_id":"6CX5GIAM9yzE81M2"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CN","VALUE_DECODE":"China","STATUS":"enabled","isExt":false,"_id":"D0iEU8ipVT862Gkl"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CO","VALUE_DECODE":"Colombia","STATUS":"enabled","isExt":false,"_id":"akBHiVtd6xOr1M6K"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CR","VALUE_DECODE":"Costa Rica","STATUS":"enabled","isExt":false,"_id":"F0pwtgIdjC7NNbNg"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CU","VALUE_DECODE":"Cuba","STATUS":"enabled","isExt":false,"_id":"yunSfUF57Ig4jd85"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CV","VALUE_DECODE":"Cape Verde","STATUS":"enabled","isExt":false,"_id":"17lSNHZ4WMIInwGy"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CW","VALUE_DECODE":"Curaçao","STATUS":"enabled","isExt":false,"_id":"s8V9kzKGZ42V22AL"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CX","VALUE_DECODE":"Christmas Island","STATUS":"enabled","isExt":false,"_id":"3jYxfTaFOVCUGr8q"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CY","VALUE_DECODE":"Cyprus","STATUS":"enabled","isExt":false,"_id":"shzGLU08NJoL7MXE"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CZ","VALUE_DECODE":"Czech Republic","STATUS":"enabled","isExt":false,"_id":"VAexvPz69V451jXg"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"DE","VALUE_DECODE":"Germany","STATUS":"enabled","isExt":false,"_id":"qT7bwoLRTIYuK2YS"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"DJ","VALUE_DECODE":"Djibouti","STATUS":"enabled","isExt":false,"_id":"iEcPtKxi73i9tMhb"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"DK","VALUE_DECODE":"Denmark","STATUS":"enabled","isExt":false,"_id":"dDRAoDlCaiGXYRuj"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"DM","VALUE_DECODE":"Dominica","STATUS":"enabled","isExt":false,"_id":"fsc2A9RiEwe80Hs8"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"DO","VALUE_DECODE":"Dominican Republic","STATUS":"enabled","isExt":false,"_id":"KbOI6SOmM8Z4d6HB"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"DZ","VALUE_DECODE":"Algeria","STATUS":"enabled","isExt":false,"_id":"7vV4ws4YHu2A2QZy"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"EC","VALUE_DECODE":"Ecuador","STATUS":"enabled","isExt":false,"_id":"MOepkyCFmBcuCm3q"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"EE","VALUE_DECODE":"Estonia","STATUS":"enabled","isExt":false,"_id":"R6PX6VQZVEqPhT2k"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"EG","VALUE_DECODE":"Egypt","STATUS":"enabled","isExt":false,"_id":"Nr1oCRGRQNryLoji"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"EH","VALUE_DECODE":"Western Sahara","STATUS":"enabled","isExt":false,"_id":"pwT03A9V9WlNZqN2"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"ER","VALUE_DECODE":"Eritrea","STATUS":"enabled","isExt":false,"_id":"JTLNzrM7hSBt2IHF"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"ES","VALUE_DECODE":"Spain","STATUS":"enabled","isExt":false,"_id":"rBHuslHvaFYsiHxj"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"ET","VALUE_DECODE":"Ethiopia","STATUS":"enabled","isExt":false,"_id":"1Ie2qJyJ6O4VaptC"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"FI","VALUE_DECODE":"Finland","STATUS":"enabled","isExt":false,"_id":"XvBr1JR0v1vkIBN9"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"FJ","VALUE_DECODE":"Fiji","STATUS":"enabled","isExt":false,"_id":"CWVHHIw2rko2uDtE"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"FM","VALUE_DECODE":"Micronesia (Federated States of)","STATUS":"enabled","isExt":false,"_id":"FwJBuowILYizzYHF"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"FO","VALUE_DECODE":"Faroe Islands","STATUS":"enabled","isExt":false,"_id":"e56s6IgdL52ZOXKu"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"FR","VALUE_DECODE":"France","STATUS":"enabled","isExt":false,"_id":"WeUC5fxJYcNZhaXk"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GA","VALUE_DECODE":"Gabon","STATUS":"enabled","isExt":false,"_id":"49jDQ6MZIf6kQXht"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GB","VALUE_DECODE":"United Kingdom","STATUS":"enabled","isExt":false,"_id":"xnkAwvYSuU7jz3zO"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GD","VALUE_DECODE":"Grenada","STATUS":"enabled","isExt":false,"_id":"Ni8iVhNo238VLATX"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GE","VALUE_DECODE":"Georgia","STATUS":"enabled","isExt":false,"_id":"DSk0rjCzrFBFQhMp"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GF","VALUE_DECODE":"French Guiana","STATUS":"enabled","isExt":false,"_id":"YqRKZOTltqA2X6Rf"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GG","VALUE_DECODE":"Guernsey","STATUS":"enabled","isExt":false,"_id":"TrysFnJCzhLSNRdy"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GH","VALUE_DECODE":"Ghana","STATUS":"enabled","isExt":false,"_id":"PxhQAy1kpuoiZYv6"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GI","VALUE_DECODE":"Gibraltar","STATUS":"enabled","isExt":false,"_id":"gJm088TccYQGBMnA"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GL","VALUE_DECODE":"Greenland","STATUS":"enabled","isExt":false,"_id":"TGwr24NhQ3hirz0M"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GM","VALUE_DECODE":"Gambia","STATUS":"enabled","isExt":false,"_id":"rswvMCJtKAXT6eOM"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GN","VALUE_DECODE":"Guinea","STATUS":"enabled","isExt":false,"_id":"OtLCuIBPhMrShzIM"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GP","VALUE_DECODE":"Guadeloupe","STATUS":"enabled","isExt":false,"_id":"2ydARBgYanlfyIWQ"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GQ","VALUE_DECODE":"Equatorial Guinea","STATUS":"enabled","isExt":false,"_id":"5HcaTmWxPKuuK286"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GR","VALUE_DECODE":"Greece","STATUS":"enabled","isExt":false,"_id":"cyWVx5zk1Uf9RlWy"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GS","VALUE_DECODE":"South Georgia and the South Sandwich Islands","STATUS":"enabled","isExt":false,"_id":"VpCApGMD2RiPL2o9"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GT","VALUE_DECODE":"Guatemala","STATUS":"enabled","isExt":false,"_id":"zuaNO3TN1lTiAyhr"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GU","VALUE_DECODE":"Guam","STATUS":"enabled","isExt":false,"_id":"hp57FfXLGP81719w"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GW","VALUE_DECODE":"Guinea-Bissau","STATUS":"enabled","isExt":false,"_id":"scYmuQFmP4yFpbEz"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GY","VALUE_DECODE":"Guyana","STATUS":"enabled","isExt":false,"_id":"Be4DbDZAt9vbAgTI"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"HK","VALUE_DECODE":"Hong Kong, China","STATUS":"enabled","isExt":false,"_id":"v0AM0zuM13lWgiHP"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"HM","VALUE_DECODE":"Heard Island and McDonald Islands","STATUS":"enabled","isExt":false,"_id":"ARRFqh0F55RsLfrr"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"HN","VALUE_DECODE":"Honduras","STATUS":"enabled","isExt":false,"_id":"xkRGH2iGoxZE8e2O"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"HR","VALUE_DECODE":"Croatia","STATUS":"enabled","isExt":false,"_id":"1kmn5ZkaaWjfn95s"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"HT","VALUE_DECODE":"Haiti","STATUS":"enabled","isExt":false,"_id":"lxIFy6ISYhuENRxj"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"HU","VALUE_DECODE":"Hungary","STATUS":"enabled","isExt":false,"_id":"hl2PsYc3lBMKLvzv"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"ID","VALUE_DECODE":"Indonesia","STATUS":"enabled","isExt":false,"_id":"cKjlmZ7Z1UzX6FCt"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"IE","VALUE_DECODE":"Ireland","STATUS":"enabled","isExt":false,"_id":"ARqH9CEYuZOwJT2s"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"IL","VALUE_DECODE":"Israel","STATUS":"enabled","isExt":false,"_id":"Dc2qAp4YAz00y8WL"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"IM","VALUE_DECODE":"Isle of man","STATUS":"enabled","isExt":false,"_id":"CWwobORfPsHVN5MS"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"IN","VALUE_DECODE":"India","STATUS":"enabled","isExt":false,"_id":"sU8edB4VdxdzRJAV"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"IO","VALUE_DECODE":"British Indian Ocean Territory","STATUS":"enabled","isExt":false,"_id":"Tqi2r6tHzl2fndhh"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"IQ","VALUE_DECODE":"Iraq","STATUS":"enabled","isExt":false,"_id":"a5eUH0066r7FbskQ"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"IR","VALUE_DECODE":"Iran (Islamic Republic of)","STATUS":"enabled","isExt":false,"_id":"0cMkw4ayoB51g1Ld"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"IS","VALUE_DECODE":"Iceland","STATUS":"enabled","isExt":false,"_id":"hxICfuaUvFCXpjMj"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"IT","VALUE_DECODE":"Italy","STATUS":"enabled","isExt":false,"_id":"t70UXpnfQVkfAs6W"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"JE","VALUE_DECODE":"Jersey","STATUS":"enabled","isExt":false,"_id":"bOqOSiEoxgZHCZeC"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"JM","VALUE_DECODE":"Jamaica","STATUS":"enabled","isExt":false,"_id":"0NjWoHEltxZBlvJu"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"JO","VALUE_DECODE":"Jordan","STATUS":"enabled","isExt":false,"_id":"2Z9oo6GUA8YhnKu1"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"JP","VALUE_DECODE":"Japan","STATUS":"enabled","isExt":false,"_id":"tj61haWb9G91eWgh"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"KE","VALUE_DECODE":"Kenya","STATUS":"enabled","isExt":false,"_id":"vegL0a5xWuJemUv9"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"KG","VALUE_DECODE":"Kyrgyzstan","STATUS":"enabled","isExt":false,"_id":"D9xEbrVOe8PgcBxW"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"KH","VALUE_DECODE":"Cambodia","STATUS":"enabled","isExt":false,"_id":"a7Km5nzV7CiiCWDn"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"KI","VALUE_DECODE":"Kiribati","STATUS":"enabled","isExt":false,"_id":"YyztwOic7v6fh9qM"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"KM","VALUE_DECODE":"Comoros","STATUS":"enabled","isExt":false,"_id":"DJO62QUIV6s5TjrZ"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"KN","VALUE_DECODE":"Saint Kitts and Nevis","STATUS":"enabled","isExt":false,"_id":"b9CUX0XkWefHEBSc"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"KP","VALUE_DECODE":"Democratic People's Republic of Korea","STATUS":"enabled","isExt":false,"_id":"v8KuDq0yyFwORKXW"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"KR","VALUE_DECODE":"Korea","STATUS":"enabled","isExt":false,"_id":"q2uF4GMH55ZDHTQE"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"KW","VALUE_DECODE":"Kuwait","STATUS":"enabled","isExt":false,"_id":"QyYKmQCODv8NksmJ"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"KY","VALUE_DECODE":"Cayman Islands","STATUS":"enabled","isExt":false,"_id":"gMY8fFghAqkIlFmQ"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"KZ","VALUE_DECODE":"Kazakhstan","STATUS":"enabled","isExt":false,"_id":"LyVDD0O0d6Lm7Pau"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"LA","VALUE_DECODE":"Lao People's Democratic Republic","STATUS":"enabled","isExt":false,"_id":"DrqfAsscLXaYnLJ5"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"LB","VALUE_DECODE":"Lebanon","STATUS":"enabled","isExt":false,"_id":"YSE4mYyTnBLARbdo"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"LC","VALUE_DECODE":"Saint Lucia","STATUS":"enabled","isExt":false,"_id":"GtG6zfipeBriMK7X"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"LI","VALUE_DECODE":"Liechtenstein","STATUS":"enabled","isExt":false,"_id":"8dQ2uzyDUUembj5n"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"LK","VALUE_DECODE":"Sri Lanka","STATUS":"enabled","isExt":false,"_id":"s9ZTgfq4OtmqBfaN"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"LR","VALUE_DECODE":"Liberia","STATUS":"enabled","isExt":false,"_id":"cZlphwC6xLDYD7Pn"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"LS","VALUE_DECODE":"Lesotho","STATUS":"enabled","isExt":false,"_id":"8L6hYkv3rVxHoDGt"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"LT","VALUE_DECODE":"Lithuania","STATUS":"enabled","isExt":false,"_id":"hCa0Cvk9DJE8ANlL"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"LU","VALUE_DECODE":"Luxembourg","STATUS":"enabled","isExt":false,"_id":"6QCM5eHYDVOYbJe0"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"LV","VALUE_DECODE":"Latvia","STATUS":"enabled","isExt":false,"_id":"3AmQp1eRQikupZKY"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"LY","VALUE_DECODE":"Libya","STATUS":"enabled","isExt":false,"_id":"HVkim6JOwdEZbw6W"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MA","VALUE_DECODE":"Morocco","STATUS":"enabled","isExt":false,"_id":"p9qTzco7MYfdFxNS"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MC","VALUE_DECODE":"Monaco","STATUS":"enabled","isExt":false,"_id":"z3RJFNnydEJ2im54"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MD","VALUE_DECODE":"Moldova (Republic of)","STATUS":"enabled","isExt":false,"_id":"bgLEbUopFCISxzbH"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"ME","VALUE_DECODE":"Montenegro","STATUS":"enabled","isExt":false,"_id":"l7uRfIWJdKgd8O2m"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MF","VALUE_DECODE":"Saint Martin","STATUS":"enabled","isExt":false,"_id":"xMCk0iV7ZNTxExkN"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MG","VALUE_DECODE":"Madagascar","STATUS":"enabled","isExt":false,"_id":"w3laUBDDGcEytReN"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MH","VALUE_DECODE":"Marshall Islands","STATUS":"enabled","isExt":false,"_id":"CaskmfQEzA488oOO"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MK","VALUE_DECODE":"Former Yugoslav Republic of Macédoine","STATUS":"enabled","isExt":false,"_id":"ixUxXBuZS1Ue5yRE"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"ML","VALUE_DECODE":"Mali","STATUS":"enabled","isExt":false,"_id":"c5zMRtLrC2HXvmdO"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MM","VALUE_DECODE":"Myanmar","STATUS":"enabled","isExt":false,"_id":"cmczKRY8r2AExckN"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MN","VALUE_DECODE":"Mongolia","STATUS":"enabled","isExt":false,"_id":"3x8nk9okI20erTme"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MO","VALUE_DECODE":"Macau, China","STATUS":"enabled","isExt":false,"_id":"2UpEM7E0Se3Ltv8D"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MP","VALUE_DECODE":"Northern Mariana Islands","STATUS":"enabled","isExt":false,"_id":"rPm2RBha43rNvuwC"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MQ","VALUE_DECODE":"Martinique","STATUS":"enabled","isExt":false,"_id":"uKyA74BXB5DZ01bj"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MR","VALUE_DECODE":"Mauritania","STATUS":"enabled","isExt":false,"_id":"6UaAQdR6sxOrvy5i"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MS","VALUE_DECODE":"Montserrat","STATUS":"enabled","isExt":false,"_id":"kYnXi2UEMhwKAHCd"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MT","VALUE_DECODE":"Malta","STATUS":"enabled","isExt":false,"_id":"DMIQEkN0jLXIJX3B"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MU","VALUE_DECODE":"Mauritius","STATUS":"enabled","isExt":false,"_id":"6V1sIXWN4nCk86FU"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MV","VALUE_DECODE":"Maldives","STATUS":"enabled","isExt":false,"_id":"6vb8SPo9mcPbhlsR"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MW","VALUE_DECODE":"Malawi","STATUS":"enabled","isExt":false,"_id":"LVBi137QlPbkQGNb"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MX","VALUE_DECODE":"Mexico","STATUS":"enabled","isExt":false,"_id":"BghbTWsMrVkDrltU"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MY","VALUE_DECODE":"Malaysia","STATUS":"enabled","isExt":false,"_id":"61lIZ3drypV3Ylax"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MZ","VALUE_DECODE":"Mozambique","STATUS":"enabled","isExt":false,"_id":"YBH0KknYn10BanM7"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"NA","VALUE_DECODE":"Namibia","STATUS":"enabled","isExt":false,"_id":"RYwNNyDI8t2QaZs1"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"NC","VALUE_DECODE":"New Caledonia","STATUS":"enabled","isExt":false,"_id":"V6YnFhxB2xTgejrJ"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"NE","VALUE_DECODE":"Niger","STATUS":"enabled","isExt":false,"_id":"O0GsUYE5CGZD0lPR"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"NF","VALUE_DECODE":"Norfolk Island","STATUS":"enabled","isExt":false,"_id":"acajN99NeK8J8Clj"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"NG","VALUE_DECODE":"Nigeria","STATUS":"enabled","isExt":false,"_id":"nUD0DKbEbf8UzwZ5"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"NI","VALUE_DECODE":"Nicaragua","STATUS":"enabled","isExt":false,"_id":"2ukBGz6naCmCxDZ0"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"NL","VALUE_DECODE":"Netherlands","STATUS":"enabled","isExt":false,"_id":"R8Gzl1pCtvuVHQtx"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"NO","VALUE_DECODE":"Norway","STATUS":"enabled","isExt":false,"_id":"XSXwFf6ToQX6nRZ1"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"NP","VALUE_DECODE":"Nepal","STATUS":"enabled","isExt":false,"_id":"fclBzvEXfTHUieYs"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"NR","VALUE_DECODE":"Nauru","STATUS":"enabled","isExt":false,"_id":"FbwDYUJYAddzlPPt"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"NU","VALUE_DECODE":"Niue","STATUS":"enabled","isExt":false,"_id":"gQ9rphX7prGpBTZh"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"NZ","VALUE_DECODE":"New Zealand","STATUS":"enabled","isExt":false,"_id":"UzdIQiZ51NH1cUk4"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"OM","VALUE_DECODE":"Oman","STATUS":"enabled","isExt":false,"_id":"6YpQ75OG7acjDuM6"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"PA","VALUE_DECODE":"Panama","STATUS":"enabled","isExt":false,"_id":"Ieu80HT6sfhz91lM"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"PE","VALUE_DECODE":"Peru","STATUS":"enabled","isExt":false,"_id":"t5dfTQUfN2rJdsc6"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"PF","VALUE_DECODE":"French Polynesia","STATUS":"enabled","isExt":false,"_id":"wOHk5xAPPMJqwwd4"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"PG","VALUE_DECODE":"Papua New Guinea","STATUS":"enabled","isExt":false,"_id":"MhIBNL4Pl2d8Znu5"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"PH","VALUE_DECODE":"Philippines","STATUS":"enabled","isExt":false,"_id":"vZ4uo6usxnaLD0j9"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"PK","VALUE_DECODE":"Pakistan","STATUS":"enabled","isExt":false,"_id":"0ca4IlUDC5L0PhL0"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"PL","VALUE_DECODE":"Poland","STATUS":"enabled","isExt":false,"_id":"memPyqdFVaMbUr3D"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"PM","VALUE_DECODE":"Saint Pierre and Miquelon","STATUS":"enabled","isExt":false,"_id":"c2R2PVQgBKvNSTvM"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"PN","VALUE_DECODE":"Pitcairn","STATUS":"enabled","isExt":false,"_id":"oJuADciYiTnp60Vr"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"PR","VALUE_DECODE":"Puerto Rico","STATUS":"enabled","isExt":false,"_id":"GyNbiWaU1vPszsdA"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"PS","VALUE_DECODE":"Palestinian Authority","STATUS":"enabled","isExt":false,"_id":"5kKQXY65WFxgDA3p"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"PT","VALUE_DECODE":"Portugal","STATUS":"enabled","isExt":false,"_id":"Oj57dr5fKfEIaOGY"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"PW","VALUE_DECODE":"Palau","STATUS":"enabled","isExt":false,"_id":"zh8cyyYEmucqpSXO"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"PY","VALUE_DECODE":"Paraguay","STATUS":"enabled","isExt":false,"_id":"tzRQ9MLCRSgPMBco"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"QA","VALUE_DECODE":"Qatar","STATUS":"enabled","isExt":false,"_id":"kpGY4pKq53nEITQk"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"RE","VALUE_DECODE":"Réunion","STATUS":"enabled","isExt":false,"_id":"BX77QTiqrtudsZ3x"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"RO","VALUE_DECODE":"Romania","STATUS":"enabled","isExt":false,"_id":"ERp1Y6KdKyaS4R4Q"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"RS","VALUE_DECODE":"Serbia","STATUS":"enabled","isExt":false,"_id":"XZZ3iiu02DE8y7ZD"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"RU","VALUE_DECODE":"Russian Federation","STATUS":"enabled","isExt":false,"_id":"ub1RpWTNYAVZvMEe"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"RW","VALUE_DECODE":"Rwanda","STATUS":"enabled","isExt":false,"_id":"9WnXKwR7lb7SOma6"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SA","VALUE_DECODE":"Saudi Arabia","STATUS":"enabled","isExt":false,"_id":"eskqx31Rtwj5u48L"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SB","VALUE_DECODE":"Solomon Islands","STATUS":"enabled","isExt":false,"_id":"J4ep1Uk3NlTeqagV"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SC","VALUE_DECODE":"Seychelles","STATUS":"enabled","isExt":false,"_id":"XJQUn863zpl6hvoD"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SD","VALUE_DECODE":"Sudan","STATUS":"enabled","isExt":false,"_id":"NtF62DvQt9NdkFQQ"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SE","VALUE_DECODE":"Sweden","STATUS":"enabled","isExt":false,"_id":"oCbKKePzcl4EliNb"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SG","VALUE_DECODE":"Singapore","STATUS":"enabled","isExt":false,"_id":"9g71NEnzXsLoUJrf"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SH","VALUE_DECODE":"Saint Helena, Ascension and Tristan da Cunha","STATUS":"enabled","isExt":false,"_id":"uky8Uk4nrO0C6DJ3"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SI","VALUE_DECODE":"Slovenia","STATUS":"enabled","isExt":false,"_id":"kdslOtR8zlWFvRLO"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SJ","VALUE_DECODE":"Svalbard and Jan Mayen","STATUS":"enabled","isExt":false,"_id":"RTu3QreoyIAh17ow"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SK","VALUE_DECODE":"Slovak Republic","STATUS":"enabled","isExt":false,"_id":"wwxRGCzPtFvxVFz9"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SL","VALUE_DECODE":"Sierra Leone","STATUS":"enabled","isExt":false,"_id":"mEkMtbJdYHIGGzPb"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SM","VALUE_DECODE":"San Marino","STATUS":"enabled","isExt":false,"_id":"GODnVxedH7JO1cv2"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SN","VALUE_DECODE":"Senegal","STATUS":"enabled","isExt":false,"_id":"o7hj2SId9PI0LdY0"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SO","VALUE_DECODE":"Somalia","STATUS":"enabled","isExt":false,"_id":"XcZT2u1RPBwZTlVS"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SR","VALUE_DECODE":"Suriname","STATUS":"enabled","isExt":false,"_id":"UGAgyrBLk1CtsCIX"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SS","VALUE_DECODE":"South Sudan","STATUS":"enabled","isExt":false,"_id":"LmCo2JkgEeBEJKMt"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"ST","VALUE_DECODE":"Sao Tome and Principe","STATUS":"enabled","isExt":false,"_id":"wyuntPJsuB35iSGn"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SV","VALUE_DECODE":"El Salvador","STATUS":"enabled","isExt":false,"_id":"jT5EXpLUPM29Zb2p"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SX","VALUE_DECODE":"Sint Maarten","STATUS":"enabled","isExt":false,"_id":"fp2BTkadXpAjtZbT"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SY","VALUE_DECODE":"Syrian Arab Republic","STATUS":"enabled","isExt":false,"_id":"ggPjqNKJxtQZnOI9"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SZ","VALUE_DECODE":"Swaziland","STATUS":"enabled","isExt":false,"_id":"br8DasbGlL1IPqfW"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"TC","VALUE_DECODE":"Turks and Caicos Islands","STATUS":"enabled","isExt":false,"_id":"ZbCD17blIrChp0WQ"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"TD","VALUE_DECODE":"Chad","STATUS":"enabled","isExt":false,"_id":"EJCdNydRVmGlSpTw"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"TF","VALUE_DECODE":"French Southern Territories","STATUS":"enabled","isExt":false,"_id":"CAa0ycpC93fUi6Ml"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"TG","VALUE_DECODE":"Togo","STATUS":"enabled","isExt":false,"_id":"CsxxIEnjbgcTUPn3"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"TH","VALUE_DECODE":"Thailand","STATUS":"enabled","isExt":false,"_id":"0tUEmVZe9w52Masz"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"TJ","VALUE_DECODE":"Tajikistan","STATUS":"enabled","isExt":false,"_id":"LdmPEWahDeR0tBQL"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"TK","VALUE_DECODE":"Tokelau","STATUS":"enabled","isExt":false,"_id":"bB3pDqGeVBIzubzo"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"TL","VALUE_DECODE":"Timor-Leste","STATUS":"enabled","isExt":false,"_id":"igtYXVu8uDf6a7tT"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"TM","VALUE_DECODE":"Turkmenistan","STATUS":"enabled","isExt":false,"_id":"KFPjyIew0eT3lC6G"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"TN","VALUE_DECODE":"Tunisia","STATUS":"enabled","isExt":false,"_id":"bwzpdjTllgUiTGme"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"TO","VALUE_DECODE":"Tonga","STATUS":"enabled","isExt":false,"_id":"IJBtXkgdf0MZgW5J"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"TR","VALUE_DECODE":"Turkey","STATUS":"enabled","isExt":false,"_id":"5dR7YDf7WI3wNqFs"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"TT","VALUE_DECODE":"Trinidad and Tobago","STATUS":"enabled","isExt":false,"_id":"QhWx3iM51kqwxBS2"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"TV","VALUE_DECODE":"Tuvalu","STATUS":"enabled","isExt":false,"_id":"GII9Taj8SlKY2FnV"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"TW","VALUE_DECODE":"Chinese Taipei","STATUS":"enabled","isExt":false,"_id":"25VP6z9IhmQHxWKY"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"TZ","VALUE_DECODE":"Tanzania (United Republic of)","STATUS":"enabled","isExt":false,"_id":"EiyqxACFtXPCbXEy"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"UA","VALUE_DECODE":"Ukraine","STATUS":"enabled","isExt":false,"_id":"yD20SYyE5352BTvQ"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"UG","VALUE_DECODE":"Uganda","STATUS":"enabled","isExt":false,"_id":"V4h44GGCn6vdB7ui"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"UM","VALUE_DECODE":"United States Minor Outlying Islands","STATUS":"enabled","isExt":false,"_id":"OfTQCm08tdMVWbzr"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"US","VALUE_DECODE":"United States","STATUS":"enabled","isExt":false,"_id":"3dtxPriiceFNiZPt"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"UY","VALUE_DECODE":"Uruguay","STATUS":"enabled","isExt":false,"_id":"ZNtXCdHsT2pKHEdk"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"UZ","VALUE_DECODE":"Uzbekistan","STATUS":"enabled","isExt":false,"_id":"z0A68bNPvCniQdck"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"VA","VALUE_DECODE":"Holy See","STATUS":"enabled","isExt":false,"_id":"BZtHdkoKauWJJt32"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"VC","VALUE_DECODE":"Saint Vincent and the Grenadines","STATUS":"enabled","isExt":false,"_id":"ZEOPyGAcQDkgVizh"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"VE","VALUE_DECODE":"Venezuela (Bolivarian Republic of)","STATUS":"enabled","isExt":false,"_id":"2dbC4sRYsJiu0izd"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"VG","VALUE_DECODE":"British Virgin Islands","STATUS":"enabled","isExt":false,"_id":"wlrPMnFn4Ls11TC9"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"VI","VALUE_DECODE":"Virgin Islands, U.S.","STATUS":"enabled","isExt":false,"_id":"7frsDyJp2WvH2ElX"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"VN","VALUE_DECODE":"Viet Nam","STATUS":"enabled","isExt":false,"_id":"x4I6RIlOjVa6RVMX"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"VU","VALUE_DECODE":"Vanuatu","STATUS":"enabled","isExt":false,"_id":"319JwRe1kquwVp1O"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"WF","VALUE_DECODE":"Wallis And Futuna","STATUS":"enabled","isExt":false,"_id":"dX4J1bemnIWpbJrw"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"WS","VALUE_DECODE":"Samoa","STATUS":"enabled","isExt":false,"_id":"qnbD4R1MGxMF3e2Q"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"YE","VALUE_DECODE":"Yemen","STATUS":"enabled","isExt":false,"_id":"kZxCTzvpQzOReZYL"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"YT","VALUE_DECODE":"Mayotte","STATUS":"enabled","isExt":false,"_id":"4g12MoeMpY2H8H0H"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"ZA","VALUE_DECODE":"South Africa","STATUS":"enabled","isExt":false,"_id":"bNYeW9oKJac5tMrn"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"ZM","VALUE_DECODE":"Zambia","STATUS":"enabled","isExt":false,"_id":"2nYxQMArnJZAFtZ1"}
-{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"ZW","VALUE_DECODE":"Zimbabwe","STATUS":"enabled","isExt":false,"_id":"tscCAfMA85K7n1CQ"}
-{"name":"TYPE_DATA_PROTECTION","VALUE":"N","VALUE_DECODE":"No","STATUS":"enabled","isExt":false,"_id":"Rm3cSNefFaz2IdA8"}
-{"name":"TYPE_DATA_PROTECTION","VALUE":"O","VALUE_DECODE":"Open","STATUS":"enabled","isExt":false,"_id":"YDhz27TTi3qnvHgD"}
-{"name":"TYPE_DATA_PROTECTION","VALUE":"Y","VALUE_DECODE":"Yes","STATUS":"enabled","isExt":false,"_id":"1XJILEApvEskha7h"}
-{"name":"TYPE_DATA_REQUIREMENT","VALUE":"N","VALUE_DECODE":"No","STATUS":"enabled","isExt":false,"_id":"dCOaMwXQtFcJ4bqf"}
-{"name":"TYPE_DATA_REQUIREMENT","VALUE":"O","VALUE_DECODE":"Open","STATUS":"enabled","isExt":false,"_id":"Or0Hsga4SjRz5vMs"}
-{"name":"TYPE_DATA_REQUIREMENT","VALUE":"Y","VALUE_DECODE":"Yes","STATUS":"enabled","isExt":false,"_id":"bBuAmfFbkffZcOER"}
-{"name":"EXTENSION_TYPE_DOCUMENT_NUMBER_TYPE","VALUE":"Old Report Number","VALUE_DECODE":"Old Report Number","STATUS":"enabled","isExt":false,"_id":"GI5nPr6zpHDsCRXO"}
-{"name":"EXTENSION_TYPE_DOCUMENT_NUMBER_TYPE","VALUE":"Plot Number","VALUE_DECODE":"Plot Number","STATUS":"enabled","isExt":false,"_id":"n0SdHeAvPwfh35Xy"}
-{"name":"EXTENSION_TYPE_DOCUMENT_NUMBER_TYPE","VALUE":"Project Number","VALUE_DECODE":"Project Number","STATUS":"enabled","isExt":false,"_id":"35Uuw43j2y5EsOZm"}
-{"name":"EXTENSION_TYPE_DOCUMENT_NUMBER_TYPE","VALUE":"Report Number","VALUE_DECODE":"Report Number","STATUS":"enabled","isExt":false,"_id":"yFh8YREOgdv0eUZ8"}
-{"name":"EXTENSION_TYPE_DOCUMENT_NUMBER_TYPE","VALUE":"Study Number","VALUE_DECODE":"Study Number","STATUS":"enabled","isExt":false,"_id":"s5sZJ0aAEMMIlqVk"}
-{"name":"TYPE_FILE_TYPE","VALUE":"Main","VALUE_DECODE":"Main","STATUS":"enabled","isExt":false,"_id":"tMYrNC5e77kQkccT"}
-{"name":"TYPE_FILE_TYPE","VALUE":"Source","VALUE_DECODE":"Source","STATUS":"enabled","isExt":false,"_id":"RfV3l2TneslhjJMc"}
-{"name":"TYPE_FILE_TYPE","VALUE":"Supplemental","VALUE_DECODE":"Supplemental","STATUS":"enabled","isExt":false,"_id":"qRx1UdqGpvuqxdvJ"}
-{"name":"TYPE_FILE_TYPE","VALUE":"XML Summary","VALUE_DECODE":"XML Summary","STATUS":"enabled","isExt":false,"_id":"OxMpWdW51QPGxo2b"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"AE","VALUE_DECODE":"AE","STATUS":"enabled","isExt":false,"_id":"lLuVVu6Hh1ZoSjGu"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"AL","VALUE_DECODE":"AL","STATUS":"enabled","isExt":false,"_id":"Ss9eiTSvQ6E9BV1m"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"BB","VALUE_DECODE":"BB","STATUS":"enabled","isExt":false,"_id":"0bPXfQrxeBgHsawV"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"BR","VALUE_DECODE":"BR","STATUS":"enabled","isExt":false,"_id":"SkUQgjYkHEcvxtLV"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"CB","VALUE_DECODE":"CB","STATUS":"enabled","isExt":false,"_id":"MotYVAaKj3JXwU58"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"CG","VALUE_DECODE":"CG","STATUS":"enabled","isExt":false,"_id":"fqUA6DqIWKFwwdk7"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"CS","VALUE_DECODE":"CS","STATUS":"enabled","isExt":false,"_id":"nhimORwU64AZf1JO"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"DC","VALUE_DECODE":"DC","STATUS":"enabled","isExt":false,"_id":"1sqCMFGQbVT0D3y1"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"DP","VALUE_DECODE":"DP","STATUS":"enabled","isExt":false,"_id":"M9WFnNHDFKbKGKMH"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"DS","VALUE_DECODE":"DS","STATUS":"enabled","isExt":false,"_id":"KpHiJrjtuA8l0ScY"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"EC","VALUE_DECODE":"EC","STATUS":"enabled","isExt":false,"_id":"tv8g7AeiSxxLABby"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"ED","VALUE_DECODE":"ED","STATUS":"enabled","isExt":false,"_id":"is9Ny7o16DWp0xDi"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"EO","VALUE_DECODE":"EO","STATUS":"enabled","isExt":false,"_id":"HAqYf5jf9CkPK6Ge"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"ES","VALUE_DECODE":"ES","STATUS":"enabled","isExt":false,"_id":"EG9UHDUF642Nogii"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"EW","VALUE_DECODE":"EW","STATUS":"enabled","isExt":false,"_id":"q70s3UWqz5g8jl0c"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"FD","VALUE_DECODE":"FD","STATUS":"enabled","isExt":false,"_id":"RgLM6v7Tpt7knOeQ"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"FG","VALUE_DECODE":"FG","STATUS":"enabled","isExt":false,"_id":"g3b6DJGcQK6JiHsz"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"FK","VALUE_DECODE":"FK","STATUS":"enabled","isExt":false,"_id":"fHeEj5yscettXoJQ"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"FP","VALUE_DECODE":"FP","STATUS":"enabled","isExt":false,"_id":"pDXJuPLjmy58iZoJ"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"FR","VALUE_DECODE":"FR","STATUS":"enabled","isExt":false,"_id":"UhJoIXXFAEPVVT6n"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"FS","VALUE_DECODE":"FS","STATUS":"enabled","isExt":false,"_id":"xHMOXmlZ0OQCy4SS"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"FT","VALUE_DECODE":"FT","STATUS":"enabled","isExt":false,"_id":"7UIsZqYMxaCrjZRB"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"FU","VALUE_DECODE":"FU","STATUS":"enabled","isExt":false,"_id":"1sUpgoyT0mKOhYMo"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"FW","VALUE_DECODE":"FW","STATUS":"enabled","isExt":false,"_id":"EieBHdry60YPwDgH"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"GA","VALUE_DECODE":"GA","STATUS":"enabled","isExt":false,"_id":"b7r6mc2tIofIz8Oj"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"GB","VALUE_DECODE":"GB","STATUS":"enabled","isExt":false,"_id":"JlnUiPntsXAUMMHc"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"GE","VALUE_DECODE":"GE","STATUS":"enabled","isExt":false,"_id":"06re3yQWDp0xW8hh"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"GG","VALUE_DECODE":"GG","STATUS":"enabled","isExt":false,"_id":"cHE6xxgWT5WduBpl"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"GP","VALUE_DECODE":"GP","STATUS":"enabled","isExt":false,"_id":"04cvwVfN4Y4WUYbv"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"GR","VALUE_DECODE":"GR","STATUS":"enabled","isExt":false,"_id":"vANxDVMVk94Kirwo"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"GS","VALUE_DECODE":"GS","STATUS":"enabled","isExt":false,"_id":"8zRYIICQyh6w4G21"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"HN","VALUE_DECODE":"HN","STATUS":"enabled","isExt":false,"_id":"1h9E0QU3Legm0iFx"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"KN","VALUE_DECODE":"KN","STATUS":"enabled","isExt":false,"_id":"dxfKZR1aWNJYWHPn"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"LA","VALUE_DECODE":"LA","STATUS":"enabled","isExt":false,"_id":"R7qIx3dQom0LzPL2"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"LS","VALUE_DECODE":"LS","STATUS":"enabled","isExt":false,"_id":"kQ1JoIKRHY8cExfl"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"MG","VALUE_DECODE":"MG","STATUS":"enabled","isExt":false,"_id":"RtZhXry5lDOdNr5L"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"OF","VALUE_DECODE":"OF","STATUS":"enabled","isExt":false,"_id":"TNKEJgBaeGlLmwtZ"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"OL","VALUE_DECODE":"OL","STATUS":"enabled","isExt":false,"_id":"XujJtwwQeafyok2N"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"OP","VALUE_DECODE":"OP","STATUS":"enabled","isExt":false,"_id":"XRfqXH1lKNMxfT4A"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"PA","VALUE_DECODE":"PA","STATUS":"enabled","isExt":false,"_id":"BoILyR46A2rXjVJj"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"PB","VALUE_DECODE":"PB","STATUS":"enabled","isExt":false,"_id":"2Rx0Qwtvf88i1sAf"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"PC","VALUE_DECODE":"PC","STATUS":"enabled","isExt":false,"_id":"fRKzvycnAEN5Axuq"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"PR","VALUE_DECODE":"PR","STATUS":"enabled","isExt":false,"_id":"kZ2cuegrp4dd3pje"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"PS","VALUE_DECODE":"PS","STATUS":"enabled","isExt":false,"_id":"glaTcXdW0AlsZYB1"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"RB","VALUE_DECODE":"RB","STATUS":"enabled","isExt":false,"_id":"IF177wrd9VNUwjsv"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"SB","VALUE_DECODE":"SB","STATUS":"enabled","isExt":false,"_id":"Fles5waj1pG9usAl"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"SC","VALUE_DECODE":"SC","STATUS":"enabled","isExt":false,"_id":"MDKjubWAQ2jDiyJZ"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"SE","VALUE_DECODE":"SE","STATUS":"enabled","isExt":false,"_id":"GCQIfVdvI8X6RK5I"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"SG","VALUE_DECODE":"SG","STATUS":"enabled","isExt":false,"_id":"2TRLx0kYxaYjqzPY"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"SL","VALUE_DECODE":"SL","STATUS":"enabled","isExt":false,"_id":"98dcBpyZLHFmIc7d"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"SO","VALUE_DECODE":"SO","STATUS":"enabled","isExt":false,"_id":"dTdtPg7winA4QTGN"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"SP","VALUE_DECODE":"SP","STATUS":"enabled","isExt":false,"_id":"INSNmRy92BuZqCiT"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"SS","VALUE_DECODE":"SS","STATUS":"enabled","isExt":false,"_id":"J0hgDQ6AnqJx4LLS"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"SU","VALUE_DECODE":"SU","STATUS":"enabled","isExt":false,"_id":"0QpKdLl4n7qYbHI1"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"TB","VALUE_DECODE":"TB","STATUS":"enabled","isExt":false,"_id":"0mbeFe3DGE8b4JFq"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"TP","VALUE_DECODE":"TP","STATUS":"enabled","isExt":false,"_id":"6d2YYP3pw7uR20Dv"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"UL","VALUE_DECODE":"UL","STATUS":"enabled","isExt":false,"_id":"mpUUEjXoyYzg9GI2"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"VP","VALUE_DECODE":"VP","STATUS":"enabled","isExt":false,"_id":"bhpoB6HN4PELAYuV"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"WG","VALUE_DECODE":"WG","STATUS":"enabled","isExt":false,"_id":"8L5exqyHZizgFukr"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"WP","VALUE_DECODE":"WP","STATUS":"enabled","isExt":false,"_id":"1vQgZJ2sN2mnU8VQ"}
-{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"WS","VALUE_DECODE":"WS","STATUS":"enabled","isExt":false,"_id":"XWxZESMbA92wdKK4"}
-{"name":"EXTENSION_TYPE_LEGALENTITY_IDENTIFIER_TYPE","VALUE":"DUNS-number","VALUE_DECODE":"DUNS-number","STATUS":"enabled","isExt":false,"_id":"ZyahAhrqaQ8lhnT2"}
-{"name":"EXTENSION_TYPE_LEGALENTITY_IDENTIFIER_TYPE","VALUE":"REACH","VALUE_DECODE":"REACH","STATUS":"enabled","isExt":false,"_id":"BVg3eOkKdsnv9WJA"}
-{"name":"EXTENSION_TYPE_LEGALENTITY_IDENTIFIER_TYPE","VALUE":"SAP","VALUE_DECODE":"SAP","STATUS":"enabled","isExt":false,"_id":"X8dE8ibGmWVPve2S"}
-{"name":"EXTENSION_TYPE_LEGALENTITY_IDENTIFIER_TYPE","VALUE":"VAT-number","VALUE_DECODE":"VAT-number","STATUS":"enabled","isExt":false,"_id":"VXnfooFh3EGmzMGf"}
-{"name":"EXTENSION_TYPE_LEGALENTITY_TYPE","VALUE":"Company","VALUE_DECODE":"Company","STATUS":"enabled","isExt":false,"_id":"9JL8gRISmk0lmT6a"}
-{"name":"EXTENSION_TYPE_LEGALENTITY_TYPE","VALUE":"Consultant","VALUE_DECODE":"Consultant","STATUS":"enabled","isExt":false,"_id":"RWpQqk7TKrfwYWhn"}
-{"name":"EXTENSION_TYPE_LEGALENTITY_TYPE","VALUE":"Regulatory Authority","VALUE_DECODE":"Regulatory Authority","STATUS":"enabled","isExt":false,"_id":"rpLk82J2HSLElAYy"}
-{"name":"EXTENSION_TYPE_LEGALENTITY_TYPE","VALUE":"Test House","VALUE_DECODE":"Test House","STATUS":"enabled","isExt":false,"_id":"dOJmZSK8XOASH0Fn"}
-{"name":"EXTENSION_TYPE_LEGALENTITY_TYPE","VALUE":"Third Party","VALUE_DECODE":"Third Party","STATUS":"enabled","isExt":false,"_id":"By50OdDsYfAXO95S"}
-{"name":"EXTENSION_TYPE_LEGALENTITY_TYPE","VALUE":"University","VALUE_DECODE":"University","STATUS":"enabled","isExt":false,"_id":"Ltwsr29CZtfff1dG"}
-{"name":"TYPE_METADATA_STATUS","VALUE":"Modified","VALUE_DECODE":"Modified","STATUS":"enabled","isExt":false,"_id":"5kuU7laBpeBNhyyv"}
-{"name":"TYPE_METADATA_STATUS","VALUE":"New","VALUE_DECODE":"New","STATUS":"enabled","isExt":false,"_id":"zFfE6UtA0FobXy4c"}
-{"name":"TYPE_METADATA_STATUS","VALUE":"No Change","VALUE_DECODE":"No Change","STATUS":"enabled","isExt":false,"_id":"Ajjh1plom2WcwZ1Q"}
-{"name":"EXTENSION_TYPE_RA_DOCUMENT_NUMBER_TYPE","VALUE":"MRID","VALUE_DECODE":"MRID","STATUS":"enabled","isExt":false,"_id":"ZJhYYJYwANzNzIew"}
-{"name":"EXTENSION_TYPE_RA_DOCUMENT_NUMBER_TYPE","VALUE":"PRMA document number","VALUE_DECODE":"PRMA document number","STATUS":"enabled","isExt":false,"_id":"RXza6faq8LXSeMnX"}
-{"name":"TYPE_REFERENCE_TYPE","VALUE":"document to replaced document","VALUE_DECODE":"document to replaced document","STATUS":"enabled","isExt":false,"_id":"f8HY0NDltBypx7vT"}
-{"name":"TYPE_REFERENCE_TYPE","VALUE":"document to submitted document","VALUE_DECODE":"document to submitted document","STATUS":"enabled","isExt":false,"_id":"5T2offTYP7img1jR"}
-{"name":"TYPE_REFERENCE_TYPE","VALUE":"document to unchanged predecessor document","VALUE_DECODE":"document to unchanged predecessor document","STATUS":"enabled","isExt":false,"_id":"qICQwYyMNZZir8c7"}
-{"name":"TYPE_REFERENCE_TYPE","VALUE":"translation to document","VALUE_DECODE":"translation to document","STATUS":"enabled","isExt":false,"_id":"PVZMaZvJ43iDDXUV"}
-{"name":"EXTENSION_TYPE_REGULATORY_TYPE","VALUE":"1107/2009/EG","VALUE_DECODE":"1107/2009/EG","STATUS":"enabled","isExt":false,"_id":"1L62vWeFc0hD8XbR"}
-{"name":"EXTENSION_TYPE_REGULATORY_TYPE","VALUE":"21 CFR Part 11","VALUE_DECODE":"21 CFR Part 11","STATUS":"enabled","isExt":false,"_id":"GS1XPBFV83ZE75J8"}
-{"name":"EXTENSION_TYPE_REGULATORY_TYPE","VALUE":"91/414/EEC","VALUE_DECODE":"91/414/EEC","STATUS":"enabled","isExt":false,"_id":"KiaJMi48hE6WEsd6"}
-{"name":"EXTENSION_TYPE_REGULATORY_TYPE","VALUE":"98/8/EG","VALUE_DECODE":"98/8/EG","STATUS":"enabled","isExt":false,"_id":"uIf1b5SBoSf1SvO8"}
-{"name":"EXTENSION_TYPE_REGULATORY_TYPE","VALUE":"Agricultural Compounds and Veterinary Medicines Act 1997","VALUE_DECODE":"Agricultural Compounds and Veterinary Medicines Act 1997","STATUS":"enabled","isExt":false,"_id":"kugGGL16wtz40WtB"}
-{"name":"EXTENSION_TYPE_REGULATORY_TYPE","VALUE":"FIFRA","VALUE_DECODE":"FIFRA","STATUS":"enabled","isExt":false,"_id":"ZhwAKGCm9krSUdn7"}
-{"name":"EXTENSION_TYPE_REGULATORY_TYPE","VALUE":"Food Quality Protection Act","VALUE_DECODE":"Food Quality Protection Act","STATUS":"enabled","isExt":false,"_id":"tGPOrhrBIXjc5jmR"}
-{"name":"EXTENSION_TYPE_REGULATORY_TYPE","VALUE":"Hazardous Substances and New Organisms Act 1996","VALUE_DECODE":"Hazardous Substances and New Organisms Act 1996","STATUS":"enabled","isExt":false,"_id":"nFs9vc5caYuZ07oM"}
-{"name":"EXTENSION_TYPE_REGULATORY_TYPE","VALUE":"PCPA-Pest Control Products Act","VALUE_DECODE":"PCPA-Pest Control Products Act","STATUS":"enabled","isExt":false,"_id":"Vuy2xYZ4zlEjtLzZ"}
-{"name":"EXTENSION_TYPE_REGULATORY_TYPE","VALUE":"Pesticide Registration Improvement Act","VALUE_DECODE":"Pesticide Registration Improvement Act","STATUS":"enabled","isExt":false,"_id":"XNFgudwp8RaMjTx6"}
-{"name":"EXTENSION_TYPE_SUBSTANCE_IDENTIFIER_TYPE","VALUE":"CASNO","VALUE_DECODE":"CASNO","STATUS":"enabled","isExt":false,"_id":"xHPiBWqUaxU60fMO"}
-{"name":"EXTENSION_TYPE_SUBSTANCE_IDENTIFIER_TYPE","VALUE":"ECNO","VALUE_DECODE":"ECNO","STATUS":"enabled","isExt":false,"_id":"1Gc9gOT2eXIj07ma"}
-{"name":"EXTENSION_TYPE_SUBSTANCE_IDENTIFIER_TYPE","VALUE":"IUBMB","VALUE_DECODE":"IUBMB","STATUS":"enabled","isExt":false,"_id":"gSAFGcdenW2l9GDd"}
-{"name":"EXTENSION_TYPE_TOC_OWNER","VALUE":"BVL (Germany)","VALUE_DECODE":"BVL (Germany)","STATUS":"enabled","isExt":false,"_id":"C5xBGn7AEPkqSpwp"}
-{"name":"EXTENSION_TYPE_TOC_OWNER","VALUE":"EPA (New Zealand)","VALUE_DECODE":"EPA (New Zealand)","STATUS":"enabled","isExt":false,"_id":"VBMMKwhyGGNwu3pC"}
-{"name":"EXTENSION_TYPE_TOC_OWNER","VALUE":"EPA (US)","VALUE_DECODE":"EPA (US)","STATUS":"enabled","isExt":false,"_id":"XcSydHGhFUGFeAv4"}
-{"name":"EXTENSION_TYPE_TOC_OWNER","VALUE":"MAF (New Zealand)","VALUE_DECODE":"MAF (New Zealand)","STATUS":"enabled","isExt":false,"_id":"nLPLSfcPAbTOv8bw"}
-{"name":"EXTENSION_TYPE_TOC_OWNER","VALUE":"OECD","VALUE_DECODE":"OECD","STATUS":"enabled","isExt":false,"_id":"IVVnYfTDcs0KU1Gh"}
-{"name":"EXTENSION_TYPE_TOC_OWNER","VALUE":"PMRA (Canada)","VALUE_DECODE":"PMRA (Canada)","STATUS":"enabled","isExt":false,"_id":"rjTYKxWBrrPoqJmQ"}
-{"name":"EXTENSION_TYPE_UNIT","VALUE":"%(v/v)","VALUE_DECODE":"%(v/v)","STATUS":"enabled","isExt":false,"_id":"kEnsdhiGrzFHon3x"}
-{"name":"EXTENSION_TYPE_UNIT","VALUE":"%(w/w)","VALUE_DECODE":"%(w/w)","STATUS":"enabled","isExt":false,"_id":"TusxmKSdU0dfZ6mS"}
-{"name":"EXTENSION_TYPE_UNIT","VALUE":"B cells/ml","VALUE_DECODE":"B cells/ml","STATUS":"enabled","isExt":false,"_id":"HqDiUds4sonIMWj0"}
-{"name":"EXTENSION_TYPE_UNIT","VALUE":"B CFU/g","VALUE_DECODE":"B CFU/g","STATUS":"enabled","isExt":false,"_id":"6QqZtBCqdyrpLDsb"}
-{"name":"EXTENSION_TYPE_UNIT","VALUE":"BTTU/g","VALUE_DECODE":"BTTU/g","STATUS":"enabled","isExt":false,"_id":"CHrAoJQJT9ErvTyj"}
-{"name":"EXTENSION_TYPE_UNIT","VALUE":"CFU/kg","VALUE_DECODE":"CFU/kg","STATUS":"enabled","isExt":false,"_id":"NfhN6fG3vuIXgfFF"}
-{"name":"EXTENSION_TYPE_UNIT","VALUE":"CFU/L","VALUE_DECODE":"CFU/L","STATUS":"enabled","isExt":false,"_id":"rvCkPCYqbxFpd5Pc"}
-{"name":"EXTENSION_TYPE_UNIT","VALUE":"DBMU/mg","VALUE_DECODE":"DBMU/mg","STATUS":"enabled","isExt":false,"_id":"OXfxDdhkWGf6BQp6"}
-{"name":"EXTENSION_TYPE_UNIT","VALUE":"g/kg","VALUE_DECODE":"g/kg","STATUS":"enabled","isExt":false,"_id":"6OT9m03DlolkkVJo"}
-{"name":"EXTENSION_TYPE_UNIT","VALUE":"g/kg (as CU)","VALUE_DECODE":"g/kg (as CU)","STATUS":"enabled","isExt":false,"_id":"QMCIOeee0rnxdKDL"}
-{"name":"EXTENSION_TYPE_UNIT","VALUE":"g/kg (as S)","VALUE_DECODE":"g/kg (as S)","STATUS":"enabled","isExt":false,"_id":"4rilrSHBawUl9erV"}
-{"name":"EXTENSION_TYPE_UNIT","VALUE":"g/L","VALUE_DECODE":"g/L","STATUS":"enabled","isExt":false,"_id":"btl4leA88Y32SukY"}
-{"name":"EXTENSION_TYPE_UNIT","VALUE":"g/L (as CU)","VALUE_DECODE":"g/L (as CU)","STATUS":"enabled","isExt":false,"_id":"1aBTPo41sbC4B8g6"}
-{"name":"EXTENSION_TYPE_UNIT","VALUE":"g/L (as S)","VALUE_DECODE":"g/L (as S)","STATUS":"enabled","isExt":false,"_id":"5aUK0EIrSmMjkdk2"}
-{"name":"EXTENSION_TYPE_UNIT","VALUE":"granules/L","VALUE_DECODE":"granules/L","STATUS":"enabled","isExt":false,"_id":"o9mwiDEZ3e70aEvl"}
-{"name":"EXTENSION_TYPE_UNIT","VALUE":"IU/mg","VALUE_DECODE":"IU/mg","STATUS":"enabled","isExt":false,"_id":"qxeII5bwSY1Qr2Mu"}
-{"name":"EXTENSION_TYPE_UNIT","VALUE":"M cells/g","VALUE_DECODE":"M cells/g","STATUS":"enabled","isExt":false,"_id":"wUyxqjJDZFtVREbv"}
-{"name":"EXTENSION_TYPE_UNIT","VALUE":"M CFU/g","VALUE_DECODE":"M CFU/g","STATUS":"enabled","isExt":false,"_id":"oEaZhtvZISALyGeF"}
-{"name":"EXTENSION_TYPE_UNIT","VALUE":"M CFU/ml","VALUE_DECODE":"M CFU/ml","STATUS":"enabled","isExt":false,"_id":"zYpU9v1a2wXfKd9S"}
-{"name":"EXTENSION_TYPE_UNIT","VALUE":"M Units/dowel","VALUE_DECODE":"M Units/dowel","STATUS":"enabled","isExt":false,"_id":"uiYT4nfrZfbFv46k"}
-{"name":"EXTENSION_TYPE_UNIT","VALUE":"mg/kg","VALUE_DECODE":"mg/kg","STATUS":"enabled","isExt":false,"_id":"98loXbqigksCEeQo"}
-{"name":"EXTENSION_TYPE_UNIT","VALUE":"mg/L","VALUE_DECODE":"mg/L","STATUS":"enabled","isExt":false,"_id":"Yok8Sa8cnTAPnFrd"}
-{"name":"EXTENSION_TYPE_UNIT","VALUE":"ml/L","VALUE_DECODE":"ml/L","STATUS":"enabled","isExt":false,"_id":"MW48pa62ruhz9W2R"}
-{"name":"EXTENSION_TYPE_UNIT","VALUE":"qs","VALUE_DECODE":"qs","STATUS":"enabled","isExt":false,"_id":"BOK6SMetcLDIRJ8u"}
-{"name":"EXTENSION_TYPE_UNIT","VALUE":"spores/kg","VALUE_DECODE":"spores/kg","STATUS":"enabled","isExt":false,"_id":"smWKpl32Os1bECLV"}
-{"name":"EXTENSION_TYPE_UNIT","VALUE":"thou IU/mg","VALUE_DECODE":"thou IU/mg","STATUS":"enabled","isExt":false,"_id":"PahUBfYdp5sVG0id"}
-{"name":"EXTENSION_TYPE_UNIT","VALUE":"thou IU/ml","VALUE_DECODE":"thou IU/ml","STATUS":"enabled","isExt":false,"_id":"wjkemiEnwsmprUtH"}
-{"name":"EXTENSION_TYPE_UNIT","VALUE":"to pH","VALUE_DECODE":"to pH","STATUS":"enabled","isExt":false,"_id":"8ahhpnHDdLQzOY2O"}
-{"name":"EXTENSION_TYPE_UNIT","VALUE":"trace","VALUE_DECODE":"trace","STATUS":"enabled","isExt":false,"_id":"X8jKhwNYPrRdbVFM"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"C5 - Pest/disease","VALUE_DECODE":"C5 - Pest/disease","STATUS":"enabled","isExt":false,"_id":"003z9W7o27K36Rei"}
+{"name":"EXTENSION_TYPE_LEGALENTITY_IDENTIFIER_TYPE","VALUE":"REACH","VALUE_DECODE":"REACH","STATUS":"enabled","isExt":false,"_id":"0C0gdDUPuAJVsYmP"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category C: Similar product or use already registered (cite Registration number of precedent product in the cover letter)","VALUE_DECODE":"Category C: Similar product or use already registered (cite Registration number of precedent product in the cover letter)","STATUS":"enabled","isExt":false,"_id":"0HWfh5aFsEQilonP"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"RO","VALUE_DECODE":"Romania","STATUS":"enabled","isExt":false,"_id":"0KF8iM9xfxV0rYqw"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"VA","VALUE_DECODE":"Holy See","STATUS":"enabled","isExt":false,"_id":"0P4bGJTMdhDrIRMK"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"GB","VALUE_DECODE":"GB","STATUS":"enabled","isExt":false,"_id":"0QaJNstRnmnV8H2E"}
+{"name":"EXTENSION_TYPE_REGULATORY_TYPE","VALUE":"Pesticide Registration Improvement Act","VALUE_DECODE":"Pesticide Registration Improvement Act","STATUS":"enabled","isExt":false,"_id":"0Z5DnkHQATs8jA7C"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"YT","VALUE_DECODE":"Mayotte","STATUS":"enabled","isExt":false,"_id":"0cGgi39zQmjXyyP0"}
+{"name":"TYPE_DATA_PROTECTION","VALUE":"Y","VALUE_DECODE":"Yes","STATUS":"enabled","isExt":false,"_id":"0ctsjBO136mGL8Nd"}
+{"name":"TYPE_CONTENT_STATUS","VALUE":"No Change","VALUE_DECODE":"No Change","STATUS":"enabled","isExt":false,"_id":"0f0LFloWVTePMXEz"}
+{"name":"TYPE_METADATA_STATUS","VALUE":"No Change","VALUE_DECODE":"No Change","STATUS":"enabled","isExt":false,"_id":"0psDfFhN2rWVVOeT"}
+{"name":"EXTENSION_TYPE_ADMIN_NUMBER_TYPE","VALUE":"Experimental Use Permit","VALUE_DECODE":"Experimental Use Permit","STATUS":"enabled","isExt":false,"_id":"0tYSeh7tzHNlt5LN"}
+{"name":"EXTENSION_TYPE_UNIT","VALUE":"ml/L","VALUE_DECODE":"ml/L","STATUS":"enabled","isExt":false,"_id":"0whWMqQm0qiazMkJ"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"UL","VALUE_DECODE":"UL","STATUS":"enabled","isExt":false,"_id":"1F7tGpksFPjnZqxs"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"EG","VALUE_DECODE":"Egypt","STATUS":"enabled","isExt":false,"_id":"1GkQ8RPdt3AM2qyu"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"C7 - Admin method","VALUE_DECODE":"C7 - Admin method","STATUS":"enabled","isExt":false,"_id":"1P6I0yRPgh8FXuZB"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MO","VALUE_DECODE":"Macau, China","STATUS":"enabled","isExt":false,"_id":"1PAkf1jP7LQOzld3"}
+{"name":"EXTENSION_TYPE_SUBSTANCE_IDENTIFIER_TYPE","VALUE":"ECNO","VALUE_DECODE":"ECNO","STATUS":"enabled","isExt":false,"_id":"1RUqnUwsl15gC6Uf"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"NF","VALUE_DECODE":"Norfolk Island","STATUS":"enabled","isExt":false,"_id":"1U9jct939EIsZ9o3"}
+{"name":"TYPE_CONTENT_STATUS","VALUE":"Modified","VALUE_DECODE":"Modified","STATUS":"enabled","isExt":false,"_id":"1cFgU5Iqegtkv3X3"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"SS","VALUE_DECODE":"SS","STATUS":"enabled","isExt":false,"_id":"1kmUswVZtq1fZUnF"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SS","VALUE_DECODE":"South Sudan","STATUS":"enabled","isExt":false,"_id":"1wYhM7fmQNX8qIwY"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"B2 - Similar","VALUE_DECODE":"B2 - Similar","STATUS":"enabled","isExt":false,"_id":"1wetfDq7o5oPaLEj"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BR","VALUE_DECODE":"Brazil","STATUS":"enabled","isExt":false,"_id":"22e7DSKKf0HQSZS3"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"WP","VALUE_DECODE":"WP","STATUS":"enabled","isExt":false,"_id":"24ZSMlLMAj8eGk5a"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CH","VALUE_DECODE":"Switzerland","STATUS":"enabled","isExt":false,"_id":"26mfmJaQxRtPmar2"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"UY","VALUE_DECODE":"Uruguay","STATUS":"enabled","isExt":false,"_id":"2Iiwt0S3mcN3j6TO"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"YE","VALUE_DECODE":"Yemen","STATUS":"enabled","isExt":false,"_id":"2JR0MXhapZ1qYqEc"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"TG","VALUE_DECODE":"Togo","STATUS":"enabled","isExt":false,"_id":"2TJpgj36SH1Iz3pJ"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"AE","VALUE_DECODE":"United Arab Emirates","STATUS":"enabled","isExt":false,"_id":"2WnTKwiWScPw6fLj"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"EC","VALUE_DECODE":"Ecuador","STATUS":"enabled","isExt":false,"_id":"2ht46pssdi5DGXVb"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"PE","VALUE_DECODE":"Peru","STATUS":"enabled","isExt":false,"_id":"2iTtXLnzWQhtgnl2"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"IM","VALUE_DECODE":"Isle of man","STATUS":"enabled","isExt":false,"_id":"3G7VdVXJS1WaKoY3"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Joint Review, other","VALUE_DECODE":"Joint Review, other","STATUS":"enabled","isExt":false,"_id":"3ZSzZKRdFETsh7yd"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category F: Administrative changes: Registration or addition of minor use","VALUE_DECODE":"Category F: Administrative changes: Registration or addition of minor use","STATUS":"enabled","isExt":false,"_id":"3hJ1dCqh27uBXuVK"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"TK","VALUE_DECODE":"Tokelau","STATUS":"enabled","isExt":false,"_id":"3vYzB5jXQSTFCBfM"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"ED","VALUE_DECODE":"ED","STATUS":"enabled","isExt":false,"_id":"4Dqvz4pWylWvOEsn"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"C12 - Registration Condition Change","VALUE_DECODE":"C12 - Registration Condition Change","STATUS":"enabled","isExt":false,"_id":"4Ji6cwHAM4dCBXZo"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GL","VALUE_DECODE":"Greenland","STATUS":"enabled","isExt":false,"_id":"4U9CBKKL0Gb6R56G"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"TP","VALUE_DECODE":"TP","STATUS":"enabled","isExt":false,"_id":"4ZdttoaWHCRpmeUc"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"C4 - Target host","VALUE_DECODE":"C4 - Target host","STATUS":"enabled","isExt":false,"_id":"4e2MxahLhugM6Fso"}
+{"name":"EXTENSION_TYPE_TOC_OWNER","VALUE":"EPA (New Zealand)","VALUE_DECODE":"EPA (New Zealand)","STATUS":"enabled","isExt":false,"_id":"4jLipvgW2sD53LXI"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"GA","VALUE_DECODE":"GA","STATUS":"enabled","isExt":false,"_id":"4nYytSV8cQvGbTcS"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SD","VALUE_DECODE":"Sudan","STATUS":"enabled","isExt":false,"_id":"4ruGb2N2KXCpRyDe"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"OF","VALUE_DECODE":"OF","STATUS":"enabled","isExt":false,"_id":"5PSjKmQbkoiukY3h"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Rapid: low hazard","VALUE_DECODE":"Rapid: low hazard","STATUS":"enabled","isExt":false,"_id":"5k8WIyKbYvsPxx3K"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SL","VALUE_DECODE":"Sierra Leone","STATUS":"enabled","isExt":false,"_id":"5pmQtBkq2C3DNh7r"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BH","VALUE_DECODE":"Bahrain","STATUS":"enabled","isExt":false,"_id":"5yQ0hDpqhq3HhSVe"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category D: New Minor Use","VALUE_DECODE":"Category D: New Minor Use","STATUS":"enabled","isExt":false,"_id":"5yoYQ2GBU2mqJmMX"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CY","VALUE_DECODE":"Cyprus","STATUS":"enabled","isExt":false,"_id":"6LFY2qtWfXiQuGD1"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"HR","VALUE_DECODE":"Croatia","STATUS":"enabled","isExt":false,"_id":"6YqoASBNueY0lNuD"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category H: Submit a Notice of Objection","VALUE_DECODE":"Category H: Submit a Notice of Objection","STATUS":"enabled","isExt":false,"_id":"6aNHEgi7vYQMEqHm"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MR","VALUE_DECODE":"Mauritania","STATUS":"enabled","isExt":false,"_id":"6aikUohHViL9NPA7"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category C: New or amended product chemistry","VALUE_DECODE":"Category C: New or amended product chemistry","STATUS":"enabled","isExt":false,"_id":"6divglmYsbWgBwCu"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GY","VALUE_DECODE":"Guyana","STATUS":"enabled","isExt":false,"_id":"6fkmjQGy0DKAlPuk"}
+{"name":"TYPE_DATA_PROTECTION","VALUE":"O","VALUE_DECODE":"Open","STATUS":"enabled","isExt":false,"_id":"6flN9SuUKNzl2mdI"}
+{"name":"EXTENSION_TYPE_UNIT","VALUE":"g/kg (as S)","VALUE_DECODE":"g/kg (as S)","STATUS":"enabled","isExt":false,"_id":"6jLfRguNJwLkx1r4"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MM","VALUE_DECODE":"Myanmar","STATUS":"enabled","isExt":false,"_id":"6s1ITonwKzcHYstz"}
+{"name":"TYPE_CONTENT_STATUS","VALUE":"New","VALUE_DECODE":"New","STATUS":"enabled","isExt":false,"_id":"73tUlukRM6403GOh"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SO","VALUE_DECODE":"Somalia","STATUS":"enabled","isExt":false,"_id":"7IXKpm8a6cy5JaLH"}
+{"name":"EXTENSION_TYPE_UNIT","VALUE":"DBMU/mg","VALUE_DECODE":"DBMU/mg","STATUS":"enabled","isExt":false,"_id":"7Sdwa12Jq58aFIX5"}
+{"name":"TYPE_METADATA_STATUS","VALUE":"New","VALUE_DECODE":"New","STATUS":"enabled","isExt":false,"_id":"7bndIpjV80LMmxtn"}
+{"name":"EXTENSION_TYPE_LEGALENTITY_TYPE","VALUE":"Consultant","VALUE_DECODE":"Consultant","STATUS":"enabled","isExt":false,"_id":"7iJsWAgnIop9SaQt"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category R: Request a Special Review","VALUE_DECODE":"Category R: Request a Special Review","STATUS":"enabled","isExt":false,"_id":"7n5hMI9TZNgxAsRG"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"HK","VALUE_DECODE":"Hong Kong, China","STATUS":"enabled","isExt":false,"_id":"7nunnB0qcXSxGlN6"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BZ","VALUE_DECODE":"Belize","STATUS":"enabled","isExt":false,"_id":"8GaQlDn5LRpwjD4q"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"PT","VALUE_DECODE":"Portugal","STATUS":"enabled","isExt":false,"_id":"8GeTRr2UNg6ZdXuR"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"ME","VALUE_DECODE":"Montenegro","STATUS":"enabled","isExt":false,"_id":"8Kd3cKyVI1KzSzRm"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"SB","VALUE_DECODE":"SB","STATUS":"enabled","isExt":false,"_id":"8LHX4pq9x42dMsTo"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"OECD Annex II Joint Review","VALUE_DECODE":"OECD Annex II Joint Review","STATUS":"enabled","isExt":false,"_id":"8rP1LU2x60uSXa8b"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"RU","VALUE_DECODE":"Russian Federation","STATUS":"enabled","isExt":false,"_id":"8ryJA9ADENQ6qBhc"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"PR","VALUE_DECODE":"Puerto Rico","STATUS":"enabled","isExt":false,"_id":"8tXzL2qZgajCw3sW"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"WS","VALUE_DECODE":"WS","STATUS":"enabled","isExt":false,"_id":"8uOWi3kWTYvR4o9u"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CZ","VALUE_DECODE":"Czech Republic","STATUS":"enabled","isExt":false,"_id":"91ygl7u4o8GsmDSa"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"CS","VALUE_DECODE":"CS","STATUS":"enabled","isExt":false,"_id":"92JoipqT1jPrp90G"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GF","VALUE_DECODE":"French Guiana","STATUS":"enabled","isExt":false,"_id":"96KNrs4s9Bi4gZn9"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category A: New Active Ingredient, Canadian Registration","VALUE_DECODE":"Category A: New Active Ingredient, Canadian Registration","STATUS":"enabled","isExt":false,"_id":"99xDbr5NbdWgkYOh"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Cat A: Similar product already registered (cite approval number of precedent product in the cover letter), EPA  approval","VALUE_DECODE":"Cat A: Similar product already registered (cite approval number of precedent product in the cover letter), EPA  approval","STATUS":"enabled","isExt":false,"_id":"9Bykz6rzYP1pZAM4"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"LC","VALUE_DECODE":"Saint Lucia","STATUS":"enabled","isExt":false,"_id":"9U4oCW0HB2n53C5F"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GB","VALUE_DECODE":"United Kingdom","STATUS":"enabled","isExt":false,"_id":"9ZG0dBGnVQ6OYH0f"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"FJ","VALUE_DECODE":"Fiji","STATUS":"enabled","isExt":false,"_id":"9ayI2r7e44wvHTEC"}
+{"name":"EXTENSION_TYPE_LEGALENTITY_TYPE","VALUE":"Test House","VALUE_DECODE":"Test House","STATUS":"enabled","isExt":false,"_id":"9c5fNVTNpsRFNkwG"}
+{"name":"EXTENSION_TYPE_UNIT","VALUE":"spores/kg","VALUE_DECODE":"spores/kg","STATUS":"enabled","isExt":false,"_id":"9eJgjsx2UDcugtM7"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Research Approval","VALUE_DECODE":"Research Approval","STATUS":"enabled","isExt":false,"_id":"9hANvDA54S9MqQhp"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category C: Reinstatement of Previously Registered Product","VALUE_DECODE":"Category C: Reinstatement of Previously Registered Product","STATUS":"enabled","isExt":false,"_id":"9msrDntkDNmor9eF"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MC","VALUE_DECODE":"Monaco","STATUS":"enabled","isExt":false,"_id":"A1lVU6HIiZQUkAo6"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"KH","VALUE_DECODE":"Cambodia","STATUS":"enabled","isExt":false,"_id":"A9Xvxs8uD7x30vsX"}
+{"name":"EXTENSION_TYPE_SUBSTANCE_IDENTIFIER_TYPE","VALUE":"CASNO","VALUE_DECODE":"CASNO","STATUS":"enabled","isExt":false,"_id":"ALtPpx7nSk2U8kcq"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category D: New Private Label","VALUE_DECODE":"Category D: New Private Label","STATUS":"enabled","isExt":false,"_id":"AX3V3AZq1EDre2T0"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"ZA","VALUE_DECODE":"South Africa","STATUS":"enabled","isExt":false,"_id":"AYVFgpwPMknodMrE"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"GG","VALUE_DECODE":"GG","STATUS":"enabled","isExt":false,"_id":"AYxPEaFiMLv6wlUk"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BG","VALUE_DECODE":"Bulgaria","STATUS":"enabled","isExt":false,"_id":"Ab15rTGN4NQdnKkH"}
+{"name":"EXTENSION_TYPE_SUBSTANCE_IDENTIFIER_TYPE","VALUE":"IUBMB","VALUE_DECODE":"IUBMB","STATUS":"enabled","isExt":false,"_id":"Aie2mk1AhavZWVdI"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"NU","VALUE_DECODE":"Niue","STATUS":"enabled","isExt":false,"_id":"B17g0yzOqkBHppx2"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category D: Renewal","VALUE_DECODE":"Category D: Renewal","STATUS":"enabled","isExt":false,"_id":"B4yB2pc5AB1iGFtF"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"6(a)(2) submission","VALUE_DECODE":"6(a)(2) submission","STATUS":"enabled","isExt":false,"_id":"B6TFPuAqwwG85LVR"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BB","VALUE_DECODE":"Barbados","STATUS":"enabled","isExt":false,"_id":"B9vE9QssXgsh5PzH"}
+{"name":"EXTENSION_TYPE_ADMIN_NUMBER_TYPE","VALUE":"Tolerance Petition","VALUE_DECODE":"Tolerance Petition","STATUS":"enabled","isExt":false,"_id":"BBsJ2EkiujGWyiBt"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"AS","VALUE_DECODE":"American Samoa","STATUS":"enabled","isExt":false,"_id":"BHH5MdNuvmHPNDa6"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SK","VALUE_DECODE":"Slovak Republic","STATUS":"enabled","isExt":false,"_id":"BHmW6vFnqpKMsXJG"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"A1 - New active","VALUE_DECODE":"A1 - New active","STATUS":"enabled","isExt":false,"_id":"BL320NtBbF4RjwwU"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GG","VALUE_DECODE":"Guernsey","STATUS":"enabled","isExt":false,"_id":"BNbvfOifuu2BvDME"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BW","VALUE_DECODE":"Botswana","STATUS":"enabled","isExt":false,"_id":"BOUKlqTaGsIShGni"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"AM","VALUE_DECODE":"Armenia","STATUS":"enabled","isExt":false,"_id":"BQmeIBoQmd5CKdyg"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MA","VALUE_DECODE":"Morocco","STATUS":"enabled","isExt":false,"_id":"BTlml0x9YKFTJgqF"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"LS","VALUE_DECODE":"Lesotho","STATUS":"enabled","isExt":false,"_id":"BWsliKZbZPi0BXXm"}
+{"name":"EXTENSION_TYPE_UNIT","VALUE":"thou IU/mg","VALUE_DECODE":"thou IU/mg","STATUS":"enabled","isExt":false,"_id":"BbaAcccdGxYCMPgY"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SX","VALUE_DECODE":"Sint Maarten","STATUS":"enabled","isExt":false,"_id":"BrR2tyTJEFcGmLaP"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"IO","VALUE_DECODE":"British Indian Ocean Territory","STATUS":"enabled","isExt":false,"_id":"BtRRkoPoBzqYgymu"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"C8 - WHP","VALUE_DECODE":"C8 - WHP","STATUS":"enabled","isExt":false,"_id":"C3eS0esASnr7tIIX"}
+{"name":"EXTENSION_TYPE_TOC_OWNER","VALUE":"BVL (Germany)","VALUE_DECODE":"BVL (Germany)","STATUS":"enabled","isExt":false,"_id":"CF3tL4CRTod5VHWm"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category A: New Active Ingredient, Minor New Use","VALUE_DECODE":"Category A: New Active Ingredient, Minor New Use","STATUS":"enabled","isExt":false,"_id":"CZAbvZUeOXcyk6BW"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"KW","VALUE_DECODE":"Kuwait","STATUS":"enabled","isExt":false,"_id":"DFuktt05pflBiT0F"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"HT","VALUE_DECODE":"Haiti","STATUS":"enabled","isExt":false,"_id":"DPzPVJW5Otw7tgrW"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"TC","VALUE_DECODE":"Turks and Caicos Islands","STATUS":"enabled","isExt":false,"_id":"DToMf3p804mjFgfL"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MG","VALUE_DECODE":"Madagascar","STATUS":"enabled","isExt":false,"_id":"Ddq4mys7Yb2qtI4y"}
+{"name":"EXTENSION_TYPE_REGULATORY_TYPE","VALUE":"91/414/EEC","VALUE_DECODE":"91/414/EEC","STATUS":"enabled","isExt":false,"_id":"DjN7qJZxrpr51dEV"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"TF","VALUE_DECODE":"French Southern Territories","STATUS":"enabled","isExt":false,"_id":"DzShrbJaVtYqFtjs"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"C9 - Admin change","VALUE_DECODE":"C9 - Admin change","STATUS":"enabled","isExt":false,"_id":"DzebxfSHJAP2X9da"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"DK","VALUE_DECODE":"Denmark","STATUS":"enabled","isExt":false,"_id":"E9jUGdNuahjwZI94"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CU","VALUE_DECODE":"Cuba","STATUS":"enabled","isExt":false,"_id":"EBOJlkVi9zwPbOM1"}
+{"name":"TYPE_REFERENCE_TYPE","VALUE":"document to submitted document","VALUE_DECODE":"document to submitted document","STATUS":"enabled","isExt":false,"_id":"EI9cmzPvSR2pPBEG"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"PM","VALUE_DECODE":"Saint Pierre and Miquelon","STATUS":"enabled","isExt":false,"_id":"EKw2Y7WP66Q9AtHq"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"TN","VALUE_DECODE":"Tunisia","STATUS":"enabled","isExt":false,"_id":"EZljhnUEUBj65GsL"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"ML","VALUE_DECODE":"Mali","STATUS":"enabled","isExt":false,"_id":"EgLH7dNvVZxhMnWQ"}
+{"name":"EXTENSION_TYPE_UNIT","VALUE":"M cells/g","VALUE_DECODE":"M cells/g","STATUS":"enabled","isExt":false,"_id":"Ejt1w9AZsHew5l9o"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"HM","VALUE_DECODE":"Heard Island and McDonald Islands","STATUS":"enabled","isExt":false,"_id":"EnaKFOBbDiMxQLj9"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MK","VALUE_DECODE":"Former Yugoslav Republic of Macédoine","STATUS":"enabled","isExt":false,"_id":"EurgIUBtugYWir6t"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BY","VALUE_DECODE":"Belarus","STATUS":"enabled","isExt":false,"_id":"EyJ1eNNUannErTB0"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"EW","VALUE_DECODE":"EW","STATUS":"enabled","isExt":false,"_id":"FDUHZgxdOMOdljr5"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SE","VALUE_DECODE":"Sweden","STATUS":"enabled","isExt":false,"_id":"FP1QqAZgjlQzHio5"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"JM","VALUE_DECODE":"Jamaica","STATUS":"enabled","isExt":false,"_id":"FhAe9YZsQCSDNeW8"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category F: Discontinue a registered product","VALUE_DECODE":"Category F: Discontinue a registered product","STATUS":"enabled","isExt":false,"_id":"Fp0JADyBOsSk8T3y"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CG","VALUE_DECODE":"Congo","STATUS":"enabled","isExt":false,"_id":"G6MO8WZLfuyZWyKr"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"New application","VALUE_DECODE":"New application","STATUS":"enabled","isExt":false,"_id":"GEXo0fpCNXLeIdDc"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GM","VALUE_DECODE":"Gambia","STATUS":"enabled","isExt":false,"_id":"GKZyIvy8sEcscP84"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GP","VALUE_DECODE":"Guadeloupe","STATUS":"enabled","isExt":false,"_id":"GL8YjzFKAgHIJfvP"}
+{"name":"EXTENSION_TYPE_UNIT","VALUE":"g/kg","VALUE_DECODE":"g/kg","STATUS":"enabled","isExt":false,"_id":"GNkuq3ZXdObwtU6Y"}
+{"name":"EXTENSION_TYPE_UNIT","VALUE":"to pH","VALUE_DECODE":"to pH","STATUS":"enabled","isExt":false,"_id":"GSGlvNWLCtTtf0Li"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GA","VALUE_DECODE":"Gabon","STATUS":"enabled","isExt":false,"_id":"GXg0JtHnMrOelvPT"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MD","VALUE_DECODE":"Moldova (Republic of)","STATUS":"enabled","isExt":false,"_id":"GgchHEpCub5UXGeQ"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GN","VALUE_DECODE":"Guinea","STATUS":"enabled","isExt":false,"_id":"GhzwG8mTCtDvQ60U"}
+{"name":"EXTENSION_TYPE_ADMIN_NUMBER_TYPE","VALUE":"Application Number","VALUE_DECODE":"Application Number","STATUS":"enabled","isExt":false,"_id":"Gj4szCdqhssyWSTB"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"VC","VALUE_DECODE":"Saint Vincent and the Grenadines","STATUS":"enabled","isExt":false,"_id":"GoK0H6ODRhWSnbV7"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BE","VALUE_DECODE":"Belgium","STATUS":"enabled","isExt":false,"_id":"GvcK4GG2gAIRn23I"}
+{"name":"TYPE_DATA_REQUIREMENT","VALUE":"O","VALUE_DECODE":"Open","STATUS":"enabled","isExt":false,"_id":"GxuDswacNsPikkby"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"AG","VALUE_DECODE":"Antigua and Barbuda","STATUS":"enabled","isExt":false,"_id":"H9t8XVQeB9R6e3XH"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"RW","VALUE_DECODE":"Rwanda","STATUS":"enabled","isExt":false,"_id":"HKOaC5b37qsftVSo"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"CG","VALUE_DECODE":"CG","STATUS":"enabled","isExt":false,"_id":"HZK5vuSVY1BI0k3P"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"LS","VALUE_DECODE":"LS","STATUS":"enabled","isExt":false,"_id":"HlLJN8M5yJ1tDuVw"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BS","VALUE_DECODE":"Bahamas","STATUS":"enabled","isExt":false,"_id":"HtK13oZBhH7ZjmE9"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"AQ","VALUE_DECODE":"Antarctica","STATUS":"enabled","isExt":false,"_id":"I5Tr1eJrsXHSu31i"}
+{"name":"EXTENSION_TYPE_REGULATORY_TYPE","VALUE":"FIFRA","VALUE_DECODE":"FIFRA","STATUS":"enabled","isExt":false,"_id":"I6ZkSugKLFGaSZ1Q"}
+{"name":"TYPE_DATA_REQUIREMENT","VALUE":"Y","VALUE_DECODE":"Yes","STATUS":"enabled","isExt":false,"_id":"ImYYsjJRVXpX4L4w"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"JP","VALUE_DECODE":"Japan","STATUS":"enabled","isExt":false,"_id":"J1StaOuN9gbb3FoU"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"LA","VALUE_DECODE":"LA","STATUS":"enabled","isExt":false,"_id":"J4VkgpSVdPkKuCFZ"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"KY","VALUE_DECODE":"Cayman Islands","STATUS":"enabled","isExt":false,"_id":"J4X7CorQidYlio2k"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"TO","VALUE_DECODE":"Tonga","STATUS":"enabled","isExt":false,"_id":"JB4HOsuLDzmkCw3w"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"FD","VALUE_DECODE":"FD","STATUS":"enabled","isExt":false,"_id":"JIIK8tlnKkJswbQa"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"MG","VALUE_DECODE":"MG","STATUS":"enabled","isExt":false,"_id":"JPSbop9X1pGxjIm5"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"EC","VALUE_DECODE":"EC","STATUS":"enabled","isExt":false,"_id":"JQf26eQlqSZdpnjv"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category D: New Master Copy based on Master Product (specify in the cover letter)","VALUE_DECODE":"Category D: New Master Copy based on Master Product (specify in the cover letter)","STATUS":"enabled","isExt":false,"_id":"JRAVs2Qap92gEiRi"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"AR","VALUE_DECODE":"Argentina","STATUS":"enabled","isExt":false,"_id":"Jm6lrS1vWpbUCLex"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"QA","VALUE_DECODE":"Qatar","STATUS":"enabled","isExt":false,"_id":"JnQmskecvSoSb1uT"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"TT","VALUE_DECODE":"Trinidad and Tobago","STATUS":"enabled","isExt":false,"_id":"Jrdb089pP4UcsUsb"}
+{"name":"TYPE_CONTENT_STATUS","VALUE":"Replace","VALUE_DECODE":"Replace","STATUS":"enabled","isExt":false,"_id":"K78hWjNM8YdOp9VI"}
+{"name":"EXTENSION_TYPE_ADMIN_NUMBER_TYPE","VALUE":"EPA Decision No","VALUE_DECODE":"EPA Decision No","STATUS":"enabled","isExt":false,"_id":"KG6lKCYi0F1BTjWE"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MW","VALUE_DECODE":"Malawi","STATUS":"enabled","isExt":false,"_id":"KIn8TCaYQEsQWVrE"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"IT","VALUE_DECODE":"Italy","STATUS":"enabled","isExt":false,"_id":"KPCtlBiGz2FLmpno"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"AU","VALUE_DECODE":"Australia","STATUS":"enabled","isExt":false,"_id":"KQB2K0wz8GYN22Iv"}
+{"name":"TYPE_FILE_TYPE","VALUE":"Supplemental","VALUE_DECODE":"Supplemental","STATUS":"enabled","isExt":false,"_id":"KZcUDd0F0MmYls7h"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"EPA OPPTS","VALUE_DECODE":"EPA OPPTS","STATUS":"enabled","isExt":false,"_id":"KniBg4QXHEUpjBXv"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"AT","VALUE_DECODE":"Austria","STATUS":"enabled","isExt":false,"_id":"KvDy8Tp4qF1tMhZZ"}
+{"name":"TYPE_FILE_TYPE","VALUE":"Main","VALUE_DECODE":"Main","STATUS":"enabled","isExt":false,"_id":"KyIal53dl2vwVPA0"}
+{"name":"EXTENSION_TYPE_UNIT","VALUE":"g/kg (as CU)","VALUE_DECODE":"g/kg (as CU)","STATUS":"enabled","isExt":false,"_id":"L4An9liANbIcJS9V"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"NG","VALUE_DECODE":"Nigeria","STATUS":"enabled","isExt":false,"_id":"LASOCFczrewsLFd8"}
+{"name":"TYPE_CONTENT_STATUS","VALUE":"Retired","VALUE_DECODE":"Retired","STATUS":"enabled","isExt":false,"_id":"LCvmDKcF0UxnAuOA"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"KM","VALUE_DECODE":"Comoros","STATUS":"enabled","isExt":false,"_id":"LGU7PiPMiE0XtOXd"}
+{"name":"EXTENSION_TYPE_TOC_OWNER","VALUE":"OECD","VALUE_DECODE":"OECD","STATUS":"enabled","isExt":false,"_id":"LbGF13c32kh4D57o"}
+{"name":"EXTENSION_TYPE_UNIT","VALUE":"IU/mg","VALUE_DECODE":"IU/mg","STATUS":"enabled","isExt":false,"_id":"LcQYflO1zk2ej8uT"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"RS","VALUE_DECODE":"Serbia","STATUS":"enabled","isExt":false,"_id":"Ly8qC39Qtp0wXka5"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"TZ","VALUE_DECODE":"Tanzania (United Republic of)","STATUS":"enabled","isExt":false,"_id":"M4hS2iIoKWG0KpRw"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CC","VALUE_DECODE":"Cocos (Keeling) Islands","STATUS":"enabled","isExt":false,"_id":"M5sSxbQ1uPWiihEA"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"GS","VALUE_DECODE":"GS","STATUS":"enabled","isExt":false,"_id":"MD96nClN0vH6lpXX"}
+{"name":"EXTENSION_TYPE_ADMIN_NUMBER_TYPE","VALUE":"PRIA Pre-application","VALUE_DECODE":"PRIA Pre-application","STATUS":"enabled","isExt":false,"_id":"MDD7ow9yZi1hCCZB"}
+{"name":"EXTENSION_TYPE_LEGALENTITY_TYPE","VALUE":"University","VALUE_DECODE":"University","STATUS":"enabled","isExt":false,"_id":"MRIoZTQpzBOhkLKp"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Rapid: similar substance","VALUE_DECODE":"Rapid: similar substance","STATUS":"enabled","isExt":false,"_id":"NEvdZz7Ndw7Uoe97"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"OECD Annex III","VALUE_DECODE":"OECD Annex III","STATUS":"enabled","isExt":false,"_id":"NVVXZA1ah0dmq3Yz"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Cat B: Other (specify in the cover letter), EPA approval","VALUE_DECODE":"Cat B: Other (specify in the cover letter), EPA approval","STATUS":"enabled","isExt":false,"_id":"NfX7U60bwHvHEaGC"}
+{"name":"EXTENSION_TYPE_UNIT","VALUE":"BTTU/g","VALUE_DECODE":"BTTU/g","STATUS":"enabled","isExt":false,"_id":"NmqfwopjU1cfgzyg"}
+{"name":"EXTENSION_TYPE_REGULATORY_TYPE","VALUE":"21 CFR Part 11","VALUE_DECODE":"21 CFR Part 11","STATUS":"enabled","isExt":false,"_id":"NvkkuTKVhPr0QKXB"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"ST","VALUE_DECODE":"Sao Tome and Principe","STATUS":"enabled","isExt":false,"_id":"Nvr7hOJ0VjUTXSMz"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CW","VALUE_DECODE":"Curaçao","STATUS":"enabled","isExt":false,"_id":"NytKizecmY69TpLW"}
+{"name":"EXTENSION_TYPE_ADMIN_NUMBER_TYPE","VALUE":"Inert Ingredient clearance request","VALUE_DECODE":"Inert Ingredient clearance request","STATUS":"enabled","isExt":false,"_id":"O6lR0oEwQansx7Dh"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"UG","VALUE_DECODE":"Uganda","STATUS":"enabled","isExt":false,"_id":"O9N54EOK3FjJgK3J"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CA","VALUE_DECODE":"Canada","STATUS":"enabled","isExt":false,"_id":"OEanFMuZelaDbIzq"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"CB","VALUE_DECODE":"CB","STATUS":"enabled","isExt":false,"_id":"OFISbWt2euC4QrIj"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"DM","VALUE_DECODE":"Dominica","STATUS":"enabled","isExt":false,"_id":"P696d8dFG10hyW9c"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category C: New or amended label statements","VALUE_DECODE":"Category C: New or amended label statements","STATUS":"enabled","isExt":false,"_id":"P8ziv2KoePZ68IbC"}
+{"name":"EXTENSION_TYPE_TOC_OWNER","VALUE":"MAF (New Zealand)","VALUE_DECODE":"MAF (New Zealand)","STATUS":"enabled","isExt":false,"_id":"PTgTCf1t0lQkyTHC"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"DE","VALUE_DECODE":"Germany","STATUS":"enabled","isExt":false,"_id":"ParMdkcMrGGs4BP9"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"C11 - Refilling/Se","VALUE_DECODE":"C11 - Refilling/Se","STATUS":"enabled","isExt":false,"_id":"PygrgOg6LvUqlMXJ"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"NE","VALUE_DECODE":"Niger","STATUS":"enabled","isExt":false,"_id":"QO3BunmiTxOhcNTk"}
+{"name":"EXTENSION_TYPE_LEGALENTITY_IDENTIFIER_TYPE","VALUE":"DUNS-number","VALUE_DECODE":"DUNS-number","STATUS":"enabled","isExt":false,"_id":"R0WkSlVeDTHSuUsF"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GE","VALUE_DECODE":"Georgia","STATUS":"enabled","isExt":false,"_id":"RBIW3YEW2tXCqf88"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"KZ","VALUE_DECODE":"Kazakhstan","STATUS":"enabled","isExt":false,"_id":"RH5l4arZrcprB6zl"}
+{"name":"EXTENSION_TYPE_UNIT","VALUE":"%(v/v)","VALUE_DECODE":"%(v/v)","STATUS":"enabled","isExt":false,"_id":"RMKAmNubBXGbA0pJ"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MV","VALUE_DECODE":"Maldives","STATUS":"enabled","isExt":false,"_id":"ROcol4yOBlzyHR3A"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SJ","VALUE_DECODE":"Svalbard and Jan Mayen","STATUS":"enabled","isExt":false,"_id":"RRaIMjSxg9hvEr6e"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MS","VALUE_DECODE":"Montserrat","STATUS":"enabled","isExt":false,"_id":"RbfDyZknepFMDRZR"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"IQ","VALUE_DECODE":"Iraq","STATUS":"enabled","isExt":false,"_id":"RrtSvL79aRLnYIMs"}
+{"name":"EXTENSION_TYPE_DOCUMENT_NUMBER_TYPE","VALUE":"Plot Number","VALUE_DECODE":"Plot Number","STATUS":"enabled","isExt":false,"_id":"S54SzuV66VtDW9Yl"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"PA","VALUE_DECODE":"PA","STATUS":"enabled","isExt":false,"_id":"SEPycbUEAmZOzv6W"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"KN","VALUE_DECODE":"Saint Kitts and Nevis","STATUS":"enabled","isExt":false,"_id":"SGSWcxyKQicFAmKp"}
+{"name":"EXTENSION_TYPE_DOCUMENT_NUMBER_TYPE","VALUE":"Study Number","VALUE_DECODE":"Study Number","STATUS":"enabled","isExt":false,"_id":"SHKW2KUXCof19D7l"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"ID","VALUE_DECODE":"Indonesia","STATUS":"enabled","isExt":false,"_id":"SQceoWyYpXHsiYJm"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"HN","VALUE_DECODE":"Honduras","STATUS":"enabled","isExt":false,"_id":"SYhyhkU8aQrZgEDT"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"IE","VALUE_DECODE":"Ireland","STATUS":"enabled","isExt":false,"_id":"SojdB8kuqRRYazan"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CR","VALUE_DECODE":"Costa Rica","STATUS":"enabled","isExt":false,"_id":"SuJzXayMOsxxYias"}
+{"name":"EXTENSION_TYPE_UNIT","VALUE":"M CFU/ml","VALUE_DECODE":"M CFU/ml","STATUS":"enabled","isExt":false,"_id":"T1yS6SOG4XrVcbqa"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"FG","VALUE_DECODE":"FG","STATUS":"enabled","isExt":false,"_id":"TIz0NsyVUKaKVOoz"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"BB","VALUE_DECODE":"BB","STATUS":"enabled","isExt":false,"_id":"TMZGrx482GLhMYDe"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"VU","VALUE_DECODE":"Vanuatu","STATUS":"enabled","isExt":false,"_id":"TPWLzYop0PCD4XGo"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GS","VALUE_DECODE":"South Georgia and the South Sandwich Islands","STATUS":"enabled","isExt":false,"_id":"Tdrto8sDpH6Zchk6"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GH","VALUE_DECODE":"Ghana","STATUS":"enabled","isExt":false,"_id":"TqmJId2uC7SHU7A4"}
+{"name":"TYPE_DATA_REQUIREMENT","VALUE":"N","VALUE_DECODE":"No","STATUS":"enabled","isExt":false,"_id":"TutwwjsLLDx6bTpY"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"TB","VALUE_DECODE":"TB","STATUS":"enabled","isExt":false,"_id":"Tx5TaySh5EhbRIgO"}
+{"name":"EXTENSION_TYPE_REGULATORY_TYPE","VALUE":"Hazardous Substances and New Organisms Act 1996","VALUE_DECODE":"Hazardous Substances and New Organisms Act 1996","STATUS":"enabled","isExt":false,"_id":"TxMXTkqhQf3JXKEv"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"LB","VALUE_DECODE":"Lebanon","STATUS":"enabled","isExt":false,"_id":"Tz2ETH2pEVrUpKGr"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"SP","VALUE_DECODE":"SP","STATUS":"enabled","isExt":false,"_id":"U27jaEtiNm3wSHNZ"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"VI","VALUE_DECODE":"Virgin Islands, U.S.","STATUS":"enabled","isExt":false,"_id":"UBzHCYQMSMNbvjUm"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CV","VALUE_DECODE":"Cape Verde","STATUS":"enabled","isExt":false,"_id":"UOPL10hvrLFnrGoR"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"FM","VALUE_DECODE":"Micronesia (Federated States of)","STATUS":"enabled","isExt":false,"_id":"UPOUYEi1e8PfypiK"}
+{"name":"EXTENSION_TYPE_UNIT","VALUE":"CFU/kg","VALUE_DECODE":"CFU/kg","STATUS":"enabled","isExt":false,"_id":"UPz4mVfqvYQ1SNqZ"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category A: New Active Ingredient, URMUR","VALUE_DECODE":"Category A: New Active Ingredient, URMUR","STATUS":"enabled","isExt":false,"_id":"UV725XjX5AUvcsyb"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MN","VALUE_DECODE":"Mongolia","STATUS":"enabled","isExt":false,"_id":"UkKRozczYxyiULRD"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CX","VALUE_DECODE":"Christmas Island","STATUS":"enabled","isExt":false,"_id":"UlegE3RA3fsajXCV"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Provisional","VALUE_DECODE":"Provisional","STATUS":"enabled","isExt":false,"_id":"V3x8fk6hpW11Pnan"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CI","VALUE_DECODE":"Côte d'Ivoire","STATUS":"enabled","isExt":false,"_id":"V4gG8HXjjhXW5zQx"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"AL","VALUE_DECODE":"AL","STATUS":"enabled","isExt":false,"_id":"V6ZYb9enzFyyFgax"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category E: Research Authorization","VALUE_DECODE":"Category E: Research Authorization","STATUS":"enabled","isExt":false,"_id":"VV1Z6t1h5qLQoRGw"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"KN","VALUE_DECODE":"KN","STATUS":"enabled","isExt":false,"_id":"VjkkVVf2KGenOQDT"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"C2 - Manufacturing","VALUE_DECODE":"C2 - Manufacturing","STATUS":"enabled","isExt":false,"_id":"W8Fsdlq3tP0Wp97Y"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"KR","VALUE_DECODE":"Korea","STATUS":"enabled","isExt":false,"_id":"WFxWrRWoXUU5A86U"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"SL","VALUE_DECODE":"SL","STATUS":"enabled","isExt":false,"_id":"WHNJjXdzjaY9fGp2"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"SO","VALUE_DECODE":"SO","STATUS":"enabled","isExt":false,"_id":"WIUN8Dcpb03xbnQN"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"KP","VALUE_DECODE":"Democratic People's Republic of Korea","STATUS":"enabled","isExt":false,"_id":"WapvMpP6divSXmKu"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"IR","VALUE_DECODE":"Iran (Islamic Republic of)","STATUS":"enabled","isExt":false,"_id":"Wcb6kxCDw3J4okvb"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"FT","VALUE_DECODE":"FT","STATUS":"enabled","isExt":false,"_id":"WjiJ1iOh3vzOX7aE"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"LV","VALUE_DECODE":"Latvia","STATUS":"enabled","isExt":false,"_id":"WsvGxEdzJCbYUCcm"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"IS","VALUE_DECODE":"Iceland","STATUS":"enabled","isExt":false,"_id":"WvxNIRijE2QfGrDw"}
+{"name":"EXTENSION_TYPE_UNIT","VALUE":"%(w/w)","VALUE_DECODE":"%(w/w)","STATUS":"enabled","isExt":false,"_id":"WzuU85pf0ga1NaaA"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"FS","VALUE_DECODE":"FS","STATUS":"enabled","isExt":false,"_id":"X3UnGQnc62BDpnne"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category D: Label Improvement Program","VALUE_DECODE":"Category D: Label Improvement Program","STATUS":"enabled","isExt":false,"_id":"XNHSPWLM0dd49sV1"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GQ","VALUE_DECODE":"Equatorial Guinea","STATUS":"enabled","isExt":false,"_id":"XPsTpzk0LGqXBFUi"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category B: Conversion/Renewal of Conditional Registration","VALUE_DECODE":"Category B: Conversion/Renewal of Conditional Registration","STATUS":"enabled","isExt":false,"_id":"XccBpXGxKr8CnYJs"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"AL","VALUE_DECODE":"Albania","STATUS":"enabled","isExt":false,"_id":"XdSMj7gHuCrXvcnQ"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GT","VALUE_DECODE":"Guatemala","STATUS":"enabled","isExt":false,"_id":"Xf92Pv6i5p2T48II"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"LR","VALUE_DECODE":"Liberia","STATUS":"enabled","isExt":false,"_id":"XuI6skTxhc4cVlx5"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"ET","VALUE_DECODE":"Ethiopia","STATUS":"enabled","isExt":false,"_id":"XuKNGOV17PIbqdaT"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"HN","VALUE_DECODE":"HN","STATUS":"enabled","isExt":false,"_id":"Xy6YLgmpEjCKo9iV"}
+{"name":"TYPE_FILE_TYPE","VALUE":"Source","VALUE_DECODE":"Source","STATUS":"enabled","isExt":false,"_id":"Y3RpxPM07IHzmusG"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MT","VALUE_DECODE":"Malta","STATUS":"enabled","isExt":false,"_id":"Y41KXUwbYlGb13gb"}
+{"name":"EXTENSION_TYPE_UNIT","VALUE":"M CFU/g","VALUE_DECODE":"M CFU/g","STATUS":"enabled","isExt":false,"_id":"Y6Y6Ukcq0hSUqgdH"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Change in source of registered active ingredient","VALUE_DECODE":"Change in source of registered active ingredient","STATUS":"enabled","isExt":false,"_id":"Y6kpjAxYeCRZ4cyP"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BQ","VALUE_DECODE":"Bonaire, Sint Eustatius and Saba","STATUS":"enabled","isExt":false,"_id":"Y7agycBzWFj75FmB"}
+{"name":"TYPE_DATA_PROTECTION","VALUE":"N","VALUE_DECODE":"No","STATUS":"enabled","isExt":false,"_id":"YBW9GbhxLq5Nwcdg"}
+{"name":"EXTENSION_TYPE_UNIT","VALUE":"granules/L","VALUE_DECODE":"granules/L","STATUS":"enabled","isExt":false,"_id":"YQuAYZOx0678p7Gj"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Cat B: New or amended product chemistry, EPA approval","VALUE_DECODE":"Cat B: New or amended product chemistry, EPA approval","STATUS":"enabled","isExt":false,"_id":"YTlrUnwOf3IYW9GR"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"PW","VALUE_DECODE":"Palau","STATUS":"enabled","isExt":false,"_id":"YVklh8TZ4PiR48W9"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GI","VALUE_DECODE":"Gibraltar","STATUS":"enabled","isExt":false,"_id":"Yn1NB1WcE8JL80Y3"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category X: Incident Report","VALUE_DECODE":"Category X: Incident Report","STATUS":"enabled","isExt":false,"_id":"YrZLlHjBq5vBau3P"}
+{"name":"EXTENSION_TYPE_UNIT","VALUE":"mg/kg","VALUE_DECODE":"mg/kg","STATUS":"enabled","isExt":false,"_id":"Yy30pI6te9v2pO0A"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"UM","VALUE_DECODE":"United States Minor Outlying Islands","STATUS":"enabled","isExt":false,"_id":"Z647QpJP5MpwvEhM"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GU","VALUE_DECODE":"Guam","STATUS":"enabled","isExt":false,"_id":"ZU9LreUinJg5t7Zd"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"GE","VALUE_DECODE":"GE","STATUS":"enabled","isExt":false,"_id":"ZXlrZ70v7ZYY5kON"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BJ","VALUE_DECODE":"Benin","STATUS":"enabled","isExt":false,"_id":"ZhQvaTn7bNgfc002"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"FW","VALUE_DECODE":"FW","STATUS":"enabled","isExt":false,"_id":"ZoL0IXhsIiaS72gT"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MY","VALUE_DECODE":"Malaysia","STATUS":"enabled","isExt":false,"_id":"ZyfeTLeRhHPuHz60"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CO","VALUE_DECODE":"Colombia","STATUS":"enabled","isExt":false,"_id":"ZyswaMRJB2rnUcjf"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SV","VALUE_DECODE":"El Salvador","STATUS":"enabled","isExt":false,"_id":"a70lN9JgrvCG4Kyj"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SG","VALUE_DECODE":"Singapore","STATUS":"enabled","isExt":false,"_id":"aCZS2gDfPWWMygVY"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"NZ","VALUE_DECODE":"New Zealand","STATUS":"enabled","isExt":false,"_id":"aCc1hypXmmPykYqT"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MX","VALUE_DECODE":"Mexico","STATUS":"enabled","isExt":false,"_id":"aDPGtRI6wUxHGfkq"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"WS","VALUE_DECODE":"Samoa","STATUS":"enabled","isExt":false,"_id":"aVR016z3B8cfZcjt"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"AW","VALUE_DECODE":"Aruba","STATUS":"enabled","isExt":false,"_id":"aWMLSe9axyxGkzem"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category B: New MRL(s) for previously assessed active ingredient","VALUE_DECODE":"Category B: New MRL(s) for previously assessed active ingredient","STATUS":"enabled","isExt":false,"_id":"afP4Q3jSSmK78vYv"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"JO","VALUE_DECODE":"Jordan","STATUS":"enabled","isExt":false,"_id":"awx8ZovDmBf2vOI0"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category F: Administrative changes: Change in source of registered active ingredient","VALUE_DECODE":"Category F: Administrative changes: Change in source of registered active ingredient","STATUS":"enabled","isExt":false,"_id":"b2ODuWJ3Tlcs5ycE"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SB","VALUE_DECODE":"Solomon Islands","STATUS":"enabled","isExt":false,"_id":"b4g6qIe4hAWJasoz"}
+{"name":"TYPE_REFERENCE_TYPE","VALUE":"document to unchanged predecessor document","VALUE_DECODE":"document to unchanged predecessor document","STATUS":"enabled","isExt":false,"_id":"bO2Eot3ipk7OVKwO"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GW","VALUE_DECODE":"Guinea-Bissau","STATUS":"enabled","isExt":false,"_id":"bR9iKsTNVeBQP6Qb"}
+{"name":"EXTENSION_TYPE_REGULATORY_TYPE","VALUE":"Agricultural Compounds and Veterinary Medicines Act 1997","VALUE_DECODE":"Agricultural Compounds and Veterinary Medicines Act 1997","STATUS":"enabled","isExt":false,"_id":"bWhcnYeLb8tm96K5"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"EH","VALUE_DECODE":"Western Sahara","STATUS":"enabled","isExt":false,"_id":"bWmvaE5jleZKp3n8"}
+{"name":"EXTENSION_TYPE_RA_DOCUMENT_NUMBER_TYPE","VALUE":"MRID","VALUE_DECODE":"MRID","STATUS":"enabled","isExt":false,"_id":"bXhgemu0wG6oX1vn"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"C6 - Dose/rate","VALUE_DECODE":"C6 - Dose/rate","STATUS":"enabled","isExt":false,"_id":"bYiya2QN1fCd9cqw"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Containment","VALUE_DECODE":"Containment","STATUS":"enabled","isExt":false,"_id":"btFJyijllUCo047Z"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"ES","VALUE_DECODE":"ES","STATUS":"enabled","isExt":false,"_id":"c4tBcDp1Cb29P3Zs"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"PN","VALUE_DECODE":"Pitcairn","STATUS":"enabled","isExt":false,"_id":"cGerhGd0DjRtdZVo"}
+{"name":"EXTENSION_TYPE_UNIT","VALUE":"CFU/L","VALUE_DECODE":"CFU/L","STATUS":"enabled","isExt":false,"_id":"cNTl3K8Or6wGmVzc"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CK","VALUE_DECODE":"Cook Islands","STATUS":"enabled","isExt":false,"_id":"cPqCsZjltiZVezS4"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category G: Voluntary Submission of Data","VALUE_DECODE":"Category G: Voluntary Submission of Data","STATUS":"enabled","isExt":false,"_id":"cT3JLm1Qqse01EzJ"}
+{"name":"TYPE_REFERENCE_TYPE","VALUE":"document to replaced document","VALUE_DECODE":"document to replaced document","STATUS":"enabled","isExt":false,"_id":"ciKS2iVNvdF4JhN3"}
+{"name":"EXTENSION_TYPE_LEGALENTITY_TYPE","VALUE":"Regulatory Authority","VALUE_DECODE":"Regulatory Authority","STATUS":"enabled","isExt":false,"_id":"cj3nwMoZZkmoJE0L"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"TW","VALUE_DECODE":"Chinese Taipei","STATUS":"enabled","isExt":false,"_id":"cjHrqPWljMDVZ3gv"}
+{"name":"TYPE_FILE_TYPE","VALUE":"XML Summary","VALUE_DECODE":"XML Summary","STATUS":"enabled","isExt":false,"_id":"clss8uhtwIipZNm5"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"OL","VALUE_DECODE":"OL","STATUS":"enabled","isExt":false,"_id":"ctmkP0yYicRwCJlh"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"FK","VALUE_DECODE":"FK","STATUS":"enabled","isExt":false,"_id":"cvrh7brsZ7O0IhnU"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"FI","VALUE_DECODE":"Finland","STATUS":"enabled","isExt":false,"_id":"cwrTpfCotujaiJQR"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"DJ","VALUE_DECODE":"Djibouti","STATUS":"enabled","isExt":false,"_id":"dJoeWP9BRT5N4CiN"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"VE","VALUE_DECODE":"Venezuela (Bolivarian Republic of)","STATUS":"enabled","isExt":false,"_id":"dUJtufJTipXLx6Gn"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"AI","VALUE_DECODE":"Anguilla","STATUS":"enabled","isExt":false,"_id":"daAtun0rHS4UNz3h"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SR","VALUE_DECODE":"Suriname","STATUS":"enabled","isExt":false,"_id":"doEGS83WvGfdPniB"}
+{"name":"EXTENSION_TYPE_REGULATORY_TYPE","VALUE":"Food Quality Protection Act","VALUE_DECODE":"Food Quality Protection Act","STATUS":"enabled","isExt":false,"_id":"dvPaX8oof87fCmXo"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"DAS","VALUE_DECODE":"DAS","STATUS":"enabled","isExt":false,"_id":"eHoPDlckso1Os44A"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"US","VALUE_DECODE":"United States","STATUS":"enabled","isExt":false,"_id":"eKvCJ8ji0iVFjo5E"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MH","VALUE_DECODE":"Marshall Islands","STATUS":"enabled","isExt":false,"_id":"eLmbWg2OgIYCvmnQ"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"DO","VALUE_DECODE":"Dominican Republic","STATUS":"enabled","isExt":false,"_id":"eSMogigbDDHMOTiY"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"PR","VALUE_DECODE":"PR","STATUS":"enabled","isExt":false,"_id":"eZ0VuEHwZkq9xoSo"}
+{"name":"EXTENSION_TYPE_UNIT","VALUE":"thou IU/ml","VALUE_DECODE":"thou IU/ml","STATUS":"enabled","isExt":false,"_id":"epC2fziol4fFu9lO"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BF","VALUE_DECODE":"Burkina Faso","STATUS":"enabled","isExt":false,"_id":"etvru0ZS9eKHYm4e"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"HU","VALUE_DECODE":"Hungary","STATUS":"enabled","isExt":false,"_id":"ewr9rEd6cvqlKDf0"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"FP","VALUE_DECODE":"FP","STATUS":"enabled","isExt":false,"_id":"ey6FFcDxltLTVFHf"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SZ","VALUE_DECODE":"Swaziland","STATUS":"enabled","isExt":false,"_id":"ezqkSAnHEtnilTAP"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BA","VALUE_DECODE":"Bosnia and Herzegovina","STATUS":"enabled","isExt":false,"_id":"f2M1RvWLpoV4U1Zv"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BN","VALUE_DECODE":"Brunei Darussalam","STATUS":"enabled","isExt":false,"_id":"f74gEOyZnntEPUgV"}
+{"name":"EXTENSION_TYPE_REGULATORY_TYPE","VALUE":"1107/2009/EG","VALUE_DECODE":"1107/2009/EG","STATUS":"enabled","isExt":false,"_id":"fTptV2Wuu9kT5Syi"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"SE","VALUE_DECODE":"SE","STATUS":"enabled","isExt":false,"_id":"fX0iGzsRsRQrrEKD"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"TR","VALUE_DECODE":"Turkey","STATUS":"enabled","isExt":false,"_id":"fc2ifKJi9jlcyA3s"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"LT","VALUE_DECODE":"Lithuania","STATUS":"enabled","isExt":false,"_id":"fmEXOc7ebZxTkLdx"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CD","VALUE_DECODE":"Democratic Republic of the Congo","STATUS":"enabled","isExt":false,"_id":"fqoFlaetRecGM5MQ"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"TH","VALUE_DECODE":"Thailand","STATUS":"enabled","isExt":false,"_id":"furodfLrfp1XUIxT"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category B: Other (specify in the cover letter)","VALUE_DECODE":"Category B: Other (specify in the cover letter)","STATUS":"enabled","isExt":false,"_id":"fzAHeCqUGFoQtWrZ"}
+{"name":"EXTENSION_TYPE_DOCUMENT_NUMBER_TYPE","VALUE":"Old Report Number","VALUE_DECODE":"Old Report Number","STATUS":"enabled","isExt":false,"_id":"fzbzfjVKwPpDWI8P"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"PG","VALUE_DECODE":"Papua New Guinea","STATUS":"enabled","isExt":false,"_id":"g4bHHTdzWfZnN5o4"}
+{"name":"EXTENSION_TYPE_TOC_OWNER","VALUE":"EPA (US)","VALUE_DECODE":"EPA (US)","STATUS":"enabled","isExt":false,"_id":"g8AK84eYVBOw4iZU"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"EO","VALUE_DECODE":"EO","STATUS":"enabled","isExt":false,"_id":"gB71wb0oRF3q6e5H"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MQ","VALUE_DECODE":"Martinique","STATUS":"enabled","isExt":false,"_id":"gCSdraX66Aqdc9K6"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"OP","VALUE_DECODE":"OP","STATUS":"enabled","isExt":false,"_id":"gGtgWr4Xj8ltOxVr"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BV","VALUE_DECODE":"Bouvet Island","STATUS":"enabled","isExt":false,"_id":"ga312TJRs891uSNH"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"OECD Annex II","VALUE_DECODE":"OECD Annex II","STATUS":"enabled","isExt":false,"_id":"gigFaI9nBcJEOf0A"}
+{"name":"EXTENSION_TYPE_ADMIN_NUMBER_TYPE","VALUE":"Section 3 product","VALUE_DECODE":"Section 3 product","STATUS":"enabled","isExt":false,"_id":"gpNzbAyrINU4aiHK"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category B: New or amended label statements","VALUE_DECODE":"Category B: New or amended label statements","STATUS":"enabled","isExt":false,"_id":"gswzhNi7Bu64nvtI"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"VG","VALUE_DECODE":"British Virgin Islands","STATUS":"enabled","isExt":false,"_id":"h3FvkxbuiIW3lNZl"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"C1 - Formulation","VALUE_DECODE":"C1 - Formulation","STATUS":"enabled","isExt":false,"_id":"h6LHCor8rb4k0tVf"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"AO","VALUE_DECODE":"Angola","STATUS":"enabled","isExt":false,"_id":"hN4F0MPoaI37qxx4"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BM","VALUE_DECODE":"Bermuda","STATUS":"enabled","isExt":false,"_id":"hO5WXxc5FEDoh399"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BL","VALUE_DECODE":"Saint Barthélemy","STATUS":"enabled","isExt":false,"_id":"hYDTyYROuLgUCWbU"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"KG","VALUE_DECODE":"Kyrgyzstan","STATUS":"enabled","isExt":false,"_id":"hdvQmWjjkHWY590Q"}
+{"name":"EXTENSION_TYPE_UNIT","VALUE":"trace","VALUE_DECODE":"trace","STATUS":"enabled","isExt":false,"_id":"hjtidxm94eeL4XY7"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category R: Data for Re-evaluation","VALUE_DECODE":"Category R: Data for Re-evaluation","STATUS":"enabled","isExt":false,"_id":"hpuR5ptUKfTwbHmq"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CL","VALUE_DECODE":"Chile","STATUS":"enabled","isExt":false,"_id":"hqo2fnICo6A6tOdY"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Amendment","VALUE_DECODE":"Amendment","STATUS":"enabled","isExt":false,"_id":"hrREyeoIlWS7lJ1L"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"ES","VALUE_DECODE":"Spain","STATUS":"enabled","isExt":false,"_id":"hvTm6tz6du8oIpVd"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MF","VALUE_DECODE":"Saint Martin","STATUS":"enabled","isExt":false,"_id":"hzcRtnFGuqGVOsiE"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MZ","VALUE_DECODE":"Mozambique","STATUS":"enabled","isExt":false,"_id":"i27y0r6So8mjqZq3"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Cat B: New or amended label statements, EPA  approval","VALUE_DECODE":"Cat B: New or amended label statements, EPA  approval","STATUS":"enabled","isExt":false,"_id":"iYvaVtgiFxK7rXnK"}
+{"name":"EXTENSION_TYPE_UNIT","VALUE":"g/L","VALUE_DECODE":"g/L","STATUS":"enabled","isExt":false,"_id":"igztNlSj05FwfbqH"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GR","VALUE_DECODE":"Greece","STATUS":"enabled","isExt":false,"_id":"is2igFNrAbiXwz7Y"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"NP","VALUE_DECODE":"Nepal","STATUS":"enabled","isExt":false,"_id":"j4rcgy05n9YZ2IQm"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"KE","VALUE_DECODE":"Kenya","STATUS":"enabled","isExt":false,"_id":"jLB6kGPwZY3jgMWC"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"IL","VALUE_DECODE":"Israel","STATUS":"enabled","isExt":false,"_id":"jc6RhGai9L4KDPv1"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"UA","VALUE_DECODE":"Ukraine","STATUS":"enabled","isExt":false,"_id":"k4c9yBeGEimf2P14"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category G: Submit Information as a Third Party","VALUE_DECODE":"Category G: Submit Information as a Third Party","STATUS":"enabled","isExt":false,"_id":"kDFl3vB2YB9YTvrr"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"JE","VALUE_DECODE":"Jersey","STATUS":"enabled","isExt":false,"_id":"kMLNyLFMvlz5GlUM"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SY","VALUE_DECODE":"Syrian Arab Republic","STATUS":"enabled","isExt":false,"_id":"kd3Rzbbv3oKbRStE"}
+{"name":"EXTENSION_TYPE_REGULATORY_TYPE","VALUE":"98/8/EG","VALUE_DECODE":"98/8/EG","STATUS":"enabled","isExt":false,"_id":"kec24YFWHnZr8mp5"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MU","VALUE_DECODE":"Mauritius","STATUS":"enabled","isExt":false,"_id":"kuSVJu5LvEks4csO"}
+{"name":"EXTENSION_TYPE_DOCUMENT_NUMBER_TYPE","VALUE":"Report Number","VALUE_DECODE":"Report Number","STATUS":"enabled","isExt":false,"_id":"lB3R6o4K8g96WOUf"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CM","VALUE_DECODE":"Cameroon","STATUS":"enabled","isExt":false,"_id":"lHbwo60rOJvm0tLS"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category D: IMEP","VALUE_DECODE":"Category D: IMEP","STATUS":"enabled","isExt":false,"_id":"lOQTl5FbtxO9kLRy"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"AE","VALUE_DECODE":"AE","STATUS":"enabled","isExt":false,"_id":"lZx0QUgJcUZN6wjx"}
+{"name":"EXTENSION_TYPE_UNIT","VALUE":"g/L (as CU)","VALUE_DECODE":"g/L (as CU)","STATUS":"enabled","isExt":false,"_id":"laQo77uMWMsBNaxu"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"NL","VALUE_DECODE":"Netherlands","STATUS":"enabled","isExt":false,"_id":"lqB5pS0cQbcyjBp4"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"PMRA DACO","VALUE_DECODE":"PMRA DACO","STATUS":"enabled","isExt":false,"_id":"m2QGGZn9NqRrnM8s"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"A2 - Known active","VALUE_DECODE":"A2 - Known active","STATUS":"enabled","isExt":false,"_id":"m4NrhgK42aNxNzyQ"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"DZ","VALUE_DECODE":"Algeria","STATUS":"enabled","isExt":false,"_id":"mHCrLTzmiUUHE6iU"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"TL","VALUE_DECODE":"Timor-Leste","STATUS":"enabled","isExt":false,"_id":"mNo4xtN38JpX6evF"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"SG","VALUE_DECODE":"SG","STATUS":"enabled","isExt":false,"_id":"mU0c84dZwg7RjQeO"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"RB","VALUE_DECODE":"RB","STATUS":"enabled","isExt":false,"_id":"mc1ZNlYlRA6Mtm8m"}
+{"name":"EXTENSION_TYPE_LEGALENTITY_IDENTIFIER_TYPE","VALUE":"SAP","VALUE_DECODE":"SAP","STATUS":"enabled","isExt":false,"_id":"mpHF4VY8CHycLNHf"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"FR","VALUE_DECODE":"France","STATUS":"enabled","isExt":false,"_id":"mpdyEHEtXJREmpev"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"UZ","VALUE_DECODE":"Uzbekistan","STATUS":"enabled","isExt":false,"_id":"myDMyZnNWu5mZKQM"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"AD","VALUE_DECODE":"Andorra","STATUS":"enabled","isExt":false,"_id":"n0SGGW3mc2uMTrOR"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"IN","VALUE_DECODE":"India","STATUS":"enabled","isExt":false,"_id":"n32OeNZodz8hQ8Z9"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"NR","VALUE_DECODE":"Nauru","STATUS":"enabled","isExt":false,"_id":"n7S3JtFNDtJiZRIy"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"KI","VALUE_DECODE":"Kiribati","STATUS":"enabled","isExt":false,"_id":"nBjOvm1E8kjFnMXl"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category B: Emergency Registration","VALUE_DECODE":"Category B: Emergency Registration","STATUS":"enabled","isExt":false,"_id":"nCbjkMuoTFhjfu0Q"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"C3 - Shelf life/pa","VALUE_DECODE":"C3 - Shelf life/pa","STATUS":"enabled","isExt":false,"_id":"nExtRj9O4zEH0R4W"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"GR","VALUE_DECODE":"GR","STATUS":"enabled","isExt":false,"_id":"nGLT51ifklTeEKzS"}
+{"name":"EXTENSION_TYPE_LEGALENTITY_TYPE","VALUE":"Company","VALUE_DECODE":"Company","STATUS":"enabled","isExt":false,"_id":"nNu1Z0SNnvfdms1m"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BI","VALUE_DECODE":"Burundi","STATUS":"enabled","isExt":false,"_id":"nTfmscfd19ORoQRE"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category S: Sales Report","VALUE_DECODE":"Category S: Sales Report","STATUS":"enabled","isExt":false,"_id":"nahQt2tsvHNiXcZH"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"VP","VALUE_DECODE":"VP","STATUS":"enabled","isExt":false,"_id":"najiHwU9f8kSNxIs"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"B1 - Identical","VALUE_DECODE":"B1 - Identical","STATUS":"enabled","isExt":false,"_id":"ngoKmC3HpCIe4ukb"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"PK","VALUE_DECODE":"Pakistan","STATUS":"enabled","isExt":false,"_id":"nlPuwzG21xIn5AeW"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"ZW","VALUE_DECODE":"Zimbabwe","STATUS":"enabled","isExt":false,"_id":"o4uzrIlE4uw3jH1U"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"TV","VALUE_DECODE":"Tuvalu","STATUS":"enabled","isExt":false,"_id":"o5UMJLpjNz4AAZGH"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"C9 - Reg Renewal","VALUE_DECODE":"C9 - Reg Renewal","STATUS":"enabled","isExt":false,"_id":"oFISPtvSKXTizOfo"}
+{"name":"EXTENSION_TYPE_UNIT","VALUE":"qs","VALUE_DECODE":"qs","STATUS":"enabled","isExt":false,"_id":"oSJxeiQ2jARo8aJt"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BT","VALUE_DECODE":"Bhutan","STATUS":"enabled","isExt":false,"_id":"oVwGEGMAb59yLq1q"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CN","VALUE_DECODE":"China","STATUS":"enabled","isExt":false,"_id":"ocRo4hOzXZU2fs6n"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BO","VALUE_DECODE":"Bolivia (Plurinational State of)","STATUS":"enabled","isExt":false,"_id":"p8lLiY3nT7dQhnVw"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"LA","VALUE_DECODE":"Lao People's Democratic Republic","STATUS":"enabled","isExt":false,"_id":"pD9yowMfV6m8CDpf"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"NA","VALUE_DECODE":"Namibia","STATUS":"enabled","isExt":false,"_id":"pIOXcHdgWZHi7uP3"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SH","VALUE_DECODE":"Saint Helena, Ascension and Tristan da Cunha","STATUS":"enabled","isExt":false,"_id":"pSjw1684rH8RLm1S"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category F: Administrative changes: Other (specify in the cover letter)","VALUE_DECODE":"Category F: Administrative changes: Other (specify in the cover letter)","STATUS":"enabled","isExt":false,"_id":"podYDbszynHzJt4u"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"RE","VALUE_DECODE":"Réunion","STATUS":"enabled","isExt":false,"_id":"ppiJqFzCAVwaDSl1"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Rapid: lesser degree of hazard than an approved substance","VALUE_DECODE":"Rapid: lesser degree of hazard than an approved substance","STATUS":"enabled","isExt":false,"_id":"ppmEXxIMoqYSA8DR"}
+{"name":"EXTENSION_TYPE_REGULATORY_TYPE","VALUE":"PCPA-Pest Control Products Act","VALUE_DECODE":"PCPA-Pest Control Products Act","STATUS":"enabled","isExt":false,"_id":"pzBEcRA4IlSIzecY"}
+{"name":"EXTENSION_TYPE_ADMIN_NUMBER_TYPE","VALUE":"PMRA Decision No","VALUE_DECODE":"PMRA Decision No","STATUS":"enabled","isExt":false,"_id":"qCGl6tVcIy6FQiFs"}
+{"name":"EXTENSION_TYPE_UNIT","VALUE":"mg/L","VALUE_DECODE":"mg/L","STATUS":"enabled","isExt":false,"_id":"qCbF2AcXN7e64gUn"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Cat C: New active ingredient, EPA approval","VALUE_DECODE":"Cat C: New active ingredient, EPA approval","STATUS":"enabled","isExt":false,"_id":"qWsBkbwghVzpB32P"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"PL","VALUE_DECODE":"Poland","STATUS":"enabled","isExt":false,"_id":"qjc6Z1CWwkqoKWtH"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"EU OECD dRR","VALUE_DECODE":"EU OECD dRR","STATUS":"enabled","isExt":false,"_id":"qpQz3DFNtQW4Ho5F"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"SC","VALUE_DECODE":"SC","STATUS":"enabled","isExt":false,"_id":"qsqkwCFDGX0CpvwG"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"EE","VALUE_DECODE":"Estonia","STATUS":"enabled","isExt":false,"_id":"rZ3NSZFfGBYCEjOM"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"BD","VALUE_DECODE":"Bangladesh","STATUS":"enabled","isExt":false,"_id":"rejOkuZLp6i9xuC4"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"FO","VALUE_DECODE":"Faroe Islands","STATUS":"enabled","isExt":false,"_id":"rglwzeAnM140w8cx"}
+{"name":"TYPE_METADATA_STATUS","VALUE":"Modified","VALUE_DECODE":"Modified","STATUS":"enabled","isExt":false,"_id":"rjT4JPltyzbaN1WH"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"PA","VALUE_DECODE":"Panama","STATUS":"enabled","isExt":false,"_id":"rkeO6JaZPDzGYGBn"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"GP","VALUE_DECODE":"GP","STATUS":"enabled","isExt":false,"_id":"rpfx1dvAyo0i4DtN"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"MP","VALUE_DECODE":"Northern Mariana Islands","STATUS":"enabled","isExt":false,"_id":"rxq30nNRS39porzZ"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"CF","VALUE_DECODE":"Central African Republic","STATUS":"enabled","isExt":false,"_id":"rzEmRWrTkPrnz7lf"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"WG","VALUE_DECODE":"WG","STATUS":"enabled","isExt":false,"_id":"sYsFCo3wOdtuNgDi"}
+{"name":"EXTENSION_TYPE_ADMIN_NUMBER_TYPE","VALUE":"BVL Kenn-Nr.","VALUE_DECODE":"BVL Kenn-Nr.","STATUS":"enabled","isExt":false,"_id":"seQOX4XJfnpiev1o"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"DC","VALUE_DECODE":"DC","STATUS":"enabled","isExt":false,"_id":"sjTBxNx7sGWOFGz6"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"PF","VALUE_DECODE":"French Polynesia","STATUS":"enabled","isExt":false,"_id":"spPLFBFI7p5yRNnn"}
+{"name":"EXTENSION_TYPE_RA_DOCUMENT_NUMBER_TYPE","VALUE":"PRMA document number","VALUE_DECODE":"PRMA document number","STATUS":"enabled","isExt":false,"_id":"swob3hzT7PdgMM1y"}
+{"name":"EXTENSION_TYPE_LEGALENTITY_TYPE","VALUE":"Third Party","VALUE_DECODE":"Third Party","STATUS":"enabled","isExt":false,"_id":"t4y0HwDY7u7PZBK8"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"SU","VALUE_DECODE":"SU","STATUS":"enabled","isExt":false,"_id":"tK1AJYFqeY5nY67R"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"AZ","VALUE_DECODE":"Azerbaijan","STATUS":"enabled","isExt":false,"_id":"tTR1mkMp7KnLkYbH"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"C10 - Reassessment","VALUE_DECODE":"C10 - Reassessment","STATUS":"enabled","isExt":false,"_id":"tV5PeJeOtMUUNFf2"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"ZM","VALUE_DECODE":"Zambia","STATUS":"enabled","isExt":false,"_id":"tZJKxo8fo0NN9rCC"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"PB","VALUE_DECODE":"PB","STATUS":"enabled","isExt":false,"_id":"tcNZ8poiFs3FRC3m"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SM","VALUE_DECODE":"San Marino","STATUS":"enabled","isExt":false,"_id":"tquEWlrh5jkmM045"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SI","VALUE_DECODE":"Slovenia","STATUS":"enabled","isExt":false,"_id":"uUEkE41DMfDOI2YR"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SN","VALUE_DECODE":"Senegal","STATUS":"enabled","isExt":false,"_id":"uXrRZuSHCFkuZjY4"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"PS","VALUE_DECODE":"PS","STATUS":"enabled","isExt":false,"_id":"udB9YAamptFLl92o"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"AF","VALUE_DECODE":"Afghanistan","STATUS":"enabled","isExt":false,"_id":"udrKGzUmFXI403wE"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"VN","VALUE_DECODE":"Viet Nam","STATUS":"enabled","isExt":false,"_id":"uy92jn112z85KhSf"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"GD","VALUE_DECODE":"Grenada","STATUS":"enabled","isExt":false,"_id":"uza90pjtTxMpgqHw"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"PS","VALUE_DECODE":"Palestinian Authority","STATUS":"enabled","isExt":false,"_id":"v905RNmqqYLDNXjR"}
+{"name":"EXTENSION_TYPE_UNIT","VALUE":"B CFU/g","VALUE_DECODE":"B CFU/g","STATUS":"enabled","isExt":false,"_id":"vTddMLwjXamL0GIw"}
+{"name":"EXTENSION_TYPE_DOCUMENT_NUMBER_TYPE","VALUE":"Project Number","VALUE_DECODE":"Project Number","STATUS":"enabled","isExt":false,"_id":"vcYFTgRkmRi5ywNP"}
+{"name":"EXTENSION_TYPE_UNIT","VALUE":"B cells/ml","VALUE_DECODE":"B cells/ml","STATUS":"enabled","isExt":false,"_id":"ve3oPdezed0HI35q"}
+{"name":"EXTENSION_TYPE_TOC_OWNER","VALUE":"PMRA (Canada)","VALUE_DECODE":"PMRA (Canada)","STATUS":"enabled","isExt":false,"_id":"vkggGDUUHWS8ZpfZ"}
+{"name":"EXTENSION_TYPE_UNIT","VALUE":"M Units/dowel","VALUE_DECODE":"M Units/dowel","STATUS":"enabled","isExt":false,"_id":"vktkJkc2HMduiwWH"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"NI","VALUE_DECODE":"Nicaragua","STATUS":"enabled","isExt":false,"_id":"vmdguvhgGD2vIoRs"}
+{"name":"EXTENSION_TYPE_LEGALENTITY_IDENTIFIER_TYPE","VALUE":"VAT-number","VALUE_DECODE":"VAT-number","STATUS":"enabled","isExt":false,"_id":"vxcNEKHPI3HkJpjp"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"TJ","VALUE_DECODE":"Tajikistan","STATUS":"enabled","isExt":false,"_id":"w0TTsUA33qkvsvSo"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"LI","VALUE_DECODE":"Liechtenstein","STATUS":"enabled","isExt":false,"_id":"w3DqnirYbPSg0Svn"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"DP","VALUE_DECODE":"DP","STATUS":"enabled","isExt":false,"_id":"w5GnJHST1aUE9Fdq"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"TM","VALUE_DECODE":"Turkmenistan","STATUS":"enabled","isExt":false,"_id":"wjihxrPg3T0EGWxQ"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"WF","VALUE_DECODE":"Wallis And Futuna","STATUS":"enabled","isExt":false,"_id":"wk1VX6i6SjorigWA"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"NC","VALUE_DECODE":"New Caledonia","STATUS":"enabled","isExt":false,"_id":"xZp2hx16Q5ZJbzzj"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"NO","VALUE_DECODE":"Norway","STATUS":"enabled","isExt":false,"_id":"xa6npyTExglcJwLO"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"ER","VALUE_DECODE":"Eritrea","STATUS":"enabled","isExt":false,"_id":"xkZluceAZOFJdiVL"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category B: New or amended product chemistry","VALUE_DECODE":"Category B: New or amended product chemistry","STATUS":"enabled","isExt":false,"_id":"y0p4CizpuOkmj3Kh"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"Category A: New Active Ingredient, Import MRL only","VALUE_DECODE":"Category A: New Active Ingredient, Import MRL only","STATUS":"enabled","isExt":false,"_id":"y3soxnLvoVKHDVSa"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"BR","VALUE_DECODE":"BR","STATUS":"enabled","isExt":false,"_id":"yDD1A5SgpGTEwdOt"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"PC","VALUE_DECODE":"PC","STATUS":"enabled","isExt":false,"_id":"yG15CerJyqy7XTXH"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"FU","VALUE_DECODE":"FU","STATUS":"enabled","isExt":false,"_id":"yJ6PvRmD9HMXa27H"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SA","VALUE_DECODE":"Saudi Arabia","STATUS":"enabled","isExt":false,"_id":"yVnqpoVS8Y3erhhs"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"OM","VALUE_DECODE":"Oman","STATUS":"enabled","isExt":false,"_id":"yXCe0PXOkqcpDhkP"}
+{"name":"TYPE_REFERENCE_TYPE","VALUE":"translation to document","VALUE_DECODE":"translation to document","STATUS":"enabled","isExt":false,"_id":"yb0uFpEJK8z76ziR"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"SC","VALUE_DECODE":"Seychelles","STATUS":"enabled","isExt":false,"_id":"yise5lFkLMooarZr"}
+{"name":"EXTENSION_TYPE_UNIT","VALUE":"g/L (as S)","VALUE_DECODE":"g/L (as S)","STATUS":"enabled","isExt":false,"_id":"ynek2oSctxsiTdnB"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"LK","VALUE_DECODE":"Sri Lanka","STATUS":"enabled","isExt":false,"_id":"yp3uzNnrZEaycNBv"}
+{"name":"EXTENSION_TYPE_APPLICATION_TYPE","VALUE":"ACVM Registration","VALUE_DECODE":"ACVM Registration","STATUS":"enabled","isExt":false,"_id":"yypu9IIVn2Ab6cO5"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"TD","VALUE_DECODE":"Chad","STATUS":"enabled","isExt":false,"_id":"z0W26okMRY5JmytH"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"DS","VALUE_DECODE":"DS","STATUS":"enabled","isExt":false,"_id":"zA1ECixLRDtJPctl"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"LU","VALUE_DECODE":"Luxembourg","STATUS":"enabled","isExt":false,"_id":"zJGcIRFhNHW4tLUC"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"AX","VALUE_DECODE":"Åland","STATUS":"enabled","isExt":false,"_id":"zNp2TVKOJ0eTKQIl"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"PH","VALUE_DECODE":"Philippines","STATUS":"enabled","isExt":false,"_id":"zQGK9hYfH3Twdjib"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"LY","VALUE_DECODE":"Libya","STATUS":"enabled","isExt":false,"_id":"zVHJxlRAVHxgQUK8"}
+{"name":"EXTENSION_TYPE_COUNTRY","VALUE":"PY","VALUE_DECODE":"Paraguay","STATUS":"enabled","isExt":false,"_id":"zrX6I6iqqvJ0ehfJ"}
+{"name":"EXTENSION_TYPE_FORMULATION_TYPE","VALUE":"FR","VALUE_DECODE":"FR","STATUS":"enabled","isExt":false,"_id":"zxxyRJRlGdnjmprP"}

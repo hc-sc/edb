@@ -1,8 +1,8 @@
-import { ExtValueStruct } from '../shared/shared.model';
+import { PicklistModel } from '../shared/shared.model';
 
 class SubstanceIdentifierStruct {
   constructor(value, identifier) {
-    this.SUBSTANCE_IDENTIFIER_TYPE = new ExtValueStruct(value.VALUE, value.VALUE_DECODE, value.ATTR_VALUE),
+    this.SUBSTANCE_IDENTIFIER_TYPE = new PicklistModel(value),
       this.IDENTIFIER = identifier;
   }
 
@@ -40,18 +40,20 @@ class Substance {
 
   jsonObjClassifier(jsonXML) {
     let item = jsonXML;
-    let status = new ValueStruct(item.METADATA_STATUS.VALUE, item.METADATA_STATUS.VALUE_DECODE);
+    let status = new PicklistModel('METADATA_STATUS', item.METADATA_STATUS.VALUE, item.METADATA_STATUS.VALUE_DECODE);
     this.substanceId = item.attr$.Id;
     this.METADATA_STATUS = status;
     this.SUBSTANCE_NAME = item.SUBSTANCE_NAME;
     this.SUBSTANCE_PID = item.SUBSTANCE_PID;
     item.SUBSTANCE_IDENTIFIER.forEach(it => {
       let idType = (typeof (it.SUBSTANCE_IDENTIFIER_TYPE.VALUE) === 'string') ?
-        new ExtValueStruct(
+        new PicklistModel(
+          'SUBSTANCE_IDENTIFIER',
           it.SUBSTANCE_IDENTIFIER_TYPE.VALUE,
           it.SUBSTANCE_IDENTIFIER_TYPE.VALUE_DECODE
         ) :
-        new ExtValueStruct(
+        new PicklistModel(
+          'SUBSTANCE_IDENTIFIER',
           it.SUBSTANCE_IDENTIFIER_TYPE.VALUE._,
           it.SUBSTANCE_IDENTIFIER_TYPE.VALUE_DECODE,
           it.SUBSTANCE_IDENTIFIER_TYPE.VALUE.attr$.Other_Value
