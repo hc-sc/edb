@@ -2,12 +2,13 @@
 import xml2js from 'xml2js';
 import { GHSTS } from '../shared/ghsts';
 import { ValueStruct, ExtValueStruct } from '../shared/shared.model';
-import {FileRA, FileGeneric, File} from './file.model.js';
-const Nedb = require('nedb');
-export default class FileService {
+import {FileRA, FileGeneric, File} from './file.model';
+
+import BaseService from '../shared/base.service';
+
+export default class FileService extends BaseService {
   constructor($q) {
-    this.$q = $q;
-    this.files = new Nedb({ filename: __dirname + '/db/files', autoload: true });
+    super($q, 'files', 'File', 'FILE', 'FILE_GENERIC.FILENAME');
   }
 
   createFile(File) {

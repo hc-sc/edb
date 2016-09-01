@@ -4,11 +4,13 @@ import uuid from 'node-uuid';
 import { GHSTS } from '../shared/ghsts';
 import {LegalEntityIdentifier, ContactPerson, ContactAddress, LegalEntity} from './legal-entity.model.js';
 import { ValueStruct, ExtValueStruct } from '../shared/shared.model';
+
+import BaseService from '../shared/base.service';
+
 const Nedb = require('nedb');
-export default class LegalEntityService {
+export default class LegalEntityService extends BaseService {
   constructor($q) {
-    this.$q = $q;
-    this.legalEntities = new Nedb({ filename: __dirname + '/../data/legalEntities.db', autoload: true });
+    super($q, 'legalEntities', 'LegalEntity', 'LEGAL_ENTITY', 'LEGALENTITY');
   }
 
   // return a list of all legal entities

@@ -1,16 +1,44 @@
 import angular from 'angular';
 var fs = require('fs');
+var path = require('path');
 import xml2js from 'xml2js';
-var Nedb = require('nedb');
-import { ValueStruct, ExtValueStruct } from '../shared.model';
+const Nedb = require('nedb');
+//import Nedb from 'nedb'; 
+import { PicklistModel } from '../shared.model';
 
-const version = __dirname + '/../data/ghsts-picklists.xsd';
+const dbPath = path.resolve(fs.realpathSync('./'), 'data');
+const version = path.resolve(dbPath, 'ghsts-picklists.xsd');
+const filename = path.resolve(dbPath, 'pickListTypes.db');
 
+/*const moduleName = 'app.picklistService';
+
+angular.module(moduleName, [])
+ .factory('picklistService', [ function() {
+         this.picklistrequest = function(request) {
+            if (window.ipcRenderer) {
+                return JSON.parse(window.ipcRenderer.sendSync('datarequest', request));
+            } else {
+                console.log('IPC renderer does not find');
+            }
+            var lastVar = request.url.slice(request.url.lastIndexOf("/") + 1);
+            if (isNaN(lastVar)) {
+                return fakeData[request.url.slice(1)];
+            } else {
+                var otherPart = request.url.slice(1, request.url.lastIndexOf("/"));
+                return fakeData[otherPart][lastVar - 1];
+            }
+        };
+        
+        return {
+            ipcdatarequest : self.ipcdatarequest
+        };
+    }]);
+*/
 export default class PickListService {
   constructor() {
-    console.log('picklist ctor');
+    console.log('picklist ctor - ' + filename + ' //// ' + version + ' // ' + dbPath);
     this.pickListTypes = new Nedb({
-      filename: `${__dirname}/../data/pickListTypes.db`,
+      filename: filename,
       autoload: true
     });
 
@@ -33,18 +61,23 @@ export default class PickListService {
 
             for (const item of obj['xs:schema']['xs:simpleType']) {
               const INDEX = COMPLEX_TYPES.indexOf(item.attr$.name);
+              const OTHER_VALUE = this.getOtherValue();
 
               for (const enumeration of item['xs:restriction']['xs:enumeration']) {
                 const APP_INFO = enumeration['xs:annotation']['xs:appinfo'];
-                let type = {};
+                if (enumeration.attr$.value !== OTHER_VALUE) {
 
-                type.name = INDEX >= 0 ?
-                  `EXTENSION_${item.attr$.name}` : item.attr$.name;
-                type.VALUE = enumeration.attr$.value;
-                type.VALUE_DECODE = APP_INFO.DECODE;
-                type.STATUS = APP_INFO.STATUS;
+                  let type = {};
 
-                types.push(type);
+                  type.name = INDEX >= 0 ?
+                    `EXTENSION_${item.attr$.name}` : item.attr$.name;
+                  type.VALUE = enumeration.attr$.value;
+                  type.VALUE_DECODE = APP_INFO.DECODE;
+                  type.STATUS = APP_INFO.STATUS;
+                  type.isExt = false;
+
+                  types.push(new PicklistModel(type));
+                }
               }
             }
 
@@ -389,3 +422,4 @@ export default class PickListService {
     return 'other';
   }
 }
+

@@ -1,64 +1,27 @@
 //import Nedb from 'nedb';
 import xml2js from 'xml2js';
-import { GHSTS } from '../shared/ghsts';
+//import { GHSTS } from '../shared/ghsts';
 import { ValueStruct, ExtValueStruct } from '../shared/shared.model';
 import { Substance, SubstanceIdentifierStruct } from './substance.model';
 import { generatePid, validatePid } from '../shared/pid';
+//import Nedb from 'nedb';
+import BaseService from '../shared/base.service';
 
-const Nedb = require('nedb');
-
-export default class SubstanceService {
+export default class SubstanceService extends BaseService {
   constructor($q) {
-    this.$q = $q;
-    this.substancesDb = new Nedb({
-      filename: `${__dirname}/../data/substances.db`,
-      autoload: true
-    });
+    super($q, 'substances', 'Substance', 'SUBSTANCES', 'substance');
   }
 
-  getSubstances() {
-    let deferred = this.$q.defer();
-    this.substancesDb.find({}, (err, rows) => {
-      if (err) deferred.reject(err);
-      deferred.resolve(rows);
-    });
-    return deferred.promise;
-  }
-
-  createSubstance(sub) {
-    let deferred = this.$q.defer();
+  jsonToDB(json) {
     let status = new ValueStruct();
-    let sub2DB = sub;
+    let sub2DB = json;
     let now = Date.now();
 
     sub2DB.METADATA_STATUS = sub2DB.METADATA_STATUS ? sub2DB.METADATA_STATUS : status;
     //TODO: temporary set value for new Id, needs to be defected to the new business role   
     sub2DB._identifier = sub2DB._identifier ? sub2DB._identifier : 'IDS' + now;
     sub2DB.SUBSTANCE_PID = sub2DB.SUBSTANCE_PID ? (validatePid(sub2DB.SUBSTANCE_PID) ? sub2DB.SUBSTANCE_PID : generatePid()) : generatePid();
-    this.substancesDb.insert(sub2DB, (err, result) => {
-      if (err) deferred.reject(err);
-      deferred.resolve(result);
-    });
-    return deferred.promise;
-  }
-
-  deleteSubstance(id) {
-    let deferred = this.$q.defer();
-    this.substancesDb.remove({ '_id': id }, function (err, res) {
-      if (err) deferred.reject(err);
-      console.log(res);
-      deferred.resolve(res.affectedRows);
-    });
-    return deferred.promise;
-  }
-
-  updateSubstance(sub) {
-    let deferred = this.$q.defer();
-    this.substancesDb.update({ _id: sub._id }, sub, {}, (err, numReplaced) => {
-      if (err) deferred.reject(err);
-      deferred.resolve(numReplaced);
-    });
-    return deferred.promise;
+    return sub2DB;
   }
 
   // inits the db, grabs info from a file and inserts it. NOTE that xml2js creates arrays
@@ -88,37 +51,9 @@ export default class SubstanceService {
       })
 
       // insert into db
-      this.createSubstance(substance);
+      this.edb_put(substance);
     });
-  }
-
-  getSubstanceGHSTSById(id) {
-    let deferred = this.$q.defer();
-    this.substancesDb.find({ '_id': id }, (err, result) => {
-      if (err) deferred.reject(err);
-      let sJson = result[0];
-      let substance = new Substance(sJson);
-
-      let builder = new xml2js.Builder({
-        rootName: 'SUBSTANCES',
-        attrkey: 'attr$'
-      });
-
-      let xml = builder.buildObject(substance.toGhstsJson());
-      deferred.resolve(xml);
-    });
-    return deferred.promise;
-  }
-
-  getSubstancesByName(name) {
-    let deferred = this.$q.defer();
-    let re = new RegExp(name, 'i');
-    let condition = { $regex: re };
-
-    this.substancesDb.find({ 'SUBSTANCE_NAME': condition }, (err, result) => {
-      if (err) deferred.reject(err);
-      deferred.resolve(result);
-    });
-    return deferred.promise;
   }
 }
+
+SubstanceService.$inject = ['$q'];
