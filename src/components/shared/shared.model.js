@@ -9,37 +9,23 @@
 const OTHER_VALUE = 'other';
 
 export default class PicklistModel {
-  constructor(typename, value, decode, attrValue, status) {
-    if (typename && typeof typename === 'object') {
-      this._initObj(typename);
-    } else if (typename && value && decode && !attrValue) {
-      this._initNoExt(typename, value, decode, status);
-    } else if (typename && attrValue) {
-      this._initExt(typename, value, decode, attrValue, status);
-    } else if (typename && typeof typename === 'string' && !value && !decode && !attrValue && !status) {
-      this._initNoExt(typename);
+  constructor(typename, value, decode, isExt, status, id) {
+    if (typename) {
+      if (typeof typename === 'object') {
+        Object.assign(this, typename);
+      } else if (typeof typename === 'string') {
+        this._id = id ? id : null;
+        this.TYPE_NAME = typename;
+        this.VALUE = value;
+        this.VALUE_DECODE = decode;
+        this.STATUS = status ? status : 'enabled';
+        this.isExt = isExt ? isExt : true;
+      } else {
+        console.log('Error: wrong using of PicklistModel constructor with Type_Name: [' + typename + '] / Value: [' + value + ']');
+      }
     } else {
       console.log('Error: wrong using of PicklistModel constructor with Type_Name: [' + typename + '] / Value: [' + value + ']');
     }
-  }
-
-  _initExt(typename, value, decode, attrValue, status) {
-    this._initNoExt(typename, value, decode, status);
-    this.VALUE_DECODE = attrValue;
-    this.isExt = true;
-  }
-
-  _initNoExt(typename, value, decode, status) {
-    this._id = null;
-    this.TYPE_NAME = typename;
-    this.VALUE = value;
-    this.VALUE_DECODE = decode;
-    this.STATUS = status ? status : 'enabled';
-    this.isExt = false;
-  }
-
-  _initObj(obj) {
-    Object.assign(this, obj);
   }
 
   toGhstsJson() {
@@ -66,7 +52,7 @@ export default class PicklistModel {
 
   static getOtherValue() {
     return OTHER_VALUE;
-  } 
+  }
 }
 
 // Matches non extensible types, whose form is
