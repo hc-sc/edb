@@ -42,6 +42,7 @@ gulp.task('prebuild', ['clean'], function () {
 });
 
 gulp.task('pack', pack);
+gulp.watch('src/components/**/*.html', ['pack']);
 
 gulp.task('clean', clean);
 
