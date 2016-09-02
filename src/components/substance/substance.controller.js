@@ -2,13 +2,12 @@ import angular from 'angular';
 import { ValueStruct, ExtValueStruct } from '../shared/shared.model';
 import { Substance, SubstanceIdentifierStruct } from './substance.model';
 import _lodash from 'lodash';
-import {name as pickListService} from '../shared/services/picklist.service';
 
 export default class SubstanceCtrl {
-  constructor($mdDialog, substanceService, picklistService) {
+  constructor($mdDialog, substanceService, PicklistService) {
     this.$mdDialog = $mdDialog;
     this.substanceService = substanceService;
-    this.pickListService = picklistService;
+    this.pickListService = PicklistService.getService();
     this.selected = null;
     this.substances = [];
     this.selectedIndex = -1;
@@ -255,3 +254,5 @@ export default class SubstanceCtrl {
 
   }
 }
+
+SubstanceCtrl.$inject = ['$mdDialog', 'substanceService', 'PicklistService'];

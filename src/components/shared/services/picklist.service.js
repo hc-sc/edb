@@ -9,34 +9,12 @@ import BaseService from '../base.service';
 const standardsPath = path.resolve(fs.realpathSync('./'), 'standards');
 const version = path.resolve(standardsPath, 'ghsts-picklists.xsd');
 
-/*const moduleName = 'app.picklistService';
+const moduleName = 'app.service.picklist';
+let moduleInst;
 
-angular.module(moduleName, [])
- .factory('picklistService', [ function() {
-         this.picklistrequest = function(request) {
-            if (window.ipcRenderer) {
-                return JSON.parse(window.ipcRenderer.sendSync('datarequest', request));
-            } else {
-                console.log('IPC renderer does not find');
-            }
-            var lastVar = request.url.slice(request.url.lastIndexOf("/") + 1);
-            if (isNaN(lastVar)) {
-                return fakeData[request.url.slice(1)];
-            } else {
-                var otherPart = request.url.slice(1, request.url.lastIndexOf("/"));
-                return fakeData[otherPart][lastVar - 1];
-            }
-        };
-        
-        return {
-            ipcdatarequest : self.ipcdatarequest
-        };
-    }]);
-*/
-export default class PickListService extends BaseService {
+export class PickListService extends BaseService {
   constructor($q) {
     super($q, 'pickListTypes', 'PicklistModel');
-
     // make sure we aren't duplicating entries when we reload...
     this.edb_get()
       .then(results => {
@@ -76,12 +54,12 @@ export default class PickListService extends BaseService {
               }
 
               this.edb_put(types)
-              .then(added => {
-                console.log(`${added.length} added.`);
-              })
-              .catch(err => {
-                console.log(err);
-              });
+                .then(added => {
+                  console.log(`${added.length} added.`);
+                })
+                .catch(err => {
+                  console.log(err);
+                });
             });
 
           });
@@ -103,12 +81,30 @@ export default class PickListService extends BaseService {
     return super.edb_get(query);
   }
 
-  $get() {
-    return this;
+  static picklistFactory($q) {
+    return new PickListService($q);
   }
 
   getOtherValue() {
     return PicklistModel.getOtherValue();
   }
+
 }
 
+angular.module(moduleName, [])
+  .factory('PicklistService', ['$q', function ($q) {
+    let q = $q;
+    this.getService = function() {
+      if (!moduleInst) {
+        console.log('get called - init service');
+        moduleInst = PickListService.picklistFactory(q);
+      }
+      return moduleInst;
+    }
+
+    return {
+      getService: this.getService
+    };
+  }]);
+
+export default moduleName;
