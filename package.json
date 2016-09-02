@@ -7,7 +7,7 @@
     "postinstall": "npm run init",
     "start": "electron build",
     "clean": "gulp clean",
-    "pack": "webpack --watch",
+    "pack": "concurrently \"gulp pack\" \"webpack --watch\"",
     "init": "gulp prebuild && webpack",
     "test": "mocha \"./src/components/**/*.spec.js\" --recursive --compilers js:babel-register -r jsdom/register",
     "tdd": "mocha \"./src/components/**/*.spec.js\" --recursive --compilers js:babel-register --watch",
