@@ -26,14 +26,8 @@ export default class BaseService {
   edb_get(obj) {
     let deferred = this.$q.defer();
     if (obj) {
-      let keys = Object.keys(obj);
-      let re = new RegExp(obj[keys[0]], 'i');
-      let condition = { $regex: re };
-      let searchObj = {};
-      searchObj[keys[0]] = condition;
-
-      console.log(searchObj);
-      this.db.find(searchObj, (err, rows) => {
+      console.log(obj);
+      this.db.find(obj, (err, rows) => {
         if (err) {
           deferred.reject(err);
         } else {

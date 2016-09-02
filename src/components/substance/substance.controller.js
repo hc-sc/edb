@@ -15,11 +15,11 @@ export default class SubstanceCtrl {
     this.filterText = null;
 
     // options for metadata status
-    this.pickListService.getType('TYPE_METADATA_STATUS')
+    this.pickListService.edb_get('TYPE_METADATA_STATUS')
       .then(metadataStatusOptions => {
         console.log(metadataStatusOptions);
         this.metadataStatusOptions = metadataStatusOptions;
-        return this.pickListService.getType('EXTENSION_TYPE_SUBSTANCE_IDENTIFIER_TYPE');
+        return this.pickListService.edb_get('EXTENSION_TYPE_SUBSTANCE_IDENTIFIER_TYPE', true);
       }).then(identifierTypeOptions => {
         // options for identifier types
         console.log(identifierTypeOptions);
