@@ -110,7 +110,7 @@ export default class BaseService {
         }
         let sJson = result[0];
         try {
-          entityClass = require('./' + this.modelClassName.toLowerCase() + '/' + this.modelClassName.toLowerCase() + '.model');
+          entityClass = require('./../' + this.modelClassName.toLowerCase() + '/' + this.modelClassName.toLowerCase() + '.model');
 
           entity = new entityClass[this.modelClassName](sJson);
 
