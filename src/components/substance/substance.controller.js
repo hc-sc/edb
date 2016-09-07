@@ -1,5 +1,5 @@
 import angular from 'angular';
-import { ValueStruct, ExtValueStruct } from '../shared/shared.model';
+import { PicklistModel, ValueStruct, ExtValueStruct } from '../shared/shared.model';
 import { Substance, SubstanceIdentifierStruct } from './substance.model';
 import _lodash from 'lodash';
 
@@ -252,6 +252,13 @@ export default class SubstanceCtrl {
       console.log(err);
     });
 
+    let tempPicklistModel = new PicklistModel('EXTENSION_TYPE_ADMIN_NUMBER_TYPE');
+    console.log(tempPicklistModel);
+    tempPicklistModel.VALUE = 'Test1';
+    tempPicklistModel.VALUE_DECODE = 'test1';
+     this.pickListService.edb_put(tempPicklistModel).then(affectedRows => {
+       console.log(affectedRows);
+     });
   }
 }
 
