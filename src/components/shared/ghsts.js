@@ -83,7 +83,7 @@ class GHSTS {
             fs.readFile(this.filename, { encoding: "utf8" }, (err, xmlStr) => {
                 if (err) throw (err);
                 // parse the xml to json object
-                xml2js.parseString(xmlStr, { attrkey: 'attr$' }, (err, obj) => {
+                xml2js.parseString(xmlStr, { attrkey: 'attr$', explicitArray: false }, (err, obj) => {
                     // check for errors
                     if (err) {
                         reject(err);
@@ -92,9 +92,9 @@ class GHSTS {
                     this.ghsts = obj.GHSTS;
 
                     // set legal entities
-                    this.legalEntities = obj.GHSTS.LEGAL_ENTITIES[0].LEGAL_ENTITY;
+                    this.legalEntities = obj.GHSTS.LEGAL_ENTITIES.LEGAL_ENTITY;
                     // set receivers
-                    this.receivers = obj.GHSTS.RECEIVERS[0].RECEIVER;
+                    this.receivers = obj.GHSTS.RECEIVERS.RECEIVER;
 
                     // set the Product from the xml
                     this.product = obj.GHSTS.PRODUCT;
@@ -102,11 +102,11 @@ class GHSTS {
                     // set other objects here
                     // ...
 
-                    this.files = obj.GHSTS.FILES[0].FILE;
+                    this.files = obj.GHSTS.FILES.FILE;
                     // set documents
-                    this.documents = obj.GHSTS.DOCUMENTS[0].DOCUMENT;
-                    this.dossier = obj.GHSTS.PRODUCT[0].DOSSIER[0];
-                    this.substances = obj.GHSTS.SUBSTANCES[0].SUBSTANCE;
+                    this.documents = obj.GHSTS.DOCUMENTS.DOCUMENT;
+                    this.dossier = obj.GHSTS.PRODUCT.DOSSIER;
+                    this.substances = obj.GHSTS.SUBSTANCES.SUBSTANCE;
 
                     resolve(this);
                 });

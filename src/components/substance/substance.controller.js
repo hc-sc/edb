@@ -1,25 +1,27 @@
 import angular from 'angular';
-import { ValueStruct, ExtValueStruct } from '../shared/shared.model';
+import { PicklistModel, ValueStruct, ExtValueStruct } from '../shared/shared.model';
 import { Substance, SubstanceIdentifierStruct } from './substance.model';
-import {_} from 'lodash';
+import _lodash from 'lodash';
 
 export default class SubstanceCtrl {
-  constructor($mdDialog, substanceService, picklistService) {
+  constructor($mdDialog, substanceService, PicklistService) {
     this.$mdDialog = $mdDialog;
     this.substanceService = substanceService;
-    this.pickListService = picklistService;
+    this.pickListService = PicklistService.getService();
     this.selected = null;
     this.substances = [];
     this.selectedIndex = -1;
     this.filterText = null;
 
     // options for metadata status
-    this.pickListService.getType('TYPE_METADATA_STATUS')
+    this.pickListService.edb_get('TYPE_METADATA_STATUS')
       .then(metadataStatusOptions => {
+        console.log(metadataStatusOptions);
         this.metadataStatusOptions = metadataStatusOptions;
-        return this.pickListService.getType('EXTENSION_TYPE_SUBSTANCE_IDENTIFIER_TYPE');
+        return this.pickListService.edb_get('EXTENSION_TYPE_SUBSTANCE_IDENTIFIER_TYPE', true);
       }).then(identifierTypeOptions => {
         // options for identifier types
+        console.log(identifierTypeOptions);
         this.identifierTypeOptions = identifierTypeOptions;
       })
 
@@ -31,7 +33,7 @@ export default class SubstanceCtrl {
   }
 
   confirmLeavePage($event) {
-    // confirm with user if the form has been modified before leaving the page
+    // confirm with user if the form has been modified before leaving the page   
     var scope = angular.element($event.target.ownerDocument.substanceForm).scope();
     let isFormPristine = scope.substanceForm.$pristine;
     if (!isFormPristine) {
@@ -52,7 +54,7 @@ export default class SubstanceCtrl {
   }
 
   toggleSidenav(componentId) {
-    // toggle the side nave by component identifer
+    // toggle the side nave by component identifer 
     this.$mdSidenav(componentId).toggle();
   }
 
@@ -60,7 +62,7 @@ export default class SubstanceCtrl {
     // update metadata status value decode upon selection change
     let mDSValue = this.selected.METADATA_STATUS.VALUE;
     // find the value decode in themetadata status options
-    let mDSValueDecode = _(this.metadataStatusOptions)
+    let mDSValueDecode = _lodash(this.metadataStatusOptions)
       .filter(c => c.VALUE == mDSValue)
       .map(c => c.VALUE_DECODE)
       .value()[0];
@@ -77,7 +79,7 @@ export default class SubstanceCtrl {
       selectedIdentifier.SUBSTANCE_IDENTIFIER_TYPE.VALUE_DECODE = '';
     } else {
       delete selectedIdentifier.SUBSTANCE_IDENTIFIER_TYPE.ATTR_VALUE;
-      selectedIdentifier.SUBSTANCE_IDENTIFIER_TYPE.VALUE_DECODE = _(this.identifierTypeOptions)
+      selectedIdentifier.SUBSTANCE_IDENTIFIER_TYPE.VALUE_DECODE = _lodash(this.identifierTypeOptions)
         .filter(c => c.VALUE == selectedTypeValue)
         .map(c => c.VALUE_DECODE)
         .value()[0];
@@ -97,43 +99,6 @@ export default class SubstanceCtrl {
     this.selected = substance;
     this.selectedIndex = this.substances.length - 1;
   }
-
-  // saveSubstance($event) {
-  //   let self = this;
-
-  //   // reset form state
-  //   this._setFormPrestine($event);
-
-  //   if (this.selected && this.selected._id) {
-  //     this.substanceService.updateSubstance(this.selected).then(affectedRows =>
-  //       self.$mdDialog.show(
-  //         self.$mdDialog
-  //           .alert()
-  //           .clickOutsideToClose(true)
-  //           .title('Success')
-  //           .content('Data Updated Successfully!')
-  //           .ok('Ok')
-  //           .targetEvent($event)
-  //       )
-  //     );
-  //   }
-  //   else {
-  //     this.substanceService.createSubstance(this.selected).then(affectedRows =>
-  //       self.$mdDialog.show(
-  //         self.$mdDialog
-  //           .alert()
-  //           .clickOutsideToClose(true)
-  //           .title('Success')
-  //           .content('Data Added Successfully!')
-  //           .ok('Ok')
-  //           .targetEvent($event)
-  //       )
-  //     );
-
-  //     // refresh the substance list
-  //     self.getAllSubstances();
-  //   }
-  // }
 
   saveSubstance($event) {
     let self = this;
@@ -156,38 +121,38 @@ export default class SubstanceCtrl {
             .targetEvent($event)
         );
     } else {
-      // reset form state
-      this._setFormPrestine($event);
+    // reset form state
+    this._setFormPrestine($event);
 
-      if (this.selected && this.selected._id) {
-        this.substanceService.edb_post(this.selected).then(affectedRows =>
-          self.$mdDialog.show(
-            self.$mdDialog
-              .alert()
-              .clickOutsideToClose(true)
-              .title('Success')
-              .content('Data Updated Successfully!')
-              .ok('Ok')
-              .targetEvent($event)
-          )
-        );
-      }
-      else {
-        this.substanceService.edb_put(this.selected).then(affectedRows =>
-          self.$mdDialog.show(
-            self.$mdDialog
-              .alert()
-              .clickOutsideToClose(true)
-              .title('Success')
-              .content('Data Added Successfully!')
-              .ok('Ok')
-              .targetEvent($event)
-          )
-        );
+    if (this.selected && this.selected._id) {
+      this.substanceService.edb_post(this.selected).then(affectedRows =>
+        self.$mdDialog.show(
+          self.$mdDialog
+            .alert()
+            .clickOutsideToClose(true)
+            .title('Success')
+            .content('Data Updated Successfully!')
+            .ok('Ok')
+            .targetEvent($event)
+        )
+      );
+    }
+    else {
+      this.substanceService.edb_put(this.selected).then(affectedRows =>
+        self.$mdDialog.show(
+          self.$mdDialog
+            .alert()
+            .clickOutsideToClose(true)
+            .title('Success')
+            .content('Data Added Successfully!')
+            .ok('Ok')
+            .targetEvent($event)
+        )
+      );
 
-        // refresh the substance list
-        self.getAllSubstances();
-      }
+      // refresh the substance list
+      self.getAllSubstances();
+    }
     }
   }
 
@@ -206,8 +171,8 @@ export default class SubstanceCtrl {
       .targetEvent(event);
 
     this.$mdDialog.show(confirm).then(() => {
-      _.remove(this.selected.SUBSTANCE_IDENTIFIER, { IDENTIFIER: identifier });
-      this.substanceService.updateSubstance(this.selected);
+      _lodash.remove(this.selected.SUBSTANCE_IDENTIFIER, { IDENTIFIER: identifier });
+      this.substanceService.update(this.selected);
     });
   }
 
@@ -226,7 +191,7 @@ export default class SubstanceCtrl {
 
     this.$mdDialog.show(confirm).then(() => {
       let self = this;
-      self.substanceService.deleteSubstance(self.selected._id)
+      self.substanceService.edb_delete(self.selected._id)
         .then(affectedRows => {
           self.substances.splice(self.selectedIndex, 1);
           self.selectSubstance(0, 0);
@@ -241,7 +206,7 @@ export default class SubstanceCtrl {
 
   filterSubstance() {
     if (this.filterText) {
-      this.substanceService.getSubstancesByName(this.filterText).then(substances => {
+      this.substanceService.listByName(this.filterText).then(substances => {
         this.substances = [].concat(substances);
         this.selected = substances[0];
         this.selectedIndex = 0;
@@ -254,11 +219,47 @@ export default class SubstanceCtrl {
 
   getAllSubstances() {
     let self = this;
-    this.substanceService.getSubstances().then(substances => {
+    this.substanceService.edb_get().then(substances => {
       self.substances = [].concat(substances);
       self.selectedIndex = 0;
       self.selected = substances[0];
     });
   }
 
+  cancelEdit() {
+    console.log('cancelEdit called');
+    this.substanceService.jsonToXml(this.selected)
+    .then(result => {
+      console.log(result);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+
+    this.substanceService.edb_get()
+    .then(result => {
+      console.log(result);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+
+    this.substanceService.edb_get({SUBSTANCE_NAME:'New'})
+    .then(result => {
+      console.log(result);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+
+    let tempPicklistModel = new PicklistModel('EXTENSION_TYPE_ADMIN_NUMBER_TYPE');
+    console.log(tempPicklistModel);
+    tempPicklistModel.VALUE = 'Test1';
+    tempPicklistModel.VALUE_DECODE = 'test1';
+     this.pickListService.edb_put(tempPicklistModel).then(affectedRows => {
+       console.log(affectedRows);
+     });
+  }
 }
+
+SubstanceCtrl.$inject = ['$mdDialog', 'substanceService', 'PicklistService'];

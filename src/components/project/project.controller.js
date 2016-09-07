@@ -1,9 +1,11 @@
+
 export default class ProjectCtrl {
-  constructor($rootScope, $state, $mdDialog) {
+  constructor($rootScope, $state, $mdDialog, ghstsService) {
     this.project = $rootScope.project;
     this.project.submission = 'no way';
     this.$state = $state;
     this.$mdDialog = $mdDialog;
+    this.ghstsService = ghstsService;
     this.back = { link: 'app.home', label: 'Back' };
     this.dossiers = [
       {
@@ -12,7 +14,7 @@ export default class ProjectCtrl {
           { title: 'Submission 1', isPackaged: true },
           { title: 'Submission 2', isPackaged: true },
           { title: 'Submission 3', isPackaged: true },
-          { title: 'Submission 4', isPackaged: true }
+          { title: 'Submission 4', isPackaged: false }
         ]
       },
       // {
@@ -44,8 +46,14 @@ export default class ProjectCtrl {
   }
 
   editSubmission() {
-    // load in most recent un-packaged submission
-    this.$state.go('app.edit.legal-entities');
+    //TODO: load in most recent un-packaged submission
+var fs = require('fs');
+var path = require('path');
+
+var absInputPath = path.resolve(fs.realpathSync('./'), 'projects/Test/01/ghsts.xml');
+    console.log(absInputPath);
+    this.ghstsService.loadXml(absInputPath);
+    this.$state.go('app.edit.substance');
   }
 
   viewSubmission() {

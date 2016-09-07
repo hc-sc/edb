@@ -1,9 +1,10 @@
 node_modules
 jspm_packages
-*.log
+*.log.*
 .vscode
 prebuild
 build
 dist
 projects
 css
+data

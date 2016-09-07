@@ -21,10 +21,11 @@ angular.module('app', [
   Router,
   Material,
   Animate,
+  'app.service.picklist',
   Home.name,
   Project.name,
   Edit.name,
-  Settings.name,
+  Settings.name
 ])
 .config(icons)
 .config(states);
