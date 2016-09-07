@@ -14,7 +14,8 @@ export default class PicklistModel {
       if (typeof typename === 'object') {
         Object.assign(this, typename);
       } else if (typeof typename === 'string') {
-        this._id = id ? id : null;
+        if (id) 
+          this._id = id;
         this.TYPE_NAME = typename;
         this.VALUE = value;
         this.VALUE_DECODE = decode;

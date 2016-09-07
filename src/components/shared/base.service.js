@@ -15,6 +15,7 @@ export default class BaseService {
     this.modelClassName = modelClassName ? modelClassName : dbName.toUpperCase();
     this.rootXmlName = rootXmlName ? rootXmlName : dbName.toUpperCase();
     this.searchName = searchName ? searchName : (dbName + '_NAME').toUpperCase();
+    //TODO: may add exception handler for fs opration later as we may remove db.
     this.absPath = path.resolve(fs.realpathSync('./'), 'data', dbName + '.db');
     console.log(this.absPath);
     this.db = new Nedb({
@@ -100,6 +101,7 @@ export default class BaseService {
 
   jsonToXml(obj) {
     let deferred = this.$q.defer();
+    let entityClass, entity, builder, xml;
     if (obj && typeof obj === 'object') {
       this.db.find({ '_id': obj._id }, (err, result) => {
         if (err) {
@@ -107,22 +109,21 @@ export default class BaseService {
           return deferred.promise;
         }
         let sJson = result[0];
-        System.import('./components/' + this.modelClassName + '/' + this.modelClassName + '.model')
-          .then(entityName => {
-            let entity = new entityName[this.modelClassName](sJson);
+        try {
+          entityClass = require('./' + this.modelClassName.toLowerCase() + '/' + this.modelClassName.toLowerCase() + '.model');
 
-            let builder = new xml2js.Builder({
-              rootName: this.rootXmlName,
-              attrkey: 'attr$'
-            });
+          entity = new entityClass[this.modelClassName](sJson);
 
-            let xml = builder.buildObject(entity.toGhstsJson());
-            deferred.resolve(xml);
-
-          })
-          .catch(err => {
-            deferred.reject(err);
+          builder = new xml2js.Builder({
+            rootName: this.rootXmlName,
+            attrkey: 'attr$'
           });
+
+          xml = builder.buildObject(entity.toGhstsJson());
+          deferred.resolve(xml);
+        } catch (err) {
+          deferred.reject(err);
+        }
       });
     } else
       deferred.reject('Error: tring to transforming non-object entity to XML - ' + obj);
@@ -133,8 +134,8 @@ export default class BaseService {
     let deferred = this.$q.defer();
     let entities = obj;
     let jsObj = null;
-    if (obj && obj.constructor === Array) {
-//    if (obj && typeof obj === 'object') {
+    if (entities && entities.constructor === Array) {
+      //    if (obj && typeof obj === 'object') {
       entities.map(item => {
         let substance = new Substance();
         substance.jsonObjClassifier(item);
