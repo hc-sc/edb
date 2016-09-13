@@ -1,6 +1,7 @@
 import angular from 'angular';
-import { PicklistModel, ValueStruct, ExtValueStruct } from '../shared/shared.model';
+import { PicklistModel } from '../shared/shared.model';
 import { Substance, SubstanceIdentifierStruct } from './substance.model';
+//import SubstanceIdentifierStruct from './substance.model';
 import _lodash from 'lodash';
 
 export default class SubstanceCtrl {
@@ -16,12 +17,12 @@ export default class SubstanceCtrl {
     // options for metadata status
     this.pickListService.edb_get('TYPE_METADATA_STATUS')
       .then(metadataStatusOptions => {
-        console.log(metadataStatusOptions);
+        //        console.log(metadataStatusOptions);
         this.metadataStatusOptions = metadataStatusOptions;
         return this.pickListService.edb_get('EXTENSION_TYPE_SUBSTANCE_IDENTIFIER_TYPE', true);
       }).then(identifierTypeOptions => {
         // options for identifier types
-        console.log(identifierTypeOptions);
+        //        console.log(identifierTypeOptions);
         this.identifierTypeOptions = identifierTypeOptions;
       })
 
@@ -106,59 +107,58 @@ export default class SubstanceCtrl {
     var isValid = scope.$valid;
     var err = scope.$error;
 
-    if(!isValid) {
-        var errMsg = {};
-        Object.keys(err).map(item => {
-          errMsg[err[item][0].$name] = err[item][0].$name + ' is required.';
-        });
-        self.$mdDialog.show(
-          self.$mdDialog
-            .alert()
-            .clickOutsideToClose(true)
-            .title('Validate fail')
-            .content(errMsg)
-            .ok('Ok')
-            .targetEvent($event)
-        );
+    if (!isValid) {
+      var errMsg = {};
+      Object.keys(err).map(item => {
+        errMsg[err[item][0].$name] = err[item][0].$name + ' is required.';
+      });
+      self.$mdDialog.show(
+        self.$mdDialog
+          .alert()
+          .clickOutsideToClose(true)
+          .title('Validate fail')
+          .content(errMsg)
+          .ok('Ok')
+          .targetEvent($event)
+      );
     } else {
-    // reset form state
-    this._setFormPrestine($event);
+      // reset form state
+      this._setFormPrestine($event);
 
-    if (this.selected && this.selected._id) {
-      this.substanceService.edb_post(this.selected).then(affectedRows =>
-        self.$mdDialog.show(
-          self.$mdDialog
-            .alert()
-            .clickOutsideToClose(true)
-            .title('Success')
-            .content('Data Updated Successfully!')
-            .ok('Ok')
-            .targetEvent($event)
-        )
-      );
-    }
-    else {
-      this.substanceService.edb_put(this.selected).then(affectedRows =>
-        self.$mdDialog.show(
-          self.$mdDialog
-            .alert()
-            .clickOutsideToClose(true)
-            .title('Success')
-            .content('Data Added Successfully!')
-            .ok('Ok')
-            .targetEvent($event)
-        )
-      );
+      if (this.selected && this.selected._id) {
+        this.substanceService.edb_post(this.selected).then(affectedRows =>
+          self.$mdDialog.show(
+            self.$mdDialog
+              .alert()
+              .clickOutsideToClose(true)
+              .title('Success')
+              .content('Data Updated Successfully!')
+              .ok('Ok')
+              .targetEvent($event)
+          )
+        );
+      }
+      else {
+        this.substanceService.edb_put(this.selected).then(affectedRows =>
+          self.$mdDialog.show(
+            self.$mdDialog
+              .alert()
+              .clickOutsideToClose(true)
+              .title('Success')
+              .content('Data Added Successfully!')
+              .ok('Ok')
+              .targetEvent($event)
+          )
+        );
 
-      // refresh the substance list
-      self.getAllSubstances();
-    }
+        // refresh the substance list
+        self.getAllSubstances();
+      }
     }
   }
 
   addSubstanceIdentfier() {
-    let idType = new ExtValueStruct('', '');
-    let identifier = new SubstanceIdentifierStruct(idType, '');
+    let identifier = new SubstanceIdentifierStruct();
     this.selected.SUBSTANCE_IDENTIFIER.push(identifier);
   }
 
@@ -229,36 +229,37 @@ export default class SubstanceCtrl {
   cancelEdit() {
     console.log('cancelEdit called');
     this.substanceService.jsonToXml(this.selected)
-    .then(result => {
-      console.log(result);
-    })
-    .catch(err => {
-      console.log(err);
-    });
+      .then(result => {
+        console.log(result);
+      })
+      .catch(err => {
+        console.log(err);
+      });
 
     this.substanceService.edb_get()
-    .then(result => {
-      console.log(result);
-    })
-    .catch(err => {
-      console.log(err);
-    });
+      .then(result => {
+        console.log(result);
+      })
+      .catch(err => {
+        console.log(err);
+      });
 
-    this.substanceService.edb_get({SUBSTANCE_NAME:'New'})
-    .then(result => {
-      console.log(result);
-    })
-    .catch(err => {
-      console.log(err);
-    });
+    this.substanceService.edb_get({ SUBSTANCE_NAME: 'New' })
+      .then(result => {
+        console.log(result);
+      })
+      .catch(err => {
+        console.log(err);
+      });
 
     let tempPicklistModel = new PicklistModel('EXTENSION_TYPE_ADMIN_NUMBER_TYPE');
     console.log(tempPicklistModel);
     tempPicklistModel.VALUE = 'Test1';
     tempPicklistModel.VALUE_DECODE = 'test1';
-     this.pickListService.edb_put(tempPicklistModel).then(affectedRows => {
-       console.log(affectedRows);
-     });
+    tempPicklistModel.isExt = true;
+    this.pickListService.edb_put(tempPicklistModel).then(affectedRows => {
+      console.log(affectedRows);
+    });
   }
 }
 

@@ -50,9 +50,13 @@ export default class ProjectCtrl {
 var fs = require('fs');
 var path = require('path');
 
+//TODO: this is the tempraroy setting to only one path to retrive ghsts.xml file 
+// for development service layer, modify this line to where your ghsts.xml file's location.
+// change it to user picked location within application development progress later.
 var absInputPath = path.resolve(fs.realpathSync('./'), 'projects/Test/01/ghsts.xml');
     console.log(absInputPath);
     this.ghstsService.loadXml(absInputPath);
+//TODO: Hard code to Substance only, modify it to your module.    
     this.$state.go('app.edit.substance');
   }
 
