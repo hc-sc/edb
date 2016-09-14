@@ -17,8 +17,8 @@
       </md-input-container>
       <md-input-container class="md-block" flex="20">
         <label for='repeatSelectStatus'>Status</label>
-        <md-select name='repeatSelectStatus' id="repeatSelectStatus" ng-model='_ctrl.selected.METADATA_STATUS.VALUE' ng-change="_ctrl.updateSelectedStatusDecode()">
-          <md-option ng-repeat="substanceStatus in _ctrl.metadataStatusOptions" ng-value="substanceStatus.VALUE">{{ substanceStatus.VALUE_DECODE }}</md-option>
+        <md-select name='repeatSelectStatus' id="repeatSelectStatus" ng-model='_ctrl.selected.METADATA_STATUS._id' ng-change="_ctrl.updateSelectedStatusDecode()">
+          <md-option ng-repeat="substanceStatus in _ctrl.metadataStatusOptions" ng-value="substanceStatus._id">{{ substanceStatus.VALUE_DECODE }}</md-option>
         </md-select>
       </md-input-container>
     </div>
@@ -43,8 +43,8 @@
         <div layout-gt-sm='row' flex>
           <md-input-container class="md-block" flex-gt-sm='50'>
             <label>Type</label>
-            <md-select name="repeatSelectIdType" id="repeatSelectIdType" ng-model="it.SUBSTANCE_IDENTIFIER_TYPE.VALUE" ng-change="_ctrl.updateIdTypeDecodeByIdentifierIndex($index)">
-              <md-option ng-repeat="idType in _ctrl.identifierTypeOptions" ng-value="idType.VALUE">{{ idType.VALUE }}</md-option>
+            <md-select name="repeatSelectIdType" id="repeatSelectIdType" ng-model="it.SUBSTANCE_IDENTIFIER_TYPE._id" ng-change="_ctrl.updateIdTypeDecodeByIdentifierIndex($index)">
+              <md-option ng-repeat="idType in _ctrl.identifierTypeOptions" ng-value="idType._id">{{ idType.VALUE }}</md-option>
             </md-select>
           </md-input-container>
           <div flex-gt-sm="25" ng-show="it.SUBSTANCE_IDENTIFIER_TYPE.VALUE === _ctrl.getOtherValue()">

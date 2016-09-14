@@ -8,143 +8,154 @@ import { Dossier } from '../../dossier/dossier.model';
 import { Substance, SubstanceIdentifierStruct } from '../../substance/substance.model';
 import {FileRA, FileGeneric, File} from '../../files/file.model';
 const DATA_DIR = 'data';
-const OUTPUT_FILE = `${__dirname}/${DATA_DIR}/output.xml`;
+//const OUTPUT_FILE = `${__dirname}/${DATA_DIR}/output.xml`;
+
+var fs = require('fs');
+var path = require('path');
+var absOutputPath = path.resolve(fs.realpathSync('./'), 'projects/Test/01/ghstsDemo.xml');
 
 export default class GhstsService {
-    constructor(
-//        ReceiverService, 
-        LegalEntityService,
-        ProductService, 
-//        DossierService,
-        SubstanceService, 
-//        DocumentService,
-        FileService, 
-        TocService
-        ) {
+  constructor(
+    //        ReceiverService, 
+    LegalEntityService,
+    ProductService,
+    //        DossierService,
+    SubstanceService,
+    //        DocumentService,
+    FileService,
+    TocService
+  ) {
 
-//        this.receiverService = ReceiverService;
-        this.legalEntityService = LegalEntityService;
-        this.productService = ProductService;
-//        this.dossierService = DossierService;
-        this.substanceService = SubstanceService;
-//        this.documentService = DocumentService;
-        this.fileService = FileService;
-        this.tocService = TocService;
-        this.submission = {};
-    }
+    //        this.receiverService = ReceiverService;
+    this.legalEntityService = LegalEntityService;
+    this.productService = ProductService;
+    //        this.dossierService = DossierService;
+    this.substanceService = SubstanceService;
+    //        this.documentService = DocumentService;
+    this.fileService = FileService;
+    this.tocService = TocService;
+    this.submission = {};
+  }
 
-    loadXml(filePath) {
-        new GHSTS(filePath).readObjects()
-            .then(result => {
-                this.submission = result;
+  loadXml(filePath) {
+    new GHSTS(filePath).readObjects()
+      .then(result => {
+        this.submission = result;
 
-                return Promise.all([
-//                    this.receiverService.initializeReceivers(this.submission),
-//                    this.legalEntityService.initializeLE(this.submission),
-//                    this.productService.initializeProducts(this.submission),
-//                    this.dossierService.initializeDossiers(this.submission),
-                    this.substanceService.jsonObjClassifier(this.submission.substances),
-//                    this.documentService.initializeDOC(this.submission),
-//                    this.fileService.initializeFile(this.submission)
-                ])
-                .catch(err => console.log(err.stack));
-            })
-            .then(() => console.log(`Successfully loaded file`))
-            .catch(err => console.log(err.stack));
-    }
-
-    clearSubmission() {
         return Promise.all([
-//            this.receiverService.receivers.remove({}, { multi: true }),
-            this.legalEntityService.legalEntities.remove({}, { multi: true }),
-//            this.productService.productsDb.remove({}, { multi: true }),
-//            this.dossierService.dossiers.remove({}, { multi: true }),
-            this.substanceService.substancesDb.remove({}, { multi: true }),
-//            this.documentService.documents.remove({}, { multi: true }),
-            this.fileService.files.remove({}, { multi: true })
-        ]);
-    }
+          //                    this.receiverService.initializeReceivers(this.submission),
+          //                    this.legalEntityService.initializeLE(this.submission),
+          //                    this.productService.initializeProducts(this.submission),
+          //                    this.dossierService.initializeDossiers(this.submission),
+          this.substanceService.jsonObjClassifierFromXml(this.submission.substances),
+          //                    this.documentService.initializeDOC(this.submission),
+          //                    this.fileService.initializeFile(this.submission)
+        ])
+          .catch(err => console.log(err.stack));
+      })
+      .then(() => console.log(`Successfully loaded file`))
+      .catch(err => console.log(err.stack));
+  }
 
-    getGhstsObject(){
-        return this.submission;
-    }
+  clearSubmission() {
+    return Promise.all([
+      //            this.receiverService.receivers.remove({}, { multi: true }),
+      this.legalEntityService.legalEntities.remove({}, { multi: true }),
+      //            this.productService.productsDb.remove({}, { multi: true }),
+      //            this.dossierService.dossiers.remove({}, { multi: true }),
+      this.substanceService.substancesDb.remove({}, { multi: true }),
+      //            this.documentService.documents.remove({}, { multi: true }),
+      this.fileService.files.remove({}, { multi: true })
+    ]);
+  }
 
-    assembleDemoGHSTS(){
-        let outputObj = new GHSTS();
+  getGhstsObject() {
+    return this.submission;
+  }
 
-        // PATCH FOR RIGHT NOW, SINCE WE ARE MISSING FILES and TOC
-        outputObj.ghsts = this.submission.ghsts;
+  assembleDemoGHSTS() {
+    let outputObj = new GHSTS();
 
-        return this.legalEntityService.getLegalEntities()
-            .then(les => {
-                for (const le of les) {
-                    outputObj.addLegalEntity(new LegalEntity(le).toGHSTSJson());
-                }
+    // PATCH FOR RIGHT NOW, SINCE WE ARE MISSING FILES and TOC
+    outputObj.ghsts = this.submission.ghsts;
 
-                outputObj.setLegalEntities();
+/*    return this.legalEntityService.getLegalEntities()
+      .then(les => {
+        for (const le of les) {
+          outputObj.addLegalEntity(new LegalEntity(le).toGHSTSJson());
+        }
 
-                return this.receiverService.getReceivers();
-            })
-            .then(res => {
-                for (const re of res) {
-                    outputObj.addReceiver(new Receiver(re).toGHSTSJson());
-                }
+        outputObj.setLegalEntities();
 
-                outputObj.setReceivers();
+        return this.receiverService.getReceivers();
+      })
+      .then(res => {
+        for (const re of res) {
+          outputObj.addReceiver(new Receiver(re).toGHSTSJson());
+        }
 
-                return this.documentService.getDocuments();
-            })
-            .then(docList => {
-                for (const document of docList) {
-                    outputObj.addDocument(new Document(document).toGHSTSJson());
-                }
+        outputObj.setReceivers();
 
-                outputObj.setDocuments();
+        return this.documentService.getDocuments();
+      })
+      .then(docList => {
+        for (const document of docList) {
+          outputObj.addDocument(new Document(document).toGHSTSJson());
+        }
 
-                return this.productService.getProducts();
-            })
-            .then(products => {
-                outputObj.setProduct(new Product(products[0]).toGhstsJson());
+        outputObj.setDocuments();
 
-                return this.dossierService.getDossiers();
-            })
-            .then(dossiers => {
-                outputObj.setDossier(new Dossier(dossiers[0]).toGhstsJson());
+        return this.productService.getProducts();
+      })
+      .then(products => {
+        outputObj.setProduct(new Product(products[0]).toGhstsJson());
 
-                return this.substanceService.getSubstances();
-            })
-            .then(substances => {
-                for (const substance of substances) {
-                    outputObj.addSubstance(new Substance(substance).toGhstsJson());
-                }
+        return this.dossierService.getDossiers();
+      })
+      .then(dossiers => {
+        outputObj.setDossier(new Dossier(dossiers[0]).toGhstsJson());
 
-                outputObj.setSubstances();
+        return this.substanceService.getSubstances();
+      })
+      .then(substances => {
+        for (const substance of substances) {
+          outputObj.addSubstance(new Substance(substance).toGhstsJson());
+        }
 
-               return this.fileService.getFiles();
-            })
-            .then(files => {
-                for(const file of files){
-                    outputObj.addFile(new File(file).toGHSTSJson())
-                }
+        outputObj.setSubstances();
 
-				outputObj.setFiles();
+        return this.fileService.getFiles();
+      })
+      .then(files => {
+        for (const file of files) {
+          outputObj.addFile(new File(file).toGHSTSJson())
+        }
+*/
+    return this.substanceService.edb_get()
+      .then(substances => {
+        console.log('Loaded ' + substances.length);
+        for (const substance of substances) {
+          outputObj.addSubstance(new Substance(substance).toGhstsJson());
+        }
 
-                return outputObj.writeXML(OUTPUT_FILE);
-            })
-            .then(() => {
-                console.log(`Successfully written to ${OUTPUT_FILE}`);
-            });
-    }
+        outputObj.setSubstances();
+
+        return outputObj.writeXML(absOutputPath);
+      })
+      .then(() => {
+        console.log(`Successfully written to ${absOutputPath}`);
+      });
+  }
 }
 
-GhstsService.$inject = [ 
-    //'receiverService', 
-    'legalEntityService', 
-    'productService', 
-//    'dossierService', 
-    'substanceService', 
-//    'documentService', 
-    'fileService'
-    ];
+GhstsService.$inject = [
+  //'receiverService', 
+  'legalEntityService',
+  'productService',
+  //    'dossierService', 
+  'substanceService',
+  //    'documentService', 
+  'fileService'
+];
 
 export { GhstsService };

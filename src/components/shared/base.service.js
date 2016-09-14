@@ -1,12 +1,10 @@
+//TODO: add comments for the file
 import xml2js from 'xml2js';
 
 const Nedb = require('nedb');
 
 var fs = require('fs');
 var path = require('path');
-
-import { ValueStruct, ExtValueStruct } from './shared.model';
-import { Substance, SubstanceIdentifierStruct } from '../substance/substance.model';
 
 export default class BaseService {
   constructor($q, dbName, modelClassName, rootXmlName, searchName) {
@@ -26,32 +24,56 @@ export default class BaseService {
 
   edb_get(obj) {
     let deferred = this.$q.defer();
-    if (obj) {
-      console.log(obj);
-      this.db.find(obj, (err, rows) => {
-        if (err) {
-          deferred.reject(err);
-        } else {
-          deferred.resolve(rows);
+    let query = obj ? obj : {};
+    let entityClass, entity, classedRows = [];
+    this.db.find(query, (err, rows) => {
+      if (err) {
+        deferred.reject(err);
+      } else if (this.modelClassName !== 'PicklistModel') {
+        try {
+          entityClass = require('./../' + this.modelClassName.toLowerCase() + '/' + this.modelClassName.toLowerCase() + '.model')[this.modelClassName];
+          rows.map(row => {
+            try {
+              entity = new entityClass();
+              entity._initFromDB(row);
+              classedRows.push(entity);
+            } catch (err) {
+              deferred.reject(err + ' with [' + row + ']');
+            }
+          });
+        } catch (err) {
+          deferred.reject(err + ' with [' + this.modelClassName + ']');
         }
-      });
-    } else {
-      this.db.find({}, (err, rows) => {
-        if (err) {
-          deferred.reject(err);
-          return deferred.promise;
+
+        deferred.resolve(classedRows);
+      } else {
+        try {
+          entityClass = require('./shared.model')[this.modelClassName];
+          rows.map(row => {
+            try {
+              entity = new entityClass(row);
+              classedRows.push(entity);
+            } catch (err) {
+              deferred.reject(err + ' with [' + row + ']');
+            }
+          });
+        } catch (err) {
+          deferred.reject(err + ' with [' + this.modelClassName + ']');
         }
-        deferred.resolve(rows);
-      });
-    }
+
+        deferred.resolve(classedRows);
+      }
+    });
     return deferred.promise;
   }
 
   edb_put(obj) {
     let deferred = this.$q.defer();
     if (obj && typeof obj === 'object') {
-      let obj2DB = this.jsonToDB(obj);
-      this.db.insert(obj, (err, result) => {
+      let obj2DB = obj;
+      if (this.modelClassName !== 'PicklistModel')
+        obj2DB.beforeToDB();
+      this.db.insert(obj2DB, (err, result) => {
         if (err) {
           deferred.reject(err);
           return deferred.promise;
@@ -65,7 +87,7 @@ export default class BaseService {
 
   edb_delete(id) {
     let deferred = this.$q.defer();
-    if (id && typeof obj === 'string') {
+    if (id && typeof id === 'string') {
       this.db.remove({ '_id': id }, function (err, res) {
         if (err) {
           deferred.reject(err);
@@ -81,9 +103,11 @@ export default class BaseService {
 
   edb_post(obj) {
     let deferred = this.$q.defer();
-    if (obj && typeof obj === 'object') {
-      let obj2DB = this.jsonToDB(obj);
-      this.db.update({ _id: obj._id }, obj, {}, (err, numReplaced) => {
+    if (obj && typeof obj === 'object' && obj.hasOwnProperty('_id')) {
+      let obj2DB = obj;
+      if (this.modelClassName !== 'PicklistModel')
+        obj2DB.beforeToDB();
+      this.db.update({ _id: obj2DB._id }, obj2DB, {}, (err, numReplaced) => {
         if (err) {
           deferred.reject(err);
           return deferred.promise;
@@ -95,87 +119,71 @@ export default class BaseService {
     return deferred.promise;
   }
 
-  jsonToDB(obj) {
-    return obj;
-  }
-
   jsonToXml(obj) {
     let deferred = this.$q.defer();
     let entityClass, entity, builder, xml;
-    if (obj && typeof obj === 'object') {
-      this.db.find({ '_id': obj._id }, (err, result) => {
-        if (err) {
-          deferred.reject(err);
-          return deferred.promise;
-        }
-        let sJson = result[0];
-        try {
-          entityClass = require('./../' + this.modelClassName.toLowerCase() + '/' + this.modelClassName.toLowerCase() + '.model');
+    if (obj) {
+      if (typeof obj === 'object') {
+        if (obj.hasOwnProperty('_id')) {
+          this.db.find({ '_id': obj._id }, (err, result) => {
+            if (err) {
+              deferred.reject(err);
+              return deferred.promise;
+            }
+            let sJson = result[0];
+            if (sJson) {
+              try {
+                entityClass = require('./../' + this.modelClassName.toLowerCase() + '/' + this.modelClassName.toLowerCase() + '.model')[this.modelClassName];
 
-          entity = new entityClass[this.modelClassName](sJson);
+                entity = new entityClass(sJson);
 
-          builder = new xml2js.Builder({
-            rootName: this.rootXmlName,
-            attrkey: 'attr$'
+                builder = new xml2js.Builder({
+                  rootName: this.rootXmlName,
+                  attrkey: 'attr$'
+                });
+
+                xml = builder.buildObject(entity.toGhstsJson());
+                deferred.resolve(xml);
+              } catch (err) {
+                deferred.reject(err + ' with [' + sJson + ']');
+              }
+            }
           });
-
-          xml = builder.buildObject(entity.toGhstsJson());
-          deferred.resolve(xml);
-        } catch (err) {
-          deferred.reject(err);
+        } else {
+          deferred.resolve({});
         }
-      });
+      } else {
+        deferred.reject('Error: tring to transforming non-object entity to XML - ' + obj);
+      }
     } else
-      deferred.reject('Error: tring to transforming non-object entity to XML - ' + obj);
+      deferred.resolve({});
     return deferred.promise;
   }
 
-  jsonObjClassifier(obj) {
+  jsonObjClassifierFromXml(obj) {
     let deferred = this.$q.defer();
     let entities = obj;
-    let jsObj = null;
+    let entityClass, entity;
+    let picklistSvc = require('./services/picklist.service').PickListService.picklistFactory(this.$q);
     if (entities && entities.constructor === Array) {
-      //    if (obj && typeof obj === 'object') {
-      entities.map(item => {
-        let substance = new Substance();
-        substance.jsonObjClassifier(item);
-        // TODO: insert into db for now, may remove them later on
-        this.edb_post(substance);
-      });
-      console.log(jsObj);
-    } else
+      try {
+        entityClass = require('./../' + this.modelClassName.toLowerCase() + '/' + this.modelClassName.toLowerCase() + '.model')[this.modelClassName];
+        entities.map(item => {
+          entity = new entityClass();
+          // TODO: insert into db for now, may remove them later on
+          entity.jsonObjClassifierFromXml(item, picklistSvc);
+          console.log(entity);
+          this.edb_put(entity);
+        });
+      } catch (err) {
+        deferred.reject(err);
+      }
+    } else if (entities && typeof entities === 'object') {
+      console.log('todo');
+    } else {
       deferred.reject('Error: tring to classifier non-object entity from normal JSON object - ' + obj);
+    }
     return deferred.promise;
   }
-  // inits the db, grabs info from a file and inserts it. NOTE that xml2js creates arrays
-  /*  initialize(obj) {
-      let entities = obj;
-  
-      entities.map(item => {
-        let substance = new Substance();
-        let status = new ValueStruct(item.METADATA_STATUS[0].VALUE[0], item.METADATA_STATUS[0].VALUE_DECODE[0]);
-        substance.substanceId = item.attr$.Id;
-        substance.METADATA_STATUS = status;
-        substance.SUBSTANCE_NAME = item.SUBSTANCE_NAME[0];
-        substance.SUBSTANCE_PID = item.SUBSTANCE_PID[0];
-        item.SUBSTANCE_IDENTIFIER.forEach(it => {
-          let idType = (typeof (it.SUBSTANCE_IDENTIFIER_TYPE[0].VALUE[0]) === 'string') ?
-            new ExtValueStruct(
-              it.SUBSTANCE_IDENTIFIER_TYPE[0].VALUE[0],
-              it.SUBSTANCE_IDENTIFIER_TYPE[0].VALUE_DECODE[0]
-            ) :
-            new ExtValueStruct(
-              it.SUBSTANCE_IDENTIFIER_TYPE[0].VALUE[0]._,
-              it.SUBSTANCE_IDENTIFIER_TYPE[0].VALUE_DECODE[0],
-              it.SUBSTANCE_IDENTIFIER_TYPE[0].VALUE[0].attr$.Other_Value
-            );
-          let identifier = new SubstanceIdentifierStruct(idType, it.IDENTIFIER[0]);
-          substance.addSubstanceIdentifier(identifier);
-        })
-  
-        // insert into db
-        this.createSubstance(substance);
-      });
-    }
-  */
 }
+

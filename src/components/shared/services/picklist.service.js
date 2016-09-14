@@ -5,6 +5,7 @@ import xml2js from 'xml2js';
 
 import { PicklistModel } from '../shared.model';
 import BaseService from '../base.service';
+import _lodash from 'lodash';
 
 const standardsPath = path.resolve(fs.realpathSync('./'), 'standards');
 const version = path.resolve(standardsPath, 'ghsts-picklists.xsd');
@@ -15,15 +16,23 @@ let picklistInst;
 export class PickListService extends BaseService {
   constructor($q) {
     super($q, 'pickListTypes', 'PicklistModel');
+    console.log(global._picklistInMemory);
+    if (!global._picklistInMemory)
+      this.edb_get().then(result => {
+        global._picklistInMemory = result;
+        console.log(global._picklistInMemory);
+      });
   }
   // used to get all types with a given name. Can additionally provide a true/false status, which only returns enabled types
   edb_get(typeName, isEnabled) {
     let query = {};
-    if (typeName) {
+    if (typeof typeName === 'object') {
+      query = typeName;
+    } else if (typeof typeName === 'string') {
       query.TYPE_NAME = typeName;
-    }
-    if (isEnabled === true) {
-      query.STATUS = 'enabled';
+      if (isEnabled === true) {
+        query.STATUS = 'enabled';
+      }
     }
     return super.edb_get(query);
   }
@@ -76,6 +85,7 @@ export class PickListService extends BaseService {
 
                   this.edb_put(types)
                     .then(added => {
+                      global._picklistInMemory = types;
                       deferred.resolve(`${added.length} added.`);
                     })
                     .catch(err => {
@@ -99,6 +109,12 @@ export class PickListService extends BaseService {
     return PicklistModel.getOtherValue();
   }
 
+  edb_getSync(obj) {
+    let retVal = [];
+    retVal = _lodash.filter(global._picklistInMemory, obj);
+
+    return retVal;
+  }
 }
 
 angular.module(moduleName, [])

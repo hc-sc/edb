@@ -1,8 +1,9 @@
 export default class EditCtrl {
-  constructor($state) {
+  constructor($state, ghstsService) {
     this.$state = $state;
     this.activeIndex = null;
     this.back = { link: 'app.project', label: 'Back' };
+    this.ghstsService = ghstsService;
     this.icons = [
       { icon: 'template', label: 'Manage Extensions', onClick: this.goToLocals.bind(this) },
       { icon: 'save', label: 'Save', onClick: this.save.bind(this) },
@@ -32,7 +33,10 @@ export default class EditCtrl {
 
   trackChanges() {}
 
-  package() {}
+  package() {
+    console.log('package');
+    this.ghstsService.assembleDemoGHSTS();
+  }
 
   goToLegalEntities() {
     this.updateActivePage(0);
