@@ -1,4 +1,5 @@
-import { BaseModel } from '../shared/shared.model';
+import { generatePid, validatePid } from '../shared/pid';
+import { BaseModel, PicklistModel } from '../shared/shared.model';
 
 class SubstanceIdentifierStruct extends BaseModel {
   constructor(jsonDB) {
@@ -26,6 +27,17 @@ class Substance extends BaseModel {
       this.SUBSTANCE_PID = null;
       this.SUBSTANCE_IDENTIFIER = []; 
     }
+  }
+
+  beforeToDB() {
+    let status = new PicklistModel('METADATA_STATUS');
+    let now = Date.now();
+
+    super.beforeToDB();
+    this.METADATA_STATUS = this.METADATA_STATUS ? this.METADATA_STATUS : status;
+    //TODO: temporary set value for new Id, needs to be defected to the new business role   
+    this._identifier = this._identifier ? this._identifier : 'IDS' + now;
+    this.SUBSTANCE_PID = this.SUBSTANCE_PID ? (validatePid(this.SUBSTANCE_PID) ? this.SUBSTANCE_PID : generatePid()) : generatePid();
   }
 
   addSubstanceIdentifier(identifier) {

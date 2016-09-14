@@ -8,7 +8,11 @@ import { Dossier } from '../../dossier/dossier.model';
 import { Substance, SubstanceIdentifierStruct } from '../../substance/substance.model';
 import {FileRA, FileGeneric, File} from '../../files/file.model';
 const DATA_DIR = 'data';
-const OUTPUT_FILE = `${__dirname}/${DATA_DIR}/output.xml`;
+//const OUTPUT_FILE = `${__dirname}/${DATA_DIR}/output.xml`;
+
+var fs = require('fs');
+var path = require('path');
+var absOutputPath = path.resolve(fs.realpathSync('./'), 'projects/Test/01/ghstsDemo.xml');
 
 export default class GhstsService {
   constructor(
@@ -75,7 +79,7 @@ export default class GhstsService {
     // PATCH FOR RIGHT NOW, SINCE WE ARE MISSING FILES and TOC
     outputObj.ghsts = this.submission.ghsts;
 
-    return this.legalEntityService.getLegalEntities()
+/*    return this.legalEntityService.getLegalEntities()
       .then(les => {
         for (const le of les) {
           outputObj.addLegalEntity(new LegalEntity(le).toGHSTSJson());
@@ -126,13 +130,20 @@ export default class GhstsService {
         for (const file of files) {
           outputObj.addFile(new File(file).toGHSTSJson())
         }
+*/
+    return this.substanceService.edb_get()
+      .then(substances => {
+        console.log('Loaded ' + substances.length);
+        for (const substance of substances) {
+          outputObj.addSubstance(new Substance(substance).toGhstsJson());
+        }
 
-        outputObj.setFiles();
+        outputObj.setSubstances();
 
-        return outputObj.writeXML(OUTPUT_FILE);
+        return outputObj.writeXML(absOutputPath);
       })
       .then(() => {
-        console.log(`Successfully written to ${OUTPUT_FILE}`);
+        console.log(`Successfully written to ${absOutputPath}`);
       });
   }
 }

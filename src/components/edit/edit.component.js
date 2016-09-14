@@ -11,6 +11,8 @@ import Receivers from '../receivers/receivers.component';
 import Substance from '../substance/substance.component';
 import LegalEntity from '../legal-entity/legal-entity.component';
 
+import GhstsService from '../shared/services/ghsts.service';
+
 export default angular.module('app.edit', [
   'ui.router',
   'ngMaterial',
@@ -27,4 +29,5 @@ export default angular.module('app.edit', [
 .component('edit', {
   templateUrl: './components/edit/edit.template.html',
   controller: EditCtrl
-});
+})
+.service('ghstsService', GhstsService);

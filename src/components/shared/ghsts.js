@@ -80,7 +80,7 @@ class GHSTS {
   readObjects() {
     // read json objects from ghsts xml
     return new Promise((resolve, reject) => {
-      fs.readFile(this.filename, { encoding: "utf8" }, (err, xmlStr) => {
+      fs.readFile(this.filename, { encoding: 'utf8' }, (err, xmlStr) => {
         if (err) throw (err);
         // parse the xml to json object
         xml2js.parseString(xmlStr, { attrkey: 'attr$', explicitArray: false }, (err, obj) => {
@@ -116,7 +116,7 @@ class GHSTS {
 
   writeXML(filename) {
     // write ghsts json tree back to xml
-    let builder = new xml2js.Builder({ rootName: 'GHSTS', attrkey: 'attr$', charkey: "value$" });
+    let builder = new xml2js.Builder({ rootName: 'GHSTS', attrkey: 'attr$'});
     let xml = builder.buildObject(this.ghsts);
     fs.writeFile(filename, xml, function (err) {
       if (err) console.log(err);

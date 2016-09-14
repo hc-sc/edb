@@ -25,11 +25,43 @@ export default class BaseService {
   edb_get(obj) {
     let deferred = this.$q.defer();
     let query = obj ? obj : {};
+    let entityClass, entity, classedRows = [];
     this.db.find(query, (err, rows) => {
       if (err) {
         deferred.reject(err);
+      } else if (this.modelClassName !== 'PicklistModel') {
+        try {
+          entityClass = require('./../' + this.modelClassName.toLowerCase() + '/' + this.modelClassName.toLowerCase() + '.model')[this.modelClassName];
+          rows.map(row => {
+            try {
+              entity = new entityClass();
+              entity._initFromDB(row);
+              classedRows.push(entity);
+            } catch (err) {
+              deferred.reject(err + ' with [' + row + ']');
+            }
+          });
+        } catch (err) {
+          deferred.reject(err + ' with [' + this.modelClassName + ']');
+        }
+
+        deferred.resolve(classedRows);
       } else {
-        deferred.resolve(rows);
+        try {
+          entityClass = require('./shared.model')[this.modelClassName];
+          rows.map(row => {
+            try {
+              entity = new entityClass(row);
+              classedRows.push(entity);
+            } catch (err) {
+              deferred.reject(err + ' with [' + row + ']');
+            }
+          });
+        } catch (err) {
+          deferred.reject(err + ' with [' + this.modelClassName + ']');
+        }
+
+        deferred.resolve(classedRows);
       }
     });
     return deferred.promise;
@@ -38,7 +70,9 @@ export default class BaseService {
   edb_put(obj) {
     let deferred = this.$q.defer();
     if (obj && typeof obj === 'object') {
-      let obj2DB = this.jsonToDB(obj);
+      let obj2DB = obj;
+      if (this.modelClassName !== 'PicklistModel')
+        obj2DB.beforeToDB();
       this.db.insert(obj2DB, (err, result) => {
         if (err) {
           deferred.reject(err);
@@ -70,7 +104,9 @@ export default class BaseService {
   edb_post(obj) {
     let deferred = this.$q.defer();
     if (obj && typeof obj === 'object' && obj.hasOwnProperty('_id')) {
-      let obj2DB = this.jsonToDB(obj);
+      let obj2DB = obj;
+      if (this.modelClassName !== 'PicklistModel')
+        obj2DB.beforeToDB();
       this.db.update({ _id: obj2DB._id }, obj2DB, {}, (err, numReplaced) => {
         if (err) {
           deferred.reject(err);
@@ -81,10 +117,6 @@ export default class BaseService {
     } else
       deferred.reject('Error: tring to update non-object entity - ' + obj);
     return deferred.promise;
-  }
-
-  jsonToDB(obj) {
-    return obj;
   }
 
   jsonToXml(obj) {

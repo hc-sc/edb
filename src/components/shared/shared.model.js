@@ -18,6 +18,46 @@ class BaseModel {
     this._identifier = null;
   }
 
+  beforeToDB() {
+    let keys = Object.keys(this);
+    let picklistConf, entity;
+    keys.map(key => {
+      if (key[0] !== '_') { //not internal attribute 
+        picklistConf = PicklistFieldsConfig[key];
+        entity = this[key];
+        if (entity) {
+          if (picklistConf) { //it is a picklist item
+            if (entity._id) {
+              entity._pklid = entity._id;
+              delete entity._id;
+              this[key] = entity;
+            }
+          } else { //it is not a picklist item
+            if (entity.constructor === Array) { //it is an array
+              this[key] = entity.map(subObj => {
+                try {
+                  subObj.beforeToDB();
+                  return subObj;
+                } catch (err) {
+                  console.log(err);
+                }
+              });
+              console.log(this[key]);
+            } else if (entity && typeof entity === 'object') { //it is an sub-class JSON obj
+              try {
+                entity = this[key];
+                entity.beforeToDB();
+                this[key] = entity;
+              } catch (err) {
+                console.log(err);
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+
   _initFromDB(jsonDB) {
     Object.assign(this, jsonDB);
     let keys = Object.keys(this);
@@ -27,7 +67,7 @@ class BaseModel {
         picklistConf = PicklistFieldsConfig[key];
         entity = this[key];
         if (picklistConf) { //it is a picklist item
-          entity = new PicklistModel(picklistConf.typename, entity.VALUE, entity.VALUE_DECODE, entity.isExt ? entity.isExt : false, entity.STATUS, entity._id);
+          entity = new PicklistModel(picklistConf.typename, entity.VALUE, entity.VALUE_DECODE, entity.isExt ? entity.isExt : false, entity.STATUS, entity._pkl_id);
           this[key] = entity;
         } else { //it is not a picklist item
           if (entity.constructor === Array) { //it is an array
@@ -183,6 +223,13 @@ class PicklistModel {
     if (typename) {
       if (typeof typename === 'object') {
         Object.assign(this, typename);
+        if (this._id) {  //from non-db object
+          this._pklid = this._id;
+          delete this._id;
+        } else if (this._pklid) {  //from db object
+          this._id = this._pklid;
+          delete this._pklid;
+        }
       } else if (typeof typename === 'string') {
         if (id)
           this._id = id;
