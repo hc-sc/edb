@@ -42,6 +42,9 @@ export default class FileSystemService {
                     });
                 })
                 .then(() => {
+                  return this._copyXmlTemplate(curBasePath)
+                })
+                .then(() => {
                   fs.writeFile(
                     path.resolve(curBasePath, '.incomplete'),
                     'The submission is not complated.',
@@ -64,6 +67,21 @@ export default class FileSystemService {
 
   createProject(proj_name) {
     return this.createSubmission(proj_name, '01');
+  }
+
+  _copyXmlTemplate(folderName) {
+    let deferred = this.$q.defer();
+    try {
+      let inputFile = path.resolve(fs.realpathSync('./'), 'resources', 'app', 'templates', 'ghsts.xml');
+      let ouptFile = path.resolve(folderName, 'ghsts.xml');
+
+      fs.createReadStream(inputFile).pipe(fs.createWriteStream(ouptFile));
+      console.log('template copied');
+      deferred.resolve('template copied');
+    } catch (err) {
+      deferred.reject(err);
+    }
+    return deferred.promise;
   }
 
   _createFolder(folderName) {
