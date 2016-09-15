@@ -7,9 +7,6 @@ import { PicklistModel } from '../shared.model';
 import BaseService from '../base.service';
 import _lodash from 'lodash';
 
-const standardsPath = path.resolve(fs.realpathSync('./'), 'standards');
-const version = path.resolve(standardsPath, 'ghsts-picklists.xsd');
-
 const moduleName = 'app.service.picklist';
 let picklistInst;
 
@@ -48,6 +45,9 @@ export class PickListService extends BaseService {
     this.edb_get()
       .then(results => {
         if (results.length === 0) {
+          let version = path.resolve('./', 'resources', 'app', 'standards', 'ghsts-picklists.xsd');
+          
+          console.log(version);
           fs.readFile(version, { encoding: 'utf8' }, (err, data) => {
             if (err) {
               deferred.reject(err);
