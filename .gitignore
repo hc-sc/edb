@@ -6,5 +6,6 @@ prebuild
 build
 dist
 projects
+products
 css
 data
