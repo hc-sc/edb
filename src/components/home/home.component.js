@@ -3,16 +3,17 @@ import angular from 'angular';
 import HomeCtrl from './home.controller';
 import CardButton from '../shared/card-button/card-button.component';
 import IconButton from '../shared/icon-button/icon-button.component';
-import FileSystemService from '../shared/services/fs.service';
+import {} from '../../ng-services/ghsts.service';
+import { GHSTS_NG_MODULE_NAME } from '../../constants/shared';
 
 export default angular.module('app.home', [
   'ui.router',
   'ngMaterial',
+  GHSTS_NG_MODULE_NAME,
   CardButton.name,
   IconButton.name
 ])
 .component('home', {
   templateUrl: './components/home/home.template.html',
   controller: HomeCtrl
-})
-.service('fsService', FileSystemService);
+});

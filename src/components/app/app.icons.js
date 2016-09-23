@@ -1,9 +1,5 @@
-// For Electron
-const path = require('path');
-const IMG_DIR = path.normalize('./img') + '/ic_';
 
-// For Browser
-//const IMG_DIR = '../../img/ic_';
+const IMG_DIR = 'img/ic_';
 const SUF = '_black_24px.svg';
 
 export default function($mdIconProvider) {

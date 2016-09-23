@@ -23,7 +23,19 @@ var pack = function () {
       .pipe(gulp.dest('build')),
     gulp.src(['src/components/**/*.html'])
       .pipe(gulp.dest('build/components')),
+    gulp.src(['src/constants/**/*.*'])
+      .pipe(gulp.dest('build/constants')),
+    gulp.src(['src/utils/**/*.*'])
+      .pipe(gulp.dest('build/utils')),
+    gulp.src(['src/configs/**/*.*'])
+      .pipe(gulp.dest('build/configs')),
+    gulp.src(['src/services/**/*.*'])
+      .pipe(gulp.dest('build/services')),
+    gulp.src(['src/models/**/*.*'])
+      .pipe(gulp.dest('build/models')),
     gulp.src(['src/index.js'])
+      .pipe(gulp.dest('build')),
+    gulp.src(['src/preload.js'])
       .pipe(gulp.dest('build')),
     gulp.src(['src/index.html'])
       .pipe(gulp.dest('build')),
@@ -39,7 +51,13 @@ gulp.task('prebuild', ['clean'], function () {
 });
 
 gulp.task('pack', pack);
-gulp.watch('src/components/**/*.html', ['pack']);
+gulp.watch(['src/components/**/*.html'], ['pack']);
+
+gulp.task('back-watch', function () {
+  gulp.watch(['src/services/**/*.*', 'src/models/**/*.*', 'src/configs/**/*.*', 'src/constants/**/*.*', 'src/index.js'], function () {
+    return pack();
+  });
+});
 
 gulp.task('clean', clean);
 
@@ -47,4 +65,4 @@ gulp.task('sass', function () {
   return compileSCSS();
 });
 
-gulp.task('default', function() {});
+gulp.task('default', function () { });

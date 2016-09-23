@@ -12,7 +12,8 @@
     "test": "mocha \"./src/components/**/*.spec.js\" --recursive --compilers js:babel-register -r jsdom/register",
     "tdd": "mocha \"./src/components/**/*.spec.js\" --recursive --compilers js:babel-register --watch",
     "lint": "eslint .",
-    "build": "build"
+    "build": "build",
+    "backend": "gulp back-watch"
   },
   "author": "alex gagnon",
   "dependencies": {
@@ -48,8 +49,7 @@
     "css-loader": "^0.23.1",
     "del": "^2.2.1",
     "electron-builder": "^5.23.2",
-    "electron-connect": "^0.4.2",
-    "electron-prebuilt": "^1.2.3",
+    "electron-prebuilt": "^1.4.0",
     "eslint": "^3.3.0",
     "file-loader": "^0.9.0",
     "gulp-rename": "^1.2.2",

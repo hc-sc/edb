@@ -12,8 +12,8 @@ export default function ($stateProvider, $urlRouterProvider) {
     .state('app.home', {
       url: '/',
       template: '<home></home>'
-    })
-    .state('app.project', {
+    });
+/*    .state('app.project', {
       url: '/project',
       template: '<project></project>'
     })
@@ -57,6 +57,6 @@ export default function ($stateProvider, $urlRouterProvider) {
       url: '/substance',
       template: '<substance flex></substance>'
     });
-
+*/
   $urlRouterProvider.otherwise('/');
 }
