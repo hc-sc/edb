@@ -46,6 +46,28 @@ var pack = function () {
   ]);
 };
 
+var back_pack = function () {
+  return Q.all([
+    gulp.src(['src/package.build'])
+      .pipe(rename('package.json'))
+      .pipe(gulp.dest('build')),
+    gulp.src(['src/constants/**/*.*'])
+      .pipe(gulp.dest('build/constants')),
+    gulp.src(['src/utils/**/*.*'])
+      .pipe(gulp.dest('build/utils')),
+    gulp.src(['src/configs/**/*.*'])
+      .pipe(gulp.dest('build/configs')),
+    gulp.src(['src/services/**/*.*'])
+      .pipe(gulp.dest('build/services')),
+    gulp.src(['src/models/**/*.*'])
+      .pipe(gulp.dest('build/models')),
+    gulp.src(['src/index.js'])
+      .pipe(gulp.dest('build')),
+    gulp.src(['src/preload.js'])
+      .pipe(gulp.dest('build'))
+  ]);
+};
+
 gulp.task('prebuild', ['clean'], function () {
   return pack();
 });
@@ -55,7 +77,8 @@ gulp.watch(['src/components/**/*.html'], ['pack']);
 
 gulp.task('back-watch', function () {
   gulp.watch(['src/services/**/*.*', 'src/models/**/*.*', 'src/configs/**/*.*', 'src/constants/**/*.*', 'src/index.js'], function () {
-    return pack();
+    process.stdout.write('Backend source change happens! \n');
+    return back_pack();
   });
 });
 
