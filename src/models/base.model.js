@@ -12,8 +12,7 @@ const PicklistFieldsConfig = require('../configs/picklist.fields');
 const PicklistModel = require('./picklist.model');
 
 module.exports = class BaseModel {
-  constructor(modelPath, url) {
-    this._modelPath = modelPath;
+  constructor(url) {
     this._url = url;
     this._identifier = null;
   }
@@ -116,7 +115,7 @@ module.exports = class BaseModel {
             }
             dbOutput = picklistInst4FromXml.edb_getSync(query);
             if (dbOutput.constructor === Array) {
-              subEntityClass = require('./shared.model')['PicklistModel'];
+              subEntityClass = require('./picklist.model');
               if (dbOutput[0]) { 
                 this[key] = new subEntityClass(dbOutput[0]);
               } else if (picklistFieldsConfig.isExt) {
@@ -135,7 +134,7 @@ module.exports = class BaseModel {
           }
         } else if (obj[key].constructor === Array) {
           subClassName = BaseModel.getClassNameFromFieldName(key);
-          subEntityClass = require('./../' + this._modelPath + '/' + this._modelPath + '.model')[subClassName];
+          subEntityClass = require('./' + this._url + '.model')[subClassName];
           obj[key].map(item => {
             subentity = new subEntityClass();
             subentity.jsonObjClassifierFromXml(item, picklistInst4FromXml);
@@ -143,7 +142,7 @@ module.exports = class BaseModel {
           });
         } else if (typeof obj[key] === 'object') {
           subClassName = BaseModel.getClassNameFromFieldName(key);
-          subEntityClass = require('./../' + this._modelPath + '/' + this._modelPath + '.model')[subClassName];
+          subEntityClass = require('./' + this._url + '.model')[subClassName];
           subentity = new subEntityClass();
           subentity.jsonObjClassifierFromXml(obj[key], picklistInst4FromXml);
           if (this[key].constructor === Array) {
@@ -171,7 +170,7 @@ module.exports = class BaseModel {
   _jsonObjClassifierFromDB(key, obj) {
     let subClassName, entityClass, retVal = null;
     subClassName = BaseModel.getClassNameFromFieldName(key);
-    entityClass = require('./../' + this._modelPath.toLowerCase() + '/' + this._modelPath.toLowerCase() + '.model')[subClassName];
+    entityClass = require('.' + this._url + '.model')[subClassName];
     retVal = new entityClass(obj);
     return retVal;
   }

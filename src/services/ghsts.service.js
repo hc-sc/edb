@@ -10,7 +10,6 @@ const GHSTS = require('../models/ghsts');
 const BACKEND_CONST = require('../constants/backend');
 const SHARED_CONST = require('../constants/shared');
 //const OUTPUT_FILE = `${__dirname}/${DATA_DIR}/output.xml`;
-//const BaseService = require('./base.service');
 const RVHelper = require('../utils/return.value.helper').ReturnValueHelper;
 
 const {dialog} = require('electron');
@@ -76,7 +75,7 @@ module.exports = class GhstsService {
         if (isOK.code !== 'EDB00000') {
           deffer.reject(isOK);
         } else {
-          self._loadXml(absInFN).then(result => {
+          self._loadXml(absInFN, true).then(result => {
             self.ghsts.push(result.data);
             deffer.resolve(isOK);
           })
@@ -91,9 +90,9 @@ module.exports = class GhstsService {
     return deffer.promise;
   }
 
-  _loadXml(filePath) {
+  _loadXml(filePath, isActive) {
     let obj = new GHSTS(this.$q, filePath);
-    return obj.readObjects();
+    return obj.readObjects(isActive);
     //      .then(result => {
     //        this.ghsts.push(result);
     //        return new RVHelper('EDB00000');

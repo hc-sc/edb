@@ -1,6 +1,8 @@
 const xml2js = require('xml2js');
 const fs = require('fs');
 const RVHelper = require('../utils/return.value.helper').ReturnValueHelper;
+const SubstanceService = require('../services/substance.service').SubstanceService;
+const BACKEND_CONST = require('../constants/backend');
 
 module.exports = class GHSTS {
   constructor($q, filePath) {
@@ -78,7 +80,7 @@ module.exports = class GHSTS {
     };
   }
 
-  readObjects() {
+  readObjects(isActive) {
     // read json objects from ghsts xml
     let deffer = this.$q.defer();
     fs.readFile(this.filename, { encoding: 'utf8' }, (err, xmlStr) => {
@@ -105,7 +107,11 @@ module.exports = class GHSTS {
         // set documents
         this.documents = obj.GHSTS.DOCUMENTS.DOCUMENT;
         this.dossier = obj.GHSTS.PRODUCT.DOSSIER;
+        let subService = new SubstanceService(this.$q, BACKEND_CONST.DOSSIER_LEVEL_SERVICE, isActive);
         this.substances = obj.GHSTS.SUBSTANCES.SUBSTANCE;
+        subService.jsonObjClassifierFromXml(this.substances).then(result => {
+          this.substances = result;
+        });
 
         deffer.resolve(new RVHelper('EDB00000', this));
       });

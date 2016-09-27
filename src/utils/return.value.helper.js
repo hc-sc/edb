@@ -19,7 +19,8 @@ const RETURN_VALUE_CONFIG = {
   EDB11001: { msg: 'Calling service with empty url' },
   EDB11002: { msg: 'Service not found'},
   EDB11003: { msg: 'No synchronous call for this service'},
-
+  EDB11004: { msg: 'tring to create non-object entity'},
+  
   EDB12001: { msg: 'Cannot create product with empty'},
   EDB12002: { msg: 'Cannot create product with empty short name' },
   EDB12003: { msg: 'Selected wrong submission folder' },

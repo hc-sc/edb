@@ -148,7 +148,7 @@ app.on('ready', function () {
     });
   }
 
-  mainWindow.loadURL('file://' + __dirname + '/index.html');
+  mainWindow.loadURL('file://' + __dirname + '/../build/index.html');
   mainWindow.webContents.on('did-finish-load', function () {
     // TODO: setTitle is being deprecated, find and use alternative
     mainWindow.setTitle("e-Dossier Builder (V0.1.0)");

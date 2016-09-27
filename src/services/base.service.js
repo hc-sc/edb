@@ -8,18 +8,23 @@ const BACKEND_CONST = require('../constants/backend');
 
 var fs = require('fs');
 var path = require('path');
-var _ = require('lodash');
+//var _ = require('lodash');
 
 module.exports = class BaseService {
-  constructor($q, dbName, modelClassName, rootXmlName, serviceLevel, searchName) {
+  constructor($q, dbName, modelClassName, rootXmlName, serviceLevel, submissionStatu, searchName) {
     this.$q = $q;
     this.dbName = dbName;
     this.modelClassName = modelClassName ? modelClassName : dbName.toUpperCase();
     this.rootXmlName = rootXmlName ? rootXmlName : dbName.toUpperCase();
     this.serviceLevel = serviceLevel ? serviceLevel : BACKEND_CONST.DOSSIER_LEVEL_SERVICE;
+    this.submissionStatu = submissionStatu;
     this.searchName = searchName ? searchName : (dbName + '_NAME').toUpperCase();
     //TODO: may add exception handler for fs opration later as we may remove db.
-    this.absPath = path.resolve(fs.realpathSync('./'), 'data', serviceLevel, dbName + '.db');
+    this.absPath = path.resolve(fs.realpathSync('./'), 'data', this.serviceLevel);
+    if (this.serviceLevel === BACKEND_CONST.DOSSIER_LEVEL_SERVICE && this.submissionStatu) 
+      this.absPath = path.resolve(this.absPath, this.submissionStatu, this.dbName + '.db');
+    else 
+      this.absPath = path.resolve(this.absPath, this.dbName + '.db');
     console.log(this.absPath);
     this.db = new Nedb({
       filename: this.absPath,
@@ -106,7 +111,7 @@ module.exports = class BaseService {
         deferred.resolve(new RVHelper('EDB00000', result));
       });
     } else
-      deferred.reject('Error: tring to create non-object entity - ' + obj);
+      deferred.reject(new RVHelper('EDB11004', obj));
     return deferred.promise;
   }
 
@@ -189,17 +194,20 @@ module.exports = class BaseService {
     let deferred = this.$q.defer();
     let entities = obj;
     let entityClass, entity;
-    let picklistSvc = require('./picklist.service').PickListService.picklistFactory(this.$q);
+    let picklistSvcClass = require('./picklist.service');
+    let picklistInst = new picklistSvcClass(this.$q);
     if (entities && entities.constructor === Array) {
       try {
         entityClass = require('../models/' + this.modelClassName.toLowerCase() + '.model')[this.modelClassName];
-        entities.map(item => {
+        entities = entities.map(item => {
           entity = new entityClass();
           // TODO: insert into db for now, may remove them later on
-          entity.jsonObjClassifierFromXml(item, picklistSvc);
+          entity.jsonObjClassifierFromXml(item, picklistInst);
           console.log(entity);
           this.edb_put(entity);
+          return entity;
         });
+        deferred.resolve(entities);
       } catch (err) {
         deferred.reject(err);
       }

@@ -12,7 +12,7 @@ var _ = require('lodash');
 var picklistInMemory = null;
 
 module.exports = class PickListService extends BaseService {
-  constructor($q, level) {
+  constructor($q) {
     super($q, 'pickListTypes', 'PicklistModel', undefined, BACKEND_CONST.APP_LEVEL_SERVICE);
   }
   // used to get all types with a given name. Can additionally provide a true/false status, which only returns enabled types
@@ -27,10 +27,6 @@ module.exports = class PickListService extends BaseService {
       }
     }
     return super.edb_get(query);
-  }
-
-  static picklistFactory($q) {
-    return new PickListService($q);
   }
 
   initPicklistFromXSD() {
@@ -91,7 +87,12 @@ module.exports = class PickListService extends BaseService {
             }
           });
         } else {
-          deferred.resolve(new RVHelper('EDB20001'));
+          if (!picklistInMemory) {
+            this.edb_get().then(results => {
+              picklistInMemory = results.data;
+              deferred.resolve(new RVHelper('EDB20001'));
+            });
+          }
         }
       })
       .catch(err => {

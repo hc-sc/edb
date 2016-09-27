@@ -1,11 +1,12 @@
 import config from '../app/app.constants';
 
 export default class HomeCtrl {
-  constructor($mdDialog, $state, GhstsService) {
+  constructor($mdDialog, $state, GhstsService, DossierDataService) {
     this.$mdDialog = $mdDialog;
     this.$state = $state;
     this.appTitle = config.appTitle;
     this.GhstsService = GhstsService.getService();
+    this.DossierDataService = DossierDataService.getService();
 
     this.links = [
       { title: 'New Project', onClick: this.createNewProject.bind(this), icon: 'project' },
@@ -56,6 +57,15 @@ export default class HomeCtrl {
   }
 
   settings() {
-    this.$state.go('app.settings');
+    this.DossierDataService.edb_get({url: 'substance', data: {}}).then(result => {
+      if (result.err) {
+        console.log(result.err);
+      } else {
+        console.log(result);
+        //      this.$state.go('app.project');
+      }
+    });
+    
+//    this.$state.go('app.settings');
   }
 }

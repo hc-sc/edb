@@ -3,7 +3,9 @@ const BACKEND_CONSTANTS = {
   PRODUCTS_DIR: 'products',
 
   APP_LEVEL_SERVICE: 'app',
-  DOSSIER_LEVEL_SERVICE: 'active',
+  DOSSIER_LEVEL_SERVICE: 'dossier',
+  ACTIVE_SUBMISSION_NAME: 'active',
+  LAST_SUBMISSION_NAME: 'last'
 };
 
 module.exports = BACKEND_CONSTANTS;
