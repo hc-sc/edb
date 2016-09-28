@@ -3,7 +3,7 @@ const BACKEND_CONSTANTS = {
   PRODUCTS_DIR: 'products',
 
   APP_LEVEL_SERVICE: 'app',
-  DOSSIER_LEVEL_SERVICE: 'dossier',
+  DOSSIER_LEVEL_SERVICE: 'dossiers',
   ACTIVE_SUBMISSION_NAME: 'active',
   LAST_SUBMISSION_NAME: 'last'
 };

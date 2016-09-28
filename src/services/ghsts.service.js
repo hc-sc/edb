@@ -28,17 +28,27 @@ module.exports = class GhstsService {
     this.url = SHARED_CONST.GHSTS_SERVICE_URL;
   }
 
+  edb_package() {
+    console.log('package');
+    return this.ghsts[0].writeXML(absOutputFN);
+  }
+
+  edb_validation() {
+    console.log('validation');
+    return this.ghsts[0].validationXML();    
+  }
+
   edb_put(obj) {
     let deffer = this.$q.defer(), self = this;
     if (obj) {
       if (obj.productShortName) {
-        this.createProject(obj.productShortName)
+        this.createProduct(obj.productShortName)
           .then(() => {
             let isOK = self._beforeCreateOrLoad(obj.productShortName);
             if (isOK.code !== 'EDB00000') {
               deffer.reject(isOK);
             } else {
-              self._loadXml(absInFN)
+              self._loadXml(absInFN, true)
                 .then(result => {
                   self.ghsts.push(result.data);
                   deffer.resolve(new RVHelper('EDB00000'));
@@ -127,7 +137,7 @@ module.exports = class GhstsService {
   }
 
   _getGhstsObject() {
-    return this.submission;
+    return this.submission[0];
   }
 
   _assembleDemoGHSTS() {
@@ -253,8 +263,8 @@ module.exports = class GhstsService {
     return deferred.promise;
   }
 
-  createProject(proj_name) {
-    return this.createSubmission(proj_name, '01');
+  createProduct(prod_name) {
+    return this.createSubmission(prod_name, '01');
   }
 
   _copyXmlTemplate(folderName) {

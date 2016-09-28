@@ -57,7 +57,7 @@ export default class HomeCtrl {
   }
 
   settings() {
-    this.DossierDataService.edb_get({url: 'substance', data: {}}).then(result => {
+/*    this.DossierDataService.edb_get({url: 'substance', data: {}}).then(result => {
       if (result.err) {
         console.log(result.err);
       } else {
@@ -66,6 +66,22 @@ export default class HomeCtrl {
       }
     });
     
+    this.DossierDataService.edb_get({url: 'substance', data: {_id: 'ZB7AZbeNKaVR8y0G'}}).then(result => {
+      if (result.err) {
+        console.log(result.err);
+      } else {
+        console.log(result);
+        //      this.$state.go('app.project');
+      }
+    });
+*/
+    this.GhstsService.edb_validation().then(result => {
+      if (result.err) {
+        console.log(result.err);
+      } else {
+        console.log(result);
+      }
+    });
 //    this.$state.go('app.settings');
   }
 }

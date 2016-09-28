@@ -25,7 +25,7 @@ module.exports = class BaseService {
       this.absPath = path.resolve(this.absPath, this.submissionStatu, this.dbName + '.db');
     else 
       this.absPath = path.resolve(this.absPath, this.dbName + '.db');
-    console.log(this.absPath);
+//    console.log(this.absPath);
     this.db = new Nedb({
       filename: this.absPath,
       autoload: true
@@ -45,14 +45,14 @@ module.exports = class BaseService {
 */
   edb_get(obj) {
     let deferred = this.$q.defer();
-    let query = obj ? obj : {};
+    let query = obj ? (obj.data ? obj.data : {}) : {};
     let entityClass, entity, classedRows = [];
     this.db.find(query, (err, rows) => {
       if (err) {
         deferred.reject(err);
       } else if (this.modelClassName !== 'PicklistModel') {
         try {
-          entityClass = require('../models/' + this.modelClassName.toLowerCase() + '.model');
+          entityClass = require('../models/' + this.modelClassName.toLowerCase() + '.model')[this.modelClassName];
           rows.map(row => {
             try {
               entity = new entityClass();
@@ -203,7 +203,7 @@ module.exports = class BaseService {
           entity = new entityClass();
           // TODO: insert into db for now, may remove them later on
           entity.jsonObjClassifierFromXml(item, picklistInst);
-          console.log(entity);
+//          console.log(entity);
           this.edb_put(entity);
           return entity;
         });

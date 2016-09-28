@@ -3,7 +3,8 @@
 //  EDB10000 - error from other libs
 //  EDB10 - internal program level
 //  EDB11 - internal service related
-//  EDB12 - internal file, folder releted error, like product, dossier, submission 
+//  EDB12 - internal file, folder releted error, like product, dossier, submission
+//  EDB13 = XML related 
 //   
 // EDB2 - Messages
 //
@@ -26,6 +27,7 @@ const RETURN_VALUE_CONFIG = {
   EDB12003: { msg: 'Selected wrong submission folder' },
   EDB12004: { msg: 'Cannot select product with empty' },
 
+  EDB13001: { msg: 'No GHTST tag'},
 
   EDB20001: { msg: 'picklst database is initialed' },
   EDB20002: { msg: 'picklst database had been initialed' }
