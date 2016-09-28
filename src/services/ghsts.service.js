@@ -35,7 +35,7 @@ module.exports = class GhstsService {
 
   edb_validation() {
     console.log('validation');
-    return this.ghsts[0].validationXML();    
+    return this.ghsts[0].validateXML();    
   }
 
   edb_put(obj) {

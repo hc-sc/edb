@@ -82,7 +82,7 @@ module.exports = class GHSTS {
     };
   }
 
-  validationXML() {
+  validateXML() {
     let deffer = this.$q.defer();
     let results = {};
 
