@@ -5,6 +5,8 @@
   "author": "alex gagnon",
   "license": "MIT",
   "dependencies": {
-    "nedb": "^1.8.0"
+    "nedb": "^1.8.0",
+    "q": "^1.4.1",
+    "xml2js": "^0.4.17"
   }
 }

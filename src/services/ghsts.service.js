@@ -30,12 +30,12 @@ module.exports = class GhstsService {
 
   edb_package() {
     console.log('package');
-    return this.ghsts[0].writeXML(absOutputFN);
+    return this._getGhstsObject().writeXML(absOutputFN);
   }
 
   edb_validation() {
     console.log('validation');
-    return this.ghsts[0].validateXML();    
+    return this._getGhstsObject().validateXML();    
   }
 
   edb_put(obj) {
@@ -103,25 +103,6 @@ module.exports = class GhstsService {
   _loadXml(filePath, isActive) {
     let obj = new GHSTS(this.$q, filePath);
     return obj.readObjects(isActive);
-    //      .then(result => {
-    //        this.ghsts.push(result);
-    //        return new RVHelper('EDB00000');
-    //      })
-    //        return Promise.all([
-    //                    this.receiverService.initializeReceivers(this.submission),
-    //                    this.legalEntityService.initializeLE(this.submission),
-    //                    this.productService.initializeProducts(this.submission),
-    //                    this.dossierService.initializeDossiers(this.submission),
-    //          this.substanceService.jsonObjClassifierFromXml(this.submission.substances),
-    //                    this.documentService.initializeDOC(this.submission),
-    //                    this.fileService.initializeFile(this.submission)
-    //        ])
-    //          .catch(err => console.log(err.stack));
-    //      })
-    //      .then(() => console.log('Successfully loaded file'))
-    //      .catch(err => {
-    //        deffer.reject return new RVHelper('EDB10000', err);
-    //      });
   }
 
   _clearSubmission() {
@@ -137,7 +118,7 @@ module.exports = class GhstsService {
   }
 
   _getGhstsObject() {
-    return this.submission[0];
+    return this.ghsts[0];
   }
 
   _assembleDemoGHSTS() {
