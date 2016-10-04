@@ -8,3 +8,5 @@ To start the application itself, type `npm start` in a different terminal, which
 
 To build the application installer, type `npm run build`, the built installer located at `dist` folder. 
 
+To debug code in main process, run `npm run pack`, then goto Visual Studio Code debug panel, click `Debug` button when the drop down list displays `Launch`.   
+

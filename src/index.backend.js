@@ -1,15 +1,15 @@
 
 'use strict';
 
-var path = require('path');
-var app = require('electron').app;
-var ipc = require('electron').ipcMain;
-var BrowserWindow = require('electron').BrowserWindow;
+const path = require('path');
+const app = require('electron').app;
+const ipc = require('electron').ipcMain;
+const BrowserWindow = require('electron').BrowserWindow;
 
-var q = require('q');
+const q = require('q');
 
-var SHARED_CONST = require('./constants/shared');
-var BACKEND_CONST = require('./constants/backend');
+const SHARED_CONST = require('./constants/shared');
+const BACKEND_CONST = require('./constants/backend');
 
 const PicklistService = require('./services/picklist.service');
 const GhstsService = require('./services/ghsts.service');

@@ -1,13 +1,13 @@
-var fs = require('fs');
-var path = require('path');
-var xml2js = require('xml2js');
+const fs = require('fs');
+const path = require('path');
+const xml2js = require('xml2js');
 
 const PicklistModel = require('../models/picklist.model');
 const BaseService = require('./base.service');
 const RVHelper = require('../utils/return.value.helper');
 const BACKEND_CONST = require('../constants/backend');
 
-var _ = require('lodash');
+const _ = require('lodash');
 
 var picklistInMemory = null;
 

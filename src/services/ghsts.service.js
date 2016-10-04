@@ -11,14 +11,17 @@ const BACKEND_CONST = require('../constants/backend');
 const SHARED_CONST = require('../constants/shared');
 //const OUTPUT_FILE = `${__dirname}/${DATA_DIR}/output.xml`;
 const RVHelper = require('../utils/return.value.helper').ReturnValueHelper;
+const NumberFormat = require('number-format.js');
 
 const {dialog} = require('electron');
-var fs = require('fs');
-var path = require('path');
-var basePath = fs.realpathSync('./');
+const fs = require('fs');
+const path = require('path');
+const basePath = fs.realpathSync('./');
+const templateDir = path.resolve(basePath, 'resources', 'app', 'templates');
+
 var prodsPath = path.resolve(basePath, BACKEND_CONST.PRODUCTS_DIR);
-var curProdDir = undefined, curDossierDir = undefined, curSubDir = undefined;
-var absOutputFN = undefined, absSubPath = undefined, absInFN = undefined;
+var curProdAndDossierDir = undefined, curSubDir = undefined, lastSubDir = undefined;
+var absOutputFN, absSubPath, absLastSubPath;
 
 
 module.exports = class GhstsService {
@@ -35,22 +38,23 @@ module.exports = class GhstsService {
 
   edb_validation() {
     console.log('validation');
-    return this._getGhstsObject().validateXML();    
+    return this._getGhstsObject().validateXML();
   }
 
   edb_put(obj) {
-    let deffer = this.$q.defer(), self = this;
+    let self = this, deffer = self.$q.defer();
     if (obj) {
       if (obj.productShortName) {
-        this.createProduct(obj.productShortName)
+        let prodAndDossierName = obj.dossierShortName ? obj.productShortName + BACKEND_CONST.PRODUCT_DOSSIER_FOLDER_CONTACT_SYMBOL + obj.dossierShortName : obj.productShortName;
+        this.createProduct(prodAndDossierName)
           .then(() => {
-            let isOK = self._beforeCreateOrLoad(obj.productShortName);
+            let isOK = self._beforeCreateOrLoad(prodAndDossierName);
             if (isOK.code !== 'EDB00000') {
               deffer.reject(isOK);
             } else {
-              self._loadXml(absInFN, true)
+              self._loadGhsts(templateDir)
                 .then(result => {
-                  self.ghsts.push(result.data);
+                  self.ghsts.push(result);
                   deffer.resolve(new RVHelper('EDB00000'));
                 })
                 .catch(err => {
@@ -74,6 +78,7 @@ module.exports = class GhstsService {
     let deffer = this.$q.defer(), self = this;
     if (obj) {
       deffer.reject(new RVHelper('EDB12004'));
+      return deffer.promise;
     } else {
       let selPath = dialog.showOpenDialog({
         title: 'Choose a Product',
@@ -85,27 +90,48 @@ module.exports = class GhstsService {
         if (isOK.code !== 'EDB00000') {
           deffer.reject(isOK);
         } else {
-          self._loadXml(absInFN, true).then(result => {
-            self.ghsts.push(result.data);
-            deffer.resolve(isOK);
-          })
-            .catch(err => {
-              deffer.reject(err);
-            });
+          return self._loadGhsts();
         }
       } else {
         deffer.reject(new RVHelper('EDB00001'));
+        return deffer.promise;
       }
     }
+  }
+
+  _loadGhsts(templatePath) {
+    let ghstsObj = {}, self = this;
+    let deffer = self.$q.defer();
+
+    ghstsObj[BACKEND_CONST.ACTIVE_SUBMISSION_NAME] = new GHSTS(this.$q, absSubPath, curProdAndDossierDir);
+    if (absLastSubPath) {
+      ghstsObj[BACKEND_CONST.LAST_SUBMISSION_NAME] = new GHSTS(this.$q, absLastSubPath, curProdAndDossierDir);
+    } else {
+      ghstsObj[BACKEND_CONST.LAST_SUBMISSION_NAME] = undefined; 
+    }
+
+    if (absLastSubPath) {
+      self.$q.all([
+        ghstsObj[BACKEND_CONST.ACTIVE_SUBMISSION_NAME].readObjects(true, templatePath),
+        ghstsObj[BACKEND_CONST.LAST_SUBMISSION_NAME].readObjects(false)
+      ]).then(result => {
+        ghstsObj[0] = result[0];
+        ghstsObj[1] = result[1];
+        self.ghsts.push(ghstsObj);
+        deffer.resolve(new new RVHelper('EDB00000'));
+      });
+    } else {
+      self.$q.all([ghstsObj[BACKEND_CONST.ACTIVE_SUBMISSION_NAME].readObjects(true, templatePath)]).then(result =>{
+        ghstsObj[0] = result[0];
+        self.ghsts.push(ghstsObj);
+        deffer.resolve(new new RVHelper('EDB00000'));
+      });
+    }
     return deffer.promise;
+    
   }
 
-  _loadXml(filePath, isActive) {
-    let obj = new GHSTS(this.$q, filePath);
-    return obj.readObjects(isActive);
-  }
-
-  _clearSubmission() {
+  _clearSubmission(ghstsObj) {
     return Promise.all([
       //            this.receiverService.receivers.remove({}, { multi: true }),
       //      this.legalEntityService.legalEntities.remove({}, { multi: true }),
@@ -117,96 +143,22 @@ module.exports = class GhstsService {
     ]);
   }
 
-  _getGhstsObject() {
-    return this.ghsts[0];
+  _getGhstsObject(obj) {
+    return obj ? this.ghsts[0][BACKEND_CONST.LAST_SUBMISSION_NAME] : this.ghsts[0][BACKEND_CONST.ACTIVE_SUBMISSION_NAME];
   }
 
-  _assembleDemoGHSTS() {
-    let outputObj = new GHSTS();
-
-    // PATCH FOR RIGHT NOW, SINCE WE ARE MISSING FILES and TOC
-    outputObj.ghsts = this.submission.ghsts;
-
-    /*    return this.legalEntityService.getLegalEntities()
-          .then(les => {
-            for (const le of les) {
-              outputObj.addLegalEntity(new LegalEntity(le).toGHSTSJson());
-            }
-    
-            outputObj.setLegalEntities();
-    
-            return this.receiverService.getReceivers();
-          })
-          .then(res => {
-            for (const re of res) {
-              outputObj.addReceiver(new Receiver(re).toGHSTSJson());
-            }
-    
-            outputObj.setReceivers();
-    
-            return this.documentService.getDocuments();
-          })
-          .then(docList => {
-            for (const document of docList) {
-              outputObj.addDocument(new Document(document).toGHSTSJson());
-            }
-    
-            outputObj.setDocuments();
-    
-            return this.productService.getProducts();
-          })
-          .then(products => {
-            outputObj.setProduct(new Product(products[0]).toGhstsJson());
-    
-            return this.dossierService.getDossiers();
-          })
-          .then(dossiers => {
-            outputObj.setDossier(new Dossier(dossiers[0]).toGhstsJson());
-    
-            return this.substanceService.getSubstances();
-          })
-          .then(substances => {
-            for (const substance of substances) {
-              outputObj.addSubstance(new Substance(substance).toGhstsJson());
-            }
-    
-            outputObj.setSubstances();
-    
-            return this.fileService.getFiles();
-          })
-          .then(files => {
-            for (const file of files) {
-              outputObj.addFile(new File(file).toGHSTSJson())
-            }
-    */
-    return this.substanceService.edb_get()
-      .then(substances => {
-        console.log('Loaded ' + substances.length);
-        for (const substance of substances) {
-          //          outputObj.addSubstance(new Substance(substance).toGhstsJson());
-        }
-
-        outputObj.setSubstances();
-
-        return outputObj.writeXML(absOutputFN);
-      })
-      .then(() => {
-        console.log(`Successfully written to ${absOutputFN}`);
-      });
-  }
-
-  createSubmission(proj_name, sub_name) {
+  createSubmission(prod_dossier_name, sub_name) {
     let curBasePath = path.resolve(fs.realpathSync('./'), 'products'),
       deferred = this.$q.defer();
 
-    if (!proj_name)
+    if (!prod_dossier_name)
       deferred.reject('project name must be defined!');
     else if (!sub_name)
       deferred.reject('submission name must be defined!');
     else {
       this._createFolder(curBasePath)
         .then((folder) => {
-          this._createFolder(path.resolve(folder, proj_name))
+          this._createFolder(path.resolve(folder, prod_dossier_name))
             .then((folder) => {
               curBasePath = path.resolve(folder, sub_name);
               this._createFolder(curBasePath)
@@ -219,9 +171,6 @@ module.exports = class GhstsService {
                       this._createFolder(path.resolve(folder, 'toc'));
                       this._createFolder(path.resolve(folder, 'resources'))
                     });
-                })
-                .then(() => {
-                  return this._copyXmlTemplate(curBasePath)
                 })
                 .then(() => {
                   fs.writeFile(
@@ -251,8 +200,8 @@ module.exports = class GhstsService {
   _copyXmlTemplate(folderName) {
     let deferred = this.$q.defer();
     try {
-      let inputFile = path.resolve(fs.realpathSync('./'), 'resources', 'app', 'templates', 'ghsts.xml');
-      let ouptFile = path.resolve(folderName, 'ghsts.xml');
+      let inputFile = path.resolve(templateDir, BACKEND_CONST.GHSTS_XML_FILENAME);
+      let ouptFile = path.resolve(folderName, BACKEND_CONST.GHSTS_XML_FILENAME);
 
       fs.createReadStream(inputFile).pipe(fs.createWriteStream(ouptFile));
       console.log('template copied');
@@ -286,37 +235,32 @@ module.exports = class GhstsService {
     curpath = curpath.replace(prodsPath, '').trim().replace(/\\/g, '/');
     if (curpath[0] === '/') curpath = curpath.slice(1);
     let pathArray = curpath.split('/');
-    curProdDir = curDossierDir = curSubDir = undefined;
+    curProdAndDossierDir = curSubDir = lastSubDir = undefined;
 
     switch (pathArray.length) {
       case 1:
-        curProdDir = pathArray[0];
+        curProdAndDossierDir = pathArray[0];
         curSubDir = '01';  //for now
         break;
       case 2:
-        curProdDir = pathArray[0];
-        if (Number.isNaN(pathArray[1])) {
-          curDossierDir = pathArray[1];
-          curSubDir = '01'; //for now
-        } else {
-          curSubDir = pathArray[1];
-        }
-        break;
-      case 3:
-        curProdDir = pathArray[0];
-        curDossierDir = pathArray[1];
-        curSubDir = pathArray[2];
+        curProdAndDossierDir = pathArray[0];
+        curSubDir = pathArray[1];
         break;
       default:
-        absSubPath = absOutputFN = absInFN = undefined;
+        absSubPath = absOutputFN = absLastSubPath = undefined;
         return new RVHelper('EDB12003');
     }
-    absSubPath = path.resolve(prodsPath, curProdDir);
-    if (curDossierDir)
-      absSubPath = path.resolve(absSubPath, curDossierDir);
+    absSubPath = path.resolve(prodsPath, curProdAndDossierDir);
+    if (!isNaN(curSubDir)) {
+      lastSubDir = curSubDir - 1;
+      if (lastSubDir > 0) { 
+        lastSubDir = NumberFormat('0#', lastSubDir);
+        absLastSubPath = path.resolve(absSubPath, lastSubDir);
+      } 
+    }
     absSubPath = path.resolve(absSubPath, curSubDir);
-    absOutputFN = path.resolve(absSubPath, 'ghstsDemo.xml');
-    absInFN = path.resolve(absSubPath, 'ghsts.xml');
+    absOutputFN = path.resolve(absSubPath, BACKEND_CONST.GHSTS_XML_FILENAME);
+
     return new RVHelper('EDB00000');
   }
 };

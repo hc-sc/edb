@@ -1,23 +1,29 @@
 const xml2js = require('xml2js');
 const fs = require('fs');
+const path = require('path');
 const RVHelper = require('../utils/return.value.helper').ReturnValueHelper;
-const SubstanceService = require('../services/substance.service').SubstanceService;
+const PickListService = require('../services/picklist.service');
 const BACKEND_CONST = require('../constants/backend');
+const basePath = fs.realpathSync('./');
+
+var dataPath = path.resolve(basePath, 'data', BACKEND_CONST.DOSSIER_LEVEL_SERVICE);
 
 module.exports = class GHSTS {
-  constructor($q, filePath) {
+  constructor($q, filePath, prodAndDossierName) {
     this.$q = $q;
-    this.filename = filePath;
+    this._filePath = filePath;
+    this._prodAndDossierName = prodAndDossierName;
+    this._dbpath = path.resolve(dataPath, prodAndDossierName);
     this.legalEntities = [];
     this.receivers = [];
-    this.product = undefined;
+    this.product = {};
     this.documents = [];
     this.submission = [];
-    this.dossier = undefined;
+    this.dossier = {};
     this.files = [];
     this.substances = [];
-    this.toc = undefined;
-    this.used_templates = undefined; 
+    this.toc = {};
+    this.used_templates = {};
   }
 
   addLegalEntity(legalEntity) {
@@ -90,66 +96,163 @@ module.exports = class GHSTS {
     return deffer.promise;
   }
 
-  readObjects(isActive) {
-    // read json objects from ghsts xml
-    let deffer = this.$q.defer();
-    fs.readFile(this.filename, { encoding: 'utf8' }, (err, xmlStr) => {
-      if (err) {
-        deffer.reject(new RVHelper('EDB10000', err));
-        return deffer.promise;
+  readObjects(isActive, templatePath) {
+    // read json objects from DB file or ghsts xml
+    let fileName, dbPath, self = this, deffer = self.$q.defer();
+
+    if (templatePath) {
+      fileName = path.resolve(templatePath, BACKEND_CONST.GHSTS_XML_FILENAME);
+      fs.stat(fileName, (err, stat) => {
+        if (err) {
+          deffer.reject(new RVHelper('EDB10000', err));
+          console.log(err);
+          return deffer.promise;
+        } else {
+          if (stat.isFile()) {
+            return self._readObjectFromXML(isActive, fileName);
+          } else {
+            deffer.reject(new RVHelper('EDB12005', templatePath));
+            return deffer.promise;
+          }
+        }
+      });
+    } else {
+      self._dbpath = path.resolve(self._dbpath, isActive ? BACKEND_CONST.ACTIVE_SUBMISSION_NAME : BACKEND_CONST.LAST_SUBMISSION_NAME);
+      fs.stat(self._dbpath, (err, stat) => {
+        if (err || !stat.isDirectory()) { //for later on import function 
+          fileName = path.resolve(self._filePath, BACKEND_CONST.GHSTS_XML_FILENAME);
+          fs.stat(fileName, (err, stat) => {
+            if (err) {
+              deffer.reject(new RVHelper('EDB10000', err));
+              console.log(err);
+              return deffer.promise;
+            } else {
+              if (stat.isFile()) {
+                return self._readObjectFromXML(isActive, fileName);
+              } else {
+                deffer.reject(new RVHelper('EDB12006', fileName));
+                return deffer.promise;
+              }
+            }
+          });
+        } else {
+          return self._readObjectFromDB(isActive);
+        }
+      });
+    }
+  }
+
+  _readObjectFromDB(isActive) {
+    // write ghsts json tree back to xml
+    let deffer = this.$q.defer(), self = this;
+    let keys = Object.keys(self);
+
+    keys.map(key => {
+      if (key[0] !== '$' && key[0] !== '_') {
+        if (self[key]) {
+          let srvClass = this._getServiceClassFromFields(key);
+          let srvInst = new srvClass(self.$q, BACKEND_CONST.DOSSIER_LEVEL_SERVICE, self._prodAndDossierName, isActive);
+          srvInst.edb_get().then(result => {
+            if (result.data) {
+              if (self[key].constructor === Array) {
+                self[key] = result.data;
+              } else {
+                self[key] = result.data[0];
+              }
+            }
+          })
+            .catch(err => {
+              deffer.reject(new RVHelper('EDB10000', err));
+              return deffer.promise;
+            });
+        }
       }
-      // parse the xml to json object
-      xml2js.parseString(xmlStr, { attrkey: 'attr$', explicitArray: false }, (err, obj) => {
-        // check for errors
+    });
+    deffer.resolve(new RVHelper('EDB00000'));
+    return deffer.promise;
+  }
+
+  _readObjectFromXML(isActive, filename) {
+    // read json objects from ghsts xml
+    let deffer = this.$q.defer(), self = this;
+    let keys = Object.keys(self);
+
+    try {
+      fs.readFile(filename, { encoding: 'utf8' }, (err, xmlStr) => {
         if (err) {
           deffer.reject(new RVHelper('EDB10000', err));
           return deffer.promise;
         }
-
-        if (!obj.GHSTS) {
-          deffer.reject(new RVHelper('EDB13001'));
-        } else {
-          // set legal entities
-          if (obj.GHSTS.LEGAL_ENTITIES)
-            this.legalEntities = obj.GHSTS.LEGAL_ENTITIES.LEGAL_ENTITY ? obj.GHSTS.LEGAL_ENTITIES.LEGAL_ENTITY : [];
-          // set receivers
-          if (obj.GHSTS.RECEIVERS)
-            this.receivers = obj.GHSTS.RECEIVERS.RECEIVER ? obj.GHSTS.RECEIVERS.RECEIVER : [];
-
-          // set the Product from the xml
-          if (obj.GHSTS.PRODUCT) {
-            this.product = obj.GHSTS.PRODUCT;
-            if (obj.GHSTS.PRODUCT.DOSSIER) {
-              this.dossier = obj.GHSTS.PRODUCT.DOSSIER;
-              if (obj.GHSTS.PRODUCT.DOSSIER.SUBMISSION)
-                this.submission = obj.GHSTS.PRODUCT.DOSSIER.SUBMISSION;
-            }
+        // parse the xml to json object
+        xml2js.parseString(xmlStr, { attrkey: 'attr$', explicitArray: false }, (err, obj) => {
+          // check for errors
+          if (err) {
+            deffer.reject(new RVHelper('EDB10000', err));
+            return deffer.promise;
           }
 
-          if (obj.GHSTS.FILES)
-            this.files = obj.GHSTS.FILES.FILE ? obj.GHSTS.FILES.FILE : [];
-          // set documents
-          if (obj.GHSTS.DOCUMENTS)
-            this.documents = obj.GHSTS.DOCUMENTS.DOCUMENT ? obj.GHSTS.DOCUMENTS.DOCUMENT : [];
-          
-          if (obj.GHSTS.SUBSTANCES) {
-            this.substances = obj.GHSTS.SUBSTANCES.SUBSTANCE ? obj.GHSTS.SUBSTANCES.SUBSTANCE : [];
-            if (this.substances.length > 0) {
-              let subService = new SubstanceService(this.$q, BACKEND_CONST.DOSSIER_LEVEL_SERVICE, isActive);
-              subService.jsonObjClassifierFromXml(this.substances).then(result => {
-                this.substances = result;
-              });
+          if (!obj.GHSTS) {
+            deffer.reject(new RVHelper('EDB13001'));
+          } else {
+            // set legal entities
+            if (obj.GHSTS.LEGAL_ENTITIES)
+              self.legalEntities = obj.GHSTS.LEGAL_ENTITIES.LEGAL_ENTITY ? obj.GHSTS.LEGAL_ENTITIES.LEGAL_ENTITY : [];
+            // set receivers
+            if (obj.GHSTS.RECEIVERS)
+              self.receivers = obj.GHSTS.RECEIVERS.RECEIVER ? obj.GHSTS.RECEIVERS.RECEIVER : [];
+
+            // set the Product from the xml
+            if (obj.GHSTS.PRODUCT) {
+              self.product = obj.GHSTS.PRODUCT;
+              if (obj.GHSTS.PRODUCT.DOSSIER) {
+                self.dossier = obj.GHSTS.PRODUCT.DOSSIER;
+                if (obj.GHSTS.PRODUCT.DOSSIER.SUBMISSION) {
+                  if (typeof obj.GHSTS.PRODUCT.DOSSIER.SUBMISSION === 'object') {
+                    self.submission.push(obj.GHSTS.PRODUCT.DOSSIER.SUBMISSION);
+                  } else {
+                    self.submission = obj.GHSTS.PRODUCT.DOSSIER.SUBMISSION;
+                  }
+                  delete self.dossier.SUBMISSION;
+                }
+                delete self.product.DOSSIER;
+              }
             }
+
+            if (obj.GHSTS.FILES)
+              self.files = obj.GHSTS.FILES.FILE ? obj.GHSTS.FILES.FILE : [];
+            // set documents
+            if (obj.GHSTS.DOCUMENTS)
+              self.documents = obj.GHSTS.DOCUMENTS.DOCUMENT ? obj.GHSTS.DOCUMENTS.DOCUMENT : [];
+
+            if (obj.GHSTS.SUBSTANCES) {
+              self.substances = obj.GHSTS.SUBSTANCES.SUBSTANCE ? obj.GHSTS.SUBSTANCES.SUBSTANCE : [];
+            }
+
+            self.toc = obj.GHSTS.TOC;
+
+            self.used_templates = obj.GHSTS.USED_TEMPLATES;
+
+            let pklInst = new PickListService(self.$q);
+            keys.map(key => {
+              if (key[0] !== '$' && key[0] !== '_') {
+                if (self[key]) {
+                  let srvClass = self._getServiceClassFromFields(key);
+                  let srvInst = new srvClass(self.$q, BACKEND_CONST.DOSSIER_LEVEL_SERVICE, self._prodAndDossierName, isActive);
+                  srvInst.jsonObjClassifierFromXml(self[key], pklInst).then(result => {
+                    self[key] = result;
+                  });
+                }
+              }
+            });
+
+            deffer.resolve(new RVHelper('EDB00000', self));
           }
-
-          this.toc = obj.GHSTS.TOC;
-
-          this.used_templates = obj.GHSTS.USED_TEMPLATES;
-
-          deffer.resolve(new RVHelper('EDB00000', this));
-        }
+        });
       });
-    });
+    } catch (err) {
+      deffer.reject(new RVHelper('EDB10001', err));
+    }
+
     return deffer.promise;
   }
 
@@ -173,64 +276,64 @@ module.exports = class GHSTS {
 
   toGhstsJson() {
     let retVal = {
-      GHSTS: {
-      }
-    };
+    }, self = this;
 
-    if (this.receivers.length > 0) {
-      retVal.GHSTS.RECEIVERS = {};
-      retVal.GHSTS.RECEIVERS.RECEIVER = this.receivers.map(item => {
-        return this._getGhstsXML(item);
+    if (self.receivers.length > 0) {
+      retVal.RECEIVERS = {};
+      retVal.RECEIVERS.RECEIVER = self.receivers.map(item => {
+        return self._getGhstsXML(item);
       });
     }
 
-    if (this.product) {
-      retVal.GHSTS.PRODUCT = this._getGhstsXML(this.product);
+    if (self.product) {
+      retVal.PRODUCT = self._getGhstsXML(self.product);
 
-      if (this.dossier) {
-        retVal.GHSTS.PRODUCT.DOSSIER = this._getGhstsXML(this.dossier);
-        if (this.submission.length > 0) {
-          retVal.GHSTS.PRODUCT.DOSSIER.SUBMISSION = this.submission.map(item => {
-            return this._getGhstsXML(item);
+      if (self.dossier) {
+        let dossierXML = self._getGhstsXML(self.dossier);
+        if (self.submission.length > 0) {
+          let submissionXML = self.submission.map(item => {
+            return self._getGhstsXML(item);
           });
+          dossierXML.SUBMISSION = submissionXML;
         }
+        retVal.PRODUCT.DOSSIER = dossierXML;
       }
     }
 
-    if (this.documents.length > 0) {
-      retVal.GHSTS.DOCUMENTS = {};
-      retVal.GHSTS.DOCUMENTS.DOCUMENT = this.documents.map(item => {
-        return this._getGhstsXML(item);
+    if (self.documents.length > 0) {
+      retVal.DOCUMENTS = {};
+      retVal.DOCUMENTS.DOCUMENT = self.documents.map(item => {
+        return self._getGhstsXML(item);
       });
     }
 
-    if (this.files.length > 0) {
-      retVal.GHSTS.FILES = {};
-      retVal.GHSTS.FILES.FILE = this.files.map(item => {
-        return this._getGhstsXML(item);
+    if (self.files.length > 0) {
+      retVal.FILES = {};
+      retVal.FILES.FILE = self.files.map(item => {
+        return self._getGhstsXML(item);
       });
     }
 
-    if (this.toc) {
-      retVal.GHSTS.TOC = this._getGhstsXML(this.toc);
+    if (self.toc) {
+      retVal.TOC = self._getGhstsXML(self.toc);
     }
 
-    if (this.legalEntities.length > 0) {
-      retVal.GHSTS.LEGAL_ENTITIES = {};
-      retVal.GHSTS.LEGAL_ENTITIES.LEGAL_ENTITY = this.legalEntities.map(item => {
-        return this._getGhstsXML(item);
+    if (self.legalEntities.length > 0) {
+      retVal.LEGAL_ENTITIES = {};
+      retVal.LEGAL_ENTITIES.LEGAL_ENTITY = self.legalEntities.map(item => {
+        return self._getGhstsXML(item);
       });
     }
 
-    if (this.substances.length > 0) {
-      retVal.GHSTS.SUBSTANCES = {};
-      retVal.GHSTS.SUBSTANCES.SUBSTANCE = this.substances.map(item => {
-        return this._getGhstsXML(item);
+    if (self.substances.length > 0) {
+      retVal.SUBSTANCES = {};
+      retVal.SUBSTANCES.SUBSTANCE = self.substances.map(item => {
+        return self._getGhstsXML(item);
       });
     }
 
-    retVal.GHSTS.USED_TEMPLATES = this.used_templates;
-    
+    retVal.USED_TEMPLATES = self.used_templates;
+
     return retVal;
   }
 
@@ -241,5 +344,29 @@ module.exports = class GHSTS {
       return item;
     }
 
+  }
+
+  _getServiceClassFromFields(fieldName) {
+    let retClass = undefined, retClassName = undefined, retClassFileName = undefined;
+    let curFieldName = fieldName, retClassNameAry = [];
+
+    retClassName = fieldName;
+
+    if (curFieldName === 'legalEntities') {
+      retClassName = 'Legal_EntityService';
+      retClassFileName = 'legal.entity.service';
+    } else {
+      if (curFieldName[curFieldName.length - 1] === 's') {
+        retClassName = curFieldName.slice(0, -1);
+      }
+      retClassFileName = retClassName.replace('_', '.') + '.service';
+      retClassNameAry = retClassName.split('_').map(item => {
+        return item[0].toUpperCase() + item.slice(1);
+      });
+      retClassName = retClassNameAry.toString().replace(',', '_');
+      retClassName = retClassName + 'Service';
+    }
+    retClass = require('../services/' + retClassFileName)[retClassName];
+    return retClass;
   }
 };

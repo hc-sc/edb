@@ -13,7 +13,7 @@ export default class HomeCtrl {
       { title: 'Load Project', onClick: this.loadProject.bind(this), icon: 'load' },
       // { title: 'Manage Dropdowns', onClick: this.manageGlobals.bind(this), icon: 'global' },
       // { title: 'Manage Templates', onClick: this.manageTemplates.bind(this), icon: 'template' },
-      { title: 'Settings', onClick: this.settings.bind(this), icon: 'settings' }
+      { title: 'Package', onClick: this.settings.bind(this), icon: 'settings' }
     ];
   }
 
@@ -28,8 +28,9 @@ export default class HomeCtrl {
       .cancel('Cancel');
 
     this.$mdDialog.show(prompt)
-      .then(productShortName => {
-        this.GhstsService.edb_put({ productShortName: productShortName }).then(result => {
+      .then(name => {
+        let nameAry = name.split('/');
+        this.GhstsService.edb_put({ productShortName: nameAry[0], dossierShortName: nameAry[1] }).then(result => {
           console.log(result);
         });
       });
@@ -75,7 +76,7 @@ export default class HomeCtrl {
       }
     });
 */
-    this.GhstsService.edb_validation().then(result => {
+/*    this.GhstsService.edb_validation().then(result => {
       if (result.err) {
         console.log(result.err);
       } else {
@@ -83,5 +84,13 @@ export default class HomeCtrl {
       }
     });
 //    this.$state.go('app.settings');
+*/  
+    this.GhstsService.edb_package().then(result => {
+      if (result.err) {
+        console.log(result.err);
+      } else {
+        console.log(result);
+      }
+    });
   }
 }

@@ -1,15 +1,15 @@
 
 'use strict';
 
-var path = require('path');
-var app = require('electron').app;
-var ipc = require('electron').ipcMain;
-var BrowserWindow = require('electron').BrowserWindow;
+const path = require('path');
+const app = require('electron').app;
+const ipc = require('electron').ipcMain;
+const BrowserWindow = require('electron').BrowserWindow;
 
-var q = require('q');
+const q = require('q');
 
-var SHARED_CONST = require('./constants/shared');
-var BACKEND_CONST = require('./constants/backend');
+const SHARED_CONST = require('./constants/shared');
+const BACKEND_CONST = require('./constants/backend');
 
 const PicklistService = require('./services/picklist.service');
 const GhstsService = require('./services/ghsts.service');
@@ -26,12 +26,10 @@ var svrDisps = {};
 
 
 ipc.on('devTools', function (event, arg) {
-  console.log(arg);
   mainWindow.openDevTools();
 });
 
 ipc.on(SHARED_CONST.PICKLIST_MSG_CHANNEL, function (event, arg) {
-  console.log(SHARED_CONST.PICKLIST_MSG_CHANNEL + ' - ' + arg);
   let svr = new PicklistService(q);
   let method = 'edb_' + arg.method;
   svr[method](arg.data).then(result => {
@@ -43,14 +41,12 @@ ipc.on(SHARED_CONST.PICKLIST_MSG_CHANNEL, function (event, arg) {
 });
 
 ipc.on(SHARED_CONST.PICKLIST_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, function (event, arg) {
-  console.log(SHARED_CONST.PICKLIST_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF + ' - ' + arg);
   let svr = new PicklistService(q);
   let method = 'edb_' + arg.method + 'Sync';
   event.returnValue = svr[method](arg.data);
 });
 
 ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL, function (event, arg) {
-  console.log(SHARED_CONST.GHSTS_MSG_CHANNEL + ' - ' + arg);
   let svr = new GhstsService(q, submissions);
   let method = 'edb_' + arg.method;
   svr[method](arg.data).then(result => {
@@ -62,7 +58,6 @@ ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL, function (event, arg) {
 });
 
 ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, function (event, arg) {
-  console.log(SHARED_CONST.GHSTS_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF + ' - ' + arg);
   //  let svr = new PicklistService(q);
   //  let method = 'edb_' + arg.method + 'Sync';
   //  event.returnValue = svr[method](arg.data);
@@ -71,7 +66,6 @@ ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, function 
 
 
 ipc.on(SHARED_CONST.APP_DATA_MSG_CHANNEL, function (event, arg) {
-  console.log(SHARED_CONST.APP_DATA_MSG_CHANNEL + ' - ' + arg);
   let svrDisp;
   if (!svrDisps[BACKEND_CONST.APP_LEVEL_SERVICE]) {
     svrDisps[BACKEND_CONST.APP_LEVEL_SERVICE] = svrDisp = new ServiceDispatcher(BACKEND_CONST.APP_LEVEL_SERVICE);
@@ -89,7 +83,6 @@ ipc.on(SHARED_CONST.APP_DATA_MSG_CHANNEL, function (event, arg) {
 });
 
 ipc.on(SHARED_CONST.APP_DATA_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, function (event, arg) {
-  console.log(SHARED_CONST.APP_DATA_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF + ' - ' + arg);
 //  let svr = new PicklistService(q);
 //  let method = 'edb_' + arg.method + 'Sync';
   event.returnValue = new RVHelper('EDB00001');
@@ -97,7 +90,6 @@ ipc.on(SHARED_CONST.APP_DATA_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, functi
 
 
 ipc.on(SHARED_CONST.DOSSIER_DATA_MSG_CHANNEL, function (event, arg) {
-  console.log(SHARED_CONST.DOSSIER_DATA_MSG_CHANNEL + ' - ' + arg);
   let svrDisp;
   if (!svrDisps[BACKEND_CONST.DOSSIER_LEVEL_SERVICE]) {
     svrDisps[BACKEND_CONST.DOSSIER_LEVEL] = svrDisp = new ServiceDispatcher(BACKEND_CONST.DOSSIER_LEVEL);
@@ -115,7 +107,6 @@ ipc.on(SHARED_CONST.DOSSIER_DATA_MSG_CHANNEL, function (event, arg) {
 });
 
 ipc.on(SHARED_CONST.DOSSIER_DATA_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, function (event, arg) {
-  console.log(SHARED_CONST.DOSSIER_DATA_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF + ' - ' + arg);
 //  let svr = new PicklistService(q);
 //  let method = 'edb_' + arg.method + 'Sync';
   event.returnValue = new RVHelper('EDB00001');

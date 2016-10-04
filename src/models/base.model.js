@@ -77,7 +77,7 @@ module.exports = class BaseModel {
                 console.log(err);
               }
             });
-            console.log(this[key]);
+//            console.log(this[key]);
           } else if (entity && typeof entity === 'object') { //it is an sub-class JSON obj
             try {
               this[key] = this._jsonObjClassifierFromDB(key, entity);

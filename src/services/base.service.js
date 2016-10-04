@@ -1,62 +1,66 @@
 //TODO: add comments for the file
-const xml2js = require('xml2js');
 
 const Nedb = require('nedb');
 
 const RVHelper = require('../utils/return.value.helper').ReturnValueHelper;
 const BACKEND_CONST = require('../constants/backend');
 
-var fs = require('fs');
-var path = require('path');
-//var _ = require('lodash');
+const fs = require('fs');
+const path = require('path');
 
 module.exports = class BaseService {
-  constructor($q, dbName, modelClassName, rootXmlName, serviceLevel, submissionStatu, searchName) {
+  constructor($q, dbName, modelClassName, rootXmlName, serviceLevel, prodAndDossierName, submissionStatu) {
     this.$q = $q;
     this.dbName = dbName;
-    this.modelClassName = modelClassName ? modelClassName : dbName.toUpperCase();
+    this.modelClassName = modelClassName;
     this.rootXmlName = rootXmlName ? rootXmlName : dbName.toUpperCase();
     this.serviceLevel = serviceLevel ? serviceLevel : BACKEND_CONST.DOSSIER_LEVEL_SERVICE;
-    this.submissionStatu = submissionStatu;
-    this.searchName = searchName ? searchName : (dbName + '_NAME').toUpperCase();
+    this.prodAndDossierName = prodAndDossierName;
+    this.submissionStatu = submissionStatu ? submissionStatu : BACKEND_CONST.ACTIVE_SUBMISSION_NAME;
     //TODO: may add exception handler for fs opration later as we may remove db.
     this.absPath = path.resolve(fs.realpathSync('./'), 'data', this.serviceLevel);
-    if (this.serviceLevel === BACKEND_CONST.DOSSIER_LEVEL_SERVICE && this.submissionStatu) 
-      this.absPath = path.resolve(this.absPath, this.submissionStatu, this.dbName + '.db');
-    else 
+    if (this.serviceLevel === BACKEND_CONST.DOSSIER_LEVEL_SERVICE && this.prodAndDossierName)
+      this.absPath = path.resolve(this.absPath, this.prodAndDossierName, this.submissionStatu, this.dbName + '.db');
+    else
       this.absPath = path.resolve(this.absPath, this.dbName + '.db');
-//    console.log(this.absPath);
+    //    console.log(this.absPath);
     this.db = new Nedb({
       filename: this.absPath,
       autoload: true
     });
   }
 
-/*
-  edb_getSync(obj) {
-    if (this.serviceLevel && this.local_ref) {
-      let retVal = [];
-      retVal = _.filter(this.local_ref, obj);
-      return new RVHelper('EDB0000', retVal);
-    } else {
-      return new RVHelper('EDB11003');
+  /*
+    edb_getSync(obj) {
+      if (this.serviceLevel && this.local_ref) {
+        let retVal = [];
+        retVal = _.filter(this.local_ref, obj);
+        return new RVHelper('EDB0000', retVal);
+      } else {
+        return new RVHelper('EDB11003');
+      }
     }
-  }
-*/
+  */
   edb_get(obj) {
-    let deferred = this.$q.defer();
+    let self = this, deferred = self.$q.defer();
     let query = obj ? (obj.data ? obj.data : {}) : {};
-    let entityClass, entity, classedRows = [];
-    this.db.find(query, (err, rows) => {
+    let entityClass = undefined, entity, classedRows = [];
+    self.db.find(query, (err, rows) => {
       if (err) {
         deferred.reject(err);
-      } else if (this.modelClassName !== 'PicklistModel') {
+      } else if (self.modelClassName !== 'PicklistModel') {
         try {
-          entityClass = require('../models/' + this.modelClassName.toLowerCase() + '.model')[this.modelClassName];
+          if (self.modelClassName)
+            entityClass = require('../models/' + self.modelClassName.toLowerCase() + '.model')[self.modelClassName];
           rows.map(row => {
             try {
-              entity = new entityClass();
-              entity._initFromDB(row);
+              if (entityClass) {
+                entity = new entityClass();
+                entity._initFromDB(row);
+              } else {
+                entity = row;
+                delete entity._id;
+              }
               classedRows.push(entity);
             } catch (err) {
               deferred.reject(new RVHelper('EDB10000', err));
@@ -87,23 +91,23 @@ module.exports = class BaseService {
     });
     return deferred.promise;
   }
-/*
-  edb_putSync(obj) {
-    if (this.serviceLevel && this.local_ref) {
-      this.local_ref.push(obj);
-      return new RVHelper('EDB0000');
-    } else {
-      return new RVHelper('EDB11003');
+  /*
+    edb_putSync(obj) {
+      if (this.serviceLevel && this.local_ref) {
+        this.local_ref.push(obj);
+        return new RVHelper('EDB0000');
+      } else {
+        return new RVHelper('EDB11003');
+      }
     }
-  }
-*/
+  */
   edb_put(obj) {
-    let deferred = this.$q.defer();
+    let self = this, deferred = self.$q.defer();
     if (obj && typeof obj === 'object') {
       let obj2DB = obj;
-      if (this.modelClassName !== 'PicklistModel')
+      if (self.modelClassName !== 'PicklistModel' && obj2DB['beforeToDB'])
         obj2DB.beforeToDB();
-      this.db.insert(obj2DB, (err, result) => {
+      self.db.insert(obj2DB, (err, result) => {
         if (err) {
           deferred.reject(new RVHelper('EDB10000', err));
           return deferred.promise;
@@ -116,105 +120,124 @@ module.exports = class BaseService {
   }
 
   edb_delete(id) {
-    let deferred = this.$q.defer();
+    let self = this, deferred = self.$q.defer();
     if (id && typeof id === 'string') {
-      this.db.remove({ '_id': id }, function (err, res) {
+      self.db.remove({ '_id': id }, function (err, res) {
         if (err) {
-          deferred.reject(err);
-          return deferred.promise;
+          deferred.reject(new RVHelper('EDB10000', err));
+        } else {
+          deferred.resolve(new RVHelper('EDB00000', res.affectedRows));
         }
-        deferred.resolve(res.affectedRows);
       });
     } else {
-      deferred.reject('Error: tring to delete non-string id - ' + id);
+      deferred.reject(new RVHelper('EDB11005', id));
     }
     return deferred.promise;
   }
 
   edb_post(obj) {
-    let deferred = this.$q.defer();
+    let self = this, deferred = self.$q.defer();
     if (obj && typeof obj === 'object' && obj.hasOwnProperty('_id')) {
       let obj2DB = obj;
-      if (this.modelClassName !== 'PicklistModel')
+      if (self.modelClassName !== 'PicklistModel' && obj2DB['beforeToDB'])
         obj2DB.beforeToDB();
-      this.db.update({ _id: obj2DB._id }, obj2DB, {}, (err, numReplaced) => {
+      self.db.update({ _id: obj2DB._id }, obj2DB, {}, (err, numReplaced) => {
         if (err) {
-          deferred.reject(err);
-          return deferred.promise;
+          deferred.reject(new RVHelper('EDB10000', err));
+        } else {
+          deferred.resolve(new RVHelper('EDB00000', numReplaced));
         }
-        deferred.resolve(numReplaced);
       });
     } else
-      deferred.reject('Error: tring to update non-object entity - ' + obj);
+      deferred.reject(new RVHelper('EDB11006', obj));
     return deferred.promise;
   }
 
-  jsonToXml(obj) {
-    let deferred = this.$q.defer();
-    let entityClass, entity, builder, xml;
-    if (obj) {
-      if (typeof obj === 'object') {
-        if (obj.hasOwnProperty('_id')) {
-          this.db.find({ '_id': obj._id }, (err, result) => {
-            if (err) {
-              deferred.reject(err);
-              return deferred.promise;
-            }
-            let sJson = result[0];
-            if (sJson) {
-              try {
-                entityClass = require('../models/' + this.modelClassName.toLowerCase() + '.model')[this.modelClassName];
-
-                entity = new entityClass(sJson);
-
-                builder = new xml2js.Builder({
-                  rootName: this.rootXmlName,
-                  attrkey: 'attr$'
-                });
-
-                xml = builder.buildObject(entity.toGhstsJson());
-                deferred.resolve(xml);
-              } catch (err) {
-                deferred.reject(err + ' with [' + sJson + ']');
+  /*
+    jsonToXml(obj) {
+      let deferred = this.$q.defer();
+      let entityClass, entity, builder, xml;
+      if (obj) {
+        if (typeof obj === 'object') {
+          if (obj.hasOwnProperty('_id')) {
+            this.db.find({ '_id': obj._id }, (err, result) => {
+              if (err) {
+                deferred.reject(err);
+                return deferred.promise;
               }
-            }
-          });
+              let sJson = result[0];
+              if (sJson) {
+                try {
+                  entityClass = require('../models/' + this.modelClassName.toLowerCase() + '.model')[this.modelClassName];
+  
+                  entity = new entityClass(sJson);
+  
+                  builder = new xml2js.Builder({
+                    rootName: this.rootXmlName,
+                    attrkey: 'attr$'
+                  });
+  
+                  xml = builder.buildObject(entity.toGhstsJson());
+                  deferred.resolve(xml);
+                } catch (err) {
+                  deferred.reject(err + ' with [' + sJson + ']');
+                }
+              }
+            });
+          } else {
+            deferred.resolve(new RVHelper('EDB00000'));
+          }
         } else {
-          deferred.resolve(new RVHelper('EDB00000'));
+          deferred.reject('Error: tring to transforming non-object entity to XML - ' + obj);
         }
-      } else {
-        deferred.reject('Error: tring to transforming non-object entity to XML - ' + obj);
-      }
-    } else
-      deferred.resolve({});
-    return deferred.promise;
-  }
-
-  jsonObjClassifierFromXml(obj) {
-    let deferred = this.$q.defer();
+      } else
+        deferred.resolve({});
+      return deferred.promise;
+    }
+  */
+  jsonObjClassifierFromXml(obj, picklistInst) {
+    let self = this, deferred = self.$q.defer();
     let entities = obj;
     let entityClass, entity;
     let picklistSvcClass = require('./picklist.service');
-    let picklistInst = new picklistSvcClass(this.$q);
+    let picklistII = picklistInst ? picklistInst : new picklistSvcClass(self.$q);
     if (entities && entities.constructor === Array) {
       try {
-        entityClass = require('../models/' + this.modelClassName.toLowerCase() + '.model')[this.modelClassName];
+        if (self.modelClassName) {
+          entityClass = require('../models/' + self.modelClassName.toLowerCase() + '.model')[self.modelClassName];
+        }
         entities = entities.map(item => {
-          entity = new entityClass();
-          // TODO: insert into db for now, may remove them later on
-          entity.jsonObjClassifierFromXml(item, picklistInst);
-//          console.log(entity);
-          this.edb_put(entity);
+          if (self.modelClassName && entityClass) {
+            entity = new entityClass();
+            entity.jsonObjClassifierFromXml(item, picklistII);
+          } else {
+            entity = item;
+          }
+          //          console.log(entity);
+          self.edb_put(entity);
           return entity;
         });
         deferred.resolve(entities);
       } catch (err) {
-        deferred.reject(err);
+        deferred.reject(new RVHelper('EDB10000', err));
       }
     } else if (entities && typeof entities === 'object') {
-      console.log('todo');
+      if (self.modelClassName) {
+        entityClass = require('../models/' + self.modelClassName.toLowerCase() + '.model')[self.modelClassName];
+      }
+      if (self.modelClassName && entityClass) {
+        entity = new entityClass();
+        entity.jsonObjClassifierFromXml(entities, picklistII);
+      } else {
+        entity = entities;
+      }
+      self.edb_put(entity);
+      deferred.resolve(entity);
+    } else if (entities) {
+      self.edb_put(entities);
+      deferred.resolve(entities);
     } else {
-      deferred.reject('Error: tring to classifier non-object entity from normal JSON object - ' + obj);
+      deferred.reject(new RVHelper('EDB11007', obj));
     }
     return deferred.promise;
   }

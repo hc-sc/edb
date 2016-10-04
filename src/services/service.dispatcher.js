@@ -5,7 +5,7 @@ module.exports = class ServiceDispatcher {
     this.level = level;
   }
 
-  getService(q, url, isActive) {
+  getService(q, url, prodAndDossier) {
     if (url) {
       let serClassFileName = url, serClassName, serClass;
       if (serClassFileName[0] === '/') serClassFileName = serClassFileName.slice(1);
@@ -14,7 +14,7 @@ module.exports = class ServiceDispatcher {
       serClassName = serClassName[0].toUpperCase() + serClassName.slice(1) + 'Service';
       serClass = require(serClassFileName)[serClassName];
       if (serClass) {
-        return new serClass(q, this.level, isActive);
+        return new serClass(q, this.level, prodAndDossier, true);
       } else {
         return new RVHelper('EDB11002');
       }

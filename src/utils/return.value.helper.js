@@ -21,11 +21,16 @@ const RETURN_VALUE_CONFIG = {
   EDB11002: { msg: 'Service not found'},
   EDB11003: { msg: 'No synchronous call for this service'},
   EDB11004: { msg: 'tring to create non-object entity'},
+  EDB11005: { msg: 'tring to delete non-string id entity'},
+  EDB11006: { msg: 'tring to update non-object entity'}, 
+  EDB11007: { msg: 'tring to classifier non-object entity from normal JSON object'},
   
   EDB12001: { msg: 'Cannot create product with empty'},
   EDB12002: { msg: 'Cannot create product with empty short name' },
   EDB12003: { msg: 'Selected wrong submission folder' },
   EDB12004: { msg: 'Cannot select product with empty' },
+  EDB12005: { msg: 'Create product from template failed, cannot find template' },
+  EDB12006: { msg: 'Packaged submission, reload it?' },
 
   EDB13001: { msg: 'No GHTST tag'},
 
