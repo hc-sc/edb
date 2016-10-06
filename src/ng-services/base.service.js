@@ -10,8 +10,6 @@ export default class BaseService {
   edb_get(obj) {
     let deffer = this.$q.defer();
     if (window.ipcRenderer) {
-      console.log(EDB_IPC_SYNC_SUF);
-      
       window.ipcRenderer.once(this.msgChannel + EDB_IPC_ASYNC_REPLAY_SUF, (event, arg) => {
         if (arg.err) {
           deffer.reject(arg.err);

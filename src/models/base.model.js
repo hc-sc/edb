@@ -41,7 +41,7 @@ module.exports = class BaseModel {
                   console.log(err);
                 }
               });
-              console.log(this[key]);
+//              console.log(this[key]);
             } else if (entity && typeof entity === 'object') { //it is an sub-class JSON obj
               try {
                 entity = this[key];
@@ -58,21 +58,22 @@ module.exports = class BaseModel {
   }
 
   _initFromDB(jsonDB) {
-    Object.assign(this, jsonDB);
-    let keys = Object.keys(this);
+    let self = this;
+    Object.assign(self, jsonDB);
+    let keys = Object.keys(self);
     let entity, picklistConf;
     keys.map(key => {
       if (key[0] !== '_') { //not internal attribute 
         picklistConf = PicklistFieldsConfig[key];
-        entity = this[key];
+        entity = self[key];
         if (picklistConf) { //it is a picklist item
           entity = new PicklistModel(picklistConf.typename, entity.VALUE, entity.VALUE_DECODE, entity.isExt ? entity.isExt : false, entity.STATUS, entity._pklid);
-          this[key] = entity;
+          self[key] = entity;
         } else { //it is not a picklist item
           if (entity.constructor === Array) { //it is an array
-            this[key] = entity.map(subObj => {
+            self[key] = entity.map(subObj => {
               try {
-                return this._jsonObjClassifierFromDB(key, subObj);
+                return self._jsonObjClassifierFromDB(key, subObj);
               } catch (err) {
                 console.log(err);
               }
@@ -80,7 +81,7 @@ module.exports = class BaseModel {
 //            console.log(this[key]);
           } else if (entity && typeof entity === 'object') { //it is an sub-class JSON obj
             try {
-              this[key] = this._jsonObjClassifierFromDB(key, entity);
+              self[key] = self._jsonObjClassifierFromDB(key, entity);
             } catch (err) {
               console.log(err);
             }
@@ -91,11 +92,11 @@ module.exports = class BaseModel {
   }
 
   jsonObjClassifierFromXml(obj, picklistInst4FromXml) {
-    let keys, subEntityClass, picklistFieldsConfig, dbOutput, query, plEntity, subClassName, subentity;
+    let self = this, keys, subEntityClass, picklistFieldsConfig, dbOutput, query, plEntity, subClassName, subentity;
     keys = Object.keys(obj);
     keys.map(key => {
       if (key === 'attr$') {
-        this._identifier = obj[key];
+        self._identifier = obj[key];
       } else {
         picklistFieldsConfig = PicklistFieldsConfig[key];
         if (picklistFieldsConfig) { //this is picklist item
@@ -115,14 +116,14 @@ module.exports = class BaseModel {
             }
             dbOutput = picklistInst4FromXml.edb_getSync(query);
             if (dbOutput.constructor === Array) {
-              subEntityClass = require('./picklist.model');
+              subEntityClass = PicklistModel;
               if (dbOutput[0]) { 
-                this[key] = new subEntityClass(dbOutput[0]);
+                self[key] = new subEntityClass(dbOutput[0]);
               } else if (picklistFieldsConfig.isExt) {
                 subentity = new subEntityClass(picklistFieldsConfig.typename);
                 subentity.jsonObjClassifierFromXml(plEntity);
                 subentity.isExt = true;
-                this[key] = subentity;
+                self[key] = subentity;
               } else {
                 //TODO: modify this after XML import solution defined
                 console.log('ERROR: XML has new picklist item at [' + key + '] for no-extentable picklist with error :' + plEntity);
@@ -134,24 +135,24 @@ module.exports = class BaseModel {
           }
         } else if (obj[key].constructor === Array) {
           subClassName = BaseModel.getClassNameFromFieldName(key);
-          subEntityClass = require('./' + this._url + '.model')[subClassName];
+          subEntityClass = require('./' + self._url + '.model')[subClassName];
           obj[key].map(item => {
             subentity = new subEntityClass();
             subentity.jsonObjClassifierFromXml(item, picklistInst4FromXml);
-            this[key].push(subentity);
+            self[key].push(subentity);
           });
         } else if (typeof obj[key] === 'object') {
           subClassName = BaseModel.getClassNameFromFieldName(key);
-          subEntityClass = require('./' + this._url + '.model')[subClassName];
+          subEntityClass = require('./' + self._url + '.model')[subClassName];
           subentity = new subEntityClass();
           subentity.jsonObjClassifierFromXml(obj[key], picklistInst4FromXml);
-          if (this[key].constructor === Array) {
-            this[key].push(subentity);
+          if (self[key].constructor === Array) {
+            self[key].push(subentity);
           } else {
-            this[key] = subentity;
+            self[key] = subentity;
           }
         } else {
-          this[key] = obj[key];
+          self[key] = obj[key];
         }
       }
     });
@@ -168,22 +169,22 @@ module.exports = class BaseModel {
   }
 
   _jsonObjClassifierFromDB(key, obj) {
-    let subClassName, entityClass, retVal = null;
+    let self = this, subClassName, entityClass, retVal = null;
     subClassName = BaseModel.getClassNameFromFieldName(key);
-    entityClass = require('./' + this._url + '.model')[subClassName];
+    entityClass = require('./' + self._url + '.model')[subClassName];
     retVal = new entityClass(obj);
     return retVal;
   }
 
   toGhstsJson() {
-    let retObj = {};
+    let retObj = {}, self = this;
     let entity, xmlOutput, childXmlOutput;
-    let keys = Object.keys(this);
+    let keys = Object.keys(self);
 
     keys.map(key => {
       xmlOutput = {};
-      if (key[0] !== '_') {
-        entity = this[key];
+      if (key[0] !== '_' && key !== 'createdAt' && key !== 'updatedAt') {
+        entity = self[key];
         if (entity) {
           if (entity.constructor === Array) {
             xmlOutput = [];
@@ -208,7 +209,7 @@ module.exports = class BaseModel {
           }
         }
       } else if (key === '_identifier') {
-        entity = this[key];
+        entity = self[key];
         if (entity)
           retObj.attr$ = entity;
       }

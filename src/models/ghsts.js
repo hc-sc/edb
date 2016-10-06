@@ -5,6 +5,7 @@ const RVHelper = require('../utils/return.value.helper').ReturnValueHelper;
 const PickListService = require('../services/picklist.service');
 const BACKEND_CONST = require('../constants/backend');
 const basePath = fs.realpathSync('./');
+const _ = require('lodash');
 
 var dataPath = path.resolve(basePath, 'data', BACKEND_CONST.DOSSIER_LEVEL_SERVICE);
 
@@ -98,55 +99,31 @@ module.exports = class GHSTS {
 
   readObjects(isActive, templatePath) {
     // read json objects from DB file or ghsts xml
-    let fileName, dbPath, self = this, deffer = self.$q.defer();
+    let fStat, self = this;//, deffer = self.$q.defer();
 
     if (templatePath) {
-      fileName = path.resolve(templatePath, BACKEND_CONST.GHSTS_XML_FILENAME);
-      fs.stat(fileName, (err, stat) => {
-        if (err) {
-          deffer.reject(new RVHelper('EDB10000', err));
-          console.log(err);
-          return deffer.promise;
-        } else {
-          if (stat.isFile()) {
-            return self._readObjectFromXML(isActive, fileName);
-          } else {
-            deffer.reject(new RVHelper('EDB12005', templatePath));
-            return deffer.promise;
-          }
-        }
-      });
+      return self._readObjectsFromXML(isActive, templatePath);
     } else {
       self._dbpath = path.resolve(self._dbpath, isActive ? BACKEND_CONST.ACTIVE_SUBMISSION_NAME : BACKEND_CONST.LAST_SUBMISSION_NAME);
-      fs.stat(self._dbpath, (err, stat) => {
-        if (err || !stat.isDirectory()) { //for later on import function 
-          fileName = path.resolve(self._filePath, BACKEND_CONST.GHSTS_XML_FILENAME);
-          fs.stat(fileName, (err, stat) => {
-            if (err) {
-              deffer.reject(new RVHelper('EDB10000', err));
-              console.log(err);
-              return deffer.promise;
-            } else {
-              if (stat.isFile()) {
-                return self._readObjectFromXML(isActive, fileName);
-              } else {
-                deffer.reject(new RVHelper('EDB12006', fileName));
-                return deffer.promise;
-              }
-            }
-          });
+      try {
+        fStat = fs.statSync(self._dbpath);
+        if (fStat.isDirectory()) {
+          return self._readObjectsFromDB(isActive);
         } else {
-          return self._readObjectFromDB(isActive);
+          return self._readObjectsFromXML(isActive);
         }
-      });
+      } catch (err) {
+        return self._readObjectsFromXML(isActive);
+      }
     }
   }
 
-  _readObjectFromDB(isActive) {
+  _readObjectsFromDB(isActive) {
     // write ghsts json tree back to xml
-    let deffer = this.$q.defer(), self = this;
+    let self = this, deffer = self.$q.defer();
     let keys = Object.keys(self);
-
+//    let qArray = [], keyArray = [];
+    
     keys.map(key => {
       if (key[0] !== '$' && key[0] !== '_') {
         if (self[key]) {
@@ -155,7 +132,7 @@ module.exports = class GHSTS {
           srvInst.edb_get().then(result => {
             if (result.data) {
               if (self[key].constructor === Array) {
-                self[key] = result.data;
+                self[key] = _.sortBy(result.data, ['createdAt']);
               } else {
                 self[key] = result.data[0];
               }
@@ -168,17 +145,29 @@ module.exports = class GHSTS {
         }
       }
     });
-    deffer.resolve(new RVHelper('EDB00000'));
+    deffer.resolve(new RVHelper('EDB00000', self));
+
     return deffer.promise;
   }
 
-  _readObjectFromXML(isActive, filename) {
+  _readObjectsFromXML(isActive, filePath) {
     // read json objects from ghsts xml
-    let deffer = this.$q.defer(), self = this;
+    let self = this, deffer = self.$q.defer(), fileName;
     let keys = Object.keys(self);
 
+    fileName = filePath ? path.resolve(filePath, BACKEND_CONST.GHSTS_XML_FILENAME) : path.resolve(self._filePath, BACKEND_CONST.GHSTS_XML_FILENAME);
+    fs.stat(fileName, (err, stat) => {
+      if (err) {
+        deffer.reject(new RVHelper('EDB10000', err));
+        return deffer.promise;
+      } else if (!stat.isFile()) {
+        deffer.reject(new RVHelper('EDB12005', filePath));
+        return deffer.promise;
+      }
+    });
+
     try {
-      fs.readFile(filename, { encoding: 'utf8' }, (err, xmlStr) => {
+      fs.readFile(fileName, { encoding: 'utf8' }, (err, xmlStr) => {
         if (err) {
           deffer.reject(new RVHelper('EDB10000', err));
           return deffer.promise;
@@ -338,12 +327,16 @@ module.exports = class GHSTS {
   }
 
   _getGhstsXML(item) {
+    let retItem = undefined;
     if (item['toGhstsJson']) {
-      return item.toGhstsJson();
+      retItem = item.toGhstsJson();
     } else {
-      return item;
+      retItem = JSON.stringify(item);
+      retItem = JSON.parse(retItem);
+      delete retItem.createdAt;
+      delete retItem.updatedAt;
     }
-
+    return retItem;
   }
 
   _getServiceClassFromFields(fieldName) {

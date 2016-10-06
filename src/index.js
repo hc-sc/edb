@@ -2,6 +2,7 @@
 'use strict';
 
 const path = require('path');
+const fs = require('fs');
 const app = require('electron').app;
 const ipc = require('electron').ipcMain;
 const BrowserWindow = require('electron').BrowserWindow;
@@ -23,7 +24,6 @@ var picklistInst = null;
 var submissions = [];
 
 var svrDisps = {};
-
 
 ipc.on('devTools', function (event, arg) {
   mainWindow.openDevTools();

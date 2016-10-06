@@ -54,7 +54,7 @@ module.exports = class GhstsService {
             } else {
               self._loadGhsts(templateDir)
                 .then(result => {
-                  self.ghsts.push(result);
+                  self.ghsts.push(self._getGhstsGroup(result));
                   deffer.resolve(new RVHelper('EDB00000'));
                 })
                 .catch(err => {
@@ -78,7 +78,6 @@ module.exports = class GhstsService {
     let deffer = this.$q.defer(), self = this;
     if (obj) {
       deffer.reject(new RVHelper('EDB12004'));
-      return deffer.promise;
     } else {
       let selPath = dialog.showOpenDialog({
         title: 'Choose a Product',
@@ -90,45 +89,48 @@ module.exports = class GhstsService {
         if (isOK.code !== 'EDB00000') {
           deffer.reject(isOK);
         } else {
-          return self._loadGhsts();
+          self._loadGhsts()
+            .then(result => {
+              self.ghsts.push(self._getGhstsGroup(result));
+              deffer.resolve(new RVHelper('EDB00000'));
+            })
+            .catch(err => {
+              deffer.reject(err);
+            });
         }
       } else {
         deffer.reject(new RVHelper('EDB00001'));
-        return deffer.promise;
       }
     }
+    return deffer.promise;
+  }
+
+  _getGhstsGroup(results) {
+    let retVal = {};
+    retVal[BACKEND_CONST.ACTIVE_SUBMISSION_NAME] = results[0] ? results[0].data : undefined;
+    retVal[BACKEND_CONST.LAST_SUBMISSION_NAME] = results[1] ? results[1].data : undefined;
+    return retVal;
   }
 
   _loadGhsts(templatePath) {
     let ghstsObj = {}, self = this;
-    let deffer = self.$q.defer();
+    //    let deffer = self.$q.defer();
 
-    ghstsObj[BACKEND_CONST.ACTIVE_SUBMISSION_NAME] = new GHSTS(this.$q, absSubPath, curProdAndDossierDir);
+    ghstsObj[BACKEND_CONST.ACTIVE_SUBMISSION_NAME] = new GHSTS(self.$q, absSubPath, curProdAndDossierDir);
     if (absLastSubPath) {
-      ghstsObj[BACKEND_CONST.LAST_SUBMISSION_NAME] = new GHSTS(this.$q, absLastSubPath, curProdAndDossierDir);
+      ghstsObj[BACKEND_CONST.LAST_SUBMISSION_NAME] = new GHSTS(self.$q, absLastSubPath, curProdAndDossierDir);
     } else {
-      ghstsObj[BACKEND_CONST.LAST_SUBMISSION_NAME] = undefined; 
+      ghstsObj[BACKEND_CONST.LAST_SUBMISSION_NAME] = undefined;
     }
 
     if (absLastSubPath) {
-      self.$q.all([
-        ghstsObj[BACKEND_CONST.ACTIVE_SUBMISSION_NAME].readObjects(true, templatePath),
+      return self.$q.all([
+        ghstsObj[BACKEND_CONST.ACTIVE_SUBMISSION_NAME].readObjects(true),
         ghstsObj[BACKEND_CONST.LAST_SUBMISSION_NAME].readObjects(false)
-      ]).then(result => {
-        ghstsObj[0] = result[0];
-        ghstsObj[1] = result[1];
-        self.ghsts.push(ghstsObj);
-        deffer.resolve(new new RVHelper('EDB00000'));
-      });
+      ]);
     } else {
-      self.$q.all([ghstsObj[BACKEND_CONST.ACTIVE_SUBMISSION_NAME].readObjects(true, templatePath)]).then(result =>{
-        ghstsObj[0] = result[0];
-        self.ghsts.push(ghstsObj);
-        deffer.resolve(new new RVHelper('EDB00000'));
-      });
+      return self.$q.all([ghstsObj[BACKEND_CONST.ACTIVE_SUBMISSION_NAME].readObjects(true, templatePath)]);
     }
-    return deffer.promise;
-    
   }
 
   _clearSubmission(ghstsObj) {
@@ -253,10 +255,10 @@ module.exports = class GhstsService {
     absSubPath = path.resolve(prodsPath, curProdAndDossierDir);
     if (!isNaN(curSubDir)) {
       lastSubDir = curSubDir - 1;
-      if (lastSubDir > 0) { 
+      if (lastSubDir > 0) {
         lastSubDir = NumberFormat('0#', lastSubDir);
         absLastSubPath = path.resolve(absSubPath, lastSubDir);
-      } 
+      }
     }
     absSubPath = path.resolve(absSubPath, curSubDir);
     absOutputFN = path.resolve(absSubPath, BACKEND_CONST.GHSTS_XML_FILENAME);

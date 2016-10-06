@@ -32,6 +32,8 @@ export default class HomeCtrl {
         let nameAry = name.split('/');
         this.GhstsService.edb_put({ productShortName: nameAry[0], dossierShortName: nameAry[1] }).then(result => {
           console.log(result);
+        }).catch(err => {
+          console.log(err);
         });
       });
   }

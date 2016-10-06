@@ -13,7 +13,7 @@ exports.SubstanceIdentifierStruct = class SubstanceIdentifierStruct extends Base
       this.IDENTIFIER = null;
     }
   }
-}
+};
 
 exports.Substance = class Substance extends BaseModel {
   constructor(jsonDB) {

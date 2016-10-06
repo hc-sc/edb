@@ -4,9 +4,12 @@ const Nedb = require('nedb');
 
 const RVHelper = require('../utils/return.value.helper').ReturnValueHelper;
 const BACKEND_CONST = require('../constants/backend');
+const PicklistModel = require('../models/picklist.model');
 
 const fs = require('fs');
 const path = require('path');
+
+var moduleClasses = undefined;
 
 module.exports = class BaseService {
   constructor($q, dbName, modelClassName, rootXmlName, serviceLevel, prodAndDossierName, submissionStatu) {
@@ -17,6 +20,9 @@ module.exports = class BaseService {
     this.serviceLevel = serviceLevel ? serviceLevel : BACKEND_CONST.DOSSIER_LEVEL_SERVICE;
     this.prodAndDossierName = prodAndDossierName;
     this.submissionStatu = submissionStatu ? submissionStatu : BACKEND_CONST.ACTIVE_SUBMISSION_NAME;
+    if (!moduleClasses && modelClassName && modelClassName !== 'PicklistModel') {
+      moduleClasses = require('../models/' + modelClassName.toLowerCase() + '.model');
+    }
     //TODO: may add exception handler for fs opration later as we may remove db.
     this.absPath = path.resolve(fs.realpathSync('./'), 'data', this.serviceLevel);
     if (this.serviceLevel === BACKEND_CONST.DOSSIER_LEVEL_SERVICE && this.prodAndDossierName)
@@ -26,21 +32,11 @@ module.exports = class BaseService {
     //    console.log(this.absPath);
     this.db = new Nedb({
       filename: this.absPath,
-      autoload: true
+      autoload: true,
+      timestampData: true
     });
   }
 
-  /*
-    edb_getSync(obj) {
-      if (this.serviceLevel && this.local_ref) {
-        let retVal = [];
-        retVal = _.filter(this.local_ref, obj);
-        return new RVHelper('EDB0000', retVal);
-      } else {
-        return new RVHelper('EDB11003');
-      }
-    }
-  */
   edb_get(obj) {
     let self = this, deferred = self.$q.defer();
     let query = obj ? (obj.data ? obj.data : {}) : {};
@@ -51,7 +47,7 @@ module.exports = class BaseService {
       } else if (self.modelClassName !== 'PicklistModel') {
         try {
           if (self.modelClassName)
-            entityClass = require('../models/' + self.modelClassName.toLowerCase() + '.model')[self.modelClassName];
+            entityClass = moduleClasses[self.modelClassName];
           rows.map(row => {
             try {
               if (entityClass) {
@@ -73,7 +69,7 @@ module.exports = class BaseService {
         deferred.resolve(new RVHelper('EDB00000', classedRows));
       } else {
         try {
-          entityClass = require('../models/picklist.model');
+          entityClass = PicklistModel;
           rows.map(row => {
             try {
               entity = new entityClass(row);
@@ -91,16 +87,7 @@ module.exports = class BaseService {
     });
     return deferred.promise;
   }
-  /*
-    edb_putSync(obj) {
-      if (this.serviceLevel && this.local_ref) {
-        this.local_ref.push(obj);
-        return new RVHelper('EDB0000');
-      } else {
-        return new RVHelper('EDB11003');
-      }
-    }
-  */
+
   edb_put(obj) {
     let self = this, deferred = self.$q.defer();
     if (obj && typeof obj === 'object') {
@@ -153,58 +140,16 @@ module.exports = class BaseService {
     return deferred.promise;
   }
 
-  /*
-    jsonToXml(obj) {
-      let deferred = this.$q.defer();
-      let entityClass, entity, builder, xml;
-      if (obj) {
-        if (typeof obj === 'object') {
-          if (obj.hasOwnProperty('_id')) {
-            this.db.find({ '_id': obj._id }, (err, result) => {
-              if (err) {
-                deferred.reject(err);
-                return deferred.promise;
-              }
-              let sJson = result[0];
-              if (sJson) {
-                try {
-                  entityClass = require('../models/' + this.modelClassName.toLowerCase() + '.model')[this.modelClassName];
-  
-                  entity = new entityClass(sJson);
-  
-                  builder = new xml2js.Builder({
-                    rootName: this.rootXmlName,
-                    attrkey: 'attr$'
-                  });
-  
-                  xml = builder.buildObject(entity.toGhstsJson());
-                  deferred.resolve(xml);
-                } catch (err) {
-                  deferred.reject(err + ' with [' + sJson + ']');
-                }
-              }
-            });
-          } else {
-            deferred.resolve(new RVHelper('EDB00000'));
-          }
-        } else {
-          deferred.reject('Error: tring to transforming non-object entity to XML - ' + obj);
-        }
-      } else
-        deferred.resolve({});
-      return deferred.promise;
-    }
-  */
   jsonObjClassifierFromXml(obj, picklistInst) {
     let self = this, deferred = self.$q.defer();
     let entities = obj;
     let entityClass, entity;
-    let picklistSvcClass = require('./picklist.service');
-    let picklistII = picklistInst ? picklistInst : new picklistSvcClass(self.$q);
+    let picklistII = picklistInst ? picklistInst : new PicklistModel(self.$q);
+
     if (entities && entities.constructor === Array) {
       try {
         if (self.modelClassName) {
-          entityClass = require('../models/' + self.modelClassName.toLowerCase() + '.model')[self.modelClassName];
+          entityClass = moduleClasses[self.modelClassName];
         }
         entities = entities.map(item => {
           if (self.modelClassName && entityClass) {
@@ -213,7 +158,6 @@ module.exports = class BaseService {
           } else {
             entity = item;
           }
-          //          console.log(entity);
           self.edb_put(entity);
           return entity;
         });
@@ -223,7 +167,7 @@ module.exports = class BaseService {
       }
     } else if (entities && typeof entities === 'object') {
       if (self.modelClassName) {
-        entityClass = require('../models/' + self.modelClassName.toLowerCase() + '.model')[self.modelClassName];
+        entityClass = moduleClasses[self.modelClassName];
       }
       if (self.modelClassName && entityClass) {
         entity = new entityClass();
@@ -242,3 +186,4 @@ module.exports = class BaseService {
     return deferred.promise;
   }
 };
+

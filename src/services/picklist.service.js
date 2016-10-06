@@ -30,10 +30,10 @@ module.exports = class PickListService extends BaseService {
   }
 
   initPicklistFromXSD() {
-    let deferred = this.$q.defer();
+    let deferred = this.$q.defer(), self = this;
 
     // make sure we aren't duplicating entries when we reload...
-    this.edb_get()
+    self.edb_get()
       .then(results => {
         if (results.data.length === 0) {
           let version = path.resolve('./', 'resources', 'app', 'standards', 'ghsts-picklists.xsd');
@@ -55,7 +55,7 @@ module.exports = class PickListService extends BaseService {
 
                   for (const item of obj['xs:schema']['xs:simpleType']) {
                     const INDEX = COMPLEX_TYPES.indexOf(item.attr$.name);
-                    const OTHER_VALUE = this.getOtherValue();
+                    const OTHER_VALUE = self.getOtherValue();
 
                     for (const enumeration of item['xs:restriction']['xs:enumeration']) {
                       const APP_INFO = enumeration['xs:annotation']['xs:appinfo'];
@@ -74,10 +74,10 @@ module.exports = class PickListService extends BaseService {
                     }
                   }
 
-                  this.edb_put(types)
+                  self.edb_put(types)
                     .then(added => {
-                      picklistInMemory = added;
-                      deferred.resolve(new RVHelper('EDB20001', `${added.length} added.`));
+                      picklistInMemory = added.data;
+                      deferred.resolve(new RVHelper('EDB20001', `${added.data.length} added.`));
                     })
                     .catch(err => {
                       deferred.reject(err);
@@ -88,7 +88,7 @@ module.exports = class PickListService extends BaseService {
           });
         } else {
           if (!picklistInMemory) {
-            this.edb_get().then(results => {
+            self.edb_get().then(results => {
               picklistInMemory = results.data;
               deferred.resolve(new RVHelper('EDB20001'));
             });
