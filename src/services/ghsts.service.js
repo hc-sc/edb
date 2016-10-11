@@ -25,9 +25,10 @@ var absOutputFN, absSubPath, absLastSubPath;
 
 
 module.exports = class GhstsService {
-  constructor($q, submissions_ref) {
+  constructor($q, submissions_ref, validateInstance) {
     this.$q = $q;
     this.ghsts = submissions_ref;
+    this._validate = validateInstance;
     this.url = SHARED_CONST.GHSTS_SERVICE_URL;
   }
 
@@ -38,7 +39,7 @@ module.exports = class GhstsService {
 
   edb_validation() {
     console.log('validation');
-    return this._getGhstsObject().validateXML();
+    return this._getGhstsObject().validateXML(absOutputFN, this._validate);
   }
 
   edb_put(obj) {

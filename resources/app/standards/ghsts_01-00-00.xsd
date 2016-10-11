@@ -1,0 +1,1348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.oecd.org/GHSTS" targetNamespace="http://www.oecd.org/GHSTS" elementFormDefault="qualified" attributeFormDefault="unqualified" version="01.00.00">
+	<xs:include schemaLocation="ghsts-picklists.xsd"/>
+	<xs:element name="GHSTS">
+		<xs:annotation>
+			<xs:documentation>Root level structure </xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="RECEIVERS" minOccurs="1" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation>List of RAs (Regulatory Authorities for whom the dossier is being submitted)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="RECEIVER" minOccurs="1" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Definition block for a Regulatory Authority</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="METADATA_STATUS" type="TYPE_METADATA_STATUS_STRUCT" minOccurs="1" maxOccurs="1"/>
+										<xs:element name="SHORT_NAME" type="string20" minOccurs="1" maxOccurs="1">
+											<xs:annotation>
+												<xs:documentation>Typical abbreviation eg. EPA, BVL</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="ROLE" type="string255" minOccurs="0" maxOccurs="1">
+											<xs:annotation>
+												<xs:documentation>Role of the RA</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="SENDER" minOccurs="1" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>RA specific company submitting the dossier</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="COMPANY_CONTACT_REGULATORY_ROLE" type="string255" minOccurs="0" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>The Regulatory Role of the contact role</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="REMARK" type="string2000" minOccurs="0" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>Area to communicate additional company contact details.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute name="To_Legal_Entity_Id" type="xs:IDREF" use="required"/>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="Id" type="xs:ID" use="required"/>
+									<xs:attribute name="To_Legal_Entity_Id" type="xs:IDREF" use="required"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="PRODUCT" minOccurs="1" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation>Metadata of the product</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="METADATA_STATUS" type="TYPE_METADATA_STATUS_STRUCT" minOccurs="1" maxOccurs="1"/>
+							<xs:element name="PRODUCT_PID" type="PIDType" minOccurs="1" maxOccurs="1">
+								<xs:annotation>
+									<xs:documentation>World wide unique identifier of the product. This element is not for the user interface.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="GENERIC_PRODUCT_NAME" type="string255" maxOccurs="1">
+								<xs:annotation>
+									<xs:documentation>The generic name (common name or active ingredient): ibuprofen</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="PRODUCT_RA" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>The RA specific fields </xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="PRODUCT_NAME" type="string2000" minOccurs="0" maxOccurs="1">
+											<xs:annotation>
+												<xs:documentation>Contains the product name associated with the dossier.</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="ADMIN_NUMBER" minOccurs="0" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="ADMIN_NUMBER_TYPE" minOccurs="1" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>Represents the type of the Admin Number. </xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="VALUE" type="EXTENSION_TYPE_ADMIN_NUMBER_TYPE">
+																	<xs:annotation>
+																		<xs:documentation>Code according restricted picklist TYPE_ADMIN_NUMBER_TYPE; other values are submitted via attribute 'Other_Value'</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="VALUE_DECODE" type="string255">
+																	<xs:annotation>
+																		<xs:documentation>Long text of 'Value' or 'Other_Value'</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="IDENTIFIER" type="string255" minOccurs="1" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>The RA specific identifier of the product.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="To_Specific_for_RA_Id" type="xs:IDREF" use="required"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="FORMULATION_TYPE" minOccurs="0" maxOccurs="1">
+								<xs:annotation>
+									<xs:documentation>A 2 character code describing the formulation of the product following GIFAP rules. </xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="VALUE" type="EXTENSION_TYPE_FORMULATION_TYPE">
+											<xs:annotation>
+												<xs:documentation>Code according restricted picklist TYPE_FORMULATION_TYPE; other values are submitted via attribute 'Other_Value'</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="VALUE_DECODE" type="string255">
+											<xs:annotation>
+												<xs:documentation>Long text of 'Value' or 'Other_Value'</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="INGREDIENTS" minOccurs="1" maxOccurs="1">
+								<xs:annotation>
+									<xs:documentation>List of Ingredients</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="INGREDIENT" minOccurs="1" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>Metadata for each Component</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="QUANTITY" type="xs:decimal" minOccurs="0" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation/>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="UNIT" minOccurs="0" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>Unit of Quantitiy</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="VALUE" type="EXTENSION_TYPE_UNIT">
+																	<xs:annotation>
+																		<xs:documentation>Code according restricted picklist TYPE_UNIT; other values are submitted via attribute 'Other_Value'</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="VALUE_DECODE" type="string255">
+																	<xs:annotation>
+																		<xs:documentation>Long text of 'Value' or 'Other_Value'</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute name="To_Substance_Id" type="xs:IDREF" use="required"/>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="DOSSIER" minOccurs="1" maxOccurs="1">
+								<xs:annotation>
+									<xs:documentation>Metadata for the Dossier-Life Cycle Management</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="DOSSIER_PID" type="PIDType" minOccurs="1" maxOccurs="1">
+											<xs:annotation>
+												<xs:documentation>World wide unique identifier for Dossiers. </xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="DOSSIER_DESCRIPTION_TITLE" type="string2000" minOccurs="1" maxOccurs="1">
+											<xs:annotation>
+												<xs:documentation>The description of the Dossier self designated by the registrant.</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="DOSSIER_COMP_ID" type="string20">
+											<xs:annotation>
+												<xs:documentation>Short code for the dossier, starting with a 3-letter company code</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="REFERENCED_DOSSIER" minOccurs="0" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>Metadata of the referenced Dossier</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="REFERENCED_DOSSIER_NUMBER" type="string255" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>The reference number (or PID) to the old dossier.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="REFERENCED_DOSSIER_REASON" type="string2000" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>Reason for the reference</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="DOSSIER_RA" minOccurs="1" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>The RA specific fields </xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="REGULATORY_TYPE" minOccurs="1" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>Legislation, act, regulation or directive under which the submission is made</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="VALUE" type="EXTENSION_TYPE_REGULATORY_TYPE">
+																	<xs:annotation>
+																		<xs:documentation>Code according restricted picklist TYPE_REGULATORY_TYPE; other values are submitted via attribute 'Other_Value'</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="VALUE_DECODE" type="string255">
+																	<xs:annotation>
+																		<xs:documentation>Long text of 'Value' or 'Other_Value'</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="APPLICATION_TYPE" minOccurs="1" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>Specifies the type of application contained in the dossier. </xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="VALUE" type="EXTENSION_TYPE_APPLICATION_TYPE">
+																	<xs:annotation>
+																		<xs:documentation>Code according restricted picklist TYPE_APPLICATION_TYPE; other values are submitted via attribute 'Other_Value'</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="VALUE_DECODE" type="string255">
+																	<xs:annotation>
+																		<xs:documentation>Long text of 'Value' or 'Other_Value'</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="PROJECT_ID_NUMBER" type="string255" minOccurs="0" maxOccurs="unbounded">
+														<xs:annotation>
+															<xs:documentation>The project identifier(s) assigned by the RA relevant to the dossier.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute name="To_Specific_for_RA_Id" type="xs:IDREF" use="required"/>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="SUBMISSION" minOccurs="1" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>Metadata of Submission</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="SUBMISSION_NUMBER" type="submissionnumberType" minOccurs="1" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>Identifies the sequence number of the submission inside a dossier.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="SUBMISSION_VERSION_DATE" type="xs:date" minOccurs="1" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>Identifies the date of the submission as defined by the registrant.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="SUBMISSION_TITLE" type="string2000" minOccurs="1" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>Title of the submission.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="INCREMENTAL" type="xs:boolean" minOccurs="1" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>Flag of the submission type (full or incremental)</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="DOCUMENTS" minOccurs="1" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation>List of Documents</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="DOCUMENT" minOccurs="1" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Metadata of a Document</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="DOCUMENT_RA" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>RA specific Metadata</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="METADATA_STATUS" type="TYPE_METADATA_STATUS_STRUCT"/>
+													<xs:element name="DATA_PROTECTION">
+														<xs:annotation>
+															<xs:documentation>Indicates a data protection claim for required or not required documentation. </xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="VALUE" type="TYPE_DATA_PROTECTION">
+																	<xs:annotation>
+																		<xs:documentation>Code according restricted picklist TYPE_DATA_PROTECTION; NO other values are allowed</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="VALUE_DECODE" type="string255">
+																	<xs:annotation>
+																		<xs:documentation>Long text of 'Value' or 'Other_Value'</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="DATA_REQUIREMENT">
+														<xs:annotation>
+															<xs:documentation/>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="VALUE" type="TYPE_DATA_REQUIREMENT">
+																	<xs:annotation>
+																		<xs:documentation>Code according restricted picklist TYPE_DATA_REQUIREMENT; NO other values are allowed</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="VALUE_DECODE" type="string255">
+																	<xs:annotation>
+																		<xs:documentation>Long text of 'Value' or 'Other_Value'</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="DOCUMENT_COMMENT" type="string2000" minOccurs="0" maxOccurs="unbounded">
+														<xs:annotation>
+															<xs:documentation>130) Allows the submitting company to communicate remarks to the Regulatory Authority at the document level. </xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="OTHER_NATIONAL_GUIDELINE" minOccurs="0" maxOccurs="unbounded">
+														<xs:annotation>
+															<xs:documentation>Additional references to other national guidelines. This is a multiple block to make references from one document into one national guideline to different annex-points. </xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="GUIDELINE_SYSTEM" type="string20">
+																	<xs:annotation>
+																		<xs:documentation>Other guideline system eg. DACO, OPPTS</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="GUIDELINE_NUMBER" type="string20">
+																	<xs:annotation>
+																		<xs:documentation>Number in the other guideline system</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="RA_DOCUMENT_NUMBER" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>The document identification number assigned by Regulatory Authority eg. MRID</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="RA_DOCUMENT_NUMBER_TYPE">
+																	<xs:annotation>
+																		<xs:documentation/>
+																	</xs:annotation>
+																	<xs:complexType>
+																		<xs:sequence>
+																			<xs:element name="VALUE" type="EXTENSION_TYPE_RA_DOCUMENT_NUMBER_TYPE">
+																				<xs:annotation>
+																					<xs:documentation>Code according restricted picklist TYPE_RA_DOCUMENT_NUMBER_TYPE; other values are submitted via attribute 'Other_Value'</xs:documentation>
+																				</xs:annotation>
+																			</xs:element>
+																			<xs:element name="VALUE_DECODE" type="string255">
+																				<xs:annotation>
+																					<xs:documentation>Long text of 'Value' or 'Other_Value'</xs:documentation>
+																				</xs:annotation>
+																			</xs:element>
+																		</xs:sequence>
+																	</xs:complexType>
+																</xs:element>
+																<xs:element name="IDENTIFIER" type="string255">
+																	<xs:annotation>
+																		<xs:documentation>Identifier string</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="ALREADY_SUBMITTED" type="xs:boolean"/>
+																<xs:element name="SUBMISSION_CONTEXT" minOccurs="0" maxOccurs="unbounded">
+																	<xs:annotation>
+																		<xs:documentation>Metadata of the referenced Dossier</xs:documentation>
+																	</xs:annotation>
+																	<xs:complexType>
+																		<xs:choice>
+																			<xs:element name="DOSSIER_PID" type="PIDType">
+																				<xs:annotation>
+																					<xs:documentation>World wide unique identifier for Dossiers. </xs:documentation>
+																				</xs:annotation>
+																			</xs:element>
+																			<xs:element name="DOSSIER_NUMBER" type="string255">
+																				<xs:annotation>
+																					<xs:documentation>The reference number (or PID) to the old dossier.</xs:documentation>
+																				</xs:annotation>
+																			</xs:element>
+																		</xs:choice>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute name="To_Specific_for_RA_Id" type="xs:IDREF" use="required"/>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="DOCUMENT_GENERIC" minOccurs="1" maxOccurs="1">
+											<xs:annotation>
+												<xs:documentation>Bibliographic Data and other properties of a Document</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="METADATA_STATUS" type="TYPE_METADATA_STATUS_STRUCT" minOccurs="1" maxOccurs="1"/>
+													<xs:element name="DOCUMENT_PID" type="PIDType">
+														<xs:annotation>
+															<xs:documentation>A worldwide unique document number </xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="DOCUMENT_FAMILY_PID" type="PIDType">
+														<xs:annotation>
+															<xs:documentation>A machine readable filter to select documents which belongs to one "document family"</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="DOCUMENT_FAMILY" type="string255">
+														<xs:annotation>
+															<xs:documentation>A simple filter for documents which belongs to one "document family"</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="CONTENT_STATUS_HISTORY">
+														<xs:annotation>
+															<xs:documentation>Use this element for listing the document history</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence maxOccurs="unbounded">
+																<xs:element name="CONTENT_STATUS" type="TYPE_CONTENT_STATUS_STRUCT"/>
+																<xs:element name="SUBMISSION_NUMBER" type="submissionnumberType">
+																	<xs:annotation>
+																		<xs:documentation>Submission number for the given Status type</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="REFERENCED_DOCUMENT" minOccurs="0" maxOccurs="unbounded">
+														<xs:annotation>
+															<xs:documentation>A concrete reference to document(s) in support of this document with a Document PID</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="REFERENCE_TYPE">
+																	<xs:annotation>
+																		<xs:documentation>Describes the referenced document(s) relation to the dossier document (picklist)</xs:documentation>
+																	</xs:annotation>
+																	<xs:complexType>
+																		<xs:sequence>
+																			<xs:element name="VALUE" type="TYPE_REFERENCE_TYPE">
+																				<xs:annotation>
+																					<xs:documentation>Code according restricted picklist TYPE_REFERENCE_TYPE; NO other values are allowed</xs:documentation>
+																				</xs:annotation>
+																			</xs:element>
+																			<xs:element name="VALUE_DECODE" type="string255">
+																				<xs:annotation>
+																					<xs:documentation>Long text of 'Value' or 'Other_Value'</xs:documentation>
+																				</xs:annotation>
+																			</xs:element>
+																		</xs:sequence>
+																	</xs:complexType>
+																</xs:element>
+																<xs:element name="INTERNAL" type="xs:boolean"/>
+																<xs:choice>
+																	<xs:element name="DOCUMENT_PID" type="PIDType">
+																		<xs:annotation>
+																			<xs:documentation>ID of a document, to which the reference goes.</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																	<xs:element name="DOCUMENT_NUMBER">
+																		<xs:annotation>
+																			<xs:documentation>The submitting company document identification number(s).</xs:documentation>
+																		</xs:annotation>
+																		<xs:complexType>
+																			<xs:sequence>
+																				<xs:element name="DOCUMENT_NUMBER_TYPE">
+																					<xs:annotation>
+																						<xs:documentation/>
+																					</xs:annotation>
+																					<xs:complexType>
+																						<xs:sequence>
+																							<xs:element name="VALUE" type="EXTENSION_TYPE_DOCUMENT_NUMBER_TYPE">
+																								<xs:annotation>
+																									<xs:documentation>Code according restricted picklist TYPE_DOCUMENT_NUMBER_TYPE; other values are submitted via attribute 'Other_Value'</xs:documentation>
+																								</xs:annotation>
+																							</xs:element>
+																							<xs:element name="VALUE_DECODE" type="string255">
+																								<xs:annotation>
+																									<xs:documentation>Long text of 'Value' or 'Other_Value'</xs:documentation>
+																								</xs:annotation>
+																							</xs:element>
+																						</xs:sequence>
+																					</xs:complexType>
+																				</xs:element>
+																				<xs:element name="IDENTIFIER" type="string255">
+																					<xs:annotation>
+																						<xs:documentation>Identifier string</xs:documentation>
+																					</xs:annotation>
+																				</xs:element>
+																			</xs:sequence>
+																		</xs:complexType>
+																	</xs:element>
+																</xs:choice>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="RELATED_TO_SUBSTANCE" minOccurs="0" maxOccurs="unbounded">
+														<xs:annotation>
+															<xs:documentation>A document can be indexed by one or more related substance</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:attribute name="To_Substance_Id" type="xs:IDREF" use="required"/>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="DOCUMENT_NUMBER" minOccurs="0" maxOccurs="unbounded">
+														<xs:annotation>
+															<xs:documentation>The submitting company document identification number(s).</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="DOCUMENT_NUMBER_TYPE">
+																	<xs:annotation>
+																		<xs:documentation/>
+																	</xs:annotation>
+																	<xs:complexType>
+																		<xs:sequence>
+																			<xs:element name="VALUE" type="EXTENSION_TYPE_DOCUMENT_NUMBER_TYPE">
+																				<xs:annotation>
+																					<xs:documentation>Code according restricted picklist TYPE_DOCUMENT_NUMBER_TYPE; other values are submitted via attribute 'Other_Value'</xs:documentation>
+																				</xs:annotation>
+																			</xs:element>
+																			<xs:element name="VALUE_DECODE" type="string255">
+																				<xs:annotation>
+																					<xs:documentation>Long text of 'Value' or 'Other_Value'</xs:documentation>
+																				</xs:annotation>
+																			</xs:element>
+																		</xs:sequence>
+																	</xs:complexType>
+																</xs:element>
+																<xs:element name="IDENTIFIER" type="string255">
+																	<xs:annotation>
+																		<xs:documentation>Identifier string</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="DOCUMENT_TITLE" type="string2000" minOccurs="1" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>Title of a document provided by the submitting company.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="DOCUMENT_AUTHOR" type="string255" minOccurs="1" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>The author(s) of a document provided by the submitting company.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="DOCUMENT_ISSUE_DATE" type="xs:date" minOccurs="1" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>States the date of the document.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="DOCUMENT_OWNER" type="string2000" minOccurs="1" maxOccurs="unbounded">
+														<xs:annotation>
+															<xs:documentation>States the owners of the document contained in the dossier at time of submission.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="PUBLISHED_INDICATOR" type="xs:boolean" minOccurs="1" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>Indicates whether a document has been published and therefore made publicly available. </xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:choice>
+														<xs:element name="COMPLETE_DOCUMENT_SOURCE" type="string2000"/>
+														<xs:sequence>
+															<xs:element name="DOCUMENT_SOURCE" type="string2000">
+																<xs:annotation>
+																	<xs:documentation>Bibliographic citation source</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="DOCUMENT_YEAR" type="xs:positiveInteger" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation/>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="DOCUMENT_ISSUE" type="string20" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation/>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="DOCUMENT_VOLUME" type="string20" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation/>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="DOCUMENT_PAGES" type="string20" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation/>
+																</xs:annotation>
+															</xs:element>
+														</xs:sequence>
+													</xs:choice>
+													<xs:element name="TEST_LABORATORY" type="string2000" minOccurs="0" maxOccurs="unbounded">
+														<xs:annotation>
+															<xs:documentation>The name and address of the test facility where the study was carried out.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="GXP_INDICATOR" type="xs:boolean" minOccurs="1" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>Indicates whether the test facility document was carried out under accredited Good Practices </xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="TESTED_ON_VERTEBRATE" type="xs:boolean" minOccurs="1" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>Indicates whether a study has been conducted on a vertebrate.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="REFERENCED_TO_FILE" minOccurs="1" maxOccurs="unbounded">
+														<xs:annotation>
+															<xs:documentation>Reference to one or more Files with the help of the XML-File internal File ID</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:attribute name="To_File_Id" type="xs:IDREF" use="required"/>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="Id" type="xs:ID" use="required"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="FILES" minOccurs="1" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation>List of Files</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="FILE" minOccurs="1" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Metadate of a File</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="FILE_RA" minOccurs="1" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>RA specific metadata</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="METADATA_STATUS" type="TYPE_METADATA_STATUS_STRUCT"/>
+													<xs:element name="CBI_DESIGNATION" type="xs:boolean" minOccurs="1" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>Indicates whether the file contains CBI-protected information. </xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="FILE_COMMENT" type="string2000" minOccurs="0" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>RA specific file comment. </xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute name="To_Specific_for_RA_Id" type="xs:IDREF" use="required"/>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="FILE_GENERIC">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="METADATA_STATUS" type="TYPE_METADATA_STATUS_STRUCT"/>
+													<xs:element name="FILE_PID" type="PIDType">
+														<xs:annotation>
+															<xs:documentation>A worldwide unique file number</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="FILE_COMPANY_ID" type="string255" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>An additional optional internal file identification number of the submitting company </xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="CONTENT_STATUS" type="TYPE_CONTENT_STATUS_STRUCT"/>
+													<xs:element name="REPLACED_FILE_PID" type="PIDType" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>PID of a file, which should be replaced</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="FILE_TYPE">
+														<xs:annotation>
+															<xs:documentation>Describes the type of file being submitted (Main / Source / Supplemental / XML Summary)</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="VALUE" type="TYPE_FILE_TYPE">
+																	<xs:annotation>
+																		<xs:documentation>Code according restricted picklist TYPE_FILE_TYPE; NO other values are allowed</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="VALUE_DECODE" type="string20">
+																	<xs:annotation>
+																		<xs:documentation>Long text of 'Value' or 'Other_Value'</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="FORMAT_COMMENT" type="string255" minOccurs="0"/>
+													<xs:element name="MD5CHECKSUM" type="md5Type" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>MD5 value used for redundancy check to detect data transmission issues.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="FILENAME" type="filenamestring">
+														<xs:annotation>
+															<xs:documentation>Unique filename of the physical file consisting of relative path + file name.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="Id" type="xs:ID" use="required"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="TOC" minOccurs="1" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation>Table of Content</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="METADATA_STATUS" type="TYPE_METADATA_STATUS_STRUCT" minOccurs="1" maxOccurs="1"/>
+							<xs:element name="TOC_SHORT_NAME" type="string20" minOccurs="1" maxOccurs="1">
+								<xs:annotation>
+									<xs:documentation>Short internal Identifier</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="TOC_OWNER" minOccurs="1" maxOccurs="1">
+								<xs:annotation>
+									<xs:documentation>The owner has the responsibility for this ToC</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="VALUE" type="EXTENSION_TYPE_TOC_OWNER">
+											<xs:annotation>
+												<xs:documentation>Code according restricted picklist TYPE_TOC_OWNER; other code values are submitted via attribute 'Other_Value'</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="VALUE_DECODE" type="string255">
+											<xs:annotation>
+												<xs:documentation>Long text of 'Value' or 'Other_Value'</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="TOC_FULL_NAME" type="string255" minOccurs="1" maxOccurs="1">
+								<xs:annotation>
+									<xs:documentation>Name to display in Viewer </xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="TOC_VERSION" type="versionnumberType" minOccurs="1" maxOccurs="1">
+								<xs:annotation>
+									<xs:documentation>Used ToC Version </xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="STANDARD_TOC_REFERENCE" minOccurs="0" maxOccurs="1">
+								<xs:annotation>
+									<xs:documentation>Block to contain information about referenced standard ToC</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="STANDARD_TOC_PID" type="PIDType">
+											<xs:annotation>
+												<xs:documentation>PID of referenced standard ToC</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="FILENAME" type="filenamestring">
+											<xs:annotation>
+												<xs:documentation>reference to standard ToC XML as part of the submission package</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="STRUCTURE">
+								<xs:complexType>
+									<xs:sequence maxOccurs="unbounded">
+										<xs:element name="TOC_NODE" type="TYPE_TOC_NODE"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="LEGAL_ENTITIES" minOccurs="1" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation/>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="LEGAL_ENTITY" minOccurs="1" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation/>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="METADATA_STATUS" type="TYPE_METADATA_STATUS_STRUCT" minOccurs="1" maxOccurs="1"/>
+										<xs:element name="LEGALENTITY_PID" type="PIDType" minOccurs="1" maxOccurs="1">
+											<xs:annotation>
+												<xs:documentation>Unique company identification code. This element is not for the user interface.</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="LEGALENTITY_NAME" type="string255" minOccurs="1" maxOccurs="1">
+											<xs:annotation>
+												<xs:documentation>Name of the Company. The name can contain line feeds</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="LEGALENTITY_TYPE" minOccurs="0" maxOccurs="1">
+											<xs:annotation>
+												<xs:documentation>Type Classification (Authority,Company,Laboratory,Consultant, )</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="VALUE" type="EXTENSION_TYPE_LEGALENTITY_TYPE">
+														<xs:annotation>
+															<xs:documentation>Code according restricted picklist TYPE_LEGALENTITY_TYPE; other values are submitted via attribute 'Other_Value'</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="VALUE_DECODE" type="string255">
+														<xs:annotation>
+															<xs:documentation>Long text of 'Value' or 'Other_Value'</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="OTHER_NAME" type="string255" minOccurs="0" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>other name(s)</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="LEGALENTITY_IDENTIFIER" minOccurs="0" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>Company Identifiers like DUNS-number, VAT-number, ..</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="LEGALENTITY_IDENTIFIER_TYPE" minOccurs="1" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>Type of company identifier this is, e. g. DUNS-number, VAT-number, ...</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="VALUE" type="EXTENSION_TYPE_LEGALENTITY_IDENTIFIER_TYPE">
+																	<xs:annotation>
+																		<xs:documentation>Code according restricted picklist TYPE_LEGALENTITY_IDENTIFIER_TYPE; other values are submitted via attribute 'Other_Value'</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="VALUE_DECODE" type="string255">
+																	<xs:annotation>
+																		<xs:documentation>Long text of 'Value' or 'Other_Value'</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="IDENTIFIER" type="string255" minOccurs="1" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>Identifier string</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="CONTACT_ADDRESS" minOccurs="1" maxOccurs="1">
+											<xs:annotation>
+												<xs:documentation>Official contact of the company</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="STREET1" type="string255" minOccurs="0" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>AddressLine is used for delivery by the postal service. </xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="STREET2" type="string255" minOccurs="0" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>AddressLine is used for delivery by the postal service. </xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="ZIPCODE" type="string255" minOccurs="0" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>Codes established by postal authorities for purposes of sorting and delivering mail.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="CITY" type="string255" minOccurs="0" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>Represents the city, town, village, or hamlet. Named 'town' or 'municipality' in the Rose Model.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="STATE" type="string255" minOccurs="0" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>Represents the State, Province, and/or County. </xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="COUNTRY" minOccurs="0" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>The code for the country. The type of this attribute could be the ISO-2 country code [], which can be linked to the different linguistic versions of the country name.</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="VALUE" type="EXTENSION_TYPE_COUNTRY">
+																	<xs:annotation>
+																		<xs:documentation>Code according restricted picklist TYPE_COUNTRY; other values are submitted via attribute 'Other_Value'</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="VALUE_DECODE" type="string255">
+																	<xs:annotation>
+																		<xs:documentation>Long text of 'Value' or 'Other_Value'</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="PHONE" type="string255" minOccurs="0" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation/>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="FAX" type="string255" minOccurs="0" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation/>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="EMAIL" type="string255" minOccurs="0" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation/>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="WEBSITE" type="xs:anyURI" minOccurs="0" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation/>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="CONTACT_PERSON" minOccurs="0" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation/>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="ORGANISATION" type="string255" minOccurs="0" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>Company name of the contact person (if different from leagal entity company)</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="DEPARTMENT" type="string255" minOccurs="0" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>The department of the representative person</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="TITLE" type="string255" minOccurs="0" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>The title / salutation of the individual.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="FIRSTNAME" type="string255" minOccurs="0" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>The name of the person</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="LASTNAME" type="string255" minOccurs="0" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>The surname of the person</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="PHONE" type="string255" minOccurs="0" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation/>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="MOBILE" type="string255" minOccurs="0" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation/>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="FAX" type="string255" minOccurs="0" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation/>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="EMAIL" type="string255" minOccurs="0" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation/>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="Id" type="xs:ID" use="required"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="SUBSTANCES" minOccurs="1" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation>List of Substances (Ingredients and other referenced substances like metabolites)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="SUBSTANCE" minOccurs="1" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Metadata for each referenced substance</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="METADATA_STATUS" type="TYPE_METADATA_STATUS_STRUCT" minOccurs="1" maxOccurs="1"/>
+										<xs:element name="SUBSTANCE_NAME" type="string2000" minOccurs="1" maxOccurs="1">
+											<xs:annotation>
+												<xs:documentation>Common name if available otherwise internal name</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="SUBSTANCE_PID" type="PIDType" minOccurs="0" maxOccurs="1">
+											<xs:annotation>
+												<xs:documentation>PID of the pure reference substance. This element is not for the user interface.</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="SUBSTANCE_IDENTIFIER" minOccurs="0" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>Eg. CASno, ECNO for pure ingredients</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="SUBSTANCE_IDENTIFIER_TYPE" minOccurs="1" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation/>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="VALUE" type="EXTENSION_TYPE_SUBSTANCE_IDENTIFIER_TYPE">
+																	<xs:annotation>
+																		<xs:documentation>Code according restricted picklist TYPE_SUBSTANCE_IDENTIFIER_TYPE; other values are submitted via attribute 'Other_Value'</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="VALUE_DECODE" type="string255">
+																	<xs:annotation>
+																		<xs:documentation>Long text of 'Value' or 'Other_Value'</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="IDENTIFIER" type="string255" minOccurs="1" maxOccurs="1">
+														<xs:annotation>
+															<xs:documentation>Identifier string</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="Id" type="xs:ID" use="required"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="USED_TEMPLATES" minOccurs="0" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation>Placeholder for a reference to external XML with overview of all stylesheets required for rendering of embedded XML files. This XML follows a different XSD</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="specificationversion" type="versionnumberType" use="required"/>
+		</xs:complexType>
+		<!-- Validation of PIDs in submission package -->
+		<xs:key name="KeyFilePID">
+			<xs:selector xpath="./FILES/FILE/FILE_GENERIC"/>
+			<xs:field xpath="FILE_PID"/>
+		</xs:key>
+		<xs:key name="KeyDocumentPID">
+			<xs:selector xpath="./DOCUMENTS/DOCUMENT/DOCUMENT_GENERIC"/>
+			<xs:field xpath="DOCUMENT_PID"/>
+		</xs:key>
+		<!-- Validation of unique FILENAME definition in submission package -->
+		<xs:key name="KeyFileName">
+			<xs:selector xpath="./FILES/FILE/FILE_GENERIC"/>
+			<xs:field xpath="FILENAME"/>
+		</xs:key>
+		<!-- Validation of unique string IDs stored in attributes in submission package -->
+		<xs:key name="KeyDocumentId">
+			<xs:selector xpath="./DOCUMENTS/DOCUMENT"/>
+			<xs:field xpath="@Id"/>
+		</xs:key>
+		<xs:key name="KeyFileId">
+			<xs:selector xpath="./FILES/FILE"/>
+			<xs:field xpath="@Id"/>
+		</xs:key>
+		<xs:key name="KeyLegalEntityId">
+			<xs:selector xpath="./LEGAL_ENTITIES/LEGAL_ENTITY"/>
+			<xs:field xpath="@Id"/>
+		</xs:key>
+		<xs:key name="KeyReceiverId">
+			<xs:selector xpath="./RECEIVERS/RECEIVER"/>
+			<xs:field xpath="@Id"/>
+		</xs:key>
+		<xs:key name="KeySubstanceId">
+			<xs:selector xpath="./SUBSTANCES/SUBSTANCE"/>
+			<xs:field xpath="@Id"/>
+		</xs:key>
+		<!-- Validation of referential integrity in submission package -->
+		<xs:keyref name="RefIntegrityIngredientToSubstance" refer="KeySubstanceId">
+			<xs:selector xpath="./PRODUCT/INGREDIENTS/INGREDIENT"/>
+			<xs:field xpath="@To_Substance_Id"/>
+		</xs:keyref>
+		<xs:keyref name="RefIntegritySenderToLegalentity" refer="KeyLegalEntityId">
+			<xs:selector xpath="./RECEIVERS/RECEIVER/SENDER"/>
+			<xs:field xpath="@To_Legal_Entity_Id"/>
+		</xs:keyref>
+		<xs:keyref name="RefIntegrityReceiverToLegalentity" refer="KeyLegalEntityId">
+			<xs:selector xpath="./RECEIVERS/RECEIVER"/>
+			<xs:field xpath="@To_Legal_Entity_Id"/>
+		</xs:keyref>
+		<xs:keyref name="RefIntegrityProduct_RAToReceiver" refer="KeyReceiverId">
+			<xs:selector xpath="./PRODUCT/PRODUCT_RA"/>
+			<xs:field xpath="@To_Specific_for_RA_Id"/>
+		</xs:keyref>
+		<xs:keyref name="RefIntegrityDossier_RAToReceiver" refer="KeyReceiverId">
+			<xs:selector xpath="./PRODUCT/DOSSIER/DOSSIER_RA"/>
+			<xs:field xpath="@To_Specific_for_RA_Id"/>
+		</xs:keyref>
+		<xs:keyref name="RefIntegrityDocument_RAToReceiver" refer="KeyReceiverId">
+			<xs:selector xpath="./DOCUMENTS/DOCUMENT/DOCUMENT_RA"/>
+			<xs:field xpath="@To_Specific_for_RA_Id"/>
+		</xs:keyref>
+		<xs:keyref name="RefIntegrityFile_RAToReceiver" refer="KeyReceiverId">
+			<xs:selector xpath="./FILES/FILE/FILE_RA"/>
+			<xs:field xpath="@To_Specific_for_RA_Id"/>
+		</xs:keyref>
+		<xs:keyref name="RefIntegrityDocumentToFile" refer="KeyFileId">
+			<xs:selector xpath="./DOCUMENTS/DOCUMENT/DOCUMENT_GENERIC/REFERENCED_TO_FILE"/>
+			<xs:field xpath="@To_File_Id"/>
+		</xs:keyref>
+		<xs:keyref name="RefIntegrityDocumentToSubstance" refer="KeySubstanceId">
+			<xs:selector xpath="./DOCUMENTS/DOCUMENT/DOCUMENT_GENERIC/RELATED_TO_SUBSTANCE"/>
+			<xs:field xpath="@To_Substance_Id"/>
+		</xs:keyref>
+		<xs:keyref name="RefIntegrityTocnodeToDocument" refer="KeyDocumentId">
+			<xs:selector xpath=".//TOC_NODE/DOCUMENT_REFERENCE"/>
+			<xs:field xpath="@To_Document_Id"/>
+		</xs:keyref>
+	</xs:element>
+	<xs:complexType name="TYPE_TOC_NODE">
+		<xs:annotation>
+			<xs:documentation>A ToC has a lot of TOC-Nodes, identified by unique TOC NODE NAME and PID</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="NODE_NAME" type="string20" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Unique String inside of all TOCS, usable for cross-references from document to the TOC_NODE_NAME</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="NODE_HEADING" type="string255">
+				<xs:annotation>
+					<xs:documentation>Heading text </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LOGICAL_DELETED" type="xs:boolean"/>
+			<xs:element name="TOC_NODE_PID" type="PIDType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>World wide unique identifier for TOC Nodes. This PID should be the basis for cross references between different TOC's </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EMPTY_NODE" type="xs:boolean" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Are there any documents submitted in this ToC Node incl. Sub-Nodes?</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TOC2DOC" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:attribute name="To_Document_Id" use="required"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="TOC_NODE" type="TYPE_TOC_NODE" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TYPE_METADATA_STATUS_STRUCT">
+		<xs:annotation>
+			<xs:documentation>Type for compund metadata status element, used in various elements</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="VALUE" type="TYPE_METADATA_STATUS">
+				<xs:annotation>
+					<xs:documentation>Code according restricted picklist TYPE_METADATA_STATUS; NO other values are allowed</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="VALUE_DECODE" type="string20">
+				<xs:annotation>
+					<xs:documentation>Long text of 'Value' or 'Other_Value'</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TYPE_CONTENT_STATUS_STRUCT">
+		<xs:annotation>
+			<xs:documentation>Type for compound content status element, used in FILE and DOCUMENT</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="VALUE" type="TYPE_CONTENT_STATUS">
+				<xs:annotation>
+					<xs:documentation>Code according restricted picklist TYPE_CONTENT_STATUS; NO other values are allowed</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="VALUE_DECODE" type="string20">
+				<xs:annotation>
+					<xs:documentation>Long text of 'Value' or 'Other_Value'</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="md5Type">
+		<xs:annotation>
+			<xs:documentation>MD5 checksum definition, used in FILE</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[a-f,A-F,0-9]{32}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string20">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string255">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="255"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string2000">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="2000"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="filenamestring">
+		<xs:annotation>
+			<xs:documentation>definition of relative paths for filenames, used in FILE</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="preserve"/>
+			<xs:minLength value="1"/>
+			<xs:maxLength value="230"/>
+			<xs:pattern value="(\.\./)\d{2}/(([a-zA-Z0-9_\-\.]+)/)*([a-zA-Z0-9_\-\.\(\)]+)"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PIDType">
+		<xs:annotation>
+			<xs:documentation>definition of Persistent Identifier (PID) according to URN pattern as defined in RFC 2141</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:anyURI">
+			<xs:pattern value="urn:[a-zA-Z0-9][a-zA-Z0-9-]{1,31}:([a-zA-Z0-9()+,.:=@;$_!*'-]|%[0-9A-Fa-f]{2})+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="uuidType">
+		<xs:annotation>
+			<xs:documentation>definition of UUID according to canonical representation</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="submissionnumberType">
+		<xs:annotation>
+			<xs:documentation>definition of submission number as two digit number, e.g. 01,02,03 ... to be consistent with name of folder in submission package</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\d{2}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="versionnumberType">
+		<xs:annotation>
+			<xs:documentation>Version number: six digits, e.g 01.00.00</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\d{2}\.\d{2}\.\d{2}"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

@@ -17,6 +17,8 @@ const GhstsService = require('./services/ghsts.service');
 const ServiceDispatcher = require('./services/service.dispatcher');
 const RVHelper = require('./utils/return.value.helper');
 
+const AJV = require('ajv');
+
 var mainWindow = null;
 
 var picklistInst = null;
@@ -24,6 +26,10 @@ var picklistInst = null;
 var submissions = [];
 
 var svrDisps = {};
+
+var XMLSchemaJsonSchema;
+var JsonixJsonSchema;
+var ajvInst, validateInst, GHSTSJsonSchema;
 
 ipc.on('devTools', function (event, arg) {
   mainWindow.openDevTools();
@@ -47,7 +53,7 @@ ipc.on(SHARED_CONST.PICKLIST_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, functi
 });
 
 ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL, function (event, arg) {
-  let svr = new GhstsService(q, submissions);
+  let svr = new GhstsService(q, submissions, validateInst);
   let method = 'edb_' + arg.method;
   svr[method](arg.data).then(result => {
     event.sender.send(SHARED_CONST.GHSTS_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF, result);
@@ -117,6 +123,22 @@ app.on('window-all-closed', function () {
 });
 
 app.on('ready', function () {
+
+//  XMLSchemaJsonSchema = JSON.parse(fs.readFileSync('./node_modules/jsonix/jsonschemas/w3c/2001/XMLSchema.jsonschema').toString());
+//  JsonixJsonSchema = JSON.parse(fs.readFileSync('./node_modules/jsonix/jsonschemas/jsonix/Jsonix.jsonschema').toString());
+
+  XMLSchemaJsonSchema = JSON.parse(fs.readFileSync('./resources/app/standards/jsonschemas/w3c/2001/XMLSchema.jsonschema').toString());
+  JsonixJsonSchema = JSON.parse(fs.readFileSync('./resources/app/standards/jsonschemas/jsonix/Jsonix.jsonschema').toString());
+  
+  ajvInst = new AJV({ allErrors: true });
+  ajvInst.addSchema(XMLSchemaJsonSchema, 'http://www.jsonix.org/jsonschemas/w3c/2001/XMLSchema.jsonschema');
+  ajvInst.addSchema(JsonixJsonSchema, 'http://www.jsonix.org/jsonschemas/jsonix/Jsonix.jsonschema');
+
+    // FOR VALIDATING GHSTS +++++++++++++++++++++++++++++++
+
+  GHSTSJsonSchema = JSON.parse(fs.readFileSync('./resources/app/standards/01-00-00/GHSTSMappings.jsonschema').toString());
+  validateInst = ajvInst.compile(GHSTSJsonSchema);
+  
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,

@@ -4,9 +4,11 @@
 //  EDB10 - internal program level
 //  EDB11 - internal service related
 //  EDB12 - internal file, folder releted error, like product, dossier, submission
-//  EDB13 = XML related 
+//   
 //   
 // EDB2 - Messages
+//
+// EDB3 - XML related
 //
 
 const RETURN_VALUE_CONFIG = {
@@ -32,10 +34,14 @@ const RETURN_VALUE_CONFIG = {
   EDB12005: { msg: 'Create product from template failed, cannot find template' },
   EDB12006: { msg: 'Packaged submission, reload it?' },
 
-  EDB13001: { msg: 'No GHTST tag'},
-
+  
   EDB20001: { msg: 'picklst database is initialed' },
-  EDB20002: { msg: 'picklst database had been initialed' }
+  EDB20002: { msg: 'picklst database had been initialed' },
+
+  EDB30000: { msg: 'Data is valid'},
+  EDB30001: { msg: 'No GHTST tag'},
+  EDB30002: { msg: 'Invalid XML with error message'}
+
 };
 
 class ReturnValueHelper {
@@ -57,6 +63,14 @@ class ReturnValueHelper {
         break;
       case '2':
         this.message = RETURN_VALUE_CONFIG[code].msg;
+        break;
+      case '3':
+        if (code[7] !== '0') {
+          this.err = {
+            code: code,
+            errors: obj
+          };
+        }
         break;
       default:
         this.data = obj;

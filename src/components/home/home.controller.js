@@ -13,6 +13,7 @@ export default class HomeCtrl {
       { title: 'Load Project', onClick: this.loadProject.bind(this), icon: 'load' },
       // { title: 'Manage Dropdowns', onClick: this.manageGlobals.bind(this), icon: 'global' },
       // { title: 'Manage Templates', onClick: this.manageTemplates.bind(this), icon: 'template' },
+      { title: 'Validate XML', onClick: this.validateXML.bind(this), icon: 'load' },
       { title: 'Package', onClick: this.settings.bind(this), icon: 'settings' }
     ];
   }
@@ -40,12 +41,19 @@ export default class HomeCtrl {
 
   loadProject() {
     this.GhstsService.edb_get().then(result => {
-      if (result.err) {
-        console.log(result.err);
-      } else {
         console.log(result);
         //      this.$state.go('app.project');
-      }
+    }).catch(err => {
+      console.log(err);
+    });
+  }
+
+  validateXML(){
+    this.GhstsService.edb_validation().then(result => {
+        console.log(result);
+        //      this.$state.go('app.project');
+    }).catch(err => {
+      console.log(err);
     });
   }
 
@@ -88,11 +96,10 @@ export default class HomeCtrl {
 //    this.$state.go('app.settings');
 */  
     this.GhstsService.edb_package().then(result => {
-      if (result.err) {
-        console.log(result.err);
-      } else {
         console.log(result);
-      }
+        //      this.$state.go('app.project');
+    }).catch(err => {
+      console.log(err);
     });
   }
 }

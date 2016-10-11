@@ -7,6 +7,10 @@ const BACKEND_CONST = require('../constants/backend');
 const basePath = fs.realpathSync('./');
 const _ = require('lodash');
 
+const Jsonix = require('jsonix').Jsonix;
+  
+const GHSTSMappings = require(basePath + '/resources/app/standards/01-00-00/GHSTSMappings').GHSTSMappings;
+
 var dataPath = path.resolve(basePath, 'data', BACKEND_CONST.DOSSIER_LEVEL_SERVICE);
 
 module.exports = class GHSTS {
@@ -89,11 +93,36 @@ module.exports = class GHSTS {
     };
   }
 
-  validateXML() {
-    let deffer = this.$q.defer();
-    let results = {};
+  validateXML(filename, validateInst) {
+    let self = this, deffer = self.$q.defer(), ghstsJSON;
 
-    deffer.resolve(new RVHelper('EDB00000', results));
+    self.writeXML(filename).then(result => {
+      if (result.code === 'EDB00000') {
+        //Unmarshall an object from the XML retrieved from the URL 
+        let context = new Jsonix.Context([GHSTSMappings]);           
+        // Then we create a unmarshaller 
+        let unmarshaller = context.createUnmarshaller();
+       
+        //Unmarshal an object from the XML retrieved from the URL 
+//        let xmlSource = file:' + filename;
+                
+        unmarshaller.unmarshalFile(filename, function (unmarshalled) {
+                // This callback function will be provided with the result of the unmarshalling  
+//          let ghstsJSON = JSON.parse(fs.readFileSync(filename).toString());
+          let valid = validateInst(unmarshalled);
+      
+          fs.unlink(filename);
+          if (!valid) {
+    //      console.log(validate.errors);
+          //        console.log(err.dataPath + ' ' + err.message);
+            deffer.reject(new RVHelper('EDB30001', validateInst.errors));
+          } else {
+    //      console.log('Data is valid');
+            deffer.resolve(new RVHelper('EDB30000'));
+          }
+        });
+      }
+    });    
     return deffer.promise;
   }
 
@@ -122,8 +151,8 @@ module.exports = class GHSTS {
     // write ghsts json tree back to xml
     let self = this, deffer = self.$q.defer();
     let keys = Object.keys(self);
-//    let qArray = [], keyArray = [];
-    
+    //    let qArray = [], keyArray = [];
+
     keys.map(key => {
       if (key[0] !== '$' && key[0] !== '_') {
         if (self[key]) {
@@ -181,7 +210,7 @@ module.exports = class GHSTS {
           }
 
           if (!obj.GHSTS) {
-            deffer.reject(new RVHelper('EDB13001'));
+            deffer.reject(new RVHelper('EDB30001'));
           } else {
             // set legal entities
             if (obj.GHSTS.LEGAL_ENTITIES)
@@ -265,7 +294,15 @@ module.exports = class GHSTS {
 
   toGhstsJson() {
     let retVal = {
-    }, self = this;
+        attr$ : {
+          'xmlns': 'http://www.oecd.org/GHSTS', 
+          'xmlns:xlink': 'http://www.w3.org/1999/xlink', 
+          'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance', 
+          'xsi:schemaLocation': 'http://www.oecd.org/GHSTS utils/ghsts_01-00-01.xsd', 
+          'specificationversion': '01.00.00'
+        }
+    }, 
+    self = this;
 
     if (self.receivers.length > 0) {
       retVal.RECEIVERS = {};

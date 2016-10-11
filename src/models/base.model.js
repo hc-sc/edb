@@ -170,9 +170,13 @@ module.exports = class BaseModel {
 
   _jsonObjClassifierFromDB(key, obj) {
     let self = this, subClassName, entityClass, retVal = null;
-    subClassName = BaseModel.getClassNameFromFieldName(key);
-    entityClass = require('./' + self._url + '.model')[subClassName];
-    retVal = new entityClass(obj);
+    if (key === 'createdAt' || key === 'updatedAt') {
+      retVal = obj;
+    } else {
+      subClassName = BaseModel.getClassNameFromFieldName(key);
+      entityClass = require('./' + self._url + '.model')[subClassName];
+      retVal = new entityClass(obj);
+    }
     return retVal;
   }
 

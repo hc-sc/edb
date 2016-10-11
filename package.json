@@ -13,7 +13,8 @@
     "tdd": "mocha \"./src/components/**/*.spec.js\" --recursive --compilers js:babel-register --watch",
     "lint": "eslint .",
     "build": "build",
-    "backend": "gulp back-watch"
+    "backend": "gulp back-watch",
+    "schema": "java -jar ./node_modules/jsonix/lib/jsonix-schema-compiler-full.jar -generateJsonSchema -d ./resources/app/standards/01-00-00 -p GHSTSMappings ./resources/app/standards/ghsts_01-00-00.xsd"
   },
   "author": "alex gagnon",
   "dependencies": {
@@ -45,6 +46,7 @@
     "webpack-validator": "^2.2.7"
   },
   "devDependencies": {
+    "ajv": "^4.7.7",
     "babel-loader": "^6.2.4",
     "css-loader": "^0.23.1",
     "del": "^2.2.1",
@@ -53,6 +55,8 @@
     "eslint": "^3.3.0",
     "file-loader": "^0.9.0",
     "gulp-rename": "^1.2.2",
+    "jsonix": "^2.4.1",
+    "jsonix-schema-compiler": "^2.3.9",
     "lodash": "^4.16.3",
     "nedb": "^1.8.0",
     "node-uuid": "^1.4.7",
