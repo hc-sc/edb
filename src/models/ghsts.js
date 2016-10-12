@@ -94,7 +94,7 @@ module.exports = class GHSTS {
   }
 
   validateXML(filename, validateInst) {
-    let self = this, deffer = self.$q.defer(), ghstsJSON;
+    let self = this, deffer = self.$q.defer();
 
     self.writeXML(filename).then(result => {
       if (result.code === 'EDB00000') {

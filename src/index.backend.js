@@ -102,7 +102,7 @@ ipc.on(SHARED_CONST.DOSSIER_DATA_MSG_CHANNEL, function (event, arg) {
   } else {
     svrDisp = svrDisps[BACKEND_CONST.DOSSIER_LEVEL];
   }
-  let svr = svrDisp.getService(q, arg.url);
+  let svr = svrDisp.getService(q, arg.url, submissions[0][BACKEND_CONST.ACTIVE_SUBMISSION_NAME]._prodAndDossierName);
   let method = 'edb_' + arg.method;
   svr[method](arg.data).then(result => {
     event.sender.send(SHARED_CONST.DOSSIER_DATA_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF, result);
