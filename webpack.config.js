@@ -150,6 +150,7 @@ function copyFiles(dest) {
     { from: 'src/models/', to: path.join(__dirname, dest, 'models') },
     { from: 'src/services/', to: path.join(__dirname, dest, 'services') },
     { from: 'src/utils/', to: path.join(__dirname, dest, 'utils') },
+    { from: 'src/configs/', to: path.join(__dirname, dest, 'configs') }
   ];
 
   if (dest === 'dist') {
