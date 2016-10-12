@@ -1,0 +1,25 @@
+<md-toolbar class='md-table-toolbar md-default'>
+  <div class='md-toolbar-tools'>
+    <span>Dossiers</span>
+    <span flex></span>
+    <md-button ng-repeat='function in $ctrl.functions'>
+      <md-icon class='material-icons'>{{ function.icon }}</md-icon>
+    </md-button>
+  </div>
+</md-toolbar>
+<md-table-container>
+  <table md-table md-row-select ng-model='$ctrl.selected' md-progress='promise'>
+    <thead md-head>
+      <tr md-row>
+        <th ng-repeat='header in $ctrl.headers' md-column md-order-by='nameToLower'>
+          {{ header }}
+        </th>
+      </tr>
+    </thead>
+    <tbody md-body>
+      <tr ng-repeat='row in $ctrl.rows track by $index' md-row md-select='row' md-auto-select class='hover'>
+        <td ng-repeat='item in row track by $index' md-cell>{{ item }}</td>
+      </tr>
+  </table>
+</md-table-container>
+<md-pagination md-limit='10' md-page='1' md-count='{{ $ctrl.rows.count }}' md-page-select></md-pagination>

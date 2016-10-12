@@ -1,0 +1,10 @@
+<md-toolbar>
+  <div class='md-toolbar-tools'>
+    <icon ng-repeat='icon in $ctrl.items.navIcons', icon='icon' ng-click='$ctrl.trigger(icon)'></icon>
+    <h2>
+      <span>{{ $ctrl.items.title }}</span>
+    </h2>
+    <span flex></span>
+    <icon ng-repeat='icon in $ctrl.items.functionIcons' icon='icon' ng-click='$ctrl.trigger(icon)'></icon>
+  </div>
+</md-toolbar>

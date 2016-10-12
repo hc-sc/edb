@@ -1,0 +1,13 @@
+<li>
+  <div class='node-title'>
+    <a class='node-title' ng-click='$ctrl.toggleShow()' >
+      <!--<icon class='tree-icon' name='right' colour='dark' label='expand' ng-if='$ctrl.hasChildren && !$ctrl.show'></icon>
+      <icon class='tree-icon' name='down' colour='dark' label='collapse' ng-if='$ctrl.hasChildren && $ctrl.show'></icon>
+      <icon class='tree-icon' name='folder' colour='dark' label='is folder' ng-if='$ctrl.isFolder'></icon>-->
+      {{ $ctrl.treeData.name }}
+    </a>
+  </div>
+  <ul ng-if='$ctrl.show'>
+    <tree ng-repeat='child in $ctrl.treeData.children' tree-data='child'></tree>
+  </ul>
+</li>

@@ -1,0 +1,8 @@
+<section class='node-page' layout-padding>
+    <h1>Description</h1>
+    <div layout-gt-sm='row' class='no-padding'>
+        <text-input label='PID' is-disabled='true' text-value='$ctrl.DOSSIER_PID'  max-length='5' has-pattern='^[0-9]*$' message='Needs to be a valid PID' on-update='$ctrl.update("DOSSIER_PID", value)'></text-input>
+        <text-input label='Company ID' is-required='true' text-value='$ctrl.DOSSIER_COMP_ID' max-length='20'></text-input>
+    </div>
+    <text-input label='Title' is-required='true' text-value='$ctrl.DOSSIER_DESCRIPTION_TITLE' max-length='2000'></text-input>
+</section>

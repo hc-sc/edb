@@ -1,0 +1,21 @@
+text-input {
+  flex: 1;
+  margin: 0;
+  padding: 0;
+}
+
+md-input-container.no-margin {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+div.error-block {
+  margin-top: 35px;
+}
+
+p.error-message {
+  color: #dd2c00;
+  font-size: 0.8em;
+  padding: 0px;
+  margin: 0px;
+}

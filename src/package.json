@@ -1,0 +1,25 @@
+{
+  "name": "electronic_dossier_builder",
+  "version": "1.0.0",
+  "description": "eDossierBuilder",
+  "author": "Health Canada - Santé Canada",
+  "main": "index.js",
+  "contributers": [
+    "Alex Gagnon <alex.gagnon@canada.ca>",
+    "Jun Tang <xiang.tang@canada.ca>",
+    "Hai Tu <hai.tu@canada.ca>",
+    "Daniel Wen <daniel.wen@canada.ca>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "nedb": "^1.8.0",
+    "q": "^1.4.1",
+    "xml2js": "^0.4.17",
+    "number-format.js": "^1.1.10",
+    "lodash": "^4.16.3",
+    "ajv": "^4.7.7",
+    "jsonix": "^2.4.1",
+    "jsonix-schema-compiler": "^2.3.9",
+    "node-uuid": "^1.4.7"
+  }
+}
