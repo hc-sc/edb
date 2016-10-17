@@ -1,0 +1,10 @@
+@import '../../../scss/constants';
+
+tbody > tr:hover {
+  background-color: $hover-color;
+  cursor: pointer;
+}
+
+table, tr, th, td {
+  outline: none;
+}

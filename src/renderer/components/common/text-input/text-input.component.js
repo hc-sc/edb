@@ -22,7 +22,9 @@ export default angular.module('textInput', [
   controller: class TextInputCtrl {
     constructor() {
       this.isValid = true;
-      this.pattern = this.hasPattern ? new RegExp(this.hasPattern) : undefined;
+      this.pattern = this.hasPattern ? new RegExp(this.hasPattern) : new RegExp('.*');
+      this.exceededLimit = false;
+      this.validPattern = true;
       this.checkValid();
     }
 
@@ -33,7 +35,7 @@ export default angular.module('textInput', [
             true : false;
 
         this.validPattern =
-          (this.pattern && this.textValue.toString().match(this.pattern)) ?
+          (this.textValue.toString().match(this.pattern)) ?
             true : false;
       }
     }

@@ -20,5 +20,8 @@ export default function($mdIconProvider) {
   .icon('check', `${IMG_DIR}check${SUF}`)
   .icon('archive', `${IMG_DIR}archive${SUF}`)
   .icon('settings', `${IMG_DIR}settings${SUF}`)
-
+  .icon('edit', `${IMG_DIR}edit${SUF}`)
+  .icon('close', `${IMG_DIR}close${SUF}`)
+  .icon('copy', `${IMG_DIR}content_copy${SUF}`)
+  .icon('menu', `${IMG_DIR}menu${SUF}`);
 }

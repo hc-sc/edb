@@ -14,16 +14,16 @@ export default angular.module('description', [
 ])
 .component('description', {
   template,
+  bindings: {
+    submission: '<'
+  },
   controller: class DescriptionCtrl {
     constructor($state) {
       this.$state = $state;
-      this.DOSSIER_PID = 453;
-      this.DOSSIER_DESCRIPTION_TITLE;
-      this.DOSSIER_COMP_ID;
     }
 
     update(prop, value) {
-      this[prop] = value;
+      this.submission[prop] = value;
     }
   }
 })

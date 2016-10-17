@@ -12,6 +12,21 @@ export default class DossierService {
     });
   }
 
+  getSubmission(dossierPID, submissionNumber) {
+    return this.getAllDossiers()
+    .then(items => {
+      for (let dossier of items) {
+        if (dossierPID === dossier.DOSSIER_PID) {
+          for (let submission of dossier.SUBMISSIONS) {
+            if (submissionNumber == submission.SUBMISSION_NUMBER) {
+              return submission.DOSSIER;
+            }
+          }
+        }
+      }
+    });
+  }
+
   getAllDossiers() {
     return this.$http.get('data/dossiers.json')
     .then(response => {
