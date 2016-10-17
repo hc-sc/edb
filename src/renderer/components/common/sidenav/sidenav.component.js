@@ -18,6 +18,11 @@ export default angular.module('sidenav', [
   controller: class SidenavCtrl {
     constructor() {
       this.searchText = '';
+      this.listOpen = true;
+    }
+
+    toggleList() {
+      this.listOpen = !this.listOpen;
     }
 
     select(item) {

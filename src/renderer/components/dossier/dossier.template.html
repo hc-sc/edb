@@ -1,4 +1,4 @@
 <toolbar items='$ctrl.toolbarItems'></toolbar>
 <div layout-padding>
-  <md-button ng-click='$ctrl.loadProduct()'>Submission</md-button>
+  <tbl title='Submissions' items='$ctrl.dossier[0].SUBMISSIONS' projection='$ctrl.submissionProjection' default-sort='SUBMISSION_NUMBER' default-reverse='true' on-select='$ctrl.select(item)'></tbl>
 </div>

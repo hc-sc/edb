@@ -19,11 +19,17 @@ export default function($stateProvider, $urlRouterProvider) {
     }
   })
   .state('submission', {
-    url: '/submission',
-    component: 'submission'
+    abstract: true,
+    url: '/submission/:dossierPID/:submissionNumber',
+    component: 'submission',
+    resolve: {
+      submission: (DossierService, $stateParams) => {
+        return DossierService.getSubmission($stateParams.dossierPID, $stateParams.submissionNumber);
+      }
+    }
   })
   .state('submission.description', {
-    url: '/description',
+    url: '/',
     component: 'description'
   })
   .state('submission.legalEntities', {

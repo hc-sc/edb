@@ -32,6 +32,9 @@ export default angular.module('submission', [
 ])
   .component('submission', {
     template,
+    bindings: {
+      submission: '<'
+    },
     controller: class SubmissionCtrl {
       constructor($state, GhstsService) {
         this.$state = $state;
