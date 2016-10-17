@@ -1,15 +1,6 @@
 const GHSTS = require('../models/ghsts');
-//import {ContactPerson, ContactAddress, LegalEntity} from '../../legal-entity/legal-entity.model.js';
-//import {Receiver, Sender} from '../../receivers/receiverModel.js';
-//import {ValueStruct} from '../shared.model';
-//import {Product} from '../../product/product.model';
-//import { Dossier } from '../../dossier/dossier.model';
-//import { Document } from '../document/documentModel';
-//import { Substance, SubstanceIdentifierStruct } from '../../substance/substance.model';
-//import {FileRA, FileGeneric, File} from '../../files/file.model';
 const BACKEND_CONST = require('../constants/backend');
 const SHARED_CONST = require('../constants/shared');
-//const OUTPUT_FILE = `${__dirname}/${DATA_DIR}/output.xml`;
 const RVHelper = require('../utils/return.value.helper').ReturnValueHelper;
 const NumberFormat = require('number-format.js');
 
@@ -55,7 +46,8 @@ module.exports = class GhstsService {
             } else {
               self._loadGhsts(templateDir)
                 .then(result => {
-                  self.ghsts.push(self._getGhstsGroup(result));
+//                  self.ghsts.push(self._getGhstsGroup(result));  
+                  self.ghsts[0] = self._getGhstsGroup(result);
                   deffer.resolve(new RVHelper('EDB00000'));
                 })
                 .catch(err => {
@@ -92,7 +84,8 @@ module.exports = class GhstsService {
         } else {
           self._loadGhsts()
             .then(result => {
-              self.ghsts.push(self._getGhstsGroup(result));
+//              self.ghsts.push(self._getGhstsGroup(result));
+              self.ghsts[0] = self._getGhstsGroup(result);
               deffer.resolve(new RVHelper('EDB00000'));
             })
             .catch(err => {

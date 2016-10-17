@@ -7,16 +7,14 @@ import template from './home.template';
 import Toolbar from '../common/toolbar/toolbar.component';
 import DossierService from '../../services/dossier.service';
 
-import { } from '../../services/ghsts.service';
-import { } from '../../services/dossier.data.service';
-import { GHSTS_NG_MODULE_NAME, DOSSIER_DATA_NG_MODULE_NAME } from '../../../constants/shared';
+import * as SHARED_CONST from '../../../constants/shared';
+import {} from '../../services/ghsts.service';
 
 export default angular.module('home', [
   uiRouter,
   ngMaterial,
   mdDataTable,
-  GHSTS_NG_MODULE_NAME,
-  DOSSIER_DATA_NG_MODULE_NAME,
+  SHARED_CONST.GHSTS_NG_MODULE_NAME,
   Toolbar
 ])
   .component('home', {
@@ -69,12 +67,14 @@ export default angular.module('home', [
         this.$mdDialog.show(prompt)
           .then(name => {
             let nameAry = name.split('/');
-            this.GhstsService.edb_put({ productShortName: nameAry[0], dossierShortName: nameAry[1] }).then(result => {
-              console.log(result);
-              this.$state.go('submission.substances', { });
-            }).catch(err => {
-              console.log(err);
-            });
+            this.GhstsService.edb_put({ productShortName: nameAry[0], dossierShortName: nameAry[1] })
+              .then(result => {
+                console.log(result);
+                this.$state.go('submission.substances', { });
+              })
+              .catch(err => {
+                console.log(err);
+              });
           });
       }
 
