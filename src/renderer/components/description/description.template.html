@@ -5,4 +5,5 @@
         <text-input label='Company ID' is-required='true' text-value='$ctrl.submission.DOSSIER_COMP_ID' has-pattern='^[0-9]*$' message='Needs to be a valid PID' on-update='$ctrl.update("DOSSIER_COMP_ID", value)' max-length='20'></text-input>
     </div>
     <text-input label='Title' is-required='true' text-value='$ctrl.submission.DOSSIER_DESCRIPTION_TITLE' max-length='2000'></text-input>
+    <tbl title='Dossier Regulatory Authorities' items='$ctrl.submission.DOSSIER_RA', projection='$ctrl.dossierRAProjection' min-items='1' on-select='$ctrl.select(item, index)' on-delete='$ctrl.delete(item, "DOSSIER_RA")'></tbl>
 </section>
