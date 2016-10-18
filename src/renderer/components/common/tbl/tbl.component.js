@@ -17,6 +17,7 @@ export default angular.module('tbl', [
   bindings: {
     title: '@',
     items: '<',
+    minItems: '@',
     defaultSort: '@',
     defaultReverse: '@',
     projection: '<',
@@ -32,6 +33,7 @@ export default angular.module('tbl', [
       this.closeIcon = { name: 'close', label: 'Close', color: 'dark' };
       this.sortField = this.defaultSort ? this.defaultSort : '';
       this.reverse = this.defaultReverse ? true : false;
+      this.selected = [];
 
       this.search = false;
       this.searchText = '';
@@ -54,29 +56,40 @@ export default angular.module('tbl', [
         return { name: item, paramName: item };
       });
 
-      this.rows = this.items.map(item => {
-        let obj = {};
-        for (let param of this.projection) {
-          obj[param] = item[param];
-        }
-        return obj;
-      });
+      this.rows = this.items;
+
+      // this.rows = this.items.map(item => {
+      //   let obj = {};
+      //   for (let param of this.projection) {
+      //     obj[param] = item[param];
+      //   }
+      //   return obj;
+      // });
+    }
+
+    $onChanges(changes) {
+      this.mapProjection();
+    }
+
+    checkRow(index) {
+      console.log(index);
     }
 
     update(prop, value) {
       this[prop] = value;
     }
 
-    select(item) {
-      this.onSelect({ item });
+    select(item, index) {
+      console.log('clicked');
+      this.onSelect({ item, index });
     }
 
     add() {
       this.onAdd();
     }
 
-    delete(item) {
-      this.onDelete(item);
+    delete(items) {
+      this.onDelete(items);
     }
 
     toggleSearch() {

@@ -1,10 +1,25 @@
 @import '../../../scss/constants';
 
+table {
+  word-wrap: break-word;
+}
+
 tbody > tr:hover {
   background-color: $hover-color;
   cursor: pointer;
 }
 
+th:hover {
+  cursor: pointer;
+}
+
 table, tr, th, td {
   outline: none;
+}
+
+p.error-message {
+  color: #dd2c00;
+  font-size: 0.8em;
+  padding: 0px;
+  margin: 0px;
 }

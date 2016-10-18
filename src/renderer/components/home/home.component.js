@@ -1,6 +1,7 @@
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import ngMaterial from 'angular-material';
+import _ from 'lodash';
 import mdDataTable from 'angular-material-data-table';
 import template from './home.template';
 
@@ -46,7 +47,6 @@ export default angular.module('home', [
         'LAST_MODIFIED'
       ];
 
-      this.results = this.dossiers.slice();
       this.GhstsService = GhstsService.getService();
     }
 
@@ -94,6 +94,14 @@ export default angular.module('home', [
             console.log(err);
           });
         });
+    }
+
+    delete(items) {
+      for (let i = 0; i < items.length; ++i) {
+        this.dossiers = _.remove(this.dossiers, dossier => {
+          return !_.isEqual(items[i]['DOSSIER_PID'], dossier['DOSSIER_PID']);
+        });
+      }
     }
 
     update(prop, value) {
