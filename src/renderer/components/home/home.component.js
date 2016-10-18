@@ -96,12 +96,8 @@ export default angular.module('home', [
         });
     }
 
-    delete(items) {
-      for (let i = 0; i < items.length; ++i) {
-        this.dossiers = _.remove(this.dossiers, dossier => {
-          return !_.isEqual(items[i]['DOSSIER_PID'], dossier['DOSSIER_PID']);
-        });
-      }
+    delete(index) {
+      this.dossiers = this.dossiers.slice(0, index - 1).concat(this.dossiers.slice(index, this.dossiers.length));
     }
 
     update(prop, value) {
