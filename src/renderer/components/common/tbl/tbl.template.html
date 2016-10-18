@@ -15,7 +15,7 @@
     </div>
   </md-toolbar>
   <md-table-container>
-    <table md-table md-row-select multiple ng-model='$ctrl.selected' md-progress='promise'>
+    <table md-table ng-model='$ctrl.selected' md-progress='promise'>
       <thead md-head>
         <tr md-row>
           <th ng-repeat='header in $ctrl.headers' md-column ng-click='$ctrl.setSort(header)'>
@@ -26,8 +26,8 @@
         </tr>
       </thead>
       <tbody md-body>
-        <tr ng-repeat='row in $ctrl.rows | filter:$ctrl.searchText | orderBy:$ctrl.sortField:$ctrl.reverse track by $index' md-select-id='_id' md-row ng-click='$ctrl.select(row, $index)' md-select='row'>
-          <td ng-if='' ng-repeat='data in row' md-cell>{{ data }}</td>
+        <tr ng-repeat='row in $ctrl.items | filter:$ctrl.searchText | orderBy:$ctrl.sortField:$ctrl.reverse' md-row>
+          <td ng-repeat='data in row' ng-if='$ctrl.inProjection(data)' md-cell ng-click='$ctrl.select(row)'>{{ data }}</td>
         </tr>
       </tbody>
     </table>

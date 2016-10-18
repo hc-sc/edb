@@ -38,6 +38,8 @@ export default angular.module('tbl', [
       this.search = false;
       this.searchText = '';
 
+      console.log(this.items);
+
       this.mapProjection();
     }
 
@@ -56,7 +58,7 @@ export default angular.module('tbl', [
         return { name: item, paramName: item };
       });
 
-      this.rows = this.items;
+      // this.rows = this.items;
 
       // this.rows = this.items.map(item => {
       //   let obj = {};
@@ -67,29 +69,28 @@ export default angular.module('tbl', [
       // });
     }
 
-    $onChanges(changes) {
-      this.mapProjection();
-    }
+    // $onChanges(changes) {
+    //   this.mapProjection();
+    // }
 
-    checkRow(index) {
-      console.log(index);
+    inProjection(data) {
+      console.log(data);
     }
 
     update(prop, value) {
       this[prop] = value;
     }
 
-    select(item, index) {
-      console.log('clicked');
-      this.onSelect({ item, index });
+    select(item) {
+      this.onSelect({ item });
     }
 
     add() {
       this.onAdd();
     }
 
-    delete(items) {
-      this.onDelete(items);
+    delete(row) {
+      this.onDelete({ id: row._id });
     }
 
     toggleSearch() {
