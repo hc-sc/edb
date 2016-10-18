@@ -22,11 +22,17 @@
             <md-icon ng-if='$ctrl.sortField === header.paramName && !$ctrl.reverse' md-svg-icon='down'></md-icon>
             <md-icon ng-if='$ctrl.sortField === header.paramName && $ctrl.reverse' md-svg-icon='up'></md-icon>
           </th>
+          <th ng-if='$ctrl.deletable' md-column>
+            Delete
+          </th>
         </tr>
       </thead>
       <tbody md-body>
-        <tr ng-repeat='row in $ctrl.rows | filter:$ctrl.searchText | orderBy:$ctrl.sortField:$ctrl.reverse' md-row ng-click='$ctrl.select(row)'>
-          <td ng-repeat='data in row' md-cell>{{ data }}</td>
+        <tr ng-repeat='row in $ctrl.items | index | filter:$ctrl.searchText | orderBy:$ctrl.sortField:$ctrl.reverse' md-row>
+          <td ng-repeat='(key, val) in row' ng-if='$ctrl.inProjection(key)' md-cell ng-click='$ctrl.select(row.index)'>{{ val }}</td>
+          <td ng-if='$ctrl.deletable' md-cell>
+            <md-icon ng-if='row["deletable"] === true' md-svg-icon='delete' class='dark' ng-click='$ctrl.delete(row.index)'></md-icon>
+          </td>
         </tr>
       </tbody>
     </table>
