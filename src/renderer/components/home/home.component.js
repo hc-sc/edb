@@ -15,15 +15,9 @@ export default angular.module('home', [
   uiRouter,
   ngMaterial,
   mdDataTable,
-<<<<<<< HEAD
   SHARED_CONST.GHSTS_NG_MODULE_NAME,
-  Toolbar
-=======
-  GHSTS_NG_MODULE_NAME,
-  DOSSIER_DATA_NG_MODULE_NAME,
   Toolbar,
   Tbl
->>>>>>> 959e841a8cf03bc8daa868b20dc73718b6df599f
 ])
 .component('home', {
   template,
