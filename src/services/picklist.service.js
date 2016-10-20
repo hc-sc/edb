@@ -3,7 +3,7 @@ const path = require('path');
 const xml2js = require('xml2js');
 
 const PicklistModel = require('../models/picklist.model');
-const BaseService = require('./base.service');
+const BaseService = require('./base.servicet');
 const RVHelper = require('../utils/return.value.helper');
 const BACKEND_CONST = require('../constants/backend');
 
@@ -13,7 +13,7 @@ var picklistInMemory = null;
 
 module.exports = class PickListService extends BaseService {
   constructor($q) {
-    super($q, 'pickListTypes', 'PicklistModel', undefined, BACKEND_CONST.APP_LEVEL_SERVICE);
+    super($q, 'pickListTypes', 'PicklistModel', undefined);
   }
   // used to get all types with a given name. Can additionally provide a true/false status, which only returns enabled types
   edb_get(typeName, isEnabled) {

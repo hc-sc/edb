@@ -5,13 +5,6 @@ module.exports = class PicklistModel {
     if (typename) {
       if (typeof typename === 'object') {
         Object.assign(this, typename);
-        if (this._id) {  //from non-db object
-          this._pklid = this._id;
-          delete this._id;
-        } else if (this._pklid) {  //from db object
-          this._id = this._pklid;
-          delete this._pklid;
-        }
       } else if (typeof typename === 'string') {
         if (id)
           this._id = id;
