@@ -1,6 +1,6 @@
 //TODO: add comments for the file
 
-const Tingodb = require('tingodb')().Db;
+const Tingodb = require('tingodb')({nativeObjectID: true}).Db;
 
 const RVHelper = require('../utils/return.value.helper').ReturnValueHelper;
 const BACKEND_CONST = require('../constants/backend');
@@ -29,7 +29,7 @@ module.exports = class BaseService {
     //    else
     //      this.absPath = path.resolve(this.absPath, this.dbName + '.db');
     //    console.log(this.absPath);
-    this.db = new Tingodb(this.absPath, {nativeObjectID: true}).collection(this.dbName);
+    this.db = new Tingodb(this.absPath, {}).collection(this.dbName);
   }
 
   edb_get(obj) {
