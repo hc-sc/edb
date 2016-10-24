@@ -63,10 +63,10 @@ export default angular.module('dossier', [
       });
     }
 
-    select(item) {
+    select(index) {
       this.$state.go('submission.description', {
         dossierPID: this.dossier[0].DOSSIER_PID,
-        submissionNumber: item.SUBMISSION_NUMBER
+        submissionNumber: this.dossier[0].SUBMISSIONS[index].SUBMISSION_NUMBER
       });
     }
 

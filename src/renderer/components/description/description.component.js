@@ -3,6 +3,7 @@ import ngMaterial from 'angular-material';
 import _ from 'lodash';
 import template from './description.template';
 import dossierRATemplate from './dossier-ra.template';
+import referencedDossierTemplate from './referenced-dossier.template';
 
 import TextInput from '../common/text-input/text-input.component';
 import Icon from '../common/icon/icon.component';
@@ -29,40 +30,62 @@ export default angular.module('description', [
         'APPLICATION_TYPE',
         'PROJECT_ID_NUMBER'
       ];
+
+      this.markDeletable();
     }
 
     update(prop, value) {
       this.submission[prop] = value;
     }
 
-    select(item, index) {
-      console.log(item, index);
-      this.$mdDialog.show({
-        template: dossierRATemplate,
-        controllerAs: '$ctrl',
-        controller: class DossierRACtrl {
-          constructor($mdDialog) {
-            this.$mdDialog = $mdDialog;
-            console.log(this);
-          }
-
-          cancel() {
-            this.$mdDialog.cancel();
-          }
-        }
-      })
-      .then(answer => {
-
-      });
+    /** set up business rules as to which items are deletable */
+    markDeletable() {
+      for (let dossierRA of this.submission.DOSSIER_RA) {
+        dossierRA.deletable = true;
+      }
     }
 
-    delete(items, node) {
-      for (let i = 0; i < items.length; ++i) {
-        this.submission[0][node] = _.remove(this.submission[0][node], item => {
-          return !_.isEqual(items[i][node], item[node]);
+    delete(nodeName, index) {
+      this.submission[nodeName].splice(index, 1);
+    }
+
+    select(nodeName, index) {
+      if (nodeName === 'DOSSIER_RA') {
+        this.$mdDialog.show({
+          template: dossierRATemplate,
+          controllerAs: '$ctrl',
+          controller: DossierRACtrl
+        });
+      }
+      else if (nodeName === 'REFERENCED_DOSSIER') {
+        this.$mdDialog.show({
+          template: referencedDossierTemplate,
+          controllerAs: '$ctrl',
+          controller: ReferencedDossierCtrl
         });
       }
     }
   }
 })
 .name;
+
+class ReferencedDossierCtrl {
+  constructor($mdDialog) {
+    this.$mdDialog = $mdDialog;
+    console.log(this);
+  }
+
+  cancel() {
+    this.$mdDialog.cancel();
+  }
+}
+
+class DossierRACtrl {
+  constructor($mdDialog) {
+    this.$mdDialog = $mdDialog;
+  }
+
+  cancel() {
+    this.$mdDialog.cancel();
+  }
+}

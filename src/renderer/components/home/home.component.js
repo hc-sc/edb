@@ -71,8 +71,8 @@ export default angular.module('home', [
         });
     }
 
-    select(item) {
-      this.$state.go('dossier', { dossierPID: item.DOSSIER_PID });
+    select(index) {
+      this.$state.go('dossier', { dossierPID: this.dossiers[index].DOSSIER_PID });
     }
 
     add() {
@@ -97,7 +97,7 @@ export default angular.module('home', [
     }
 
     delete(index) {
-      this.dossiers = this.dossiers.slice(0, index - 1).concat(this.dossiers.slice(index, this.dossiers.length));
+      this.dossiers = this.dossiers.slice(0, index).concat(this.dossiers.slice(index + 1, 0));
     }
 
     update(prop, value) {
