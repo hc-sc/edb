@@ -4,13 +4,17 @@ import mdTable from 'angular-material-data-table';
 import template from'./tbl.template';
 
 import Toolbar from '../toolbar/toolbar.component';
+import Icon from '../icon/icon.component';
+import IndexFilter from '../../../filters/index.filter';
 
 import './tbl.scss';
 
 export default angular.module('tbl', [
   uiRouter,
   mdTable,
-  Toolbar
+  Toolbar,
+  Icon,
+  IndexFilter
 ])
 .component('tbl', {
   template,
@@ -20,6 +24,7 @@ export default angular.module('tbl', [
     defaultSort: '@',
     defaultReverse: '@',
     projection: '<',
+    deletable: '@',
     onSelect: '&',
     onAdd: '&',
     onDelete: '&'
@@ -32,10 +37,15 @@ export default angular.module('tbl', [
       this.closeIcon = { name: 'close', label: 'Close', color: 'dark' };
       this.sortField = this.defaultSort ? this.defaultSort : '';
       this.reverse = this.defaultReverse ? true : false;
+      this.deletable = false;
 
       this.search = false;
       this.searchText = '';
 
+      this.mapProjection();
+    }
+
+    $onChanges(changes) {
       this.mapProjection();
     }
 
@@ -53,30 +63,26 @@ export default angular.module('tbl', [
       this.headers = this.projection.map(item => {
         return { name: item, paramName: item };
       });
+    }
 
-      this.rows = this.items.map(item => {
-        let obj = {};
-        for (let param of this.projection) {
-          obj[param] = item[param];
-        }
-        return obj;
-      });
+    inProjection(key) {
+      return (this.projection.indexOf(key) >= 0) ? true : false;
     }
 
     update(prop, value) {
       this[prop] = value;
     }
 
-    select(item) {
-      this.onSelect({ item });
+    select(index) {
+      this.onSelect({ index });
     }
 
     add() {
       this.onAdd();
     }
 
-    delete(item) {
-      this.onDelete(item);
+    delete(index) {
+      this.onDelete({ index });
     }
 
     toggleSearch() {
