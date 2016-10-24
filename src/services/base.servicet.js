@@ -29,7 +29,7 @@ module.exports = class BaseService {
     //    else
     //      this.absPath = path.resolve(this.absPath, this.dbName + '.db');
     //    console.log(this.absPath);
-    this.db = new Tingodb(this.absPath, {}).collection(this.dbName);
+    this.db = new Tingodb(this.absPath, {nativeObjectID: true}).collection(this.dbName);
   }
 
   edb_get(obj) {
