@@ -83,7 +83,6 @@ class ReferencedDossierCtrl {
 class DossierRACtrl {
   constructor($mdDialog) {
     this.$mdDialog = $mdDialog;
-    console.log(this);
   }
 
   cancel() {
