@@ -43,10 +43,6 @@ export default angular.module('description', [
       for (let dossierRA of this.submission.DOSSIER_RA) {
         dossierRA.deletable = true;
       }
-
-      // for (let referencedDossier of this.submission.REFERENCED_DOSSIER) {
-      //   referencedDossier.deletable = true;
-      // }
     }
 
     delete(nodeName, index) {
@@ -54,28 +50,24 @@ export default angular.module('description', [
     }
 
     select(nodeName, index) {
-      this.$mdDialog.show(
-        (nodeName === 'DOSSIER_RA') ? dossierRA : referencedDossier
-      )
-      .then(answer => {
-
-      });
+      if (nodeName === 'DOSSIER_RA') {
+        this.$mdDialog.show({
+          template: dossierRATemplate,
+          controllerAs: '$ctrl',
+          controller: DossierRACtrl
+        });
+      }
+      else if (nodeName === 'REFERENCED_DOSSIER') {
+        this.$mdDialog.show({
+          template: referencedDossierTemplate,
+          controllerAs: '$ctrl',
+          controller: ReferencedDossierCtrl
+        });
+      }
     }
   }
 })
 .name;
-
-const dossierRA = {
-  template: dossierRATemplate,
-  controllerAs: '$ctrl',
-  controller: DossierRACtrl
-};
-
-const referencedDossier = {
-  template: referencedDossierTemplate,
-  controllerAs: '$ctrl',
-  controller: ReferencedDossierCtrl
-};
 
 class ReferencedDossierCtrl {
   constructor($mdDialog) {
