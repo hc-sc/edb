@@ -27,7 +27,7 @@ export default angular.module('home', [
     dossiers: '<'
   },
   controller: class HomeCtrl {
-    constructor($mdDialog, $state, GhstsService) {
+    constructor($mdDialog, $state, GhstsService, DossierService) {
       this.$mdDialog = $mdDialog;
       this.$state = $state;
       this.toolbarItems = {
@@ -48,11 +48,29 @@ export default angular.module('home', [
         'LAST_MODIFIED'
       ];
 
+      this.dossier;
+      this.submissions = [];
+      this.submissionProjection = [
+        'SUBMISSION_TITLE',
+        'SUBMISSION_NUMBER',
+        'ADMIN_NUMBER',
+        'PACKAGE_TYPE',
+        'STATUS',
+        'DATE_CREATED',
+        'LAST_MODIFIED'
+      ];
+
       this.results = this.dossiers.slice();
       this.GhstsService = GhstsService.getService();
     }
 
-    createDossier() {
+    selectDossier(index) {
+      // this.$state.go('dossier', { dossierPID: this.dossiers[index].DOSSIER_PID });
+      this.dossier = this.dossiers[index];
+      this.submissions = this.dossier.SUBMISSIONS;
+    }
+
+    newDossier() {
       let prompt = this.$mdDialog.prompt()
         .title('New Product')
         .textContent('Enter the short name of the product, typically the name of the product. This cannot be changed after creation')
@@ -73,33 +91,15 @@ export default angular.module('home', [
         });
     }
 
-    select(index) {
-      this.$state.go('dossier', { dossierPID: this.dossiers[index].DOSSIER_PID });
-    }
-
-    add() {
-      let prompt = this.$mdDialog.prompt()
-        .title('New Product')
-        .textContent('Enter the short name of the product, typically the name of the product. This cannot be changed after creation')
-        .placeholder('Name')
-        .ariaLabel('New Project Dialog')
-        .ok('Okay')
-        .cancel('Cancel');
-
-      this.$mdDialog.show(prompt)
-        .then(name => {
-          let nameAry = name.split('/');
-          this.GhstsService.edb_put({ productShortName: nameAry[0], dossierShortName: nameAry[1] }).then(result => {
-            console.log(result);
-            this.$state.go('submission.description', { dossierPID: 43243, submissionNumber: 1 });
-          }).catch(err => {
-            console.log(err);
-          });
-        });
-    }
-
-    delete(index) {
+    deleteDossier(index) {
       this.dossiers = this.dossiers.slice(0, index).concat(this.dossiers.slice(index + 1, 0));
+    }
+
+    selectSubmission(index) {
+      this.$state.go('submission.description', {
+        dossierPID: this.dossier.DOSSIER_PID,
+        submissionNumber: this.submissions[index].SUBMISSION_NUMBER
+      });
     }
 
     update(prop, value) {

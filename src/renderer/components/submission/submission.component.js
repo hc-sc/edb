@@ -41,11 +41,11 @@ export default angular.module('submission', [
         this.GhstsService = GhstsService.getService();
         this.navbarItems = [
           { title: 'Description', state: '.description' },
-          { title: 'Legal Entities', state: '.legalEntities' },
+          // { title: 'Legal Entities', state: '.legalEntities' },
           { title: 'Receivers', state: '.receivers' },
-          { title: 'Substances', state: '.substances' },
+          // { title: 'Substances', state: '.substances' },
           { title: 'Product', state: '.product' },
-          { title: 'Files', state: '.files' },
+          // { title: 'Files', state: '.files' },
           { title: 'Documents', state: '.documents' }
         ];
 
@@ -56,6 +56,7 @@ export default angular.module('submission', [
           title: 'eDossier Builder',
           functionIcons: [
             { name: 'save', label: 'Save' },
+            { name: 'globals', label: 'Dropdowns' },
             { name: 'compare', label: 'Compare' },
             { name: 'check', label: 'Validate', func: this.validateXML.bind(this)},
             { name: 'archive', label: 'Package', func: this.package.bind(this)},

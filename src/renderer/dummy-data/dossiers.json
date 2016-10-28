@@ -57,6 +57,20 @@
               "APPLICATION_TYPE": "app2",
               "PROJECT_ID_NUMBER": 87
             }
+          ],
+          "REFERENCED_DOSSIER": [
+            {
+              "REFERENCED_DOSSIER_NUMBER": 1234,
+              "REFERENCED_DOSSIER_REASON": "Same underlying substances"
+            }
+          ],
+          "SUBMISSION": [
+            {
+              "SUBMISSION_NUMBER": 4,
+              "SUBMISSION_VERSION_DATE": "02/02/2016",
+              "SUBMISSION_TITLE": "Updated Mammal Reports",
+              "INCREMENTAL": true
+            }
           ]
         }
       }
@@ -68,7 +82,8 @@
     "PRODUCT_NAME": "RoundUp",
     "STATUS": "Closed",
     "DATE_CREATED": "01/01/2015",
-    "LAST_MODIFIED": "01/01/2016"
+    "LAST_MODIFIED": "01/01/2016",
+    "SUBMISSIONS": []
   },
   {
     "DOSSIER_DESCRIPTION_TITLE": "Ammendment to RoundUp",
@@ -76,6 +91,7 @@
     "PRODUCT_NAME": "RoundUp",
     "STATUS": "Under Review",
     "DATE_CREATED": "05/05/2016",
-    "LAST_MODIFIED": "05/05/2016"
+    "LAST_MODIFIED": "05/05/2016",
+    "SUBMISSIONS": []
   }
 ]

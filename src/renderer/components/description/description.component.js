@@ -31,6 +31,17 @@ export default angular.module('description', [
         'PROJECT_ID_NUMBER'
       ];
 
+      this.referencedDossierProjection = [
+        'REFERENCED_DOSSIER_REASON',
+        'REFERENCED_DOSSIER_NUMBER'
+      ];
+      this.submissionProjection = [
+        'SUBMISSION_TITLE',
+        'SUBMISSION_NUMBER',
+        'SUBMISSION_VERSION_DATE',
+        'INCREMENTAL'
+      ];
+
       this.markDeletable();
     }
 
@@ -63,6 +74,9 @@ export default angular.module('description', [
           controllerAs: '$ctrl',
           controller: ReferencedDossierCtrl
         });
+      }
+      else if (nodeName === 'SUBMISSION') {
+
       }
     }
   }
