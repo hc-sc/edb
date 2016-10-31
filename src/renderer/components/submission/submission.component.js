@@ -39,7 +39,7 @@ export default angular.module('submission', [
     controller: class SubmissionCtrl {
       constructor($state, GhstsService, $transitions) {
         this.dereg = $transitions.onBefore({}, (event) => {
-          return false;
+          return true;
         });
 
         this.$state = $state;
