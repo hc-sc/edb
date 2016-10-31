@@ -143,7 +143,7 @@ function copyFiles(dest) {
     { from: 'src/index.js', to: path.join(__dirname, dest) },
     { from: 'src/preload.js', to: path.join(__dirname, dest) },
     { from: 'src/package.json', to: path.join(__dirname, dest) },
-    { from: 'src/renderer/data/', to: path.join(__dirname, dest, 'renderer', 'data') },
+    { from: 'src/renderer/dummy-data/', to: path.join(__dirname, dest, 'renderer', 'dummy-data') },
     { from: 'src/renderer/scss/', to: path.join(__dirname, dest, 'renderer', 'scss') },
     { from: 'src/renderer/img/', to: path.join(__dirname, dest, 'renderer', 'img') },
     { from: 'src/constants/', to: path.join(__dirname, dest, 'constants') },

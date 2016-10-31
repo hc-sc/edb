@@ -28,7 +28,7 @@ export default class DossierService {
   }
 
   getAllDossiers() {
-    return this.$http.get('data/dossiers.json')
+    return this.$http.get('dummy-data/dossiers.json')
     .then(response => {
       return response.data;
     });
