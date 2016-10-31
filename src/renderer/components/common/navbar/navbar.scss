@@ -8,3 +8,7 @@ md-tabs md-ink-bar {
 navbar > nav {
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
+
+md-tab-item.md-active {
+  border-bottom: 1px solid $primary-color;
+}

@@ -21,7 +21,7 @@ export default angular.module('description', [
     submission: '<'
   },
   controller: class DescriptionCtrl {
-    constructor($mdDialog, $state) {
+    constructor($mdDialog, $state, $rootScope) {
       this.$state = $state;
       this.$mdDialog = $mdDialog;
 
@@ -43,6 +43,7 @@ export default angular.module('description', [
       ];
 
       this.markDeletable();
+
     }
 
     update(prop, value) {
@@ -76,9 +77,13 @@ export default angular.module('description', [
         });
       }
       else if (nodeName === 'SUBMISSION') {
-
       }
     }
+
+    // $onDestroy() {
+    //   console.log(this);
+    //   // this is where we save the data to the db
+    // }
   }
 })
 .name;

@@ -6,6 +6,7 @@ import template from './home.template';
 
 import Toolbar from '../common/toolbar/toolbar.component';
 import Tbl from '../common/tbl/tbl.component';
+import Footer from '../common/footer/footer.component';
 import DossierService from '../../services/dossier.service';
 
 import { } from '../../services/ghsts.service';
@@ -19,7 +20,8 @@ export default angular.module('home', [
   GHSTS_NG_MODULE_NAME,
   DOSSIER_DATA_NG_MODULE_NAME,
   Toolbar,
-  Tbl
+  Tbl,
+  Footer
 ])
 .component('home', {
   template,

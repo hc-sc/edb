@@ -9,15 +9,15 @@ export default function($stateProvider, $urlRouterProvider) {
       }
     }
   })
-  .state('dossier', {
-    url: '/dossier/:dossierPID',
-    component: 'dossier',
-    resolve: {
-      dossier: (DossierService, $stateParams) => {
-        return DossierService.getDossier($stateParams.dossierPID);
-      }
-    }
-  })
+  // .state('dossier', {
+  //   url: '/dossier/:dossierPID',
+  //   component: 'dossier',
+  //   resolve: {
+  //     dossier: (DossierService, $stateParams) => {
+  //       return DossierService.getDossier($stateParams.dossierPID);
+  //     }
+  //   }
+  // })
   .state('submission', {
     abstract: true,
     url: '/submission/:dossierPID/:submissionNumber',
@@ -26,7 +26,8 @@ export default function($stateProvider, $urlRouterProvider) {
       submission: (DossierService, $stateParams) => {
         return DossierService.getSubmission($stateParams.dossierPID, $stateParams.submissionNumber);
       }
-    }
+    },
+    onBefore: () => { console.log('here'); }
   })
   .state('submission.description', {
     url: '/',

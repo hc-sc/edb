@@ -1,6 +1,7 @@
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import template from './submission.template';
+import { equals } from 'easy-equals';
 
 import Toolbar from '../common/toolbar/toolbar.component';
 import Navbar from '../common/navbar/navbar.component';
@@ -36,7 +37,11 @@ export default angular.module('submission', [
       submission: '<'
     },
     controller: class SubmissionCtrl {
-      constructor($state, GhstsService) {
+      constructor($state, GhstsService, $transitions) {
+        this.dereg = $transitions.onBefore({}, (event) => {
+          return false;
+        });
+
         this.$state = $state;
         this.GhstsService = GhstsService.getService();
         this.navbarItems = [
@@ -64,6 +69,11 @@ export default angular.module('submission', [
             { name: 'help', label: 'Help' }
           ]
         };
+      }
+
+      $onDestroy() {
+        // need to deregister the listener or else we end up with multiple calls
+        this.dereg();
       }
 
       validateXML() {

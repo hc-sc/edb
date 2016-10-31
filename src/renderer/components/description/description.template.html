@@ -7,5 +7,4 @@
     <text-input label='Title' is-required='true' text-value='$ctrl.submission.DOSSIER_DESCRIPTION_TITLE' max-length='2000'></text-input>
     <tbl title='Dossier Regulatory Authorities' items='$ctrl.submission.DOSSIER_RA' projection='$ctrl.dossierRAProjection' min-items='1' on-select='$ctrl.select("DOSSIER_RA", index)' on-delete='$ctrl.delete("DOSSIER_RA", index)' deletable='true'></tbl>
     <tbl title='Referenced Dossiers' items='$ctrl.submission.REFERENCED_DOSSIER' projection='$ctrl.referencedDossierProjection' min-items='0' on-select='$ctrl.select("REFERENCED_DOSSIER", index)' on-delete='$ctrl.delete("REFERENCED_DOSSIER", index)' deletable='false'></tbl>
-    <tbl title='Submissions' items='$ctrl.submission.SUBMISSION' projection='$ctrl.submissionProjection' min-items='0' on-select='$ctrl.select("SUBMISSION", index)' on-delete='$ctrl.delete("SUBMISSION", index)' deletable='false'></tbl>
 </section>
