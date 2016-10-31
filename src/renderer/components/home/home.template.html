@@ -1,5 +1,8 @@
+<div class='main-layout'>
 <toolbar items='$ctrl.toolbarItems'></toolbar>
-<section layout-padding>
-  <tbl title='Dossiers' items='$ctrl.dossiers' projection='$ctrl.dossierProjection' default-sort='LAST_MODIFIED' default-reverse='true' on-select='$ctrl.selectDossier(index)' on-add='$ctrl.newDossier()' on-delete='$ctrl.deleteDossier(index)'></tbl>
-  <tbl title='Submissions' items='$ctrl.submissions' projection='$ctrl.submissionProjection' default-sort='SUBMISSION_NUMBER' default-reverse='false' on-select='$ctrl.selectSubmission(index)' on-add='$ctrl.newSubmission()' on-delete='$ctrl.deleteSubmission(index)'></tbl>
+<section class='flex'>
+  <tbl title='Dossiers' items='$ctrl.dossiers' projection='$ctrl.dossierProjection' default-sort='LAST_MODIFIED' default-reverse='true' on-select='$ctrl.selectDossier(id, index)' on-add='$ctrl.newDossier()' on-delete='$ctrl.deleteDossier(id)'></tbl>
+  <tbl title='Submissions' items='$ctrl.submissions' projection='$ctrl.submissionProjection' default-sort='SUBMISSION_NUMBER' default-reverse='false' on-select='$ctrl.selectSubmission(id, index)' on-add='$ctrl.newSubmission()' on-delete='$ctrl.deleteSubmission(id)'></tbl>
 </section>
+<footer></footer>
+</div>

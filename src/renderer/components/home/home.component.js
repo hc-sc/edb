@@ -66,9 +66,12 @@ export default angular.module('home', [
       this.GhstsService = GhstsService.getService();
     }
 
-    selectDossier(index) {
+    selectDossier(id, index) {
       // this.$state.go('dossier', { dossierPID: this.dossiers[index].DOSSIER_PID });
-      this.dossier = this.dossiers[index];
+      this.dossier = this.dossiers.filter(dossier => {
+        return dossier._id === id;
+      })[0];
+      console.log(id, this.dossier);
       this.submissions = this.dossier.SUBMISSIONS;
     }
 
@@ -97,7 +100,7 @@ export default angular.module('home', [
       this.dossiers = this.dossiers.slice(0, index).concat(this.dossiers.slice(index + 1, 0));
     }
 
-    selectSubmission(index) {
+    selectSubmission(id, index) {
       this.$state.go('submission.description', {
         dossierPID: this.dossier.DOSSIER_PID,
         submissionNumber: this.submissions[index].SUBMISSION_NUMBER

@@ -35,12 +35,6 @@ export default angular.module('description', [
         'REFERENCED_DOSSIER_REASON',
         'REFERENCED_DOSSIER_NUMBER'
       ];
-      this.submissionProjection = [
-        'SUBMISSION_TITLE',
-        'SUBMISSION_NUMBER',
-        'SUBMISSION_VERSION_DATE',
-        'INCREMENTAL'
-      ];
 
       this.markDeletable();
 
@@ -61,7 +55,7 @@ export default angular.module('description', [
       this.submission[nodeName].splice(index, 1);
     }
 
-    select(nodeName, index) {
+    select(nodeName, id) {
       if (nodeName === 'DOSSIER_RA') {
         this.$mdDialog.show({
           template: dossierRATemplate,
