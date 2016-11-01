@@ -2,13 +2,18 @@ import angular from 'angular';
 import ngMaterial from 'angular-material';
 import template from './footer.template';
 
-import Toolbar from '../toolbar/toolbar.component';
+import Navbar from '../navbar/navbar.component';
+
+import './footer.scss';
 
 export default angular.module('footer', [
   ngMaterial,
-  Toolbar
+  Navbar
 ])
 .component('footer', {
-  template
+  template,
+  bindings: {
+    items: '<'
+  }
 })
 .name;

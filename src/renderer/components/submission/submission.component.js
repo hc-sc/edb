@@ -46,12 +46,17 @@ export default angular.module('submission', [
         this.GhstsService = GhstsService.getService();
         this.navbarItems = [
           { title: 'Description', state: '.description' },
-          // { title: 'Legal Entities', state: '.legalEntities' },
           { title: 'Receivers', state: '.receivers' },
-          // { title: 'Substances', state: '.substances' },
           { title: 'Product', state: '.product' },
-          // { title: 'Files', state: '.files' },
           { title: 'Documents', state: '.documents' }
+        ];
+
+        this.globalItems = [
+          { title: 'Legal Entities', state: 'globals.legalEntities' },
+          { title: 'Substances', state: 'globals.substances' },
+          { title: 'Products', state: 'globals.products' },
+          { title: 'Files', state: 'globals.files' },
+          { title: 'Picklists', state: 'globals.picklists' }
         ];
 
         this.toolbarItems = {

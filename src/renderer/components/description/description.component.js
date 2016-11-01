@@ -1,6 +1,5 @@
 import angular from 'angular';
 import ngMaterial from 'angular-material';
-import _ from 'lodash';
 import template from './description.template';
 import dossierRATemplate from './dossier-ra.template';
 import referencedDossierTemplate from './referenced-dossier.template';
@@ -37,7 +36,11 @@ export default angular.module('description', [
       ];
 
       this.markDeletable();
+      this.incremental = true;
+    }
 
+    $onChanges() {
+      console.log('hello');
     }
 
     update(prop, value) {
@@ -55,12 +58,16 @@ export default angular.module('description', [
       this.submission[nodeName].splice(index, 1);
     }
 
-    select(nodeName, id) {
+    select(nodeName, index) {
       if (nodeName === 'DOSSIER_RA') {
         this.$mdDialog.show({
           template: dossierRATemplate,
           controllerAs: '$ctrl',
-          controller: DossierRACtrl
+          controller: DossierRACtrl,
+          locals: {
+            dossierRA: this.submission.DOSSIER_RA[index],
+            descriptionCtrl: this
+          }
         });
       }
       else if (nodeName === 'REFERENCED_DOSSIER') {
@@ -70,14 +77,7 @@ export default angular.module('description', [
           controller: ReferencedDossierCtrl
         });
       }
-      else if (nodeName === 'SUBMISSION') {
-      }
     }
-
-    // $onDestroy() {
-    //   console.log(this);
-    //   // this is where we save the data to the db
-    // }
   }
 })
 .name;
@@ -85,7 +85,7 @@ export default angular.module('description', [
 class ReferencedDossierCtrl {
   constructor($mdDialog) {
     this.$mdDialog = $mdDialog;
-    console.log(this);
+    console.log(arguments);
   }
 
   cancel() {
@@ -94,11 +94,21 @@ class ReferencedDossierCtrl {
 }
 
 class DossierRACtrl {
-  constructor($mdDialog) {
+  constructor(dossierRA, descriptionCtrl, $mdDialog) {
     this.$mdDialog = $mdDialog;
+    this.dossierRA = dossierRA;
+    this.descriptionCtrl = descriptionCtrl;
   }
 
   cancel() {
+    this.$mdDialog.cancel();
+  }
+
+  update(prop, value) {
+    this.dossierRA[prop] = value;
+  }
+
+  confirm() {
     this.$mdDialog.cancel();
   }
 }

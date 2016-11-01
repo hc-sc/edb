@@ -13,7 +13,7 @@
 
     <md-dialog-content>
       <div class='md-dialog-content'>
-        <text-input label='Project ID Number'></text-input>
+        <text-input label='Application Type' is-required='true' text-value='$ctrl.dossierRA.APPLICATION_TYPE' has-pattern='^[0-9]*$' message='Needs to be a valid PID' on-update='$ctrl.update("APPLICATION_TYPE", value)' max-length='20'></text-input>
       </div>
     </md-dialog-content>
 

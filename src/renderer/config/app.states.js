@@ -26,32 +26,18 @@ export default function($stateProvider, $urlRouterProvider) {
       submission: (DossierService, $stateParams) => {
         return DossierService.getSubmission($stateParams.dossierPID, $stateParams.submissionNumber);
       }
-    },
-    onBefore: () => { console.log('here'); }
-  })
+    }  })
   .state('submission.description', {
     url: '/',
     component: 'description'
-  })
-  .state('submission.legalEntities', {
-    url: '/legal-entities',
-    component: 'legalEntities'
   })
   .state('submission.receivers', {
     url: '/receivers',
     component: 'receivers'
   })
-  .state('submission.substances', {
-    url: '/substances',
-    component: 'substances'
-  })
   .state('submission.product', {
     url: '/product',
     component: 'product'
-  })
-  .state('submission.files', {
-    url: '/files',
-    component: 'files'
   })
   .state('submission.documents', {
     url: '/documents',
@@ -64,6 +50,25 @@ export default function($stateProvider, $urlRouterProvider) {
   .state('.description', {
     url: '/description',
     component: 'description'
+  })
+  .state('globals.files', {
+    url: '/files',
+    component: 'files'
+  })
+  .state('globals', {
+    url: '/globals',
+    component: 'globals'
+  })
+  .state('globals.substances', {
+    url: '/substances',
+    component: 'substances'
+  })
+  .state('globals.legalEntities', {
+    url: '/legal-entities',
+    component: 'legalEntities'
+  })
+  .state('globals.products', {
+    url: '/products'
   });
 
   $urlRouterProvider.otherwise('/');

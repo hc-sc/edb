@@ -41,6 +41,14 @@ export default angular.module('home', [
         ]
       };
 
+      this.globalItems = [
+        { title: 'Legal Entities', state: 'globals.legalEntities' },
+        { title: 'Substances', state: 'globals.substances' },
+        { title: 'Products', state: 'globals.products' },
+        { title: 'Files', state: 'globals.files' },
+        { title: 'Picklists', state: 'globals.picklists' }
+      ];
+
       this.dossierProjection = [
         'DOSSIER_DESCRIPTION_TITLE',
         'DOSSIER_PID',
@@ -71,7 +79,6 @@ export default angular.module('home', [
       this.dossier = this.dossiers.filter(dossier => {
         return dossier._id === id;
       })[0];
-      console.log(id, this.dossier);
       this.submissions = this.dossier.SUBMISSIONS;
     }
 

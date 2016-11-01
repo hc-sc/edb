@@ -9,6 +9,7 @@ import 'bluebird';
 import Home from './components/home/home.component';
 import Dossier from './components/dossier/dossier.component';
 import Submission from './components/submission/submission.component';
+import Globals from './components/globals/globals.component';
 import Settings from './components/settings/settings.component';
 
 import states from './config/app.states';
@@ -26,6 +27,7 @@ angular.module('app', [
   Home,
   Dossier,
   Submission,
+  Globals,
   Settings
 ])
 .config(states)
