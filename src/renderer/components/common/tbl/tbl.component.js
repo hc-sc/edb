@@ -46,6 +46,7 @@ export default angular.module('tbl', [
     }
 
     $onChanges() {
+      console.log('table changes');
       this.mapProjection();
     }
 

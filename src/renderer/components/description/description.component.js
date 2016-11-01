@@ -20,7 +20,7 @@ export default angular.module('description', [
     submission: '<'
   },
   controller: class DescriptionCtrl {
-    constructor($mdDialog, $state, $rootScope) {
+    constructor($scope, $mdDialog, $state) {
       this.$state = $state;
       this.$mdDialog = $mdDialog;
 
@@ -37,10 +37,6 @@ export default angular.module('description', [
 
       this.markDeletable();
       this.incremental = true;
-    }
-
-    $onChanges() {
-      console.log('hello');
     }
 
     update(prop, value) {
@@ -65,9 +61,15 @@ export default angular.module('description', [
           controllerAs: '$ctrl',
           controller: DossierRACtrl,
           locals: {
+            index,
             dossierRA: this.submission.DOSSIER_RA[index],
             descriptionCtrl: this
           }
+        })
+        .then(item => {
+          console.log('okayed ', item === this.submission.DOSSIER_RA[index]);
+        }, item => {
+          console.log('cancelled ', item);
         });
       }
       else if (nodeName === 'REFERENCED_DOSSIER') {
@@ -82,21 +84,11 @@ export default angular.module('description', [
 })
 .name;
 
-class ReferencedDossierCtrl {
-  constructor($mdDialog) {
-    this.$mdDialog = $mdDialog;
-    console.log(arguments);
-  }
-
-  cancel() {
-    this.$mdDialog.cancel();
-  }
-}
-
 class DossierRACtrl {
-  constructor(dossierRA, descriptionCtrl, $mdDialog) {
+  constructor(index, dossierRA, descriptionCtrl, $mdDialog) {
     this.$mdDialog = $mdDialog;
-    this.dossierRA = dossierRA;
+    this.dossierRA = Object.assign(dossierRA);
+    this.index = index;
     this.descriptionCtrl = descriptionCtrl;
   }
 
@@ -104,11 +96,18 @@ class DossierRACtrl {
     this.$mdDialog.cancel();
   }
 
-  update(prop, value) {
-    this.dossierRA[prop] = value;
+  confirm() {
+    this.$mdDialog.hide(this.dossierRA);
+  }
+}
+
+class ReferencedDossierCtrl {
+  constructor($mdDialog) {
+    this.$mdDialog = $mdDialog;
+    console.log(arguments);
   }
 
-  confirm() {
+  cancel() {
     this.$mdDialog.cancel();
   }
 }

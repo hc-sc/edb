@@ -36,6 +36,7 @@ export default angular.module('home', [
         navIcons: [],
         title: 'eDossier Builder',
         functionIcons: [
+          { name: 'globals', state: 'globals.legalEntities', label: 'Entities' },
           { name: 'settings', state: 'settings', label: 'Settings' },
           { name: 'help', label: 'Help' }
         ]
