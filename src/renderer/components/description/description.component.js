@@ -63,8 +63,7 @@ export default angular.module('description', [
           controller: DossierRACtrl,
           locals: {
             index,
-            dossierRA: this.submission.DOSSIER_RA[index],
-            descriptionCtrl: this
+            dossierRA: this.submission.DOSSIER_RA[index]
           }
         })
         .then(item => {
@@ -79,7 +78,18 @@ export default angular.module('description', [
         this.$mdDialog.show({
           template: referencedDossierTemplate,
           controllerAs: '$ctrl',
-          controller: ReferencedDossierCtrl
+          controller: ReferencedDossierCtrl,
+          locals: {
+            index,
+            referencedDossier: this.submission.REFERENCED_DOSSIER[index]
+          }
+        })
+        .then(item => {
+          this.submission.REFERENCED_DOSSIER[index] = item;
+          // angular doesn't trigger update if just one element is updated, need to change the object itself
+          this.submission.REFERENCED_DOSSIER = this.submission.REFERENCED_DOSSIER.slice();
+        }, item => {
+          console.log('cancelled ', item);
         });
       }
     }
@@ -94,8 +104,8 @@ class DossierRACtrl {
     this.index = index;
   }
 
+  // this will need to be upgrades for nested objects
   clone(object) {
-    console.log(object);
     let newObj = {};
     for (let prop in object) {
       if (object.hasOwnProperty(prop)) {
@@ -119,12 +129,31 @@ class DossierRACtrl {
 }
 
 class ReferencedDossierCtrl {
-  constructor($mdDialog) {
+  constructor(index, referencedDossier, $mdDialog) {
     this.$mdDialog = $mdDialog;
-    console.log(arguments);
+    this.referencedDossier = this.clone(referencedDossier);
+    this.index = index;
+  }
+
+  clone(object) {
+    let newObj = {};
+    for (let prop in object) {
+      if (object.hasOwnProperty(prop)) {
+        newObj[prop] = object[prop];
+      }
+    }
+    return newObj;
   }
 
   cancel() {
     this.$mdDialog.cancel();
+  }
+
+  confirm() {
+    this.$mdDialog.hide(this.referencedDossier);
+  }
+
+  update(prop, value) {
+    this.referencedDossier[prop] = value;
   }
 }
