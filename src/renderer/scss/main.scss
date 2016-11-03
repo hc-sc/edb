@@ -34,6 +34,10 @@ body {
   flex: 1;
 }
 
+.center {
+  text-align: center;
+}
+
 .node-page {
   h1 {
     margin: 0 0 15px 0;
@@ -57,4 +61,18 @@ body {
 md-switch {
   margin: 0;
   padding: 0 10px;
+}
+
+.md-icon-button.md-button {
+  margin: 0;
+  padding: 0;
+}
+
+icon {
+  margin: 0;
+  padding: 0;
+}
+
+md-icon {
+  width: auto;
 }

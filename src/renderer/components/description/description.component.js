@@ -21,6 +21,7 @@ export default angular.module('description', [
   },
   controller: class DescriptionCtrl {
     constructor($scope, $mdDialog, $state) {
+      this.$scope = $scope;
       this.$state = $state;
       this.$mdDialog = $mdDialog;
 

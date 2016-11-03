@@ -38,9 +38,13 @@ export default angular.module('submission', [
     },
     controller: class SubmissionCtrl {
       constructor($state, GhstsService, $transitions) {
+
+        //allows for interrupting state transition (for use with ensuring any modifications are saved)
         this.dereg = $transitions.onBefore({}, (event) => {
           return true;
         });
+
+        console.log(this);
 
         this.$state = $state;
         this.GhstsService = GhstsService.getService();
@@ -61,9 +65,10 @@ export default angular.module('submission', [
 
         this.toolbarItems = {
           navIcons: [
-            { name: 'back', label: 'Back', state: 'home' }
+            { name: 'back', label: 'Back', state: 'home' },
+            { name: 'home', label: 'Home', state: 'splash' }
           ],
-          title: 'eDossier Builder',
+          title: this.submission.DOSSIER_DESCRIPTION_TITLE,
           functionIcons: [
             { name: 'save', label: 'Save' },
             { name: 'globals', label: 'Entities', state: 'globals.legalEntities' },

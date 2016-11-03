@@ -1,14 +1,14 @@
 <md-card class='no-padding'>
   <md-toolbar class='md-table-toolbar' ng-show='!$ctrl.search'>
-    <div class='md-toolbar-tools'>
+    <div class='md-toolbar-tools custom-toolbar'>
       <h2 class='md-title'>{{ $ctrl.title }}</h2>
       <div flex></div>
       <icon icon='$ctrl.searchIcon' ng-click='$ctrl.toggleSearch()'></icon>
       <icon icon='$ctrl.addIcon' ng-click='$ctrl.add()'></icon>
     </div>
   </md-toolbar>
-  <md-toolbar class='md-table-toolbar md-default' ng-show='$ctrl.search'>
-    <div class='md-toolbar-tools'>
+  <md-toolbar class='md-table-toolbar custom-toolbar md-default' ng-show='$ctrl.search'>
+    <div class='md-toolbar-tools custom-toolbar'>
       <text-input  style='margin-top: 30px;' label='Search' text-value='$ctrl.searchText' message='invalid' on-update='$ctrl.update("searchText", value)'></text-input>
       <icon icon='$ctrl.closeIcon' ng-click='$ctrl.toggleSearch()'></icon>
     </div>
@@ -26,12 +26,6 @@
         </tr>
       </thead>
       <tbody md-body>
-        <!--<tr ng-repeat='row in $ctrl.items | index | filter:$ctrl.searchText | orderBy:$ctrl.sortField:$ctrl.reverse' md-row>
-          <td ng-repeat='(key, val) in row' ng-if='$ctrl.inProjection(key)' md-cell ng-click='$ctrl.select(row.index)'>{{ val }}</td>
-          <td ng-if='$ctrl.deletable' md-cell>
-            <md-icon ng-if='row["deletable"] === true' md-svg-icon='delete' class='dark' ng-click='$ctrl.delete(row.index)'></md-icon>
-          </td>
-        </tr>-->
         <tr ng-repeat='row in $ctrl.rows | index | filter:$ctrl.searchText | orderBy:$ctrl.sortField:$ctrl.reverse' md-row>
           <td ng-repeat='data in row track by $index' ng-if='!$last' md-cell ng-click='$ctrl.select(row[row.length - 1], row.index)'>{{ data }}</td>
           <td ng-if='$ctrl.deletable' md-cell>

@@ -6,6 +6,7 @@ import 'angular-animate';
 import 'angular-aria';
 import 'bluebird';
 
+import Splash from './components/splash/splash.component';
 import Home from './components/home/home.component';
 import Dossier from './components/dossier/dossier.component';
 import Submission from './components/submission/submission.component';
@@ -24,6 +25,7 @@ angular.module('app', [
   uiRouter,
   ngMaterial,
   mdDataTable,
+  Splash,
   Home,
   Dossier,
   Submission,

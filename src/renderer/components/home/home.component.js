@@ -33,8 +33,10 @@ export default angular.module('home', [
       this.$mdDialog = $mdDialog;
       this.$state = $state;
       this.toolbarItems = {
-        navIcons: [],
-        title: 'eDossier Builder',
+        navIcons: [
+          { name: 'home', label: 'Home', state: 'splash' }
+        ],
+        title: 'Manage Dossiers',
         functionIcons: [
           { name: 'globals', state: 'globals.legalEntities', label: 'Entities' },
           { name: 'settings', state: 'settings', label: 'Settings' },

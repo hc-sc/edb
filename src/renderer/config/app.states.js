@@ -1,7 +1,11 @@
 export default function($stateProvider, $urlRouterProvider) {
   $stateProvider
-  .state('home', {
+  .state('splash', {
     url: '/',
+    component: 'splash'
+  })
+  .state('home', {
+    url: '/home',
     component: 'home',
     resolve: {
       dossiers: DossierService => {
@@ -71,5 +75,5 @@ export default function($stateProvider, $urlRouterProvider) {
     url: '/products'
   });
 
-  $urlRouterProvider.otherwise('/');
+  $urlRouterProvider.otherwise('/splash');
 }
