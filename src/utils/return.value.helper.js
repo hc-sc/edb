@@ -33,6 +33,7 @@ const RETURN_VALUE_CONFIG = {
   EDB12004: { msg: 'Cannot select product with empty' },
   EDB12005: { msg: 'Create product from template failed, cannot find template' },
   EDB12006: { msg: 'Packaged submission, reload it?' },
+  EDB12007: { msg: 'Cannot create submisson with empty submission number.' },
 
   
   EDB20001: { msg: 'picklst database is initialed' },

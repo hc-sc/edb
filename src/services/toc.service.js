@@ -1,9 +1,8 @@
 const BaseService = require('./base.service');
-const BACKEND_CONST = require('../constants/backend');
 
-exports.TocService = class TocService extends BaseService {
-  constructor($q, level, prodAndDossierName, isActive) {
-    super($q, 'tocs', undefined, 'TOC', level, prodAndDossierName, isActive ? BACKEND_CONST.ACTIVE_SUBMISSION_NAME : BACKEND_CONST.LAST_SUBMISSION_NAME);
+module.exports = class TocService extends BaseService {
+  constructor() {
+    super('tocs', undefined, 'TOC');
   }
 };
 

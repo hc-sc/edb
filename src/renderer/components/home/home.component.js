@@ -34,7 +34,7 @@ export default angular.module('home', [
         title: 'eDossier Builder',
         functionIcons: [
           { name: 'settings', state: 'settings', label: 'Settings' },
-          { name: 'help', label: 'Help' }
+          { name: 'help', label: 'Help', func: this.backend.bind(this) }
         ]
       };
 
@@ -102,6 +102,17 @@ export default angular.module('home', [
 
     update(prop, value) {
       this[prop] = value;
+    }
+
+    backend() {
+      console.log('for backend test');
+      this.GhstsService.edb_get()
+        .then(result => {
+          console.log(result);
+        })
+        .catch(err => { 
+          console.log(err);
+        });
     }
   }
 })

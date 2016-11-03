@@ -4,7 +4,7 @@
   "description": "eDossierBuilder",
   "main": "src/index.js",
   "scripts": {
-    "postinstall": "node copyjsonixschema.js",
+    "postinstall": "node copyjsonixschema.js && npm i src/tingodb-0.5.0.tgz && npm i src/tungus-0.0.5.tgz",
     "bundle": "webpack --watch",
     "start": "electron build",
     "dist": "webpack && build -p never",
@@ -47,7 +47,6 @@
   "devDependencies": {
     "ajv": "^4.7.7",
     "angular-mocks": "^1.5.8",
-    "bson": "^0.5.6",
     "chai": "^3.5.0",
     "co": "^4.6.0",
     "copy-dir": "^0.3.0",
@@ -64,13 +63,11 @@
     "node-uuid": "^1.4.7",
     "number-format.js": "^1.1.10",
     "protractor": "^4.0.0",
-    "q": "^1.4.1",
-    "safe": "^0.4.1",
     "webpack": "^1.13.1",
     "webpack-merge": "^0.14.1",
     "webpack-validator": "^2.2.7",
     "xml2js": "^0.4.17",
-    "tingodb": "^0.4.2"    
+    "mongoose": "^4.6.6"
   },
   "build": {
     "appId": "ca.canada.eDossierBuilder",

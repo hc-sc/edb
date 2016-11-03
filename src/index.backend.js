@@ -7,8 +7,6 @@ const app = require('electron').app;
 const ipc = require('electron').ipcMain;
 const BrowserWindow = require('electron').BrowserWindow;
 
-const q = require('q');
-
 const SHARED_CONST = require('./constants/shared');
 const BACKEND_CONST = require('./constants/backend');
 
@@ -16,6 +14,8 @@ const PicklistService = require('./services/picklist.service');
 const GhstsService = require('./services/ghsts.service');
 const ServiceDispatcher = require('./services/service.dispatcher');
 const RVHelper = require('./utils/return.value.helper');
+
+const q = require('q');
 
 const AJV = require('ajv');
 
@@ -31,12 +31,104 @@ var XMLSchemaJsonSchema;
 var JsonixJsonSchema;
 var ajvInst, validateInst, GHSTSJsonSchema;
 
+var test = function() {
+  console.log('I am here!');
+  global.TUNGUS_DB_OPTIONS =  { nativeObjectID: true, searchInArray: true };  
+  let tungus = require('tungus');
+  let mongoose = require('mongoose')
+  let Schema = mongoose.Schema;
+
+  console.log('Running mongoose version %s', mongoose.version);
+
+  var consoleSchema = Schema({
+    name: String
+  , manufacturer: String
+  , released: Date
+  });
+var Console = mongoose.model('Console', consoleSchema);
+
+var gameSchema = Schema({
+    name: String
+  , developer: String
+  , released: Date
+  , consoles: [{ type: Schema.Types.ObjectId, ref: 'Console' }]
+});
+var Game = mongoose.model('Game', gameSchema);
+
+/**
+ * Connect to the local tingo db file
+ */
+
+mongoose.connect('tingodb://'+__dirname+'/../data', function (err) {
+  // if we failed to connect, abort
+  if (err) throw err;
+
+  // we connected ok
+  createData();
+});
+
+/**
+ * Data generation
+ */
+
+function createData () {
+  Console.create({
+      name: 'Nintendo 64'
+    , manufacturer: 'Nintendo'
+    , released: 'September 29, 1996'
+  }, function (err, nintendo64) {
+    if (err) return done(err);
+
+    Game.create({
+        name: 'Legend of Zelda: Ocarina of Time'
+      , developer: 'Nintendo'
+      , released: new Date('November 21, 1998')
+      , consoles: [nintendo64]
+    }, function (err) {
+      if (err) return done(err);
+      example();
+    })
+  })
+}
+
+/**
+ * Population
+ */
+
+function example () {
+  Game
+  .findOne({ name: /^Legend of Zelda/ })
+  .populate('consoles')
+  .exec(function (err, ocinara) {
+    if (err) return done(err);
+    console.log(ocinara);
+
+    console.log(
+        '"%s" was released for the %s on %s'
+      , ocinara.name
+      , ocinara.consoles[0].name
+      , ocinara.released.toLocaleDateString());
+
+    done();
+  })
+}
+
+function done (err) {
+  if (err) console.error(err);
+  Console.remove(function () {
+    Game.remove(function () {
+      mongoose.disconnect();
+    })
+  })
+}
+};
+
 ipc.on('devTools', function (event, arg) {
   mainWindow.openDevTools();
 });
 
 ipc.on(SHARED_CONST.PICKLIST_MSG_CHANNEL, function (event, arg) {
-  let svr = new PicklistService(q);
+  let svr = new PicklistService();
   let method = 'edb_' + arg.method;
   svr[method](arg.data).then(result => {
     event.sender.send(SHARED_CONST.PICKLIST_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF, result);
@@ -47,7 +139,7 @@ ipc.on(SHARED_CONST.PICKLIST_MSG_CHANNEL, function (event, arg) {
 });
 
 ipc.on(SHARED_CONST.PICKLIST_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, function (event, arg) {
-  let svr = new PicklistService(q);
+  let svr = new PicklistService();
   let method = 'edb_' + arg.method + 'Sync';
   event.returnValue = svr[method](arg.data);
 });
@@ -78,7 +170,7 @@ ipc.on(SHARED_CONST.APP_DATA_MSG_CHANNEL, function (event, arg) {
   } else {
     svrDisp = svrDisps[BACKEND_CONST.APP_LEVEL_SERVICE];
   }
-  let svr = svrDisp.getService(q, arg.url);
+  let svr = svrDisp.getService(arg.url);
   let method = 'edb_' + arg.method;
   svr[method](arg.data).then(result => {
     event.sender.send(SHARED_CONST.APP_DATA_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF, result);
@@ -102,7 +194,7 @@ ipc.on(SHARED_CONST.DOSSIER_DATA_MSG_CHANNEL, function (event, arg) {
   } else {
     svrDisp = svrDisps[BACKEND_CONST.DOSSIER_LEVEL];
   }
-  let svr = svrDisp.getService(q, arg.url, submissions[0][BACKEND_CONST.ACTIVE_SUBMISSION_NAME]._prodAndDossierName);
+  let svr = svrDisp.getService(arg.url, submissions[0][BACKEND_CONST.ACTIVE_SUBMISSION_NAME]._prodAndDossierName);
   let method = 'edb_' + arg.method;
   svr[method](arg.data).then(result => {
     event.sender.send(SHARED_CONST.DOSSIER_DATA_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF, result);
@@ -138,7 +230,9 @@ app.on('ready', function () {
 
   GHSTSJsonSchema = JSON.parse(fs.readFileSync('./resources/app/standards/01-00-00/GHSTSMappings.jsonschema').toString());
   validateInst = ajvInst.compile(GHSTSJsonSchema);
-  
+
+  test();
+
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
@@ -154,11 +248,17 @@ app.on('ready', function () {
   });
 
   if (!picklistInst) {
-    let picklistSrv = new PicklistService(q);
-    picklistSrv.initPicklistFromXSD().then(result => {
-      picklistInst = result;
-      console.log(picklistInst);
-    });
+    let picklistSrv = new PicklistService();
+    let pls = picklistSrv.initFromXSD();
+    pls
+      .then(result => {
+        if (result.code === 'EDB00000' || result.code === 'EDB20001') {
+          picklistInst = picklistSrv;
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   mainWindow.loadURL('file://' + __dirname + '/../build/renderer/index.html');

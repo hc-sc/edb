@@ -8,13 +8,48 @@
 // <VALUE_DECODE>'the decoded value'</VALUE_DECODE>
 
 const PicklistFieldsConfig = require('../configs/picklist.fields');
-
 const PicklistModel = require('./picklist.model');
+const BACKEND_CONST = require('../constants/backend');
+const fs = require('fs');
+const path = require('path');
+const basePath = fs.realpathSync('./');
+const stdDir = path.resolve(basePath, 'resources', 'app', BACKEND_CONST.STANDARD_DIR_NAME);
 
 module.exports = class BaseModel {
-  constructor(url) {
-    this._url = url;
-    this._identifier = null;
+  constructor(url, version, identifier, state) {
+    if (arguments.length === 1 && typeof arguments[0] !== 'string') {
+      this._initFromDB(arguments[0]);
+    } else {
+      this._url = url ? url : this.constructor.name.toLowerCase();
+      this._version = version ? version : BACKEND_CONST.DEFAULT_GHSTS_VERSION;
+      this._identifier = identifier;
+      this._state = state;
+      this._createdAt = new Date();
+      this._updatedAt = this._createdAt; 
+      
+      let defPath = path.resolve(stdDir, this._version, BACKEND_CONST.DEF_SUB_DIR_NAME);
+      let defFileName = path.resolve(defPath, this._url.toUpperCase() + '.json');
+      console.log(this.constructor.name);
+      console.log(defFileName);
+      let defs = require(defFileName).propertyInfos;
+      defs.map(def => {
+        if (def.typeInfo === 'AnyType') {
+          this[def.elementName] = {};
+        } else if (def.typeInfo) {
+          let childDefFileName = path.resolve(defPath, def.typeInfo.slice(1) + '.json');
+          console.log(childDefFileName);
+          let property = require(childDefFileName).propertyInfos;
+          if (property.length === 1 &&  property[0].collection)
+            this[def.elementName] = [];
+          else
+            this[def.elementName] = {};
+        } else if (def.type === 'attribute') {
+          this._identifier[def.type.attributeName.localPart] = '';
+        } else {
+          console.log('def --- ' + def);
+        }
+      });
+    }
   }
 
   beforeToDB() {
@@ -26,12 +61,12 @@ module.exports = class BaseModel {
         entity = this[key];
         if (entity) {
           if (picklistConf) { //it is a picklist item
-            if (entity._id) {
+/*            if (entity._id) {
               entity._pklid = entity._id;
               delete entity._id;
               this[key] = entity;
             }
-          } else { //it is not a picklist item
+*/          } else { //it is not a picklist item
             if (entity.constructor === Array) { //it is an array
               this[key] = entity.map(subObj => {
                 try {

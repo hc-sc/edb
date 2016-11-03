@@ -5,7 +5,11 @@
   "author": "Health Canada - Santé Canada",
   "main": "index.js",
   "contributers": [
-    "Alex Gagnon <alex.gagnon@canada.ca>",
+    "Aaron Carswell <aaron.carswell@canada.ca>",
+    "Lori Currie <lori.currie@canada.ca>",
+    "Alex Gagnon <alex.gagnon2@canada.ca>",
+    "James Johnson <james.johnson2@canada.ca>",
+    "Joseph Mikhael <joseph.mikhael@canada.ca>",
     "Jun Tang <xiang.tang@canada.ca>",
     "Hai Tu <hai.tu@canada.ca>",
     "Daniel Wen <daniel.wen@canada.ca>"
@@ -20,6 +24,8 @@
     "ajv": "^4.7.7",
     "jsonix": "^2.4.1",
     "jsonix-schema-compiler": "^2.3.9",
-    "node-uuid": "^1.4.7"
+    "node-uuid": "^1.4.7",
+    "co": "^4.6.0",
+    "tingodb": "^0.4.2"
   }
 }

@@ -1,189 +1,308 @@
 //TODO: add comments for the file
 
-const Nedb = require('nedb');
+const TingoDBWrap = require('./tingodb.wrap');
+const xml2js = require('xml2js');
+const fs = require('fs');
+const Q = require('bluebird');
+const _ = require('lodash');
 
 const RVHelper = require('../utils/return.value.helper').ReturnValueHelper;
-const BACKEND_CONST = require('../constants/backend');
 const PicklistModel = require('../models/picklist.model');
+const PicklistService = require('./picklist.service');
 
-const fs = require('fs');
-const path = require('path');
 
 var moduleClasses = undefined;
+var moduleInMemory = undefined;
 
 module.exports = class BaseService {
-  constructor($q, dbName, modelClassName, rootXmlName, serviceLevel, prodAndDossierName, submissionStatu) {
-    this.$q = $q;
-    this.dbName = dbName;
+  constructor(dbName, modelClassName) {
     this.modelClassName = modelClassName;
-    this.rootXmlName = rootXmlName ? rootXmlName : dbName.toUpperCase();
-    this.serviceLevel = serviceLevel ? serviceLevel : BACKEND_CONST.DOSSIER_LEVEL_SERVICE;
-    this.prodAndDossierName = prodAndDossierName;
-    this.submissionStatu = submissionStatu ? submissionStatu : BACKEND_CONST.ACTIVE_SUBMISSION_NAME;
+    this.dbName = dbName;
     if (!moduleClasses && modelClassName && modelClassName !== 'PicklistModel') {
       moduleClasses = require('../models/' + modelClassName.toLowerCase() + '.model');
     }
-    //TODO: may add exception handler for fs opration later as we may remove db.
-    this.absPath = path.resolve(fs.realpathSync('./'), 'data', this.serviceLevel);
-    if (this.serviceLevel === BACKEND_CONST.DOSSIER_LEVEL_SERVICE && this.prodAndDossierName)
-      this.absPath = path.resolve(this.absPath, this.prodAndDossierName, this.submissionStatu, this.dbName + '.db');
-    else
-      this.absPath = path.resolve(this.absPath, this.dbName + '.db');
-    //    console.log(this.absPath);
-    this.db = new Nedb({
-      filename: this.absPath,
-      autoload: true,
-      timestampData: true
-    });
   }
 
   edb_get(obj) {
-    let self = this, deferred = self.$q.defer();
+    let self = this;
     let query = obj ? (obj.data ? obj.data : {}) : {};
-    let entityClass = undefined, entity, classedRows = [];
-    self.db.find(query, (err, rows) => {
-      if (err) {
-        deferred.reject(err);
-      } else if (self.modelClassName !== 'PicklistModel') {
-        try {
-          if (self.modelClassName)
-            entityClass = moduleClasses[self.modelClassName];
-          rows.map(row => {
-            try {
-              if (entityClass) {
-                entity = new entityClass();
-                entity._initFromDB(row);
-              } else {
-                entity = row;
-                delete entity._id;
+    let entityClass = undefined,
+      entity, classedRows = [];
+
+    let tdb = new TingoDBWrap(self.dbName);
+
+    try {
+      let rows = tdb.find(query).next().value;
+
+      rows
+        .then(rows => {
+          if (rows.code === 'EDB00000') {
+            if (self.modelClassName !== 'PicklistModel') {
+              try {
+                if (self.modelClassName)
+                  entityClass = moduleClasses[self.modelClassName];
+                rows.data.map(row => {
+                  try {
+                    if (entityClass) {
+                      entity = new entityClass();
+                      entity._initFromDB(row);
+                    } else {
+                      entity = row;
+                    }
+                    classedRows.push(entity);
+                  } catch (err) {
+                    return new RVHelper('EDB10000', err);
+                  }
+                });
+              } catch (err) {
+                return new RVHelper('EDB10000', err);
               }
-              classedRows.push(entity);
-            } catch (err) {
-              deferred.reject(new RVHelper('EDB10000', err));
+              return new RVHelper('EDB00000', classedRows);
+            } else {
+              try {
+                entityClass = PicklistModel;
+                rows.data.map(row => {
+                  try {
+                    entity = new entityClass(row);
+                    classedRows.push(entity);
+                  } catch (err) {
+                    return new RVHelper('EDB10000', err);
+                  }
+                });
+              } catch (err) {
+                return new RVHelper('EDB10000', err);
+              }
+              return new RVHelper('EDB00000', classedRows);
             }
-          });
-        } catch (err) {
-          deferred.reject(new RVHelper('EDB10000', err));
-        }
-
-        deferred.resolve(new RVHelper('EDB00000', classedRows));
-      } else {
-        try {
-          entityClass = PicklistModel;
-          rows.map(row => {
-            try {
-              entity = new entityClass(row);
-              classedRows.push(entity);
-            } catch (err) {
-              deferred.reject(new RVHelper('EDB10000', err));
-            }
-          });
-        } catch (err) {
-          deferred.reject(new RVHelper('EDB10000', err));
-        }
-
-        deferred.resolve(new RVHelper('EDB00000', classedRows));
-      }
-    });
-    return deferred.promise;
+          } else
+            return rows;
+        })
+        .catch(err => {
+          return err;
+        });
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   edb_put(obj) {
-    let self = this, deferred = self.$q.defer();
+    let self = this;
     if (obj && typeof obj === 'object') {
       let obj2DB = obj;
+      let tdb = new TingoDBWrap(self.dbName);
+
       if (self.modelClassName !== 'PicklistModel' && obj2DB['beforeToDB'])
         obj2DB.beforeToDB();
-      self.db.insert(obj2DB, (err, result) => {
-        if (err) {
-          deferred.reject(new RVHelper('EDB10000', err));
-          return deferred.promise;
-        }
-        deferred.resolve(new RVHelper('EDB00000', result));
-      });
+      tdb.insert(obj2DB).next()
+        .then(result => {
+          return result;
+        })
+        .catch(err => {
+          return err;
+        });
     } else
-      deferred.reject(new RVHelper('EDB11004', obj));
-    return deferred.promise;
+      return new RVHelper('EDB11004', obj);
   }
 
+
   edb_delete(id) {
-    let self = this, deferred = self.$q.defer();
+    let self = this;
+    let tdb = new TingoDBWrap(self.dbName);
+
     if (id && typeof id === 'string') {
-      self.db.remove({ '_id': id }, function (err, res) {
-        if (err) {
-          deferred.reject(new RVHelper('EDB10000', err));
-        } else {
-          deferred.resolve(new RVHelper('EDB00000', res.affectedRows));
-        }
-      });
+      tdb.remove(id)
+        .then(result => {
+          return result;
+        })
+        .catch(err => {
+          return err;
+        });
     } else {
-      deferred.reject(new RVHelper('EDB11005', id));
+      return new RVHelper('EDB11005', id);
     }
-    return deferred.promise;
   }
 
   edb_post(obj) {
-    let self = this, deferred = self.$q.defer();
+    let self = this;
+    let tdb = new TingoDBWrap(self.dbName);
+
     if (obj && typeof obj === 'object' && obj.hasOwnProperty('_id')) {
       let obj2DB = obj;
       if (self.modelClassName !== 'PicklistModel' && obj2DB['beforeToDB'])
         obj2DB.beforeToDB();
-      self.db.update({ _id: obj2DB._id }, obj2DB, {}, (err, numReplaced) => {
-        if (err) {
-          deferred.reject(new RVHelper('EDB10000', err));
-        } else {
-          deferred.resolve(new RVHelper('EDB00000', numReplaced));
-        }
-      });
+      tdb.update(obj2DB)
+        .then(result => {
+          return result;
+        })
+        .catch(err => {
+          return err;
+        });
     } else
-      deferred.reject(new RVHelper('EDB11006', obj));
-    return deferred.promise;
+      return new RVHelper('EDB11006', obj);
   }
 
   jsonObjClassifierFromXml(obj, picklistInst) {
-    let self = this, deferred = self.$q.defer();
-    let entities = obj;
-    let entityClass, entity;
-    let picklistII = picklistInst ? picklistInst : new PicklistModel(self.$q);
+    return new Q((res, rej) => {
+      let self = this;
+      let entities = obj;
+      let entityClass, retVal;
+      let picklistII = picklistInst ? picklistInst : new PicklistService();
+      let tdb = new TingoDBWrap(self.dbName),
+        rows;
 
-    if (entities && entities.constructor === Array) {
-      try {
-        if (self.modelClassName) {
-          entityClass = moduleClasses[self.modelClassName];
-        }
-        entities = entities.map(item => {
-          if (self.modelClassName && entityClass) {
-            entity = new entityClass();
-            entity.jsonObjClassifierFromXml(item, picklistII);
-          } else {
-            entity = item;
-          }
-          self.edb_put(entity);
-          return entity;
-        });
-        deferred.resolve(entities);
-      } catch (err) {
-        deferred.reject(new RVHelper('EDB10000', err));
-      }
-    } else if (entities && typeof entities === 'object') {
       if (self.modelClassName) {
-        entityClass = moduleClasses[self.modelClassName];
+        try {
+          entityClass = moduleClasses[self.modelClassName];
+        } catch (err) {
+          rej(new RVHelper('EDB10000', err));
+        }
       }
-      if (self.modelClassName && entityClass) {
-        entity = new entityClass();
-        entity.jsonObjClassifierFromXml(entities, picklistII);
+
+      if (entities && entities.constructor === Array) {
+        // let processAry = [];
+        // retVal = [];
+        // entities.map(item => {
+        //   processAry.push(self._save(self._remove_status(item, self.modelClassName, entityClass, picklistII)));
+        // });
+        // /*      for (var i = 0; i < entities.length; i++) {
+        //         let item = yield self._save(self._remove_status(entities[i], self.modelClassName, entityClass, picklistII));
+        //         if (item.code !== 'EDB00000') {
+        //           retVal = item;
+        //           return retVal;
+        //         } else if (item.data.length === 0) {
+        //           continue;
+        //         } else 
+        //           retVal.push(item.data[0]);
+        //       }*/
+        // //      retVal = yield processAry;
+        // return retVal;
+      } else if (entities && typeof entities === 'object') {
+        // //      retVal = yield self._save(self._remove_status(entities, self.modelClassName, entityClass, picklistII));
+        // return retVal;
+        rows = tdb.consum(entities).next().value;
+        rows
+          .then(result => {
+            console.log(result);
+          });
+
+      } else if (entities) {
+        // //      entities = yield self._save(entities);
+        // return entities;
       } else {
-        entity = entities;
+        rej(new RVHelper('EDB11007', obj));
       }
-      self.edb_put(entity);
-      deferred.resolve(entity);
-    } else if (entities) {
-      self.edb_put(entities);
-      deferred.resolve(entities);
-    } else {
-      deferred.reject(new RVHelper('EDB11007', obj));
+
+    });
+  }
+
+  /*  _save(obj) {
+      let entity = obj,
+        db_entity, self = this;
+      db_entity = yield self.edb_get({
+        data: entity
+      });
+      if (db_entity.code === 'EDB00000' && db_entity.data.length === 1) {
+        return db_entity;
+      } else {
+        db_entity = yield super.edb_put(entity);
+        if (db_entity.code === 'EDB00000' && db_entity.data.length === 1) {
+          entity = yield self.edb_get({
+            data: db_entity.data[0]
+          });
+          return entity;
+        }
+      }
     }
-    return deferred.promise;
+  */
+  _remove_status(obj, mcn, cls, pkli) {
+    let retVal = {};
+    if (mcn && cls) {
+      retVal = new cls();
+      retVal.jsonObjClassifierFromXml(obj, pkli);
+    } else {
+      retVal = obj;
+    }
+    delete retVal.METADATA_STATUS;
+    return retVal;
+  }
+
+  initFromXSD(filename) {
+    return new Q((res, rej) => {
+      let self = this,
+        data, types = [];
+      let tdb = new TingoDBWrap(self.dbName);
+
+      let rows = tdb.consum();
+
+      rows.next().value
+        .then(result => {
+          if (result.data.length === 0) {
+            try {
+              data = fs.readFileSync(filename, {
+                encoding: 'utf8'
+              });
+            } catch (err) {
+              rej(new RVHelper('EDB10000', err));
+            }
+
+            xml2js.parseString(data, {
+              attrkey: 'attr$',
+              explicitArray: false
+            }, (err, obj) => {
+              if (err)
+                rej(new RVHelper('EDB10000', err));
+
+              types = [];
+
+              const COMPLEX_TYPES = obj['xs:schema']['xs:complexType'].map(type => {
+                return type['xs:simpleContent']['xs:extension'].attr$.base;
+              });
+
+              for (const item of obj['xs:schema']['xs:simpleType']) {
+                const INDEX = COMPLEX_TYPES.indexOf(item.attr$.name);
+                const OTHER_VALUE = self.getOtherValue();
+
+                for (const enumeration of item['xs:restriction']['xs:enumeration']) {
+                  const APP_INFO = enumeration['xs:annotation']['xs:appinfo'];
+                  if (enumeration.attr$.value !== OTHER_VALUE) {
+
+                    let typename = INDEX >= 0 ?
+                      `EXTENSION_${item.attr$.name}` : item.attr$.name;
+                    let type = new PicklistModel(typename);
+                    type.VALUE = enumeration.attr$.value;
+                    type.VALUE_DECODE = APP_INFO.DECODE;
+                    type.STATUS = APP_INFO.STATUS;
+                    type.isExt = false;
+                    types.push(type);
+                  }
+                }
+              }
+            });
+            let saved = rows.next(types).value;
+            saved
+              .then(result => {
+                moduleInMemory = result.data;
+                res(new RVHelper('EDB20001', `${result.data.length} added.`));
+              })
+              .catch(err => {
+                rej(err);
+              });
+          }
+          if (!moduleInMemory) {
+            moduleInMemory = result.data;
+            res(new RVHelper('EDB20001'));
+          }
+        })
+        .catch(err => {
+          rej(err);
+        });
+    });
+  }
+
+  edb_getSync(obj) {
+    let retVal = [];
+    retVal = _.filter(moduleInMemory, obj);
+
+    return retVal;
   }
 };
-

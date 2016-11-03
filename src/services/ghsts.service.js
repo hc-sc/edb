@@ -4,20 +4,24 @@ const SHARED_CONST = require('../constants/shared');
 const RVHelper = require('../utils/return.value.helper').ReturnValueHelper;
 const NumberFormat = require('number-format.js');
 
-const {dialog} = require('electron');
+const Q = require('bluebird');
+
+const {
+  dialog
+} = require('electron');
 const fs = require('fs');
 const path = require('path');
 const basePath = fs.realpathSync('./');
-const templateDir = path.resolve(basePath, 'resources', 'app', 'templates');
+const templateDir = path.resolve(basePath, 'resources', 'app', BACKEND_CONST.TEMPLATE_DIR_NAME);
 
 var prodsPath = path.resolve(basePath, BACKEND_CONST.PRODUCTS_DIR);
-var curProdAndDossierDir = undefined, curSubDir = undefined, lastSubDir = undefined;
-var absOutputFN, absSubPath, absLastSubPath;
+var curProdAndDossierDir = undefined,
+  curSubDir = undefined;
+var absOutputFN, absSubPath;
 
 
 module.exports = class GhstsService {
-  constructor($q, submissions_ref, validateInstance) {
-    this.$q = $q;
+  constructor(submissions_ref, validateInstance) {
     this.ghsts = submissions_ref;
     this._validate = validateInstance;
     this.url = SHARED_CONST.GHSTS_SERVICE_URL;
@@ -34,42 +38,37 @@ module.exports = class GhstsService {
   }
 
   edb_put(obj) {
-    let self = this, deffer = self.$q.defer();
-    if (obj) {
-      if (obj.productShortName) {
-        let prodAndDossierName = obj.dossierShortName ? obj.productShortName + BACKEND_CONST.PRODUCT_DOSSIER_FOLDER_CONTACT_SYMBOL + obj.dossierShortName : obj.productShortName;
-        this.createProduct(prodAndDossierName)
-          .then(() => {
-            let isOK = self._beforeCreateOrLoad(prodAndDossierName);
-            if (isOK.code !== 'EDB00000') {
-              deffer.reject(isOK);
-            } else {
-              self._loadGhsts(templateDir)
-                .then(result => {
-//                  self.ghsts.push(self._getGhstsGroup(result));  
-                  self.ghsts[0] = self._getGhstsGroup(result);
-                  deffer.resolve(new RVHelper('EDB00000'));
-                })
-                .catch(err => {
-                  deffer.reject(err);
-                });
-            }
-          })
-          .catch(err => {
-            deffer.reject(new RVHelper('EDB10000', err));
-          });
+    let self = this;
+    return new Q((resolve, reject) => {
+      if (obj) {
+        if (obj.productShortName) {
+          let prodAndDossierName = obj.dossierShortName ? obj.productShortName + BACKEND_CONST.PRODUCT_DOSSIER_FOLDER_CONTACT_SYMBOL + obj.dossierShortName : obj.productShortName;
+          try {
+            this.createProduct(prodAndDossierName)
+            self._beforeCreateOrLoad(prodAndDossierName);
+          } catch (err) {
+            reject(new RVHelper('EDB10000', err));
+          }
+
+          self._loadGhsts(templateDir)
+            .then(result => {
+              self.ghsts[0] = result;
+              resolve(new RVHelper('EDB00000'));
+            })
+            .catch(err => {
+              reject(err);
+            });
+        }
       } else {
-        deffer.reject(new RVHelper('EDB12002'));
+        reject(new RVHelper('EDB12002'));
       }
-    } else {
-      deffer.reject(new RVHelper('EDB12001'));
-    }
-    return deffer.promise;
+    });
   }
 
   edb_get(obj) {
-    let deffer = this.$q.defer(), self = this;
-    if (obj) {
+    let deffer = this.$q.defer(),
+      self = this;
+    if (!obj) {
       deffer.reject(new RVHelper('EDB12004'));
     } else {
       let selPath = dialog.showOpenDialog({
@@ -84,7 +83,7 @@ module.exports = class GhstsService {
         } else {
           self._loadGhsts()
             .then(result => {
-//              self.ghsts.push(self._getGhstsGroup(result));
+              //              self.ghsts.push(self._getGhstsGroup(result));
               self.ghsts[0] = self._getGhstsGroup(result);
               deffer.resolve(new RVHelper('EDB00000'));
             })
@@ -99,32 +98,11 @@ module.exports = class GhstsService {
     return deffer.promise;
   }
 
-  _getGhstsGroup(results) {
-    let retVal = {};
-    retVal[BACKEND_CONST.ACTIVE_SUBMISSION_NAME] = results[0] ? results[0].data : undefined;
-    retVal[BACKEND_CONST.LAST_SUBMISSION_NAME] = results[1] ? results[1].data : undefined;
-    return retVal;
-  }
-
   _loadGhsts(templatePath) {
-    let ghstsObj = {}, self = this;
-    //    let deffer = self.$q.defer();
+    let ghstsObj = {};
 
-    ghstsObj[BACKEND_CONST.ACTIVE_SUBMISSION_NAME] = new GHSTS(self.$q, absSubPath, curProdAndDossierDir);
-    if (absLastSubPath) {
-      ghstsObj[BACKEND_CONST.LAST_SUBMISSION_NAME] = new GHSTS(self.$q, absLastSubPath, curProdAndDossierDir);
-    } else {
-      ghstsObj[BACKEND_CONST.LAST_SUBMISSION_NAME] = undefined;
-    }
-
-    if (absLastSubPath) {
-      return self.$q.all([
-        ghstsObj[BACKEND_CONST.ACTIVE_SUBMISSION_NAME].readObjects(true),
-        ghstsObj[BACKEND_CONST.LAST_SUBMISSION_NAME].readObjects(false)
-      ]);
-    } else {
-      return self.$q.all([ghstsObj[BACKEND_CONST.ACTIVE_SUBMISSION_NAME].readObjects(true, templatePath)]);
-    }
+    ghstsObj = new GHSTS(absSubPath, curProdAndDossierDir);
+    return ghstsObj.readObjects(templatePath);
   }
 
   _clearSubmission(ghstsObj) {
@@ -140,123 +118,84 @@ module.exports = class GhstsService {
   }
 
   _getGhstsObject(obj) {
-    return obj ? this.ghsts[0][BACKEND_CONST.LAST_SUBMISSION_NAME] : this.ghsts[0][BACKEND_CONST.ACTIVE_SUBMISSION_NAME];
+    return obj ? this.ghsts[0] : this.ghsts[0];
   }
 
   createSubmission(prod_dossier_name, sub_name) {
     let curBasePath = path.resolve(fs.realpathSync('./'), 'products'),
-      deferred = this.$q.defer();
+      curFolder;
 
     if (!prod_dossier_name)
-      deferred.reject('project name must be defined!');
-    else if (!sub_name)
-      deferred.reject('submission name must be defined!');
-    else {
-      this._createFolder(curBasePath)
-        .then((folder) => {
-          this._createFolder(path.resolve(folder, prod_dossier_name))
-            .then((folder) => {
-              curBasePath = path.resolve(folder, sub_name);
-              this._createFolder(curBasePath)
-                .then((folder) => {
-                  this._createFolder(path.resolve(folder, 'content'));
-                  this._createFolder(path.resolve(folder, 'confidential'));
-                  this._createFolder(path.resolve(folder, 'utils'))
-                    .then((folder) => {
-                      this._createFolder(path.resolve(folder, 'viewer'));
-                      this._createFolder(path.resolve(folder, 'toc'));
-                      this._createFolder(path.resolve(folder, 'resources'))
-                    });
-                })
-                .then(() => {
-                  fs.writeFile(
-                    path.resolve(curBasePath, '.incomplete'),
-                    'The submission is not complated.',
-                    (err) => {
-                      if (err)
-                        deferred.reject(new RVHelper('EDB10000', err));
-                      else
-                        deferred.resolve(new RVHelper('EDB00000', curBasePath));
-                    }
-                  );
-                });
-            });
-        })
-        .catch(err => {
-          deferred.reject(new RVHelper('EDB10000', err));
-        });
+      throw new RVHelper('EDB12002');
+
+    if (!sub_name)
+      throw new RVHelper('EDB12007');
+
+    try {
+      this._createFolder(curBasePath);
+      curFolder = path.resolve(curBasePath, prod_dossier_name);
+      this._createFolder(curFolder);
+      curBasePath = path.resolve(curFolder, sub_name);
+      this._createFolder(curBasePath);
+      curFolder = path.resolve(curBasePath, 'content');
+      this._createFolder(curFolder);
+      curFolder = path.resolve(curBasePath, 'confidential');
+      this._createFolder(curFolder);
+      curFolder = path.resolve(curBasePath, 'utils');
+      this._createFolder(curFolder);
+      this._createFolder(path.resolve(curFolder, 'viewer'));
+      this._createFolder(path.resolve(curFolder, 'toc'));
+      this._createFolder(path.resolve(curFolder, 'resources'));
+
+      fs.writeFileSync(
+        path.resolve(curBasePath, '.incomplete'),
+        'The submission is not complated.'
+      );
+      return new RVHelper('EDB00000');
+    } catch (err) {
+      throw err;
     }
-    return deferred.promise;
   }
 
   createProduct(prod_name) {
     return this.createSubmission(prod_name, '01');
   }
 
-  _copyXmlTemplate(folderName) {
-    let deferred = this.$q.defer();
-    try {
-      let inputFile = path.resolve(templateDir, BACKEND_CONST.GHSTS_XML_FILENAME);
-      let ouptFile = path.resolve(folderName, BACKEND_CONST.GHSTS_XML_FILENAME);
-
-      fs.createReadStream(inputFile).pipe(fs.createWriteStream(ouptFile));
-      console.log('template copied');
-      deferred.resolve(new RVHelper('EDB00000'));
-    } catch (err) {
-      deferred.reject(new RVHelper('EDB10000', err));
-    }
-    return deferred.promise;
-  }
-
   _createFolder(folderName) {
-    let deferred = this.$q.defer();
-    fs.mkdir(folderName, (err) => {
-      if (err) {
-        if (err.code === 'EEXIST')
-          deferred.resolve(folderName);
-        else
-          deferred.reject(err);
-      }
-      else
-        deferred.resolve(folderName);
-    });
-    return deferred.promise;
+    try {
+      fs.mkdirSync(folderName);
+    } catch (err) {
+      if (err.code !== 'EEXIST')
+        throw err;
+    }
   }
 
   _beforeCreateOrLoad(filepath) {
     let curpath = filepath;
+
     if (curpath[1] === ':') {
       curpath = prodsPath[0] + curpath.slice(1);
     }
     curpath = curpath.replace(prodsPath, '').trim().replace(/\\/g, '/');
     if (curpath[0] === '/') curpath = curpath.slice(1);
     let pathArray = curpath.split('/');
-    curProdAndDossierDir = curSubDir = lastSubDir = undefined;
+    curProdAndDossierDir = curSubDir = undefined;
 
     switch (pathArray.length) {
       case 1:
         curProdAndDossierDir = pathArray[0];
-        curSubDir = '01';  //for now
+        curSubDir = '01'; //for now
         break;
       case 2:
         curProdAndDossierDir = pathArray[0];
         curSubDir = pathArray[1];
         break;
       default:
-        absSubPath = absOutputFN = absLastSubPath = undefined;
+        absSubPath = absOutputFN = undefined;
         return new RVHelper('EDB12003');
     }
     absSubPath = path.resolve(prodsPath, curProdAndDossierDir);
-    if (!isNaN(curSubDir)) {
-      lastSubDir = curSubDir - 1;
-      if (lastSubDir > 0) {
-        lastSubDir = NumberFormat('0#', lastSubDir);
-        absLastSubPath = path.resolve(absSubPath, lastSubDir);
-      }
-    }
     absSubPath = path.resolve(absSubPath, curSubDir);
     absOutputFN = path.resolve(absSubPath, BACKEND_CONST.GHSTS_XML_FILENAME);
-
-    return new RVHelper('EDB00000');
   }
 };

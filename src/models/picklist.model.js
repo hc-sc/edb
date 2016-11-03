@@ -1,18 +1,25 @@
 const SHARED_CONST = require('../constants/shared');
+const BACKEND_CONST = require('../constants/backend');
 
 module.exports = class PicklistModel {
-  constructor(typename, value, decode, isExt, status, id) {
+  constructor(typename, value, decode, isExt, status, id, version, state) {
     if (typename) {
       if (typeof typename === 'object') {
         Object.assign(this, typename);
       } else if (typeof typename === 'string') {
         if (id)
           this._id = id;
+        this._version = version ? version : BACKEND_CONST.DEFAULT_GHSTS_VERSION;
+        this._state = state ? state : BACKEND_CONST.ACTIVE_ITEM_STATE_NAME;
+        this._createdAt = new Date();
+        this._updatedAt = this._createdAt; 
+
         this.TYPE_NAME = typename;
         this.VALUE = value;
         this.VALUE_DECODE = decode;
         this.STATUS = status ? status : 'enabled';
         this.isExt = (isExt !== 'undefined') ? isExt : true;
+        
       } else {
         console.log('Error: wrong using of PicklistModel constructor with Type_Name 1: [' + typename + '] / Value: [' + value + ']');
       }

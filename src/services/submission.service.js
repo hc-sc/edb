@@ -1,9 +1,8 @@
 const BaseService = require('./base.service');
-const BACKEND_CONST = require('../constants/backend');
 
-exports.SubmissionService = class SubmissionService extends BaseService {
-  constructor($q, level, prodAndDossierName, isActive) {
-    super($q, 'submissions', undefined, 'SUBMISSION', level, prodAndDossierName, isActive ? BACKEND_CONST.ACTIVE_SUBMISSION_NAME : BACKEND_CONST.LAST_SUBMISSION_NAME);
+module.exports = class SubmissionService extends BaseService {
+  constructor() {
+    super('submissions', undefined, 'SUBMISSION');
   }
 };
 //import Nedb from 'nedb';
