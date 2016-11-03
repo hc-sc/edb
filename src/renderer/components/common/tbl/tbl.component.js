@@ -98,6 +98,7 @@ export default angular.module('tbl', [
     }
 
     toggleSearch() {
+      // clear the search field when closing
       if (this.search === true) {
         this.searchText = '';
       }

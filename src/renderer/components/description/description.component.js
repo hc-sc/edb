@@ -67,7 +67,9 @@ export default angular.module('description', [
           }
         })
         .then(item => {
-          console.log('okayed ', item === this.submission.DOSSIER_RA[index]);
+          this.submission.DOSSIER_RA[index] = item;
+          // angular doesn't trigger update if just one element is updated, need to change the object itself
+          this.submission.DOSSIER_RA = this.submission.DOSSIER_RA.slice();
         }, item => {
           console.log('cancelled ', item);
         });
@@ -85,11 +87,21 @@ export default angular.module('description', [
 .name;
 
 class DossierRACtrl {
-  constructor(index, dossierRA, descriptionCtrl, $mdDialog) {
+  constructor(index, dossierRA, $mdDialog) {
     this.$mdDialog = $mdDialog;
-    this.dossierRA = Object.assign(dossierRA);
+    this.dossierRA = this.clone(dossierRA);
     this.index = index;
-    this.descriptionCtrl = descriptionCtrl;
+  }
+
+  clone(object) {
+    console.log(object);
+    let newObj = {};
+    for (let prop in object) {
+      if (object.hasOwnProperty(prop)) {
+        newObj[prop] = object[prop];
+      }
+    }
+    return newObj;
   }
 
   cancel() {
@@ -98,6 +110,10 @@ class DossierRACtrl {
 
   confirm() {
     this.$mdDialog.hide(this.dossierRA);
+  }
+
+  update(prop, value) {
+    this.dossierRA[prop] = value;
   }
 }
 
