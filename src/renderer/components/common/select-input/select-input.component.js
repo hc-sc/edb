@@ -2,6 +2,8 @@ import angular from 'angular';
 import ngMaterial from 'angular-material';
 import template from './select-input.template';
 
+import './select-input.scss';
+
 export default angular.module('selectInput', [
   ngMaterial
 ])

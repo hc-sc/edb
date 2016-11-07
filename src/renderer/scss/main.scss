@@ -2,14 +2,6 @@ body {
   height: 100%;
 }
 
-// submission {
-//   height: 100%
-// }
-
-// .full-height {
-//   height: 100%;
-// }
-
 .hover:hover {
   cursor: pointer;
 }
@@ -61,8 +53,8 @@ body {
 }
 
 md-switch {
-  margin: 0;
-  padding: 0 10px;
+  margin: 10px 0 0 0;
+  padding: 0;
 }
 
 .md-icon-button.md-button {

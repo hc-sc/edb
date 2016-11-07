@@ -1,11 +1,13 @@
 .md-toolbar-tools.custom-toolbar {
   margin: 0;
-  height: auto;
-  max-height: inherit;
+  font-size: 0.7em;
+  height: 58px;
+  max-height: 58px;
 }
 
 .md-toolbar-tools.header-toolbar {
   height: 64px;
+  max-height: 64px;
 }
 
 md-toolbar.custom-toolbar {

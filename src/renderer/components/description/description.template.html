@@ -1,8 +1,10 @@
 <section class='node-page'>
+  <div class='no-margin no-padding flex-container'>
   <text-input label='PID' is-disabled='true' text-value='$ctrl.submission.DOSSIER_PID' max-length='5' has-pattern='^[0-9]*$'
     message='Needs to be a valid PID' on-update='$ctrl.update("DOSSIER_PID", value)'></text-input>
   <text-input label='Company ID' is-required='true' text-value='$ctrl.submission.DOSSIER_COMP_ID' has-pattern='^[0-9]*$' message='Needs to be a valid PID'
     on-update='$ctrl.update("DOSSIER_COMP_ID", value)' max-length='20'></text-input>
+  </div>
   <text-input label='Title' is-required='true' text-value='$ctrl.submission.DOSSIER_DESCRIPTION_TITLE' max-length='2000'></text-input>
   <md-switch ng-model='$ctrl.submission.SUBMISSION[$ctrl.submission.SUBMISSION.length - 1].INCREMENTAL' aria-label='Incremental'
     class='md-primary' ng-change='$ctrl.printValue()'>Incremental</md-switch>
