@@ -1,5 +1,6 @@
 import angular from 'angular';
 import ngMaterial from 'angular-material';
+import _ from 'lodash';
 import template from './description.template';
 import dossierRATemplate from './dossier-ra.template';
 import referencedDossierTemplate from './referenced-dossier.template';
@@ -22,8 +23,7 @@ export default angular.module('description', [
     submission: '<'
   },
   controller: class DescriptionCtrl {
-    constructor($scope, $mdDialog, $state) {
-      this.$scope = $scope;
+    constructor($mdDialog, $state) {
       this.$state = $state;
       this.$mdDialog = $mdDialog;
 

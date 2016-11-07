@@ -8,13 +8,21 @@
     "LAST_MODIFIED": "02/03/2016",
     "SUBMISSIONS": [
       {
+<<<<<<< HEAD
         "LAST_MODIFIED": "02/02/2015",
+=======
+>>>>>>> Release_1
         "SUBMISSION_TITLE": "Initial Submission",
         "SUBMISSION_NUMBER": 1,
         "ADMIN_NUMBER": "12-54",
         "PACKAGE_TYPE": "Full",
         "STATUS": "Sent",
+<<<<<<< HEAD
         "DATE_CREATED": "01/01/2015"
+=======
+        "DATE_CREATED": "01/01/2015",
+        "LAST_MODIFIED": "02/02/2015"
+>>>>>>> Release_1
       },
       {
         "SUBMISSION_TITLE": "Fixed Typo in Company Name",
@@ -57,6 +65,7 @@
               "APPLICATION_TYPE": "app2",
               "PROJECT_ID_NUMBER": 87
             }
+<<<<<<< HEAD
           ],
           "REFERENCED_DOSSIER": [
             {
@@ -71,29 +80,44 @@
               "SUBMISSION_TITLE": "Updated Mammal Reports",
               "INCREMENTAL": true
             }
+=======
+>>>>>>> Release_1
           ]
         }
       }
     ]
   },
   {
+<<<<<<< HEAD
     "_id": 432,
+=======
+>>>>>>> Release_1
     "DOSSIER_DESCRIPTION_TITLE": "RoundUp",
     "DOSSIER_PID": "34562",
     "PRODUCT_NAME": "RoundUp",
     "STATUS": "Closed",
     "DATE_CREATED": "01/01/2015",
+<<<<<<< HEAD
     "LAST_MODIFIED": "01/01/2016",
     "SUBMISSIONS": []
   },
   {
     "_id": 1234,
+=======
+    "LAST_MODIFIED": "01/01/2016"
+  },
+  {
+>>>>>>> Release_1
     "DOSSIER_DESCRIPTION_TITLE": "Ammendment to RoundUp",
     "DOSSIER_PID": "43564",
     "PRODUCT_NAME": "RoundUp",
     "STATUS": "Under Review",
     "DATE_CREATED": "05/05/2016",
+<<<<<<< HEAD
     "LAST_MODIFIED": "05/05/2016",
     "SUBMISSIONS": []
+=======
+    "LAST_MODIFIED": "05/05/2016"
+>>>>>>> Release_1
   }
 ]
