@@ -5,12 +5,14 @@ import dossierRATemplate from './dossier-ra.template';
 import referencedDossierTemplate from './referenced-dossier.template';
 
 import TextInput from '../common/text-input/text-input.component';
+import SelectInput from '../common/select-input/select-input.component';
 import Icon from '../common/icon/icon.component';
 import Tbl from '../common/tbl/tbl.component';
 
 export default angular.module('description', [
   ngMaterial,
   TextInput,
+  SelectInput,
   Icon,
   Tbl
 ])

@@ -1,0 +1,6 @@
+<md-input-container class='md-block' flex>
+  <label>{{ $ctrl.label }}</label>
+  <md-select ng-model='$ctrl.selectValue' ng-change='$ctrl.update()'>
+    <md-option ng-repeat='item in $ctrl.values' ng-value='item.value'>{{ item.value }}</md-option>
+  </md-select>
+</md-input-container>
