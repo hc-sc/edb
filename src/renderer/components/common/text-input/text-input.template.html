@@ -7,8 +7,6 @@
   ng-disabled='$ctrl.isDisabled'
   ng-model='$ctrl.textValue'
   ng-change='$ctrl.update()'>
-  <div class='error-block'>
-    <p class='error-message' ng-if='$ctrl.exceededLimit'>Exceeded character limit of {{ $ctrl.maxLength }}</p>
-    <p class='error-message' ng-if='$ctrl.hasPattern && !$ctrl.validPattern'>{{ $ctrl.message }}</p>
-  </div>
+  <p class='error-message' ng-if='$ctrl.exceededLimit'>Exceeded character limit of {{ $ctrl.maxLength }}</p>
+  <p class='error-message' ng-if='$ctrl.hasPattern && !$ctrl.validPattern'>{{ $ctrl.message }}</p>
 </md-input-container>

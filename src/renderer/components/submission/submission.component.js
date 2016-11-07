@@ -44,8 +44,6 @@ export default angular.module('submission', [
           return true;
         });
 
-        console.log(this);
-
         this.$state = $state;
         this.GhstsService = GhstsService.getService();
         this.navbarItems = [
