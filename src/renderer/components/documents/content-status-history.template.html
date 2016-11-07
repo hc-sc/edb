@@ -2,7 +2,7 @@
   <form ng-cloak>
     <md-toolbar>
       <div class='md-toolbar-tools'>
-        <h2>Dossier RA</h2>
+        <h2>Content Status History</h2>
         <span flex></span>
         <md-button class='md-icon-button' ng-click='$ctrl.cancel()'>
           <md-icon md-svg-icon='close' aria-label='close dialog' class='light'></md-icon>
@@ -13,9 +13,8 @@
 
     <md-dialog-content>
       <div class='md-dialog-content'>
-        <select-input label='Regulatory Type' selectValue='$ctrl.dossierRA.REGULATORY_TYPE' values='[]' on-update='$ctrl.update("REGULATORY_TYPE", value)'></select-input>
-        <select-input label='Application Type' selectValue='$ctrl.dossierRA.APPLICATION_TYPE' values='[]' on-update='$ctrl.update("APPLICATION_TYPE", value)'></select-input>
-        <text-input label='Project Id' is-required='false' text-value='$ctrl.dossierRA.PROJECT_ID_NUMBER' on-update='$ctrl.update("PROJECT_ID_NUMBER", value)'></text-input>
+        <select-input label='Content Status' values='[]'></select-input>
+        <text-input label='Submission Number'></text-input>
       </div>
     </md-dialog-content>
 

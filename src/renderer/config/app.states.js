@@ -1,7 +1,11 @@
 export default function($stateProvider, $urlRouterProvider) {
   $stateProvider
-  .state('home', {
+  .state('splash', {
     url: '/',
+    component: 'splash'
+  })
+  .state('home', {
+    url: '/home',
     component: 'home',
     resolve: {
       dossiers: DossierService => {
@@ -9,15 +13,15 @@ export default function($stateProvider, $urlRouterProvider) {
       }
     }
   })
-  .state('dossier', {
-    url: '/dossier/:dossierPID',
-    component: 'dossier',
-    resolve: {
-      dossier: (DossierService, $stateParams) => {
-        return DossierService.getDossier($stateParams.dossierPID);
-      }
-    }
-  })
+  // .state('dossier', {
+  //   url: '/dossier/:dossierPID',
+  //   component: 'dossier',
+  //   resolve: {
+  //     dossier: (DossierService, $stateParams) => {
+  //       return DossierService.getDossier($stateParams.dossierPID);
+  //     }
+  //   }
+  // })
   .state('submission', {
     abstract: true,
     url: '/submission/:dossierPID/:submissionNumber',
@@ -26,31 +30,18 @@ export default function($stateProvider, $urlRouterProvider) {
       submission: (DossierService, $stateParams) => {
         return DossierService.getSubmission($stateParams.dossierPID, $stateParams.submissionNumber);
       }
-    }
-  })
+    }  })
   .state('submission.description', {
     url: '/',
     component: 'description'
-  })
-  .state('submission.legalEntities', {
-    url: '/legal-entities',
-    component: 'legalEntities'
   })
   .state('submission.receivers', {
     url: '/receivers',
     component: 'receivers'
   })
-  .state('submission.substances', {
-    url: '/substances',
-    component: 'substances'
-  })
   .state('submission.product', {
     url: '/product',
     component: 'product'
-  })
-  .state('submission.files', {
-    url: '/files',
-    component: 'files'
   })
   .state('submission.documents', {
     url: '/documents',
@@ -63,7 +54,26 @@ export default function($stateProvider, $urlRouterProvider) {
   .state('.description', {
     url: '/description',
     component: 'description'
+  })
+  .state('globals.files', {
+    url: '/files',
+    component: 'files'
+  })
+  .state('globals', {
+    url: '/globals',
+    component: 'globals'
+  })
+  .state('globals.substances', {
+    url: '/substances',
+    component: 'substances'
+  })
+  .state('globals.legalEntities', {
+    url: '/legal-entities',
+    component: 'legalEntities'
+  })
+  .state('globals.products', {
+    url: '/products'
   });
 
-  $urlRouterProvider.otherwise('/');
+  $urlRouterProvider.otherwise('/splash');
 }

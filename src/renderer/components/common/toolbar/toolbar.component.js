@@ -5,6 +5,8 @@ import template from './toolbar.template';
 
 import Icon from '../icon/icon.component';
 
+import './toolbar.scss';
+
 export default angular.module('toolbar', [
   uiRouter,
   ngMaterial,

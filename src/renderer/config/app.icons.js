@@ -15,6 +15,7 @@ export default function($mdIconProvider) {
   .icon('list', `${IMG_DIR}list${SUF}`)
   .icon('filter', `${IMG_DIR}filter_list${SUF}`)
   .icon('back', `${IMG_DIR}arrow_back${SUF}`)
+  .icon('globals', `${IMG_DIR}code${SUF}`)
   .icon('compare', `${IMG_DIR}compare_arrows${SUF}`)
   .icon('save', `${IMG_DIR}save${SUF}`)
   .icon('check', `${IMG_DIR}check${SUF}`)

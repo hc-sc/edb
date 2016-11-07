@@ -1,6 +1,7 @@
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import template from './submission.template';
+import { equals } from 'easy-equals';
 
 import Toolbar from '../common/toolbar/toolbar.component';
 import Navbar from '../common/navbar/navbar.component';
@@ -36,26 +37,39 @@ export default angular.module('submission', [
       submission: '<'
     },
     controller: class SubmissionCtrl {
-      constructor($state, GhstsService) {
+      constructor($state, GhstsService, $transitions) {
+
+        //allows for interrupting state transition (for use with ensuring any modifications are saved)
+        this.dereg = $transitions.onBefore({}, (event) => {
+          return true;
+        });
+
         this.$state = $state;
         this.GhstsService = GhstsService.getService();
         this.navbarItems = [
           { title: 'Description', state: '.description' },
-          { title: 'Legal Entities', state: '.legalEntities' },
           { title: 'Receivers', state: '.receivers' },
-          { title: 'Substances', state: '.substances' },
           { title: 'Product', state: '.product' },
-          { title: 'Files', state: '.files' },
           { title: 'Documents', state: '.documents' }
+        ];
+
+        this.globalItems = [
+          { title: 'Legal Entities', state: 'globals.legalEntities' },
+          { title: 'Substances', state: 'globals.substances' },
+          { title: 'Products', state: 'globals.products' },
+          { title: 'Files', state: 'globals.files' },
+          { title: 'Picklists', state: 'globals.picklists' }
         ];
 
         this.toolbarItems = {
           navIcons: [
-            { name: 'back', label: 'Back', state: 'home' }
+            { name: 'back', label: 'Back', state: 'home' },
+            { name: 'home', label: 'Home', state: 'splash' }
           ],
-          title: 'eDossier Builder',
+          title: this.submission.DOSSIER_DESCRIPTION_TITLE,
           functionIcons: [
             { name: 'save', label: 'Save' },
+            { name: 'globals', label: 'Entities', state: 'globals.legalEntities' },
             { name: 'compare', label: 'Compare' },
             { name: 'check', label: 'Validate', func: this.validateXML.bind(this)},
             { name: 'archive', label: 'Package', func: this.package.bind(this)},
@@ -63,6 +77,11 @@ export default angular.module('submission', [
             { name: 'help', label: 'Help' }
           ]
         };
+      }
+
+      $onDestroy() {
+        // need to deregister the listener or else we end up with multiple calls
+        this.dereg();
       }
 
       validateXML() {
