@@ -72,7 +72,8 @@ export default function($stateProvider, $urlRouterProvider) {
     component: 'legalEntities'
   })
   .state('globals.products', {
-    url: '/products'
+    url: '/products',
+    component: 'products'
   });
 
   $urlRouterProvider.otherwise('/splash');

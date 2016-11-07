@@ -6,13 +6,6 @@ import { equals } from 'easy-equals';
 import Toolbar from '../common/toolbar/toolbar.component';
 import Navbar from '../common/navbar/navbar.component';
 import Icon from '../common/icon/icon.component';
-import Description from '../description/description.component';
-import LegalEntities from '../legal-entities/legal-entities.component';
-import Receivers from '../receivers/receivers.component';
-import Substances from '../substances/substances.component';
-import Product from '../product/product.component';
-import Files from '../files/files.component';
-import Documents from '../documents/documents.component';
 
 import { } from '../../services/ghsts.service';
 import { GHSTS_NG_MODULE_NAME} from '../../../constants/shared';
@@ -22,13 +15,6 @@ export default angular.module('submission', [
   Toolbar,
   Navbar,
   Icon,
-  Description,
-  LegalEntities,
-  Receivers,
-  Substances,
-  Product,
-  Files,
-  Documents,
   GHSTS_NG_MODULE_NAME
 ])
   .component('submission', {
