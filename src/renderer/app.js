@@ -14,12 +14,14 @@ import Globals from './components/globals/globals.component';
 import Settings from './components/settings/settings.component';
 import LegalEntities from './components/legal-entities/legal-entities.component';
 import Substances from './components/substances/substances.component';
-import Products from './components/products/products.component';
+import Products from './components/products-splash/products.component';
+import Product from './components/product/product.component';
 import Files from './components/files/files.component';
 import Description from './components/description/description.component';
 import Receivers from './components/receivers/receivers.component';
 import Documents from './components/documents/documents.component';
 import TOC from './components/toc/toc.component';
+
 
 import states from './config/app.states';
 import theme from './config/app.theme';
@@ -42,6 +44,7 @@ angular.module('app', [
   LegalEntities,
   Substances,
   Products,
+  Product,
   Files,
   // Picklists,
   Description,

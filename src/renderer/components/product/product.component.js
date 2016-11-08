@@ -6,6 +6,8 @@ import Tbl from '../common/tbl/tbl.component';
 import SelectInput from '../common/select-input/select-input.component';
 import TextInput from '../common/text-input/text-input.component';
 
+import ProductService from '../../services/products.service';
+
 export default angular.module('product', [
   ngMaterial,
   Tbl,
@@ -13,6 +15,13 @@ export default angular.module('product', [
   TextInput
 ])
 .component('product', {
-  template
+  template,
+  bindings: {
+    product: '<'
+  },
+  controller: class ProductCtrl {
+    constructor() { console.log(this); }
+  }
 })
+.service('ProductService', ProductService)
 .name;

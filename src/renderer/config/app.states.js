@@ -73,7 +73,22 @@ export default function($stateProvider, $urlRouterProvider) {
   })
   .state('globals.products', {
     url: '/products',
-    component: 'products'
+    component: 'products',
+    resolve: {
+      products: ProductService => {
+        return ProductService.getProducts();
+      }
+    }
+  })
+  .state('globals.products.product', {
+    url: '/:productPID',
+    component: 'product',
+    resolve: {
+      product: (ProductService, $stateParams) => {
+        console.log('in states', $stateParams);
+        return ProductService.getProduct($stateParams.productPID);
+      }
+    }
   });
 
   $urlRouterProvider.otherwise('/splash');
