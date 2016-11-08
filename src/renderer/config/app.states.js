@@ -85,7 +85,6 @@ export default function($stateProvider, $urlRouterProvider) {
     component: 'product',
     resolve: {
       product: (ProductService, $stateParams) => {
-        console.log('in states', $stateParams);
         return ProductService.getProduct($stateParams.productPID);
       }
     }

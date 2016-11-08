@@ -20,7 +20,9 @@ export default angular.module('product', [
     product: '<'
   },
   controller: class ProductCtrl {
-    constructor() { console.log(this); }
+    constructor() {
+      console.log(this);
+    }
   }
 })
 .service('ProductService', ProductService)
