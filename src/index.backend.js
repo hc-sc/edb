@@ -197,6 +197,7 @@ app.on('ready', function () {
   if (!SubstanceService.isMongooseSet()) {
     let svrs = new SubstanceService();
     let jsonsche = svrs.initMongoose();
+    console.log(JSON.stringify(jsonsche));
     let mongoose = require('mongoose');
     let nnn = mongoose.model(svrs.modelClassName, new mongoose.Schema(jsonsche));
     let test = new nnn({          "id": "IDS0000003333",

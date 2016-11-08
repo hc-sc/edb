@@ -1,7 +1,5 @@
 'use strict';
 
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 const _ = require('lodash');
 const fs = require('fs');
 const path = require('path');
@@ -9,10 +7,12 @@ const path = require('path');
 
 module.exports = class SchemaLoader {
   static loadSchema(name, version) {
+    console.log(name);
     let basePath = path.resolve(fs.realpathSync('./resources/app/standards/'), version.replace(/\./g, '-'), 'jsondefinitions');
     let fileName = path.join(basePath, name + '.json');
     let jsonixSchema = require(fileName);
-    let coveredSchema = { TYPE_NAME: {type: 'String', default: jsonixSchema.localName }};
+    let coveredSchema = { TYPE_NAME: { type: 'String', default: jsonixSchema.localName } };
+    let cover;
     let isExtPicklistItem = _.filter(jsonixSchema.propertyInfos, (item) => {
       if (item.typeInfo && item.typeInfo.startsWith('.EXTENSIONTYPE')) {
         return item;
@@ -20,12 +20,14 @@ module.exports = class SchemaLoader {
     });
 
     if (isExtPicklistItem.length > 0) {
-      return {
+      cover = {
         type: 'ObjectId',
         ref: 'Picklist'
       };
+      return cover;
     } else
-      jsonixSchema.propertyInfos.map(item => {
+      for (var i = 0; i < jsonixSchema.propertyInfos.length; i++) {
+        let item = jsonixSchema.propertyInfos[i];
         let cover = undefined;
         if (!item.typeInfo || item.type === 'attribute') {
           cover = {
@@ -51,9 +53,9 @@ module.exports = class SchemaLoader {
           coveredSchema[item.name] = [cover];
         else
           coveredSchema[item.name] = cover;
-      });
-    console.log(fileName);
-    console.log(coveredSchema);
+
+      }
+
     return coveredSchema;
   }
 };
