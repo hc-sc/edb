@@ -1,8 +1,9 @@
 const BaseService = require('./base.service');
 
 module.exports = class TocService extends BaseService {
-  constructor() {
-    super('tocs', undefined, 'TOC');
+  constructor(version) {
+    super('TOC', version);
+    this.modelClassNamePre = 'GHSTS';
   }
 };
 

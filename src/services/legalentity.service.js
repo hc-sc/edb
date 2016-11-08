@@ -1,8 +1,9 @@
 const BaseService = require('./base.service');
 
-module.exports = class Legal_EntityService extends BaseService {
-  constructor() {
-    super('legalentities', undefined, 'LEGAL_ENTITY');
+module.exports = class LegalentityService extends BaseService {
+  constructor(version) {
+    super('LEGALENTITY', version);
+    this.modelClassNamePre = 'GHSTS.LEGALENTITIES';
   }
 };
 

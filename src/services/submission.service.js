@@ -1,8 +1,9 @@
 const BaseService = require('./base.service');
 
 module.exports = class SubmissionService extends BaseService {
-  constructor() {
-    super('submissions', undefined, 'SUBMISSION');
+  constructor(version) {
+    super('SUBMISSION', version);
+    this.modelClassNamePre = 'GHSTS.PRODUCT.DOSSIER';
   }
 };
 //import Nedb from 'nedb';

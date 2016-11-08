@@ -5,21 +5,19 @@ const fs = require('fs');
 const Q = require('bluebird');
 const _ = require('lodash');
 
-//const mongoose = require('mongoose');
-//const Schema = mongoose.Schema;
-
 const RVHelper = require('../utils/return.value.helper').ReturnValueHelper;
 const Picklist = require('../models/picklist.model');
 const PicklistService = require('./picklist.service');
 const SchemaLoader = require('../models/mongoose.schema.loader');
+const ServiceLevelPlugin = require('../models/plugins/service.level.plugin');
 
-var moduleInMemory = undefined;
+var moduleInMemory;
 var moduleTopClassName;
 
 module.exports = class BaseService {
   constructor(modelClassName, version) {
     this.modelClassName = modelClassName;
-    this.version = version;
+    this.version = version ? version : '01.00.00';
   }
 
   edb_get(obj) {
@@ -387,8 +385,21 @@ module.exports = class BaseService {
 
   initMongoose() {
     let self = this;
-    moduleTopClassName = self.modelClassName;
-    return SchemaLoader.loadSchema(moduleTopClassName, self.version);
+    moduleTopClassName = self.modelClassNamePre + '.' + self.modelClassName;
+    try {
+      let jschema = SchemaLoader.loadSchema(moduleTopClassName, self.version);
+      console.log(JSON.stringify(jschema));
+      let mongoose = require('mongoose');
+      let Schema = mongoose.Schema;
+      let mschema = new Schema(jschema);
+      mschema.plugin(ServiceLevelPlugin, {url: self.modelClassName.toLowerCase()});
+      let mmodule = mongoose.model(self.modelClassName, mschema);
+//       mmodule.find({}).then(result => {
+//         moduleInMemory = result;
+//       });
+      return new RVHelper('EDB00000');
+    } catch (err) {
+      return new RVHelper('EDB10000', err);
+    }
   }
-
 };

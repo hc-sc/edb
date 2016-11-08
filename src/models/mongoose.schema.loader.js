@@ -14,12 +14,12 @@ module.exports = class SchemaLoader {
     let coveredSchema = { TYPE_NAME: { type: 'String', default: jsonixSchema.localName } };
     let cover;
     let isExtPicklistItem = _.filter(jsonixSchema.propertyInfos, (item) => {
-      if (item.typeInfo && item.typeInfo.startsWith('.EXTENSIONTYPE')) {
+      if (item.name === 'value' || item.name === 'valuedecode') {
         return item;
       }
     });
 
-    if (isExtPicklistItem.length > 0) {
+    if (isExtPicklistItem.length === jsonixSchema.propertyInfos.length) {
       cover = {
         type: 'ObjectId',
         ref: 'Picklist'
@@ -39,20 +39,26 @@ module.exports = class SchemaLoader {
               type: 'ObjectId',
               ref: 'Picklist'
             };
-          } else
+          } else {
             cover = SchemaLoader.loadSchema(item.typeInfo.slice(1), version);
+          }
+        } else if (item.typeInfo === 'Decimal') {
+          cover = {
+            type: 'Number'
+          };
         } else {
           cover = {
             type: item.typeInfo
           };
         }
-        if (cover && item.required) {
-          cover.required = true;
-        }
         if (item.collection)
           coveredSchema[item.name] = [cover];
-        else
+        else {
+          if (item.required) {
+            cover.required = true;
+          }
           coveredSchema[item.name] = cover;
+        }
 
       }
 
