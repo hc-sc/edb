@@ -11,9 +11,11 @@ export default class ProductService {
   }
 
   getProduct(pid) {
-    console.log('here');
-    return this.getProducts().filter(product => {
-      return product.pid === pid;
+    return this.getProducts()
+    .then(obj => {
+      return obj.products.filter(product => {
+        return product.pid == pid;
+      })[0];
     });
   }
 }
