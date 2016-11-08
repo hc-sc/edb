@@ -1,0 +1,44 @@
+{
+	"localName": "GHSTS.TOC",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "metadatastatus",
+			"required": true,
+			"elementName": "METADATA_STATUS",
+			"typeInfo": ".TYPEMETADATASTATUSSTRUCT"
+		},
+		{
+			"name": "tocshortname",
+			"required": true,
+			"elementName": "TOC_SHORT_NAME"
+		},
+		{
+			"name": "tocowner",
+			"required": true,
+			"elementName": "TOC_OWNER",
+			"typeInfo": ".GHSTS.TOC.TOCOWNER"
+		},
+		{
+			"name": "tocfullname",
+			"required": true,
+			"elementName": "TOC_FULL_NAME"
+		},
+		{
+			"name": "tocversion",
+			"required": true,
+			"elementName": "TOC_VERSION"
+		},
+		{
+			"name": "standardtocreference",
+			"elementName": "STANDARD_TOC_REFERENCE",
+			"typeInfo": ".GHSTS.TOC.STANDARDTOCREFERENCE"
+		},
+		{
+			"name": "structure",
+			"required": true,
+			"elementName": "STRUCTURE",
+			"typeInfo": ".GHSTS.TOC.STRUCTURE"
+		}
+	]
+}

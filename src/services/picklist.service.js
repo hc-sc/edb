@@ -1,11 +1,11 @@
 const path = require('path');
 
-const PicklistModel = require('../models/picklist.model');
+const Picklist = require('../models/picklist.model');
 const BaseService = require('./base.service');
 
 module.exports = class PickListService extends BaseService {
   constructor() {
-    super('pickListTypes', 'PicklistModel', undefined);
+    super('Picklist', '01.00.00');
   }
     // used to get all types with a given name. Can additionally provide a true/false status, which only returns enabled types
   edb_get(typeName, isEnabled) {
@@ -29,6 +29,6 @@ module.exports = class PickListService extends BaseService {
   }
 
   getOtherValue() {
-    return PicklistModel.getOtherValue();
+    return Picklist.getOtherValue();
   }
 };

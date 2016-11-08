@@ -1,0 +1,28 @@
+{
+	"localName": "GHSTS.FILES.FILE",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "filera",
+			"required": true,
+			"collection": true,
+			"elementName": "FILE_RA",
+			"typeInfo": ".GHSTS.FILES.FILE.FILERA"
+		},
+		{
+			"name": "filegeneric",
+			"required": true,
+			"elementName": "FILE_GENERIC",
+			"typeInfo": ".GHSTS.FILES.FILE.FILEGENERIC"
+		},
+		{
+			"name": "id",
+			"required": true,
+			"typeInfo": "ID",
+			"attributeName": {
+				"localPart": "Id"
+			},
+			"type": "attribute"
+		}
+	]
+}

@@ -1,0 +1,17 @@
+{
+	"localName": "GHSTS.PRODUCT.DOSSIER.DOSSIERRA.APPLICATIONTYPE",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "value",
+			"required": true,
+			"elementName": "VALUE",
+			"typeInfo": ".EXTENSIONTYPEAPPLICATIONTYPE"
+		},
+		{
+			"name": "valuedecode",
+			"required": true,
+			"elementName": "VALUE_DECODE"
+		}
+	]
+}

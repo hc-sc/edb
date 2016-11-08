@@ -1,0 +1,46 @@
+{
+	"localName": "GHSTS.RECEIVERS.RECEIVER",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "metadatastatus",
+			"required": true,
+			"elementName": "METADATA_STATUS",
+			"typeInfo": ".TYPEMETADATASTATUSSTRUCT"
+		},
+		{
+			"name": "shortname",
+			"required": true,
+			"elementName": "SHORT_NAME"
+		},
+		{
+			"name": "role",
+			"elementName": "ROLE"
+		},
+		{
+			"name": "sender",
+			"required": true,
+			"collection": true,
+			"elementName": "SENDER",
+			"typeInfo": ".GHSTS.RECEIVERS.RECEIVER.SENDER"
+		},
+		{
+			"name": "id",
+			"required": true,
+			"typeInfo": "ID",
+			"attributeName": {
+				"localPart": "Id"
+			},
+			"type": "attribute"
+		},
+		{
+			"name": "toLegalEntityId",
+			"required": true,
+			"typeInfo": "IDREF",
+			"attributeName": {
+				"localPart": "To_Legal_Entity_Id"
+			},
+			"type": "attribute"
+		}
+	]
+}

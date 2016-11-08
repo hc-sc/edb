@@ -6,7 +6,7 @@ const PickListService = require('../services/picklist.service');
 const BACKEND_CONST = require('../constants/backend');
 const basePath = fs.realpathSync('./');
 const _ = require('lodash');
-const DBRef = require('./db.ref');
+//const DBRef = require('./db.ref');
 const BaseModel = require('./base.model');
 const Q = require('bluebird');
 
@@ -168,7 +168,7 @@ module.exports = class GHSTS extends BaseModel {
       if (key[0] !== '$' && key[0] !== '_') {
         if (self[key]) {
           let srvClass = this._getServiceClassFromFields(key);
-          let srvInst = new srvClass(self.$q, BACKEND_CONST.DOSSIER_LEVEL_SERVICE, self._prodAndDossierName, isActive);
+          let srvInst = new srvClass(self.$q, BACKEND_CONST.DOSSIER_LEVEL_SERVICE, self._prodAndDossierName);
           srvInst.edb_get().then(result => {
               if (result.data) {
                 if (self[key].constructor === Array) {

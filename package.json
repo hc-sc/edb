@@ -59,15 +59,15 @@
     "jsonix": "^2.4.1",
     "jsonix-schema-compiler": "^2.3.9",
     "mocha": "^2.5.3",
-    "nedb": "^1.8.0",
+    "mongoose": "^4.6.6",
+    "mongoose-gen": "^2.1.1",
     "node-uuid": "^1.4.7",
     "number-format.js": "^1.1.10",
     "protractor": "^4.0.0",
     "webpack": "^1.13.1",
     "webpack-merge": "^0.14.1",
     "webpack-validator": "^2.2.7",
-    "xml2js": "^0.4.17",
-    "mongoose": "^4.6.6"
+    "xml2js": "^0.4.17"
   },
   "build": {
     "appId": "ca.canada.eDossierBuilder",

@@ -8,7 +8,7 @@
 // <VALUE_DECODE>'the decoded value'</VALUE_DECODE>
 
 const PicklistFieldsConfig = require('../configs/picklist.fields');
-const PicklistModel = require('./picklist.model');
+const Picklist = require('./picklist.model');
 const BACKEND_CONST = require('../constants/backend');
 const fs = require('fs');
 const path = require('path');
@@ -50,6 +50,10 @@ module.exports = class BaseModel {
         }
       });
     }
+  }
+
+  static setMongooseModel() {
+    return this._schema;
   }
 
   beforeToDB() {
@@ -102,7 +106,7 @@ module.exports = class BaseModel {
         picklistConf = PicklistFieldsConfig[key];
         entity = self[key];
         if (picklistConf) { //it is a picklist item
-          entity = new PicklistModel(picklistConf.typename, entity.VALUE, entity.VALUE_DECODE, entity.isExt ? entity.isExt : false, entity.STATUS, entity._pklid);
+          entity = new Picklist(picklistConf.typename, entity.VALUE, entity.VALUE_DECODE, entity.isExt ? entity.isExt : false, entity.STATUS, entity._pklid);
           self[key] = entity;
         } else { //it is not a picklist item
           if (entity.constructor === Array) { //it is an array
@@ -151,7 +155,7 @@ module.exports = class BaseModel {
             }
             dbOutput = picklistInst4FromXml.edb_getSync(query);
             if (dbOutput.constructor === Array) {
-              subEntityClass = PicklistModel;
+              subEntityClass = Picklist;
               if (dbOutput[0]) { 
                 self[key] = new subEntityClass(dbOutput[0]);
               } else if (picklistFieldsConfig.isExt) {

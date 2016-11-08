@@ -1,0 +1,17 @@
+{
+	"localName": "GHSTS.SUBSTANCES.SUBSTANCE.SUBSTANCEIDENTIFIER",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "substanceidentifiertype",
+			"required": true,
+			"elementName": "SUBSTANCE_IDENTIFIER_TYPE",
+			"typeInfo": ".GHSTS.SUBSTANCES.SUBSTANCE.SUBSTANCEIDENTIFIER.SUBSTANCEIDENTIFIERTYPE"
+		},
+		{
+			"name": "identifier",
+			"required": true,
+			"elementName": "IDENTIFIER"
+		}
+	]
+}
