@@ -13,6 +13,7 @@ export default angular.module('sidenav', [
   template,
   bindings: {
     items: '<',
+    main: '@',
     onSelect: '&'
   },
   controller: class SidenavCtrl {
