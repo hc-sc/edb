@@ -12,7 +12,7 @@ module.exports = class SchemaLoader {
     let basePath = path.resolve(fs.realpathSync('./resources/app/standards/'), version.replace(/\./g, '-'), 'jsondefinitions');
     let fileName = path.join(basePath, name + '.json');
     let jsonixSchema = require(fileName);
-    let coveredSchema = { TYPE_NAME: {type: String, default: jsonixSchema.localName }};
+    let coveredSchema = { TYPE_NAME: {type: 'String', default: jsonixSchema.localName }};
     let isExtPicklistItem = _.filter(jsonixSchema.propertyInfos, (item) => {
       if (item.typeInfo && item.typeInfo.startsWith('.EXTENSIONTYPE')) {
         return item;

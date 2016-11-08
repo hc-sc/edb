@@ -60,7 +60,6 @@
     "jsonix-schema-compiler": "^2.3.9",
     "mocha": "^2.5.3",
     "mongoose": "^4.6.6",
-    "mongoose-gen": "^2.1.1",
     "node-uuid": "^1.4.7",
     "number-format.js": "^1.1.10",
     "protractor": "^4.0.0",
