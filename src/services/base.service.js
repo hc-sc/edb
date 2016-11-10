@@ -1,87 +1,45 @@
 //TODO: add comments for the file
+'use strict';
 
 const xml2js = require('xml2js');
 const fs = require('fs');
+const path = require('path');
 const Q = require('bluebird');
 const _ = require('lodash');
 
 const RVHelper = require('../utils/return.value.helper').ReturnValueHelper;
-const Picklist = require('../models/picklist.model');
 const PicklistService = require('./picklist.service');
 const SchemaLoader = require('../models/mongoose.schema.loader');
 const ServiceLevelPlugin = require('../models/plugins/service.level.plugin');
-
-var moduleInMemory;
-var moduleTopClassName;
+const BACKEND_CONST = require('../constants/backend');
 
 module.exports = class BaseService {
-  constructor(modelClassName, version) {
+  constructor(modelClassName, inmem, version) {
     this.modelClassName = modelClassName;
+    this.inmem = inmem;
     this.version = version ? version : '01.00.00';
   }
 
   edb_get(obj) {
-    let self = this;
-    let query = obj ? (obj.data ? obj.data : {}) : {};
-    let entityClass = undefined,
-      entity, classedRows = [];
+    return new Q((res, rej) => {
+      let self = this;
+      let query = obj ? (obj ? obj : {}) : {};
+      let entityClass;
 
-    //    let tdb = new TingoDBWrap(self.dbName);
-    try {
-      //      mongoose.Promise = Q;
+      try {
+        entityClass = require('mongoose').model(self.modelClassName);
 
-      //      mongoose.connect('tingodb://'+__dirname+'/../data');
-      //      let rows = tdb.find(query).next().value;
-      let clss = require('mongoose').model(self.modelClassName);
-
-      clss
-        .find({})
-        .then(rows => {
-          if (rows.code === 'EDB00000') {
-            if (self.modelClassName !== 'Picklist') {
-              try {
-                rows.data.map(row => {
-                  try {
-                    if (entityClass) {
-                      entity = new entityClass();
-                      entity._initFromDB(row);
-                    } else {
-                      entity = row;
-                    }
-                    classedRows.push(entity);
-                  } catch (err) {
-                    return new RVHelper('EDB10000', err);
-                  }
-                });
-              } catch (err) {
-                return new RVHelper('EDB10000', err);
-              }
-              return new RVHelper('EDB00000', classedRows);
-            } else {
-              try {
-                entityClass = Picklist;
-                rows.data.map(row => {
-                  try {
-                    entity = new entityClass(row);
-                    classedRows.push(entity);
-                  } catch (err) {
-                    return new RVHelper('EDB10000', err);
-                  }
-                });
-              } catch (err) {
-                return new RVHelper('EDB10000', err);
-              }
-              return new RVHelper('EDB00000', classedRows);
-            }
-          } else
-            return rows;
-        })
-        .catch(err => {
-          return err;
-        });
-    } catch (err) {
-      console.log(err);
-    }
+        entityClass
+          .find(query, (err, rows) => {
+            if (err) 
+              rej(new RVHelper('EDB10000', err));
+            else
+              res(new RVHelper('EDB00000', rows));
+          });
+      } catch (err) {
+        rej(new RVHelper('EDB13001'));
+      }
+    });
   }
 
   edb_put(obj) {
@@ -151,7 +109,7 @@ module.exports = class BaseService {
 
       if (self.modelClassName) {
         try {
-//          entityClass = moduleClasses[self.modelClassName];
+          //          entityClass = moduleClasses[self.modelClassName];
         } catch (err) {
           rej(new RVHelper('EDB10000', err));
         }
@@ -225,181 +183,101 @@ module.exports = class BaseService {
     return retVal;
   }
 
-  initFromXSD(filename) {
+  initFromXSD(standardname) {
     return new Q((res, rej) => {
-      let self = this,
-        data, types = [];
+      let self = this, data;
+      let filename = path.resolve('./', BACKEND_CONST.BASE_DIR1, BACKEND_CONST.BASE_DIR2, BACKEND_CONST.STANDARD_DIR_NAME, standardname.endsWith('.xsd') ? standardname : standardname + '.xsd');
 
       let dbmodel = require('mongoose').model(self.modelClassName);
 
+      global.modulesInMemory[this.modelClassName.toLowerCase()] = [];
+
       if (dbmodel) {
-        dbmodel
-          .find({})
-          .then(result => {
-            if (result.length === 0) {
-              try {
-                data = fs.readFileSync(filename, {
-                  encoding: 'utf8'
-                });
-                xml2js.parseString(data, {
-                  attrkey: 'attr$',
-                  explicitArray: false
-                }, (err, obj) => {
-                  if (err)
-                    rej(new RVHelper('EDB10000', err));
+        try {
+          data = fs.readFileSync(filename, {
+            encoding: 'utf8'
+          });
+          xml2js.parseString(data, {
+            attrkey: 'attr$',
+            explicitArray: false
+          }, (err, obj) => {
+            if (err)
+              rej(new RVHelper('EDB10000', err));
 
-                  types = [];
+            const COMPLEX_TYPES = obj['xs:schema']['xs:complexType'].map(type => {
+              return type['xs:simpleContent']['xs:extension'].attr$.base;
+            });
 
-                  const COMPLEX_TYPES = obj['xs:schema']['xs:complexType'].map(type => {
-                    return type['xs:simpleContent']['xs:extension'].attr$.base;
+            for (const item of obj['xs:schema']['xs:simpleType']) {
+              const INDEX = COMPLEX_TYPES.indexOf(item.attr$.name);
+              const OTHER_VALUE = self.getOtherValue();
+
+              for (const enumeration of item['xs:restriction']['xs:enumeration']) {
+                const APP_INFO = enumeration['xs:annotation']['xs:appinfo'];
+                if (enumeration.attr$.value !== OTHER_VALUE) {
+
+                  let type = {};
+
+                  type.TYPE_NAME = INDEX >= 0 ?
+                    `EXTENSION_${item.attr$.name}` : item.attr$.name;
+                  type.value = enumeration.attr$.value;
+                  type.valuedecode = APP_INFO.DECODE;
+                  type.status = APP_INFO.STATUS;
+                  type.isExt = false;
+                  dbmodel.create(type, (err, result) => {
+                    if (err)
+                      rej(new RVHelper('EDB10000', err));
+                    else 
+                      global.modulesInMemory[self.modelClassName.toLowerCase()].push(result);
                   });
-
-                  for (const item of obj['xs:schema']['xs:simpleType']) {
-                    const INDEX = COMPLEX_TYPES.indexOf(item.attr$.name);
-                    const OTHER_VALUE = self.getOtherValue();
-
-                    for (const enumeration of item['xs:restriction']['xs:enumeration']) {
-                      const APP_INFO = enumeration['xs:annotation']['xs:appinfo'];
-                      if (enumeration.attr$.value !== OTHER_VALUE) {
-
-                        let type = {};
-
-                        type.TYPE_NAME = INDEX >= 0 ?
-                          `EXTENSION_${item.attr$.name}` : item.attr$.name;
-                        //                      let type = new Picklist(typename);
-                        type.VALUE = enumeration.attr$.value;
-                        type.VALUE_DECODE = APP_INFO.DECODE;
-                        type.STATUS = APP_INFO.STATUS;
-                        type.isExt = false;
-                        dbmodel.create(type, (err, result) => {
-                          if (err)
-                            rej(new RVHelper('EDB10000', err));
-                          else
-                            types.push(result);
-                        });
-                      }
-                    }
-                  }
-                  dbmodel
-                    .find({})
-                    .then(result => {
-                      moduleInMemory = result;
-                      res(new RVHelper('EDB20001', `${result.length} added.`));
-                    })
-                    .catch(err => {
-                      rej(err);
-                    });
-                });
-              } catch (err) {
-                rej(new RVHelper('EDB10000', err));
+                }
               }
             }
-          })
-          .catch(err => {
-            rej(new RVHelper('EDB10000', err));
+            res(new RVHelper('EDB20001', `${global.modulesInMemory[self.modelClassName.toLowerCase()].length} added.`));
           });
+        } catch (err) {
+          rej(new RVHelper('EDB10000', err));
+        }
       } else {
-        console.log('No model defined');
+        rej('EDB13001');
       }
-      //      let tdb = new TingoDBWrap(self.dbName);
-
-      //      let rows = tdb.consum();
-      //      moduleClasses.connect('tingodb://'+__dirname+'/../data');
-      //      .then((err, ret) => {
-      //      });
-      //      rows.next().value
-      //     .then(result => {
-      //       if (result.data.length === 0) {
-      //         try {
-      //           data = fs.readFileSync(filename, {
-      //             encoding: 'utf8'
-      //           });
-      //         } catch (err) {
-      //           rej(new RVHelper('EDB10000', err));
-      //         }
-
-      //         xml2js.parseString(data, {
-      //           attrkey: 'attr$',
-      //           explicitArray: false
-      //         }, (err, obj) => {
-      //           if (err)
-      //             rej(new RVHelper('EDB10000', err));
-
-      //           types = [];
-
-      //           const COMPLEX_TYPES = obj['xs:schema']['xs:complexType'].map(type => {
-      //             return type['xs:simpleContent']['xs:extension'].attr$.base;
-      //           });
-
-      //           for (const item of obj['xs:schema']['xs:simpleType']) {
-      //             const INDEX = COMPLEX_TYPES.indexOf(item.attr$.name);
-      //             const OTHER_VALUE = self.getOtherValue();
-
-      //             for (const enumeration of item['xs:restriction']['xs:enumeration']) {
-      //               const APP_INFO = enumeration['xs:annotation']['xs:appinfo'];
-      //               if (enumeration.attr$.value !== OTHER_VALUE) {
-
-      //                 let typename = INDEX >= 0 ?
-      //                   `EXTENSION_${item.attr$.name}` : item.attr$.name;
-      //                 let type = new Picklist(typename);
-      //                 type.VALUE = enumeration.attr$.value;
-      //                 type.VALUE_DECODE = APP_INFO.DECODE;
-      //                 type.STATUS = APP_INFO.STATUS;
-      //                 type.isExt = false;
-      //                 types.push(type);
-      //               }
-      //             }
-      //           }
-      //         });
-      //         let saved = rows.next(types).value;
-      //         saved
-      //           .then(result => {
-      //             moduleInMemory = result.data;
-      //             res(new RVHelper('EDB20001', `${result.data.length} added.`));
-      //           })
-      //           .catch(err => {
-      //             rej(err);
-      //           });
-      //       }
-      //       if (!moduleInMemory) {
-      //         moduleInMemory = result.data;
-      //         res(new RVHelper('EDB20001'));
-      //       }
-      //     })
-      //     .catch(err => {
-      //       rej(err);
-      //     });
     });
   }
 
   static edb_getSync(obj) {
     let retVal = [];
-    retVal = _.filter(moduleInMemory, obj);
-
+    let classname = this.prototype.constructor.name;
+    classname = classname.slice(0, classname.indexOf('Service')).toLowerCase();
+    if (!global.modulesInMemory[classname]) 
+      return new RVHelper('EDB10002');
+    else 
+      retVal = _.filter(global.modulesInMemory[classname], obj);
     return retVal;
   }
 
-  static isMongooseSet() {
-    return moduleTopClassName;
-  }
-
   initMongoose() {
-    let self = this;
-    moduleTopClassName = self.modelClassNamePre + '.' + self.modelClassName;
-    try {
-      let jschema = SchemaLoader.loadSchema(moduleTopClassName, self.version);
-      console.log(JSON.stringify(jschema));
-      let mongoose = require('mongoose');
-      let Schema = mongoose.Schema;
-      let mschema = new Schema(jschema);
-      mschema.plugin(ServiceLevelPlugin, {url: self.modelClassName.toLowerCase()});
-      let mmodule = mongoose.model(self.modelClassName, mschema);
-//       mmodule.find({}).then(result => {
-//         moduleInMemory = result;
-//       });
-      return new RVHelper('EDB00000');
-    } catch (err) {
-      return new RVHelper('EDB10000', err);
-    }
+    return new Q((res, rej) => {
+      let self = this;
+      try {
+        let jschema = SchemaLoader.loadSchema(self.modelClassNamePre + '.' + self.modelClassName, self.version);
+        let mongoose = require('mongoose');
+        let Schema = mongoose.Schema;
+        let mschema = new Schema(jschema);
+        mschema.plugin(ServiceLevelPlugin, { url: self.modelClassName.toLowerCase() });
+        let mmodule = mongoose.model(self.modelClassName, mschema);
+        mmodule.find({})
+          .then(result => {
+            if (self.inmem) {
+              global.modulesInMemory[self.modelClassName.toLowerCase()] = result;
+            }
+            res(new RVHelper('EDB00000'));
+          })
+          .catch(err => {
+            rej(new RVHelper('EDB10000', err));
+          });
+      } catch (err) {
+        rej(new RVHelper('EDB10000', err));
+      }
+    });
   }
 };

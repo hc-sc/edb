@@ -2,7 +2,6 @@ const GHSTS = require('../models/ghsts');
 const BACKEND_CONST = require('../constants/backend');
 const SHARED_CONST = require('../constants/shared');
 const RVHelper = require('../utils/return.value.helper').ReturnValueHelper;
-const NumberFormat = require('number-format.js');
 
 const Q = require('bluebird');
 

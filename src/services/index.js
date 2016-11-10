@@ -1,4 +1,5 @@
 module.exports.ServiceNeedInit = exports = [
+  'picklist',
   'dossier',
   'receiver',
   'submission',
@@ -9,4 +10,3 @@ module.exports.ServiceNeedInit = exports = [
   // 'legalentity',
 // 'document',
   // 'file',
-//  'picklist',

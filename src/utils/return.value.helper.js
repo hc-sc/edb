@@ -4,7 +4,7 @@
 //  EDB10 - internal program level
 //  EDB11 - internal service related
 //  EDB12 - internal file, folder releted error, like product, dossier, submission
-//   
+//  EDB13 - internal mongoose errors   
 //   
 // EDB2 - Messages
 //
@@ -18,6 +18,7 @@ const RETURN_VALUE_CONFIG = {
   EDB10000: { msg: 'Other errors' },
   EDB10001: { msg: 'Please run application in electron' },
   EDB10002: { msg: 'not implement yet' },
+  EDB10003: { msg: 'only getSync is implemented' },
 
   EDB11001: { msg: 'Calling service with empty url' },
   EDB11002: { msg: 'Service not found'},
@@ -35,6 +36,7 @@ const RETURN_VALUE_CONFIG = {
   EDB12006: { msg: 'Packaged submission, reload it?' },
   EDB12007: { msg: 'Cannot create submisson with empty submission number.' },
 
+  EDB13001: { msg: 'Mongoose model cannot be found' },
   
   EDB20001: { msg: 'picklst database is initialed' },
   EDB20002: { msg: 'picklst database had been initialed' },

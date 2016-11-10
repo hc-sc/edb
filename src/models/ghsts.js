@@ -10,10 +10,6 @@ const _ = require('lodash');
 const BaseModel = require('./base.model');
 const Q = require('bluebird');
 
-const Jsonix = require('jsonix').Jsonix;
-
-const GHSTSMappings = require(basePath + '/resources/app/standards/01-00-00/GHSTSMappings').GHSTSMappings;
-
 var dataPath = path.resolve(basePath, 'data');
 
 module.exports = class GHSTS extends BaseModel {
@@ -109,7 +105,6 @@ module.exports = class GHSTS extends BaseModel {
     self.writeXML(filename).then(result => {
       if (result.code === 'EDB00000') {
         //Unmarshall an object from the XML retrieved from the URL 
-        let context = new Jsonix.Context([GHSTSMappings]);
         // Then we create a unmarshaller 
         let unmarshaller = context.createUnmarshaller();
 
