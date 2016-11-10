@@ -1,0 +1,13 @@
+<div layout-gt-sm='row'>
+  <md-input-container class='md-block'>
+    <label for='value'>Value</label>
+    <input id='value' type='text' ng-model='$ctrl.value'>
+    {{$ctrl.value}}
+  </md-input-container>
+  <md-input-container>
+    <label for='value-decode'>Decoded Value (Optional)</label>
+    <input id='value-decode' type='text' ng-model='$ctrl.valueDecode'>
+  </md-input-container>
+  <icon-button style='display: inline-block' icon='save' colour='dark' label='save new type' on-update='$ctrl.update()'></icon-button>
+   <icon-button style='display: inline-block' icon='close' colour='dark' label='cancel' on-update='$ctrl.cancel()'></icon-button>
+</div>
