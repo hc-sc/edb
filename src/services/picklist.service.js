@@ -16,13 +16,13 @@ module.exports = class PickListService extends BaseService {
   }
   // used to get all types with a given name. Can additionally provide a true/false status, which only returns enabled types
   edb_get(typeName, isEnabled) {
-    let query = {};
+    let query = {data: {}};
     if (typeof typeName === 'object') {
-      query = typeName;
+      query.data = typeName;
     } else if (typeof typeName === 'string') {
-      query.TYPE_NAME = typeName;
+      query.data.TYPE_NAME = typeName;
       if (isEnabled === true) {
-        query.STATUS = 'enabled';
+        query.data.STATUS = 'enabled';
       }
     }
     return super.edb_get(query);

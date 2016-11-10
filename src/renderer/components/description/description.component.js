@@ -6,12 +6,14 @@ import dossierRATemplate from './dossier-ra.template';
 import referencedDossierTemplate from './referenced-dossier.template';
 
 import TextInput from '../common/text-input/text-input.component';
+import SelectInput from '../common/select-input/select-input.component';
 import Icon from '../common/icon/icon.component';
 import Tbl from '../common/tbl/tbl.component';
 
 export default angular.module('description', [
   ngMaterial,
   TextInput,
+  SelectInput,
   Icon,
   Tbl
 ])
@@ -31,7 +33,13 @@ export default angular.module('description', [
         'PROJECT_ID_NUMBER'
       ];
 
+      this.referencedDossierProjection = [
+        'REFERENCED_DOSSIER_REASON',
+        'REFERENCED_DOSSIER_NUMBER'
+      ];
+
       this.markDeletable();
+      this.incremental = true;
     }
 
     update(prop, value) {
@@ -54,14 +62,36 @@ export default angular.module('description', [
         this.$mdDialog.show({
           template: dossierRATemplate,
           controllerAs: '$ctrl',
-          controller: DossierRACtrl
+          controller: DossierRACtrl,
+          locals: {
+            index,
+            dossierRA: this.submission.DOSSIER_RA[index]
+          }
+        })
+        .then(item => {
+          this.submission.DOSSIER_RA[index] = item;
+          // angular doesn't trigger update if just one element is updated, need to change the object itself
+          this.submission.DOSSIER_RA = this.submission.DOSSIER_RA.slice();
+        }, item => {
+          console.log('cancelled ', item);
         });
       }
       else if (nodeName === 'REFERENCED_DOSSIER') {
         this.$mdDialog.show({
           template: referencedDossierTemplate,
           controllerAs: '$ctrl',
-          controller: ReferencedDossierCtrl
+          controller: ReferencedDossierCtrl,
+          locals: {
+            index,
+            referencedDossier: this.submission.REFERENCED_DOSSIER[index]
+          }
+        })
+        .then(item => {
+          this.submission.REFERENCED_DOSSIER[index] = item;
+          // angular doesn't trigger update if just one element is updated, need to change the object itself
+          this.submission.REFERENCED_DOSSIER = this.submission.REFERENCED_DOSSIER.slice();
+        }, item => {
+          console.log('cancelled ', item);
         });
       }
     }
@@ -69,23 +99,63 @@ export default angular.module('description', [
 })
 .name;
 
-class ReferencedDossierCtrl {
-  constructor($mdDialog) {
+class DossierRACtrl {
+  constructor(index, dossierRA, $mdDialog) {
     this.$mdDialog = $mdDialog;
-    console.log(this);
+    this.dossierRA = this.clone(dossierRA);
+    this.index = index;
+  }
+
+  // this will need to be upgrades for nested objects
+  clone(object) {
+    let newObj = {};
+    for (let prop in object) {
+      if (object.hasOwnProperty(prop)) {
+        newObj[prop] = object[prop];
+      }
+    }
+    return newObj;
   }
 
   cancel() {
     this.$mdDialog.cancel();
+  }
+
+  confirm() {
+    this.$mdDialog.hide(this.dossierRA);
+  }
+
+  update(prop, value) {
+    this.dossierRA[prop] = value;
   }
 }
 
-class DossierRACtrl {
-  constructor($mdDialog) {
+class ReferencedDossierCtrl {
+  constructor(index, referencedDossier, $mdDialog) {
     this.$mdDialog = $mdDialog;
+    this.referencedDossier = this.clone(referencedDossier);
+    this.index = index;
+  }
+
+  clone(object) {
+    let newObj = {};
+    for (let prop in object) {
+      if (object.hasOwnProperty(prop)) {
+        newObj[prop] = object[prop];
+      }
+    }
+    return newObj;
   }
 
   cancel() {
     this.$mdDialog.cancel();
+  }
+
+  confirm() {
+    this.$mdDialog.hide(this.referencedDossier);
+  }
+
+  update(prop, value) {
+    this.referencedDossier[prop] = value;
   }
 }

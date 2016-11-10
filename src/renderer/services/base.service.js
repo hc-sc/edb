@@ -114,7 +114,8 @@ export default class BaseService {
   jsonClassfer(obj) {
     return obj;
   }
-
+//call back handles returned object
+//the returned object structure {url:null,method:null,data:object}
   _msg_envelope(method, obj) {
     let retVal = {};
     retVal.url = this.url;

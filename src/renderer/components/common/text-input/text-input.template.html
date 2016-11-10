@@ -1,4 +1,4 @@
-<md-input-container class='md-block no-margin' ng-class='{ "md-input-invalid": !$ctrl.validPattern || $ctrl.exceededLimit }'>
+<md-input-container class='md-block custom-container' ng-class='{ "md-input-invalid": !$ctrl.validPattern || $ctrl.exceededLimit }'>
   <label for='{{ $ctrl.label }}'>{{ $ctrl.label }}</label>
   <input class='md-block'
   name='{{ $ctrl.label }}'
@@ -7,8 +7,6 @@
   ng-disabled='$ctrl.isDisabled'
   ng-model='$ctrl.textValue'
   ng-change='$ctrl.update()'>
-  <div class='error-block'>
-    <p class='error-message' ng-if='$ctrl.exceededLimit'>Exceeded character limit of {{ $ctrl.maxLength }}</p>
-    <p class='error-message' ng-if='$ctrl.hasPattern && !$ctrl.validPattern'>{{ $ctrl.message }}</p>
-  </div>
+  <p class='error-message' ng-if='$ctrl.exceededLimit'>Exceeded character limit of {{ $ctrl.maxLength }}</p>
+  <p class='error-message' ng-if='$ctrl.hasPattern && !$ctrl.validPattern'>{{ $ctrl.message }}</p>
 </md-input-container>

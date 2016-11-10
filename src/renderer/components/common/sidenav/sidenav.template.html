@@ -1,13 +1,13 @@
-<md-sidenav class='md-sidenav-left' md-is-open='$ctrl.listOpen' md-component-id='left' md-whiteframe='4'>
+<md-sidenav class='md-sidenav-left custom-sidenav' md-is-open='$ctrl.listOpen' md-component-id='left' md-whiteframe='4'>
   <md-input-container class='md-icon-float md-block'>
     <label for='searchBar'>Search</label>
-    <md-icon md-svg-icon='search'></md-icon>
+    <md-icon class='text-icon' md-svg-icon='search'></md-icon>
     <input type='text' name='searchBar' ng-model='$ctrl.searchText'>
   </md-input-container>
   <md-divider></md-divider>
   <md-list>
     <md-list-item ng-repeat='item in $ctrl.items | orderBy:item.name:true | filter:$ctrl.searchText' ng-click='$ctrl.select(item)'>
-      <p>{{ item.name }}</p>
+      <p>{{ item[$ctrl.main] }}</p>
     </md-list-item>
   </md-list>
 </md-sidenav>

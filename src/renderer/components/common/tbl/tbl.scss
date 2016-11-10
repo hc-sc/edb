@@ -17,9 +17,10 @@ table, tr, th, td {
   outline: none;
 }
 
-p.error-message {
-  color: #dd2c00;
-  font-size: 0.8em;
-  padding: 0px;
-  margin: 0px;
+text-input.search-input {
+  margin: 0;
+}
+
+tbl > md-card {
+  margin: 15px 0;
 }
