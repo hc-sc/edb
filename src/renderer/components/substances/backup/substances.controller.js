@@ -1,9 +1,8 @@
 
 import BaseCtrl from '../common/BaseCtrl';
-
 export class SubstancesCtrl extends BaseCtrl {
-    constructor($mdDialog, $state, PicklistService, GhstsService, AppDataService) {
-        super($mdDialog, $state, PicklistService, GhstsService, AppDataService, 'substance');
+    constructor($state, PicklistService, GhstsService, DossierDataService) {
+        super($state, PicklistService, GhstsService, DossierDataService, 'substance');
         let self = this;
         this.items = []; //declare a whole entity instead of some specific fields
         //use injected service
@@ -26,15 +25,7 @@ export class SubstancesCtrl extends BaseCtrl {
                 console.log(metadataStatusOptions);
                 self.metadataStatusOptions = metadataStatusOptions.data;
              //   return self.pickListService.edb_get('EXTENSION_TYPE_SUBSTANCE_IDENTIFIER_TYPE', true);
-            });
-
-        self.pickListService.edb_get({'TYPE_NAME': 'EXTENSION_TYPE_SUBSTANCE_IDENTIFIER_TYPE'})
-            .then(identifierTypeOptions => {
-                console.log(identifierTypeOptions);
-                self.identifierTypeOptions = identifierTypeOptions.data;
-             //   return self.pickListService.edb_get('EXTENSION_TYPE_SUBSTANCE_IDENTIFIER_TYPE', true);
-            });
-            
+            })
             /*
             .then(identifierTypeOptions => {
                 // options for identifier types
@@ -49,6 +40,6 @@ export class SubstancesCtrl extends BaseCtrl {
     //model fields handler methods
     select(item) {
         console.log(item);
-       // this.$state.go('submission.legalEntities');
+        this.$state.go('submission.legalEntities');
     }
 }
