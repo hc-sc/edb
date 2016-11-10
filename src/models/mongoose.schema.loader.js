@@ -54,7 +54,7 @@ module.exports = class SchemaLoader {
         if (item.collection)
           coveredSchema[item.name] = [cover];
         else {
-          if (item.required) {
+          if (item.required && item.name !== 'metadatastatus') {
             cover.required = true;
           }
           coveredSchema[item.name] = cover;

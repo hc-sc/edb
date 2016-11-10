@@ -48,9 +48,10 @@ module.exports = class BaseService {
       let entityClass;
 
       if (obj && typeof obj === 'object') {
-        try {
-          entityClass = require('mongoose').model(self.modelClassName);
-
+        entityClass = require('mongoose').model(self.modelClassName);
+        if (!entityClass) 
+          rej(new RVHelper('EDB13001'));
+        else {
           entityClass
             .create(obj, (err, rows) => {
               if (err)
@@ -58,8 +59,6 @@ module.exports = class BaseService {
               else
                 res(new RVHelper('EDB00000', rows));
             });
-        } catch (err) {
-          rej(new RVHelper('EDB13001'));
         }
       } else {
         rej(new RVHelper('EDB11004', obj));

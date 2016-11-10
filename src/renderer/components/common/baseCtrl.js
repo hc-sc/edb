@@ -1,5 +1,5 @@
-import { DossierDataService } from '../../services/app.data.service';
-//import {GhstsService} from '../../services/ghsts.service';
+//import { AppDataService } from '../../services/app.data.service';
+//import { GhstsService } from '../../services/ghsts.service';
 import NewFactory from '../common/NewFactory';
 export default class BaseCtrl {
     //url make it specific

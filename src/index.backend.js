@@ -100,7 +100,7 @@ ipc.on(SHARED_CONST.PICKLIST_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, functi
 });
 
 ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL, function (event, arg) {
-  let svr = new GhstsService(submissions, validateInsts.v01_00_00);
+  let svr = new GhstsService(submissions, validateInsts['01_00_00']);
   let method = 'edb_' + arg.method;
   svr[method](arg.data).then(result => {
     event.sender.send(SHARED_CONST.GHSTS_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF, result);
@@ -111,7 +111,7 @@ ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL, function (event, arg) {
 });
 
 ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, function (event, arg) {
-  let svr = new GhstsService(submissions, validateInsts.v01_00_00);
+  let svr = new GhstsService(submissions, validateInsts['01_00_00']);
   if (arg.method !== 'get') {
     event.returnValue = new RVHelper('EDB10003');
   } else {
@@ -164,14 +164,13 @@ app.on('ready', function () {
   // FOR VALIDATING GHSTS +++++++++++++++++++++++++++++++
 
   for (let i = 0; i < supprtVersions.length; i++) {
-    let versionDir = supprtVersions[i].replace(/\./g, '-');
-    let instName = supprtVersions[i].replace(/\./g, '_');
+    let versionDir = supprtVersions[i].replace(/\./g, '_');
     let GHSTSJsonSchema = JSON.parse(fs.readFileSync('./resources/app/standards/' + versionDir + '/GHSTSMappings.jsonschema').toString());
-    validateInsts[instName] = ajvInst.compile(GHSTSJsonSchema);
-    let GHSTSMappings = require('../resources/app/standards/01-00-00/GHSTSMappings').GHSTSMappings;
+    validateInsts[versionDir] = ajvInst.compile(GHSTSJsonSchema);
+    let GHSTSMappings = require('../resources/app/standards/' + versionDir + '/GHSTSMappings').GHSTSMappings;
     let context = new Jsonix.Context([GHSTSMappings]);
-    unmarshallers[instName] = context.createUnmarshaller();
-    marshallers[instName] = context.createMarshaller();
+    unmarshallers[versionDir] = context.createUnmarshaller();
+    marshallers[versionDir] = context.createMarshaller();
   }
 
   init_mongoose();
