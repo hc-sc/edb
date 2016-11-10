@@ -9,6 +9,7 @@ import Toolbar from '../common/toolbar/toolbar.component';
 import Tbl from '../common/tbl/tbl.component';
 import Footer from '../common/footer/footer.component';
 import DossierService from '../../services/dossier.service';
+import PicklistService from '../../services/picklist.service';
 import { } from '../../services/ghsts.service';
 import { } from '../../services/app.data.service';
 import { GHSTS_NG_MODULE_NAME, APP_DATA_NG_MODULE_NAME,PICKLIST_NG_MODULE_NAME } from '../../../constants/shared';
