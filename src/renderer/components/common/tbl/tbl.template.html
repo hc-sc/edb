@@ -5,6 +5,7 @@
       <div flex></div>
       <icon icon='$ctrl.searchIcon' ng-click='$ctrl.toggleSearch()'></icon>
       <icon icon='$ctrl.addIcon' ng-click='$ctrl.add()'></icon>
+      <icon icon='$ctrl.deleteIcon' ng-click='$ctrl.delete({ items: $ctrl.selected })'></icon>
     </div>
   </md-toolbar>
   <md-toolbar class='md-table-toolbar custom-toolbar md-default' ng-show='$ctrl.search'>
@@ -36,3 +37,4 @@
     </table>
   </md-table-container>
 </md-card>
+<p class='error-message' ng-if='$ctrl.rows && $ctrl.rows.length < $ctrl.minItems'>Must have at least {{ $ctrl.minItems }} {{ $ctrl.title  | lowercase }}</p>

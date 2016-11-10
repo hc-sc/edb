@@ -1,9 +1,9 @@
 const BaseService = require('./base.service');
-const BACKEND_CONST = require('../constants/backend');
 
-exports.DossierService = class DossierService extends BaseService {
-  constructor($q, level, prodAndDossierName, isActive) {
-    super($q, 'dossiers', undefined, 'DOSSIER', level, prodAndDossierName, isActive ? BACKEND_CONST.ACTIVE_SUBMISSION_NAME : BACKEND_CONST.LAST_SUBMISSION_NAME);
+module.exports = class DossierService extends BaseService {
+  constructor(version) {
+    super('DOSSIER', version);
+    this.modelClassNamePre = 'GHSTS.PRODUCT';
   }
 };
 /*

@@ -1,0 +1,10 @@
+{
+	"type": "enumInfo",
+	"localName": "TYPEREFERENCETYPE",
+	"values": [
+		"document to replaced document",
+		"document to submitted document",
+		"document to unchanged predecessor document",
+		"translation to document"
+	]
+}

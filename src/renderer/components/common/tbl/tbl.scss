@@ -1,7 +1,15 @@
 @import '../../../scss/constants';
 
+table {
+  word-wrap: break-word;
+}
+
 tbody > tr:hover {
   background-color: $hover-color;
+  cursor: pointer;
+}
+
+th:hover {
   cursor: pointer;
 }
 

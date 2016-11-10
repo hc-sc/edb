@@ -1,0 +1,28 @@
+{
+	"localName": "GHSTS.DOCUMENTS.DOCUMENT",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "documentra",
+			"required": true,
+			"collection": true,
+			"elementName": "DOCUMENT_RA",
+			"typeInfo": ".GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA"
+		},
+		{
+			"name": "documentgeneric",
+			"required": true,
+			"elementName": "DOCUMENT_GENERIC",
+			"typeInfo": ".GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC"
+		},
+		{
+			"name": "id",
+			"required": true,
+			"typeInfo": "ID",
+			"attributeName": {
+				"localPart": "Id"
+			},
+			"type": "attribute"
+		}
+	]
+}

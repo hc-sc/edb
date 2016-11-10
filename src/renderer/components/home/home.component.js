@@ -1,6 +1,7 @@
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import ngMaterial from 'angular-material';
+import _ from 'lodash';
 import mdDataTable from 'angular-material-data-table';
 import template from './home.template';
 
@@ -10,15 +11,15 @@ import Footer from '../common/footer/footer.component';
 import DossierService from '../../services/dossier.service';
 import PicklistService from '../../services/picklist.service';
 import { } from '../../services/ghsts.service';
-import { } from '../../services/dossier.data.service';
-import { GHSTS_NG_MODULE_NAME, DOSSIER_DATA_NG_MODULE_NAME,PICKLIST_NG_MODULE_NAME } from '../../../constants/shared';
+import { } from '../../services/app.data.service';
+import { GHSTS_NG_MODULE_NAME, APP_DATA_NG_MODULE_NAME,PICKLIST_NG_MODULE_NAME } from '../../../constants/shared';
 
 export default angular.module('home', [
   uiRouter,
   ngMaterial,
   mdDataTable,
   GHSTS_NG_MODULE_NAME,
-  DOSSIER_DATA_NG_MODULE_NAME,
+  APP_DATA_NG_MODULE_NAME,
   PICKLIST_NG_MODULE_NAME,
   Toolbar,
   Tbl,
@@ -41,7 +42,7 @@ export default angular.module('home', [
         functionIcons: [
           { name: 'globals', state: 'globals.legalEntities', label: 'Entities' },
           { name: 'settings', state: 'settings', label: 'Settings' },
-          { name: 'help', label: 'Help' }
+          { name: 'help', label: 'Help', func: this.backend.bind(this) }
         ]
       };
 
@@ -120,6 +121,17 @@ export default angular.module('home', [
 
     update(prop, value) {
       this[prop] = value;
+    }
+
+    backend() {
+      console.log('for backend test');
+      this.GhstsService.edb_get()
+        .then(result => {
+          console.log(result);
+        })
+        .catch(err => { 
+          console.log(err);
+        });
     }
   }
 })

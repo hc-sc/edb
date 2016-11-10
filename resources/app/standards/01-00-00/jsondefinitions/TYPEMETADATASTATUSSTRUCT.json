@@ -1,0 +1,16 @@
+{
+	"localName": "TYPEMETADATASTATUSSTRUCT",
+	"typeName": "TYPE_METADATA_STATUS_STRUCT",
+	"propertyInfos": [
+		{
+			"name": "value",
+			"required": true,
+			"elementName": "VALUE"
+		},
+		{
+			"name": "valuedecode",
+			"required": true,
+			"elementName": "VALUE_DECODE"
+		}
+	]
+}

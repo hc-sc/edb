@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-import PicklistModel from '../view-models/picklist.model';
+import Picklist from '../view-models/picklist.model';
 
 import BaseService from './base.service';
 
@@ -20,10 +20,10 @@ export class PicklistService extends BaseService {
     if (obj.constructor === Array) {
       retVal = [];
       obj.map(item => {
-        retVal.push(new PicklistModel(item));
+        retVal.push(new Picklist(item));
       });
     } else {
-      retVal = new PicklistModel(obj);
+      retVal = new Picklist(obj);
     }
     return retVal;
   }

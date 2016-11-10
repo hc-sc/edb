@@ -1,0 +1,17 @@
+{
+	"localName": "EXTENSIONTYPEADMINNUMBERTYPE",
+	"typeName": "EXTENSION_TYPE_ADMIN_NUMBER_TYPE",
+	"propertyInfos": [
+		{
+			"name": "value",
+			"type": "value"
+		},
+		{
+			"name": "otherValue",
+			"attributeName": {
+				"localPart": "Other_Value"
+			},
+			"type": "attribute"
+		}
+	]
+}

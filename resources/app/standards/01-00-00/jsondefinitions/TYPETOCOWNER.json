@@ -1,0 +1,13 @@
+{
+	"type": "enumInfo",
+	"localName": "TYPETOCOWNER",
+	"values": [
+		"BVL (Germany)",
+		"EPA (New Zealand)",
+		"EPA (US)",
+		"MAF (New Zealand)",
+		"OECD",
+		"other",
+		"PMRA (Canada)"
+	]
+}

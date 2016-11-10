@@ -1,0 +1,17 @@
+{
+	"localName": "EXTENSIONTYPEREGULATORYTYPE",
+	"typeName": "EXTENSION_TYPE_REGULATORY_TYPE",
+	"propertyInfos": [
+		{
+			"name": "value",
+			"type": "value"
+		},
+		{
+			"name": "otherValue",
+			"attributeName": {
+				"localPart": "Other_Value"
+			},
+			"type": "attribute"
+		}
+	]
+}

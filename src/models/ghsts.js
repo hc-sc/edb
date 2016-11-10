@@ -6,29 +6,34 @@ const PickListService = require('../services/picklist.service');
 const BACKEND_CONST = require('../constants/backend');
 const basePath = fs.realpathSync('./');
 const _ = require('lodash');
+//const DBRef = require('./db.ref');
+const BaseModel = require('./base.model');
+const Q = require('bluebird');
 
-const Jsonix = require('jsonix').Jsonix;
-  
-const GHSTSMappings = require(basePath + '/resources/app/standards/01-00-00/GHSTSMappings').GHSTSMappings;
+var dataPath = path.resolve(basePath, 'data');
 
-var dataPath = path.resolve(basePath, 'data', BACKEND_CONST.DOSSIER_LEVEL_SERVICE);
-
-module.exports = class GHSTS {
-  constructor($q, filePath, prodAndDossierName) {
-    this.$q = $q;
+module.exports = class GHSTS extends BaseModel {
+  constructor(filePath, prodAndDossierName) {
+    super('ghsts', undefined, {
+      'xmlns': 'http://www.oecd.org/GHSTS',
+      'xmlns:xlink': 'http://www.w3.org/1999/xlink',
+      'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+      'xsi:schemaLocation': 'http://www.oecd.org/GHSTS utils/ghsts_01-00-01.xsd'
+    });
     this._filePath = filePath;
     this._prodAndDossierName = prodAndDossierName;
     this._dbpath = path.resolve(dataPath, prodAndDossierName);
-    this.legalEntities = [];
-    this.receivers = [];
-    this.product = {};
-    this.documents = [];
-    this.submission = [];
-    this.dossier = {};
-    this.files = [];
-    this.substances = [];
-    this.toc = {};
-    this.used_templates = {};
+    /*    this.legalEntities = [];
+        this.receivers = [];
+        this.product = {};
+        this.documents = [];
+        this.submission = [];
+        this.dossier = {};
+        this.files = [];
+        this.substances = [];
+        this.toc = {};
+        this.used_templates = {};
+    */
   }
 
   addLegalEntity(legalEntity) {
@@ -94,62 +99,63 @@ module.exports = class GHSTS {
   }
 
   validateXML(filename, validateInst) {
-    let self = this, deffer = self.$q.defer();
+    let self = this,
+      deffer = self.$q.defer();
 
     self.writeXML(filename).then(result => {
       if (result.code === 'EDB00000') {
         //Unmarshall an object from the XML retrieved from the URL 
-        let context = new Jsonix.Context([GHSTSMappings]);           
         // Then we create a unmarshaller 
         let unmarshaller = context.createUnmarshaller();
-       
+
         //Unmarshal an object from the XML retrieved from the URL 
-//        let xmlSource = file:' + filename;
-                
+        //        let xmlSource = file:' + filename;
+
         unmarshaller.unmarshalFile(filename, function (unmarshalled) {
-                // This callback function will be provided with the result of the unmarshalling  
-//          let ghstsJSON = JSON.parse(fs.readFileSync(filename).toString());
+          // This callback function will be provided with the result of the unmarshalling  
+          //          let ghstsJSON = JSON.parse(fs.readFileSync(filename).toString());
           let valid = validateInst(unmarshalled);
-      
+
           fs.unlink(filename);
           if (!valid) {
-    //      console.log(validate.errors);
-          //        console.log(err.dataPath + ' ' + err.message);
+            //      console.log(validate.errors);
+            //        console.log(err.dataPath + ' ' + err.message);
             deffer.reject(new RVHelper('EDB30001', validateInst.errors));
           } else {
-    //      console.log('Data is valid');
+            //      console.log('Data is valid');
             deffer.resolve(new RVHelper('EDB30000'));
           }
         });
       }
-    });    
+    });
     return deffer.promise;
   }
 
-  readObjects(isActive, templatePath) {
+  readObjects(templatePath) {
     // read json objects from DB file or ghsts xml
-    let fStat, self = this;//, deffer = self.$q.defer();
+    let fStat, self = this; //, deffer = self.$q.defer();
 
     if (templatePath) {
-      return self._readObjectsFromXML(isActive, templatePath);
+      return self._readObjectsFromXML(templatePath);
     } else {
-      self._dbpath = path.resolve(self._dbpath, isActive ? BACKEND_CONST.ACTIVE_SUBMISSION_NAME : BACKEND_CONST.LAST_SUBMISSION_NAME);
+      self._dbpath = path.resolve(self._dbpath);
       try {
         fStat = fs.statSync(self._dbpath);
         if (fStat.isDirectory()) {
-          return self._readObjectsFromDB(isActive);
+          return self._readObjectsFromDB();
         } else {
-          return self._readObjectsFromXML(isActive);
+          return self._readObjectsFromXML();
         }
       } catch (err) {
-        return self._readObjectsFromXML(isActive);
+        return self._readObjectsFromXML();
       }
     }
   }
 
-  _readObjectsFromDB(isActive) {
+  _readObjectsFromDB() {
     // write ghsts json tree back to xml
-    let self = this, deffer = self.$q.defer();
+    let self = this,
+      deffer = self.$q.defer();
     let keys = Object.keys(self);
     //    let qArray = [], keyArray = [];
 
@@ -157,16 +163,16 @@ module.exports = class GHSTS {
       if (key[0] !== '$' && key[0] !== '_') {
         if (self[key]) {
           let srvClass = this._getServiceClassFromFields(key);
-          let srvInst = new srvClass(self.$q, BACKEND_CONST.DOSSIER_LEVEL_SERVICE, self._prodAndDossierName, isActive);
+          let srvInst = new srvClass(self.$q, BACKEND_CONST.DOSSIER_LEVEL_SERVICE, self._prodAndDossierName);
           srvInst.edb_get().then(result => {
-            if (result.data) {
-              if (self[key].constructor === Array) {
-                self[key] = _.sortBy(result.data, ['createdAt']);
-              } else {
-                self[key] = result.data[0];
+              if (result.data) {
+                if (self[key].constructor === Array) {
+                  self[key] = _.sortBy(result.data, ['createdAt']);
+                } else {
+                  self[key] = result.data[0];
+                }
               }
-            }
-          })
+            })
             .catch(err => {
               deffer.reject(new RVHelper('EDB10000', err));
               return deffer.promise;
@@ -179,99 +185,103 @@ module.exports = class GHSTS {
     return deffer.promise;
   }
 
-  _readObjectsFromXML(isActive, filePath) {
+  _readObjectsFromXML(filePath) {
     // read json objects from ghsts xml
-    let self = this, deffer = self.$q.defer(), fileName;
+    let self = this,
+      fileName;
     let keys = Object.keys(self);
 
-    fileName = filePath ? path.resolve(filePath, BACKEND_CONST.GHSTS_XML_FILENAME) : path.resolve(self._filePath, BACKEND_CONST.GHSTS_XML_FILENAME);
-    fs.stat(fileName, (err, stat) => {
-      if (err) {
-        deffer.reject(new RVHelper('EDB10000', err));
-        return deffer.promise;
-      } else if (!stat.isFile()) {
-        deffer.reject(new RVHelper('EDB12005', filePath));
-        return deffer.promise;
-      }
-    });
-
-    try {
-      fs.readFile(fileName, { encoding: 'utf8' }, (err, xmlStr) => {
+    return new Q((resolve, reject) => {
+      fileName = filePath ? path.resolve(filePath, BACKEND_CONST.GHSTS_XML_FILENAME) : path.resolve(self._filePath, BACKEND_CONST.GHSTS_XML_FILENAME);
+      fs.stat(fileName, (err, stat) => {
         if (err) {
-          deffer.reject(new RVHelper('EDB10000', err));
-          return deffer.promise;
+          reject(new RVHelper('EDB10000', err));
+        } else if (!stat.isFile()) {
+          reject(new RVHelper('EDB12005', filePath));
         }
-        // parse the xml to json object
-        xml2js.parseString(xmlStr, { attrkey: 'attr$', explicitArray: false }, (err, obj) => {
-          // check for errors
-          if (err) {
-            deffer.reject(new RVHelper('EDB10000', err));
-            return deffer.promise;
-          }
-
-          if (!obj.GHSTS) {
-            deffer.reject(new RVHelper('EDB30001'));
-          } else {
-            // set legal entities
-            if (obj.GHSTS.LEGAL_ENTITIES)
-              self.legalEntities = obj.GHSTS.LEGAL_ENTITIES.LEGAL_ENTITY ? obj.GHSTS.LEGAL_ENTITIES.LEGAL_ENTITY : [];
-            // set receivers
-            if (obj.GHSTS.RECEIVERS)
-              self.receivers = obj.GHSTS.RECEIVERS.RECEIVER ? obj.GHSTS.RECEIVERS.RECEIVER : [];
-
-            // set the Product from the xml
-            if (obj.GHSTS.PRODUCT) {
-              self.product = obj.GHSTS.PRODUCT;
-              if (obj.GHSTS.PRODUCT.DOSSIER) {
-                self.dossier = obj.GHSTS.PRODUCT.DOSSIER;
-                if (obj.GHSTS.PRODUCT.DOSSIER.SUBMISSION) {
-                  if (typeof obj.GHSTS.PRODUCT.DOSSIER.SUBMISSION === 'object') {
-                    self.submission.push(obj.GHSTS.PRODUCT.DOSSIER.SUBMISSION);
-                  } else {
-                    self.submission = obj.GHSTS.PRODUCT.DOSSIER.SUBMISSION;
-                  }
-                  delete self.dossier.SUBMISSION;
-                }
-                delete self.product.DOSSIER;
-              }
-            }
-
-            if (obj.GHSTS.FILES)
-              self.files = obj.GHSTS.FILES.FILE ? obj.GHSTS.FILES.FILE : [];
-            // set documents
-            if (obj.GHSTS.DOCUMENTS)
-              self.documents = obj.GHSTS.DOCUMENTS.DOCUMENT ? obj.GHSTS.DOCUMENTS.DOCUMENT : [];
-
-            if (obj.GHSTS.SUBSTANCES) {
-              self.substances = obj.GHSTS.SUBSTANCES.SUBSTANCE ? obj.GHSTS.SUBSTANCES.SUBSTANCE : [];
-            }
-
-            self.toc = obj.GHSTS.TOC;
-
-            self.used_templates = obj.GHSTS.USED_TEMPLATES;
-
-            let pklInst = new PickListService(self.$q);
-            keys.map(key => {
-              if (key[0] !== '$' && key[0] !== '_') {
-                if (self[key]) {
-                  let srvClass = self._getServiceClassFromFields(key);
-                  let srvInst = new srvClass(self.$q, BACKEND_CONST.DOSSIER_LEVEL_SERVICE, self._prodAndDossierName, isActive);
-                  srvInst.jsonObjClassifierFromXml(self[key], pklInst).then(result => {
-                    self[key] = result;
-                  });
-                }
-              }
-            });
-
-            deffer.resolve(new RVHelper('EDB00000', self));
-          }
-        });
       });
-    } catch (err) {
-      deffer.reject(new RVHelper('EDB10001', err));
-    }
 
-    return deffer.promise;
+      try {
+        fs.readFile(fileName, {
+          encoding: 'utf8'
+        }, (err, xmlStr) => {
+          if (err) {
+            reject(new RVHelper('EDB10000', err));
+          }
+          // parse the xml to json object
+          xml2js.parseString(xmlStr, {
+            attrkey: 'attr$',
+            explicitArray: false
+          }, (err, obj) => {
+            // check for errors
+            if (err) {
+              reject(new RVHelper('EDB10000', err));
+            }
+
+            if (!obj.GHSTS) {
+              reject(new RVHelper('EDB30001'));
+            } else {
+              // set legal entities
+              if (obj.GHSTS.LEGAL_ENTITIES)
+                self.legalEntities = obj.GHSTS.LEGAL_ENTITIES.LEGAL_ENTITY ? obj.GHSTS.LEGAL_ENTITIES.LEGAL_ENTITY : [];
+              // set receivers
+              if (obj.GHSTS.RECEIVERS)
+                self.receivers = obj.GHSTS.RECEIVERS.RECEIVER ? obj.GHSTS.RECEIVERS.RECEIVER : [];
+
+              // set the Product from the xml
+              if (obj.GHSTS.PRODUCT) {
+                self.product = obj.GHSTS.PRODUCT;
+                if (obj.GHSTS.PRODUCT.DOSSIER) {
+                  self.dossier = obj.GHSTS.PRODUCT.DOSSIER;
+                  if (obj.GHSTS.PRODUCT.DOSSIER.SUBMISSION) {
+                    if (typeof obj.GHSTS.PRODUCT.DOSSIER.SUBMISSION === 'object') {
+                      self.submission.push(obj.GHSTS.PRODUCT.DOSSIER.SUBMISSION);
+                    } else {
+                      self.submission = obj.GHSTS.PRODUCT.DOSSIER.SUBMISSION;
+                    }
+                    delete self.dossier.SUBMISSION;
+                  }
+                  delete self.product.DOSSIER;
+                }
+              }
+
+              if (obj.GHSTS.FILES)
+                self.files = obj.GHSTS.FILES.FILE ? obj.GHSTS.FILES.FILE : [];
+              // set documents
+              if (obj.GHSTS.DOCUMENTS)
+                self.documents = obj.GHSTS.DOCUMENTS.DOCUMENT ? obj.GHSTS.DOCUMENTS.DOCUMENT : [];
+
+              if (obj.GHSTS.SUBSTANCES) {
+                self.substances = obj.GHSTS.SUBSTANCES.SUBSTANCE ? obj.GHSTS.SUBSTANCES.SUBSTANCE : [];
+              }
+
+              self.toc = obj.GHSTS.TOC;
+
+              self.used_templates = obj.GHSTS.USED_TEMPLATES;
+
+              let pklInst = new PickListService();
+              keys.map(key => {
+                if (key[0] !== '$' && key[0] !== '_') {
+                  if (self[key]) {
+                    let srvClass = self._getServiceClassFromFields(key);
+                    let srvInst = new srvClass();
+                    srvInst.jsonObjClassifierFromXml(self[key], pklInst)
+                      .then(result => {
+                        self[key] = result.data;
+                      });
+                  }
+                }
+              });
+
+              resolve(new RVHelper('EDB00000', self));
+            }
+          });
+        });
+      } catch (err) {
+        reject(new RVHelper('EDB10001', err));
+      }
+
+    });
   }
 
   writeXML(filename) {
@@ -280,7 +290,10 @@ module.exports = class GHSTS {
 
     let obj = this.toGhstsJson();
 
-    let builder = new xml2js.Builder({ rootName: 'GHSTS', attrkey: 'attr$' });
+    let builder = new xml2js.Builder({
+      rootName: 'GHSTS',
+      attrkey: 'attr$'
+    });
     let xml = builder.buildObject(obj);
     fs.writeFile(filename, xml, function (err) {
       if (err) {
@@ -294,15 +307,15 @@ module.exports = class GHSTS {
 
   toGhstsJson() {
     let retVal = {
-        attr$ : {
-          'xmlns': 'http://www.oecd.org/GHSTS', 
-          'xmlns:xlink': 'http://www.w3.org/1999/xlink', 
-          'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance', 
-          'xsi:schemaLocation': 'http://www.oecd.org/GHSTS utils/ghsts_01-00-01.xsd', 
+        attr$: {
+          'xmlns': 'http://www.oecd.org/GHSTS',
+          'xmlns:xlink': 'http://www.w3.org/1999/xlink',
+          'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+          'xsi:schemaLocation': 'http://www.oecd.org/GHSTS utils/ghsts_01-00-01.xsd',
           'specificationversion': '01.00.00'
         }
-    }, 
-    self = this;
+      },
+      self = this;
 
     if (self.receivers.length > 0) {
       retVal.RECEIVERS = {};
@@ -377,8 +390,11 @@ module.exports = class GHSTS {
   }
 
   _getServiceClassFromFields(fieldName) {
-    let retClass = undefined, retClassName = undefined, retClassFileName = undefined;
-    let curFieldName = fieldName, retClassNameAry = [];
+    let retClass = undefined,
+      retClassName = undefined,
+      retClassFileName = undefined;
+    let curFieldName = fieldName,
+      retClassNameAry = [];
 
     retClassName = fieldName;
 
@@ -396,7 +412,7 @@ module.exports = class GHSTS {
       retClassName = retClassNameAry.toString().replace(',', '_');
       retClassName = retClassName + 'Service';
     }
-    retClass = require('../services/' + retClassFileName)[retClassName];
+    retClass = require('../services/' + retClassFileName);
     return retClass;
   }
 };

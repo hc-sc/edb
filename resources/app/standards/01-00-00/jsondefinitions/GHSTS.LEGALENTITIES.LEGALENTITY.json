@@ -1,0 +1,62 @@
+{
+	"localName": "GHSTS.LEGALENTITIES.LEGALENTITY",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "metadatastatus",
+			"required": true,
+			"elementName": "METADATA_STATUS",
+			"typeInfo": ".TYPEMETADATASTATUSSTRUCT"
+		},
+		{
+			"name": "legalentitypid",
+			"required": true,
+			"elementName": "LEGALENTITY_PID"
+		},
+		{
+			"name": "legalentityname",
+			"required": true,
+			"elementName": "LEGALENTITY_NAME"
+		},
+		{
+			"name": "legalentitytype",
+			"elementName": "LEGALENTITY_TYPE",
+			"typeInfo": ".GHSTS.LEGALENTITIES.LEGALENTITY.LEGALENTITYTYPE"
+		},
+		{
+			"name": "othername",
+			"minOccurs": 0,
+			"collection": true,
+			"elementName": "OTHER_NAME"
+		},
+		{
+			"name": "legalentityidentifier",
+			"minOccurs": 0,
+			"collection": true,
+			"elementName": "LEGALENTITY_IDENTIFIER",
+			"typeInfo": ".GHSTS.LEGALENTITIES.LEGALENTITY.LEGALENTITYIDENTIFIER"
+		},
+		{
+			"name": "contactaddress",
+			"required": true,
+			"elementName": "CONTACT_ADDRESS",
+			"typeInfo": ".GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTADDRESS"
+		},
+		{
+			"name": "contactperson",
+			"minOccurs": 0,
+			"collection": true,
+			"elementName": "CONTACT_PERSON",
+			"typeInfo": ".GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON"
+		},
+		{
+			"name": "id",
+			"required": true,
+			"typeInfo": "ID",
+			"attributeName": {
+				"localPart": "Id"
+			},
+			"type": "attribute"
+		}
+	]
+}

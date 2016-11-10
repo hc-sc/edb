@@ -1,0 +1,17 @@
+{
+	"localName": "GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "documentnumbertype",
+			"required": true,
+			"elementName": "DOCUMENT_NUMBER_TYPE",
+			"typeInfo": ".GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER.DOCUMENTNUMBERTYPE"
+		},
+		{
+			"name": "identifier",
+			"required": true,
+			"elementName": "IDENTIFIER"
+		}
+	]
+}

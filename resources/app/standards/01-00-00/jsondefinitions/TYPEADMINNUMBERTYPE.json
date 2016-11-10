@@ -1,0 +1,16 @@
+{
+	"type": "enumInfo",
+	"localName": "TYPEADMINNUMBERTYPE",
+	"values": [
+		"Application Number",
+		"BVL Kenn-Nr.",
+		"EPA Decision No",
+		"Experimental Use Permit",
+		"Inert Ingredient clearance request",
+		"other",
+		"PMRA Decision No",
+		"PRIA Pre-application",
+		"Section 3 product",
+		"Tolerance Petition"
+	]
+}

@@ -1,0 +1,13 @@
+{
+	"localName": "GHSTS.DOCUMENTS",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "document",
+			"required": true,
+			"collection": true,
+			"elementName": "DOCUMENT",
+			"typeInfo": ".GHSTS.DOCUMENTS.DOCUMENT"
+		}
+	]
+}
