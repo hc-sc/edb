@@ -122,7 +122,7 @@ ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, function 
 
 ipc.on(SHARED_CONST.APP_DATA_MSG_CHANNEL, function (event, arg) {
   if (!svrDisp)
-    svrDisp = new ServiceDispatcher(BACKEND_CONST.APP_LEVEL_SERVICE);
+    svrDisp = new ServiceDispatcher();
   let svr = svrDisp.getService(arg.url);
   let method = 'edb_' + arg.method;
   svr[method](arg.data).then(result => {
@@ -138,7 +138,7 @@ ipc.on(SHARED_CONST.APP_DATA_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, functi
     event.returnValue = new RVHelper('EDB10003');
   } else {
     if (!svrDisp)
-      svrDisp = new ServiceDispatcher(BACKEND_CONST.APP_LEVEL_SERVICE);
+      svrDisp = new ServiceDispatcher();
     let svr = svrDisp.getService(arg.url);
     let method = 'edb_' + arg.method;
     event.returnValue = svr[method](arg.data);

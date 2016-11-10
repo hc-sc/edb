@@ -25,12 +25,12 @@ export default class BaseCtrl {
         return this.AppDataService.edb_get({ url: this.url, data: {} });
     }
     createRecord(data) { // set data with url
-        DossierDataService.edb_put(data);
+        return this.AppDataService.edb_put(data);
     }
     deleteRecord(data) {
-        DossierDataService.edb_delete(data);
+        return this.AppDataService.edb_delete(data);
     }
     updateRecord(data) {
-        DossierDataService.edb_post();
+        return this.AppDataService.edb_post();
     }
 }

@@ -118,10 +118,10 @@ export default class BaseService {
 //the returned object structure {url:null,method:null,data:object}
   _msg_envelope(method, obj) {
     let retVal = {};
-    retVal.url = this.url;
+    retVal.url = this.url ? this.url : '';
     if (obj) {
       if (obj.url) {
-        retVal.url += '/' + obj.url;
+        retVal.url += retVal.url ? '/' : '' + obj.url;
       }
     }
     retVal.method = method;

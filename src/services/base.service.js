@@ -31,7 +31,7 @@ module.exports = class BaseService {
 
         entityClass
           .find(query, (err, rows) => {
-            if (err) 
+            if (err)
               rej(new RVHelper('EDB10000', err));
             else
               res(new RVHelper('EDB00000', rows));
@@ -43,59 +43,78 @@ module.exports = class BaseService {
   }
 
   edb_put(obj) {
-    let self = this;
-    if (obj && typeof obj === 'object') {
-      let obj2DB = obj;
-      let tdb;// = new TingoDBWrap(self.dbName);
+    return new Q((res, rej) => {
+      let self = this;
+      let entityClass;
 
-      if (self.modelClassName !== 'Picklist' && obj2DB['beforeToDB'])
-        obj2DB.beforeToDB();
-      tdb.insert(obj2DB).next()
-        .then(result => {
-          return result;
-        })
-        .catch(err => {
-          return err;
-        });
-    } else
-      return new RVHelper('EDB11004', obj);
+      if (obj && typeof obj === 'object') {
+        try {
+          entityClass = require('mongoose').model(self.modelClassName);
+
+          entityClass
+            .create(obj, (err, rows) => {
+              if (err)
+                rej(new RVHelper('EDB10000', err));
+              else
+                res(new RVHelper('EDB00000', rows));
+            });
+        } catch (err) {
+          rej(new RVHelper('EDB13001'));
+        }
+      } else {
+        rej(new RVHelper('EDB11004', obj));
+      }
+    });
   }
 
-
   edb_delete(id) {
-    let self = this;
-    let tdb; // = new TingoDBWrap(self.dbName);
+    return new Q((res, rej) => {
+      let self = this;
+      let entityClass;
 
-    if (id && typeof id === 'string') {
-      tdb.remove(id)
-        .then(result => {
-          return result;
-        })
-        .catch(err => {
-          return err;
-        });
-    } else {
-      return new RVHelper('EDB11005', id);
-    }
+      if (id && typeof id === 'string') {
+        try {
+          entityClass = require('mongoose').model(self.modelClassName);
+
+          entityClass
+            ._remove_status(id, (err, rows) => {
+              if (err)
+                rej(new RVHelper('EDB10000', err));
+              else
+                res(new RVHelper('EDB00000', rows));
+            });
+        } catch (err) {
+          rej(new RVHelper('EDB13001'));
+        }
+      } else {
+        rej(new RVHelper('EDB11005', id));
+      }
+    });
   }
 
   edb_post(obj) {
-    let self = this;
-    let tdb; // = new TingoDBWrap(self.dbName);
+    return new Q((res, rej) => {
+      let self = this;
+      let entityClass;
 
-    if (obj && typeof obj === 'object' && obj.hasOwnProperty('_id')) {
-      let obj2DB = obj;
-      if (self.modelClassName !== 'Picklist' && obj2DB['beforeToDB'])
-        obj2DB.beforeToDB();
-      tdb.update(obj2DB)
-        .then(result => {
-          return result;
-        })
-        .catch(err => {
-          return err;
-        });
-    } else
-      return new RVHelper('EDB11006', obj);
+      if (obj && typeof obj === 'object' && obj.hasOwnProperty('_id')) {
+        try {
+          entityClass = require('mongoose').model(self.modelClassName);
+
+          entityClass
+            .update(obj, (err, rows) => {
+              if (err)
+                rej(new RVHelper('EDB10000', err));
+              else
+                res(new RVHelper('EDB00000', rows));
+            });
+        } catch (err) {
+          rej(new RVHelper('EDB13001'));
+        }
+      } else {
+        rej(new RVHelper('EDB11006', obj));
+      }
+    });
   }
 
   jsonObjClassifierFromXml(obj, picklistInst) {
@@ -227,7 +246,7 @@ module.exports = class BaseService {
                   dbmodel.create(type, (err, result) => {
                     if (err)
                       rej(new RVHelper('EDB10000', err));
-                    else 
+                    else
                       global.modulesInMemory[self.modelClassName.toLowerCase()].push(result);
                   });
                 }
@@ -248,9 +267,9 @@ module.exports = class BaseService {
     let retVal = [];
     let classname = this.prototype.constructor.name;
     classname = classname.slice(0, classname.indexOf('Service')).toLowerCase();
-    if (!global.modulesInMemory[classname]) 
+    if (!global.modulesInMemory[classname])
       return new RVHelper('EDB10002');
-    else 
+    else
       retVal = _.filter(global.modulesInMemory[classname], obj);
     return retVal;
   }

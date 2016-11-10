@@ -1,8 +1,9 @@
 
 import BaseCtrl from '../common/BaseCtrl';
+
 export class SubstancesCtrl extends BaseCtrl {
-    constructor($state, PicklistService, GhstsService, DossierDataService) {
-        super($state, PicklistService, GhstsService, DossierDataService, 'substance');
+    constructor($state, PicklistService, GhstsService, AppDataService) {
+        super($state, PicklistService, GhstsService, AppDataService, 'substance');
         let self = this;
         this.items = []; //declare a whole entity instead of some specific fields
         //use injected service

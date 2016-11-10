@@ -6,7 +6,7 @@ import BaseService from './base.service';
 
 export class GhstsService extends BaseService {
   constructor($q) {
-    super($q, GHSTS_MSG_CHANNEL, GHSTS_NG_SERVICE_URL);
+    super($q, GHSTS_MSG_CHANNEL);
   }
 
   edb_package() {
