@@ -90,21 +90,6 @@ module.exports = class BaseService {
       }
     });
   }
-<<<<<<< HEAD
-//input is obj, it suppose to be obj.data
-  edb_post(objaa) {
-    let self = this, deferred = self.$q.defer();
-    let obj = objaa.data;
-    if (obj && typeof obj === 'object' && obj.hasOwnProperty('_id')) {
-      let obj2DB = obj;
-      if (self.modelClassName !== 'PicklistModel' && obj2DB['beforeToDB'])
-        obj2DB.beforeToDB();
-      self.db.update({ _id: obj2DB._id }, obj2DB, {}, (err, numReplaced) => {
-        if (err) {
-          deferred.reject(new RVHelper('EDB10000', err));
-        } else {
-          deferred.resolve(new RVHelper('EDB00000', numReplaced));
-=======
 
   edb_post(obj) {
     return new Q((res, rej) => {
@@ -124,7 +109,6 @@ module.exports = class BaseService {
             });
         } catch (err) {
           rej(new RVHelper('EDB13001'));
->>>>>>> 317a2924a468524651fa66a332e7da6f4d0ba90e
         }
       } else {
         rej(new RVHelper('EDB11006', obj));
