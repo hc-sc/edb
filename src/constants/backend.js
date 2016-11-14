@@ -1,6 +1,6 @@
 const BACKEND_CONSTANTS = {
   DATA_DIR: 'data',
-  PRODUCTS_DIR: 'products',
+  PRODUCTS_DIR: 'projects',
 
   APP_LEVEL_SERVICE: 'app',
   PRODUCT_DOSSIER_FOLDER_CONTACT_SYMBOL: '_##_',

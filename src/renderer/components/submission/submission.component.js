@@ -35,16 +35,7 @@ export default angular.module('submission', [
         this.navbarItems = [
           { title: 'Description', state: '.description' },
           { title: 'Receivers', state: '.receivers' },
-          { title: 'Product', state: '.product' },
-          { title: 'Documents', state: '.documents' }
-        ];
-
-        this.globalItems = [
-          { title: 'Legal Entities', state: 'globals.legalEntities' },
-          { title: 'Substances', state: 'globals.substances' },
-          { title: 'Products', state: 'globals.products' },
-          { title: 'Files', state: 'globals.files' },
-          { title: 'Picklists', state: 'globals.picklists' }
+          { title: 'TOC', state: '.toc' }
         ];
 
         this.toolbarItems = {

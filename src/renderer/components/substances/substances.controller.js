@@ -34,7 +34,7 @@ export class SubstancesCtrl extends BaseCtrl {
                 self.identifierTypeOptions = identifierTypeOptions.data;
              //   return self.pickListService.edb_get('EXTENSION_TYPE_SUBSTANCE_IDENTIFIER_TYPE', true);
             });
-            
+
             /*
             .then(identifierTypeOptions => {
                 // options for identifier types

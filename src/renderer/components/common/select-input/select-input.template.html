@@ -1,6 +1,6 @@
 <md-input-container class='md-block custom-container'>
   <label>{{ $ctrl.label }}</label>
   <md-select ng-model='$ctrl.selectValue' ng-change='$ctrl.update()'>
-    <md-option ng-repeat='item in $ctrl.values' ng-value='item.value'>{{ item.value }}</md-option>
+    <md-option ng-repeat='item in $ctrl.values' ng-value='item._doc.value'>{{ item._doc.value }}</md-option>
   </md-select>
 </md-input-container>

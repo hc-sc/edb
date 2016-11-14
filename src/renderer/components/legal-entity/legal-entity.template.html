@@ -1,0 +1,22 @@
+<section class='node-page'>
+  <sidenav items='$ctrl.items' on-select='$ctrl.select(item)'></sidenav>
+  <text-input label='PID' is-disabled='true' text-value='$ctrl.submission.DOSSIER_PID'  max-length='5' has-pattern='^[0-9]*$' message='Needs to be a valid PID' on-update='$ctrl.update("DOSSIER_PID", value)'></text-input>
+  <text-input label='Name' text-value='$ctrl.name' on-update='$ctrl.update("name", value)'></text-input>
+  <select-input label='Type' select-value='$ctrl.legalentitytype' values='$ctrl.typeValues' on-update='$ctrl.update("legalentitytype", value)'></select-input>
+  <text-input label='Other Name'></text-input>
+  <tbl title='Identifier' items='$ctrl.legalentityidentifiers' projection='$ctrl.legalEntityIdentifiersProjection'></tbl>
+  <fieldset>
+    <legend>Contact Address</legend>
+    <text-input label='Street 1'></text-input>
+    <text-input label='Street 2'></text-input>
+    <text-input label='Zipcode'></text-input>
+    <text-input label='City'></text-input>
+    <text-input label='State'></text-input>
+    <select-input label='Country' values='[]'></select-input>
+    <text-input label='Phone'></text-input>
+    <text-input label='Fax'></text-input>
+    <text-input label='Email'></text-input>
+    <text-input label='Website'></text-input>
+  </fieldset>
+  <tbl title='Contacts' items='[]' projection='[]'></tbl>
+</section>
