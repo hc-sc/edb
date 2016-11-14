@@ -2,7 +2,9 @@
   <h1>Substances</h1>
   <sidenav items='$ctrl.items' on-select='$ctrl.select(item)'></sidenav>
     <form name='substanceForm' id='substanceForm' novalidation>
+       <dropdown options="$ctrl.metadataStatusOptions " typename='TYPE_METADATA_STATUS' extensible='true'></dropdown> 
     <div layout-gt-xs='row'>
+     
       <md-input-container class='md-block' flex-gt-sm>
         <label for='identifier'>Identifier</label>
         <input ng-model='$ctrl.selectedRecord._identifier' name='identifier' type='text' disabled />
@@ -68,12 +70,12 @@
       </md-card>
     </md-list>
     <md-divider>
-      <!-- buttons -->
+      <!-- buttons component with url name as param --> 
       <div layout='row' layout-xs='column' layout-align='center' layout-wrap>
-        <md-button class='md-raised md-primary' ng-click='$ctrl.addSubstance()' aria-label='Add'>Add</md-button>
-        <md-button class='md-raised md-primary' ng-click='$ctrl.saveSubstance($event)' aria-label='Save'>Save</md-button>
+        <md-button class='md-raised md-primary' ng-click='$ctrl.addRecord("substance")' aria-label='Add'>Add</md-button>
+        <md-button class='md-raised md-primary' ng-click='$ctrl.saveRecord($event)' aria-label='Save'>Save</md-button>
         <md-button class='md-raised md-primary' ng-click='$ctrl.cancelEdit()' aria-label='Cancel'>Cancel</md-button>
-        <md-button class='md-raised md-primary' ng-click='$ctrl.deleteSubstance()' aria-label='Delete'>Delete</md-button>
+        <md-button class='md-raised md-primary' ng-click='$ctrl.deleteRecord() ' aria-label='Delete'>Delete</md-button>
       </div>
   </form>
 </section>

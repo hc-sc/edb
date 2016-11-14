@@ -23,3 +23,4 @@ export default class PicklistModel {
     } 
   }   
 }
+//view model

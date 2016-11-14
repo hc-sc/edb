@@ -121,9 +121,10 @@ module.exports = class BaseService {
     }
     return deferred.promise;
   }
-
-  edb_post(obj) {
+//input is obj, it suppose to be obj.data
+  edb_post(objaa) {
     let self = this, deferred = self.$q.defer();
+    let obj = objaa.data;
     if (obj && typeof obj === 'object' && obj.hasOwnProperty('_id')) {
       let obj2DB = obj;
       if (self.modelClassName !== 'PicklistModel' && obj2DB['beforeToDB'])
