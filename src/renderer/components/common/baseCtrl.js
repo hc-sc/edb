@@ -34,7 +34,7 @@ export default class BaseCtrl {
         let that = this;
         if (this.selectedRecord && this.selectedRecord._id) {
             this.AppDataService.edb_post({ url: this.url, data: this.selectedRecord }).then(
-               
+
                 affectedRows =>{
                 console.log("test");
                 that.$mdDialog.show(
@@ -45,7 +45,7 @@ export default class BaseCtrl {
                         .content('Data Updated Successfully!')
                         .ok('Ok')
                         .targetEvent($event)
-                )} 
+                )}
 
             );
         }
@@ -65,7 +65,7 @@ export default class BaseCtrl {
             // refresh the substance list
             that.getRecords();
         }
-       
+
         console.log("save record");
     }
     addRecord(name) { //factory method by entity name

@@ -4,7 +4,7 @@ import Picklist from '../view-models/picklist.model';
 
 import BaseService from './base.service';
 
-import { PICKLIST_OTHER_VALUE, PICKLIST_MSG_CHANNEL, PICKLIST_NG_MODULE_NAME, PICKLIST_NG_SERVICE_ID } from '../../constants/shared'; 
+import { PICKLIST_OTHER_VALUE, PICKLIST_MSG_CHANNEL, PICKLIST_NG_MODULE_NAME, PICKLIST_NG_SERVICE_ID } from '../../constants/shared';
 
 export class PicklistService extends BaseService {
   constructor($q) {
@@ -26,6 +26,8 @@ export class PicklistService extends BaseService {
       retVal = new Picklist(obj);
     }
     return retVal;
+
+
   }
 
   getOtherValue() {

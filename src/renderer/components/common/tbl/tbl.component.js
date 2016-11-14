@@ -42,9 +42,6 @@ export default angular.module('tbl', [
 
       this.search = false;
       this.searchText = '';
-
-      console.log(this.items);
-
       this.mapProjection();
     }
 

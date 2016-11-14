@@ -8,7 +8,7 @@ const path = require('path');
 module.exports = class SchemaLoader {
   static loadSchema(name, version) {
     console.log(name);
-    let basePath = path.resolve(fs.realpathSync('./resources/app/standards/'), version.replace(/\./g, '-'), 'jsondefinitions');
+    let basePath = path.resolve(fs.realpathSync('./resources/app/standards/'), version.replace(/\./g, '_'), 'jsondefinitions');
     let fileName = path.join(basePath, name + '.json');
     let jsonixSchema = require(fileName);
     let coveredSchema = { TYPE_NAME: { type: 'String', default: jsonixSchema.localName } };
