@@ -30,7 +30,9 @@ module.exports = class BaseService {
         entityClass = require('mongoose').model(self.modelClassName);
 
         entityClass
-          .find(query, (err, rows) => {
+          .find(query)
+          .lean()
+          .exec((err, rows) => {
             if (err)
               rej(new RVHelper('EDB10000', err));
             else
@@ -49,7 +51,7 @@ module.exports = class BaseService {
 
       if (obj && typeof obj === 'object') {
         entityClass = require('mongoose').model(self.modelClassName);
-        if (!entityClass) 
+        if (!entityClass)
           rej(new RVHelper('EDB13001'));
         else {
           entityClass
@@ -146,7 +148,7 @@ module.exports = class BaseService {
         //           return retVal;
         //         } else if (item.data.length === 0) {
         //           continue;
-        //         } else 
+        //         } else
         //           retVal.push(item.data[0]);
         //       }*/
         // //      retVal = yield processAry;
