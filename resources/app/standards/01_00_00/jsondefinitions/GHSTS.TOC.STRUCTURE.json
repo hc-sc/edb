@@ -1,0 +1,13 @@
+{
+	"localName": "GHSTS.TOC.STRUCTURE",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "tocnode",
+			"required": true,
+			"collection": true,
+			"elementName": "TOC_NODE",
+			"typeInfo": ".TYPETOCNODE"
+		}
+	]
+}

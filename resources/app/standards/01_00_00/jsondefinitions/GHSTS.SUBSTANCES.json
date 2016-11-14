@@ -1,0 +1,13 @@
+{
+	"localName": "GHSTS.SUBSTANCES",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "substance",
+			"required": true,
+			"collection": true,
+			"elementName": "SUBSTANCE",
+			"typeInfo": ".GHSTS.SUBSTANCES.SUBSTANCE"
+		}
+	]
+}

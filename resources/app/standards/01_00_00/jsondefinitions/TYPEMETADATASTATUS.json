@@ -1,0 +1,9 @@
+{
+	"type": "enumInfo",
+	"localName": "TYPEMETADATASTATUS",
+	"values": [
+		"Modified",
+		"New",
+		"No Change"
+	]
+}

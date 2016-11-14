@@ -13,12 +13,13 @@ export default angular.module('sidenav', [
   template,
   bindings: {
     items: '<',
+    main: '@',
     onSelect: '&'
   },
   controller: class SidenavCtrl {
     constructor() {
       this.searchText = '';
-      this.listOpen = true;
+      this.listOpen = false;
     }
 
     toggleList() {

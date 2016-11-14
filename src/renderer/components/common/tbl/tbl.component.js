@@ -21,6 +21,7 @@ export default angular.module('tbl', [
   bindings: {
     title: '@',
     items: '<',
+    minItems: '@',
     defaultSort: '@',
     defaultReverse: '@',
     projection: '<',
@@ -42,10 +43,12 @@ export default angular.module('tbl', [
       this.search = false;
       this.searchText = '';
 
+      console.log(this.items);
+
       this.mapProjection();
     }
 
-    $onChanges(changes) {
+    $onChanges() {
       this.mapProjection();
     }
 
@@ -59,22 +62,33 @@ export default angular.module('tbl', [
       }
     }
 
+    // takes the input and re-orders the rows
     mapProjection() {
       this.headers = this.projection.map(item => {
         return { name: item, paramName: item };
       });
+
+      this.rows = this.items.map(item => {
+        let row = [];
+        for (let header of this.headers) {
+          row.push(item[header.name]);
+        }
+        row.push(item['_id']);
+        return row;
+      });
     }
 
-    inProjection(key) {
-      return (this.projection.indexOf(key) >= 0) ? true : false;
-    }
+    // checks if the data cell should be displayed, if the current key is in the projection
+    // inProjection(key) {
+    //   return (this.projection.indexOf(key) >= 0) ? true : false;
+    // }
 
     update(prop, value) {
       this[prop] = value;
     }
 
-    select(index) {
-      this.onSelect({ index });
+    select(id, index) {
+      this.onSelect({ id, index });
     }
 
     add() {
@@ -86,6 +100,7 @@ export default angular.module('tbl', [
     }
 
     toggleSearch() {
+      // clear the search field when closing
       if (this.search === true) {
         this.searchText = '';
       }

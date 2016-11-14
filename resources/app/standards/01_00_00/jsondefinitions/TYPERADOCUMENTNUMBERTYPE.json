@@ -1,0 +1,9 @@
+{
+	"type": "enumInfo",
+	"localName": "TYPERADOCUMENTNUMBERTYPE",
+	"values": [
+		"MRID",
+		"other",
+		"PRMA document number"
+	]
+}

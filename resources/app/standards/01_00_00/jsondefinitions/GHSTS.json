@@ -1,0 +1,61 @@
+{
+	"localName": "GHSTS",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "receivers",
+			"required": true,
+			"elementName": "RECEIVERS",
+			"typeInfo": ".GHSTS.RECEIVERS"
+		},
+		{
+			"name": "product",
+			"required": true,
+			"elementName": "PRODUCT",
+			"typeInfo": ".GHSTS.PRODUCT"
+		},
+		{
+			"name": "documents",
+			"required": true,
+			"elementName": "DOCUMENTS",
+			"typeInfo": ".GHSTS.DOCUMENTS"
+		},
+		{
+			"name": "files",
+			"required": true,
+			"elementName": "FILES",
+			"typeInfo": ".GHSTS.FILES"
+		},
+		{
+			"name": "toc",
+			"required": true,
+			"elementName": "TOC",
+			"typeInfo": ".GHSTS.TOC"
+		},
+		{
+			"name": "legalentities",
+			"required": true,
+			"elementName": "LEGAL_ENTITIES",
+			"typeInfo": ".GHSTS.LEGALENTITIES"
+		},
+		{
+			"name": "substances",
+			"required": true,
+			"elementName": "SUBSTANCES",
+			"typeInfo": ".GHSTS.SUBSTANCES"
+		},
+		{
+			"name": "usedtemplates",
+			"elementName": "USED_TEMPLATES",
+			"typeInfo": "AnyType"
+		},
+		{
+			"name": "specificationversion",
+			"required": true,
+			"attributeName": {
+				"localPart": "specificationversion"
+			},
+			"type": "attribute"
+		}
+	]
+}

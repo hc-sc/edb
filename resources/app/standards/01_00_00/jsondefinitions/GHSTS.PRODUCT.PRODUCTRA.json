@@ -1,0 +1,26 @@
+{
+	"localName": "GHSTS.PRODUCT.PRODUCTRA",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "productname",
+			"elementName": "PRODUCT_NAME"
+		},
+		{
+			"name": "adminnumber",
+			"minOccurs": 0,
+			"collection": true,
+			"elementName": "ADMIN_NUMBER",
+			"typeInfo": ".GHSTS.PRODUCT.PRODUCTRA.ADMINNUMBER"
+		},
+		{
+			"name": "toSpecificForRAId",
+			"required": true,
+			"typeInfo": "IDREF",
+			"attributeName": {
+				"localPart": "To_Specific_for_RA_Id"
+			},
+			"type": "attribute"
+		}
+	]
+}

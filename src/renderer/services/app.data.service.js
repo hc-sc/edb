@@ -1,12 +1,12 @@
 import angular from 'angular';
 
-import { APP_DATA_MSG_CHANNEL, APP_DATA_NG_MODULE_NAME, APP_DATA_NG_SERVICE_ID, APP_DATA_SERVICE_URL} from '../../constants/shared';
+import { APP_DATA_MSG_CHANNEL, APP_DATA_NG_MODULE_NAME, APP_DATA_NG_SERVICE_ID} from '../../constants/shared';
 
 import BaseService from './base.service';
 
 export class AppDataService extends BaseService {
   constructor($q) {
-    super($q, APP_DATA_MSG_CHANNEL, APP_DATA_SERVICE_URL);
+    super($q, APP_DATA_MSG_CHANNEL);
   }
 
   static appDataFactory(q) {

@@ -1,8 +1,11 @@
 
 import BaseCtrl from '../common/BaseCtrl';
+
 export class SubstancesCtrl extends BaseCtrl {
-    constructor($mdDialog,$state, PicklistService, GhstsService, DossierDataService) {
-        super($mdDialog,$state, PicklistService, GhstsService, DossierDataService, 'substance');
+
+    constructor($mdDialog, $state, PicklistService, GhstsService, AppDataService) {
+        super($mdDialog, $state, PicklistService, GhstsService, AppDataService, 'substance');
+
         let self = this;
         this.items = []; //declare a whole entity instead of some specific fields
         //use injected service

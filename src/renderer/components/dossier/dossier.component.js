@@ -1,5 +1,6 @@
 import angular from 'angular';
 import ngMaterial from 'angular-material';
+import _ from 'lodash';
 import template from './dossier.template';
 
 import Tbl from '../common/tbl/tbl.component';
@@ -67,6 +68,14 @@ export default angular.module('dossier', [
         dossierPID: this.dossier[0].DOSSIER_PID,
         submissionNumber: this.dossier[0].SUBMISSIONS[index].SUBMISSION_NUMBER
       });
+    }
+
+    delete(items) {
+      for (let i = 0; i < items.length; ++i) {
+        this.dossier[0].SUBMISSIONS = _.remove(this.dossier[0].SUBMISSIONS, submission => {
+          return !_.isEqual(items[i]['SUBMISSION_NUMBER'], submission['SUBMISSION_NUMBER']);
+        });
+      }
     }
   }
 })

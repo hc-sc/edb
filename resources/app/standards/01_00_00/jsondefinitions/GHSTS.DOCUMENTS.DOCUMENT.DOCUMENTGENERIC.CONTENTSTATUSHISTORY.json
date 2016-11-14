@@ -1,0 +1,22 @@
+{
+	"localName": "GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "contentstatusAndSUBMISSIONNUMBER",
+			"required": true,
+			"minOccurs": 2,
+			"collection": true,
+			"elementTypeInfos": [
+				{
+					"elementName": "CONTENT_STATUS",
+					"typeInfo": ".TYPECONTENTSTATUSSTRUCT"
+				},
+				{
+					"elementName": "SUBMISSION_NUMBER"
+				}
+			],
+			"type": "elements"
+		}
+	]
+}

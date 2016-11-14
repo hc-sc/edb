@@ -19,12 +19,6 @@ const SHARED_CONSTANTS = {
   APP_DATA_MSG_CHANNEL: 'appdata',
   APP_DATA_NG_MODULE_NAME: 'app.service.appdata',
   APP_DATA_NG_SERVICE_ID: 'AppDataService',
-  
-  DOSSIER_DATA_SERVICE_URL: 'dossierdata',
-  DOSSIER_DATA_MSG_CHANNEL: 'dossierdata',
-  DOSSIER_DATA_NG_MODULE_NAME: 'app.service.dossierdata',
-  DOSSIER_DATA_NG_SERVICE_ID: 'DossierDataService'
-  
 };
 
 (function (exports) {

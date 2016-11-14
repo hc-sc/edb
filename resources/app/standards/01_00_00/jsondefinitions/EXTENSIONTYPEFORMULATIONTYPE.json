@@ -1,0 +1,17 @@
+{
+	"localName": "EXTENSIONTYPEFORMULATIONTYPE",
+	"typeName": "EXTENSION_TYPE_FORMULATION_TYPE",
+	"propertyInfos": [
+		{
+			"name": "value",
+			"type": "value"
+		},
+		{
+			"name": "otherValue",
+			"attributeName": {
+				"localPart": "Other_Value"
+			},
+			"type": "attribute"
+		}
+	]
+}

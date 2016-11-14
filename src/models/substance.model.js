@@ -1,6 +1,6 @@
 const PID = require('../utils/pid');
 const BaseModel = require('./base.model');
-const PicklistModel = require('./picklist.model');
+const Picklist = require('./picklist.model');
 
 exports.SubstanceIdentifierStruct = class SubstanceIdentifierStruct extends BaseModel {
   constructor(jsonDB) {
@@ -31,7 +31,7 @@ exports.Substance = class Substance extends BaseModel {
   }
 
   beforeToDB() {
-    let status = new PicklistModel('METADATA_STATUS');
+    let status = new Picklist('METADATA_STATUS');
     let now = Date.now();
 
     super.beforeToDB();

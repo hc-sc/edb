@@ -72,10 +72,12 @@
     <md-divider>
       <!-- buttons component with url name as param --> 
       <div layout='row' layout-xs='column' layout-align='center' layout-wrap>
-        <md-button class='md-raised md-primary' ng-click='$ctrl.addRecord("substance")' aria-label='Add'>Add</md-button>
+
+        <md-button class='md-raised md-primary' ng-click='$ctrl.addRecord($event)' aria-label='Add'>Add</md-button>
         <md-button class='md-raised md-primary' ng-click='$ctrl.saveRecord($event)' aria-label='Save'>Save</md-button>
         <md-button class='md-raised md-primary' ng-click='$ctrl.cancelEdit()' aria-label='Cancel'>Cancel</md-button>
-        <md-button class='md-raised md-primary' ng-click='$ctrl.deleteRecord() ' aria-label='Delete'>Delete</md-button>
+        <md-button class='md-raised md-primary' ng-click='$ctrl.deleteRecord($event) ' aria-label='Delete'>Delete</md-button>
+
       </div>
   </form>
 </section>

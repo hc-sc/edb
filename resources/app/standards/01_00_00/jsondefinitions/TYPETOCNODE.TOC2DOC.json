@@ -1,0 +1,15 @@
+{
+	"localName": "TYPETOCNODE.TOC2DOC",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "toDocumentId",
+			"required": true,
+			"typeInfo": "AnySimpleType",
+			"attributeName": {
+				"localPart": "To_Document_Id"
+			},
+			"type": "attribute"
+		}
+	]
+}

@@ -1,0 +1,37 @@
+{
+	"localName": "GHSTS.SUBSTANCES.SUBSTANCE",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "metadatastatus",
+			"required": true,
+			"elementName": "METADATA_STATUS",
+			"typeInfo": ".TYPEMETADATASTATUSSTRUCT"
+		},
+		{
+			"name": "substancename",
+			"required": true,
+			"elementName": "SUBSTANCE_NAME"
+		},
+		{
+			"name": "substancepid",
+			"elementName": "SUBSTANCE_PID"
+		},
+		{
+			"name": "substanceidentifier",
+			"minOccurs": 0,
+			"collection": true,
+			"elementName": "SUBSTANCE_IDENTIFIER",
+			"typeInfo": ".GHSTS.SUBSTANCES.SUBSTANCE.SUBSTANCEIDENTIFIER"
+		},
+		{
+			"name": "id",
+			"required": true,
+			"typeInfo": "ID",
+			"attributeName": {
+				"localPart": "Id"
+			},
+			"type": "attribute"
+		}
+	]
+}

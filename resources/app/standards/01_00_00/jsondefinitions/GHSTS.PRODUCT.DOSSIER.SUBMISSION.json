@@ -1,0 +1,28 @@
+{
+	"localName": "GHSTS.PRODUCT.DOSSIER.SUBMISSION",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "submissionnumber",
+			"required": true,
+			"elementName": "SUBMISSION_NUMBER"
+		},
+		{
+			"name": "submissionversiondate",
+			"required": true,
+			"elementName": "SUBMISSION_VERSION_DATE",
+			"typeInfo": "Date"
+		},
+		{
+			"name": "submissiontitle",
+			"required": true,
+			"elementName": "SUBMISSION_TITLE"
+		},
+		{
+			"name": "incremental",
+			"required": true,
+			"elementName": "INCREMENTAL",
+			"typeInfo": "Boolean"
+		}
+	]
+}

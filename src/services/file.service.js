@@ -1,9 +1,9 @@
 const BaseService = require('./base.service');
-const BACKEND_CONST = require('../constants/backend');
 
-exports.FileService = class FileService extends BaseService {
-  constructor($q, level, prodAndDossierName, isActive) {
-    super($q, 'files', undefined, 'FILE', level, prodAndDossierName, isActive ? BACKEND_CONST.ACTIVE_SUBMISSION_NAME : BACKEND_CONST.LAST_SUBMISSION_NAME);
+module.exports = class FileService extends BaseService {
+  constructor(version) {
+    super('FILE', version);
+    this.modelClassNamePre = 'GHSTS.FILES';
   }
 };
 

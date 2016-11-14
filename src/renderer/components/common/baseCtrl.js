@@ -1,16 +1,18 @@
-import { DossierDataService } from '../../services/dossier.data.service';
-//import {GhstsService} from '../../services/ghsts.service';
+
+//import { AppDataService } from '../../services/app.data.service';
+//import { GhstsService } from '../../services/ghsts.service';
 import NewFactory from '../common/NewFactory';
 export default class BaseCtrl {
     //url make it specific
-    constructor($mdDialog, $state, PicklistService, GhstsService, DossierDataService, url) {//pass specific data service and url
+    constructor($mdDialog, $state, PicklistService, GhstsService, AppDataService, url) {//pass specific data service and url
+
         let that = this;
         this.$mdDialog = $mdDialog;
         this.$state = $state;
         this.url = url;
         this.pickListService = PicklistService.getService();
         //  this.GhstsService = GhstsService.getService();
-        this.DossierDataService = DossierDataService.getService();
+        this.AppDataService = AppDataService.getService();
         this.records = []; //declare a whole entity instead of some specific fields
         this.selectedRecord = null;
         //tool bar
@@ -23,16 +25,21 @@ export default class BaseCtrl {
         }
         */
     }
-    getRecords(data = {}) { //get by id from backend
-        return this.DossierDataService.edb_get({ url: this.url, data: {} });
+
+    getRecords(data = {}) {
+        return this.AppDataService.edb_get({ url: this.url, data: {} });
+
     }
     createRecord(data) { // set data with url
-        DossierDataService.edb_put(data);
+        return this.AppDataService.edb_put(data);
     }
-    saveRecord(event) {
-        let that=this;
+
+
+    saveRecord($event) {
+        let that = this;
         if (this.selectedRecord && this.selectedRecord._id) {
-            this.DossierDataService.edb_post({ url: this.url, data: this.selectedRecord }).then(
+            this.AppDataService.edb_post({ url: this.url, data: this.selectedRecord }).then(
+
                
                 affectedRows =>{
                 console.log("test");
@@ -43,13 +50,15 @@ export default class BaseCtrl {
                         .title('Success')
                         .content('Data Updated Successfully!')
                         .ok('Ok')
-                        .targetEvent(event)
+
+                        .targetEvent($event)
                 )} 
 
             );
         }
         else {
-            this.DossierDataService.edb_put({ url: this.url, data: this.selectedRecord }).then(affectedRows =>
+
+            this.AppDataService.edb_put({ url: this.url, data: this.selectedRecord }).then(affectedRows =>
                 that.$mdDialog.show(
                     that.$mdDialog
                         .alert()
@@ -57,7 +66,7 @@ export default class BaseCtrl {
                         .title('Success')
                         .content('Data Added Successfully!')
                         .ok('Ok')
-                        .targetEvent(event)
+                        .targetEvent($event)
                 )
             );
 
@@ -91,6 +100,7 @@ export default class BaseCtrl {
 
     }
     updateRecord(data) {
-        DossierDataService.edb_post(data);
+
+        this.AppDataService.edb_post(data);
     }
 }

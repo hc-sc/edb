@@ -1,10 +1,26 @@
 @import '../../../scss/constants';
 
+table {
+  word-wrap: break-word;
+}
+
 tbody > tr:hover {
   background-color: $hover-color;
   cursor: pointer;
 }
 
+th:hover {
+  cursor: pointer;
+}
+
 table, tr, th, td {
   outline: none;
+}
+
+text-input.search-input {
+  margin: 0;
+}
+
+tbl > md-card {
+  margin: 15px 0;
 }

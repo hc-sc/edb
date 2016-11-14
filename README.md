@@ -8,6 +8,9 @@ It is built on [electron](https://github.com/atom/electron) using the [Applicati
  * Angular 1.5
  * ES6
  * XML2JS
+ * Jsonix
+ * Mongoose
+ * TingoDB
  
 ## Install dependencies
 

@@ -1,4 +1,6 @@
-import PicklistModel from "../../../../models/picklist.model"
+
+//import PicklistModel from '../../../../view-models/picklist.model';
+
 export default class PcilstController {
   constructor() {
     this.value = null;

@@ -1,0 +1,42 @@
+{
+	"localName": "GHSTS.PRODUCT.DOSSIER",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "dossierpid",
+			"required": true,
+			"elementName": "DOSSIER_PID"
+		},
+		{
+			"name": "dossierdescriptiontitle",
+			"required": true,
+			"elementName": "DOSSIER_DESCRIPTION_TITLE"
+		},
+		{
+			"name": "dossiercompid",
+			"required": true,
+			"elementName": "DOSSIER_COMP_ID"
+		},
+		{
+			"name": "referenceddossier",
+			"minOccurs": 0,
+			"collection": true,
+			"elementName": "REFERENCED_DOSSIER",
+			"typeInfo": ".GHSTS.PRODUCT.DOSSIER.REFERENCEDDOSSIER"
+		},
+		{
+			"name": "dossierra",
+			"required": true,
+			"collection": true,
+			"elementName": "DOSSIER_RA",
+			"typeInfo": ".GHSTS.PRODUCT.DOSSIER.DOSSIERRA"
+		},
+		{
+			"name": "submission",
+			"required": true,
+			"collection": true,
+			"elementName": "SUBMISSION",
+			"typeInfo": ".GHSTS.PRODUCT.DOSSIER.SUBMISSION"
+		}
+	]
+}

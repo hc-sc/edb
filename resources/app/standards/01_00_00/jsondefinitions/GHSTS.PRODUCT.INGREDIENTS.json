@@ -1,0 +1,13 @@
+{
+	"localName": "GHSTS.PRODUCT.INGREDIENTS",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "ingredient",
+			"required": true,
+			"collection": true,
+			"elementName": "INGREDIENT",
+			"typeInfo": ".GHSTS.PRODUCT.INGREDIENTS.INGREDIENT"
+		}
+	]
+}
