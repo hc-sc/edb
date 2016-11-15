@@ -15,6 +15,7 @@ const BrowserWindow = require('electron').BrowserWindow;
 const SHARED_CONST = require('./constants/shared');
 const BACKEND_CONST = require('./constants/backend');
 const ServiceDispatcher = require('./services/service.dispatcher');
+const PicklistService = require('./services/picklist.service');
 const GhstsService = require('./services/ghsts.service');
 const RVHelper = require('./utils/return.value.helper');
 
@@ -23,11 +24,7 @@ const Q = require('bluebird');
 const AJV = require('ajv');
 const Jsonix = require('jsonix').Jsonix;
 
-
-//Test request
-//const SubstanceService = require('./services/substance.service');
-const PicklistService = require('./services/picklist.service');
-//Test request end
+var lastMessageTimestamp;  //For debug track if there are duplicatied message request from front-end
 
 var mainWindow = null;
 
@@ -39,14 +36,6 @@ var XMLSchemaJsonSchema;
 var JsonixJsonSchema;
 var supprtVersions = ['01.00.00'], validateInsts = {}, marshallers = {}, unmarshallers = {};
 var ajvInst;
-var backendTest = function() {
-  console.log('--------- Backend Test Start ----------');
-  new PicklistService().edb_get({TYPE_NAME: 'TYPE_METADATA_STATUS'}).then(result => {
-    console.log(result);
-  });
-  console.log('--------- Backend Test End ----------');
-};
-
 var init_mongoose = function () {
   try {
     let mongoose = require('mongoose');
@@ -81,11 +70,16 @@ ipc.on('devTools', function (event, arg) {
 ipc.on(SHARED_CONST.PICKLIST_MSG_CHANNEL, function (event, arg) {
   let svr = new PicklistService();
   let method = 'edb_' + arg.method;
+  let timestamp = arg.timestamp;
+  if (lastMessageTimestamp === timestamp) {
+    console.log('There are duplicatied message request');
+  }
+  lastMessageTimestamp = timestamp;
   svr[method](arg.data).then(result => {
-    event.sender.send(SHARED_CONST.PICKLIST_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF, result);
+    event.sender.send(SHARED_CONST.PICKLIST_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, result);
   })
     .catch(err => {
-      event.sender.send(SHARED_CONST.PICKLIST_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF, err);
+      event.sender.send(SHARED_CONST.PICKLIST_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, err);
     });
 });
 
@@ -102,11 +96,16 @@ ipc.on(SHARED_CONST.PICKLIST_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, functi
 ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL, function (event, arg) {
   let svr = new GhstsService(submissions, validateInsts['01_00_00']);
   let method = 'edb_' + arg.method;
+  let timestamp = arg.timestamp;
+  if (lastMessageTimestamp === timestamp) {
+    console.log('There are duplicatied message request');
+  }
+  lastMessageTimestamp = timestamp;
   svr[method](arg.data).then(result => {
-    event.sender.send(SHARED_CONST.GHSTS_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF, result);
+    event.sender.send(SHARED_CONST.GHSTS_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, result);
   })
     .catch(err => {
-      event.sender.send(SHARED_CONST.GHSTS_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF, err);
+      event.sender.send(SHARED_CONST.GHSTS_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, err);
     });
 });
 
@@ -125,11 +124,16 @@ ipc.on(SHARED_CONST.APP_DATA_MSG_CHANNEL, function (event, arg) {
     svrDisp = new ServiceDispatcher();
   let svr = svrDisp.getService(arg.url);
   let method = 'edb_' + arg.method;
+  let timestamp = arg.timestamp;
+  if (lastMessageTimestamp === timestamp) {
+    console.log('There are duplicatied message request');
+  }
+  lastMessageTimestamp = timestamp;
   svr[method](arg.data).then(result => {
-    event.sender.send(SHARED_CONST.APP_DATA_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF, result);
+    event.sender.send(SHARED_CONST.APP_DATA_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, result);
   })
     .catch(err => {
-      event.sender.send(SHARED_CONST.APP_DATA_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF, err);
+      event.sender.send(SHARED_CONST.APP_DATA_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, err);
     });
 });
 
@@ -201,3 +205,16 @@ app.on('ready', function () {
   });
   mainWindow.show();
 });
+
+//Test request
+//const SubstanceService = require('./services/substance.service');
+var backendTest = function() {
+  console.log('--------- Backend Test Start ----------');
+  new PicklistService().edb_get({TYPE_NAME: 'TYPE_METADATA_STATUS'}).then(result => {
+    console.log(result);
+  });
+  console.log('--------- Backend Test End ----------');
+};
+
+//Test request end
+

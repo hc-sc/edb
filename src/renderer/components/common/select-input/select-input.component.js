@@ -18,7 +18,7 @@ export default angular.module('selectInput', [
   controller: class SelectInputCtrl {
     constructor() {}
     update() {
-      this.onUpdate({ value: this.selectValue });
+      this.onUpdate({ value: this._id });
     }
   }
 })

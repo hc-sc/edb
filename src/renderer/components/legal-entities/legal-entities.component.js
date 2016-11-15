@@ -21,11 +21,11 @@ export default angular.module('legalEntities', [
   controller: class LECtrl {
     constructor() {
       this.picklists = {
-        legalEntityType: this.legalEntityType.data,
-        legalEntityIdentifierType: this.legalEntityIdentifierType.data,
-        countries: this.countries.data
+        legalEntityType: JSON.parse(this.legalEntityType.data),
+        legalEntityIdentifierType: JSON.parse(this.legalEntityIdentifierType.data),
+        countries: JSON.parse(this.countries.data)
       };
-
+      console.log(this.picklists);
       // PicklistService.getService().edb_get({ 'TYPE_NAME': 'EXTENSION_TYPE_LEGALENTITY_TYPE' })
       // .then(items => { console.log(items); });
 

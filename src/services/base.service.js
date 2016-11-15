@@ -36,7 +36,7 @@ module.exports = class BaseService {
             if (err)
               rej(new RVHelper('EDB10000', err));
             else
-              res(new RVHelper('EDB00000', rows));
+              res(new RVHelper('EDB00000', JSON.stringify(rows)));
           });
       } catch (err) {
         rej(new RVHelper('EDB13001'));
@@ -59,7 +59,7 @@ module.exports = class BaseService {
               if (err)
                 rej(new RVHelper('EDB10000', err));
               else
-                res(new RVHelper('EDB00000', rows));
+                res(new RVHelper('EDB00000', JSON.stringify(rows)));
             });
         }
       } else {
@@ -107,7 +107,7 @@ module.exports = class BaseService {
               if (err)
                 rej(new RVHelper('EDB10000', err));
               else
-                res(new RVHelper('EDB00000', rows));
+                res(new RVHelper('EDB00000', JSON.stringify(rows)));
             });
         } catch (err) {
           rej(new RVHelper('EDB13001'));
@@ -248,7 +248,7 @@ module.exports = class BaseService {
                     if (err)
                       rej(new RVHelper('EDB10000', err));
                     else
-                      global.modulesInMemory[self.modelClassName.toLowerCase()].push(result);
+                      global.modulesInMemory[self.modelClassName.toLowerCase()].push(JSON.stringify(result));
                   });
                 }
               }
