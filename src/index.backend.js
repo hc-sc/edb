@@ -207,10 +207,21 @@ app.on('ready', function () {
 });
 
 //Test request
-//const SubstanceService = require('./services/substance.service');
+const testService = require('./services/substance.service');
 var backendTest = function() {
   console.log('--------- Backend Test Start ----------');
-  new PicklistService().edb_get({TYPE_NAME: 'TYPE_METADATA_STATUS'}).then(result => {
+  new testService().edb_put(        {
+          "id": "IDS0000000112",
+          "metadatastatus": "582b14ac33dd330be44a3f59",
+          "substancename": "Fenpyroxymate",
+          "substancepid": "urn:ghsts:AF92CDE4-E66E-415E-AA9C-49F5EE5568C1",
+          "substanceidentifier": [
+            {
+              "substanceidentifiertype": "582b14ac33dd330be44a3f6c",
+              "identifier": "134098-61-6"
+            }
+          ]
+        }).then(result => {
     console.log(result);
   });
   console.log('--------- Backend Test End ----------');
