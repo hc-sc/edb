@@ -1,4 +1,5 @@
 'use strict';
+global.modulesInMemory = {};
 
 global.TUNGUS_DB_OPTIONS = { nativeObjectID: true, searchInArray: true };
 
@@ -13,14 +14,17 @@ const BrowserWindow = require('electron').BrowserWindow;
 const SHARED_CONST = require('./constants/shared');
 const BACKEND_CONST = require('./constants/backend');
 const ServiceDispatcher = require('./services/service.dispatcher');
-const PicklistService = require('./services/picklist.service');
 const GhstsService = require('./services/ghsts.service');
+const PicklistService = require('./services/picklist.service');
 const RVHelper = require('./utils/return.value.helper');
 
 const Q = require('bluebird');
 
 const AJV = require('ajv');
+const Jsonix = require('jsonix').Jsonix;
 
+
+var lastMessageTimestamp;  //For debug track if there are duplicatied message request from front-end
 
 var mainWindow = null;
 
@@ -30,7 +34,8 @@ var svrDisp;
 
 var XMLSchemaJsonSchema;
 var JsonixJsonSchema;
-var ajvInst, validateInst, GHSTSJsonSchema;
+var supprtVersions = ['01.00.00'], validateInsts = {}, marshallers = {}, unmarshallers = {};
+var ajvInst;
 
 var init_mongoose = function () {
   try {
@@ -40,17 +45,20 @@ var init_mongoose = function () {
     mongoose.connect('tingodb://' + __dirname + '/../data');
 
     let srvs = require('./services').ServiceNeedInit;
-    srvs.map(svr => {
-      let svrmod = require('./services/' + svr + '.service');
-      let svrInst = new svrmod('01.00.00');
-      svrInst.initMongoose()
-        .then(result => {
-          console.log(result);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    });
+    let qs = [];
+
+    for (var i = 0; i < srvs.length; i++) {
+      let svrmod = require('./services/' + srvs[i] + '.service');
+      let svrInst = new svrmod();
+      qs.push(svrInst.initMongoose());
+    }
+    Q.all(qs)
+      .then(result => {
+        console.log(result);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   } catch (err) {
     console.log(err);
   }
@@ -63,11 +71,16 @@ ipc.on('devTools', function (event, arg) {
 ipc.on(SHARED_CONST.PICKLIST_MSG_CHANNEL, function (event, arg) {
   let svr = new PicklistService();
   let method = 'edb_' + arg.method;
+  let timestamp = arg.timestamp;
+  if (lastMessageTimestamp === timestamp) {
+    console.log('There are duplicatied message request');
+  }
+  lastMessageTimestamp = timestamp;
   svr[method](arg.data).then(result => {
-    event.sender.send(SHARED_CONST.PICKLIST_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF, result);
+    event.sender.send(SHARED_CONST.PICKLIST_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, result);
   })
     .catch(err => {
-      event.sender.send(SHARED_CONST.PICKLIST_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF, err);
+      event.sender.send(SHARED_CONST.PICKLIST_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, err);
     });
 });
 
@@ -82,18 +95,23 @@ ipc.on(SHARED_CONST.PICKLIST_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, functi
 });
 
 ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL, function (event, arg) {
-  let svr = new GhstsService(submissions, validateInst);
+  let svr = new GhstsService(submissions, validateInsts['01_00_00']);
   let method = 'edb_' + arg.method;
+  let timestamp = arg.timestamp;
+  if (lastMessageTimestamp === timestamp) {
+    console.log('There are duplicatied message request');
+  }
+  lastMessageTimestamp = timestamp;
   svr[method](arg.data).then(result => {
-    event.sender.send(SHARED_CONST.GHSTS_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF, result);
+    event.sender.send(SHARED_CONST.GHSTS_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, result);
   })
     .catch(err => {
-      event.sender.send(SHARED_CONST.GHSTS_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF, err);
+      event.sender.send(SHARED_CONST.GHSTS_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, err);
     });
 });
 
 ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, function (event, arg) {
-  let svr = new GhstsService(submissions, validateInst);
+  let svr = new GhstsService(submissions, validateInsts['01_00_00']);
   if (arg.method !== 'get') {
     event.returnValue = new RVHelper('EDB10003');
   } else {
@@ -104,14 +122,19 @@ ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, function 
 
 ipc.on(SHARED_CONST.APP_DATA_MSG_CHANNEL, function (event, arg) {
   if (!svrDisp)
-    svrDisp = new ServiceDispatcher(BACKEND_CONST.APP_LEVEL_SERVICE);
+    svrDisp = new ServiceDispatcher();
   let svr = svrDisp.getService(arg.url);
   let method = 'edb_' + arg.method;
+  let timestamp = arg.timestamp;
+  if (lastMessageTimestamp === timestamp) {
+    console.log('There are duplicatied message request');
+  }
+  lastMessageTimestamp = timestamp;
   svr[method](arg.data).then(result => {
-    event.sender.send(SHARED_CONST.APP_DATA_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF, result);
+    event.sender.send(SHARED_CONST.APP_DATA_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, result);
   })
     .catch(err => {
-      event.sender.send(SHARED_CONST.APP_DATA_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF, err);
+      event.sender.send(SHARED_CONST.APP_DATA_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, err);
     });
 });
 
@@ -120,7 +143,7 @@ ipc.on(SHARED_CONST.APP_DATA_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, functi
     event.returnValue = new RVHelper('EDB10003');
   } else {
     if (!svrDisp)
-      svrDisp = new ServiceDispatcher(BACKEND_CONST.APP_LEVEL_SERVICE);
+      svrDisp = new ServiceDispatcher();
     let svr = svrDisp.getService(arg.url);
     let method = 'edb_' + arg.method;
     event.returnValue = svr[method](arg.data);
@@ -145,11 +168,18 @@ app.on('ready', function () {
 
   // FOR VALIDATING GHSTS +++++++++++++++++++++++++++++++
 
-  GHSTSJsonSchema = JSON.parse(fs.readFileSync('./resources/app/standards/01-00-00/GHSTSMappings.jsonschema').toString());
-  validateInst = ajvInst.compile(GHSTSJsonSchema);
+  for (let i = 0; i < supprtVersions.length; i++) {
+    let versionDir = supprtVersions[i].replace(/\./g, '_');
+    let GHSTSJsonSchema = JSON.parse(fs.readFileSync('./resources/app/standards/' + versionDir + '/GHSTSMappings.jsonschema').toString());
+    validateInsts[versionDir] = ajvInst.compile(GHSTSJsonSchema);
+    let GHSTSMappings = require('../resources/app/standards/' + versionDir + '/GHSTSMappings').GHSTSMappings;
+    let context = new Jsonix.Context([GHSTSMappings]);
+    unmarshallers[versionDir] = context.createUnmarshaller();
+    marshallers[versionDir] = context.createMarshaller();
+  }
 
   init_mongoose();
-  
+
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
@@ -163,7 +193,6 @@ app.on('ready', function () {
   mainWindow.on('closed', function () {
     mainWindow = null;
   });
-  
   mainWindow.loadURL('file://' + __dirname + '/renderer/index.html');
   mainWindow.webContents.on('did-finish-load', function () {
     // TODO: setTitle is being deprecated, find and use alternative

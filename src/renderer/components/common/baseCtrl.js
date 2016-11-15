@@ -1,11 +1,9 @@
-
 //import { AppDataService } from '../../services/app.data.service';
 //import { GhstsService } from '../../services/ghsts.service';
 import NewFactory from '../common/NewFactory';
 export default class BaseCtrl {
     //url make it specific
     constructor($mdDialog, $state, PicklistService, GhstsService, AppDataService, url) {//pass specific data service and url
-
         let that = this;
         this.$mdDialog = $mdDialog;
         this.$state = $state;
@@ -25,22 +23,18 @@ export default class BaseCtrl {
         }
         */
     }
-
     getRecords(data = {}) {
         return this.AppDataService.edb_get({ url: this.url, data: {} });
-
     }
     createRecord(data) { // set data with url
         return this.AppDataService.edb_put(data);
     }
-
 
     saveRecord($event) {
         let that = this;
         if (this.selectedRecord && this.selectedRecord._id) {
             this.AppDataService.edb_post({ url: this.url, data: this.selectedRecord }).then(
 
-               
                 affectedRows =>{
                 console.log("test");
                 that.$mdDialog.show(
@@ -50,14 +44,12 @@ export default class BaseCtrl {
                         .title('Success')
                         .content('Data Updated Successfully!')
                         .ok('Ok')
-
                         .targetEvent($event)
-                )} 
+                )}
 
             );
         }
         else {
-
             this.AppDataService.edb_put({ url: this.url, data: this.selectedRecord }).then(affectedRows =>
                 that.$mdDialog.show(
                     that.$mdDialog
@@ -73,7 +65,7 @@ export default class BaseCtrl {
             // refresh the substance list
             that.getRecords();
         }
-       
+
         console.log("save record");
     }
     addRecord(name) { //factory method by entity name
@@ -100,7 +92,6 @@ export default class BaseCtrl {
 
     }
     updateRecord(data) {
-
         this.AppDataService.edb_post(data);
     }
 }

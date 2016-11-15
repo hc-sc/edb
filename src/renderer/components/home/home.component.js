@@ -31,7 +31,7 @@ export default angular.module('home', [
     dossiers: '<'
   },
   controller: class HomeCtrl {
-    constructor($mdDialog, $state, GhstsService, DossierService) {
+    constructor($mdDialog, $state, GhstsService) {
       this.$mdDialog = $mdDialog;
       this.$state = $state;
       this.toolbarItems = {
@@ -45,14 +45,6 @@ export default angular.module('home', [
           { name: 'help', label: 'Help', func: this.backend.bind(this) }
         ]
       };
-
-      this.globalItems = [
-        { title: 'Legal Entities', state: 'globals.legalEntities' },
-        { title: 'Substances', state: 'globals.substances' },
-        { title: 'Products', state: 'globals.products' },
-        { title: 'Files', state: 'globals.files' },
-        { title: 'Picklists', state: 'globals.picklists' }
-      ];
 
       this.dossierProjection = [
         'DOSSIER_DESCRIPTION_TITLE',
@@ -113,7 +105,7 @@ export default angular.module('home', [
     }
 
     selectSubmission(id, index) {
-      this.$state.go('submission.description', {
+      this.$state.go('submission.receivers', {
         dossierPID: this.dossier.DOSSIER_PID,
         submissionNumber: this.submissions[index].SUBMISSION_NUMBER
       });
@@ -129,7 +121,7 @@ export default angular.module('home', [
         .then(result => {
           console.log(result);
         })
-        .catch(err => { 
+        .catch(err => {
           console.log(err);
         });
     }

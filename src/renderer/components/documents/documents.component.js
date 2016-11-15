@@ -5,10 +5,15 @@ import template from './documents.template';
 import Tbl from '../common/tbl/tbl.component';
 import TextInput from '../common/text-input/text-input.component';
 
+import AppDataService from '../../services/app.data.service';
+import PicklistService from '../../services/picklist.service';
+
 export default angular.module('documents', [
   ngMaterial,
   Tbl,
-  TextInput
+  TextInput,
+  AppDataService,
+  PicklistService
 ])
 .component('documents', {
   template

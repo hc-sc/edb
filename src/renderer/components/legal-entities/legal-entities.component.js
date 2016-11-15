@@ -3,32 +3,34 @@ import ngMaterial from 'angular-material';
 import template from './legal-entities.template';
 
 import Sidenav from '../common/sidenav/sidenav.component';
-import TextInput from '../common/text-input/text-input.component';
-import SelectInput from '../common/select-input/select-input.component';
+
+import PicklistService from '../../services/picklist.service';
 
 export default angular.module('legalEntities', [
   ngMaterial,
   Sidenav,
-  TextInput,
-  SelectInput
+  PicklistService
 ])
 .component('legalEntities', {
   template,
+  bindings: {
+    legalEntityType: '<',
+    legalEntityIdentifierType: '<',
+    countries: '<'
+  },
   controller: class LECtrl {
     constructor() {
-      this.typeValues = [
-        {value: 'hello'},
-        {value: 'there'}
-      ];
-      this.legalentitytype = '';
+      this.picklists = {
+        legalEntityType: JSON.parse(this.legalEntityType.data),
+        legalEntityIdentifierType: JSON.parse(this.legalEntityIdentifierType.data),
+        countries: JSON.parse(this.countries.data)
+      };
+      console.log(this.picklists);
+      // PicklistService.getService().edb_get({ 'TYPE_NAME': 'EXTENSION_TYPE_LEGALENTITY_TYPE' })
+      // .then(items => { console.log(items); });
 
-      this.legalentityidentifiers = [];
-      this.legalEntityIdentifiersProjection = [];
-    }
-
-    update(prop, value) {
-      this[prop] = value;
-      console.log(this.legalentitytype);
+      // PicklistService.getService().edb_get({ 'TYPE_NAME': 'EXTENSION_TYPE_COUNTRY' })
+      // .then(items => { console.log(items); });
     }
   }
 })

@@ -13,15 +13,6 @@ export default function($stateProvider, $urlRouterProvider) {
       }
     }
   })
-  // .state('dossier', {
-  //   url: '/dossier/:dossierPID',
-  //   component: 'dossier',
-  //   resolve: {
-  //     dossier: (DossierService, $stateParams) => {
-  //       return DossierService.getDossier($stateParams.dossierPID);
-  //     }
-  //   }
-  // })
   .state('submission', {
     abstract: true,
     url: '/submission/:dossierPID/:submissionNumber',
@@ -31,27 +22,15 @@ export default function($stateProvider, $urlRouterProvider) {
         return DossierService.getSubmission($stateParams.dossierPID, $stateParams.submissionNumber);
       }
     }  })
-  .state('submission.description', {
-    url: '/',
-    component: 'description'
-  })
   .state('submission.receivers', {
     url: '/receivers',
     component: 'receivers'
   })
-  .state('submission.product', {
-    url: '/product',
-    component: 'product'
+  .state('submission.toc', {
+    url: '/toc',
+    component: 'toc'
   })
-  .state('submission.documents', {
-    url: '/documents',
-    component: 'documents'
-  })
-  .state('settings', {
-    url: '/settings',
-    component: 'settings'
-  })
-  .state('.description', {
+  .state('submission.description', {
     url: '/description',
     component: 'description'
   })
@@ -61,7 +40,10 @@ export default function($stateProvider, $urlRouterProvider) {
   })
   .state('globals', {
     url: '/globals',
-    component: 'globals'
+    component: 'globals',
+    resolve: {
+
+    }
   })
   .state('globals.substances', {
     url: '/substances',
@@ -69,7 +51,22 @@ export default function($stateProvider, $urlRouterProvider) {
   })
   .state('globals.legalEntities', {
     url: '/legal-entities',
-    component: 'legalEntities'
+    component: 'legalEntities',
+    resolve: {
+      legalEntityType: PicklistService => {
+        return PicklistService.getService().edb_get({ 'TYPE_NAME': 'EXTENSION_TYPE_LEGALENTITY_TYPE' });
+      },
+      legalEntityIdentifierType: PicklistService => {
+        return PicklistService.getService().edb_get({ 'TYPE_NAME': 'EXTENSION_TYPE_LEGALENTITY_IDENTIFIER_TYPE' });
+      },
+      countries: PicklistService => {
+        return PicklistService.getService().edb_get({ 'TYPE_NAME': 'EXTENSION_TYPE_COUNTRY' });
+      }
+    }
+  })
+  .state('globals.legalEntities.legalEntity', {
+    url: '/:lePID',
+    component: 'legalEntity'
   })
   .state('globals.products', {
     url: '/products',
@@ -88,6 +85,19 @@ export default function($stateProvider, $urlRouterProvider) {
         return ProductService.getProduct($stateParams.productPID);
       }
     }
+  })
+  .state('globals.documents', {
+    url: '/documents',
+    component: 'documents',
+    resolve: {
+      documents: AppDataService => {
+        return AppDataService.getService().edb_get({ url: 'picklist', data: {} });
+      }
+    }
+  })
+  .state('settings', {
+    url: '/settings',
+    component: 'settings'
   });
 
   $urlRouterProvider.otherwise('/splash');

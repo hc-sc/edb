@@ -30,11 +30,13 @@ module.exports = class BaseService {
         entityClass = require('mongoose').model(self.modelClassName);
 
         entityClass
-          .find(query, (err, rows) => {
+          .find(query)
+          .lean()
+          .exec((err, rows) => {
             if (err)
               rej(new RVHelper('EDB10000', err));
             else
-              res(new RVHelper('EDB00000', rows));
+              res(new RVHelper('EDB00000', JSON.stringify(rows)));
           });
       } catch (err) {
         rej(new RVHelper('EDB13001'));
@@ -49,7 +51,7 @@ module.exports = class BaseService {
 
       if (obj && typeof obj === 'object') {
         entityClass = require('mongoose').model(self.modelClassName);
-        if (!entityClass) 
+        if (!entityClass)
           rej(new RVHelper('EDB13001'));
         else {
           entityClass
@@ -57,7 +59,7 @@ module.exports = class BaseService {
               if (err)
                 rej(new RVHelper('EDB10000', err));
               else
-                res(new RVHelper('EDB00000', rows));
+                res(new RVHelper('EDB00000', JSON.stringify(rows)));
             });
         }
       } else {
@@ -105,7 +107,7 @@ module.exports = class BaseService {
               if (err)
                 rej(new RVHelper('EDB10000', err));
               else
-                res(new RVHelper('EDB00000', rows));
+                res(new RVHelper('EDB00000', JSON.stringify(rows)));
             });
         } catch (err) {
           rej(new RVHelper('EDB13001'));
@@ -146,7 +148,7 @@ module.exports = class BaseService {
         //           return retVal;
         //         } else if (item.data.length === 0) {
         //           continue;
-        //         } else 
+        //         } else
         //           retVal.push(item.data[0]);
         //       }*/
         // //      retVal = yield processAry;
@@ -246,7 +248,7 @@ module.exports = class BaseService {
                     if (err)
                       rej(new RVHelper('EDB10000', err));
                     else
-                      global.modulesInMemory[self.modelClassName.toLowerCase()].push(result);
+                      global.modulesInMemory[self.modelClassName.toLowerCase()].push(JSON.stringify(result));
                   });
                 }
               }

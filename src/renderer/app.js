@@ -13,8 +13,9 @@ import Submission from './components/submission/submission.component';
 import Globals from './components/globals/globals.component';
 import Settings from './components/settings/settings.component';
 import LegalEntities from './components/legal-entities/legal-entities.component';
+import LegalEntity from './components/legal-entity/legal-entity.component';
 import Substances from './components/substances/substances.component';
-import Products from './components/products-splash/products.component';
+import Products from './components/products/products.component';
 import Product from './components/product/product.component';
 import Files from './components/files/files.component';
 import Description from './components/description/description.component';
@@ -42,6 +43,7 @@ angular.module('app', [
   Globals,
   Settings,
   LegalEntities,
+  LegalEntity,
   Substances,
   Products,
   Product,

@@ -16,7 +16,6 @@ export default angular.module('globals', [
     constructor() {
       this.toolbarItems = {
         navIcons: [
-          { name: 'back', state: 'home', label: 'back' },
           { name: 'home', label: 'Home', state: 'splash' }
         ],
         title: 'Manage Application Data',
@@ -31,6 +30,7 @@ export default angular.module('globals', [
         { title: 'Substances', state: 'globals.substances' },
         { title: 'Products', state: 'globals.products' },
         { title: 'Files', state: 'globals.files' },
+        { title: 'Documents', state: 'globals.documents' },
         { title: 'Picklists', state: 'globals.picklists' }
       ];
     }
