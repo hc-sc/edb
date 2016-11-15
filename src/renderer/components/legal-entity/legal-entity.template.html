@@ -2,8 +2,7 @@
   <sidenav items='$ctrl.items' on-select='$ctrl.select(item)'></sidenav>
   <text-input label='PID' is-disabled='true' text-value='$ctrl.submission.DOSSIER_PID'  max-length='5' has-pattern='^[0-9]*$' message='Needs to be a valid PID' on-update='$ctrl.update("DOSSIER_PID", value)'></text-input>
   <text-input label='Name' text-value='$ctrl.name' on-update='$ctrl.update("name", value)'></text-input>
-  <select-input-extensible></select-input-extensible>
-  <select-input label='Type' select-value='$ctrl.legalentitytype' values='$ctrl.picklists.legalEntityType' on-update='$ctrl.update("legalentitytype", value)'></select-input>
+  <select-input-extensible show-value='false' values='$ctrl.picklists.legalEntityType' select-value='$ctrl.legalentitytype' on-update='$ctrl.update("legalentitytype", value)'></select-input-extensible>
   <text-input label='Other Name'></text-input>
   <tbl title='Identifier' items='$ctrl.legalentityidentifiers' projection='$ctrl.legalEntityIdentifiersProjection'></tbl>
   <fieldset>
@@ -13,7 +12,7 @@
     <text-input label='Zipcode'></text-input>
     <text-input label='City'></text-input>
     <text-input label='State'></text-input>
-    <select-input label='Country' select-value='$ctrl.country' values='$ctrl.picklists.countries' on-update='$ctrl.update("country", value)'></select-input>
+    <select-input label='Country' show-value='true' select-value='$ctrl.country' values='$ctrl.picklists.countries' on-update='$ctrl.update("country", value)'></select-input>
     <text-input label='Phone'></text-input>
     <text-input label='Fax'></text-input>
     <text-input label='Email'></text-input>

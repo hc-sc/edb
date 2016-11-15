@@ -20,7 +20,6 @@ export default angular.module('legalEntity', [
   },
   controller: class LECtrl {
     constructor() {
-      console.log(this.picklists);
       this.legalentitytype = '';
       this.legalentityidentifiers = [];
       this.legalEntityIdentifiersProjection = [];
@@ -28,6 +27,7 @@ export default angular.module('legalEntity', [
 
     update(prop, value) {
       this[prop] = value;
+      console.log(prop, value);
     }
   }
 })
