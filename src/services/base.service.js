@@ -82,7 +82,7 @@ module.exports = class BaseService {
               if (err)
                 rej(new RVHelper('EDB10000', err));
               else
-                res(new RVHelper('EDB00000', rows));
+                res(new RVHelper('EDB00000', JSON.stringify(rows)));
             });
         } catch (err) {
           rej(new RVHelper('EDB13001'));
@@ -288,7 +288,7 @@ module.exports = class BaseService {
         mmodule.find({})
           .then(result => {
             if (self.inmem) {
-              global.modulesInMemory[self.modelClassName.toLowerCase()] = result;
+              global.modulesInMemory[self.modelClassName.toLowerCase()] = JSON.stringify(result);
             }
             res(new RVHelper('EDB00000'));
           })
