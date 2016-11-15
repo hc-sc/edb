@@ -10,14 +10,15 @@ export default class BaseService {
   edb_get(obj) {
     let deffer = this.$q.defer();
     if (window.ipcRenderer) {
-      window.ipcRenderer.once(this.msgChannel + EDB_IPC_ASYNC_REPLAY_SUF, (event, arg) => {
+      let timestamp = performance.now().toString();
+      window.ipcRenderer.once(this.msgChannel + EDB_IPC_ASYNC_REPLAY_SUF + timestamp, (event, arg) => {
         if (arg.err) {
           deffer.reject(arg.err);
         } else {
           deffer.resolve(this.jsonClassfer(arg));
         }
       });
-      window.ipcRenderer.send(this.msgChannel, this._msg_envelope('get', obj));
+      window.ipcRenderer.send(this.msgChannel, this._msg_envelope('get', obj, timestamp));
     } else {
       deffer.reject('Error: Please run application in electron!');
     }
@@ -25,17 +26,20 @@ export default class BaseService {
   }
 
   edb_getSync(obj) {
-    let retVal = window.ipcRenderer.sendSync(this.msgChannel + EDB_IPC_SYNC_SUF, this._msg_envelope('get', obj));
-    if (retVal.err) {
-      return retVal;
-    } else {
-      return this.jsonClassfer(retVal);
+    if (window.ipcRenderer) {
+      let retVal = window.ipcRenderer.sendSync(this.msgChannel + EDB_IPC_SYNC_SUF, this._msg_envelope('get', obj));
+      if (retVal.err) {
+        return retVal;
+      } else {
+        return this.jsonClassfer(retVal);
+      }
     }
   }
 
   edb_put(obj) {
     let deffer = this.$q.defer();
     if (window.ipcRenderer) {
+      let timestamp = performance.now().toString();
       window.ipcRenderer.once(this.msgChannel + EDB_IPC_ASYNC_REPLAY_SUF, (event, arg) => {
         if (arg.err) {
           deffer.reject(arg.err);
@@ -43,7 +47,7 @@ export default class BaseService {
           deffer.resolve(this.jsonClassfer(arg));
         }
       });
-      window.ipcRenderer.send(this.msgChannel, this._msg_envelope('put', obj));
+      window.ipcRenderer.send(this.msgChannel, this._msg_envelope('put', obj, timestamp));
     } else {
       deffer.reject('Error: Please run application in electron!');
     }
@@ -62,6 +66,7 @@ export default class BaseService {
   edb_post(obj) {
     let deffer = this.$q.defer();
     if (window.ipcRenderer) {
+      let timestamp = performance.now().toString();
       window.ipcRenderer.once(this.msgChannel + EDB_IPC_ASYNC_REPLAY_SUF, (event, arg) => {
         if (arg.err) {
           deffer.reject(arg.err);
@@ -69,7 +74,7 @@ export default class BaseService {
           deffer.resolve(this.jsonClassfer(arg));
         }
       });
-      window.ipcRenderer.send(this.msgChannel, this._msg_envelope('post', obj));
+      window.ipcRenderer.send(this.msgChannel, this._msg_envelope('post', obj, timestamp));
     } else {
       deffer.reject('Error: Please run application in electron!');
     }
@@ -88,6 +93,7 @@ export default class BaseService {
   edb_delete(obj) {
     let deffer = this.$q.defer();
     if (window.ipcRenderer) {
+      let timestamp = performance.now().toString();
       window.ipcRenderer.once(this.msgChannel + EDB_IPC_ASYNC_REPLAY_SUF, (event, arg) => {
         if (arg.err) {
           deffer.reject(arg.err);
@@ -95,7 +101,7 @@ export default class BaseService {
           deffer.resolve(this.jsonClassfer(arg));
         }
       });
-      window.ipcRenderer.send(this.msgChannel, this._msg_envelope('delete', obj));
+      window.ipcRenderer.send(this.msgChannel, this._msg_envelope('delete', obj, timestamp));
     } else {
       deffer.reject('Error: Please run application in electron!');
     }
@@ -116,13 +122,14 @@ export default class BaseService {
   }
 //call back handles returned object
 //the returned object structure {url:null,method:null,data:object}
-  _msg_envelope(method, obj) {
+  _msg_envelope(method, obj, timestamp) {
     let retVal = {};
     retVal.method = method;
     if (obj) {
       retVal.url = obj.url;
       retVal.data = obj.data ? obj.data : obj;
     }
+    retVal.timestamp = timestamp;
     return retVal; 
   }
 }
