@@ -14,9 +14,33 @@ export default angular.module('selectInputExtensible', [
 ])
 .component('selectInputExtensible', {
   template,
+  bindings: {
+    selectValue: '<',
+    values: '<',
+    onValueUpdate: '&'
+  },
   controller: class selectInputExtensibleCtrl {
     constructor() {
       this.addButton = { name: 'add', label: 'Add Extension', color: 'dark' };
+      this.cancelButton = { name: 'close', label: 'Cancel', color: 'dark' };
+      this.saveButton = { name: 'save', label: 'Save', color: 'dark' };
+      this.adding = false;
+      this.value = '';
+      this.valuedecode = '';
+      this.selected;
+    }
+
+    toggleAdd() {
+      this.adding = !this.adding;
+    }
+
+    // update the database
+    savePicklistItem() {
+      console.log('saving values: ', this.value, this.valuedecode);
+    }
+
+    update(prop, value) {
+      this[prop] = value;
     }
   }
 })

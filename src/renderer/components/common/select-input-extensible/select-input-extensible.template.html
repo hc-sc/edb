@@ -1,2 +1,11 @@
-<select-input flex label='Type' select-value='$ctrl.legalentitytype' values='$ctrl.picklists.legalEntityType' on-update='$ctrl.update("legalentitytype", value)'></select-input>
-<icon icon='$ctrl.addButton'></icon>
+<div class='extension-wrapper'>
+  <select-input label='Type' values='$ctrl.values'></select-input>
+  <icon ng-if='!$ctrl.adding' icon='$ctrl.addButton' ng-click='$ctrl.toggleAdd()'></icon>
+  <icon ng-if='$ctrl.adding' icon='$ctrl.cancelButton' ng-click='$ctrl.toggleAdd()'></icon>
+</div>
+<div class='extension-fields' ng-if='$ctrl.adding'>
+  <text-input label='Value' text-value='$ctrl.value' is-required='true'on-update='$ctrl.update("value", value)'></text-input>
+  <span>&nbsp;</span>
+  <text-input label='Display Value (Optional)' text-value='$ctrl.valuedecode' on-update='$ctrl.update("valuedecode", value)'></text-input>
+  <icon icon='$ctrl.saveButton' ng-click='$ctrl.savePicklistItem()'></icon>
+</div>
