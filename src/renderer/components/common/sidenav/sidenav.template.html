@@ -11,6 +11,11 @@
     </md-list-item>
   </md-list>
 </md-sidenav>
-<md-button aria-label='toggle list' class='md-fab md-primary float-bottom' ng-click='$ctrl.toggleList()'>
-  <md-icon md-svg-icon='list' class='light'></md-icon>
-</md-button>
+<div style='z-index:100' class='float-bottom'>
+  <md-button aria-label='Add New Item' class='md-fab md-primary' ng-click='$ctrl.select("hi there")'>
+    <md-icon md-svg-icon='add' class='light'></md-icon>
+  </md-button>
+  <md-button aria-label='Toggle List' class='md-fab md-primary' ng-click='$ctrl.toggleList()'>
+    <md-icon md-svg-icon='list' class='light'></md-icon>
+  </md-button>
+</div>

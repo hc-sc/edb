@@ -11,14 +11,17 @@ export default angular.module('selectInput', [
   template,
   bindings: {
     label: '@',
+    showValue: '<',
     selectValue: '<',
     values: '<',
     onUpdate: '&'
   },
   controller: class SelectInputCtrl {
-    constructor() {}
+    constructor() {
+      this.selectedID = null;
+    }
     update() {
-      this.onUpdate({ value: this._id });
+      this.onUpdate({ value: this.selectedID });
     }
   }
 })

@@ -15,9 +15,10 @@ export default angular.module('selectInputExtensible', [
 .component('selectInputExtensible', {
   template,
   bindings: {
+    showValue: '<',
     selectValue: '<',
     values: '<',
-    onValueUpdate: '&'
+    onUpdate: '&'
   },
   controller: class selectInputExtensibleCtrl {
     constructor() {
@@ -25,9 +26,9 @@ export default angular.module('selectInputExtensible', [
       this.cancelButton = { name: 'close', label: 'Cancel', color: 'dark' };
       this.saveButton = { name: 'save', label: 'Save', color: 'dark' };
       this.adding = false;
+      this.valid = true;
       this.value = '';
       this.valuedecode = '';
-      this.selected;
     }
 
     toggleAdd() {
@@ -36,11 +37,35 @@ export default angular.module('selectInputExtensible', [
 
     // update the database
     savePicklistItem() {
-      console.log('saving values: ', this.value, this.valuedecode);
+      if (this.valid) {
+        //update
+
+        this.value = '';
+        this.valuedecode = '';
+        this.adding = false;
+      }
+
+      // refresh selected value
+    }
+
+    checkValid() {
+      if (this.values.filter(item => {
+        return item.value === this.value;
+      }).length >= 1) {
+        this.valid = false;
+      }
+      else this.valid = true;
     }
 
     update(prop, value) {
       this[prop] = value;
+
+      // may need to debounce this to make sure it isn't fired too often
+      this.checkValid();
+    }
+
+    updateSelected(value) {
+      this.onUpdate({ value });
     }
   }
 })
