@@ -4,20 +4,33 @@ import template from './legal-entities.template';
 
 import Sidenav from '../common/sidenav/sidenav.component';
 
+import PicklistService from '../../services/picklist.service';
+
 export default angular.module('legalEntities', [
   ngMaterial,
-  Sidenav
+  Sidenav,
+  PicklistService
 ])
 .component('legalEntities', {
   template,
   bindings: {
-    picklists: '<'
+    legalEntityType: '<',
+    legalEntityIdentifierType: '<',
+    countries: '<'
   },
   controller: class LECtrl {
     constructor() {
-      console.log(this.picklists);
-      this.typeValues = this.picklists.data;
+      this.picklists = {
+        legalEntityType: this.legalEntityType.data,
+        legalEntityIdentifierType: this.legalEntityIdentifierType.data,
+        countries: this.countries.data
+      };
 
+      // PicklistService.getService().edb_get({ 'TYPE_NAME': 'EXTENSION_TYPE_LEGALENTITY_TYPE' })
+      // .then(items => { console.log(items); });
+
+      // PicklistService.getService().edb_get({ 'TYPE_NAME': 'EXTENSION_TYPE_COUNTRY' })
+      // .then(items => { console.log(items); });
     }
   }
 })

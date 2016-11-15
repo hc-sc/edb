@@ -53,8 +53,14 @@ export default function($stateProvider, $urlRouterProvider) {
     url: '/legal-entities',
     component: 'legalEntities',
     resolve: {
-      picklists: PicklistService => {
+      legalEntityType: PicklistService => {
         return PicklistService.getService().edb_get({ 'TYPE_NAME': 'EXTENSION_TYPE_LEGALENTITY_TYPE' });
+      },
+      legalEntityIdentifierType: PicklistService => {
+        return PicklistService.getService().edb_get({ 'TYPE_NAME': 'EXTENSION_TYPE_LEGALENTITY_IDENTIFIER_TYPE' });
+      },
+      countries: PicklistService => {
+        return PicklistService.getService().edb_get({ 'TYPE_NAME': 'EXTENSION_TYPE_COUNTRY' });
       }
     }
   })
