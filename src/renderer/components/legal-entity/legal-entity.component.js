@@ -3,32 +3,31 @@ import ngMaterial from 'angular-material';
 
 import TextInput from '../common/text-input/text-input.component';
 import SelectInput from '../common/select-input/select-input.component';
-
+import SelectInputExtensible from '../common/select-input-extensible/select-input-extensible.component';
 
 import template from './legal-entity.template';
 
 export default angular.module('legalEntity', [
   ngMaterial,
   TextInput,
-  SelectInput
+  SelectInput,
+  SelectInputExtensible
 ])
 .component('legalEntity', {
   template,
   bindings: {
-    typeValues: '<'
+    picklists: '<'
   },
   controller: class LECtrl {
     constructor() {
-      console.log(this.typeValues);
+      console.log(this.picklists);
       this.legalentitytype = '';
       this.legalentityidentifiers = [];
       this.legalEntityIdentifiersProjection = [];
     }
 
     update(prop, value) {
-      console.log(prop, value);
       this[prop] = value;
-      console.log(this.legalentitytype);
     }
   }
 })
