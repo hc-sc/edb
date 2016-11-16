@@ -1,4 +1,22 @@
-select-input-extensible {
+.extension-wrapper {
   display: flex;
+  flex: 1;
   align-items: baseline;
+
+  select-input {
+    flex: 1
+  }
+}
+
+select-input-extensible select-input {
+  margin: 0;
+}
+
+.extension-fields {
+  display: flex;
+  align-items: flex-end;
+
+  text-input {
+    flex: 1;
+  }
 }

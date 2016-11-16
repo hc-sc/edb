@@ -25,12 +25,14 @@ export default angular.module('legalEntities', [
         legalEntityIdentifierType: JSON.parse(this.legalEntityIdentifierType.data),
         countries: JSON.parse(this.countries.data)
       };
-      console.log(this.picklists);
-      // PicklistService.getService().edb_get({ 'TYPE_NAME': 'EXTENSION_TYPE_LEGALENTITY_TYPE' })
-      // .then(items => { console.log(items); });
+    }
 
-      // PicklistService.getService().edb_get({ 'TYPE_NAME': 'EXTENSION_TYPE_COUNTRY' })
-      // .then(items => { console.log(items); });
+    select(item) {
+      console.log('selected', item);
+    }
+
+    add(item) {
+      console.log('hello');
     }
   }
 })

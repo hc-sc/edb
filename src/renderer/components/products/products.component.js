@@ -28,7 +28,6 @@ export default angular.module('products', [
     }
 
     select(item) {
-      console.log(item.pid);
       this.$state.go('globals.products.product', {
         productPID: item.pid
       });
