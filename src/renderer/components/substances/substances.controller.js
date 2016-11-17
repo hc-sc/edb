@@ -11,15 +11,16 @@ export class SubstancesCtrl extends BaseCtrl {
         //use injected service
 
         this.getRecords().then(results => {
-            //        let data = results.data;
-            if (results.data.length !== 0) {
+            let data = JSON.parse(results.data);
+
+            if (data.length !== 0) {
                 //get url
-                console.log(results.data[0]._url)
+                console.log(data._url);
             }
 
-            self.items = results.data.map(item => {
-                console.log(item.SUBSTANCE_NAME);
-                return { name: item.SUBSTANCE_NAME };
+            self.items = data.map(item => {
+                console.log(item.substancename);
+                return { name: item.substancename };
             });
         });
         // options for metadata status

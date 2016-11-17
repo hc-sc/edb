@@ -1,6 +1,27 @@
 <section class='node-page'>
-  <sidenav items='[]' main='genericproductname' on-select='$ctrl.select(item)'></sidenav>
+  <!--<sidenav items='$ctrl.legalEntities' main='legalentityname' on-select='$ctrl.select(item)' on-add='$ctrl.add(item)'></sidenav>
   <ui-view>
     <legal-entity picklists='$ctrl.picklists'></legal-entity>
-  </ui-view>
+  </ui-view>-->
+
+  <sidenav items='$ctrl.legalEntities' main='legalentityname' on-select='$ctrl.select(item)' on-add='$ctrl.add(item)'></sidenav>
+  <text-input label='PID' is-disabled='true' text-value='$ctrl.selected.legalentitypid' on-update='$ctrl.update("legalentitypid", value)'></text-input>
+  <text-input label='Name' text-value='$ctrl.selected.legalentityname' on-update='$ctrl.update("legalentityname", value)'></text-input>
+  <select-input-extensible show-value='false' values='$ctrl.picklists.legalEntityType' select-value='$ctrl.legalentitytype' on-update='$ctrl.update("legalentitytype", value)'></select-input-extensible>
+  <text-input label='Other Name' text-value='$ctrl.selected.othername' on-update='$ctrl.update("othername", value)'></text-input>
+  <tbl title='Identifier' items='[]' projection='[]'></tbl>
+  <fieldset>
+    <legend>Contact Address</legend>
+    <text-input label='Street 1' text-value='$ctrl.selected.contactaddress.street1' on-update='update("contactaddress.street1", value)'></text-input>
+    <text-input label='Street 2' text-value='$ctrl.selected.contactaddress.street2' on-update='update("contactaddress.street2", value)'></text-input>
+    <text-input label='Zipcode' text-value='$ctrl.selected.contactaddress.zipcode' on-update='update("contactaddress.zipcode", value)'></text-input>
+    <text-input label='City' text-value='$ctrl.selected.contactaddress.city' on-update='update("contactaddress.city", value)'></text-input>
+    <text-input label='State' text-value='$ctrl.selected.contactaddress.state' on-update='update("contactaddress.state", value)'></text-input>
+    <select-input label='Country' show-value='true' select-value='$ctrl.selected.contactaddress.country' values='$ctrl.picklists.countries' on-update='$ctrl.update("contactaddress.country", value)'></select-input>
+    <text-input label='Phone' text-value='$ctrl.selected.contactaddress.phone' on-update='update("contactaddress.phone", value)'></text-input>
+    <text-input label='Fax' text-value='$ctrl.selected.contactaddress.fax' on-update='update("contactaddress.fax", value)'></text-input>
+    <text-input label='Email' text-value='$ctrl.selected.contactaddress.email' on-update='update("contactaddress.email", value)'></text-input>
+    <text-input label='Website' text-value='$ctrl.selected.contactaddress.website' on-update='update("contactaddress.website", value)'></text-input>
+  </fieldset>
+  <tbl title='Contacts' items='[]' projection='[]'></tbl>
 </section>

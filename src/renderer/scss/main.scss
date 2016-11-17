@@ -35,7 +35,7 @@ body {
     margin: 0 0 15px 0;
   }
 
-  margin: 10px;
+  margin: 10px 10px 40px 10px;
 }
 
 .no-margin {
@@ -60,6 +60,7 @@ md-switch {
 .md-icon-button.md-button {
   margin: 0;
   padding: 0;
+  height: auto;
 }
 
 icon {
@@ -69,4 +70,19 @@ icon {
 
 md-icon {
   width: auto;
+}
+
+.md-button {
+  min-height: auto;
+}
+
+div.error-block {
+  margin-top: 35px;
+}
+
+p.error-message {
+  color: #dd2c00;
+  font-size: 0.8em;
+  padding: 0;
+  margin: 0;
 }

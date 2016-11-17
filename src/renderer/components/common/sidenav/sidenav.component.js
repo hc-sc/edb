@@ -14,7 +14,8 @@ export default angular.module('sidenav', [
   bindings: {
     items: '<',
     main: '@',
-    onSelect: '&'
+    onSelect: '&',
+    onAdd: '&'
   },
   controller: class SidenavCtrl {
     constructor() {
@@ -28,6 +29,10 @@ export default angular.module('sidenav', [
 
     select(item) {
       this.onSelect({ item });
+    }
+
+    add() {
+      this.onAdd();
     }
   }
 })

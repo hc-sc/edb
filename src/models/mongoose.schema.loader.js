@@ -42,7 +42,7 @@ module.exports = class SchemaLoader {
           } else {
             cover = SchemaLoader.loadSchema(item.typeInfo.slice(1), version);
           }
-        } else if (item.typeInfo === 'Decimal') {
+        } else if (item.typeInfo === 'Decimal' || item.typeInfo === 'PositiveInteger') {
           cover = {
             type: 'Number'
           };
@@ -54,7 +54,7 @@ module.exports = class SchemaLoader {
         if (item.collection)
           coveredSchema[item.name] = [cover];
         else {
-          if (item.required && item.name !== 'metadatastatus') {
+          if (item.required && item.name !== 'metadatastatus' && (item.typeInfo && !item.typeInfo[0] === '.')) {
             cover.required = true;
           }
           coveredSchema[item.name] = cover;
