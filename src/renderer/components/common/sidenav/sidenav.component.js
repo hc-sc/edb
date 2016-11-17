@@ -28,13 +28,11 @@ export default angular.module('sidenav', [
     }
 
     select(item) {
-      console.log('here');
       this.onSelect({ item });
     }
 
-    add(item) {
-      console.log('adding');
-      this.onAdd({ item: 'hello' });
+    add() {
+      this.onAdd();
     }
   }
 })
