@@ -15,7 +15,9 @@ export default angular.module('selectInputExtensible', [
 .component('selectInputExtensible', {
   template,
   bindings: {
+    label: '<',
     showValue: '<',
+    isRequired: '<',
     selectValue: '<',
     values: '<',
     onUpdate: '&'
@@ -65,6 +67,7 @@ export default angular.module('selectInputExtensible', [
     }
 
     updateSelected(value) {
+      console.log(value);
       this.onUpdate({ value });
     }
   }

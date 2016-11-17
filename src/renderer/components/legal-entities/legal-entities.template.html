@@ -1,13 +1,8 @@
 <section class='node-page'>
-  <!--<sidenav items='$ctrl.legalEntities' main='legalentityname' on-select='$ctrl.select(item)' on-add='$ctrl.add(item)'></sidenav>
-  <ui-view>
-    <legal-entity picklists='$ctrl.picklists'></legal-entity>
-  </ui-view>-->
-
-  <sidenav items='$ctrl.legalEntities' main='legalentityname' on-select='$ctrl.select(item)' on-add='$ctrl.add(item)'></sidenav>
+  <sidenav items='$ctrl.legalEntities' main='legalentityname' is-open='$ctrl.sidenavOpen' on-select='$ctrl.select(item)' on-add='$ctrl.add(item)'></sidenav>
   <text-input label='PID' is-disabled='true' text-value='$ctrl.selected.legalentitypid' on-update='$ctrl.update("legalentitypid", value)'></text-input>
   <text-input label='Name' text-value='$ctrl.selected.legalentityname' on-update='$ctrl.update("legalentityname", value)'></text-input>
-  <select-input-extensible show-value='false' values='$ctrl.picklists.legalEntityType' select-value='$ctrl.legalentitytype' on-update='$ctrl.update("legalentitytype", value)'></select-input-extensible>
+  <select-input-extensible label='"Legal Entity Type"' is-required='true' show-value='false' values='$ctrl.picklists.legalEntityType' select-value='$ctrl.selected.legalentitytype.value.value' on-update='$ctrl.update("legalentitytype.value.value", value)'></select-input-extensible>
   <text-input label='Other Name' text-value='$ctrl.selected.othername' on-update='$ctrl.update("othername", value)'></text-input>
   <tbl title='Identifier' items='[]' projection='[]'></tbl>
   <fieldset>
@@ -17,11 +12,22 @@
     <text-input label='Zipcode' text-value='$ctrl.selected.contactaddress.zipcode' on-update='update("contactaddress.zipcode", value)'></text-input>
     <text-input label='City' text-value='$ctrl.selected.contactaddress.city' on-update='update("contactaddress.city", value)'></text-input>
     <text-input label='State' text-value='$ctrl.selected.contactaddress.state' on-update='update("contactaddress.state", value)'></text-input>
-    <select-input label='Country' show-value='true' select-value='$ctrl.selected.contactaddress.country' values='$ctrl.picklists.countries' on-update='$ctrl.update("contactaddress.country", value)'></select-input>
+    <!--<select-input label='Country' show-value='true' select-value='$ctrl.selected.contactaddress.country' values='$ctrl.picklists.countries' on-update='$ctrl.update("contactaddress.country", value)'></select-input>-->
     <text-input label='Phone' text-value='$ctrl.selected.contactaddress.phone' on-update='update("contactaddress.phone", value)'></text-input>
     <text-input label='Fax' text-value='$ctrl.selected.contactaddress.fax' on-update='update("contactaddress.fax", value)'></text-input>
     <text-input label='Email' text-value='$ctrl.selected.contactaddress.email' on-update='update("contactaddress.email", value)'></text-input>
     <text-input label='Website' text-value='$ctrl.selected.contactaddress.website' on-update='update("contactaddress.website", value)'></text-input>
   </fieldset>
   <tbl title='Contacts' items='[]' projection='[]'></tbl>
+  <div style='z-index:100' class='float-bottom'>
+    <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
+      <md-icon md-svg-icon='save' class='light'></md-icon>
+    </md-button>
+    <md-button aria-label='Add New Item' class='md-fab md-primary' ng-click='$ctrl.add()'>
+      <md-icon md-svg-icon='add' class='light'></md-icon>
+    </md-button>
+    <md-button aria-label='Toggle List' class='md-fab md-primary' ng-click='$ctrl.toggleList()'>
+      <md-icon md-svg-icon='list' class='light'></md-icon>
+    </md-button>
+  </div>
 </section>

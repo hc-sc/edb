@@ -65,16 +65,6 @@ export default function($stateProvider, $urlRouterProvider) {
       }
     }
   })
-  .state('globals.legalEntities.legalEntity', {
-    url: '/:id',
-    component: 'legalEntity',
-    resolve: {
-      legalEntity: ($stateParams) => {
-        console.log('id:', $stateParams.id);
-        return;
-      }
-    }
-  })
   .state('globals.products', {
     url: '/products',
     component: 'products',

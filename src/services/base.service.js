@@ -49,8 +49,8 @@ module.exports = class BaseService {
       let self = this;
       let entityClass;
 
+      entityClass = require('mongoose').model(self.modelClassName);
       if (obj && typeof obj === 'object') {
-        entityClass = require('mongoose').model(self.modelClassName);
         if (!entityClass)
           rej(new RVHelper('EDB13001'));
         else {
@@ -63,7 +63,8 @@ module.exports = class BaseService {
             });
         }
       } else {
-        rej(new RVHelper('EDB11004', obj));
+        let emptyObj = new entityClass();
+        res(new RVHelper('EDB00000', emptyObj));
       }
     });
   }

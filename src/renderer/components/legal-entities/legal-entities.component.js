@@ -25,11 +25,11 @@ export default angular.module('legalEntities', [
     constructor($state, AppDataService) {
       this.$state = $state;
       this.AppDataService = AppDataService;
+      this.sidenavOpen = false;
 
       // won't need this line when using db instead of file
       this.legalEntities = this.legalEntities.data.legalentities.legalentity;
       this.selected = this.legalEntities[0];
-      console.log(this.selected);
 
       this.picklists = {
         legalEntityType: JSON.parse(this.legalEntityType.data),
@@ -45,9 +45,29 @@ export default angular.module('legalEntities', [
     }
 
     add(item) {
+      // create a new empty item and set it equal to selected
       // this.AppDataService.getService().edb_put({
-      //   url: 'legal-entities',
+      //   url: 'legalentity'
+      // })
+      // .then(response => {
+      //   this.selected = response;
       // });
+
+      this.selected = {};
+    }
+
+    save() {
+      console.log(this.selected);
+    }
+
+    toggleList() {
+      this.sidenavOpen = !this.sidenavOpen;
+    }
+
+    update(prop, value) {
+      console.log(prop, value);
+      this.selected[prop] = value;
+      console.log('updated:', this.selected.legalentitytype.value.value);
     }
   }
 })
