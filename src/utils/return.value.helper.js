@@ -26,7 +26,7 @@ const RETURN_VALUE_CONFIG = {
   EDB11004: { msg: 'tring to create non-object entity'},
   EDB11005: { msg: 'tring to delete non-string id entity'},
   EDB11006: { msg: 'tring to update non-object entity'}, 
-  EDB11007: { msg: 'tring to classifier non-object entity from normal JSON object'},
+  EDB11007: { msg: 'tring to initial non-object entity from normal JSON object'},
   
   EDB12001: { msg: 'Cannot create product with empty'},
   EDB12002: { msg: 'Cannot create product with empty short name' },

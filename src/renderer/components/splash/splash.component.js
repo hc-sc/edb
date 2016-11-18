@@ -8,7 +8,7 @@ import './splash.scss';
 export default angular.module('splash', [
   ngMaterial
 ])
-.component('splash', {
-  template
-})
-.name;
+  .component('splash', {
+    template
+  })
+  .name;

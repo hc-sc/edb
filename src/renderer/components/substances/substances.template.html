@@ -1,6 +1,6 @@
 <section class='node-page' layout-padding>
   <h1>Substances</h1>
-  <sidenav items='$ctrl.items' on-select='$ctrl.select(item)'></sidenav>
+  <sidenav items='$ctrl.items' main='substancename' on-select='$ctrl.select(item)'></sidenav>
     <form name='substanceForm' id='substanceForm' novalidation>
        <dropdown options="$ctrl.metadataStatusOptions " typename='TYPE_METADATA_STATUS' extensible='true'></dropdown> 
     <div layout-gt-xs='row'>
