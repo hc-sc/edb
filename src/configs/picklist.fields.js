@@ -5,6 +5,8 @@ const PicklistFieldsConfig = {
   applicationtype: {typename: 'EXTENSION_TYPE_APPLICATION_TYPE', isExt: true},
   formulationtype: {typename: 'EXTENSION_TYPE_FORMULATION_TYPE', isExt: true},
   unit: {typename: 'EXTENSION_TYPE_UNIT', isExt: true},
+  legalentitytype: {typename: 'EXTENSION_TYPE_LEGALENTITY_TYPE', isExt: true},
+  country: {typename: 'EXTENSION_TYPE_COUNTRY', isExt: true},
   substanceidentifiertype: { typename: 'EXTENSION_TYPE_SUBSTANCE_IDENTIFIER_TYPE', isExt: true}
 };
 

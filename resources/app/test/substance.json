@@ -1,0 +1,103 @@
+{
+    "substance": [
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.SUBSTANCES.SUBSTANCE",
+          "id": "IDS0000000112",
+          "metadatastatus": {
+            "TYPE_NAME": "GHSTS.TYPEMETADATASTATUSSTRUCT",
+            "value": "New",
+            "valuedecode": "New"
+          },
+          "substancename": "Fenpyroxymate",
+          "substancepid": "urn:ghsts:AF92CDE4-E66E-415E-AA9C-49F5EE5568C1",
+          "substanceidentifier": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.SUBSTANCES.SUBSTANCE.SUBSTANCEIDENTIFIER",
+              "substanceidentifiertype": {
+                "TYPE_NAME": "GHSTS.GHSTS.SUBSTANCES.SUBSTANCE.SUBSTANCEIDENTIFIER.SUBSTANCEIDENTIFIERTYPE",
+                "value": {
+                  "TYPE_NAME": "GHSTS.EXTENSIONTYPESUBSTANCEIDENTIFIERTYPE",
+                  "value": "CASNO"
+                },
+                "valuedecode": "CASNO"
+              },
+              "identifier": "134098-61-6"
+            }
+          ]
+        },
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.SUBSTANCES.SUBSTANCE",
+          "id": "IDS0000002222",
+          "metadatastatus": {
+            "TYPE_NAME": "GHSTS.TYPEMETADATASTATUSSTRUCT",
+            "value": "New",
+            "valuedecode": "New"
+          },
+          "substancename": "Acrinathrin",
+          "substancepid": "urn:ghsts:645118F1-D834-46F8-A87E-EA91ABB6B3C9",
+          "substanceidentifier": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.SUBSTANCES.SUBSTANCE.SUBSTANCEIDENTIFIER",
+              "substanceidentifiertype": {
+                "TYPE_NAME": "GHSTS.GHSTS.SUBSTANCES.SUBSTANCE.SUBSTANCEIDENTIFIER.SUBSTANCEIDENTIFIERTYPE",
+                "value": {
+                  "TYPE_NAME": "GHSTS.EXTENSIONTYPESUBSTANCEIDENTIFIERTYPE",
+                  "value": "CASNO"
+                },
+                "valuedecode": "CASNO"
+              },
+              "identifier": "101007-06-1"
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.SUBSTANCES.SUBSTANCE.SUBSTANCEIDENTIFIER",
+              "substanceidentifiertype": {
+                "TYPE_NAME": "GHSTS.GHSTS.SUBSTANCES.SUBSTANCE.SUBSTANCEIDENTIFIER.SUBSTANCEIDENTIFIERTYPE",
+                "value": {
+                  "TYPE_NAME": "GHSTS.EXTENSIONTYPESUBSTANCEIDENTIFIERTYPE",
+                  "value": "ECNO"
+                },
+                "valuedecode": "ECNO"
+              },
+              "identifier": "678"
+            }
+          ]
+        },
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.SUBSTANCES.SUBSTANCE",
+          "id": "IDS0000003333",
+          "metadatastatus": {
+            "TYPE_NAME": "GHSTS.TYPEMETADATASTATUSSTRUCT",
+            "value": "New",
+            "valuedecode": "New"
+          },
+          "substancename": "RGA1608-05",
+          "substancepid": "urn:ghsts:9A5C394B-872E-433B-A391-00899F06613E",
+          "substanceidentifier": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.SUBSTANCES.SUBSTANCE.SUBSTANCEIDENTIFIER",
+              "substanceidentifiertype": {
+                "TYPE_NAME": "GHSTS.GHSTS.SUBSTANCES.SUBSTANCE.SUBSTANCEIDENTIFIER.SUBSTANCEIDENTIFIERTYPE",
+                "value": {
+                  "TYPE_NAME": "GHSTS.EXTENSIONTYPESUBSTANCEIDENTIFIERTYPE",
+                  "value": "CASNO"
+                },
+                "valuedecode": "CASNO"
+              },
+              "identifier": "616890-34-1"
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.SUBSTANCES.SUBSTANCE.SUBSTANCEIDENTIFIER",
+              "substanceidentifiertype": {
+                "TYPE_NAME": "GHSTS.GHSTS.SUBSTANCES.SUBSTANCE.SUBSTANCEIDENTIFIER.SUBSTANCEIDENTIFIERTYPE",
+                "value": {
+                  "TYPE_NAME": "GHSTS.EXTENSIONTYPESUBSTANCEIDENTIFIERTYPE",
+                  "value": "IUBMB"
+                },
+                "valuedecode": "IUBMB"
+              },
+              "identifier": "4467"
+            }
+          ]
+        }
+      ]
+    }

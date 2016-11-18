@@ -8,6 +8,8 @@ module.exports = exports = function ServiceLevelPlugin(schema, options) {
     _lastMod: Date
   });
 
+  schema.set('toObject', { getters: true });
+
   schema.pre('save', function (next) {
     this._lastMod = new Date();
     console.log('In pre save');

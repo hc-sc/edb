@@ -61,7 +61,7 @@ module.exports = class BaseService {
               if (err)
                 rej(new Error(err));
               else
-                res(new RVHelper('EDB00000', JSON.stringify(rows)));
+                res(new RVHelper('EDB00000', JSON.stringify(rows.toJSON())));
             });
         }
       } else {
@@ -105,7 +105,7 @@ module.exports = class BaseService {
           entityClass = require('mongoose').model(self.modelClassName);
 
           entityClass
-            .update(obj, (err, rows) => {
+            .update({_id: obj._id}, obj, (err, rows) => {
               if (err)
                 rej(new Error(err));
               else
@@ -121,7 +121,35 @@ module.exports = class BaseService {
   }
 
   initDbfromTestData() {
-    
+    return new Q((res, rej) => {
+      let self = this;
+      let tdPath = path.resolve('./', BACKEND_CONST.BASE_DIR1, BACKEND_CONST.BASE_DIR2, 'test', self.modelClassName.toLowerCase() + '.json');
+      let td = require(tdPath)[self.modelClassName.toLowerCase()];
+
+      td = td.map(items => {
+        if (items.constructor === Array) {
+          let ret = items.map(item => {
+            return self._testDataPlkdecode(item);
+          });
+          return ret;
+        } else
+          return self._testDataPlkdecode(items);
+      });
+
+      let qAry = [];
+
+      td.map(items => {
+        qAry = [];        
+        if (items.constructor === Array) {
+          items.map(item => {
+            qAry.push(self.edb_put(item));
+          });
+        } else
+          qAry.push(self.edb_put(items));
+      });
+
+      return Q.all(qAry);
+    });
   }
   // _initDbFromTemplate(version, obj, pklInst) {
   //   return new Q((res, rej) => {
@@ -277,7 +305,7 @@ module.exports = class BaseService {
             explicitArray: false
           }, (err, obj) => {
             if (err)
-              rej(new Error(err));
+              rej(err);
 
             const COMPLEX_TYPES = obj['xs:schema']['xs:complexType'].map(type => {
               return type['xs:simpleContent']['xs:extension'].attr$.base;
@@ -311,7 +339,7 @@ module.exports = class BaseService {
             res(new RVHelper('EDB20001', `${global.modulesInMemory[self.modelClassName.toLowerCase()].length} added.`));
           });
         } catch (err) {
-          rej(new Error(err));
+          rej(err);
         }
       } else {
         rej(new Error('EDB13001'));
@@ -339,12 +367,18 @@ module.exports = class BaseService {
         let mongoose = require('mongoose');
         let Schema = mongoose.Schema;
         let mschema = new Schema(jschema);
+        let selfPlugin;
         mschema.plugin(ServiceLevelPlugin, { 
           url: self.modelClassName.toLowerCase(),
           id: false,
           minimize: false
         });
-        let selfPlugin = require('../models/plugins/' + self.modelClassName.toLowerCase() + '.plugin.js');
+        
+        try { 
+          selfPlugin = require('../models/plugins/' + self.modelClassName.toLowerCase() + '.plugin.js');
+        } catch (err) {
+          selfPlugin = undefined;
+        }
         if (selfPlugin)
           mschema.plugin(selfPlugin);
         let mmodule = mongoose.model(self.modelClassName, mschema);
@@ -355,12 +389,12 @@ module.exports = class BaseService {
               res(new RVHelper('EDB00000'));
             })
             .catch(err => {
-              rej(new Error(err));
+              rej(err);
             });
         } else
           res(new RVHelper('EDB00000'));
       } catch (err) {
-        rej(new Error(err));
+        rej(err);
       }
     });
   }

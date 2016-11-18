@@ -12,8 +12,8 @@ module.exports = class ProductService extends BaseService {
   initDbfromTestData() {
     return new Q((res, rej) => {
       let self = this;
-      let tdPath = path.resolve('./', BACKEND_CONST.BASE_DIR1, BACKEND_CONST.BASE_DIR2, 'test', 'products.json');
-      let td = require(tdPath)['products'];
+      let tdPath = path.resolve('./', BACKEND_CONST.BASE_DIR1, BACKEND_CONST.BASE_DIR2, 'test', 'product.json');
+      let td = require(tdPath)['product'];
       let submissions = [], dossiers = [], products = [], qAry = [];
       // let plkInst = new PicklistService();
 
@@ -55,45 +55,45 @@ module.exports = class ProductService extends BaseService {
           return self._testDataPlkdecode(items);
       });
 
-      let svrClass = require('./submission.service');
-      let svr = new svrClass();
+      let subSvrClass = require('./submission.service');
+      let dosSvrClass = require('./dossier.service');
+      let subSvr = new subSvrClass();
+      let dosSvr = new dosSvrClass();
 
       submissions.map((items, index) => {
         qAry = [];        
         if (items.constructor === Array) {
           items.map(submission => {
-            qAry.push(svr.edb_put(submission));
+            qAry.push(subSvr.edb_put(submission));
           });
         } else
-          qAry.push(svr.edb_put(items));
+          qAry.push(subSvr.edb_put(items));
         
-        Q.all(qAry).bind(index)
+        Q.all(qAry)
+        .bind(index)
         .then(rets => {
-          let dQAry = [];
-          let curIndex = index;
-          let svrClass = require('./dossier.service');
-          let svr = new svrClass();
+          dossiers[index].submission = [];
           rets.map(items => {
-            dossiers[curIndex].submission = [];
-            if (items.constructor === Array) {
-              items.map((submission) => {
-                dossiers[curIndex].submission.push(JSON.parse(submission.data)._id.toString());
-                dQAry.push(svr.edb_put(dossiers[curIndex]));
-              });
-            } else {
-              dossiers[curIndex].submission.push(JSON.parse(items.data)._id.toString());
-              dQAry.push(svr.edb_put(dossiers[curIndex]));
-            }
-            return Q.all(dQAry);
+            dossiers[index].submission.push(JSON.parse(items.data)._id.toString());
           });
+          return self.edb_put(products[index]);
         })
+        .bind(index)
         .then(rets => {
-          console.log(rets);
+          products[index] = JSON.parse(rets.data);
+          dossiers[index]._product = products[index]._id.toString();
+          console.log(dossiers[index]._product);
+          return dosSvr.edb_put(dossiers[index]);
+        })
+        .bind(index)
+        .then(rets => {
+          products[index].dossier = JSON.parse(rets.data)._id.toString();
+          console.log(products[index].dossier);
+          return self.edb_post(products[index]);
         })
         .catch(err => {
-          console.log(err);
+          rej(err);
         });
-
       });
     });
   }

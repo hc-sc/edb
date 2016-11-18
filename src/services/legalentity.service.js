@@ -5,6 +5,7 @@ module.exports = class LegalentityService extends BaseService {
     super('LEGALENTITY', true, version);
     this.modelClassNamePre = 'GHSTS.LEGALENTITIES';
   }
+
 };
 
 //import Nedb from 'nedb';

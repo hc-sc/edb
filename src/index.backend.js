@@ -103,9 +103,17 @@ var init = () => {
 
 var initDB = () => {
   //let ghstsSrv = new GhstsService(undefined, undefined, marshallers['01_00_00'], unmarshallers['01_00_00']);
+  let qAry = [];
   let svrClass = require('./services/product.service');
   let svr = new svrClass('01.00.00');
-  return svr.initDbfromTestData();
+  qAry.push(svr.initDbfromTestData());
+  svrClass = require('./services/legalentity.service');
+  svr = new svrClass('01.00.00');
+  qAry.push(svr.initDbfromTestData());
+  svrClass = require('./services/substance.service');
+  svr = new svrClass('01.00.00');
+  qAry.push(svr.initDbfromTestData());
+  return Q.all(qAry);
 };
 
 ipc.on('devTools', function (event, arg) {
