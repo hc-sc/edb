@@ -16,10 +16,12 @@ export class SubstancesCtrl extends BaseCtrl {
                 console.log(data._url);
             }
 
-            self.items = data.map(item => {
-                console.log(item.substancename);
-                return { name: item.substancename };
-            });
+            self.items = data;
+            
+            // .map(item => {
+            //     console.log(item.substancename);
+            //     return { name: item.substancename };
+            // });
         });
         // options for metadata status
         self.pickListService.edb_get({'TYPE_NAME': 'TYPE_METADATA_STATUS'})

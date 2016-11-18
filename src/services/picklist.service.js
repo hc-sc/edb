@@ -8,11 +8,9 @@ const _ = require('lodash');
 const RVHelper = require('../utils/return.value.helper').ReturnValueHelper;
 const ServiceLevelPlugin = require('../models/plugins/service.level.plugin');
 
-const moduleInMemory = {};
-
 module.exports = class PickListService extends BaseService {
   constructor(version) {
-    super('Picklist', version, true);
+    super('Picklist', true, version);
   }
   // used to get all types with a given name. Can additionally provide a true/false status, which only returns enabled types
   edb_get(typeName, isEnabled) {
@@ -46,12 +44,12 @@ module.exports = class PickListService extends BaseService {
         let mmodule = mongoose.model(self.modelClassName, mschema);
         mmodule
           .find({})
+          .lean()
           .then(result => {
             if (result.length === 0) {
               return super.initFromXSD('ghsts-picklists.xsd');
             } else {
               global.modulesInMemory[self.modelClassName.toLowerCase()] = result;
-              console.log('set - ' + global.modulesInMemory[self.modelClassName.toLowerCase()].length);
               res(new RVHelper('EDB00000'));
             }
           })
