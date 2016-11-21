@@ -31,11 +31,10 @@ export default angular.module('legalEntities', [
     constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService) {
       super($mdDialog, $mdToast, $state, PicklistService, AppDataService, 'legalentity');
 
-      this.picklists = {
-        legalEntityType: JSON.parse(this.legalEntityType.data),
-        legalEntityIdentifierType: JSON.parse(this.legalEntityIdentifierType.data),
-        countries: JSON.parse(this.countries.data)
-      };
+      let legalEntityTypes = JSON.parse(this.legalEntityType.data);
+      let legalEntityIdentifierTypes = JSON.parse(this.legalEntityIdentifierType.data);
+      let countries = JSON.parse(this.countries.data);
+
     }
 
     add(item) {
@@ -50,6 +49,13 @@ export default angular.module('legalEntities', [
       this.sidenavOpen = !this.sidenavOpen;
     }
 
+    createPLI(value) {
+      console.log(value.TYPE_NAME);
+      this.createPicklistItem(value)
+      .then(results => {
+        this[value.TYPE_NAME].push(results);
+      });
+    }
 
 
     update(prop, value) {

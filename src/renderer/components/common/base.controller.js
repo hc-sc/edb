@@ -9,10 +9,13 @@ export default class BaseCtrl {
     this.url = url;
     this.picklistService = PicklistService.getService();
     this.appDataService = AppDataService.getService();
+    this.loading = true;
 
     this.getAppData().then(records => {
       this.records = JSON.parse(records.data);
       this.selected = this.records[0];
+
+      this.loading = false;
     });
   }
 
@@ -34,10 +37,15 @@ export default class BaseCtrl {
 
   createPicklistItem(data = {}) {
     console.log(data);
-    return this.picklistService.edb_put(data);
+    return this.picklistService.edb_put(data)
+    .then(result => {
+      this[data.TYPE_NAME].push(JSON.parse(result.data));
+    })
+    .catch(err => console.log(err));
   }
 
   getGHSTS() {}
+
 
 
   // used to display notifications to the user

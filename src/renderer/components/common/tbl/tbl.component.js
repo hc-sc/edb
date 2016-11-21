@@ -43,6 +43,8 @@ export default angular.module('tbl', [
       this.search = false;
       this.searchText = '';
       this.mapProjection();
+
+      console.log(this.rows, this.rows.length, this.minItems);
     }
 
     $onChanges() {

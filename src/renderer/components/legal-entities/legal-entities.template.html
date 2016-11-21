@@ -1,10 +1,11 @@
 <section class='node-page'>
+  <spinner ng-if='$ctrl.loading'></spinner>
   <sidenav items='$ctrl.records' main='legalentityname' is-open='$ctrl.sidenavOpen' on-select='$ctrl.updateSelected(item)' on-add='$ctrl.add(item)'></sidenav>
   <text-input label='PID' is-disabled='true' text-value='$ctrl.selected.legalentitypid' on-update='$ctrl.update("legalentitypid", value)'></text-input>
   <text-input label='Name' text-value='$ctrl.selected.legalentityname' on-update='$ctrl.update("legalentityname", value)'></text-input>
-  <select-input-extensible label='"Legal Entity Type"' is-required='true' show-value='false' values='$ctrl.picklists.legalEntityType' select-value='$ctrl.selected.legalentitytype' on-update='$ctrl.update("legalentitytype", value)' on-add='$ctrl.createPLI(value)'></select-input-extensible>
+  <select-input-extensible label='"Legal Entity Type"' is-required='true' show-value='false' values='$ctrl.legalEntityTypes' select-value='$ctrl.selected.legalentitytype' on-update='$ctrl.update("legalentitytype", value)' on-add='$ctrl.createPicklistItem(value)'></select-input-extensible>
   <text-input label='Other Name' text-value='$ctrl.selected.othername' on-update='$ctrl.update("othername", value)'></text-input>
-  <tbl title='Identifier' items='[]' projection='[]'></tbl>
+  <tbl title='Identifier' items='[]' projection='[]' min-items='1'></tbl>
   <fieldset>
     <legend>Contact Address</legend>
     <text-input label='Street 1' text-value='$ctrl.selected.contactaddress.street1' on-update='update("contactaddress.street1", value)'></text-input>

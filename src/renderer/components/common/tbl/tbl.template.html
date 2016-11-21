@@ -1,39 +1,41 @@
-<md-card class='no-padding'>
-  <md-toolbar class='md-table-toolbar' ng-show='!$ctrl.search'>
-    <div class='md-toolbar-tools custom-toolbar'>
-      <h2 class='md-title'>{{ $ctrl.title }}</h2>
-      <div flex></div>
-      <icon icon='$ctrl.searchIcon' ng-click='$ctrl.toggleSearch()'></icon>
-      <icon icon='$ctrl.addIcon' ng-click='$ctrl.add()'></icon>
-    </div>
-  </md-toolbar>
-  <md-toolbar class='md-table-toolbar custom-toolbar md-default' ng-show='$ctrl.search'>
-    <div class='md-toolbar-tools custom-toolbar'>
-      <text-input class='search-input' label='Search' text-value='$ctrl.searchText' message='invalid' on-update='$ctrl.update("searchText", value)'></text-input>
-      <icon icon='$ctrl.closeIcon' ng-click='$ctrl.toggleSearch()'></icon>
-    </div>
-  </md-toolbar>
-  <md-table-container>
-    <table md-table>
-      <thead md-head>
-        <tr md-row>
-          <th ng-repeat='header in $ctrl.headers' md-column ng-click='$ctrl.setSort(header)'>
-            {{ header.name }}
-            <md-icon ng-if='$ctrl.sortField === header.paramName && !$ctrl.reverse' md-svg-icon='down'></md-icon>
-            <md-icon ng-if='$ctrl.sortField === header.paramName && $ctrl.reverse' md-svg-icon='up'></md-icon>
-          </th>
-          <th ng-if='$ctrl.deletable' md-column></th>
-        </tr>
-      </thead>
-      <tbody md-body>
-        <tr ng-repeat='row in $ctrl.rows | index | filter:$ctrl.searchText | orderBy:$ctrl.sortField:$ctrl.reverse' md-row>
-          <td ng-repeat='data in row track by $index' ng-if='!$last' md-cell ng-click='$ctrl.select(row[row.length - 1], row.index)'>{{ data }}</td>
-          <td ng-if='$ctrl.deletable' md-cell>
-            <md-icon ng-if='row["deletable"] === true' md-svg-icon='delete' class='dark' ng-click='$ctrl.delete(row.index)'></md-icon>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </md-table-container>
-</md-card>
-<p class='error-message' ng-if='$ctrl.rows && $ctrl.rows.length < $ctrl.minItems'>Must have at least {{ $ctrl.minItems }} {{ $ctrl.title  | lowercase }}</p>
+<div class='table-container'>
+  <md-card class='no-padding'>
+    <md-toolbar class='md-table-toolbar' ng-show='!$ctrl.search'>
+      <div class='md-toolbar-tools custom-toolbar'>
+        <h2 class='md-title'>{{ $ctrl.title }}</h2>
+        <div flex></div>
+        <icon icon='$ctrl.searchIcon' ng-click='$ctrl.toggleSearch()'></icon>
+        <icon icon='$ctrl.addIcon' ng-click='$ctrl.add()'></icon>
+      </div>
+    </md-toolbar>
+    <md-toolbar class='md-table-toolbar custom-toolbar md-default' ng-show='$ctrl.search'>
+      <div class='md-toolbar-tools custom-toolbar'>
+        <text-input class='search-input' label='Search' text-value='$ctrl.searchText' message='invalid' on-update='$ctrl.update("searchText", value)'></text-input>
+        <icon icon='$ctrl.closeIcon' ng-click='$ctrl.toggleSearch()'></icon>
+      </div>
+    </md-toolbar>
+    <md-table-container>
+      <table md-table>
+        <thead md-head>
+          <tr md-row>
+            <th ng-repeat='header in $ctrl.headers' md-column ng-click='$ctrl.setSort(header)'>
+              {{ header.name }}
+              <md-icon ng-if='$ctrl.sortField === header.paramName && !$ctrl.reverse' md-svg-icon='down'></md-icon>
+              <md-icon ng-if='$ctrl.sortField === header.paramName && $ctrl.reverse' md-svg-icon='up'></md-icon>
+            </th>
+            <th ng-if='$ctrl.deletable' md-column></th>
+          </tr>
+        </thead>
+        <tbody md-body>
+          <tr ng-repeat='row in $ctrl.rows | index | filter:$ctrl.searchText | orderBy:$ctrl.sortField:$ctrl.reverse' md-row>
+            <td ng-repeat='data in row track by $index' ng-if='!$last' md-cell ng-click='$ctrl.select(row[row.length - 1], row.index)'>{{ data }}</td>
+            <td ng-if='$ctrl.deletable' md-cell>
+              <md-icon ng-if='row["deletable"] === true' md-svg-icon='delete' class='dark' ng-click='$ctrl.delete(row.index)'></md-icon>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </md-table-container>
+  </md-card>
+  <p class='error-message' ng-if='!$ctrl.rows || $ctrl.rows.length < $ctrl.minItems'>Must have at least {{ $ctrl.minItems }} {{ $ctrl.title  | lowercase }}</p>
+</div>
