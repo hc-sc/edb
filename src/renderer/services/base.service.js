@@ -4,7 +4,7 @@ export default class BaseService {
   constructor($q, msgChannel, url) {
     this.$q = $q;
     this.msgChannel = msgChannel;
-    this.url = url; 
+    this.url = url;
   }
 
   edb_get(obj) {
@@ -22,7 +22,7 @@ export default class BaseService {
     } else {
       deffer.reject('Error: Please run application in electron!');
     }
-    return deffer.promise; 
+    return deffer.promise;
   }
 
   edb_getSync(obj) {
@@ -51,7 +51,7 @@ export default class BaseService {
     } else {
       deffer.reject('Error: Please run application in electron!');
     }
-    return deffer.promise; 
+    return deffer.promise;
   }
 
   edb_putSync(obj) {
@@ -78,7 +78,7 @@ export default class BaseService {
     } else {
       deffer.reject('Error: Please run application in electron!');
     }
-    return deffer.promise; 
+    return deffer.promise;
   }
 
   edb_postSync(obj) {
@@ -105,7 +105,7 @@ export default class BaseService {
     } else {
       deffer.reject('Error: Please run application in electron!');
     }
-    return deffer.promise; 
+    return deffer.promise;
   }
 
   edb_deleteSync(obj) {
@@ -130,6 +130,6 @@ export default class BaseService {
       retVal.data = obj.data ? obj.data : obj;
     }
     retVal.timestamp = timestamp;
-    return retVal; 
+    return retVal;
   }
 }

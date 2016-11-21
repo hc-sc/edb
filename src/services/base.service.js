@@ -61,8 +61,8 @@ module.exports = class BaseService {
       let self = this;
       let entityClass;
 
+      entityClass = require('mongoose').model(self.modelClassName);
       if (obj && typeof obj === 'object') {
-        entityClass = require('mongoose').model(self.modelClassName);
         if (!entityClass)
           rej(new Error(new RVHelper('EDB13001')));
         else {
@@ -149,7 +149,7 @@ module.exports = class BaseService {
       let qAry = [];
 
       td.map(items => {
-        qAry = [];        
+        qAry = [];
         if (items.constructor === Array) {
           items.map(item => {
             qAry.push(self.edb_put(item));
@@ -233,7 +233,7 @@ module.exports = class BaseService {
   //     if (item.constructor === Array) {
   //       for (var j = 0; j < item.length; j++) {
   //         self._get_new_ext_plk(item[j]);
-  //       } 
+  //       }
   //     } else if (typeof item === 'object') {
   //       let def = path.join(self.defDir, item.TYPE_NAME.replace('GHSTS.', '') + '.json');
   //       let isPickList = require(def);
@@ -378,13 +378,13 @@ module.exports = class BaseService {
         let Schema = mongoose.Schema;
         let mschema = new Schema(jschema);
         let selfPlugin;
-        mschema.plugin(ServiceLevelPlugin, { 
+        mschema.plugin(ServiceLevelPlugin, {
           url: self.modelClassName.toLowerCase(),
           id: false,
           minimize: false
         });
-        
-        try { 
+
+        try {
           selfPlugin = require('../models/plugins/' + self.modelClassName.toLowerCase() + '.plugin.js');
         } catch (err) {
           selfPlugin = undefined;

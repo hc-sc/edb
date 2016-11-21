@@ -50,10 +50,6 @@ export default function($stateProvider, $urlRouterProvider) {
     url: '/legal-entities',
     component: 'legalEntities',
     resolve: {
-      // for testing purposes, this should already be loaded in the db in the future
-      legalEntities: $http => {
-        return $http.get('./dummy-data/legal-entities.json');
-      },
       legalEntityType: PicklistService => {
         return PicklistService.getService().edb_get({ 'TYPE_NAME': 'EXTENSION_TYPE_LEGALENTITY_TYPE' });
       },
@@ -62,16 +58,6 @@ export default function($stateProvider, $urlRouterProvider) {
       },
       countries: PicklistService => {
         return PicklistService.getService().edb_get({ 'TYPE_NAME': 'EXTENSION_TYPE_COUNTRY' });
-      }
-    }
-  })
-  .state('globals.legalEntities.legalEntity', {
-    url: '/:id',
-    component: 'legalEntity',
-    resolve: {
-      legalEntity: ($stateParams) => {
-        console.log('id:', $stateParams.id);
-        return;
       }
     }
   })

@@ -1,4 +1,4 @@
-<md-sidenav class='md-sidenav-left custom-sidenav' md-is-open='$ctrl.listOpen' md-component-id='left' md-whiteframe='4'>
+<md-sidenav class='md-sidenav-left custom-sidenav' md-disable-backdrop md-is-open='$ctrl.isOpen' md-component-id='left' md-whiteframe='4'>
   <md-input-container class='md-icon-float md-block'>
     <label for='searchBar'>Search</label>
     <md-icon class='text-icon' md-svg-icon='search'></md-icon>
@@ -11,11 +11,3 @@
     </md-list-item>
   </md-list>
 </md-sidenav>
-<div style='z-index:100' class='float-bottom'>
-  <md-button aria-label='Add New Item' class='md-fab md-primary' ng-click='$ctrl.add()'>
-    <md-icon md-svg-icon='add' class='light'></md-icon>
-  </md-button>
-  <md-button aria-label='Toggle List' class='md-fab md-primary' ng-click='$ctrl.toggleList()'>
-    <md-icon md-svg-icon='list' class='light'></md-icon>
-  </md-button>
-</div>
