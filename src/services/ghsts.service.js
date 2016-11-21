@@ -2,6 +2,7 @@ const GHSTS = require('../models/ghsts');
 const BACKEND_CONST = require('../constants/backend');
 const SHARED_CONST = require('../constants/shared');
 const RVHelper = require('../utils/return.value.helper').ReturnValueHelper;
+const PicklistService = require('./picklist.service');
 
 const Q = require('bluebird');
 
@@ -20,10 +21,50 @@ var absOutputFN, absSubPath;
 
 
 module.exports = class GhstsService {
-  constructor(submissions_ref, validateInstance) {
+  constructor(submissions_ref, validateInstance, marsh, unmarsh) {
     this.ghsts = submissions_ref;
     this._validate = validateInstance;
-    this.url = SHARED_CONST.GHSTS_SERVICE_URL;
+    this._url = SHARED_CONST.GHSTS_SERVICE_URL;
+    this._marsh = marsh;
+    this._unmarsh = unmarsh;
+  }
+
+  _initDbFromTemplate(version) {
+    return new Q((res, rej) => {
+      let self = this, filename = path.join(templateDir, BACKEND_CONST.GHSTS_XML_FILENAME);
+      let picklistInst = new PicklistService();
+      self._unmarsh.unmarshalFile(filename, (unmarshaled, err) => {
+        if (err)
+          rej(new RVHelper('EDB10000', err));
+
+        let obj = unmarshaled.value;
+        let createdItems = [];
+        if (obj.substances) {
+          let svrClass = require('./substance.service');
+          let svr = new svrClass(version);
+
+          svr._initDbFromTemplate(version, obj.substances.substance, picklistInst)
+            .then((ret => {
+              console.log(ret);
+              res(ret);
+            }))
+            .catch(err => {
+              console.log(err);
+              rej(err);
+            });
+          // let mmodel = require('mongoose').model('SUBSTANCE');
+          // items = obj.substances.substance;
+          // items.map(item => {
+          //   let dbobj = new mmodel(item);
+          //   dbobj.save();
+          //   console.log(dbobj);
+          // }); 
+
+//          console.log(obj.substances);
+        }
+//        res(new RVHelper('EDB00000'));
+      });
+    });
   }
 
   edb_package() {

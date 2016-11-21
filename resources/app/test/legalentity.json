@@ -1,7 +1,6 @@
 {
-  "legalentities": {
-    "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES",
-    "legalentity": [{
+  "legalentity": [
+    {
       "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY",
       "id": "LE_ID_BVL",
       "metadatastatus": {
@@ -43,19 +42,22 @@
         "email": "info@bvl.de",
         "website": "ttp://www.bvl.de"
       },
-      "contactperson": [{
-        "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON",
-        "organisation": "Unit 204: EC Procedures",
-        "department": "Department 2: Plant Protection Products",
-        "title": "Mr.",
-        "firstname": "Hermann",
-        "lastname": "Köppen",
-        "phone": "+49 531 299 4567",
-        "mobile": "-/-",
-        "fax": "+49 531 299 3003",
-        "email": "hermann.koeppen@bvl.bund.de"
-      }]
-    }, {
+      "contactperson": [
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON",
+          "organisation": "Unit 204: EC Procedures",
+          "department": "Department 2: Plant Protection Products",
+          "title": "Mr.",
+          "firstname": "Hermann",
+          "lastname": "Köppen",
+          "phone": "+49 531 299 4567",
+          "mobile": "-/-",
+          "fax": "+49 531 299 3003",
+          "email": "hermann.koeppen@bvl.bund.de"
+        }
+      ]
+    },
+    {
       "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY",
       "id": "LE_ID_PMRA",
       "metadatastatus": {
@@ -96,19 +98,22 @@
         "email": "info@hc-sc.gc.ca",
         "website": "http://www.hc-sc.gc.ca/contact/cps-spc/pmra-arla/infoserv-eng.php"
       },
-      "contactperson": [{
-        "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON",
-        "organisation": "Chemicals",
-        "department": "Submissions",
-        "title": "Mr.",
-        "firstname": "Marcus",
-        "lastname": "Miller",
-        "phone": "613-736-3602",
-        "mobile": "613-612-0554",
-        "fax": "-/-",
-        "email": "marcus.miller@hc-sc.gc.ca"
-      }]
-    }, {
+      "contactperson": [
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON",
+          "organisation": "Chemicals",
+          "department": "Submissions",
+          "title": "Mr.",
+          "firstname": "Marcus",
+          "lastname": "Miller",
+          "phone": "613-736-3602",
+          "mobile": "613-612-0554",
+          "fax": "-/-",
+          "email": "marcus.miller@hc-sc.gc.ca"
+        }
+      ]
+    },
+    {
       "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY",
       "id": "LE_ID_APVMA",
       "metadatastatus": {
@@ -148,18 +153,21 @@
         "email": "enquiries@apvma.gov.au",
         "website": "http://apvma.gov.au"
       },
-      "contactperson": [{
-        "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON",
-        "organisation": "APVMA",
-        "department": "Regulatory Affairs",
-        "firstname": "Susan",
-        "lastname": "Miller",
-        "phone": "+61 2 6210 4701 3544",
-        "mobile": "+61 413 025 837",
-        "fax": "-/-",
-        "email": "susan.miller@apvma.gov.au"
-      }]
-    }, {
+      "contactperson": [
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON",
+          "organisation": "APVMA",
+          "department": "Regulatory Affairs",
+          "firstname": "Susan",
+          "lastname": "Miller",
+          "phone": "+61 2 6210 4701 3544",
+          "mobile": "+61 413 025 837",
+          "fax": "-/-",
+          "email": "susan.miller@apvma.gov.au"
+        }
+      ]
+    },
+    {
       "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY",
       "id": "LE_ID_IBAMA",
       "metadatastatus": {
@@ -193,23 +201,26 @@
             "TYPE_NAME": "GHSTS.EXTENSIONTYPECOUNTRY",
             "value": "BR"
           },
-          "valuedecode": "Brasil"
+          "valuedecode": "Brazil"
         },
         "phone": "+55 61-3316-1212",
         "fax": "+55 61-3316-1212-433",
         "email": "sic@ibama.gov.br",
         "website": "http://www.ibama.gov.br/"
       },
-      "contactperson": [{
-        "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON",
-        "organisation": "IBAMA",
-        "firstname": "João",
-        "lastname": "Gilberto",
-        "phone": "+55 61-3316-1212-265",
-        "mobile": "+55 21-99635-9499",
-        "email": "joao.gilberto@ibama.gov.br"
-      }]
-    }, {
+      "contactperson": [
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON",
+          "organisation": "IBAMA",
+          "firstname": "João",
+          "lastname": "Gilberto",
+          "phone": "+55 61-3316-1212-265",
+          "mobile": "+55 21-99635-9499",
+          "email": "joao.gilberto@ibama.gov.br"
+        }
+      ]
+    },
+    {
       "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY",
       "id": "LE_ID_PPPWW_DE",
       "metadatastatus": {
@@ -249,30 +260,34 @@
         "email": "info@pppww.de",
         "website": "http://www.pppww.com/de"
       },
-      "contactperson": [{
-        "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON",
-        "organisation": "Plant Protection Products Worlwide GmbH Germany",
-        "department": "Global Regulatory Affairs",
-        "title": "Dr.",
-        "firstname": "Franz",
-        "lastname": "Bundschuh",
-        "phone": "+49 43665 764-123",
-        "mobile": "+49 176 34576233",
-        "fax": "+49 43665 764-11",
-        "email": "franz.bundschuh@pppww.com"
-      }, {
-        "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON",
-        "organisation": "Plant Protection Productsxxxxxxxxxxxxxxx Worlwide GmbH Germany",
-        "department": "Global Regulatory Affairs",
-        "title": "Dr.",
-        "firstname": "Buntsen",
-        "lastname": "Honeydue",
-        "phone": "+49 4366xxx5 764-123",
-        "mobile": "+49 17xxxx6 34576344",
-        "fax": "+49 4366xxxxx5 764-11",
-        "email": "buntsen.honeydue@pppww.com"
-      }]
-    }, {
+      "contactperson": [
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON",
+          "organisation": "Plant Protection Products Worlwide GmbH Germany",
+          "department": "Global Regulatory Affairs",
+          "title": "Dr.",
+          "firstname": "Franz",
+          "lastname": "Bundschuh",
+          "phone": "+49 43665 764-123",
+          "mobile": "+49 176 34576233",
+          "fax": "+49 43665 764-11",
+          "email": "franz.bundschuh@pppww.com"
+        },
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON",
+          "organisation": "Plant Protection Productsxxxxxxxxxxxxxxx Worlwide GmbH Germany",
+          "department": "Global Regulatory Affairs",
+          "title": "Dr.",
+          "firstname": "Buntsen",
+          "lastname": "Honeydue",
+          "phone": "+49 4366xxx5 764-123",
+          "mobile": "+49 17xxxx6 34576344",
+          "fax": "+49 4366xxxxx5 764-11",
+          "email": "buntsen.honeydue@pppww.com"
+        }
+      ]
+    },
+    {
       "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY",
       "id": "LE_ID_PPPWW_CA",
       "metadatastatus": {
@@ -313,18 +328,21 @@
         "email": "info@pppww.ca",
         "website": "http://www.pppww.com/ca"
       },
-      "contactperson": [{
-        "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON",
-        "organisation": "Plant Protection Products Worlwide Canada",
-        "department": "Global Regulatory Affairs",
-        "firstname": "Peter",
-        "lastname": "Walshe",
-        "phone": "+1 905-763-0560",
-        "mobile": "+1 379-453-2228",
-        "fax": "+1 905-763-0560-11",
-        "email": "peter.walshe@pppww.com"
-      }]
-    }, {
+      "contactperson": [
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON",
+          "organisation": "Plant Protection Products Worlwide Canada",
+          "department": "Global Regulatory Affairs",
+          "firstname": "Peter",
+          "lastname": "Walshe",
+          "phone": "+1 905-763-0560",
+          "mobile": "+1 379-453-2228",
+          "fax": "+1 905-763-0560-11",
+          "email": "peter.walshe@pppww.com"
+        }
+      ]
+    },
+    {
       "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY",
       "id": "LE_ID_PPPWW_BR",
       "metadatastatus": {
@@ -357,25 +375,28 @@
             "TYPE_NAME": "GHSTS.EXTENSIONTYPECOUNTRY",
             "value": "BR"
           },
-          "valuedecode": "Brasil"
+          "valuedecode": "Brazil"
         },
         "phone": "+55 11 3444-3500",
         "fax": "+55 11 3444-3501",
         "email": "info@pppww.br",
         "website": "http://www.pppww.com/br"
       },
-      "contactperson": [{
-        "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON",
-        "organisation": "Plant Protection Products Worlwide Brasil",
-        "department": "Regulatory Department",
-        "firstname": "Ary",
-        "lastname": "Barroso",
-        "phone": "+55 11 3444-3500",
-        "mobile": "+55 11 9 7307 1799",
-        "fax": "+55 11 3444-3500",
-        "email": "ary.barroso@pppww.com"
-      }]
-    }, {
+      "contactperson": [
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON",
+          "organisation": "Plant Protection Products Worlwide Brasil",
+          "department": "Regulatory Department",
+          "firstname": "Ary",
+          "lastname": "Barroso",
+          "phone": "+55 11 3444-3500",
+          "mobile": "+55 11 9 7307 1799",
+          "fax": "+55 11 3444-3500",
+          "email": "ary.barroso@pppww.com"
+        }
+      ]
+    },
+    {
       "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY",
       "id": "LE_ID_PPPWW_AU",
       "metadatastatus": {
@@ -416,17 +437,19 @@
         "email": "info@pppww.au",
         "website": "http://www.pppww.com/au"
       },
-      "contactperson": [{
-        "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON",
-        "organisation": "Plant Protection Products Worlwide Australia",
-        "department": "Global Regulatory Affairs",
-        "title": "Dr.",
-        "firstname": "Marc",
-        "lastname": "Planter",
-        "phone": "+61-2-9354-4000-463",
-        "mobile": "+61-0410499665",
-        "email": "marc.planter@pppww.com"
-      }]
-    }]
-  }
+      "contactperson": [
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON",
+          "organisation": "Plant Protection Products Worlwide Australia",
+          "department": "Global Regulatory Affairs",
+          "title": "Dr.",
+          "firstname": "Marc",
+          "lastname": "Planter",
+          "phone": "+61-2-9354-4000-463",
+          "mobile": "+61-0410499665",
+          "email": "marc.planter@pppww.com"
+        }
+      ]
+    }
+  ]
 }

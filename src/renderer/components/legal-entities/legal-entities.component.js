@@ -24,12 +24,14 @@ export default angular.module('legalEntities', [
   controller: class LECtrl {
     constructor($state, AppDataService) {
       this.$state = $state;
-      this.AppDataService = AppDataService;
-      this.sidenavOpen = false;
+      this.appDataService = AppDataService.getService();
 
       // won't need this line when using db instead of file
-      this.legalEntities = this.legalEntities.data.legalentities.legalentity;
-      this.selected = this.legalEntities[0];
+      this.appDataService.edb_get({url: 'legalentity', data: {}}).then(ret => {
+        this.legalEntities = JSON.parse(ret.data);
+        this.selected = this.legalEntities[0];
+      });
+      console.log(this.selected);
 
       this.picklists = {
         legalEntityType: JSON.parse(this.legalEntityType.data),
