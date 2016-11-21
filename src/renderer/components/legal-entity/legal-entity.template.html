@@ -1,7 +1,7 @@
 <section class='node-page'>
   <text-input label='PID' is-disabled='true' text-value='$ctrl.le.legalentitypid'  max-length='5' has-pattern='^[0-9]*$' message='Needs to be a valid PID' on-update='$ctrl.update("legalentitypid", value)'></text-input>
   <text-input label='Name' text-value='$ctrl.le.legalentityname' on-update='$ctrl.update("legalentityname", value)'></text-input>
-  <select-input-extensible show-value='false' values='$ctrl.picklists.legalEntityType' select-value='$ctrl.legalentitytype' on-update='$ctrl.update("legalentitytype", value)'></select-input-extensible>
+  <select-input-extensible show-value='false' values='$ctrl.picklists.legalEntityType' select-value='$ctrl.legalentitytype.value.value' on-update='$ctrl.update("legalentitytype", value)'></select-input-extensible>
   <text-input label='Other Name' text-value='$ctrl.le.othername' on-update='$ctrl.update("othername", value)'></text-input>
   <tbl title='Identifier' items='[]' projection='[]'></tbl>
   <fieldset>

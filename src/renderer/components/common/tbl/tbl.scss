@@ -21,6 +21,12 @@ text-input.search-input {
   margin: 0;
 }
 
-tbl > md-card {
+div.table-container > md-card {
+  margin: 0 0 5px 0;
+  padding: 0;
+}
+
+div.table-container {
   margin: 15px 0;
+  padding: 0;
 }

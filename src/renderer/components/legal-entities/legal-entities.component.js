@@ -3,53 +3,63 @@ import ngMaterial from 'angular-material';
 import template from './legal-entities.template';
 
 import Sidenav from '../common/sidenav/sidenav.component';
+import TextInput from '../common/text-input/text-input.component';
+import SelectInput from '../common/select-input/select-input.component';
+import SelectInputExtensible from '../common/select-input-extensible/select-input-extensible.component';
 
 import PicklistService from '../../services/picklist.service';
 import AppDataService from '../../services/app.data.service';
+import BaseCtrl from '../common/base.controller';
 
 export default angular.module('legalEntities', [
   ngMaterial,
   Sidenav,
+  TextInput,
+  SelectInput,
+  SelectInputExtensible,
   PicklistService,
   AppDataService
 ])
 .component('legalEntities', {
   template,
   bindings: {
-    legalEntities: '<',
     legalEntityType: '<',
     legalEntityIdentifierType: '<',
     countries: '<'
   },
-  controller: class LECtrl {
-    constructor($state, AppDataService) {
-      this.$state = $state;
-      this.appDataService = AppDataService.getService();
+  controller: class LECtrl extends BaseCtrl {
+    constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService) {
+      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, 'legalentity');
 
-      // won't need this line when using db instead of file
-      this.appDataService.edb_get({url: 'legalentity', data: {}}).then(ret => {
-        this.legalEntities = JSON.parse(ret.data);
-        this.selected = this.legalEntities[0];
-      });
-      console.log(this.selected);
+      let legalEntityTypes = JSON.parse(this.legalEntityType.data);
+      let legalEntityIdentifierTypes = JSON.parse(this.legalEntityIdentifierType.data);
+      let countries = JSON.parse(this.countries.data);
 
-      this.picklists = {
-        legalEntityType: JSON.parse(this.legalEntityType.data),
-        legalEntityIdentifierType: JSON.parse(this.legalEntityIdentifierType.data),
-        countries: JSON.parse(this.countries.data)
-      };
-    }
-
-    select(item) {
-      this.selected = this.legalEntities.filter(le => {
-        return le.id === item.id;
-      })[0];
     }
 
     add(item) {
-      // this.AppDataService.getService().edb_put({
-      //   url: 'legal-entities',
-      // });
+      this.showMessage('hi there');
+    }
+
+    save() {
+      console.log(this.selected);
+    }
+
+    toggleList() {
+      this.sidenavOpen = !this.sidenavOpen;
+    }
+
+    createPLI(value) {
+      console.log(value.TYPE_NAME);
+      this.createPicklistItem(value)
+      .then(results => {
+        this[value.TYPE_NAME].push(results);
+      });
+    }
+
+
+    update(prop, value) {
+      this.selected[prop] = value;
     }
   }
 })

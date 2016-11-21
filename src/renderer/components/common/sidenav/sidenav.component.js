@@ -14,6 +14,7 @@ export default angular.module('sidenav', [
   bindings: {
     items: '<',
     main: '@',
+    isOpen: '<',
     onSelect: '&',
     onAdd: '&'
   },
@@ -24,15 +25,11 @@ export default angular.module('sidenav', [
     }
 
     toggleList() {
-      this.listOpen = !this.listOpen;
+      this.isOpen = !this.isOpen;
     }
 
     select(item) {
       this.onSelect({ item });
-    }
-
-    add() {
-      this.onAdd();
     }
   }
 })
