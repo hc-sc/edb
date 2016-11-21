@@ -54,16 +54,9 @@ export default angular.module('selectInputExtensible', [
 
         this.onAdd({value: picklistItem})
 
-        // this.picklistService.edb_put(picklistItem)
-        // .then(ret => {
-        //   console.log('worked: ', ret);
-        //   this.value = '';
-        //   this.valuedecode = '';
-        //   this.adding = false;
-
-        //     // refresh selected value
-        // })
-        // .catch(err => console.log(err));
+        this.value = '';
+        this.valuedecode = '';
+        this.adding = false;
       }
     }
 

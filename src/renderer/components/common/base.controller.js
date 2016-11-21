@@ -35,15 +35,6 @@ export default class BaseCtrl {
     return this.picklistService.edb_get({ 'TYPE_NAME': typename });
   }
 
-  createPicklistItem(data = {}) {
-    console.log(data);
-    return this.picklistService.edb_put(data)
-    .then(result => {
-      this[data.TYPE_NAME].push(JSON.parse(result.data));
-    })
-    .catch(err => console.log(err));
-  }
-
   getGHSTS() {}
 
 
