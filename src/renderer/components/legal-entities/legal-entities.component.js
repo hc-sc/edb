@@ -31,9 +31,9 @@ export default angular.module('legalEntities', [
     constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService) {
       super($mdDialog, $mdToast, $state, PicklistService, AppDataService, 'legalentity');
 
-      let legalEntityTypes = JSON.parse(this.legalEntityType.data);
-      let legalEntityIdentifierTypes = JSON.parse(this.legalEntityIdentifierType.data);
-      let countries = JSON.parse(this.countries.data);
+      this.legalEntityTypes = JSON.parse(this.legalEntityType.data);
+      this.legalEntityIdentifierTypes = JSON.parse(this.legalEntityIdentifierType.data);
+      this.countries = JSON.parse(this.countries.data);
 
     }
 
@@ -49,14 +49,22 @@ export default angular.module('legalEntities', [
       this.sidenavOpen = !this.sidenavOpen;
     }
 
-    createPLI(value) {
-      console.log(value.TYPE_NAME);
-      this.createPicklistItem(value)
-      .then(results => {
-        this[value.TYPE_NAME].push(results);
+    createPicklistItem(prop, arr, value) {
+      console.log(prop, value);
+      return this.picklistService.edb_put(value)
+      .then(result => {
+        let item = JSON.parse(result.data);
+        console.log(item._id, this.selected[prop]);
+        this[arr].slice().concat(item);
+        this.selected[prop] = item._id;
+        console.log(this.selected[prop]);
+
+        this.showMessage(value.valuedecode, 'added successfully!');
+      })
+      .catch(err => {
+        this.showMessage('Error creating new picklist item');
       });
     }
-
 
     update(prop, value) {
       this.selected[prop] = value;
