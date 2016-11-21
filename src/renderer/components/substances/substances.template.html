@@ -1,83 +1,10 @@
-<section class='node-page' layout-padding>
-  <h1>Substances</h1>
-  <sidenav items='$ctrl.items' on-select='$ctrl.select(item)'></sidenav>
-    <form name='substanceForm' id='substanceForm' novalidation>
-       <dropdown options="$ctrl.metadataStatusOptions " typename='TYPE_METADATA_STATUS' extensible='true'></dropdown> 
-    <div layout-gt-xs='row'>
-     
-      <md-input-container class='md-block' flex-gt-sm>
-        <label for='identifier'>Identifier</label>
-        <input ng-model='$ctrl.selectedRecord._identifier' name='identifier' type='text' disabled />
-      </md-input-container>
-      <md-input-container class='md-block' flex-gt-sm>
-        <label for='pid'>PID</label>
-        <input ng-model='$ctrl.selectedRecord.SUBSTANCE_PID' name='pid' type='text' disabled />
-      </md-input-container>
-    </div>
-    <div layout-gt-sm='row'>
-      <md-input-container class='md-block' flex-gt-sm>
-        <label for='name'>Name</label>
-        <input required ng-model='$ctrl.selectedRecord.SUBSTANCE_NAME' name='name' type='text' />
-      </md-input-container>
-      <md-input-container class="md-block" flex="20">
-        <label for='repeatSelectStatus'>Status</label>
-        <md-select name='repeatSelectStatus' id="repeatSelectStatus" ng-model='$ctrl.selectedRecord.METADATA_STATUS.VALUE' ng-change="$ctrl.updateselectedRecordStatusDecode()">
-          <md-option ng-repeat="substanceStatus in $ctrl.metadataStatusOptions" ng-value="substanceStatus.VALUE">{{ substanceStatus.VALUE_DECODE }}</md-option>
-        </md-select>
-      </md-input-container>
-    </div>
+<section class='node-page'>
 
-    <md-toolbar>
-      <div class='md-toolbar-tools'>
-        <h2>Indentifier</h2>
-        <span flex></span>
-        <md-button class='md-icon-button' ng-click='$ctrl.addSubstanceIdentfier()'>
-          <md-icon md-svg-icon="add" aria-label='Add Substance Identifier'></md-icon>
-        </md-button>
-      </div>
-    </md-toolbar>
-    <md-list>
-      <md-card ng-repeat='it in $ctrl.selectedRecord.SUBSTANCE_IDENTIFIER track by $index' class='noright list-item-card'>
-        <div layout-gt-sm='row' flex>
-          <md-input-container class='md-block' flex>
-            <label>Identifier</label>
-            <input ng-model='it.IDENTIFIER' type="text">
-          </md-input-container>
-        </div>
-        <div layout-gt-sm='row' flex>
-          <md-input-container class="md-block" flex-gt-sm='50'>
-            <label>Type</label>
-            <md-select name="repeatSelectIdType" id="repeatSelectIdType" ng-model="it.SUBSTANCE_IDENTIFIER_TYPE.VALUE" ng-change="$ctrl.updateIdTypeDecodeByIdentifierIndex($index)">
-              <md-option ng-repeat="idType in $ctrl.identifierTypeOptions" ng-value="idType.VALUE">{{ idType.VALUE }}</md-option>
-            </md-select>
-          </md-input-container>
-          <div flex-gt-sm="25" ng-show="it.SUBSTANCE_IDENTIFIER_TYPE.VALUE === $ctrl.getOtherValue()">
-            <md-input-container class='md-block'>
-              <label for='subExtIdentifierTypeValueDecode'>Display Value </label>
-              <input id='subExtIdentifierValueDecode' ng-model='it.SUBSTANCE_IDENTIFIER_TYPE.VALUE_DECODE' type="text">
-            </md-input-container>
-          </div>
-          <div flex-gt-sm="25" ng-show="it.SUBSTANCE_IDENTIFIER_TYPE.VALUE === $ctrl.getOtherValue()">
-            <md-input-container class='md-block'>
-              <label for='subExtIdentifierTypeValue'>Encoded Value (optional)</label>
-              <input id='subExtIdentifierTypeValue' ng-model='it.SUBSTANCE_IDENTIFIER_TYPE.ATTR_VALUE' type="text">
-            </md-input-container>
-          </div>
-        </div>
-        <div layout='row' layout-align="center center">
-          <md-button class="md-secondary md-raised" aria-label="Delete" ng-click="$ctrl.deleteSubstanceIdentfier(it.IDENTIFIER, $event)">Delete</md-button>
-        </div>
-      </md-card>
-    </md-list>
-    <md-divider>
-      <!-- buttons component with url name as param --> 
-      <div layout='row' layout-xs='column' layout-align='center' layout-wrap>
+  <sidenav items='$ctrl.substances' main='substancename' on-select='$ctrl.select(item)' on-add='$ctrl.add(item)'></sidenav>
+  <text-input label='PID' is-disabled='true' text-value='$ctrl.selected.substancepid' on-update='$ctrl.update("substancepid", value)'></text-input>
+  <text-input label='Name' text-value='$ctrl.selected.substancename' on-update='$ctrl.update("substancename", value)'></text-input>
+  <select-input-extensible show-value='false' values='$ctrl.picklists.metadataStatusOptions' select-value='$ctrl.metadataStatusOptions' on-update='$ctrl.update("metadataStatusOptions", value)'></select-input-extensible>
+  <text-input label='Other Name' text-value='$ctrl.selected.othername' on-update='$ctrl.update("othername", value)'></text-input>
+  <tbl title='Identifier' items='[]' projection='[]'></tbl>
 
-        <md-button class='md-raised md-primary' ng-click='$ctrl.addRecord($event)' aria-label='Add'>Add</md-button>
-        <md-button class='md-raised md-primary' ng-click='$ctrl.saveRecord($event)' aria-label='Save'>Save</md-button>
-        <md-button class='md-raised md-primary' ng-click='$ctrl.cancelEdit()' aria-label='Cancel'>Cancel</md-button>
-        <md-button class='md-raised md-primary' ng-click='$ctrl.deleteRecord($event) ' aria-label='Delete'>Delete</md-button>
-
-      </div>
-  </form>
 </section>

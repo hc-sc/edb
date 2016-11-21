@@ -15,7 +15,7 @@ export default angular.module('legalEntities', [
 ])
 .component('legalEntities', {
   template,
-  bindings: {
+  bindings: {//assigned by state resolve
     legalEntities: '<',
     legalEntityType: '<',
     legalEntityIdentifierType: '<',
