@@ -28,12 +28,20 @@ export default angular.module('home', [
 .component('home', {
   template,
   bindings: {
-    dossiers: '<'
+//    dossiers: '<'
   },
   controller: class HomeCtrl {
-    constructor($mdDialog, $state, GhstsService) {
+    constructor($mdDialog, $state, GhstsService, PicklistService) {
       this.$mdDialog = $mdDialog;
       this.$state = $state;
+      this.GhstsService = GhstsService.getService();
+      this.PicklistService = PicklistService.getService();
+      this.dossiers = [];
+
+      this.GhstsService.edb_get().then( result => {
+        this.dossiers = JSON.parse(result.data);
+        this.results = this.dossiers.slice();
+      });
       this.toolbarItems = {
         navIcons: [
           { name: 'home', label: 'Home', state: 'splash' }
@@ -47,12 +55,12 @@ export default angular.module('home', [
       };
 
       this.dossierProjection = [
-        'DOSSIER_DESCRIPTION_TITLE',
-        'DOSSIER_PID',
-        'PRODUCT_NAME',
-        'STATUS',
-        'DATE_CREATED',
-        'LAST_MODIFIED'
+        'dossierdescriptiontitle',
+        'dossierpid',
+        'productname',
+        '_state',
+        '_created',
+        '_lastMod'
       ];
 
       this.dossier;
@@ -67,8 +75,6 @@ export default angular.module('home', [
         'LAST_MODIFIED'
       ];
 
-      this.results = this.dossiers.slice();
-      this.GhstsService = GhstsService.getService();
     }
 
     selectDossier(id, index) {
@@ -115,16 +121,27 @@ export default angular.module('home', [
       this[prop] = value;
     }
 
-    backend() {
+   backend() {
       console.log('for backend test');
-      this.GhstsService.edb_get()
-        .then(result => {
-          console.log(result);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      // this.GhstsService.edb_get()
+      //   .then(result => {
+      //     console.log(result);
+      //   })
+      //   .catch(err => {
+      //     console.log(err);
+      //   });
+      this.PicklistService.edb_put(
+      {
+    TYPE_NAME: 'EXTENSION_TYPE_ADMIN_NUMBER_TYPE', 
+    value: 'AAAAAAAAAAAAAAAAA',
+    valuedecode: 'AAAAAAAAAAAAAAAAA',
+    isExt: true        
+      }        
+      ).then(ret =>{
+        console.log('it is /// ' + ret );
+      });
     }
+
   }
 })
 .service('DossierService', DossierService)

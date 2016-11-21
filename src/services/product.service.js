@@ -81,13 +81,13 @@ module.exports = class ProductService extends BaseService {
         .bind(index)
         .then(rets => {
           products[index] = JSON.parse(rets.data);
-          dossiers[index]._product = products[index]._id.toString();
-          console.log(dossiers[index]._product);
+          dossiers[index].product = [products[index]._id.toString()];
+          console.log(dossiers[index].product);
           return dosSvr.edb_put(dossiers[index]);
         })
         .bind(index)
         .then(rets => {
-          products[index].dossier = JSON.parse(rets.data)._id.toString();
+          products[index].dossier = [JSON.parse(rets.data)._id.toString()];
           console.log(products[index].dossier);
           return self.edb_post(products[index]);
         })

@@ -3,6 +3,7 @@ const BACKEND_CONST = require('../constants/backend');
 const SHARED_CONST = require('../constants/shared');
 const RVHelper = require('../utils/return.value.helper').ReturnValueHelper;
 const PicklistService = require('./picklist.service');
+const DossierService = require('./dossier.service.js');
 
 const Q = require('bluebird');
 
@@ -60,9 +61,9 @@ module.exports = class GhstsService {
           //   console.log(dbobj);
           // }); 
 
-//          console.log(obj.substances);
+          //          console.log(obj.substances);
         }
-//        res(new RVHelper('EDB00000'));
+        //        res(new RVHelper('EDB00000'));
       });
     });
   }
@@ -106,36 +107,45 @@ module.exports = class GhstsService {
   }
 
   edb_get(obj) {
-    let deffer = this.$q.defer(),
-      self = this;
     if (!obj) {
-      deffer.reject(new RVHelper('EDB12004'));
+      let dosSvr = new DossierService();
+      return dosSvr.edb_get({}, true);
     } else {
-      let selPath = dialog.showOpenDialog({
-        title: 'Choose a Product',
-        properties: ['openDirectory'],
-        defaultPath: prodsPath
+      return new Q((res, rej) => {
+        let self = this;
+        res(new RVHelper('EDB00000'));
       });
-      if (selPath) {
-        let isOK = self._beforeCreateOrLoad(selPath[0]);
-        if (isOK.code !== 'EDB00000') {
-          deffer.reject(isOK);
-        } else {
-          self._loadGhsts()
-            .then(result => {
-              //              self.ghsts.push(self._getGhstsGroup(result));
-              self.ghsts[0] = self._getGhstsGroup(result);
-              deffer.resolve(new RVHelper('EDB00000'));
-            })
-            .catch(err => {
-              deffer.reject(err);
-            });
-        }
-      } else {
-        deffer.reject(new RVHelper('EDB00001'));
-      }
     }
-    return deffer.promise;
+    // let deffer = this.$q.defer(),
+    //   self = this;
+    // if (!obj) {
+    //   deffer.reject(new RVHelper('EDB12004'));
+    // } else {
+    //   let selPath = dialog.showOpenDialog({
+    //     title: 'Choose a Product',
+    //     properties: ['openDirectory'],
+    //     defaultPath: prodsPath
+    //   });
+    //   if (selPath) {
+    //     let isOK = self._beforeCreateOrLoad(selPath[0]);
+    //     if (isOK.code !== 'EDB00000') {
+    //       deffer.reject(isOK);
+    //     } else {
+    //       self._loadGhsts()
+    //         .then(result => {
+    //           //              self.ghsts.push(self._getGhstsGroup(result));
+    //           self.ghsts[0] = self._getGhstsGroup(result);
+    //           deffer.resolve(new RVHelper('EDB00000'));
+    //         })
+    //         .catch(err => {
+    //           deffer.reject(err);
+    //         });
+    //     }
+    //   } else {
+    //     deffer.reject(new RVHelper('EDB00001'));
+    //   }
+    // }
+    // return deffer.promise;
   }
 
   _loadGhsts(templatePath) {

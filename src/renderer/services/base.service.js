@@ -40,7 +40,7 @@ export default class BaseService {
     let deffer = this.$q.defer();
     if (window.ipcRenderer) {
       let timestamp = performance.now().toString();
-      window.ipcRenderer.once(this.msgChannel + EDB_IPC_ASYNC_REPLAY_SUF, (event, arg) => {
+      window.ipcRenderer.once(this.msgChannel + EDB_IPC_ASYNC_REPLAY_SUF + timestamp, (event, arg) => {
         if (arg.err) {
           deffer.reject(arg.err);
         } else {
@@ -67,7 +67,7 @@ export default class BaseService {
     let deffer = this.$q.defer();
     if (window.ipcRenderer) {
       let timestamp = performance.now().toString();
-      window.ipcRenderer.once(this.msgChannel + EDB_IPC_ASYNC_REPLAY_SUF, (event, arg) => {
+      window.ipcRenderer.once(this.msgChannel + EDB_IPC_ASYNC_REPLAY_SUF + timestamp, (event, arg) => {
         if (arg.err) {
           deffer.reject(arg.err);
         } else {
@@ -94,7 +94,7 @@ export default class BaseService {
     let deffer = this.$q.defer();
     if (window.ipcRenderer) {
       let timestamp = performance.now().toString();
-      window.ipcRenderer.once(this.msgChannel + EDB_IPC_ASYNC_REPLAY_SUF, (event, arg) => {
+      window.ipcRenderer.once(this.msgChannel + EDB_IPC_ASYNC_REPLAY_SUF + timestamp, (event, arg) => {
         if (arg.err) {
           deffer.reject(arg.err);
         } else {
