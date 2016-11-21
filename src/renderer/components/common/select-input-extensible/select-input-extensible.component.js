@@ -37,6 +37,10 @@ export default angular.module('selectInputExtensible', [
       this.valuedecode = '';
     }
 
+    $onChanges(changes) {
+      console.log(changes);
+    }
+
     toggleAdd() {
       this.adding = !this.adding;
     }
@@ -48,7 +52,7 @@ export default angular.module('selectInputExtensible', [
         const picklistItem = {
           TYPE_NAME: 'EXTENSION_TYPE_LEGALENTITY_TYPE',
           value: this.value,
-          valuedecode: this.valuedecode,
+          valuedecode: this.valuedecode || this.value,
           isExt: true
         };
 
