@@ -1,5 +1,6 @@
 
-import BaseCtrl from '../common/BaseCtrl';
+import BaseCtrl from '../common/base.controller';
+
 
 
 export class SubstancesCtrl {
@@ -16,6 +17,7 @@ export class SubstancesCtrl {
         metadataStatusOptions: JSON.parse(this.metadataStatusOptions.data),
         identifierTypeOptions: JSON.parse(this.identifierTypeOptions.data)
       };
+
 
     }
 

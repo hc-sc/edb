@@ -1,7 +1,7 @@
 <md-input-container class='md-block custom-container'>
   <label>{{ $ctrl.label }}</label>
-  <md-select ng-model='$ctrl.selectedID' ng-change='$ctrl.update()'>
-    <md-option ng-repeat='item in $ctrl.values' ng-value='item._id'>
+  <md-select ng-model='$ctrl.selectValue' ng-required='$ctrl.isRequired'>
+    <md-option ng-repeat='item in $ctrl.values' ng-value='item._id' ng-selected='item.value === $ctrl.selectValue' ng-click='$ctrl.update(item)'>
       {{ item.valuedecode }}
       <span ng-if='$ctrl.showValue'> ({{ item.value }})</md-option>
   </md-select>

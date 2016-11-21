@@ -14,15 +14,15 @@ const BrowserWindow = require('electron').BrowserWindow;
 const SHARED_CONST = require('./constants/shared');
 const BACKEND_CONST = require('./constants/backend');
 const ServiceDispatcher = require('./services/service.dispatcher');
-const GhstsService = require('./services/ghsts.service');
 const PicklistService = require('./services/picklist.service');
-const RVHelper = require('./utils/return.value.helper');
+const GhstsService = require('./services/ghsts.service');
+const RVHelper = require('./utils/return.value.helper').ReturnValueHelper;
 
 const Q = require('bluebird');
 
 const AJV = require('ajv');
 const Jsonix = require('jsonix').Jsonix;
-
+const basePath = fs.realpathSync('./');
 
 var lastMessageTimestamp;  //For debug track if there are duplicatied message request from front-end
 
@@ -37,7 +37,7 @@ var JsonixJsonSchema;
 var supprtVersions = ['01.00.00'], validateInsts = {}, marshallers = {}, unmarshallers = {};
 var ajvInst;
 
-var init_mongoose = function () {
+var init_mongoose = () => {
   try {
     let mongoose = require('mongoose');
     mongoose.Promise = Q;
@@ -52,16 +52,67 @@ var init_mongoose = function () {
       let svrInst = new svrmod();
       qs.push(svrInst.initMongoose());
     }
-    Q.all(qs)
-      .then(result => {
-        console.log(result);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    return Q.all(qs);
   } catch (err) {
     console.log(err);
   }
+};
+
+var init = () => {
+  let dataPath = path.join(basePath, BACKEND_CONST.DATA_DIR);
+  let fstat, needInitDB = true;
+  try {
+    fstat = fs.statSync(dataPath);
+    if (fstat.isDirectory()) {
+      console.log(fs.readdirSync(dataPath).length);
+      needInitDB = (fs.readdirSync(dataPath).length <= 1);
+    } else {
+      throw new Error('The data directory is not a directory');
+    }
+  } catch (err) {
+    if (err.code === 'ENOENT') {
+      try {
+        fstat = fs.mkdirSync(dataPath);
+      } catch (err) {
+        throw new Error(err);
+      }
+    } else {
+      console.log(err);
+      throw new Error(err);
+    }
+  }
+
+
+  init_mongoose()
+    .then(result => {
+      console.log(result);
+      if (needInitDB)
+        return initDB();
+      else
+        return new RVHelper('EDB00000');
+    })
+    .then(ret => {
+      console.log(ret);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+
+};
+
+var initDB = () => {
+  //let ghstsSrv = new GhstsService(undefined, undefined, marshallers['01_00_00'], unmarshallers['01_00_00']);
+  let qAry = [];
+  let svrClass = require('./services/product.service');
+  let svr = new svrClass('01.00.00');
+  qAry.push(svr.initDbfromTestData());
+  svrClass = require('./services/legalentity.service');
+  svr = new svrClass('01.00.00');
+  qAry.push(svr.initDbfromTestData());
+  svrClass = require('./services/substance.service');
+  svr = new svrClass('01.00.00');
+  qAry.push(svr.initDbfromTestData());
+  return Q.all(qAry);
 };
 
 ipc.on('devTools', function (event, arg) {
@@ -170,15 +221,15 @@ app.on('ready', function () {
 
   for (let i = 0; i < supprtVersions.length; i++) {
     let versionDir = supprtVersions[i].replace(/\./g, '_');
-    let GHSTSJsonSchema = JSON.parse(fs.readFileSync('./resources/app/standards/' + versionDir + '/GHSTSMappings.jsonschema').toString());
+    let GHSTSJsonSchema = JSON.parse(fs.readFileSync('./resources/app/standards/' + versionDir + '/GHSTS.jsonschema').toString());
     validateInsts[versionDir] = ajvInst.compile(GHSTSJsonSchema);
-    let GHSTSMappings = require('../resources/app/standards/' + versionDir + '/GHSTSMappings').GHSTSMappings;
-    let context = new Jsonix.Context([GHSTSMappings]);
+    let GHSTS = require('../resources/app/standards/' + versionDir + '/GHSTS').GHSTS;
+    let context = new Jsonix.Context([GHSTS]);
     unmarshallers[versionDir] = context.createUnmarshaller();
     marshallers[versionDir] = context.createMarshaller();
   }
 
-  init_mongoose();
+  init();
 
   mainWindow = new BrowserWindow({
     width: 1200,
@@ -193,6 +244,7 @@ app.on('ready', function () {
   mainWindow.on('closed', function () {
     mainWindow = null;
   });
+
   mainWindow.loadURL('file://' + __dirname + '/renderer/index.html');
   mainWindow.webContents.on('did-finish-load', function () {
     // TODO: setTitle is being deprecated, find and use alternative

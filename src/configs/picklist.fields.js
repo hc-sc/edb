@@ -10,8 +10,14 @@ const PicklistFieldsConfig = {
   substanceidentifiertype: { typename: 'EXTENSION_TYPE_SUBSTANCE_IDENTIFIER_TYPE', isExt: true}
 };
 
+// const getPropertyName = (typename) => {
+//   for (const propName in PicklistFieldsConfig) {
+//     if Object.hasOwnProperty()
+//   }
+// }
+
 (function (exports) {
-  let keys = Object.keys(PicklistFieldsConfig); 
+  let keys = Object.keys(PicklistFieldsConfig);
 
   keys.map(key => {
     exports[key] = PicklistFieldsConfig[key];

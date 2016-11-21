@@ -22,6 +22,7 @@ export default function ($stateProvider, $urlRouterProvider) {
           return DossierService.getSubmission($stateParams.dossierPID, $stateParams.submissionNumber);
         }
       }
+
     })
     .state('submission.receivers', {
       url: '/receivers',
@@ -63,10 +64,6 @@ export default function ($stateProvider, $urlRouterProvider) {
       url: '/legal-entities',
       component: 'legalEntities',
       resolve: {
-        // for testing purposes, this should already be loaded in the db in the future
-        legalEntities: $http => {
-          return $http.get('./dummy-data/legal-entities.json');
-        },
         legalEntityType: PicklistService => {
           return PicklistService.getService().edb_get({ 'TYPE_NAME': 'EXTENSION_TYPE_LEGALENTITY_TYPE' });
         },
@@ -78,13 +75,13 @@ export default function ($stateProvider, $urlRouterProvider) {
         }
       }
     })
-    .state('globals.legalEntities.legalEntity', {
-      url: '/:id',
-      component: 'legalEntity',
+    .state('globals.products', {
+      url: '/products',
+      component: 'products',
       resolve: {
-        legalEntity: ($stateParams) => {
-          console.log('id:', $stateParams.id);
-          return;
+        products: ProductService => {
+          return ProductService.getProducts();
+
         }
       }
     })

@@ -6,6 +6,7 @@ import 'angular-animate';
 import 'angular-aria';
 import 'bluebird';
 
+import Spinner from './components/common/spinner/spinner.component';
 import Splash from './components/splash/splash.component';
 import Home from './components/home/home.component';
 import Dossier from './components/dossier/dossier.component';
@@ -36,6 +37,7 @@ angular.module('app', [
   uiRouter,
   ngMaterial,
   mdDataTable,
+  Spinner,
   Splash,
   Home,
   Dossier,

@@ -1,5 +1,5 @@
 <div class='extension-wrapper'>
-  <select-input label='Type' values='$ctrl.values' select-value='$ctrl.selectValue' show-value='$ctrl.showValue' on-update='$ctrl.updateSelected(value)'></select-input>
+  <select-input label='{{ $ctrl.label }}' values='$ctrl.values' select-value='$ctrl.selectValue' show-value='$ctrl.showValue' is-required='$ctrl.isRequired' on-update='$ctrl.updateSelected(value)'></select-input>
   <icon ng-if='!$ctrl.adding' icon='$ctrl.addButton' ng-click='$ctrl.toggleAdd()'></icon>
   <icon ng-if='$ctrl.adding' icon='$ctrl.cancelButton' ng-click='$ctrl.toggleAdd()'></icon>
 </div>
