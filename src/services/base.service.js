@@ -22,7 +22,7 @@ module.exports = class BaseService {
     this.defDir = path.join(this.schemaDir, this.version.replace(/\./g, '_'), BACKEND_CONST.DEF_SUB_DIR_NAME);
   }
 
-  edb_get(obj) {
+  edb_get(obj, pop) {
     return new Q((res, rej) => {
       let self = this;
       let query = obj ? (obj ? obj : {}) : {};
@@ -30,18 +30,28 @@ module.exports = class BaseService {
 
       try {
         entityClass = require('mongoose').model(self.modelClassName);
-
-        entityClass
-          .find(query)
-          .lean()
+        let dbquery;
+        if (pop) {
+          let pops = [];
+          let paths = entityClass.schema.paths;
+          for (var path in paths) {
+            if (paths[path].caster)
+              pops.push({path: path});
+          }
+          dbquery = entityClass.find(query).populate(pops).lean();
+        }
+        else
+          dbquery = entityClass.find(query).lean();
+        
+        dbquery
           .exec((err, rows) => {
             if (err)
-              rej(new Error(err));
+              rej(err);
             else
               res(new RVHelper('EDB00000', JSON.stringify(rows)));
           });
       } catch (err) {
-        rej(new RVHelper('EDB13001'));
+        rej(err);
       }
     });
   }
@@ -54,21 +64,18 @@ module.exports = class BaseService {
       entityClass = require('mongoose').model(self.modelClassName);
       if (obj && typeof obj === 'object') {
         if (!entityClass)
-          rej(new RVHelper('EDB13001'));
+          rej(new Error(new RVHelper('EDB13001')));
         else {
           entityClass
             .create(obj, (err, rows) => {
               if (err)
                 rej(new Error(err));
-              else {
-                console.log('inserted');
+              else
                 res(new RVHelper('EDB00000', JSON.stringify(rows)));
-              }
             });
         }
       } else {
-        let emptyObj = new entityClass();
-        res(new RVHelper('EDB00000', emptyObj));
+        rej(new Error(RVHelper('EDB11004', obj)));
       }
     });
   }
@@ -90,10 +97,10 @@ module.exports = class BaseService {
                 res(new RVHelper('EDB00000', JSON.stringify(rows)));
             });
         } catch (err) {
-          rej(new RVHelper('EDB13001'));
+          rej(new Error(new RVHelper('EDB13001')));
         }
       } else {
-        rej(new RVHelper('EDB11005', id));
+        rej(new Error(new RVHelper('EDB11005', id)));
       }
     });
   }
@@ -387,6 +394,8 @@ module.exports = class BaseService {
         let mmodule = mongoose.model(self.modelClassName, mschema);
         if (self.inmem) {
           mmodule.find({})
+            .lean()
+            .exec()
             .then(result => {
               global.modulesInMemory[self.modelClassName.toLowerCase()] = result;
               res(new RVHelper('EDB00000'));
