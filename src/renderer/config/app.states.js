@@ -7,11 +7,11 @@ export default function ($stateProvider, $urlRouterProvider) {
     .state('home', {
       url: '/home',
       component: 'home',
-      resolve: {
-        dossiers: DossierService => {
-          return DossierService.getAllDossiers();
-        }
-      }
+      // resolve: {
+      //   dossiers: GhstsService => {
+      //     return GhstsService.getService().edb_get();
+      //   }
+      // }
     })
     .state('submission', {
       abstract: true,
@@ -22,7 +22,6 @@ export default function ($stateProvider, $urlRouterProvider) {
           return DossierService.getSubmission($stateParams.dossierPID, $stateParams.submissionNumber);
         }
       }
-
     })
     .state('submission.receivers', {
       url: '/receivers',
