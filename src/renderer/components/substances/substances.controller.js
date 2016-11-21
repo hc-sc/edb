@@ -1,9 +1,9 @@
 
-import BaseCtrl from '../common/BaseCtrl';
+import BaseCtrl from '../common/base.controller';
 
 export class SubstancesCtrl extends BaseCtrl {
-    constructor($mdDialog, $state, PicklistService, GhstsService, AppDataService) {
-        super($mdDialog, $state, PicklistService, GhstsService, AppDataService, 'substance');
+    constructor($mdDialog, $state, PicklistService, AppDataService) {
+        super($mdDialog, $state, PicklistService, AppDataService, 'substance');
         let self = this;
         this.items = []; //declare a whole entity instead of some specific fields
         //use injected service
@@ -17,7 +17,7 @@ export class SubstancesCtrl extends BaseCtrl {
             }
 
             self.items = data;
-            
+
             // .map(item => {
             //     console.log(item.substancename);
             //     return { name: item.substancename };

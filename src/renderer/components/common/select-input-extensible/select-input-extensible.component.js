@@ -4,13 +4,15 @@ import template from './select-input-extensible.template';
 
 import SelectInput from '../select-input/select-input.component';
 import Icon from '../icon/icon.component';
+import PicklistService from '../../../services/picklist.service';
 
 import './select-input-extensible.scss';
 
 export default angular.module('selectInputExtensible', [
   ngMaterial,
   SelectInput,
-  Icon
+  Icon,
+  PicklistService
 ])
 .component('selectInputExtensible', {
   template,
@@ -20,10 +22,12 @@ export default angular.module('selectInputExtensible', [
     isRequired: '<',
     selectValue: '<',
     values: '<',
-    onUpdate: '&'
+    onUpdate: '&',
+    onAdd: '&'
   },
   controller: class selectInputExtensibleCtrl {
-    constructor() {
+    constructor(PicklistService) {
+      this.picklistService = PicklistService.getService();
       this.addButton = { name: 'add', label: 'Add Extension', color: 'dark' };
       this.cancelButton = { name: 'close', label: 'Cancel', color: 'dark' };
       this.saveButton = { name: 'save', label: 'Save', color: 'dark' };
@@ -41,13 +45,26 @@ export default angular.module('selectInputExtensible', [
     savePicklistItem() {
       if (this.valid) {
         //update
+        const picklistItem = {
+          TYPE_NAME: 'EXTENSION_TYPE_LEGALENTITY_TYPE',
+          value: this.value,
+          valuedecode: this.valuedecode,
+          isExt: true
+        };
 
-        this.value = '';
-        this.valuedecode = '';
-        this.adding = false;
+        this.onAdd({value: picklistItem})
+
+        // this.picklistService.edb_put(picklistItem)
+        // .then(ret => {
+        //   console.log('worked: ', ret);
+        //   this.value = '';
+        //   this.valuedecode = '';
+        //   this.adding = false;
+
+        //     // refresh selected value
+        // })
+        // .catch(err => console.log(err));
       }
-
-      // refresh selected value
     }
 
     checkValid() {
@@ -67,7 +84,6 @@ export default angular.module('selectInputExtensible', [
     }
 
     updateSelected(value) {
-      console.log(value);
       this.onUpdate({ value });
     }
   }
