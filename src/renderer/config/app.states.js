@@ -49,9 +49,6 @@ export default function ($stateProvider, $urlRouterProvider) {
       component: 'substances',
       resolve: {
         // for testing purposes, this should already be loaded in the db in the future
-        substances: $http => {
-          return $http.get('./dummy-data/substances.json');
-        },
         metadataStatusOptions: PicklistService => {
           return PicklistService.getService().edb_get({ 'TYPE_NAME': 'TYPE_METADATA_STATUS' });
         },
@@ -75,16 +72,7 @@ export default function ($stateProvider, $urlRouterProvider) {
         }
       }
     })
-    .state('globals.products', {
-      url: '/products',
-      component: 'products',
-      resolve: {
-        products: ProductService => {
-          return ProductService.getProducts();
 
-        }
-      }
-    })
     .state('globals.products', {
       url: '/products',
       component: 'products',
