@@ -7,11 +7,11 @@ export default function ($stateProvider, $urlRouterProvider) {
     .state('home', {
       url: '/home',
       component: 'home',
-      resolve: {
-        dossiers: DossierService => {
-          return DossierService.getAllDossiers();
-        }
-      }
+      // resolve: {
+      //   dossiers: GhstsService => {
+      //     return GhstsService.getService().edb_get();
+      //   }
+      // }
     })
     .state('submission', {
       abstract: true,
@@ -48,9 +48,6 @@ export default function ($stateProvider, $urlRouterProvider) {
       component: 'substances',
       resolve: {
         // for testing purposes, this should already be loaded in the db in the future
-        substances: $http => {
-          return $http.get('./dummy-data/substances.json');
-        },
         metadataStatusOptions: PicklistService => {
           return PicklistService.getService().edb_get({ 'TYPE_NAME': 'TYPE_METADATA_STATUS' });
         },
@@ -63,10 +60,6 @@ export default function ($stateProvider, $urlRouterProvider) {
       url: '/legal-entities',
       component: 'legalEntities',
       resolve: {
-        // for testing purposes, this should already be loaded in the db in the future
-        legalEntities: $http => {
-          return $http.get('./dummy-data/legal-entities.json');
-        },
         legalEntityType: PicklistService => {
           return PicklistService.getService().edb_get({ 'TYPE_NAME': 'EXTENSION_TYPE_LEGALENTITY_TYPE' });
         },
@@ -78,16 +71,7 @@ export default function ($stateProvider, $urlRouterProvider) {
         }
       }
     })
-    .state('globals.legalEntities.legalEntity', {
-      url: '/:id',
-      component: 'legalEntity',
-      resolve: {
-        legalEntity: ($stateParams) => {
-          console.log('id:', $stateParams.id);
-          return;
-        }
-      }
-    })
+
     .state('globals.products', {
       url: '/products',
       component: 'products',

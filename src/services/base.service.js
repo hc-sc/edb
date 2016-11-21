@@ -22,7 +22,7 @@ module.exports = class BaseService {
     this.defDir = path.join(this.schemaDir, this.version.replace(/\./g, '_'), BACKEND_CONST.DEF_SUB_DIR_NAME);
   }
 
-  edb_get(obj) {
+  edb_get(obj, pop) {
     return new Q((res, rej) => {
       let self = this;
       let query = obj ? (obj ? obj : {}) : {};
@@ -30,18 +30,28 @@ module.exports = class BaseService {
 
       try {
         entityClass = require('mongoose').model(self.modelClassName);
-
-        entityClass
-          .find(query)
-          .lean()
+        let dbquery;
+        if (pop) {
+          let pops = [];
+          let paths = entityClass.schema.paths;
+          for (var path in paths) {
+            if (paths[path].caster)
+              pops.push({path: path});
+          }
+          dbquery = entityClass.find(query).populate(pops).lean();
+        }
+        else
+          dbquery = entityClass.find(query).lean();
+        
+        dbquery
           .exec((err, rows) => {
             if (err)
-              rej(new Error(err));
+              rej(err);
             else
               res(new RVHelper('EDB00000', JSON.stringify(rows)));
           });
       } catch (err) {
-        rej(new RVHelper('EDB13001'));
+        rej(err);
       }
     });
   }
@@ -51,21 +61,21 @@ module.exports = class BaseService {
       let self = this;
       let entityClass;
 
+      entityClass = require('mongoose').model(self.modelClassName);
       if (obj && typeof obj === 'object') {
-        entityClass = require('mongoose').model(self.modelClassName);
         if (!entityClass)
-          rej(new RVHelper('EDB13001'));
+          rej(new Error(new RVHelper('EDB13001')));
         else {
           entityClass
             .create(obj, (err, rows) => {
               if (err)
                 rej(new Error(err));
               else
-                res(new RVHelper('EDB00000', JSON.stringify(rows.toJSON())));
+                res(new RVHelper('EDB00000', JSON.stringify(rows)));
             });
         }
       } else {
-        rej(new RVHelper('EDB11004', obj));
+        rej(new Error(RVHelper('EDB11004', obj)));
       }
     });
   }
@@ -87,10 +97,10 @@ module.exports = class BaseService {
                 res(new RVHelper('EDB00000', JSON.stringify(rows)));
             });
         } catch (err) {
-          rej(new RVHelper('EDB13001'));
+          rej(new Error(new RVHelper('EDB13001')));
         }
       } else {
-        rej(new RVHelper('EDB11005', id));
+        rej(new Error(new RVHelper('EDB11005', id)));
       }
     });
   }
@@ -139,7 +149,7 @@ module.exports = class BaseService {
       let qAry = [];
 
       td.map(items => {
-        qAry = [];        
+        qAry = [];
         if (items.constructor === Array) {
           items.map(item => {
             qAry.push(self.edb_put(item));
@@ -223,7 +233,7 @@ module.exports = class BaseService {
   //     if (item.constructor === Array) {
   //       for (var j = 0; j < item.length; j++) {
   //         self._get_new_ext_plk(item[j]);
-  //       } 
+  //       }
   //     } else if (typeof item === 'object') {
   //       let def = path.join(self.defDir, item.TYPE_NAME.replace('GHSTS.', '') + '.json');
   //       let isPickList = require(def);
@@ -368,13 +378,13 @@ module.exports = class BaseService {
         let Schema = mongoose.Schema;
         let mschema = new Schema(jschema);
         let selfPlugin;
-        mschema.plugin(ServiceLevelPlugin, { 
+        mschema.plugin(ServiceLevelPlugin, {
           url: self.modelClassName.toLowerCase(),
           id: false,
           minimize: false
         });
-        
-        try { 
+
+        try {
           selfPlugin = require('../models/plugins/' + self.modelClassName.toLowerCase() + '.plugin.js');
         } catch (err) {
           selfPlugin = undefined;
@@ -384,6 +394,8 @@ module.exports = class BaseService {
         let mmodule = mongoose.model(self.modelClassName, mschema);
         if (self.inmem) {
           mmodule.find({})
+            .lean()
+            .exec()
             .then(result => {
               global.modulesInMemory[self.modelClassName.toLowerCase()] = result;
               res(new RVHelper('EDB00000'));

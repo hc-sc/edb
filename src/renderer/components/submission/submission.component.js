@@ -46,7 +46,7 @@ export default angular.module('submission', [
           title: this.submission.DOSSIER_DESCRIPTION_TITLE,
           functionIcons: [
             { name: 'save', label: 'Save' },
-            { name: 'globals', label: 'Entities', state: 'globals.legalEntities' },
+            { name: 'globals', label: 'App Data', state: 'globals.legalEntities' },
             { name: 'compare', label: 'Compare' },
             { name: 'check', label: 'Validate', func: this.validateXML.bind(this)},
             { name: 'archive', label: 'Package', func: this.package.bind(this)},

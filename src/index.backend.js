@@ -260,13 +260,25 @@ app.on('ready', function () {
 });
 
 //Test request
-const testService = require('./services/substance.service');
+// const testService = require('./services/picklist.service');
+//const testService = require('./services/dossier.service');
+//const testService = require('./services/substance.service');
 var backendTest = () => {
   // console.log('--------- Backend Test Start ----------');
-  // new testService().edb_put({}
-  //       ).then(result => {
+  // let svr = new testService();
+  // new testService().edb_get({}, true)
+  //   .then(result => {
   //  console.log(result.data);
   // });
+//   svr.edb_put({
+//     TYPE_NAME: 'EXTENSION_TYPE_ADMIN_NUMBER_TYPE', 
+//     value: 'AAAAAAAAAAAAAAAAA',
+//     valuedecode: 'AAAAAAAAAAAAAAAAA',
+//     isExt: true})
+//     .then(result => {
+//       console.log(result);
+//      svr.edb_delete(JSON. result);
+//     });
 };
 
 //Test request end

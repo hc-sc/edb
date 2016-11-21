@@ -1,35 +1,47 @@
 
-import BaseCtrl from '../common/BaseCtrl';
+import BaseCtrl from '../common/base.controller';
 
 
-export class SubstancesCtrl {
-    constructor($state, AppDataService) {
-      this.$state = $state;
-      this.appDataService = AppDataService.getService();
 
-      // won't need this line when using db instead of file
-       this.appDataService.edb_get({ url: 'substance', data: {} }).then(ret => {
-            this.substances = JSON.parse(ret.data);
-            this.selected = this.substances.data.substances.substance[0];
-        });
-      console.log(this.selected);
 
-      this.picklists = {
-        metadataStatusOptions: JSON.parse(this.metadataStatusOptions.data),
-        identifierTypeOptions: JSON.parse(this.identifierTypeOptions.data)
-      };
+export class SubstancesCtrlextends extends BaseCtrl {
+    constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService) {
+      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, 'legalentity');
+        this.metadataStatusOptions=JSON.parse(this.metadataStatusOptions.data);
+        this.identifierTypeOptions=JSON.parse(this.identifierTypeOptions.data);
 
-    }
-
-    select(item) {
-      this.selected = this.substances.filter(sub => {
-        return sub.id === item.id;
-      })[0];
     }
 
     add(item) {
-      // this.AppDataService.getService().edb_put({
-      //   url: 'legal-entities',
-      // });
+      this.showMessage('hi there');
     }
-  }
+
+    save() {
+      console.log(this.selected);
+    }
+
+    toggleList() {
+      this.sidenavOpen = !this.sidenavOpen;
+    }
+
+    createPicklistItem(prop, arr, value) {
+      console.log(prop, value);
+      return this.picklistService.edb_put(value)
+      .then(result => {
+        let item = JSON.parse(result.data);
+        console.log(item._id, this.selected[prop]);
+        this[arr].slice().concat(item);
+        this.selected[prop] = item._id;
+        console.log(this.selected[prop]);
+
+        this.showMessage(value.valuedecode, 'added successfully!');
+      })
+      .catch(err => {
+        this.showMessage('Error creating new picklist item');
+      });
+    }
+
+    update(prop, value) {
+      this.selected[prop] = value;
+    }
+  } 
