@@ -9,4 +9,4 @@
   <text-input label='Display Value (Optional)' text-value='$ctrl.valuedecode' on-update='$ctrl.update("valuedecode", value)'></text-input>
   <icon icon='$ctrl.saveButton' ng-click='$ctrl.savePicklistItem()'></icon>
 </div>
-<p class='error-message' ng-if='!$ctrl.valid'>There is already an item with this value</p>
+<p class='error-message' ng-if='!$ctrl.valid && $ctrl.adding'>There is already an item with this value</p>
