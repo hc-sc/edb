@@ -2,9 +2,10 @@ const BaseService = require('./base.service');
 
 module.exports = class LegalentityService extends BaseService {
   constructor(version) {
-    super('LEGALENTITY', version);
+    super('LEGALENTITY', true, version);
     this.modelClassNamePre = 'GHSTS.LEGALENTITIES';
   }
+
 };
 
 //import Nedb from 'nedb';

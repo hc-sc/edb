@@ -1,6 +1,7 @@
 
 import BaseCtrl from '../common/BaseCtrl';
 
+
 export class SubstancesCtrl {
     constructor($state, AppDataService) {
       this.$state = $state;
@@ -15,6 +16,7 @@ export class SubstancesCtrl {
         metadataStatusOptions: JSON.parse(this.metadataStatusOptions.data),
         identifierTypeOptions: JSON.parse(this.identifierTypeOptions.data)
       };
+
     }
 
     select(item) {

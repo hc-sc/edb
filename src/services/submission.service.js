@@ -2,7 +2,7 @@ const BaseService = require('./base.service');
 
 module.exports = class SubmissionService extends BaseService {
   constructor(version) {
-    super('SUBMISSION', version);
+    super('SUBMISSION', true, version);
     this.modelClassNamePre = 'GHSTS.PRODUCT.DOSSIER';
   }
 };

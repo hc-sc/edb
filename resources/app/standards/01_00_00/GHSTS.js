@@ -1,6 +1,6 @@
-var GHSTSMappings_Module_Factory = function () {
-  var GHSTSMappings = {
-    name: 'GHSTSMappings',
+var GHSTS_Module_Factory = function () {
+  var GHSTS = {
+    name: 'GHSTS',
     defaultElementNamespaceURI: 'http:\/\/www.oecd.org\/GHSTS',
     typeInfos: [{
         localName: 'EXTENSIONTYPEUNIT',
@@ -1499,18 +1499,18 @@ var GHSTSMappings_Module_Factory = function () {
       }]
   };
   return {
-    GHSTSMappings: GHSTSMappings
+    GHSTS: GHSTS
   };
 };
 if (typeof define === 'function' && define.amd) {
-  define([], GHSTSMappings_Module_Factory);
+  define([], GHSTS_Module_Factory);
 }
 else {
-  var GHSTSMappings_Module = GHSTSMappings_Module_Factory();
+  var GHSTS_Module = GHSTS_Module_Factory();
   if (typeof module !== 'undefined' && module.exports) {
-    module.exports.GHSTSMappings = GHSTSMappings_Module.GHSTSMappings;
+    module.exports.GHSTS = GHSTS_Module.GHSTS;
   }
   else {
-    var GHSTSMappings = GHSTSMappings_Module.GHSTSMappings;
+    var GHSTS = GHSTS_Module.GHSTS;
   }
 }
