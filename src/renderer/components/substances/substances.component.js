@@ -1,8 +1,8 @@
 import angular from 'angular';
 import ngMaterial from 'angular-material';
 import Sidenav from '../common/sidenav/sidenav.component';
-import AppDataService from '../../services/app.data.service';
 import PicklistService from '../../services/picklist.service';
+import AppDataService from '../../services/app.data.service';
 
 import template from './substances.template';
 import { SubstancesCtrl } from './substances.controller';

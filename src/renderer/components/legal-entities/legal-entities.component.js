@@ -28,7 +28,7 @@ export default angular.module('legalEntities', [
 
       // won't need this line when using db instead of file
       this.appDataService.edb_get({url: 'legalentity', data: {}}).then(ret => {
-        this.legalEntities = JSON.parse(ret.data);
+        this.legalEntities = JSON.parse(ret);
         this.selected = this.legalEntities[0];
       });
       console.log(this.selected);
