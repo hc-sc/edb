@@ -4,10 +4,21 @@
  <!-- <sidenav items='$ctrl.substances' main='substancename' on-select='$ctrl.select(item)' on-add='$ctrl.add(item)'></sidenav> -->
   <text-input label='PID' is-disabled='true' text-value='$ctrl.selected.substancepid' on-update='$ctrl.update("substancepid", value)'></text-input>
   <text-input label='Name' text-value='$ctrl.selected.substancename' on-update='$ctrl.update("substancename", value)'></text-input>
-  <select-input-extensible show-value='false' values='$ctrl.picklists.metadataStatusOptions' select-value='$ctrl.metadataStatusOptions'
+  <select-input-extensible show-value='false' values='$ctrl.metadataStatusOptions' select-value='$ctrl.metadataStatusOptions'
     on-update='$ctrl.update("metadataStatusOptions", value)'></select-input-extensible>
   <!--
   <tbl title='Substance Identifier' items='$ctrl.substance.substanceidentifier' projection='$ctrl.dossierRAProjection' min-items='1'
     on-select='$ctrl.select(index)' on-delete='$ctrl.delete(index)' deletable='true'></tbl>
 -->
+  <div style='z-index:100' class='float-bottom'>
+    <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
+      <md-icon md-svg-icon='save' class='light'></md-icon>
+    </md-button>
+    <md-button aria-label='Add New Item' class='md-fab md-primary' ng-click='$ctrl.add()'>
+      <md-icon md-svg-icon='add' class='light'></md-icon>
+    </md-button>
+    <md-button aria-label='Toggle List' class='md-fab md-primary' ng-click='$ctrl.toggleList()'>
+      <md-icon md-svg-icon='list' class='light'></md-icon>
+    </md-button>
+  </div>
 </section>
