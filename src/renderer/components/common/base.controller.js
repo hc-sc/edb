@@ -12,6 +12,7 @@ export default class BaseCtrl {
     this.loading = true;
 
     this.getAppData().then(records => {
+      console.log(records);
       this.records = JSON.parse(records.data);
       this.selected = this.records[0];
 

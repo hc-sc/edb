@@ -1,12 +1,12 @@
 
 import BaseCtrl from '../common/base.controller';
+//import identifierTemplate from './identifierTemplate';
 
 
 
-
-export class SubstancesCtrlextends extends BaseCtrl {
+export class SubstancesCtrl extends BaseCtrl {
     constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService) {
-      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, 'legalentity');
+      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, 'substance');
         this.metadataStatusOptions=JSON.parse(this.metadataStatusOptions.data);
         this.identifierTypeOptions=JSON.parse(this.identifierTypeOptions.data);
 
@@ -43,5 +43,23 @@ export class SubstancesCtrlextends extends BaseCtrl {
 
     update(prop, value) {
       this.selected[prop] = value;
+    }
+    select(index){
+              this.$mdDialog.show({
+          template: identifierTemplate,
+          controllerAs: '$ctrl',
+          controller: DossierRACtrl,
+          locals: {
+            index,
+            dossierRA: this.submission.DOSSIER_RA[index]
+          }
+        })
+        .then(item => {
+          this.submission.DOSSIER_RA[index] = item;
+          // angular doesn't trigger update if just one element is updated, need to change the object itself
+          this.submission.DOSSIER_RA = this.submission.DOSSIER_RA.slice();
+        }, item => {
+          console.log('cancelled ', item);
+        });
     }
   } 
