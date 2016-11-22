@@ -6,10 +6,11 @@
   <text-input label='Name' text-value='$ctrl.selected.substancename' on-update='$ctrl.update("substancename", value)'></text-input>
   <select-input-extensible show-value='false' values='$ctrl.metadataStatusOptions' select-value='$ctrl.metadataStatusOptions'
     on-update='$ctrl.update("metadataStatusOptions", value)'></select-input-extensible>
-  <!--
-  <tbl title='Substance Identifier' items='$ctrl.substance.substanceidentifier' projection='$ctrl.dossierRAProjection' min-items='1'
-    on-select='$ctrl.select(index)' on-delete='$ctrl.delete(index)' deletable='true'></tbl>
--->
+  <text-input label='id-id' text-value='$ctrl.selected.substanceidentifier[0].identifier' on-update='$ctrl.update("substancename", value)'></text-input>
+    <text-input label='id-type' text-value='$ctrl.selected.substanceidentifier[0].substanceidentifiertype' on-update='$ctrl.update("substancename", value)'></text-input>
+  {{$ctrl.selected.substanceidentifier}}
+  <tbl title='Substance Identifier' items='$ctrl.selected.substanceidentifier' projection='$ctrl.identifierProjection' on-select='$ctrl.select(index)' on-delete='$ctrl.delete(index)' deletable='true'></tbl>
+
   <div style='z-index:100' class='float-bottom'>
     <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
       <md-icon md-svg-icon='save' class='light'></md-icon>
