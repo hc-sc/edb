@@ -1,4 +1,4 @@
-
+import angular from 'angular';
 import BaseCtrl from '../common/base.controller';
 import IdentiferCtrl from './identifier.controller';
 import identifierTemplate from './identifier.Template';
@@ -22,7 +22,7 @@ export class SubstancesCtrl extends BaseCtrl {
 
   save() {
     console.log(this.selected);
-    this.appDataService.edb_post(this.selected).then(result=>console.log(result+" save successfully"),error=>console.log(error));
+    this.appDataService.edb_post(angular.copy(this.selected)).then(result=>console.log(result+" save successfully"),error=>console.log(error));
   }
 
   toggleList() {
