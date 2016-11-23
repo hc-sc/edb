@@ -43,7 +43,7 @@ var init_mongoose = () => {
     let mongoose = require('mongoose');
     mongoose.Promise = Q;
     console.log('Running mongoose version %s', mongoose.version);
-    mongoose.connect('tingodb://' + __dirname + '/../data');
+    mongoose.connect('tingodb://' + path.resolve(basePath, 'data'));
 
     let srvs = require('./services').ServiceNeedInit;
     let qs = [];
@@ -243,7 +243,9 @@ app.on('ready', function () {
     let versionDir = supprtVersions[i].replace(/\./g, '_');
     let GHSTSJsonSchema = JSON.parse(fs.readFileSync('./resources/app/standards/' + versionDir + '/GHSTS.jsonschema').toString());
     validateInsts[versionDir] = ajvInst.compile(GHSTSJsonSchema);
-    let GHSTS = require('../resources/app/standards/' + versionDir + '/GHSTS').GHSTS;
+//    let GHSTS = require('../resources/app/standards/' + versionDir + '/GHSTS').GHSTS;
+    let sfile = path.resolve(basePath, 'resources', 'app', 'standards', versionDir, 'GHSTS.js'); 
+    let GHSTS = require(sfile).GHSTS;
     let context = new Jsonix.Context([GHSTS]);
     unmarshallers[versionDir] = context.createUnmarshaller();
     marshallers[versionDir] = context.createMarshaller();
