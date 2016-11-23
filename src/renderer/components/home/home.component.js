@@ -66,13 +66,13 @@ export default angular.module('home', [
       this.dossier;
       this.submissions = [];
       this.submissionProjection = [
-        'SUBMISSION_TITLE',
-        'SUBMISSION_NUMBER',
-        'ADMIN_NUMBER',
-        'PACKAGE_TYPE',
-        'STATUS',
-        'DATE_CREATED',
-        'LAST_MODIFIED'
+        'submissiontitle',
+        'submissionnumber',
+        'adminnumber',
+        'packagetype',
+        '_state',
+        '_created',
+        '_lastMod'
       ];
 
     }
@@ -82,7 +82,7 @@ export default angular.module('home', [
       this.dossier = this.dossiers.filter(dossier => {
         return dossier._id === id;
       })[0];
-      this.submissions = this.dossier.SUBMISSIONS;
+      this.submissions = this.dossier.submission;
     }
 
     newDossier() {
@@ -112,8 +112,8 @@ export default angular.module('home', [
 
     selectSubmission(id, index) {
       this.$state.go('submission.receivers', {
-        dossierPID: this.dossier.DOSSIER_PID,
-        submissionNumber: this.submissions[index].SUBMISSION_NUMBER
+        dossierPID: this.dossier.dossierpid,
+        submissionNumber: this.submission[index].submissionnumber
       });
     }
 

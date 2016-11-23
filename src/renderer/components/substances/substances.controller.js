@@ -11,9 +11,9 @@ export class SubstancesCtrl extends BaseCtrl {
     this.metadataStatusOptions = JSON.parse(this.metadataStatusOptions.data);
     this.identifierTypeOptions = JSON.parse(this.identifierTypeOptions.data);
     this.identifierProjection = [
+      'substanceidentifiertype',
       'identifier'
     ];
-    console.log(super.selected);
   }
 
   add(item) {

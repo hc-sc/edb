@@ -9,7 +9,7 @@
           "valuedecode": "New"
         },
         "productpid": "urn:pppww:E3568230-87E3-4693-8F44-F7B1ACCB0EDB",
-        "genericproductname": "Famous Product EC 250",
+        "genericproductname": "Famous Product EC 250 Test 1",
         "productra": [
           {
             "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.PRODUCTRA",
@@ -116,8 +116,8 @@
         },
         "dossier": {
           "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER",
-          "dossierpid": "urn:pppww:05C6DD14-04B0-4BC4-8749-1FC06E9F48B8",
-          "dossierdescriptiontitle": "Famous Product EC 250",
+          "dossierpid": "urn:pppww:05C6DD14-04B0-4BC4-8749-1FC06E9F00B1",
+          "dossierdescriptiontitle": "Famous Product EC 250 Test 1",
           "dossiercompid": "PPPWW4711",
           "referenceddossier": [
             {
@@ -356,7 +356,7 @@
         "dossier": {
           "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER",
           "dossierpid": "urn:pppww:05C6DD14-04B0-4BC4-8749-1FC06E9F48B8",
-          "dossierdescriptiontitle": "Famous Product EC 250",
+          "dossierdescriptiontitle": "Other Product",
           "dossiercompid": "PPPWW4711",
           "referenceddossier": [
             {

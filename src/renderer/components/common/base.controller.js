@@ -15,6 +15,7 @@ export default class BaseCtrl {
       console.log(records);
       this.records = JSON.parse(records.data);
       this.selected = this.records[0];
+      console.log(this.selected);
 
       this.loading = false;
     });

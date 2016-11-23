@@ -6,12 +6,7 @@ export default function ($stateProvider, $urlRouterProvider) {
     })
     .state('home', {
       url: '/home',
-      component: 'home',
-      // resolve: {
-      //   dossiers: GhstsService => {
-      //     return GhstsService.getService().edb_get();
-      //   }
-      // }
+      component: 'home'
     })
     .state('submission', {
       abstract: true,
