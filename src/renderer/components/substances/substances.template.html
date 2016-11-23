@@ -8,8 +8,8 @@
     on-update='$ctrl.update("metadataStatusOptions", value)'></select-input-extensible>
   <text-input label='id-id' text-value='$ctrl.selected.substanceidentifier[0].identifier' on-update='$ctrl.update("substancename", value)'></text-input>
     <text-input label='id-type' text-value='$ctrl.selected.substanceidentifier[0].substanceidentifiertype' on-update='$ctrl.update("substancename", value)'></text-input>
-  {{$ctrl.selected.substanceidentifier}}
-  <tbl title='Substance Identifier' items='$ctrl.selected.substanceidentifier' projection='$ctrl.identifierProjection' on-select='$ctrl.select(index)' on-delete='$ctrl.delete(index)' deletable='true'></tbl>
+  
+  <tbl ng-if='!$ctrl.loading' title='Substance Identifier' items='$ctrl.selected.substanceidentifier' projection='$ctrl.identifierProjection' on-select='$ctrl.select("substanceidentifier",index)' on-delete='$ctrl.delete("substanceidentifier",index)' deletable='true'></tbl>
 
   <div style='z-index:100' class='float-bottom'>
     <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
