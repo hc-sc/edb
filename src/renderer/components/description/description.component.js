@@ -58,6 +58,7 @@ export default angular.module('description', [
     }
 
     select(nodeName, index) {
+      //get object by name to remove if/else, add diagram object map
       if (nodeName === 'DOSSIER_RA') {
         this.$mdDialog.show({
           template: dossierRATemplate,
