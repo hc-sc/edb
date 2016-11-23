@@ -42,7 +42,7 @@ var init_mongoose = () => {
     let mongoose = require('mongoose');
     mongoose.Promise = Q;
     console.log('Running mongoose version %s', mongoose.version);
-    mongoose.connect('tingodb://' + __dirname + '/../data');
+    mongoose.connect('tingodb://' + path.resolve(basePath, 'data'));
 
     let srvs = require('./services').ServiceNeedInit;
     let qs = [];
@@ -82,14 +82,23 @@ var init = () => {
     }
   }
 
-
   init_mongoose()
     .then(result => {
       console.log(result);
-      if (needInitDB)
-        return initDB();
+      if (needInitDB) {
+        setTimeout(() => {
+//          console.log('time is up');
+          initDB()
+            .then(result => {
+              console.log(result);
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        }, 1000);
+      }
       else
-        return new RVHelper('EDB00000');
+        return new RVHelper('EDB00000'); 
     })
     .then(ret => {
       console.log(ret);
@@ -102,17 +111,30 @@ var init = () => {
 
 var initDB = () => {
   //let ghstsSrv = new GhstsService(undefined, undefined, marshallers['01_00_00'], unmarshallers['01_00_00']);
-  let qAry = [];
-  let svrClass = require('./services/product.service');
-  let svr = new svrClass('01.00.00');
-  qAry.push(svr.initDbfromTestData());
-  svrClass = require('./services/legalentity.service');
-  svr = new svrClass('01.00.00');
-  qAry.push(svr.initDbfromTestData());
-  svrClass = require('./services/substance.service');
-  svr = new svrClass('01.00.00');
-  qAry.push(svr.initDbfromTestData());
-  return Q.all(qAry);
+  return new Q((res, rej) => {
+    let plkClass = require('./services/picklist.service');
+    let plkSvr = new plkClass();
+    plkSvr.edb_get().then(ret => {
+      if (ret.data.length <= 0)
+        rej(new Error('picklist not done yet.'));
+      else {
+        let qAry = [];
+        let svrClass = require('./services/product.service');
+        let svr = new svrClass('01.00.00');
+        qAry.push(svr.initDbfromTestData());
+        svrClass = require('./services/legalentity.service');
+        svr = new svrClass('01.00.00');
+        qAry.push(svr.initDbfromTestData());
+        svrClass = require('./services/substance.service');
+        svr = new svrClass('01.00.00');
+        qAry.push(svr.initDbfromTestData());
+        return Q.all(qAry);
+      } 
+    })
+    .catch(err => {
+      rej(err);
+    });
+  });
 };
 
 ipc.on('devTools', function (event, arg) {
@@ -207,9 +229,6 @@ app.on('window-all-closed', function () {
 
 app.on('ready', function () {
 
-  //  XMLSchemaJsonSchema = JSON.parse(fs.readFileSync('./node_modules/jsonix/jsonschemas/w3c/2001/XMLSchema.jsonschema').toString());
-  //  JsonixJsonSchema = JSON.parse(fs.readFileSync('./node_modules/jsonix/jsonschemas/jsonix/Jsonix.jsonschema').toString());
-
   XMLSchemaJsonSchema = JSON.parse(fs.readFileSync('./resources/app/standards/jsonschemas/w3c/2001/XMLSchema.jsonschema').toString());
   JsonixJsonSchema = JSON.parse(fs.readFileSync('./resources/app/standards/jsonschemas/jsonix/Jsonix.jsonschema').toString());
 
@@ -223,14 +242,16 @@ app.on('ready', function () {
     let versionDir = supprtVersions[i].replace(/\./g, '_');
     let GHSTSJsonSchema = JSON.parse(fs.readFileSync('./resources/app/standards/' + versionDir + '/GHSTS.jsonschema').toString());
     validateInsts[versionDir] = ajvInst.compile(GHSTSJsonSchema);
-    let GHSTS = require('../resources/app/standards/' + versionDir + '/GHSTS').GHSTS;
+//    let GHSTS = require('../resources/app/standards/' + versionDir + '/GHSTS').GHSTS;
+    let sfile = path.resolve(basePath, 'resources', 'app', 'standards', versionDir, 'GHSTS.js'); 
+    let GHSTS = require(sfile).GHSTS;
     let context = new Jsonix.Context([GHSTS]);
     unmarshallers[versionDir] = context.createUnmarshaller();
     marshallers[versionDir] = context.createMarshaller();
   }
 
   init();
-
+  
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
