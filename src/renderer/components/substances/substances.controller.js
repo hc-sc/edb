@@ -23,7 +23,7 @@ export class SubstancesCtrl extends BaseCtrl {
 
   save() {
     console.log(this.selected);
-    this.appDataService.edb_put(this.selected).then(result=>console.log(result+" save successfully"),error=>console.log(error));
+    this.appDataService.edb_post(this.selected).then(result=>console.log(result+" save successfully"),error=>console.log(error));
   }
 
   toggleList() {
