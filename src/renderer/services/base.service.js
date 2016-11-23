@@ -126,7 +126,7 @@ export default class BaseService {
     let retVal = {};
     retVal.method = method;
     if (obj) {
-      retVal.url = obj.url;
+      retVal.url = obj.url ? obj.url : obj._url;
       retVal.data = obj.data ? obj.data : obj;
     }
     retVal.timestamp = timestamp;

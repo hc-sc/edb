@@ -14,7 +14,7 @@
     <md-dialog-content>
       <div class='md-dialog-content'>
         <text-input label='Identifier' is-required='false' text-value='$ctrl.substanceidentifier.identifier' on-update='$ctrl.update("identifier", value)'></text-input>
-        <select-input label='Identifier Type' selectValue='$ctrl.substanceidentifier.substanceidentifiertype' values='[]' on-update='$ctrl.update("substanceidentifiertype", value)'></select-input>
+        <select-input label='Identifier Type' selectValue='$ctrl.substanceidentifier.substanceidentifiertype' values='$ctrl.identifierTypeOptions' on-update='$ctrl.update("substanceidentifiertype", value)'></select-input>
       </div>
     </md-dialog-content>
 

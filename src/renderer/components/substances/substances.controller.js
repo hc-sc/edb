@@ -11,8 +11,8 @@ export class SubstancesCtrl extends BaseCtrl {
     this.metadataStatusOptions = JSON.parse(this.metadataStatusOptions.data);
     this.identifierTypeOptions = JSON.parse(this.identifierTypeOptions.data);
     this.identifierProjection = [
-      'substanceidentifiertype',
-      'identifier'
+      'identifier',
+      'substanceidentifiertype'
     ];
   }
 
@@ -22,6 +22,7 @@ export class SubstancesCtrl extends BaseCtrl {
 
   save() {
     console.log(this.selected);
+    this.appDataService.edb_post(this.selected).then(result=>console.log(result+" save successfully"),error=>console.log(error));
   }
 
   toggleList() {
@@ -48,22 +49,27 @@ export class SubstancesCtrl extends BaseCtrl {
   update(prop, value) {
     this.selected[prop] = value;
   }
-  select(index) {
+  select(name,index) {
     this.$mdDialog.show({
       template: identifierTemplate,
       controllerAs: '$ctrl',
       controller: IdentiferCtrl,
       locals: {
         index,
-        identifier: this.selected.substanceidentifier[index]
+        identifer: this.selected.substanceidentifier[index],
+        identifierTypeOptions:this.identifierTypeOptions
       }
     })
       .then(item => {
+        console.log(item);
         this.selected.substanceidentifier[index] = item;
         // angular doesn't trigger update if just one element is updated, need to change the object itself
         this.selected.substanceidentifier = this.selected.substanceidentifier.slice();
       }, item => {
         console.log('cancelled ', item);
       });
+  }
+  delete(name,index){
+    console.log(index);
   }
 } 
