@@ -139,11 +139,11 @@ module.exports = class BaseService {
       td = td.map(items => {
         if (items.constructor === Array) {
           let ret = items.map(item => {
-            return self._testDataPlkdecode(item);
+            return self._testDataPlkDecode(item);
           });
           return ret;
         } else
-          return self._testDataPlkdecode(items);
+          return self._testDataPlkDecode(items);
       });
 
       let qAry = [];
@@ -248,7 +248,7 @@ module.exports = class BaseService {
   //   return retVal;
   // }
 
-  _testDataPlkdecode(obj, plkInst) {
+  _testDataPlkDecode(obj, plkInst) {
     let self = this;
     let retVal = {}, picklistFieldsConfig, query, plEntity, dbOutput;
     let keys = Object.keys(obj);
@@ -282,12 +282,12 @@ module.exports = class BaseService {
         if (plEntity[0].hasOwnProperty('TYPE_NAME')) {
           retVal[key] = [];
           plEntity.map(subEnt => {
-            retVal[key].push(self._testDataPlkdecode(subEnt, plkI));
+            retVal[key].push(self._testDataPlkDecode(subEnt, plkI));
           });
         } else
           retVal[key] = plEntity;
       } else if (plEntity && typeof plEntity === 'object') {
-        retVal[key] = self._testDataPlkdecode(plEntity, plkI);
+        retVal[key] = self._testDataPlkDecode(plEntity, plkI);
       } else {
         retVal[key] = plEntity;
       }
@@ -339,9 +339,9 @@ module.exports = class BaseService {
                   type.isExt = false;
                   dbmodel.create(type, (err, result) => {
                     if (err)
-                      rej(new Error(err));
+                      rej(err);
                     else
-                      global.modulesInMemory[self.modelClassName.toLowerCase()].push(JSON.stringify(result));
+                      global.modulesInMemory[self.modelClassName.toLowerCase()].push(result);
                   });
                 }
               }
@@ -376,12 +376,13 @@ module.exports = class BaseService {
         //        console.log(JSON.stringify(jschema));
         let mongoose = require('mongoose');
         let Schema = mongoose.Schema;
-        let mschema = new Schema(jschema);
-        let selfPlugin;
-        mschema.plugin(ServiceLevelPlugin, {
-          url: self.modelClassName.toLowerCase(),
+        let mschema = new Schema(jschema, {
           id: false,
           minimize: false
+        });
+        let selfPlugin;
+        mschema.plugin(ServiceLevelPlugin, {
+          url: self.modelClassName.toLowerCase()
         });
 
         try {
@@ -395,13 +396,13 @@ module.exports = class BaseService {
         if (self.inmem) {
           mmodule.find({})
             .lean()
-            .exec()
-            .then(result => {
-              global.modulesInMemory[self.modelClassName.toLowerCase()] = result;
-              res(new RVHelper('EDB00000'));
-            })
-            .catch(err => {
-              rej(err);
+            .exec((err, result) => {
+              if (err)
+                rej(err);
+              else {
+                global.modulesInMemory[self.modelClassName.toLowerCase()] = result;
+                res(new RVHelper('EDB00000'));
+              }
             });
         } else
           res(new RVHelper('EDB00000'));

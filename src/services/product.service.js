@@ -28,31 +28,31 @@ module.exports = class ProductService extends BaseService {
       submissions = submissions.map(items => {
         if (items.constructor === Array) {
           let ret = items.map(item => {
-            return self._testDataPlkdecode(item);
+            return self._testDataPlkDecode(item);
           });
           return ret;
         } else
-          return self._testDataPlkdecode(items);
+          return self._testDataPlkDecode(items);
       });
 
       dossiers = dossiers.map(items => {
         if (items.constructor === Array) {
           let ret = items.map(item => {
-            return self._testDataPlkdecode(item);
+            return self._testDataPlkDecode(item);
           });
           return ret;
         } else
-          return self._testDataPlkdecode(items);
+          return self._testDataPlkDecode(items);
       });
 
       products = products.map(items => {
         if (items.constructor === Array) {
           let ret = items.map(item => {
-            return self._testDataPlkdecode(item);
+            return self._testDataPlkDecode(item);
           });
           return ret;
         } else
-          return self._testDataPlkdecode(items);
+          return self._testDataPlkDecode(items);
       });
 
       let subSvrClass = require('./submission.service');

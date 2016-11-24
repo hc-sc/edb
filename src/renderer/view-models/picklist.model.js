@@ -16,6 +16,7 @@ export default class Picklist {
       }
     } else {
       console.log('Error: wrong using of Picklist constructor with Type_Name 2: [' + typename + '] / Value: [' + value + ']');
+
     }
   }
 }

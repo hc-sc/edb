@@ -1,57 +1,75 @@
-
+import angular from 'angular';
 import BaseCtrl from '../common/base.controller';
+import IdentiferCtrl from './identifier.controller';
+import identifierTemplate from './identifier.Template';
+
+
 
 export class SubstancesCtrl extends BaseCtrl {
-    constructor($mdDialog, $state, PicklistService, AppDataService) {
-        super($mdDialog, $state, PicklistService, AppDataService, 'substance');
-        let self = this;
-        this.items = []; //declare a whole entity instead of some specific fields
-        //use injected service
+  constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService) {
+    super($mdDialog, $mdToast, $state, PicklistService, AppDataService, 'substance');
+    this.metadataStatusOptions = JSON.parse(this.metadataStatusOptions.data);
+    this.identifierTypeOptions = JSON.parse(this.identifierTypeOptions.data);
+    this.identifierProjection = [
+      'identifier',
+      'substanceidentifiertype'
+    ];
+  }
 
-        this.getRecords().then(results => {
-            let data = JSON.parse(results.data);
+  add(item) {
+    this.showMessage('hi there');
+  }
 
-            if (data.length !== 0) {
-                //get url
-                console.log(data._url);
-            }
+  save() {
+    console.log(this.selected);
+    this.appDataService.edb_post(angular.copy(this.selected)).then(result=>console.log(result+" save successfully"),error=>console.log(error));
+  }
 
-            self.items = data;
+  toggleList() {
+    this.sidenavOpen = !this.sidenavOpen;
+  }
 
-            // .map(item => {
-            //     console.log(item.substancename);
-            //     return { name: item.substancename };
-            // });
-        });
-        // options for metadata status
-        self.pickListService.edb_get({'TYPE_NAME': 'TYPE_METADATA_STATUS'})
-            .then(metadataStatusOptions => {
-                console.log(metadataStatusOptions);
-                self.metadataStatusOptions = metadataStatusOptions.data;
-             //   return self.pickListService.edb_get('EXTENSION_TYPE_SUBSTANCE_IDENTIFIER_TYPE', true);
-            });
+  createPicklistItem(prop, arr, value) {
+    console.log(prop, value);
+    return this.picklistService.edb_put(value)
+      .then(result => {
+        let item = JSON.parse(result.data);
+        console.log(item._id, this.selected[prop]);
+        this[arr].slice().concat(item);
+        this.selected[prop] = item._id;
+        console.log(this.selected[prop]);
 
-        self.pickListService.edb_get({'TYPE_NAME': 'EXTENSION_TYPE_SUBSTANCE_IDENTIFIER_TYPE'})
-            .then(identifierTypeOptions => {
-                console.log(identifierTypeOptions);
-                self.identifierTypeOptions = identifierTypeOptions.data;
-             //   return self.pickListService.edb_get('EXTENSION_TYPE_SUBSTANCE_IDENTIFIER_TYPE', true);
-            });
+        this.showMessage(value.valuedecode, 'added successfully!');
+      })
+      .catch(err => {
+        this.showMessage('Error creating new picklist item');
+      });
+  }
 
-            /*
-            .then(identifierTypeOptions => {
-                // options for identifier types
-                console.log(identifierTypeOptions);
-                self.identifierTypeOptions = identifierTypeOptions.data;
-            })
-            */
-        console.log('substancesCtrl here');
-        // this.$state.go('submission.legalEntities'); //state works
-    }
-
-    //model fields handler methods
-    select(item) {
+  update(prop, value) {
+    this.selected[prop] = value;
+  }
+  select(name,index) {
+    this.$mdDialog.show({
+      template: identifierTemplate,
+      controllerAs: '$ctrl',
+      controller: IdentiferCtrl,
+      locals: {
+        index,
+        identifer: this.selected.substanceidentifier[index],
+        identifierTypeOptions:this.identifierTypeOptions
+      }
+    })
+      .then(item => {
         console.log(item);
-       // this.$state.go('submission.legalEntities');
-    }
-}
+        this.selected.substanceidentifier[index] = item;
+        // angular doesn't trigger update if just one element is updated, need to change the object itself
+        this.selected.substanceidentifier = this.selected.substanceidentifier.slice();
+      }, item => {
+        console.log('cancelled ', item);
+      });
+  }
+  delete(name,index){
+    console.log(index);
+  }
+} 

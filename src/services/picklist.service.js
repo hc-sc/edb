@@ -39,25 +39,33 @@ module.exports = class PickListService extends BaseService {
         };
         let mongoose = require('mongoose');
         let Schema = mongoose.Schema;
-        let mschema = new Schema(jschema);
+        let mschema = new Schema(jschema, {
+          id: false,
+          minimize: false
+        });
         mschema.plugin(ServiceLevelPlugin, { url: self.modelClassName.toLowerCase() });
         let mmodule = mongoose.model(self.modelClassName, mschema);
         mmodule
           .find({})
           .lean()
-          .then(result => {
-            if (result.length === 0) {
-              return super.initFromXSD('ghsts-picklists.xsd');
+          .exec((err, result) => {
+            if (err) 
+              rej(err);
+            else if (result.length === 0) {
+              self.initFromXSD('ghsts-picklists.xsd')
+              .then(result => {
+                res(result);
+              })
+              .catch(err => {
+                rej(err);
+              });
             } else {
               global.modulesInMemory[self.modelClassName.toLowerCase()] = result;
               res(new RVHelper('EDB00000'));
             }
-          })
-          .catch(err => {
-            rej(new RVHelper('EDB10000', err));
           });
       } catch (err) {
-        rej(new RVHelper('EDB10000', err));
+        rej(err);
       }
     });
   }

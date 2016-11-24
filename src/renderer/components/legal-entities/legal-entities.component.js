@@ -29,6 +29,7 @@ export default angular.module('legalEntities', [
     legalEntityIdentifierType: '<',
     countries: '<'
   },
+
   controller: class LECtrl extends BaseCtrl {
     constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService) {
       super($mdDialog, $mdToast, $state, PicklistService, AppDataService, 'legalentity');
@@ -61,6 +62,7 @@ export default angular.module('legalEntities', [
     }
 
     save() {
+
       console.log(this.selected);
     }
 
