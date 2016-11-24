@@ -6,7 +6,7 @@
     <text-input label='Name' text-value='$ctrl.selected.legalentityname' on-update='$ctrl.update("legalentityname", value)'></text-input>
     <select-input-extensible label='"Legal Entity Type"' is-required='true' show-value='false' values='$ctrl.legalEntityTypes' select-value='$ctrl.selected.legalentitytype' on-update='$ctrl.update("legalentitytype", value)' on-add='$ctrl.createPicklistItem("legalentitytype", "legalEntityTypes", value)'></select-input-extensible>
     <text-input label='Other Name' text-value='$ctrl.selected.othername' on-update='$ctrl.update("othername", value)'></text-input>
-    <tbl title='Identifier' items='$ctrl.selected.legalentityidentifiers' projection='["identifier"]' min-items='1'></tbl>
+    <tbl ng-if='!$ctrl.loading' title='Identifier' items='$ctrl.selected.legalentityidentifier' projection='["identifier"]' min-items='1'></tbl>
     <fieldset>
       <legend>Contact Address</legend>
       <text-input label='Street 1' text-value='$ctrl.selected.contactaddress.street1' on-update='update("contactaddress.street1", value)'></text-input>
@@ -20,7 +20,7 @@
       <text-input label='Email' text-value='$ctrl.selected.contactaddress.email' on-update='update("contactaddress.email", value)'></text-input>
       <text-input label='Website' text-value='$ctrl.selected.contactaddress.website' on-update='update("contactaddress.website", value)'></text-input>
     </fieldset>
-    <tbl title='Contacts' items='[]' projection='[]'></tbl>
+    <tbl ng-if='!$ctrl.loading' title='Contacts' items='$ctrl.selected.contactperson' projection='["lastname", "firstname", "title", "email"]' on-select='$ctrl.selectItem("contactperson", index)'></tbl>
     <div style='z-index:100' class='float-bottom'>
       <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
         <md-icon md-svg-icon='save' class='light'></md-icon>

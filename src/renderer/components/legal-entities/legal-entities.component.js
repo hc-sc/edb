@@ -1,7 +1,6 @@
 import angular from 'angular';
 import ngMaterial from 'angular-material';
 import template from './legal-entities.template';
-import identifierTemplate from './identifier.template';
 
 import Sidenav from '../common/sidenav/sidenav.component';
 import TextInput from '../common/text-input/text-input.component';
@@ -11,7 +10,6 @@ import SelectInputExtensible from '../common/select-input-extensible/select-inpu
 import PicklistService from '../../services/picklist.service';
 import AppDataService from '../../services/app.data.service';
 import BaseCtrl from '../common/base.controller';
-import ModalBaseCtrl from '../common/modal.base.controller';
 
 export default angular.module('legalEntities', [
   ngMaterial,
@@ -37,24 +35,6 @@ export default angular.module('legalEntities', [
       this.legalEntityTypes = JSON.parse(this.legalEntityType.data);
       this.legalEntityIdentifierTypes = JSON.parse(this.legalEntityIdentifierType.data);
       this.countries = JSON.parse(this.countries.data);
-
-      this.loading = false;
-    }
-
-    selectIndentifier(index) {
-      this.$mdDialog.show({
-        template: identifierTemplate,
-        controllerAs: '$ctrl',
-        controller: class IdentifierCtrl extends ModalBaseCtrl {
-          constructor($mdDialog, index, node) {
-            super($mdDialog);
-          }
-        },
-        locals: {
-          index,
-          node: this.clone(this.selected.legalentityidentifier)
-        }
-      });
     }
 
     add(item) {
@@ -62,27 +42,12 @@ export default angular.module('legalEntities', [
     }
 
     save() {
-
-      console.log(this.selected);
-    }
-
-    createPicklistItem(prop, arr, value) {
-      console.log(prop, value);
-      return this.picklistService.edb_put(value)
+      this.updateAppData(angular.copy(this.selected))
       .then(result => {
-        let item = JSON.parse(result.data);
-        this[arr].push(item);
-
-        // need to allow the select component to update before assigning a new selected
-        // in the future, have the select component use lifecycle methods to return when it is finished
-        setTimeout(() => {
-          this.selected[prop] = item._id;
-        }, 200);
-
-        this.showMessage(value.valuedecode + ' added successfully!');
+        this.showMessage('Saved successfully');
       })
       .catch(err => {
-        this.showMessage('Error creating new picklist item');
+        this.showMessage(err);
       });
     }
 

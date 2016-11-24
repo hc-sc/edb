@@ -79,11 +79,6 @@ export default angular.module('tbl', [
       }
     }
 
-    // checks if the data cell should be displayed, if the current key is in the projection
-    // inProjection(key) {
-    //   return (this.projection.indexOf(key) >= 0) ? true : false;
-    // }
-
     update(prop, value) {
       this[prop] = value;
     }

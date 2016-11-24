@@ -10,7 +10,7 @@ export default class ModalBaseCtrl {
   }
 
   confirm() {
-    this.$mdDialog.hide(this.modal);
+    this.$mdDialog.hide(this.node);
   }
 
   update(prop, value) {
