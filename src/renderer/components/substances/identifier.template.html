@@ -1,0 +1,27 @@
+<md-dialog aria-label='identifier' flex='80'>
+  <form ng-cloak>
+    <md-toolbar>
+      <div class='md-toolbar-tools'>
+        <h2>Dossier RA</h2>
+        <span flex></span>
+        <md-button class='md-icon-button' ng-click='$ctrl.cancel()'>
+          <md-icon md-svg-icon='close' aria-label='close dialog' class='light'></md-icon>
+          <md-tooltip>Close</md-tooltip>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class='md-dialog-content'>
+        <text-input label='Identifier' is-required='false' text-value='$ctrl.substanceidentifier.identifier' on-update='$ctrl.update("identifier", value)'></text-input>
+        <select-input label='Identifier Type' selectValue='$ctrl.substanceidentifier.substanceidentifiertype' values='$ctrl.identifierTypeOptions' on-update='$ctrl.update("substanceidentifiertype", value)'></select-input>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout='row'>
+      <span flex></span>
+      <md-button ng-click='$ctrl.confirm()'>Okay</md-button>
+      <md-button ng-click='$ctrl.cancel()'>Cancel</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

@@ -66,7 +66,7 @@ export default angular.module('tbl', [
       this.headers = this.projection.map(item => {
         return { name: item, paramName: item };
       });
-
+   //   this.items=[{"substanceidentifiertype":"5829db075ec38012b06983f3","identifier":"134098-61-6","_id":"58346871d016a9122c3e5fa0","TYPE_NAME":"GHSTS.GHSTS.SUBSTANCES.SUBSTANCE.SUBSTANCEIDENTIFIER"}];
       this.rows = this.items.map(item => {
         let row = [];
         for (let header of this.headers) {
