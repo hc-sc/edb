@@ -1,0 +1,29 @@
+{
+  "name": "electronic_dossier_builder",
+  "version": "1.0.0",
+  "description": "eDossierBuilder",
+  "author": "Health Canada - Santé Canada",
+  "main": "index.js",
+  "contributers": [
+    "Aaron Carswell <aaron.carswell@canada.ca>",
+    "Lori Currie <lori.currie@canada.ca>",
+    "Alex Gagnon <alex.gagnon2@canada.ca>",
+    "James Johnson <james.johnson2@canada.ca>",
+    "Joseph Mikhael <joseph.mikhael@canada.ca>",
+    "Jun Tang <xiang.tang@canada.ca>",
+    "Hai Tu <hai.tu@canada.ca>",
+    "Daniel Wen <daniel.wen@canada.ca>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "xml2js": "^0.4.17",
+    "lodash": "^4.16.3",
+    "ajv": "^4.7.7",
+    "jsonix": "^2.4.1",
+    "jsonix-schema-compiler": "^2.3.9",
+    "node-uuid": "^1.4.7",
+    "tingodb": "file:..\\src\\tingodb-0.5.0.tgz",
+    "tungus": "file:..\\src\\tungus-0.0.5.tgz",
+    "mongoose": "^4.6.6"
+  }
+}
