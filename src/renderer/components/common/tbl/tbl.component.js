@@ -34,18 +34,18 @@ export default angular.module('tbl', [
     constructor() {
       this.searchIcon = { name: 'search', label: 'Search' };
       this.addIcon = { name: 'add', label: 'Add' };
-      this.deleteIcon = { name: 'delete', label: 'Delete' };
+      this.deleteIcon = { name: 'delete', label: 'Delete', color: 'dark' };
       this.closeIcon = { name: 'close', label: 'Close', color: 'dark' };
       this.sortField = this.defaultSort ? this.defaultSort : '';
       this.reverse = this.defaultReverse ? true : false;
-      this.deletable = false;
-
+      this.deletable = this.deletable || true;
       this.search = false;
       this.searchText = '';
       this.mapProjection();
     }
 
     $onChanges() {
+      console.log('changed');
       this.mapProjection();
     }
 

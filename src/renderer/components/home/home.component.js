@@ -113,7 +113,7 @@ export default angular.module('home', [
     selectSubmission(id, index) {
       this.$state.go('submission.receivers', {
         dossierPID: this.dossier.dossierpid,
-        submissionNumber: this.submission[index].submissionnumber
+        submissionNumber: this.submissions[index].submissionnumber
       });
     }
 
@@ -132,11 +132,11 @@ export default angular.module('home', [
       //   });
       this.PicklistService.edb_put(
       {
-    TYPE_NAME: 'EXTENSION_TYPE_ADMIN_NUMBER_TYPE', 
+    TYPE_NAME: 'EXTENSION_TYPE_ADMIN_NUMBER_TYPE',
     value: 'AAAAAAAAAAAAAAAAA',
     valuedecode: 'AAAAAAAAAAAAAAAAA',
-    isExt: true        
-      }        
+    isExt: true
+      }
       ).then(ret =>{
         console.log('it is /// ' + ret );
       });

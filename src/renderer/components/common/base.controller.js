@@ -3,20 +3,20 @@ import AppDataService from '../../services/app.data.service';
 import PicklistService from '../../services/picklist.service';
 
 export default class BaseCtrl {
-  constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, url) {
+  constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, url, $scope) {
     this.$mdDialog = $mdDialog;
     this.$mdToast = $mdToast;
     this.$state = $state;
     this.url = url;
     this.picklistService = PicklistService.getService();
     this.appDataService = AppDataService.getService();
+    this.$scope = $scope;
     this.sidenavOpen = false;
     this.loading = true;
 
     this.getAppData().then(records => {
       this.records = JSON.parse(records.data);
       this.selected = this.records[0];
-      console.log(this.selected);
 
       this.loading = false;
     });
@@ -40,6 +40,10 @@ export default class BaseCtrl {
     return this.picklistService.edb_get({ 'TYPE_NAME': typename });
   }
 
+  // generates a picklist item.
+  // prop - the node your changing
+  // arr - the array of picklist items used to population the select field
+  // value - the new picklist value
   createPicklistItem(prop, arr, value) {
     return this.picklistService.edb_put(value)
     .then(result => {
@@ -61,16 +65,33 @@ export default class BaseCtrl {
 
   getGHSTS() {}
 
+  // update the field values, only works for first level deep items
+  // overload it if you need additional ones
+  update(prop, value) {
+    this.selected[prop] = value;
+  }
+
+  // toggles whether the sidenav component is open or not
   toggleList() {
     this.sidenavOpen = !this.sidenavOpen;
   }
 
-  addItem() {
-
+  deleteTblItem(nodeName, index) {
+    // need to change the reference so the lists know to update
+    this.selected[nodeName] =
+      this.selected[nodeName].slice(0, index).concat(this.selected[nodeName].slice(index+1));
   }
 
-  deleteItem() {
-
+  // enables selection from tables
+  selectTblItem(nodeName, index) {
+    this.$mdDialog.show(this.buildModal(nodeName, index))
+    .then(item => {
+      this.selected[nodeName][index] = item;
+      this.selected[nodeName] = this.selected[nodeName].slice();
+      this.showMessage('Updated');
+    }, item => {
+      this.showMessage('Cancelled');
+    });
   }
 
   // used to display notifications to the user
@@ -83,6 +104,7 @@ export default class BaseCtrl {
     );
   }
 
+  // updates which sidenav item is being modified
   updateSelected(data) {
     this.selected = this.records.filter(record => {
       return record.id === data.id;
@@ -91,19 +113,6 @@ export default class BaseCtrl {
 
   // used to compare current node to a valid or old node (for validation and/or updating metadata status)
   equals(node1, node2) {}
-
-  // enables selection from tables
-  selectItem(nodeName, index) {
-    this.$mdDialog.show(this.buildModal(nodeName, index))
-    .then(item => {
-      console.log(item, this.selected[nodeName][index]);
-      this.selected[nodeName][index] = item;
-      this.selected[nodeName] = this.selected[nodeName].slice();
-      this.showMessage('Updated');
-    }, item => {
-      this.showMessage('Cancelled');
-    });
-  }
 
   // used as a generic function to build our modals
   buildModal(nodeName, index) {
@@ -120,7 +129,16 @@ export default class BaseCtrl {
   }
 }
 
-// in the future, use templateURL instead
+function getNestedProperty(obj, props) {
+  props = props.split('.');
+  let res = obj;
+  for (let i = 0; i < props.length; ++i) {
+    res = res[props[i]];
+  }
+  return res;
+}
+
+// in the future, use templateURL instead to cut down on imports
 import ContactPersonCtrl from '../legal-entities/contact-person/contact-person.controller';
 import contactPersonTemplate from '../legal-entities/contact-person/contact-person.template';
 import LegalEntityIdentifierCtrl from '../legal-entities/identifier/identifier.controller';

@@ -29,8 +29,8 @@ export default angular.module('legalEntities', [
   },
 
   controller: class LECtrl extends BaseCtrl {
-    constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService) {
-      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, 'legalentity');
+    constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, $scope) {
+      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, 'legalentity', $scope);
 
       this.legalEntityTypes = JSON.parse(this.legalEntityType.data);
       this.legalEntityIdentifierTypes = JSON.parse(this.legalEntityIdentifierType.data);
@@ -51,8 +51,8 @@ export default angular.module('legalEntities', [
       });
     }
 
-    update(prop, value) {
-      this.selected[prop] = value;
+    updateContactAddress(prop, value) {
+      this.selected.contactaddress[prop] = value;
     }
   }
 })
