@@ -43,8 +43,6 @@ export default angular.module('tbl', [
       this.search = false;
       this.searchText = '';
       this.mapProjection();
-
-      console.log(this.rows, this.rows.length, this.minItems);
     }
 
     $onChanges() {
@@ -63,18 +61,22 @@ export default angular.module('tbl', [
 
     // takes the input and re-orders the rows
     mapProjection() {
-      this.headers = this.projection.map(item => {
-        return { name: item, paramName: item };
-      });
+      if (this.projection) {
+        this.headers = this.projection.map(item => {
+          return { name: item, paramName: item };
+        });
+      }
 
-      this.rows = this.items.map(item => {
-        let row = [];
-        for (let header of this.headers) {
-          row.push(item[header.name]);
-        }
-        row.push(item['_id']);
-        return row;
-      });
+      if (this.items) {
+        this.rows = this.items.map(item => {
+          let row = [];
+          for (let header of this.headers) {
+            row.push(item[header.name]);
+          }
+          row.push(item['_id']);
+          return row;
+        });
+      }
     }
 
     // checks if the data cell should be displayed, if the current key is in the projection

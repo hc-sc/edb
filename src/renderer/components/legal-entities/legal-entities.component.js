@@ -1,6 +1,7 @@
 import angular from 'angular';
 import ngMaterial from 'angular-material';
 import template from './legal-entities.template';
+import identifierTemplate from './identifier.template';
 
 import Sidenav from '../common/sidenav/sidenav.component';
 import TextInput from '../common/text-input/text-input.component';
@@ -10,6 +11,7 @@ import SelectInputExtensible from '../common/select-input-extensible/select-inpu
 import PicklistService from '../../services/picklist.service';
 import AppDataService from '../../services/app.data.service';
 import BaseCtrl from '../common/base.controller';
+import ModalBaseCtrl from '../common/modal.base.controller';
 
 export default angular.module('legalEntities', [
   ngMaterial,
@@ -35,6 +37,23 @@ export default angular.module('legalEntities', [
       this.legalEntityIdentifierTypes = JSON.parse(this.legalEntityIdentifierType.data);
       this.countries = JSON.parse(this.countries.data);
 
+      this.loading = false;
+    }
+
+    selectIndentifier(index) {
+      this.$mdDialog.show({
+        template: identifierTemplate,
+        controllerAs: '$ctrl',
+        controller: class IdentifierCtrl extends ModalBaseCtrl {
+          constructor($mdDialog, index, node) {
+            super($mdDialog);
+          }
+        },
+        locals: {
+          index,
+          node: this.clone(this.selected.legalentityidentifier)
+        }
+      });
     }
 
     add(item) {
@@ -43,10 +62,6 @@ export default angular.module('legalEntities', [
 
     save() {
       console.log(this.selected);
-    }
-
-    toggleList() {
-      this.sidenavOpen = !this.sidenavOpen;
     }
 
     createPicklistItem(prop, arr, value) {

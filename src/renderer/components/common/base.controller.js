@@ -9,13 +9,12 @@ export default class BaseCtrl {
     this.url = url;
     this.picklistService = PicklistService.getService();
     this.appDataService = AppDataService.getService();
+    this.sidenavOpen = false;
     this.loading = true;
 
     this.getAppData().then(records => {
       this.records = JSON.parse(records.data);
       this.selected = this.records[0];
-
-      this.loading = false;
     });
   }
 
@@ -37,7 +36,9 @@ export default class BaseCtrl {
 
   getGHSTS() {}
 
-
+  toggleList() {
+    this.sidenavOpen = !this.sidenavOpen;
+  }
 
   // used to display notifications to the user
   showMessage(message) {
