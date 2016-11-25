@@ -1,3 +1,6 @@
+<!-- Ideally we find a way to do mixins here, where the outer tags are injected with the inner
+tags specific to that node -->
+
 <md-dialog aria-label='referenced dossier' flex='80'>
   <form ng-cloak>
     <md-toolbar>
@@ -10,12 +13,11 @@
         </md-button>
       </div>
     </md-toolbar>
+
     <md-dialog-content>
-      <div class='md-dialog-content'>
-        <text-input label='Reason' text-value='$ctrl.referencedDossier.referenceddossierreason' on-update='$ctrl.update("referenceddossierreason", value)'></text-input>
-        <text-input label='Dossier Number' text-value='$ctrl.referencedDossier.referenceddossiernumber' on-update='$ctrl.update("referenceddossiernumber", value)'></text-input>
-      </div>
+      <!-- inject modal here -->
     </md-dialog-content>
+
     <md-dialog-actions layout='row'>
       <span flex></span>
       <md-button ng-click='$ctrl.confirm()'>Okay</md-button>

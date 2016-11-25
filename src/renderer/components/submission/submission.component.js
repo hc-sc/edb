@@ -10,17 +10,21 @@ import Icon from '../common/icon/icon.component';
 import { } from '../../services/ghsts.service';
 import { GHSTS_NG_MODULE_NAME} from '../../../constants/shared';
 
+import AppDataService from '../../services/app.data.service';
+
 export default angular.module('submission', [
   uiRouter,
   Toolbar,
   Navbar,
   Icon,
-  GHSTS_NG_MODULE_NAME
+  GHSTS_NG_MODULE_NAME,
+  AppDataService
 ])
   .component('submission', {
     template,
     bindings: {
-      submission: '<'
+      submission: '<',
+      dossier: '<'
     },
     controller: class SubmissionCtrl {
       constructor($state, GhstsService, $transitions) {
@@ -32,6 +36,7 @@ export default angular.module('submission', [
 
         this.$state = $state;
         this.GhstsService = GhstsService.getService();
+        
         this.navbarItems = [
           { title: 'Description', state: '.description' },
           { title: 'Receivers', state: '.receivers' },
@@ -43,7 +48,7 @@ export default angular.module('submission', [
             { name: 'back', label: 'Back', state: 'home' },
             { name: 'home', label: 'Home', state: 'splash' }
           ],
-          title: this.submission.DOSSIER_DESCRIPTION_TITLE,
+          title: '',//this.submission.dossierdescriptiontitle,
           functionIcons: [
             { name: 'save', label: 'Save' },
             { name: 'globals', label: 'App Data', state: 'globals.legalEntities' },

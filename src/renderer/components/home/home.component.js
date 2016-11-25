@@ -39,7 +39,11 @@ export default angular.module('home', [
       this.dossiers = [];
 
       this.GhstsService.edb_get().then( result => {
-        this.dossiers = JSON.parse(result.data);
+        this.dossiers = JSON.parse(result.data)
+                        .map(dossier => {
+                          dossier.productname = dossier.product[0].genericproductname;
+                          return dossier;
+                        });
         this.results = this.dossiers.slice();
       });
       this.toolbarItems = {
@@ -82,7 +86,11 @@ export default angular.module('home', [
       this.dossier = this.dossiers.filter(dossier => {
         return dossier._id === id;
       })[0];
-      this.submissions = this.dossier.submission;
+      this.submissions = this.dossier.submission.map(sub => {
+        sub.packagetype = sub.incremental ? 'Incremental' : 'Full';
+        sub.dossierdescriptiontitle = this.dossier.dossierdescriptiontitle;
+        return sub;
+      });
     }
 
     newDossier() {
@@ -111,9 +119,9 @@ export default angular.module('home', [
     }
 
     selectSubmission(id, index) {
-      this.$state.go('submission.receivers', {
-        dossierPID: this.dossier.dossierpid,
-        submissionNumber: this.submission[index].submissionnumber
+      this.$state.go('submission.description', {
+        dossierid: this.dossier._id,
+        submissionid: this.submissions[index]._id
       });
     }
 
@@ -132,11 +140,11 @@ export default angular.module('home', [
       //   });
       this.PicklistService.edb_put(
       {
-    TYPE_NAME: 'EXTENSION_TYPE_ADMIN_NUMBER_TYPE', 
+    TYPE_NAME: 'EXTENSION_TYPE_ADMIN_NUMBER_TYPE',
     value: 'AAAAAAAAAAAAAAAAA',
     valuedecode: 'AAAAAAAAAAAAAAAAA',
-    isExt: true        
-      }        
+    isExt: true
+      }
       ).then(ret =>{
         console.log('it is /// ' + ret );
       });

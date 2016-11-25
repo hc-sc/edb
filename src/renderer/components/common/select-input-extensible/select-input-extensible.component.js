@@ -37,10 +37,6 @@ export default angular.module('selectInputExtensible', [
       this.valuedecode = '';
     }
 
-    $onChanges(changes) {
-      console.log(changes);
-    }
-
     toggleAdd() {
       this.adding = !this.adding;
     }

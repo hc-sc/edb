@@ -34,20 +34,18 @@ export default angular.module('tbl', [
     constructor() {
       this.searchIcon = { name: 'search', label: 'Search' };
       this.addIcon = { name: 'add', label: 'Add' };
-      this.deleteIcon = { name: 'delete', label: 'Delete' };
+      this.deleteIcon = { name: 'delete', label: 'Delete', color: 'dark' };
       this.closeIcon = { name: 'close', label: 'Close', color: 'dark' };
       this.sortField = this.defaultSort ? this.defaultSort : '';
       this.reverse = this.defaultReverse ? true : false;
-      this.deletable = false;
-
+      this.deletable = this.deletable || true;
       this.search = false;
       this.searchText = '';
       this.mapProjection();
-
-      console.log(this.rows, this.rows.length, this.minItems);
     }
 
     $onChanges() {
+      console.log('changed');
       this.mapProjection();
     }
 
@@ -63,24 +61,23 @@ export default angular.module('tbl', [
 
     // takes the input and re-orders the rows
     mapProjection() {
-      this.headers = this.projection.map(item => {
-        return { name: item, paramName: item };
-      });
-   //   this.items=[{"substanceidentifiertype":"5829db075ec38012b06983f3","identifier":"134098-61-6","_id":"58346871d016a9122c3e5fa0","TYPE_NAME":"GHSTS.GHSTS.SUBSTANCES.SUBSTANCE.SUBSTANCEIDENTIFIER"}];
-      this.rows = this.items.map(item => {
-        let row = [];
-        for (let header of this.headers) {
-          row.push(item[header.name]);
-        }
-        row.push(item['_id']);
-        return row;
-      });
-    }
+      if (this.projection) {
+        this.headers = this.projection.map(item => {
+          return { name: item, paramName: item };
+        });
+      }
 
-    // checks if the data cell should be displayed, if the current key is in the projection
-    // inProjection(key) {
-    //   return (this.projection.indexOf(key) >= 0) ? true : false;
-    // }
+      if (this.items) {
+        this.rows = this.items.map(item => {
+          let row = [];
+          for (let header of this.headers) {
+            row.push(item[header.name]);
+          }
+          row.push(item['_id']);
+          return row;
+        });
+      }
+    }
 
     update(prop, value) {
       this[prop] = value;
