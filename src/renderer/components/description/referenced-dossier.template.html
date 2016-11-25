@@ -10,14 +10,12 @@
         </md-button>
       </div>
     </md-toolbar>
-
     <md-dialog-content>
       <div class='md-dialog-content'>
-        <text-input label='Reason' text-value='$ctrl.referencedDossier.REFERENCED_DOSSIER_REASON' on-update='$ctrl.update("REFERENCED_DOSSIER_REASON", value)'></text-input>
-        <text-input label='Dossier Number' text-value='$ctrl.referencedDossier.REFERENCED_DOSSIER_NUMBER' on-update='$ctrl.update("REFERENCED_DOSSIER_NUMBER", value)'></text-input>
+        <text-input label='Reason' text-value='$ctrl.referencedDossier.referenceddossierreason' on-update='$ctrl.update("referenceddossierreason", value)'></text-input>
+        <text-input label='Dossier Number' text-value='$ctrl.referencedDossier.referenceddossiernumber' on-update='$ctrl.update("referenceddossiernumber", value)'></text-input>
       </div>
     </md-dialog-content>
-
     <md-dialog-actions layout='row'>
       <span flex></span>
       <md-button ng-click='$ctrl.confirm()'>Okay</md-button>

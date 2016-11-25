@@ -119,10 +119,9 @@ export default angular.module('home', [
     }
 
     selectSubmission(id, index) {
-      this.submission = this.submissions[index];
       this.$state.go('submission.description', {
-        dossierPID: this.dossier.dossierpid,
-        submissionNumber: this.submissions[index].submissionnumber
+        dossierid: this.dossier._id,
+        submissionid: this.submissions[index]._id
       });
     }
 

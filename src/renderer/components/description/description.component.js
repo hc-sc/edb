@@ -17,84 +17,102 @@ export default angular.module('description', [
   Icon,
   Tbl
 ])
-.component('description', {
-  template,
-  bindings: {
-    submission: '<'
-  },
-  controller: class DescriptionCtrl {
-    constructor($mdDialog, $state) {
-      this.$state = $state;
-      this.$mdDialog = $mdDialog;
+  .component('description', {
+    template,
+    bindings: {
+      submission: '<',
+      dossier: '<'
+    },
+    controller: class DescriptionCtrl {
+      constructor($mdDialog, $state, $stateParams, AppDataService) {
+        this.$state = $state;
+        this.$mdDialog = $mdDialog;
 
-      this.dossierraProjection = [
-        'REGULATORY_TYPE',
-        'APPLICATION_TYPE',
-        'PROJECT_ID_NUMBER'
-      ];
+        this.loading = true;
+        this.AppDataService = AppDataService.getService();
 
-      this.referencedDossierProjection = [
-        'referenceddossier_REASON',
-        'referenceddossier_NUMBER'
-      ];
+        this.AppDataService
+          .edb_get({ url: 'submission', data: { _id: $stateParams.submissionid } })
+          .then(ret => {
+            this.submission = JSON.parse(ret.data)[0];
+            return this.AppDataService.edb_get({ url: 'dossier', data: { _id: $stateParams.dossierid } });
+          })
+          .then(ret => {
+            this.dossier = JSON.parse(ret.data)[0];
+            // this.markDeletable();
+            this.toolbarItems.title = this.dossier.dossierdescriptiontitle;
+            this.loading = false;
+          })
+          .catch(err => {
+            console.log(err);
+          });
 
-      this.markDeletable();
-      this.incremental = true;
-    }
+        this.dossierraProjection = [
+          'regulatorytype',
+          'applicationtype',
+          'projectidnumber'
+        ];
 
-    update(prop, value) {
-      this.submission[prop] = value;
-    }
+        this.referencedDossierProjection = [
+          'referenceddossierreason',
+          'referenceddossiernumber'
+        ];
 
-    /** set up business rules as to which items are deletable */
-    markDeletable() {
-      for (let dossierra of this.submission.dossierra) {
-        dossierra.deletable = true;
+      }
+
+      update(prop, value) {
+        this.submission[prop] = value;
+      }
+
+      /** set up business rules as to which items are deletable */
+      markDeletable() {
+        for (let dossierra of this.dossier.dossierra) {
+          dossierra.deletable = true;
+        }
+      }
+
+      select(nodeName, index) {
+        //get object by name to remove if/else, add diagram object map
+        if (nodeName === 'dossierra') {
+          this.$mdDialog.show({
+            template: dossierraTemplate,
+            controllerAs: '$ctrl',
+            controller: dossierraCtrl,
+            locals: {
+              index,
+              dossierra: this.dossier.dossierra[index]
+            }
+          })
+            .then(item => {
+              this.dossier.dossierra[index] = item;
+              // angular doesn't trigger update if just one element is updated, need to change the object itself
+              this.dossier.dossierra = this.dossier.dossierra.slice();
+            }, item => {
+              console.log('cancelled ', item);
+            });
+        }
+        else if (nodeName === 'referenceddossier') {
+          this.$mdDialog.show({
+            template: referencedDossierTemplate,
+            controllerAs: '$ctrl',
+            controller: ReferencedDossierCtrl,
+            locals: {
+              index,
+              referencedDossier: this.dossior.referenceddossier[index]
+            }
+          })
+            .then(item => {
+              this.dossior.referenceddossier[index] = item;
+              // angular doesn't trigger update if just one element is updated, need to change the object itself
+              this.dossior.referenceddossier = this.dossior.referenceddossier.slice();
+            }, item => {
+              console.log('cancelled ', item);
+            });
+        }
       }
     }
-
-    select(nodeName, index) {
-      //get object by name to remove if/else, add diagram object map
-      if (nodeName === 'dossierra') {
-        this.$mdDialog.show({
-          template: dossierraTemplate,
-          controllerAs: '$ctrl',
-          controller: dossierraCtrl,
-          locals: {
-            index,
-            dossierra: this.submission.dossierra[index]
-          }
-        })
-        .then(item => {
-          this.submission.dossierra[index] = item;
-          // angular doesn't trigger update if just one element is updated, need to change the object itself
-          this.submission.dossierra = this.submission.dossierra.slice();
-        }, item => {
-          console.log('cancelled ', item);
-        });
-      }
-      else if (nodeName === 'referenceddossier') {
-        this.$mdDialog.show({
-          template: referencedDossierTemplate,
-          controllerAs: '$ctrl',
-          controller: ReferencedDossierCtrl,
-          locals: {
-            index,
-            referencedDossier: this.submission.referenceddossier[index]
-          }
-        })
-        .then(item => {
-          this.submission.referenceddossier[index] = item;
-          // angular doesn't trigger update if just one element is updated, need to change the object itself
-          this.submission.referenceddossier = this.submission.referenceddossier.slice();
-        }, item => {
-          console.log('cancelled ', item);
-        });
-      }
-    }
-  }
-})
-.name;
+  })
+  .name;
 
 class dossierraCtrl {
   constructor(index, dossierra, $mdDialog) {
