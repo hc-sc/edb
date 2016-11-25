@@ -1,0 +1,27 @@
+<!-- Ideally we find a way to do mixins here, where the outer tags are injected with the inner
+tags specific to that node -->
+
+<md-dialog aria-label='referenced dossier' flex='80'>
+  <form ng-cloak>
+    <md-toolbar>
+      <div class='md-toolbar-tools'>
+        <h2>{{ $ctrl.title }}</h2>
+        <span flex></span>
+        <md-button class='md-icon-button' ng-click='$ctrl.cancel()'>
+          <md-icon md-svg-icon='close' aria-label='close dialog' class='light'></md-icon>
+          <md-tooltip>Close</md-tooltip>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <!-- inject modal here -->
+    </md-dialog-content>
+
+    <md-dialog-actions layout='row'>
+      <span flex></span>
+      <md-button ng-click='$ctrl.confirm()'>Okay</md-button>
+      <md-button ng-click='$ctrl.cancel()'>Cancel</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

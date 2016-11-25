@@ -53,10 +53,6 @@ export default angular.module('description', [
       }
     }
 
-    delete(nodeName, index) {
-      this.submission[nodeName].splice(index, 1);
-    }
-
     select(nodeName, index) {
       //get object by name to remove if/else, add diagram object map
       if (nodeName === 'dossierra') {

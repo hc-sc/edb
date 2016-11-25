@@ -72,4 +72,4 @@ export class SubstancesCtrl extends BaseCtrl {
   delete(name,index){
     console.log(index);
   }
-} 
+}

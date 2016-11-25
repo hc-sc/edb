@@ -141,11 +141,11 @@ export default angular.module('home', [
       //   });
       this.PicklistService.edb_put(
       {
-    TYPE_NAME: 'EXTENSION_TYPE_ADMIN_NUMBER_TYPE', 
+    TYPE_NAME: 'EXTENSION_TYPE_ADMIN_NUMBER_TYPE',
     value: 'AAAAAAAAAAAAAAAAA',
     valuedecode: 'AAAAAAAAAAAAAAAAA',
-    isExt: true        
-      }        
+    isExt: true
+      }
       ).then(ret =>{
         console.log('it is /// ' + ret );
       });

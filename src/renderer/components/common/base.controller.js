@@ -1,21 +1,22 @@
+import angular from 'angular';
 import AppDataService from '../../services/app.data.service';
 import PicklistService from '../../services/picklist.service';
 
 export default class BaseCtrl {
-  constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, url) {
+  constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, url, $scope) {
     this.$mdDialog = $mdDialog;
     this.$mdToast = $mdToast;
     this.$state = $state;
     this.url = url;
     this.picklistService = PicklistService.getService();
     this.appDataService = AppDataService.getService();
+    this.$scope = $scope;
+    this.sidenavOpen = false;
     this.loading = true;
 
     this.getAppData().then(records => {
-      console.log(records);
       this.records = JSON.parse(records.data);
       this.selected = this.records[0];
-      console.log(this.selected);
 
       this.loading = false;
     });
@@ -29,7 +30,9 @@ export default class BaseCtrl {
     return this.appDataService.edb_put({url});
   }
 
-  updateAppData(data = {}, url = this.url) {}
+  updateAppData(data = {}, url = this.url) {
+    return this.appDataService.edb_post(data);
+  }
 
   deleteAppData(id, url = this.url) {}
 
@@ -37,9 +40,59 @@ export default class BaseCtrl {
     return this.picklistService.edb_get({ 'TYPE_NAME': typename });
   }
 
+  // generates a picklist item.
+  // prop - the node your changing
+  // arr - the array of picklist items used to population the select field
+  // value - the new picklist value
+  createPicklistItem(prop, arr, value) {
+    return this.picklistService.edb_put(value)
+    .then(result => {
+      let item = JSON.parse(result.data);
+      this[arr].push(item);
+
+      // need to allow the select component to update BEFORE assigning a new selected
+      // in the future, have the select component use lifecycle methods to return when it is finished
+      setTimeout(() => {
+        this.selected[prop] = item._id;
+      }, 200);
+
+      this.showMessage(value.valuedecode + ' added successfully!');
+    })
+    .catch(err => {
+      this.showMessage('Error creating new picklist item');
+    });
+  }
+
   getGHSTS() {}
 
+  // update the field values, only works for first level deep items
+  // overload it if you need additional ones
+  update(prop, value) {
+    this.selected[prop] = value;
+  }
 
+  // toggles whether the sidenav component is open or not
+  toggleList() {
+    this.sidenavOpen = !this.sidenavOpen;
+  }
+
+  deleteTblItem(nodeName, index) {
+    // need to change the reference so the lists know to update
+    this.selected[nodeName] =
+      this.selected[nodeName].slice(0, index).concat(this.selected[nodeName].slice(index+1));
+  }
+
+  // enables selection from tables
+  selectTblItem(nodeName, index) {
+    this.$mdDialog.show(this.buildModal(nodeName, index))
+    .then(item => {
+      this.selected[nodeName][index] = item;
+      this.selected[nodeName] = this.selected[nodeName].slice();
+      this.showMessage('Updated');
+    }, item => {
+      this.showMessage('Cancelled');
+    });
+  }
 
   // used to display notifications to the user
   showMessage(message) {
@@ -51,6 +104,7 @@ export default class BaseCtrl {
     );
   }
 
+  // updates which sidenav item is being modified
   updateSelected(data) {
     this.selected = this.records.filter(record => {
       return record.id === data.id;
@@ -60,85 +114,50 @@ export default class BaseCtrl {
   // used to compare current node to a valid or old node (for validation and/or updating metadata status)
   equals(node1, node2) {}
 
-  // get(data = {}) {
-  //   return this.AppDataService.edb_get({
-  //     url: this.url,
-  //     data: {}
-  //   });
-  // }
+  // used as a generic function to build our modals
+  buildModal(nodeName, index) {
+    const {template, controller} = getModalValues(nodeName);
+    return {
+      template,
+      controller,
+      controllerAs: '$ctrl',
+      locals: {
+        index,
+        node: angular.copy(this.selected[nodeName][index])
+      }
+    };
+  }
+}
 
-  // createRecord(data) { // set data with url
-  //   return this.AppDataService.edb_put(data);
-  // }
+function getNestedProperty(obj, props) {
+  props = props.split('.');
+  let res = obj;
+  for (let i = 0; i < props.length; ++i) {
+    res = res[props[i]];
+  }
+  return res;
+}
 
-  // saveRecord($event) {
-  //   let that = this;
-  //   if (this.selectedRecord && this.selectedRecord._id) {
-  //     this.AppDataService.edb_post({
-  //       url: this.url,
-  //       data: this.selectedRecord
-  //     }).then(
+// in the future, use templateURL instead to cut down on imports
+import ContactPersonCtrl from '../legal-entities/contact-person/contact-person.controller';
+import contactPersonTemplate from '../legal-entities/contact-person/contact-person.template';
+import LegalEntityIdentifierCtrl from '../legal-entities/identifier/identifier.controller';
+import legalEntityIdentiferTemplate from '../legal-entities/identifier/identifier.template';
 
-  //       affectedRows => {
-  //         console.log("test");
-  //         that.$mdDialog.show(
-  //           that.$mdDialog
-  //           .alert()
-  //           .clickOutsideToClose(true)
-  //           .title('Success')
-  //           .content('Data Updated Successfully!')
-  //           .ok('Ok')
-  //           .targetEvent($event)
-  //         )
-  //       }
+function getModalValues(nodeName) {
+  switch(nodeName) {
+    case 'contactperson':
+      return {
+        template: contactPersonTemplate,
+        controller: ContactPersonCtrl
+      };
 
-  //     );
-  //   } else {
-  //     this.AppDataService.edb_put({
-  //       url: this.url,
-  //       data: this.selectedRecord
-  //     }).then(affectedRows =>
-  //       that.$mdDialog.show(
-  //         that.$mdDialog
-  //         .alert()
-  //         .clickOutsideToClose(true)
-  //         .title('Success')
-  //         .content('Data Added Successfully!')
-  //         .ok('Ok')
-  //         .targetEvent($event)
-  //       )
-  //     );
-
-  //     // refresh the substance list
-  //     that.getRecords();
-  //   }
-
-  //   console.log("save record");
-  // }
-  // addRecord(name) { //factory method by entity name
-  //   let record = NewFactory.getObject(name);
-  //   //substance.SUBSTANCE_NAME = 'New';
-  //   this.records.push(record);
-  //   this.selectedRecord = record;
-  //   this.selectedIndex = this.records.length - 1;
-  // }
-  // deleteRecord($event) {
-
-  //   let confirm = this.$mdDialog.confirm()
-  //     .title('Are you sure?')
-  //     .content('Are you sure you want to delete this substance?')
-  //     .ok('Yes')
-  //     .cancel('No')
-  //     .targetEvent($event);
-
-  //   this.$mdDialog.show(confirm).then(() => {
-  //     console.log("delete record.");
-  //     // that.DossierDataService.edb_delete({ url: this.url, data: {} });
-  //   });
-
-
-  // }
-  // updateRecord(data) {
-  //   this.AppDataService.edb_post(data);
-  // }
+    case 'legalentityidentifier':
+      return {
+        template: legalEntityIdentiferTemplate,
+        controller: LegalEntityIdentifierCtrl
+      }
+    default:
+      return null;
+  }
 }

@@ -29,13 +29,12 @@ export default angular.module('legalEntities', [
   },
 
   controller: class LECtrl extends BaseCtrl {
-    constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService) {
-      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, 'legalentity');
+    constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, $scope) {
+      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, 'legalentity', $scope);
 
       this.legalEntityTypes = JSON.parse(this.legalEntityType.data);
       this.legalEntityIdentifierTypes = JSON.parse(this.legalEntityIdentifierType.data);
       this.countries = JSON.parse(this.countries.data);
-
     }
 
     add(item) {
@@ -43,36 +42,17 @@ export default angular.module('legalEntities', [
     }
 
     save() {
-
-      console.log(this.selected);
-    }
-
-    toggleList() {
-      this.sidenavOpen = !this.sidenavOpen;
-    }
-
-    createPicklistItem(prop, arr, value) {
-      console.log(prop, value);
-      return this.picklistService.edb_put(value)
+      this.updateAppData(angular.copy(this.selected))
       .then(result => {
-        let item = JSON.parse(result.data);
-        this[arr].push(item);
-
-        // need to allow the select component to update before assigning a new selected
-        // in the future, have the select component use lifecycle methods to return when it is finished
-        setTimeout(() => {
-          this.selected[prop] = item._id;
-        }, 200);
-
-        this.showMessage(value.valuedecode + ' added successfully!');
+        this.showMessage('Saved successfully');
       })
       .catch(err => {
-        this.showMessage('Error creating new picklist item');
+        this.showMessage(err);
       });
     }
 
-    update(prop, value) {
-      this.selected[prop] = value;
+    updateContactAddress(prop, value) {
+      this.selected.contactaddress[prop] = value;
     }
   }
 })
