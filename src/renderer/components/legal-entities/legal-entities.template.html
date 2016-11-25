@@ -1,34 +1,36 @@
 <section class='node-page'>
   <spinner ng-if='$ctrl.loading'></spinner>
-  <sidenav items='$ctrl.records' main='legalentityname' is-open='$ctrl.sidenavOpen' on-select='$ctrl.updateSelected(item)' on-add='$ctrl.add(item)'></sidenav>
-  <text-input label='PID' is-disabled='true' text-value='$ctrl.selected.legalentitypid' on-update='$ctrl.update("legalentitypid", value)'></text-input>
-  <text-input label='Name' text-value='$ctrl.selected.legalentityname' on-update='$ctrl.update("legalentityname", value)'></text-input>
-  <select-input-extensible label='"Legal Entity Type"' is-required='true' show-value='false' values='$ctrl.legalEntityTypes' select-value='$ctrl.selected.legalentitytype' on-update='$ctrl.update("legalentitytype", value)' on-add='$ctrl.createPicklistItem("legalentitytype", "legalEntityTypes", value)'></select-input-extensible>
-  <text-input label='Other Name' text-value='$ctrl.selected.othername' on-update='$ctrl.update("othername", value)'></text-input>
-  <tbl title='Identifier' items='[]' projection='[]' min-items='1'></tbl>
-  <fieldset>
-    <legend>Contact Address</legend>
-    <text-input label='Street 1' text-value='$ctrl.selected.contactaddress.street1' on-update='update("contactaddress.street1", value)'></text-input>
-    <text-input label='Street 2' text-value='$ctrl.selected.contactaddress.street2' on-update='update("contactaddress.street2", value)'></text-input>
-    <text-input label='Zipcode' text-value='$ctrl.selected.contactaddress.zipcode' on-update='update("contactaddress.zipcode", value)'></text-input>
-    <text-input label='City' text-value='$ctrl.selected.contactaddress.city' on-update='update("contactaddress.city", value)'></text-input>
-    <text-input label='State' text-value='$ctrl.selected.contactaddress.state' on-update='update("contactaddress.state", value)'></text-input>
-    <select-input label='Country' show-value='true' select-value='$ctrl.selected.contactaddress.country' values='$ctrl.countries' on-update='$ctrl.update("contactaddress.country", value)'></select-input>
-    <text-input label='Phone' text-value='$ctrl.selected.contactaddress.phone' on-update='update("contactaddress.phone", value)'></text-input>
-    <text-input label='Fax' text-value='$ctrl.selected.contactaddress.fax' on-update='update("contactaddress.fax", value)'></text-input>
-    <text-input label='Email' text-value='$ctrl.selected.contactaddress.email' on-update='update("contactaddress.email", value)'></text-input>
-    <text-input label='Website' text-value='$ctrl.selected.contactaddress.website' on-update='update("contactaddress.website", value)'></text-input>
-  </fieldset>
-  <tbl title='Contacts' items='[]' projection='[]'></tbl>
-  <div style='z-index:100' class='float-bottom'>
-    <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
-      <md-icon md-svg-icon='save' class='light'></md-icon>
-    </md-button>
-    <md-button aria-label='Add New Item' class='md-fab md-primary' ng-click='$ctrl.add()'>
-      <md-icon md-svg-icon='add' class='light'></md-icon>
-    </md-button>
-    <md-button aria-label='Toggle List' class='md-fab md-primary' ng-click='$ctrl.toggleList()'>
-      <md-icon md-svg-icon='list' class='light'></md-icon>
-    </md-button>
+  <div class='no-margin no-padding' ng-if='!ctrl.loading'>
+    <sidenav items='$ctrl.records' main='legalentityname' is-open='$ctrl.sidenavOpen' on-select='$ctrl.updateSelected(item)' on-add='$ctrl.add(item)'></sidenav>
+    <text-input label='PID' is-disabled='true' text-value='$ctrl.selected.legalentitypid' on-update='$ctrl.update("legalentitypid", value)'></text-input>
+    <text-input label='Name' text-value='$ctrl.selected.legalentityname' on-update='$ctrl.update("legalentityname", value)'></text-input>
+    <select-input-extensible label='"Legal Entity Type"' is-required='true' show-value='false' values='$ctrl.legalEntityTypes' select-value='$ctrl.selected.legalentitytype' on-update='$ctrl.update("legalentitytype", value)' on-add='$ctrl.createPicklistItem("legalentitytype", "legalEntityTypes", value)'></select-input-extensible>
+    <text-input label='Other Name' text-value='$ctrl.selected.othername' on-update='$ctrl.update("othername", value)'></text-input>
+    <tbl ng-if='!$ctrl.loading' title='Identifier' items='$ctrl.selected.legalentityidentifier' projection='["identifier"]' min-items='1'></tbl>
+    <fieldset>
+      <legend>Contact Address</legend>
+      <text-input label='Street 1' text-value='$ctrl.selected.contactaddress.street1' on-update='$ctrl.updateContactAddress("street1", value)'></text-input>
+      <text-input label='Street 2' text-value='$ctrl.selected.contactaddress.street2' on-update='$ctrl.update("contactaddress.street2", value)'></text-input>
+      <text-input label='Zipcode' text-value='$ctrl.selected.contactaddress.zipcode' on-update='$ctrl.update("contactaddress.zipcode", value)'></text-input>
+      <text-input label='City' text-value='$ctrl.selected.contactaddress.city' on-update='$ctrl.update("contactaddress.city", value)'></text-input>
+      <text-input label='State' text-value='$ctrl.selected.contactaddress.state' on-update='$ctrl.update("contactaddress.state", value)'></text-input>
+      <select-input label='Country' show-value='true' select-value='$ctrl.selected.contactaddress.country' values='$ctrl.countries' on-update='$ctrl.update("contactaddress.country", value)'></select-input>
+      <text-input label='Phone' text-value='$ctrl.selected.contactaddress.phone' on-update='$ctrl.update("contactaddress.phone", value)'></text-input>
+      <text-input label='Fax' text-value='$ctrl.selected.contactaddress.fax' on-update='$ctrl.update("contactaddress.fax", value)'></text-input>
+      <text-input label='Email' text-value='$ctrl.selected.contactaddress.email' on-update='$ctrl.update("contactaddress.email", value)'></text-input>
+      <text-input label='Website' text-value='$ctrl.selected.contactaddress.website' on-update='$ctrl.update("contactaddress.website", value)'></text-input>
+    </fieldset>
+    <tbl ng-if='!$ctrl.loading' title='Contacts' items='$ctrl.selected.contactperson' projection='["lastname", "firstname", "title", "email"]' on-select='$ctrl.selectItem("contactperson", index)' on-delete='$ctrl.deleteTblItem("contactperson", index)'></tbl>
+    <div style='z-index:100' class='float-bottom'>
+      <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
+        <md-icon md-svg-icon='save' class='light'></md-icon>
+      </md-button>
+      <md-button aria-label='Add New Item' class='md-fab md-primary' ng-click='$ctrl.add()'>
+        <md-icon md-svg-icon='add' class='light'></md-icon>
+      </md-button>
+      <md-button aria-label='Toggle List' class='md-fab md-primary' ng-click='$ctrl.toggleList()'>
+        <md-icon md-svg-icon='list' class='light'></md-icon>
+      </md-button>
+    </div>
   </div>
 </section>

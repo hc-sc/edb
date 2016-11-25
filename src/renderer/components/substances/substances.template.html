@@ -7,8 +7,12 @@
   <select-input-extensible show-value='false' values='$ctrl.metadataStatusOptions' select-value='$ctrl.metadataStatusOptions'
     on-update='$ctrl.update("metadataStatusOptions", value)'></select-input-extensible>
 
+<<<<<<< HEAD
   <tbl ng-if='!$ctrl.loading' title='Substance Identifier' items='$ctrl.selected.substanceidentifier' projection='$ctrl.identifierProjection'
     on-select='$ctrl.select("substanceidentifier",index)' on-delete='$ctrl.delete("substanceidentifier",index)' deletable='true'></tbl>
+=======
+  <tbl ng-if='!$ctrl.loading' title='Substance Identifier' items='$ctrl.selected.substanceidentifier' projection='$ctrl.identifierProjection' on-select='$ctrl.select("substanceidentifier",index)' on-delete='$ctrl.deleteTblItem("substanceidentifier",index)' deletable='true'></tbl>
+>>>>>>> 67e7ac0f47d2d4508846fbeb127fc4cef6efec3d
 
   <div style='z-index:100' class='float-bottom'>
     <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>

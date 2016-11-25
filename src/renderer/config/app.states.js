@@ -10,12 +10,29 @@ export default function ($stateProvider, $urlRouterProvider) {
     })
     .state('submission', {
       abstract: true,
-      url: '/submission/:dossierPID/:submissionNumber',
+      url: '/submission/:submissionid/:dossierid',
       component: 'submission',
       resolve: {
-        submission: (DossierService, $stateParams) => {
-          return DossierService.getSubmission($stateParams.dossierPID, $stateParams.submissionNumber);
-        }
+        // submission: (AppDataService, $stateParams) => {
+        //   console.log($stateParams.submissionid);
+        //   AppDataService.getService()
+        //     .edb_get({url: 'submission', data: {_id: '583605871b3d001308987898'}})
+        //     .then(ret => {
+        //       let retVal = JSON.parse(ret.data);
+        //       console.log('submission resolved - ' + retVal.length);
+        //       return retVal[0];
+        //     });
+        // },
+        // dossier: (AppDataService, $stateParams) => {
+        //   console.log($stateParams.dossierid);
+        //   AppDataService.getService()            
+        //     .edb_get({url: 'dossier', data: {_id: '583605871b3d0013089878bf'}})
+        //     .then(ret => {
+        //       let retVal = JSON.parse(ret.data);
+        //       console.log('dossier resolved - ' + retVal.length);
+        //       return retVal[0];
+        //     });
+        // }
       }
     })
     .state('submission.receivers', {
