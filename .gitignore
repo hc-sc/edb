@@ -6,3 +6,4 @@ projects
 css
 data
 prepublish
+src/renderer/view-models/gen
