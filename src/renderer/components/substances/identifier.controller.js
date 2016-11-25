@@ -1,9 +1,10 @@
 export default class IdentifierCtrl {
-  constructor(index, identifer,identifierTypeOptions, $mdDialog) {
+  constructor(index, identifer, identifierTypeOptions, PicklistService, $mdDialog) {
     this.$mdDialog = $mdDialog;
     this.identifer = this.clone(identifer);
     this.index = index;
-    this.identifierTypeOptions=identifierTypeOptions;
+    this.identifierTypeOptions = identifierTypeOptions;
+    this.picklistService = PicklistService.getService();
   }
 
   // this will need to be upgrades for nested objects
