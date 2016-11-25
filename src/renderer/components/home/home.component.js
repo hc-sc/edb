@@ -39,7 +39,11 @@ export default angular.module('home', [
       this.dossiers = [];
 
       this.GhstsService.edb_get().then( result => {
-        this.dossiers = JSON.parse(result.data);
+        this.dossiers = JSON.parse(result.data)
+                        .map(dossier => {
+                          dossier.productname = dossier.product[0].genericproductname;
+                          return dossier;
+                        });
         this.results = this.dossiers.slice();
       });
       this.toolbarItems = {
@@ -82,7 +86,11 @@ export default angular.module('home', [
       this.dossier = this.dossiers.filter(dossier => {
         return dossier._id === id;
       })[0];
-      this.submissions = this.dossier.submission;
+      this.submissions = this.dossier.submission.map(sub => {
+        sub.packagetype = sub.incremental ? 'Incremental' : 'Full';
+        sub.dossierdescriptiontitle = this.dossier.dossierdescriptiontitle;
+        return sub;
+      });
     }
 
     newDossier() {
@@ -111,9 +119,10 @@ export default angular.module('home', [
     }
 
     selectSubmission(id, index) {
-      this.$state.go('submission.receivers', {
+      this.submission = this.submissions[index];
+      this.$state.go('submission.description', {
         dossierPID: this.dossier.dossierpid,
-        submissionNumber: this.submission[index].submissionnumber
+        submissionNumber: this.submissions[index].submissionnumber
       });
     }
 

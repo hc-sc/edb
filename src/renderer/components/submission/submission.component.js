@@ -43,7 +43,7 @@ export default angular.module('submission', [
             { name: 'back', label: 'Back', state: 'home' },
             { name: 'home', label: 'Home', state: 'splash' }
           ],
-          title: this.submission.DOSSIER_DESCRIPTION_TITLE,
+          title: 'test',//this.submission.dossierdescriptiontitle,
           functionIcons: [
             { name: 'save', label: 'Save' },
             { name: 'globals', label: 'App Data', state: 'globals.legalEntities' },
