@@ -3,14 +3,14 @@ import AppDataService from '../../services/app.data.service';
 import PicklistService from '../../services/picklist.service';
 
 export default class BaseCtrl {
-  constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, url, $scope) {
+  constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, url, $http) {
     this.$mdDialog = $mdDialog;
     this.$mdToast = $mdToast;
     this.$state = $state;
+    this.$http = $http;
     this.url = url;
     this.picklistService = PicklistService.getService();
     this.appDataService = AppDataService.getService();
-    this.$scope = $scope;
     this.sidenavOpen = false;
     this.loading = true;
 
@@ -27,7 +27,8 @@ export default class BaseCtrl {
   }
 
   createAppData(data = {}, url = this.url) {
-    return this.appDataService.edb_put({url});
+    console.log('here');
+    return this.appDataService.edb_put(data, url);
   }
 
   updateAppData(data = {}, url = this.url) {
@@ -65,13 +66,37 @@ export default class BaseCtrl {
 
   getGHSTS() {}
 
+  // update an item in the database
+  save() {
+    console.log(this.selected);
+    // if it doesn't have an id, it's a new item that has been in the database yet
+    if (!this.selected.hasOwnProperty('_id')) {
+      this.createAppData(angular.copy(this.selected))
+      .then(result => {
+        console.log(result);
+      })
+      .catch(err => {
+        this.showMessage(err);
+      });
+    }
+    else {
+      this.updateAppData(angular.copy(this.selected))
+      .then(result => {
+        this.showMessage('Saved successfully');
+      })
+      .catch(err => {
+        this.showMessage(err);
+      });
+    }
+  }
+
   // update the field values, only works for first level deep items
   // overload it if you need additional ones
   update(prop, value) {
     this.selected[prop] = value;
   }
 
-  // toggles whether the sidenav component is open or not
+  // toggles whether the sidenav component is open or not for listable components
   toggleList() {
     this.sidenavOpen = !this.sidenavOpen;
   }
@@ -116,6 +141,7 @@ export default class BaseCtrl {
 
   // used as a generic function to build our modals
   buildModal(nodeName, index) {
+    console.log(nodeName, index);
     const {template, controller} = getModalValues(nodeName);
     return {
       template,
@@ -127,15 +153,6 @@ export default class BaseCtrl {
       }
     };
   }
-}
-
-function getNestedProperty(obj, props) {
-  props = props.split('.');
-  let res = obj;
-  for (let i = 0; i < props.length; ++i) {
-    res = res[props[i]];
-  }
-  return res;
 }
 
 // in the future, use templateURL instead to cut down on imports

@@ -6,7 +6,7 @@
   </md-input-container>
   <md-divider></md-divider>
   <md-list>
-    <md-list-item ng-repeat='item in $ctrl.items | orderBy:item.name:true | filter:$ctrl.searchText' ng-click='$ctrl.select(item)'>
+    <md-list-item ng-repeat='item in $ctrl.items | orderBy:item[$ctrl.main] | filter:$ctrl.searchText' ng-click='$ctrl.select(item)'>
       <p>{{ item[$ctrl.main] }}</p>
     </md-list-item>
   </md-list>
