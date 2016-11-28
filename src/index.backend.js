@@ -270,7 +270,7 @@ app.on('ready', function () {
   mainWindow.loadURL('file://' + __dirname + '/../build/renderer/index.html');
   mainWindow.webContents.on('did-finish-load', function () {
     // TODO: setTitle is being deprecated, find and use alternative
-    mainWindow.setTitle("e-Dossier Builder (V1.0.0)");
+    mainWindow.setTitle("e-Dossier Builder (V1.1.0)");
     //if (configure.env.toString().toUpper() == 'DEV'){
     mainWindow.openDevTools();
     backendTest();
@@ -282,11 +282,43 @@ app.on('ready', function () {
 
 //Test request
 // const testService = require('./services/picklist.service');
-//const testService = require('./services/dossier.service');
-//const testService = require('./services/substance.service');
+// const testService = require('./services/dossier.service');
+// const testService = require('./services/substance.service');
 var backendTest = () => {
-  // console.log('--------- Backend Test Start ----------');
-  // let svr = new testService();
+//  console.log('--------- Backend Test Start ----------');
+//  let svr = new testService();
+
+//  svr.edb_put({
+//           "TYPE_NAME": "GHSTS.GHSTS.SUBSTANCES.SUBSTANCE",
+//           "id": "IDS0000003333",
+//           "metadatastatus": 'aaa',
+//           "substancename": "RGA1608-05",
+//           "substancepid": "urn:ghsts:9A5C394B-872E-433B-A391-00899F06613E",
+//           "substanceidentifier": [
+//             {
+//               "TYPE_NAME": "GHSTS.GHSTS.SUBSTANCES.SUBSTANCE.SUBSTANCEIDENTIFIER",
+//               "substanceidentifiertype":'bbb',
+//               "identifier": "616890-34-1"
+//             },
+//             {
+//               "TYPE_NAME": "GHSTS.GHSTS.SUBSTANCES.SUBSTANCE.SUBSTANCEIDENTIFIER",
+//               "substanceidentifiertype": {
+//                 "TYPE_NAME": "GHSTS.GHSTS.SUBSTANCES.SUBSTANCE.SUBSTANCEIDENTIFIER.SUBSTANCEIDENTIFIERTYPE",
+//                 "value": {
+//                   "TYPE_NAME": "GHSTS.EXTENSIONTYPESUBSTANCEIDENTIFIERTYPE",
+//                   "value": "IUBMB"
+//                 },
+//                 "valuedecode": "IUBMB"
+//               },
+//               "identifier": "4467"
+//             }
+//           ]
+//  }).then(ret => {
+//    console.log(ret);
+//  }).catch(err => {
+//    console.log(err);
+//  });
+
   // new testService().edb_get({}, true)
   //   .then(result => {
   //  console.log(result.data);

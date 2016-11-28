@@ -4,6 +4,13 @@ const _ = require('lodash');
 const fs = require('fs');
 const path = require('path');
 
+var ignoreEmpty = (val) => {
+  if ('' === val) {
+    return undefined;
+  } else {
+    return val;
+  }
+};
 
 module.exports = class SchemaLoader {
   static loadSchema(name, version) {
@@ -22,7 +29,8 @@ module.exports = class SchemaLoader {
     if (isExtPicklistItem.length === jsonixSchema.propertyInfos.length) {
       cover = {
         type: 'ObjectId',
-        ref: 'Picklist'
+        ref: 'Picklist',
+        set: ignoreEmpty 
       };
       return cover;
     } else
@@ -40,7 +48,8 @@ module.exports = class SchemaLoader {
           if (item.typeInfo.startsWith('.TYPE') || item.typeInfo.startsWith('.EXTENSIONTYPE')) {
             cover = {
               type: 'ObjectId',
-              ref: 'Picklist'
+              ref: 'Picklist',
+              set: ignoreEmpty
             };
           } else {
             cover = SchemaLoader.loadSchema(item.typeInfo.slice(1), version);

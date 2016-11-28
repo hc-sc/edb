@@ -104,6 +104,13 @@ GHSTS.typeInfos.forEach(ghstsDefn => {
     console.log(path + ' was saved!');
     if (vmPath) {
       try {
+        fs.mkdirSync('./src/renderer/view-models/gen');
+      } catch (err) {
+        if (err.code !== 'EEXIST')
+          throw err;
+      }
+
+      try {
         fs.writeFileSync(vmPath, transf2vm(ghstsDefn));
         console.log(vmPath + ' was saved!');
       } catch(err) {
