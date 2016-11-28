@@ -27,9 +27,6 @@ export default angular.module('home', [
 ])
 .component('home', {
   template,
-  bindings: {
-//    dossiers: '<'
-  },
   controller: class HomeCtrl {
     constructor($mdDialog, $state, GhstsService, PicklistService) {
       this.$mdDialog = $mdDialog;
@@ -121,7 +118,8 @@ export default angular.module('home', [
     selectSubmission(id, index) {
       this.$state.go('submission.description', {
         dossierid: this.dossier._id,
-        submissionid: this.submissions[index]._id
+        submissionid: this.submissions[index]._id,
+        dossiertitle: this.dossier.dossierdescriptiontitle
       });
     }
 

@@ -26,10 +26,11 @@ export default angular.module('submission', [
       dossierData: '<'
     },
     controller: class SubmissionCtrl {
-      constructor($state, GhstsService, $transitions) {
-        console.log(this.dossierData);
+      constructor($state, GhstsService, $transitions, $rootScope) {
+
         //allows for interrupting state transition (for use with ensuring any modifications are saved)
         this.dereg = $transitions.onBefore({}, (event) => {
+          // SO hacky...
           return true;
         });
 

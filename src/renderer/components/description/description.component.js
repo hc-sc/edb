@@ -24,9 +24,13 @@ export default angular.module('description', [
       dossier: '<'
     },
     controller: class DescriptionCtrl {
-      constructor($mdDialog, $state, $stateParams, AppDataService) {
+      constructor($rootScope, $mdDialog, $state, $stateParams, AppDataService) {
+        console.log($rootScope);
+        this.$rootScope = $rootScope;
+
         this.$state = $state;
         this.$mdDialog = $mdDialog;
+        this.$stateParams = $stateParams;
 
         this.loading = true;
         this.AppDataService = AppDataService.getService();
@@ -61,6 +65,9 @@ export default angular.module('description', [
       }
 
       update(prop, value) {
+        if (prop === 'dossierdescriptiontitle') {
+          this.$rootScope.title = value;
+        }
         this.submission[prop] = value;
       }
 

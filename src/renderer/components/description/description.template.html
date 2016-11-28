@@ -1,8 +1,4 @@
 <section class='node-page'>
-  <div>
-    <toolbar items='$ctrl.toolbarItems'></toolbar>
-    <navbar items='$ctrl.navbarItems'></navbar>
-  </div>
   <spinner ng-if='$ctrl.loading'></spinner>
   <div class='no-margin no-padding' ng-if='!$ctrl.loading'>
     <div class='no-margin no-padding flex-container'>
@@ -11,7 +7,7 @@
     <text-input label='Company ID' is-required='true' text-value='$ctrl.dossier.dossiercompid' has-pattern='^[0-9]*$' message='Needs to be a valid PID'
       on-update='$ctrl.update("dossiercompid", value)' max-length='20'></text-input>
     </div>
-    <text-input label='Title' is-required='true' text-value='$ctrl.dossier.dossierdescriptiontitle' max-length='2000'></text-input>
+    <text-input label='Title' is-required='true' text-value='$ctrl.dossier.dossierdescriptiontitle' max-length='2000' on-update='$ctrl.update("dossierdescriptiontitle", value)'></text-input>
     <md-switch ng-if='!$ctrl.loading' ng-model='$ctrl.submission.incremental' aria-label='Incremental'
       class='md-primary' ng-change='$ctrl.printValue()'>Incremental</md-switch>
     <tbl ng-if='!$ctrl.loading' title='Dossier Regulatory Authorities' items='$ctrl.dossier.dossierra' projection='$ctrl.dossierraProjection' min-items='1'

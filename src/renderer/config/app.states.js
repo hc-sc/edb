@@ -6,45 +6,23 @@ export default function ($stateProvider, $urlRouterProvider) {
     })
     .state('home', {
       url: '/home',
-      component: 'home'
+      component: 'home',
+      onEnter: $rootScope => {
+        $rootScope.title = 'Dossiers';
+      }
     })
     .state('submission', {
       abstract: true,
-      url: '/submission/:submissionid/:dossierid',
+      url: '/submission/:submissionid/:dossiertitle/:dossierid/',
       component: 'submission',
       resolve: {
-        dossierData: (AppDataService, $stateParams) => {
-          return AppDataService.getService()
-          .edb_get({url: 'submission', data: {_id: $stateParams.submissionid}})
-          .then(submission => {
-            console.log(JSON.parse(submission.data)[0].submissiontitle);
-            return {
-              dossierid: $stateParams.dossierid,
-              submissionid: $stateParams.submissionid,
-              submissiontitle: JSON.parse(submission.data).submissiontitle
-            };
-          });
+        dossierData: (AppDataService, $stateParams, $rootScope) => {
+          $rootScope.title = $stateParams.dossiertitle;
+          return {
+            dossierid: $stateParams.dossierid,
+            submissionid: $stateParams.submissionid
+          };
         }
-        // submission: (AppDataService, $stateParams) => {
-        //   console.log($stateParams.submissionid);
-        //   AppDataService.getService()
-        //     .edb_get({url: 'submission', data: {_id: '583605871b3d001308987898'}})
-        //     .then(ret => {
-        //       let retVal = JSON.parse(ret.data);
-        //       console.log('submission resolved - ' + retVal.length);
-        //       return retVal[0];
-        //     });
-        // },
-        // dossier: (AppDataService, $stateParams) => {
-        //   console.log($stateParams.dossierid);
-        //   AppDataService.getService()
-        //     .edb_get({url: 'dossier', data: {_id: '583605871b3d0013089878bf'}})
-        //     .then(ret => {
-        //       let retVal = JSON.parse(ret.data);
-        //       console.log('dossier resolved - ' + retVal.length);
-        //       return retVal[0];
-        //     });
-        // }
       }
     })
     .state('submission.receivers', {
@@ -65,7 +43,10 @@ export default function ($stateProvider, $urlRouterProvider) {
     })
     .state('globals', {
       url: '/globals',
-      component: 'globals'
+      component: 'globals',
+      onEnter: $rootScope => {
+        $rootScope.title = 'Manage Application Data';
+      }
     })
     .state('globals.substances', {
       url: '/substances',
@@ -125,7 +106,10 @@ export default function ($stateProvider, $urlRouterProvider) {
     })
     .state('settings', {
       url: '/settings',
-      component: 'settings'
+      component: 'settings',
+      onEnter: $rootScope => {
+        $rootScope.title = 'Settings';
+      }
     });
 
   $urlRouterProvider.otherwise('/splash');
