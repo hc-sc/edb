@@ -2,7 +2,7 @@
   <form ng-cloak>
     <md-toolbar>
       <div class='md-toolbar-tools'>
-        <h2>Dossier RA</h2>
+        <h2>Identifier</h2>
         <span flex></span>
         <md-button class='md-icon-button' ng-click='$ctrl.cancel()'>
           <md-icon md-svg-icon='close' aria-label='close dialog' class='light'></md-icon>
@@ -13,7 +13,8 @@
 
     <md-dialog-content>
       <div class='md-dialog-content'>
-
+        <text-input label='Identifier' text-value='$ctrl.node.identifier' on-update='$ctrl.update("identifier", value)'></text-input>
+        <select-input label='Identifier Type' selectValue='$ctrl.node.substanceidentifiertype' values='$ctrl.identifierTypeOptions' on-update='$ctrl.update("substanceidentifiertype", value)'></select-input>
       </div>
     </md-dialog-content>
 
