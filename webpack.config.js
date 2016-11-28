@@ -28,6 +28,7 @@ const common = {
   module: {
     loaders: [
       { test: /\.js$/, exclude: /node_modules/, loader: 'babel' },
+      { test: /\.json$/, exclude: /node_modules/, loader: 'json' },
       {
         test: /\.html$/,
         include: path.join(PATHS.src, 'components'),

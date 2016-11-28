@@ -11,6 +11,11 @@ import PicklistService from '../../services/picklist.service';
 import AppDataService from '../../services/app.data.service';
 import BaseCtrl from '../common/base.controller';
 
+import modelLegalEntity from '../../view-models/gen/legalentity.json';
+import modelContactAddress from '../../view-models/gen/contactaddress.json';
+import modelLegalEntityIdentifier from '../../view-models/gen/legalentityidentifier.json';
+import modelContactPerson from '../../view-models/gen/contactperson.json';
+
 export default angular.module('legalEntities', [
   ngMaterial,
   Sidenav,
@@ -29,26 +34,29 @@ export default angular.module('legalEntities', [
   },
 
   controller: class LECtrl extends BaseCtrl {
-    constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, $scope) {
-      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, 'legalentity', $scope);
+    constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, $http) {
+      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, 'legalentity', $http);
 
       this.legalEntityTypes = JSON.parse(this.legalEntityType.data);
       this.legalEntityIdentifierTypes = JSON.parse(this.legalEntityIdentifierType.data);
       this.countries = JSON.parse(this.countries.data);
+
+      this.getModels();
     }
 
-    add(item) {
-      this.showMessage('hi there');
+    getModels() {
+      this.modelContactAddress = Object.assign(modelContactAddress.fields);
+      this.modelContactPerson = Object.assign(modelContactPerson.fields);
+      this.modelLegalEntityIdentifier = Object.assign(modelLegalEntityIdentifier.fields);
+      this.modelLegalEntity = Object.assign(modelLegalEntity.fields);
+      this.modelLegalEntity.contactaddress = Object.assign(this.modelContactAddress);
+      this.modelLegalEntity._url = this.url;
+      console.log(this.modelLegalEntity);
+      console.log(this.modelContactPerson);
     }
 
-    save() {
-      this.updateAppData(angular.copy(this.selected))
-      .then(result => {
-        this.showMessage('Saved successfully');
-      })
-      .catch(err => {
-        this.showMessage(err);
-      });
+    add() {
+      this.selected = angular.copy(this.modelLegalEntity);
     }
 
     updateContactAddress(prop, value) {
