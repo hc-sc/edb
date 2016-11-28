@@ -5,8 +5,9 @@
     <text-input label='PID' is-disabled='true' text-value='$ctrl.selected.legalentitypid' on-update='$ctrl.update("legalentitypid", value)'></text-input>
     <text-input label='Name' text-value='$ctrl.selected.legalentityname' on-update='$ctrl.update("legalentityname", value)'></text-input>
     <select-input-extensible label='"Legal Entity Type"' is-required='true' show-value='false' values='$ctrl.legalEntityTypes' select-value='$ctrl.selected.legalentitytype' on-update='$ctrl.update("legalentitytype", value)' on-add='$ctrl.createPicklistItem("legalentitytype", "legalEntityTypes", value)'></select-input-extensible>
-    <text-input label='Other Name' text-value='$ctrl.selected.othername' on-update='$ctrl.update("othername", value)'></text-input>
-    <tbl ng-if='!$ctrl.loading' title='Identifier' items='$ctrl.selected.legalentityidentifier' projection='["identifier"]' min-items='1'></tbl>
+    <!--<text-input label='Other Name' text-value='$ctrl.selected.othername' on-update='$ctrl.update("othername", value)'></text-input>-->
+    <tbl ng-if='!$ctrl.loading' title='Other Name' items='[]' projection='["othername"]'></tbl>
+    <tbl ng-if='!$ctrl.loading' title='Identifier' items='$ctrl.selected.legalentityidentifier' projection='["identifier"]' on-select='$ctrl.selectTblItem("legalentityidentifier", index)'></tbl>
     <fieldset>
       <legend>Contact Address</legend>
       <text-input label='Street 1' text-value='$ctrl.selected.contactaddress.street1' on-update='$ctrl.updateContactAddress("street1", value)'></text-input>
@@ -20,7 +21,7 @@
       <text-input label='Email' text-value='$ctrl.selected.contactaddress.email' on-update='$ctrl.update("contactaddress.email", value)'></text-input>
       <text-input label='Website' text-value='$ctrl.selected.contactaddress.website' on-update='$ctrl.update("contactaddress.website", value)'></text-input>
     </fieldset>
-    <tbl ng-if='!$ctrl.loading' title='Contacts' items='$ctrl.selected.contactperson' projection='["lastname", "firstname", "title", "email"]' on-select='$ctrl.selectItem("contactperson", index)' on-delete='$ctrl.deleteTblItem("contactperson", index)'></tbl>
+    <tbl ng-if='!$ctrl.loading' title='Contacts' items='$ctrl.selected.contactperson' projection='["lastname", "firstname", "title", "email"]' on-select='$ctrl.selectTblItem("contactperson", index)' on-delete='$ctrl.deleteTblItem("contactperson", index)'></tbl>
     <div style='z-index:100' class='float-bottom'>
       <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
         <md-icon md-svg-icon='save' class='light'></md-icon>

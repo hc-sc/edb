@@ -24,10 +24,6 @@ export default angular.module('sidenav', [
       this.listOpen = false;
     }
 
-    toggleList() {
-      this.isOpen = !this.isOpen;
-    }
-
     select(item) {
       this.onSelect({ item });
     }
