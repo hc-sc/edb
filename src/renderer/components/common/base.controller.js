@@ -28,7 +28,7 @@ export default class BaseCtrl {
 
   createAppData(data = {}, url = this.url) {
     console.log('here');
-    return this.appDataService.edb_put(data, url);
+    return this.appDataService.edb_put({url: url, data: data});
   }
 
   updateAppData(data = {}, url = this.url) {
