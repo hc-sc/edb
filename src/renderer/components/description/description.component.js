@@ -10,6 +10,8 @@ import SelectInput from '../common/select-input/select-input.component';
 import Icon from '../common/icon/icon.component';
 import Tbl from '../common/tbl/tbl.component';
 
+import BaseCtrl from '../common/base.controller';
+
 export default angular.module('description', [
   ngMaterial,
   TextInput,
@@ -20,50 +22,25 @@ export default angular.module('description', [
   .component('description', {
     template,
     bindings: {
-      submission: '<',
-      dossier: '<'
+      dossierData: '<'
     },
-    controller: class DescriptionCtrl {
-      constructor($rootScope, $mdDialog, $state, $stateParams, AppDataService) {
-        console.log($rootScope);
+    controller: class DescriptionCtrl extends BaseCtrl {
+      constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, $rootScope) {
+        super($mdDialog, $mdToast, $state, PicklistService, AppDataService, 'dossier');
         this.$rootScope = $rootScope;
 
-        this.$state = $state;
-        this.$mdDialog = $mdDialog;
-        this.$stateParams = $stateParams;
-
-        this.loading = true;
-        this.AppDataService = AppDataService.getService();
-
-        this.AppDataService
-          .edb_get({ url: 'submission', data: { _id: $stateParams.submissionid } })
-          .then(ret => {
-            this.submission = JSON.parse(ret.data)[0];
-            return this.AppDataService.edb_get({ url: 'dossier', data: { _id: $stateParams.dossierid } });
-          })
-          .then(ret => {
-            this.dossier = JSON.parse(ret.data)[0];
-            // this.markDeletable();
-            this.loading = false;
-          })
-          .catch(err => {
-            console.log(err);
-          });
-
-        // put these in the template to clean up clutter
-        this.dossierraProjection = [
-          'regulatorytype',
-          'applicationtype',
-          'projectidnumber'
-        ];
-
-        this.referencedDossierProjection = [
-          'referenceddossierreason',
-          'referenceddossiernumber'
-        ];
-
+        this.getAppData({_id: this.dossierData.submissionid}, 'submission')
+        .then(result => {
+          this.submission = JSON.parse(result.data)[0];
+          return this.getAppData({_id: this.dossierData.dossierid}, 'dossier');
+        })
+        .then(result => {
+          this.dossier = JSON.parse(result.data)[0];
+          this.loading = false;
+        });
       }
 
+      // need to have one for submission and another for dossier
       update(prop, value) {
         if (prop === 'dossierdescriptiontitle') {
           this.$rootScope.title = value;
@@ -75,46 +52,6 @@ export default angular.module('description', [
       markDeletable() {
         for (let dossierra of this.dossier.dossierra) {
           dossierra.deletable = true;
-        }
-      }
-
-      select(nodeName, index) {
-        //get object by name to remove if/else, add diagram object map
-        if (nodeName === 'dossierra') {
-          this.$mdDialog.show({
-            template: dossierraTemplate,
-            controllerAs: '$ctrl',
-            controller: dossierraCtrl,
-            locals: {
-              index,
-              dossierra: this.dossier.dossierra[index]
-            }
-          })
-            .then(item => {
-              this.dossier.dossierra[index] = item;
-              // angular doesn't trigger update if just one element is updated, need to change the object itself
-              this.dossier.dossierra = this.dossier.dossierra.slice();
-            }, item => {
-              console.log('cancelled ', item);
-            });
-        }
-        else if (nodeName === 'referenceddossier') {
-          this.$mdDialog.show({
-            template: referencedDossierTemplate,
-            controllerAs: '$ctrl',
-            controller: ReferencedDossierCtrl,
-            locals: {
-              index,
-              referencedDossier: this.dossior.referenceddossier[index]
-            }
-          })
-            .then(item => {
-              this.dossior.referenceddossier[index] = item;
-              // angular doesn't trigger update if just one element is updated, need to change the object itself
-              this.dossior.referenceddossier = this.dossior.referenceddossier.slice();
-            }, item => {
-              console.log('cancelled ', item);
-            });
         }
       }
     }

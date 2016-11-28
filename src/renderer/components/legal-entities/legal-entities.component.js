@@ -41,6 +41,7 @@ export default angular.module('legalEntities', [
       this.legalEntityIdentifierTypes = JSON.parse(this.legalEntityIdentifierType.data);
       this.countries = JSON.parse(this.countries.data);
 
+      this.init().then(() => {this.loading = false;});
       this.getModels();
     }
 
@@ -53,8 +54,6 @@ export default angular.module('legalEntities', [
       this.modelLegalEntity._url = this.url;
       this.modelLegalEntity.legalentitytype = this.legalEntityTypes[0];
       this.modelLegalEntity.contactaddress.country = this.countries[0];
-      console.log(this.modelLegalEntity);
-      console.log(this.modelContactPerson);
     }
 
     add() {

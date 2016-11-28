@@ -7,7 +7,7 @@
     <select-input-extensible label='"Legal Entity Type"' is-required='true' show-value='false' values='$ctrl.legalEntityTypes' select-value='$ctrl.selected.legalentitytype' on-update='$ctrl.update("legalentitytype", value)' on-add='$ctrl.createPicklistItem("legalentitytype", "legalEntityTypes", value)'></select-input-extensible>
     <!--<text-input label='Other Name' text-value='$ctrl.selected.othername' on-update='$ctrl.update("othername", value)'></text-input>-->
     <tbl ng-if='!$ctrl.loading' title='Other Name' items='[]' projection='["othername"]'></tbl>
-    <tbl ng-if='!$ctrl.loading' title='Identifier' items='$ctrl.selected.legalentityidentifier' projection='["identifier"]' on-select='$ctrl.selectTblItem("legalentityidentifier", index)'></tbl>
+    <tbl ng-if='!$ctrl.loading' title='Identifier' items='$ctrl.selected.legalentityidentifier' projection='["legalentityidentifiertype", "identifier"]' on-select='$ctrl.selectTblItem("legalentityidentifier", index)'></tbl>
     <fieldset>
       <legend>Contact Address</legend>
       <text-input label='Street 1' text-value='$ctrl.selected.contactaddress.street1' on-update='$ctrl.updateContactAddress("street1", value)'></text-input>

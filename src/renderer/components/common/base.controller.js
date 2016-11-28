@@ -3,22 +3,22 @@ import AppDataService from '../../services/app.data.service';
 import PicklistService from '../../services/picklist.service';
 
 export default class BaseCtrl {
-  constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, url, $http) {
+  constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, url) {
     this.$mdDialog = $mdDialog;
     this.$mdToast = $mdToast;
     this.$state = $state;
-    this.$http = $http;
     this.url = url;
     this.picklistService = PicklistService.getService();
     this.appDataService = AppDataService.getService();
     this.sidenavOpen = false;
     this.loading = true;
+  }
 
-    this.getAppData().then(records => {
+  init() {
+    return this.getAppData()
+    .then(records => {
       this.records = JSON.parse(records.data);
       this.selected = this.records[0];
-
-      this.loading = false;
     });
   }
 

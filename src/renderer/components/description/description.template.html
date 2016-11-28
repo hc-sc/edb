@@ -10,10 +10,10 @@
     <text-input label='Title' is-required='true' text-value='$ctrl.dossier.dossierdescriptiontitle' max-length='2000' on-update='$ctrl.update("dossierdescriptiontitle", value)'></text-input>
     <md-switch ng-if='!$ctrl.loading' ng-model='$ctrl.submission.incremental' aria-label='Incremental'
       class='md-primary' ng-change='$ctrl.printValue()'>Incremental</md-switch>
-    <tbl ng-if='!$ctrl.loading' title='Dossier Regulatory Authorities' items='$ctrl.dossier.dossierra' projection='$ctrl.dossierraProjection' min-items='1'
-      on-select='$ctrl.select("dossierra", index)' on-delete='$ctrl.delete("dossierra", index)' deletable='true'></tbl>
-    <tbl ng-if='!$ctrl.loading' title='Referenced Dossiers' items='$ctrl.dossier.referenceddossier' projection='$ctrl.referencedDossierProjection'
-      min-items='0' on-select='$ctrl.select("referenceddossier", index)' on-delete='$ctrl.delete("referenceddossier", index)'
+    <tbl ng-if='!$ctrl.loading' title='Dossier Regulatory Authorities' items='$ctrl.dossier.dossierra' projection='["regulatorytype", "applicationtype", "projectidnumber"]' min-items='1'
+      on-select='$ctrl.selectTblItem("dossierra", index)' on-delete='$ctrl.deleteTblItem("dossierra", index)' deletable='true'></tbl>
+    <tbl ng-if='!$ctrl.loading' title='Referenced Dossiers' items='$ctrl.dossier.referenceddossier' projection='["referencedossierreason", "referenceddossiernumber"]'
+      min-items='0' on-select='$ctrl.selectTblItem("referenceddossier", index)' on-delete='$ctrl.deleteTblItem("referenceddossier", index)'
       deletable='false'></tbl>
   </div>
 </section>
