@@ -378,7 +378,9 @@ module.exports = class BaseService {
         let Schema = mongoose.Schema;
         let mschema = new Schema(jschema, {
           id: false,
-          minimize: false
+          minimize: false,
+          retainKeyOrder: true,
+          validateBeforeSave: false
         });
         let selfPlugin;
         mschema.plugin(ServiceLevelPlugin, {

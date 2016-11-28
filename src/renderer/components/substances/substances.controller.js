@@ -1,6 +1,9 @@
 import angular from 'angular';
 import BaseCtrl from '../common/base.controller';
 
+import modelSubstance from '../../view-models/gen/substance.json';
+import modelSubstanceIdentifier from '../../view-models/gen/substanceidentifier.json';
+
 
 export class SubstancesCtrl extends BaseCtrl {
   constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, $scope) {
@@ -11,21 +14,28 @@ export class SubstancesCtrl extends BaseCtrl {
       'identifier',
       'substanceidentifiertype'
     ];
+    this.getModels();
   }
 
-  add(item) {
-    this.showMessage('hi there');
+  getModels() {
+    this.modelSubstance = Object.assign(modelSubstance.fields);
+    this.modelSubstanceIdentifier = Object.assign(modelSubstanceIdentifier.fields);
+    this.modelSubstance._url = this.url;
   }
 
-  save() {
-    this.updateAppData(angular.copy(this.selected))
-      .then(result => {
-        this.showMessage('Saved successfully');
-      })
-      .catch(err => {
-        this.showMessage(err);
-      });
+  add() {
+    this.selected = angular.copy(this.modelSubstance);
   }
+
+  // save() {
+  //   this.updateAppData(angular.copy(this.selected))
+  //     .then(result => {
+  //       this.showMessage('Saved successfully');
+  //     })
+  //     .catch(err => {
+  //       this.showMessage(err);
+  //     });
+  // }
 
   // createPicklistItem(prop, arr, value) {
   //   console.log(prop, value);

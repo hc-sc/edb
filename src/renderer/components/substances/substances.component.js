@@ -7,8 +7,6 @@ import AppDataService from '../../services/app.data.service';
 import template from './substances.template';
 import { SubstancesCtrl } from './substances.controller';
 
-import { GHSTS_NG_MODULE_NAME, APP_DATA_NG_MODULE_NAME } from '../../../constants/shared';
-
 import TextInput from '../common/text-input/text-input.component';
 import SelectInput from '../common/select-input/select-input.component';
 
