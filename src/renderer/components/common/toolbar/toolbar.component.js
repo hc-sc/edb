@@ -18,8 +18,9 @@ export default angular.module('toolbar', [
     items: '<',
   },
   controller: class ToolbarCtrl {
-    constructor($state) {
+    constructor($state, $rootScope) {
       this.$state = $state;
+      this.$rootScope = $rootScope;
     }
 
     trigger(item) {

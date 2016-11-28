@@ -23,20 +23,20 @@ export default angular.module('submission', [
   .component('submission', {
     template,
     bindings: {
-      submission: '<',
-      dossier: '<'
+      dossierData: '<'
     },
     controller: class SubmissionCtrl {
-      constructor($state, GhstsService, $transitions) {
+      constructor($state, GhstsService, $transitions, $rootScope) {
 
         //allows for interrupting state transition (for use with ensuring any modifications are saved)
         this.dereg = $transitions.onBefore({}, (event) => {
+          // SO hacky...
           return true;
         });
 
         this.$state = $state;
         this.GhstsService = GhstsService.getService();
-        
+
         this.navbarItems = [
           { title: 'Description', state: '.description' },
           { title: 'Receivers', state: '.receivers' },
@@ -50,7 +50,6 @@ export default angular.module('submission', [
           ],
           title: '',//this.submission.dossierdescriptiontitle,
           functionIcons: [
-            { name: 'save', label: 'Save' },
             { name: 'globals', label: 'App Data', state: 'globals.legalEntities' },
             { name: 'compare', label: 'Compare' },
             { name: 'check', label: 'Validate', func: this.validateXML.bind(this)},
