@@ -14,6 +14,7 @@ export class SubstancesCtrl extends BaseCtrl {
       'identifier',
       'substanceidentifiertype'
     ];
+    this.init().then(() => {this.loading = false;});
     this.getModels();
   }
 

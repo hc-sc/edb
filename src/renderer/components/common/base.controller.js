@@ -114,8 +114,6 @@ export default class BaseCtrl {
       this.selected[nodeName][index] = item;
       this.selected[nodeName] = this.selected[nodeName].slice();
       this.showMessage('Updated');
-    }, item => {
-      this.showMessage('Cancelled');
     });
   }
 
@@ -162,6 +160,10 @@ import LegalEntityIdentifierCtrl from '../legal-entities/identifier/identifier.c
 import legalEntityIdentifierTemplate from '../legal-entities/identifier/identifier.template';
 import SubstanceIdentifierCtrl from '../substances/identifier/identifier.controller';
 import substanceIdentifierTemplate from '../substances/identifier/identifier.template';
+import DossierRACtrl from '../description/dossier-ra/dossier-ra.controller';
+import dossierRATemplate from '../description/dossier-ra/dossier-ra.template';
+import ReferencedDossierCtrl from '../description/referenced-dossier/referenced-dossier.controller';
+import referencedDossierTemplate from '../description/referenced-dossier/referenced-dossier.template';
 
 function getModalValues(nodeName) {
   switch(nodeName) {
@@ -181,6 +183,18 @@ function getModalValues(nodeName) {
       return {
         template: substanceIdentifierTemplate,
         controller: SubstanceIdentifierCtrl
+      };
+
+    case 'dossierra':
+      return {
+        template: dossierRATemplate,
+        controller: DossierRACtrl
+      };
+
+    case 'referenceddossier':
+      return {
+        template: referencedDossierTemplate,
+        controller: ReferencedDossierCtrl
       };
 
     default:
