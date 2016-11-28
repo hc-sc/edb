@@ -40,13 +40,13 @@ export default angular.module('description', [
           .then(ret => {
             this.dossier = JSON.parse(ret.data)[0];
             // this.markDeletable();
-            this.toolbarItems.title = this.dossier.dossierdescriptiontitle;
             this.loading = false;
           })
           .catch(err => {
             console.log(err);
           });
 
+        // put these in the template to clean up clutter
         this.dossierraProjection = [
           'regulatorytype',
           'applicationtype',

@@ -51,6 +51,8 @@ export default angular.module('legalEntities', [
       this.modelLegalEntity = Object.assign(modelLegalEntity.fields);
       this.modelLegalEntity.contactaddress = Object.assign(this.modelContactAddress);
       this.modelLegalEntity._url = this.url;
+      this.modelLegalEntity.legalentitytype = this.legalEntityTypes[0];
+      this.modelLegalEntity.contactaddress.country = this.countries[0];
       console.log(this.modelLegalEntity);
       console.log(this.modelContactPerson);
     }

@@ -13,6 +13,18 @@ export default function ($stateProvider, $urlRouterProvider) {
       url: '/submission/:submissionid/:dossierid',
       component: 'submission',
       resolve: {
+        dossierData: (AppDataService, $stateParams) => {
+          return AppDataService.getService()
+          .edb_get({url: 'submission', data: {_id: $stateParams.submissionid}})
+          .then(submission => {
+            console.log(JSON.parse(submission.data)[0].submissiontitle);
+            return {
+              dossierid: $stateParams.dossierid,
+              submissionid: $stateParams.submissionid,
+              submissiontitle: JSON.parse(submission.data).submissiontitle
+            };
+          });
+        }
         // submission: (AppDataService, $stateParams) => {
         //   console.log($stateParams.submissionid);
         //   AppDataService.getService()
@@ -25,7 +37,7 @@ export default function ($stateProvider, $urlRouterProvider) {
         // },
         // dossier: (AppDataService, $stateParams) => {
         //   console.log($stateParams.dossierid);
-        //   AppDataService.getService()            
+        //   AppDataService.getService()
         //     .edb_get({url: 'dossier', data: {_id: '583605871b3d0013089878bf'}})
         //     .then(ret => {
         //       let retVal = JSON.parse(ret.data);
