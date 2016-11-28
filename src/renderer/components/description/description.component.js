@@ -2,8 +2,6 @@ import angular from 'angular';
 import ngMaterial from 'angular-material';
 import _ from 'lodash';
 import template from './description.template';
-import dossierraTemplate from './dossier-ra.template';
-import referencedDossierTemplate from './referenced-dossier.template';
 
 import TextInput from '../common/text-input/text-input.component';
 import SelectInput from '../common/select-input/select-input.component';
@@ -36,6 +34,9 @@ export default angular.module('description', [
         })
         .then(result => {
           this.dossier = JSON.parse(result.data)[0];
+
+          // have two references, so we can still use the base ctrl code
+          this.selected = this.dossier;
           this.loading = false;
         });
       }
@@ -45,7 +46,7 @@ export default angular.module('description', [
         if (prop === 'dossierdescriptiontitle') {
           this.$rootScope.title = value;
         }
-        this.submission[prop] = value;
+        this.selected[prop] = value;
       }
 
       /** set up business rules as to which items are deletable */
@@ -57,64 +58,3 @@ export default angular.module('description', [
     }
   })
   .name;
-
-class dossierraCtrl {
-  constructor(index, dossierra, $mdDialog) {
-    this.$mdDialog = $mdDialog;
-    this.dossierra = this.clone(dossierra);
-    this.index = index;
-  }
-
-  // this will need to be upgrades for nested objects
-  clone(object) {
-    let newObj = {};
-    for (let prop in object) {
-      if (object.hasOwnProperty(prop)) {
-        newObj[prop] = object[prop];
-      }
-    }
-    return newObj;
-  }
-
-  cancel() {
-    this.$mdDialog.cancel();
-  }
-
-  confirm() {
-    this.$mdDialog.hide(this.dossierra);
-  }
-
-  update(prop, value) {
-    this.dossierra[prop] = value;
-  }
-}
-
-class ReferencedDossierCtrl {
-  constructor(index, referencedDossier, $mdDialog) {
-    this.$mdDialog = $mdDialog;
-    this.referencedDossier = this.clone(referencedDossier);
-    this.index = index;
-  }
-
-  clone(object) {
-    let newObj = {};
-    for (let prop in object) {
-      if (object.hasOwnProperty(prop)) {
-        newObj[prop] = object[prop];
-      }
-    }
-    return newObj;
-  }
-
-  cancel() {
-    this.$mdDialog.cancel();
-  }
-
-  confirm() {
-    this.$mdDialog.hide(this.referencedDossier);
-  }
-
-  update(prop, value) {
-    this.referencedDossier[prop] = value;
-  }
-}
