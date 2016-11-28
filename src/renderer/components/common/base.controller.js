@@ -28,7 +28,7 @@ export default class BaseCtrl {
 
   createAppData(data = {}, url = this.url) {
     console.log('here');
-    return this.appDataService.edb_put(data, url);
+    return this.appDataService.edb_put({url: url, data: data});
   }
 
   updateAppData(data = {}, url = this.url) {
@@ -159,7 +159,9 @@ export default class BaseCtrl {
 import ContactPersonCtrl from '../legal-entities/contact-person/contact-person.controller';
 import contactPersonTemplate from '../legal-entities/contact-person/contact-person.template';
 import LegalEntityIdentifierCtrl from '../legal-entities/identifier/identifier.controller';
-import legalEntityIdentiferTemplate from '../legal-entities/identifier/identifier.template';
+import legalEntityIdentifierTemplate from '../legal-entities/identifier/identifier.template';
+import SubstanceIdentifierCtrl from '../substances/identifier/identifier.controller';
+import substanceIdentifierTemplate from '../substances/identifier/identifier.template';
 
 function getModalValues(nodeName) {
   switch(nodeName) {
@@ -171,9 +173,16 @@ function getModalValues(nodeName) {
 
     case 'legalentityidentifier':
       return {
-        template: legalEntityIdentiferTemplate,
+        template: legalEntityIdentifierTemplate,
         controller: LegalEntityIdentifierCtrl
-      }
+      };
+
+    case 'substanceidentifier':
+      return {
+        template: substanceIdentifierTemplate,
+        controller: SubstanceIdentifierCtrl
+      };
+
     default:
       return null;
   }

@@ -31,7 +31,7 @@ export default angular.module('tbl', [
     onDelete: '&'
   },
   controller: class TableCtrl {
-    constructor() {
+    constructor(PicklistService) {
       this.searchIcon = { name: 'search', label: 'Search' };
       this.addIcon = { name: 'add', label: 'Add' };
       this.deleteIcon = { name: 'delete', label: 'Delete', color: 'dark' };
@@ -42,6 +42,7 @@ export default angular.module('tbl', [
       this.search = false;
       this.searchText = '';
       this.mapProjection();
+
     }
 
     $onChanges() {

@@ -69,7 +69,7 @@ module.exports = class BaseService {
           entityClass
             .create(obj, (err, rows) => {
               if (err)
-                rej(new Error(err));
+                rej(err);
               else
                 res(new RVHelper('EDB00000', JSON.stringify(rows)));
             });
