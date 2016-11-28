@@ -20,7 +20,7 @@
       <text-input label='Email' text-value='$ctrl.selected.contactaddress.email' on-update='$ctrl.update("contactaddress.email", value)'></text-input>
       <text-input label='Website' text-value='$ctrl.selected.contactaddress.website' on-update='$ctrl.update("contactaddress.website", value)'></text-input>
     </fieldset>
-    <tbl ng-if='!$ctrl.loading' title='Contacts' items='$ctrl.selected.contactperson' projection='["lastname", "firstname", "title", "email"]' on-select='$ctrl.selectItem("contactperson", index)' on-delete='$ctrl.deleteTblItem("contactperson", index)'></tbl>
+    <tbl ng-if='!$ctrl.loading' title='Contacts' items='$ctrl.selected.contactperson' projection='["lastname", "firstname", "title", "email"]' on-select='$ctrl.selectTblItem("contactperson", index)' on-delete='$ctrl.deleteTblItem("contactperson", index)'></tbl>
     <div style='z-index:100' class='float-bottom'>
       <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
         <md-icon md-svg-icon='save' class='light'></md-icon>
