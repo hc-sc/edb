@@ -1,0 +1,28 @@
+<md-dialog aria-label='file regulatory authority' flex='80'>
+  <form ng-cloak>
+    <md-toolbar>
+      <div class='md-toolbar-tools'>
+        <h2>File RA</h2>
+        <span flex></span>
+        <md-button class='md-icon-button' ng-click='$ctrl.cancel()'>
+          <md-icon md-svg-icon='close' aria-label='close dialog' class='light'></md-icon>
+          <md-tooltip>Close</md-tooltip>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class='md-dialog-content'>
+        <md-switch ng-model='$ctrl.filera.cbidesignation' aria-label='CBI Designation' class='md-primary' ng-change='$ctrl.printValue()'>CBI Designation</md-switch>
+        <text-input label='File Comments' selectValue='$ctrl.filera.filecomment' values='[]' on-update='$ctrl.update("filecomment", value)'></text-input>
+        <text-input label='Project Id' is-required='false' text-value='$ctrl.filera.toSpecificForRAId' on-update='$ctrl.update("toSpecificForRAId", value)'></text-input>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout='row'>
+      <span flex></span>
+      <md-button ng-click='$ctrl.confirm()'>Okay</md-button>
+      <md-button ng-click='$ctrl.cancel()'>Cancel</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

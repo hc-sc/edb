@@ -7,7 +7,9 @@ const PicklistFieldsConfig = {
   unit: {typename: 'EXTENSION_TYPE_UNIT', isExt: true},
   legalentitytype: {typename: 'EXTENSION_TYPE_LEGALENTITY_TYPE', isExt: true},
   country: {typename: 'EXTENSION_TYPE_COUNTRY', isExt: true},
-  substanceidentifiertype: { typename: 'EXTENSION_TYPE_SUBSTANCE_IDENTIFIER_TYPE', isExt: true}
+  substanceidentifiertype: { typename: 'EXTENSION_TYPE_SUBSTANCE_IDENTIFIER_TYPE', isExt: true},
+  contentstatus: {typename: 'TYPE_CONTENT_STATUS', isExt: false},
+  filetype: {typename: 'TYPE_FILE_TYPE', isExt: false}
 };
 
 // const getPropertyName = (typename) => {

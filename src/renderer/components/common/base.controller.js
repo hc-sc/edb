@@ -164,6 +164,8 @@ import DossierRACtrl from '../description/dossier-ra/dossier-ra.controller';
 import dossierRATemplate from '../description/dossier-ra/dossier-ra.template';
 import ReferencedDossierCtrl from '../description/referenced-dossier/referenced-dossier.controller';
 import referencedDossierTemplate from '../description/referenced-dossier/referenced-dossier.template';
+import FileRACtrl from '../files/file-ra/file-ra.controller';
+import fileRATemplate from '../files/file-ra/file-ra.template';
 
 function getModalValues(nodeName) {
   switch(nodeName) {
@@ -195,6 +197,12 @@ function getModalValues(nodeName) {
       return {
         template: referencedDossierTemplate,
         controller: ReferencedDossierCtrl
+      };
+
+    case 'filera':
+      return {
+        template: fileRATemplate,
+        controller: FileRACtrl
       };
 
     default:

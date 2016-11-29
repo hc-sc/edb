@@ -39,7 +39,16 @@ export default function ($stateProvider, $urlRouterProvider) {
     })
     .state('globals.files', {
       url: '/files',
-      component: 'files'
+      component: 'files',
+      resolve: {
+        // for testing purposes, this should already be loaded in the db in the future
+        fileType: PicklistService => {
+          return PicklistService.getService().edb_get({ 'TYPE_NAME': 'TYPE_FILE_TYPE' });
+        },
+        contentStatus: PicklistService => {
+          return PicklistService.getService().edb_get({ 'TYPE_NAME': 'TYPE_CONTENT_STATUS' });
+        }
+      }
     })
     .state('globals', {
       url: '/globals',
