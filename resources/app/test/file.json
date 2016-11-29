@@ -1,0 +1,1450 @@
+{
+      "file": [
+
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
+          "id": "D_Document_J_01_T-423579_0003052902R",
+          "filera": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_BVL",
+              "cbidesignation": true,
+              "filecomment": "File comment 01_29"
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_PMRA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_APVMA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_IBAMA",
+              "cbidesignation": true
+            }
+          ],
+          "filegeneric": {
+            "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
+            "filepid": "urn:pppww:C563739E-F406-4D58-B417-9905C1BC060F",
+            "filecompanyid": "T-423579-01-1",
+            "contentstatus": {
+              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
+              "value": "New",
+              "valuedecode": "New"
+            },
+            "filetype": {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
+              "value": "Main",
+              "valuedecode": "Main"
+            },
+            "formatcomment": "Format comment 01_0",
+            "md5CHECKSUM": "fd9e7db91db1b98bbe2067a2e24df220",
+            "filename": "../01/confidential/main/T-423640-01-1.PDF"
+          }
+        },
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
+          "id": "D_KIIA_4.1_01_T-423640_0003053002R",
+          "filera": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_BVL",
+              "cbidesignation": true,
+              "filecomment": "File comment 01_31"
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_PMRA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_APVMA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_IBAMA",
+              "cbidesignation": true
+            }
+          ],
+          "filegeneric": {
+            "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
+            "filepid": "urn:pppww:8025AB57-CCA3-49C1-AED8-A2143954C9E2",
+            "filecompanyid": "T-423640-01-1",
+            "contentstatus": {
+              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
+              "value": "New",
+              "valuedecode": "New"
+            },
+            "filetype": {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
+              "value": "Main",
+              "valuedecode": "Main"
+            },
+            "formatcomment": "Format comment 01_2",
+            "md5CHECKSUM": "14cc2d69fe00ccb383793dd7159728a1",
+            "filename": "../01/confidential/main/T-423640-01-1.PDF"
+          }
+        },
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
+          "id": "D_KIIA_5.2.1_01_T-423586_0003053028R",
+          "filera": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_BVL",
+              "cbidesignation": true,
+              "filecomment": "File comment 01_32"
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_PMRA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_APVMA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_IBAMA",
+              "cbidesignation": true
+            }
+          ],
+          "filegeneric": {
+            "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
+            "filepid": "urn:pppww:03D8D9D5-ADBD-4E04-8272-89157235174F",
+            "filecompanyid": "T-423586-01-1",
+            "contentstatus": {
+              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
+              "value": "New",
+              "valuedecode": "New"
+            },
+            "filetype": {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
+              "value": "Main",
+              "valuedecode": "Main"
+            },
+            "formatcomment": "Format comment 01_3",
+            "md5CHECKSUM": "771e6743e24cb11e389457d861154c24",
+            "filename": "../01/confidential/main/T-423586-01-1.PDF"
+          }
+        },
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
+          "id": "D_KIIA_5.2.1_02_T-423584_0003053028R",
+          "filera": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_BVL",
+              "cbidesignation": true,
+              "filecomment": "File comment 01_33"
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_PMRA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_APVMA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_IBAMA",
+              "cbidesignation": true
+            }
+          ],
+          "filegeneric": {
+            "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
+            "filepid": "urn:pppww:6333F97D-4F67-4408-8D11-4F630EE64C27",
+            "filecompanyid": "T-423584-01-1",
+            "contentstatus": {
+              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
+              "value": "New",
+              "valuedecode": "New"
+            },
+            "filetype": {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
+              "value": "Main",
+              "valuedecode": "Main"
+            },
+            "formatcomment": "Format comment 01_4",
+            "md5CHECKSUM": "eca93fe55088962b2c7e3e3f05fbb7f9",
+            "filename": "../01/confidential/main/T-423584-01-1.PDF"
+          }
+        },
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
+          "id": "D_KIIA_5.2.3_01_T-423615_0003053030R",
+          "filera": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_BVL",
+              "cbidesignation": true,
+              "filecomment": "File comment 01_34"
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_PMRA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_APVMA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_IBAMA",
+              "cbidesignation": true
+            }
+          ],
+          "filegeneric": {
+            "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
+            "filepid": "urn:pppww:920F2AC5-B0AF-4B22-9E6A-152E9F8155E4",
+            "filecompanyid": "T-423615-01-1",
+            "contentstatus": {
+              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
+              "value": "New",
+              "valuedecode": "New"
+            },
+            "filetype": {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
+              "value": "Main",
+              "valuedecode": "Main"
+            },
+            "formatcomment": "Format comment 01_5",
+            "md5CHECKSUM": "76ebf24fa1937680671c89a4467e5a74",
+            "filename": "../01/confidential/main/T-423615-01-1.PDF"
+          }
+        },
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
+          "id": "D_KIIA_5.2.4_01_T-423612_0003053031R",
+          "filera": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_BVL",
+              "cbidesignation": true,
+              "filecomment": "File comment 01_35"
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_PMRA",
+              "metadatastatus": {
+                "TYPE_NAME": "GHSTS.TYPEMETADATASTATUSSTRUCT",
+                "value": "New",
+                "valuedecode": "New"
+              },
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_APVMA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_IBAMA",
+              "cbidesignation": true
+            }
+          ],
+          "filegeneric": {
+            "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
+            "filepid": "urn:pppww:020812D6-1B89-4415-A5B4-11B189380C08",
+            "filecompanyid": "T-423612-01-1",
+            "contentstatus": {
+              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
+              "value": "New",
+              "valuedecode": "New"
+            },
+            "filetype": {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
+              "value": "Main",
+              "valuedecode": "Main"
+            },
+            "formatcomment": "Format comment 01_6",
+            "md5CHECKSUM": "5b46dbdff9e5da2d260d7ddfaacbd96f",
+            "filename": "../01/confidential/main/T-423612-01-1.PDF"
+          }
+        },
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
+          "id": "D_KIIA_5.3.7_01_T-423618_0003053042R",
+          "filera": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_BVL",
+              "cbidesignation": true,
+              "filecomment": "File comment 01_0"
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_PMRA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_APVMA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_IBAMA",
+              "cbidesignation": true
+            }
+          ],
+          "filegeneric": {
+            "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
+            "filepid": "urn:pppww:3FA5FEE1-2FFC-42A3-A6B8-0301B3C70766",
+            "filecompanyid": "T-423618-02-1",
+            "contentstatus": {
+              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
+              "value": "New",
+              "valuedecode": "New"
+            },
+            "filetype": {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
+              "value": "Main",
+              "valuedecode": "Main"
+            },
+            "formatcomment": "Format comment 01_9",
+            "md5CHECKSUM": "9e56cd45669adf452d7cfe0ce5908bc8",
+            "filename": "../01/confidential/main/T-423618-02-1.PDF"
+          }
+        },
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
+          "id": "D_KIIA_5.6.10_01_T-423604_0003053066R",
+          "filera": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_BVL",
+              "cbidesignation": true,
+              "filecomment": "File comment 01_2"
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_PMRA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_APVMA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_IBAMA",
+              "cbidesignation": true
+            }
+          ],
+          "filegeneric": {
+            "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
+            "filepid": "urn:pppww:0CF31D45-3F9B-42D2-A8D0-C7E3EA47C6CD",
+            "filecompanyid": "T-423604-01-1",
+            "contentstatus": {
+              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
+              "value": "New",
+              "valuedecode": "New"
+            },
+            "filetype": {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
+              "value": "Main",
+              "valuedecode": "Main"
+            },
+            "formatcomment": "Format comment 01_11",
+            "md5CHECKSUM": "f076d521700ca327fb2f759180e7acca",
+            "filename": "../01/confidential/main/T-423604-01-1.PDF"
+          }
+        },
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
+          "id": "D_KIIA_7.1.1_01_T-423613_0003053138R",
+          "filera": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_BVL",
+              "cbidesignation": true,
+              "filecomment": "File comment 01_3"
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_PMRA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_APVMA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_IBAMA",
+              "cbidesignation": true
+            }
+          ],
+          "filegeneric": {
+            "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
+            "filepid": "urn:pppww:AF158239-8BA3-4C13-80AE-D73E32602C01",
+            "filecompanyid": "T-423613-01-1",
+            "contentstatus": {
+              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
+              "value": "New",
+              "valuedecode": "New"
+            },
+            "filetype": {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
+              "value": "Main",
+              "valuedecode": "Main"
+            },
+            "formatcomment": "Format comment 01_12",
+            "md5CHECKSUM": "84857bd8738888fd2975abcad6c636a7",
+            "filename": "../01/confidential/main/T-423613-01-1.PDF"
+          }
+        },
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
+          "id": "D_KIIA_8.1.1_01_T-423605_0003053175R",
+          "filera": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_BVL",
+              "cbidesignation": true,
+              "filecomment": "File comment 01_5"
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_PMRA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_APVMA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_IBAMA",
+              "cbidesignation": true
+            }
+          ],
+          "filegeneric": {
+            "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
+            "filepid": "urn:pppww:52FB765F-044D-44E0-95A5-D0B05FE9A1AD",
+            "filecompanyid": "T-423605-01-1",
+            "contentstatus": {
+              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
+              "value": "New",
+              "valuedecode": "New"
+            },
+            "filetype": {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
+              "value": "Main",
+              "valuedecode": "Main"
+            },
+            "formatcomment": "Format comment 01_14",
+            "md5CHECKSUM": "6409b844f9025354a45465e8e2e13288",
+            "filename": "../01/confidential/main/T-423605-01-1.PDF"
+          }
+        },
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
+          "id": "D_KIIA_8.1.1_02_T-423616_0003053175R",
+          "filera": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_BVL",
+              "cbidesignation": true,
+              "filecomment": "File comment 01_6"
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_PMRA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_APVMA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_IBAMA",
+              "cbidesignation": true
+            }
+          ],
+          "filegeneric": {
+            "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
+            "filepid": "urn:pppww:6046C369-D8CD-4114-AAEC-B2CA2DF5B8CB",
+            "filecompanyid": "T-423616-01-1",
+            "contentstatus": {
+              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
+              "value": "New",
+              "valuedecode": "New"
+            },
+            "filetype": {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
+              "value": "Main",
+              "valuedecode": "Main"
+            },
+            "formatcomment": "Format comment 01_15",
+            "md5CHECKSUM": "6966b2b06250b03bcf0237c2d8bd4f9c",
+            "filename": "../01/confidential/main/T-423616-01-1.PDF"
+          }
+        },
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
+          "id": "D_KIIA_8.1.2_02_T-423616_0003053176R",
+          "filera": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_BVL",
+              "cbidesignation": true,
+              "filecomment": "File comment 01_8"
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_PMRA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_APVMA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_IBAMA",
+              "cbidesignation": true
+            }
+          ],
+          "filegeneric": {
+            "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
+            "filepid": "urn:pppww:F95CBD70-309D-4D3F-B676-241E2F3BF4BA",
+            "filecompanyid": "T-423616-01-1",
+            "contentstatus": {
+              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
+              "value": "New",
+              "valuedecode": "New"
+            },
+            "filetype": {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
+              "value": "Main",
+              "valuedecode": "Main"
+            },
+            "formatcomment": "Format comment 01_17",
+            "md5CHECKSUM": "1203febe5b51109f693b379734980a03",
+            "filename": "../01/confidential/main/T-423616-01-1.PDF"
+          }
+        },
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
+          "id": "D_KIIA_8.2.1.1_01_T-423601_0003053181R",
+          "filera": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_BVL",
+              "cbidesignation": true,
+              "filecomment": "File comment 01_9"
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_PMRA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_APVMA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_IBAMA",
+              "cbidesignation": true
+            }
+          ],
+          "filegeneric": {
+            "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
+            "filepid": "urn:pppww:81CF44F9-0F92-4C31-B643-83A9F234B700",
+            "filecompanyid": "T-423601-01-1",
+            "contentstatus": {
+              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
+              "value": "New",
+              "valuedecode": "New"
+            },
+            "filetype": {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
+              "value": "Main",
+              "valuedecode": "Main"
+            },
+            "formatcomment": "Format comment 01_18",
+            "md5CHECKSUM": "2e66cbb264887fe149e35e31977701d0",
+            "filename": "../01/confidential/main/T-423601-01-1.PDF"
+          }
+        },
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
+          "id": "D_KIIA_8.9.2_01_T-423656_0003053227R",
+          "filera": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_BVL",
+              "cbidesignation": true,
+              "filecomment": "File comment 01_10"
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_PMRA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_APVMA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_IBAMA",
+              "cbidesignation": true
+            }
+          ],
+          "filegeneric": {
+            "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
+            "filepid": "urn:pppww:AA870BE0-4332-453B-83BA-A4E81DBB33A8",
+            "filecompanyid": "T-423656-01-1",
+            "contentstatus": {
+              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
+              "value": "New",
+              "valuedecode": "New"
+            },
+            "filetype": {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
+              "value": "Main",
+              "valuedecode": "Main"
+            },
+            "formatcomment": "Format comment 01_19",
+            "md5CHECKSUM": "771ff517f92eeef3c987317e4d444542",
+            "filename": "../01/confidential/main/T-423656-01-1.PDF"
+          }
+        },
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
+          "id": "D_Document_LIIA_01_M-508647_0003053246R",
+          "filera": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_BVL",
+              "cbidesignation": true,
+              "filecomment": "File comment 01_11"
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_PMRA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_APVMA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_IBAMA",
+              "cbidesignation": true
+            }
+          ],
+          "filegeneric": {
+            "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
+            "filepid": "urn:pppww:639AAC5D-15A0-4237-801E-AC334D6BAE16",
+            "filecompanyid": "M-508647-01-1",
+            "contentstatus": {
+              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
+              "value": "New",
+              "valuedecode": "New"
+            },
+            "filetype": {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
+              "value": "Main",
+              "valuedecode": "Main"
+            },
+            "formatcomment": "Format comment 01_20",
+            "md5CHECKSUM": "c9b1ba83b283f55fad7f19eea36668b4",
+            "filename": "../01/confidential/main/M-508647-01-1.PDF"
+          }
+        },
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
+          "id": "D_MIIA_Sec_1_01_T-423658_0003053254R",
+          "filera": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_BVL",
+              "cbidesignation": true,
+              "filecomment": "File comment 01_12"
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_PMRA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_APVMA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_IBAMA",
+              "cbidesignation": true
+            }
+          ],
+          "filegeneric": {
+            "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
+            "filepid": "urn:pppww:FBC24EDB-A90C-476A-80ED-8BF47F42B7CB",
+            "filecompanyid": "T-423658-01-1",
+            "contentstatus": {
+              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
+              "value": "New",
+              "valuedecode": "New"
+            },
+            "filetype": {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
+              "value": "Main",
+              "valuedecode": "Main"
+            },
+            "formatcomment": "Format comment 01_21",
+            "md5CHECKSUM": "f27677389df9dfd00d12d9d55a41803e",
+            "filename": "../01/confidential/main/T-423658-01-1.PDF"
+          }
+        },
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
+          "id": "D_MIIA_Sec_1_02_T-423596_0003053254R",
+          "filera": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_BVL",
+              "cbidesignation": true,
+              "filecomment": "File comment 01_13"
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_PMRA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_APVMA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_IBAMA",
+              "cbidesignation": true
+            }
+          ],
+          "filegeneric": {
+            "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
+            "filepid": "urn:pppww:F99CABCB-3AA0-486B-A672-91148BD5141F",
+            "filecompanyid": "T-423596-01-1",
+            "contentstatus": {
+              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
+              "value": "New",
+              "valuedecode": "New"
+            },
+            "filetype": {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
+              "value": "Main",
+              "valuedecode": "Main"
+            },
+            "formatcomment": "Format comment 01_22",
+            "md5CHECKSUM": "0ab102c1cd6fa00fad90886d1fd43c70",
+            "filename": "../01/confidential/main/T-423596-01-1.PDF"
+          }
+        },
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
+          "id": "D_MIIA_Sec_2_01_T-423659_0003053255R",
+          "filera": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_BVL",
+              "cbidesignation": true,
+              "filecomment": "File comment 01_14"
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_PMRA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_APVMA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_IBAMA",
+              "cbidesignation": true
+            }
+          ],
+          "filegeneric": {
+            "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
+            "filepid": "urn:pppww:BF920721-A775-444D-9ADF-D1BB04706BD0",
+            "filecompanyid": "T-423659-01-1",
+            "contentstatus": {
+              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
+              "value": "New",
+              "valuedecode": "New"
+            },
+            "filetype": {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
+              "value": "Main",
+              "valuedecode": "Main"
+            },
+            "formatcomment": "Format comment 01_23",
+            "md5CHECKSUM": "777a98e5c365397fed22c7fe8f2d8405",
+            "filename": "../01/confidential/main/T-423659-01-1.PDF"
+          }
+        },
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
+          "id": "D_MIIA_Sec_3_01_T-423662_0003053256R",
+          "filera": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_BVL",
+              "cbidesignation": true,
+              "filecomment": "File comment 01_15"
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_PMRA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_APVMA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_IBAMA",
+              "cbidesignation": true
+            }
+          ],
+          "filegeneric": {
+            "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
+            "filepid": "urn:pppww:E0F2887A-A8DC-48B5-B365-5AB1C96D1C34",
+            "filecompanyid": "T-423662-01-1",
+            "contentstatus": {
+              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
+              "value": "New",
+              "valuedecode": "New"
+            },
+            "filetype": {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
+              "value": "Main",
+              "valuedecode": "Main"
+            },
+            "formatcomment": "Format comment 01_24",
+            "md5CHECKSUM": "ad838e60891ba10df1cf529e18ec9f98",
+            "filename": "../01/confidential/main/T-423662-01-1.PDF"
+          }
+        },
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
+          "id": "D_MIIA_Sec_3_02_T-423592_0003053256R",
+          "filera": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_BVL",
+              "cbidesignation": true,
+              "filecomment": "File comment 01_16"
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_PMRA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_APVMA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_IBAMA",
+              "cbidesignation": true
+            }
+          ],
+          "filegeneric": {
+            "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
+            "filepid": "urn:pppww:8E3FCEA2-8738-495F-BFBC-6B176DEA1F10",
+            "filecompanyid": "T-423592-01-1",
+            "contentstatus": {
+              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
+              "value": "New",
+              "valuedecode": "New"
+            },
+            "filetype": {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
+              "value": "Main",
+              "valuedecode": "Main"
+            },
+            "formatcomment": "Format comment 01_25",
+            "md5CHECKSUM": "4d0337992b8e55b614ef36f9a45a22a7",
+            "filename": "../01/confidential/main/T-423592-01-1.PDF"
+          }
+        },
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
+          "id": "D_MIIA_Sec_4_01_T-423663_0003053257R",
+          "filera": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_BVL",
+              "cbidesignation": true,
+              "filecomment": "File comment 01_17"
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_PMRA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_APVMA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_IBAMA",
+              "cbidesignation": true
+            }
+          ],
+          "filegeneric": {
+            "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
+            "filepid": "urn:pppww:DA049806-EADD-4928-B962-E6E700F67F7A",
+            "filecompanyid": "T-423663-01-1",
+            "contentstatus": {
+              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
+              "value": "New",
+              "valuedecode": "New"
+            },
+            "filetype": {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
+              "value": "Main",
+              "valuedecode": "Main"
+            },
+            "formatcomment": "Format comment 01_26",
+            "md5CHECKSUM": "a591b14ff7a95cada544d3ffdb766f76",
+            "filename": "../01/confidential/main/T-423663-01-1.PDF"
+          }
+        },
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
+          "id": "D_MIIA_Sec_5_01_T-423664_0003053258R",
+          "filera": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_BVL",
+              "cbidesignation": true,
+              "filecomment": "File comment 01_18"
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_PMRA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_APVMA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_IBAMA",
+              "cbidesignation": true
+            }
+          ],
+          "filegeneric": {
+            "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
+            "filepid": "urn:pppww:75232CA3-781E-47E4-96C6-66CE8FD615D8",
+            "filecompanyid": "T-423664-01-1",
+            "contentstatus": {
+              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
+              "value": "New",
+              "valuedecode": "New"
+            },
+            "filetype": {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
+              "value": "Main",
+              "valuedecode": "Main"
+            },
+            "formatcomment": "Format comment 01_27",
+            "md5CHECKSUM": "8203de15add1ab41d8e912b0259756f6",
+            "filename": "../01/confidential/main/T-423664-01-1.PDF"
+          }
+        },
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
+          "id": "D_MIIA_Sec_6_01_T-423591_0003053259R",
+          "filera": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_BVL",
+              "cbidesignation": true,
+              "filecomment": "File comment 01_19"
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_PMRA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_APVMA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_IBAMA",
+              "cbidesignation": true
+            }
+          ],
+          "filegeneric": {
+            "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
+            "filepid": "urn:pppww:F04EA348-9763-467C-920B-A51C6A9D8531",
+            "filecompanyid": "T-423591-01-1",
+            "contentstatus": {
+              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
+              "value": "New",
+              "valuedecode": "New"
+            },
+            "filetype": {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
+              "value": "Main",
+              "valuedecode": "Main"
+            },
+            "formatcomment": "Format comment 01_0",
+            "md5CHECKSUM": "981cb8858d4c1cbe4f5a0baa7c78fdd7",
+            "filename": "../01/confidential/main/T-423591-01-1.PDF"
+          }
+        },
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
+          "id": "D_OL-M_01_T-423583_0003053263R",
+          "filera": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_BVL",
+              "cbidesignation": true,
+              "filecomment": "File comment 01_20"
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_PMRA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_APVMA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_IBAMA",
+              "cbidesignation": true
+            }
+          ],
+          "filegeneric": {
+            "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
+            "filepid": "urn:pppww:D532917B-6B09-4318-94B4-B6CC0BF1444E",
+            "filecompanyid": "T-423583-01-1",
+            "contentstatus": {
+              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
+              "value": "New",
+              "valuedecode": "New"
+            },
+            "filetype": {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
+              "value": "Main",
+              "valuedecode": "Main"
+            },
+            "formatcomment": "Format comment 01_1",
+            "md5CHECKSUM": "7c35a044e53138c0e0baa36a5359a700",
+            "filename": "../01/confidential/main/T-423583-01-1.PDF"
+          }
+        },
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
+          "id": "D_OIIA_01_T-423585_0003053264R",
+          "filera": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_BVL",
+              "cbidesignation": true,
+              "filecomment": "File comment 01_21"
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_PMRA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_APVMA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_IBAMA",
+              "cbidesignation": true
+            }
+          ],
+          "filegeneric": {
+            "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
+            "filepid": "urn:pppww:6745CF2F-0AD8-42DF-9109-D223C61E5866",
+            "filecompanyid": "T-423585-01-1",
+            "contentstatus": {
+              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
+              "value": "New",
+              "valuedecode": "New"
+            },
+            "filetype": {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
+              "value": "Main",
+              "valuedecode": "Main"
+            },
+            "formatcomment": "Format comment 01_2",
+            "md5CHECKSUM": "8c8cfcfc98c85b35b4830c0af2c3ada1",
+            "filename": "../01/confidential/main/T-423585-01-1.PDF"
+          }
+        },
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
+          "id": "D_OIIA_02_T-423581_0003053264R",
+          "filera": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_BVL",
+              "cbidesignation": true,
+              "filecomment": "File comment 01_22"
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_PMRA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_APVMA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_IBAMA",
+              "cbidesignation": true
+            }
+          ],
+          "filegeneric": {
+            "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
+            "filepid": "urn:pppww:FB45F2B4-131A-45E2-BC85-E13D70FB0B27",
+            "filecompanyid": "T-423581-01-1",
+            "contentstatus": {
+              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
+              "value": "New",
+              "valuedecode": "New"
+            },
+            "filetype": {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
+              "value": "Main",
+              "valuedecode": "Main"
+            },
+            "formatcomment": "Format comment 01_3",
+            "md5CHECKSUM": "74618c1cc161bdd1190be1d782a69c91",
+            "filename": "../01/confidential/main/T-423581-01-1.PDF"
+          }
+        },
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
+          "id": "D_OIIA_03_T-423578_0003053264R",
+          "filera": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_BVL",
+              "cbidesignation": true,
+              "filecomment": "File comment 01_23"
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_PMRA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_APVMA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_IBAMA",
+              "cbidesignation": true
+            }
+          ],
+          "filegeneric": {
+            "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
+            "filepid": "urn:pppww:DC7A966F-6F41-4F42-B7FF-3AF3872E41B7",
+            "filecompanyid": "T-423578-01-1",
+            "contentstatus": {
+              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
+              "value": "New",
+              "valuedecode": "New"
+            },
+            "filetype": {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
+              "value": "Main",
+              "valuedecode": "Main"
+            },
+            "formatcomment": "Format comment 01_4",
+            "md5CHECKSUM": "9228139a951a9d709e8675ed9cad7d74",
+            "filename": "../01/confidential/main/T-423578-01-1.PDF"
+          }
+        },
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
+          "id": "IDA0003053028T423584011_0003779989",
+          "filera": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_IBAMA",
+              "cbidesignation": true,
+              "filecomment": "File comment 01_24"
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_PMRA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_APVMA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_IBAMA",
+              "cbidesignation": true
+            }
+          ],
+          "filegeneric": {
+            "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
+            "filepid": "urn:pppww:C2C106E4-E607-4BF9-8708-02E490AF8888",
+            "filecompanyid": "T-423584-01-1",
+            "contentstatus": {
+              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
+              "value": "New",
+              "valuedecode": "New"
+            },
+            "filetype": {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
+              "value": "Supplemental",
+              "valuedecode": "Supplemental"
+            },
+            "formatcomment": "Format comment 01_5",
+            "md5CHECKSUM": "3835a8fdde0f7a8348a1654eb37e41bc",
+            "filename": "../01/content/attachments/T-423584-01-1.DOCX"
+          }
+        },
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
+          "id": "IDA0003053031T423612011_0003780024",
+          "filera": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_BVL",
+              "cbidesignation": true,
+              "filecomment": "File comment 01_25"
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_PMRA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_APVMA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_IBAMA",
+              "cbidesignation": true
+            }
+          ],
+          "filegeneric": {
+            "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
+            "filepid": "urn:pppww:1E0996A0-D058-4050-B885-E3F279F639AC",
+            "filecompanyid": "T-423612-01-1",
+            "contentstatus": {
+              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
+              "value": "New",
+              "valuedecode": "New"
+            },
+            "filetype": {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
+              "value": "Supplemental",
+              "valuedecode": "Supplemental"
+            },
+            "formatcomment": "Format comment 01_6",
+            "md5CHECKSUM": "d1f39c52ee190ecd260b38fa33432d7f",
+            "filename": "../01/content/attachments/T-423612-01-1.DOCX"
+          }
+        },
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
+          "id": "IDA0003053181T423601011_0003779984",
+          "filera": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_BVL",
+              "cbidesignation": true,
+              "filecomment": "File comment 01_26"
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_PMRA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_APVMA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_IBAMA",
+              "cbidesignation": true
+            }
+          ],
+          "filegeneric": {
+            "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
+            "filepid": "urn:pppww:B36BC906-C259-4D57-A00C-6EA6AC55F842",
+            "filecompanyid": "T-423601-01-1",
+            "contentstatus": {
+              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
+              "value": "New",
+              "valuedecode": "New"
+            },
+            "filetype": {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
+              "value": "Supplemental",
+              "valuedecode": "Supplemental"
+            },
+            "formatcomment": "Format comment 01_7",
+            "md5CHECKSUM": "42ab8aa2f1ad823937eebf6f1e0f7c83",
+            "filename": "../01/content/attachments/T-423601-01-1.DOCX"
+          }
+        },
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
+          "id": "IDA0003053227T423656011_0003780058",
+          "filera": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_BVL",
+              "cbidesignation": true,
+              "filecomment": "File comment 01_27"
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_PMRA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_APVMA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_IBAMA",
+              "cbidesignation": true
+            }
+          ],
+          "filegeneric": {
+            "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
+            "filepid": "urn:pppww:F4C7DCFD-9061-4086-91A8-EB0CB21F5695",
+            "filecompanyid": "T-423656-01-1",
+            "contentstatus": {
+              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
+              "value": "New",
+              "valuedecode": "New"
+            },
+            "filetype": {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
+              "value": "Supplemental",
+              "valuedecode": "Supplemental"
+            },
+            "formatcomment": "Format comment 01_8",
+            "md5CHECKSUM": "1e1d5ecc99fe891795b201bfc10ae657",
+            "filename": "../01/content/attachments/T-423656-01-1.DOCX"
+          }
+        },
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
+          "id": "IDA0003053246M508647011_0003779837",
+          "filera": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_BVL",
+              "cbidesignation": true,
+              "filecomment": "File comment 01_28"
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_PMRA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_APVMA",
+              "cbidesignation": true
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
+              "toSpecificForRAId": "ID_RECEIVER_IBAMA",
+              "cbidesignation": true
+            }
+          ],
+          "filegeneric": {
+            "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
+            "filepid": "urn:pppww:F1A37D9A-7D9C-471F-859D-F9E0B55F6BBF",
+            "filecompanyid": "M-508647-01-1",
+            "contentstatus": {
+              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
+              "value": "New",
+              "valuedecode": "New"
+            },
+            "filetype": {
+              "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
+              "value": "Supplemental",
+              "valuedecode": "Supplemental"
+            },
+            "formatcomment": "Format comment 01_9",
+            "md5CHECKSUM": "8b8999b42b58a3440cb19c3a47ba9641",
+            "filename": "../01/content/attachments/M-508647-01-1.DOCX"
+          }
+        }
+      ]
+}

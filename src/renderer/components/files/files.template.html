@@ -1,11 +1,29 @@
 <section class='node-page'>
-  <text-input label='File PID'></text-input>
-  <text-input label='File Company ID'></text-input>
-  <select-input label='Content Status' values='[]'></select-input>
-  <text-input label='Replaced File PID'></text-input>
-  <select-input label='File Type'></select-input>
-  <text-input label='Format Comment'></text-input>
-  <text-input label='MD5 Checksum'></text-input>
-  <text-input label='Filename'></text-input>
-  <tbl title='File Regulatory Authority' items='[]' projection='[]'></tbl>
+  <spinner ng-if='$ctrl.loading'></spinner>
+  <div class='no-margin no-padding' ng-if='!ctrl.loading'>
+    <sidenav items='$ctrl.records' main='filegeneric.filename' is-open='$ctrl.sidenavOpen' on-select='$ctrl.updateSelected(item)'
+      on-add='$ctrl.add(item)'></sidenav>
+
+    <text-input label='File PID' is-required='true' text-value='$ctrl.selected.filegeneric.filepid' on-update='$ctrl.update("filegeneric.filepid", value)'></text-input>
+    <text-input label='File Company ID' text-value='$ctrl.selected.filegeneric.filecompanyid' on-update='$ctrl.update("filegeneric.filecompanyid", value)'></text-input>
+    <select-input label='Content Status' is-required='true' select-value='$ctrl.selected.filegeneric.contentstatus' values='$ctrl.contentStatus' on-update='$ctrl.update("filegeneric.contentstatus", value)'></select-input>
+    <text-input label='Replaced File PID' text-value='$ctrl.selected.filegeneric.replacedfilepid' on-update='$ctrl.update("filegeneric.replacedfilepid", value)'></text-input>
+    <select-input label='File Type' is-required='true' select-value='$ctrl.selected.filegeneric.filetype' values='$ctrl.fileType' on-update='$ctrl.update("filegeneric.filetype", value)'></select-input>
+    <text-input label='Format Comment' text-value='$ctrl.selected.filegeneric.formatcomment' on-update='$ctrl.update("filegeneric.formatcomment", value)'></text-input>
+    <text-input label='MD5 Checksum' text-value='$ctrl.selected.filegeneric.md5CHECKSUM' on-update='$ctrl.update("filegeneric.md5CHECKSUM", value)'></text-input>
+    <text-input label='Filename' is-required='true' text-value='$ctrl.selected.filegeneric.filename' on-update='$ctrl.update("filegeneric.filename", value)'></text-input>
+    <tbl ng-if='!$ctrl.loading' title='File Regulatory Authority' items='$ctrl.selected.filera' projection='["cbidesignation", "filecomment", "toSpecificForRAId"]'
+      on-select='$ctrl.selectTblItem("filera",index)' on-delete='$ctrl.deleteTblItem("filera",index)' deletable='true'></tbl>
+    <div style='z-index:100' class='float-bottom'>
+      <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
+        <md-icon md-svg-icon='save' class='light'></md-icon>
+      </md-button>
+      <md-button aria-label='Add New Item' class='md-fab md-primary' ng-click='$ctrl.add()'>
+        <md-icon md-svg-icon='add' class='light'></md-icon>
+      </md-button>
+      <md-button aria-label='Toggle List' class='md-fab md-primary' ng-click='$ctrl.toggleList()'>
+        <md-icon md-svg-icon='list' class='light'></md-icon>
+      </md-button>
+    </div>
+  </div>
 </section>
