@@ -24,6 +24,15 @@ export default angular.module('sidenav', [
       this.listOpen = false;
     }
 
+    getMain(item) {
+      let ref = item;
+      let props = this.main.split('.');
+      for (let prop of props) {
+        ref = ref[prop];
+      }
+      return ref;
+    }
+
     select(item) {
       this.onSelect({ item });
     }

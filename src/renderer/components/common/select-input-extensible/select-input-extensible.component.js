@@ -22,6 +22,7 @@ export default angular.module('selectInputExtensible', [
     isRequired: '<',
     selectValue: '<',
     values: '<',
+    typeName: '@',
     onUpdate: '&',
     onAdd: '&'
   },
@@ -46,13 +47,13 @@ export default angular.module('selectInputExtensible', [
       if (this.valid) {
         //update
         const picklistItem = {
-          TYPE_NAME: 'EXTENSION_TYPE_LEGALENTITY_TYPE',
+          TYPE_NAME: this.typeName,
           value: this.value,
           valuedecode: this.valuedecode || this.value,
           isExt: true
         };
 
-        this.onAdd({value: picklistItem})
+        this.onAdd({value: picklistItem});
 
         this.value = '';
         this.valuedecode = '';

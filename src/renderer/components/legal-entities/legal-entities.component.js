@@ -9,6 +9,7 @@ import SelectInputExtensible from '../common/select-input-extensible/select-inpu
 
 import PicklistService from '../../services/picklist.service';
 import AppDataService from '../../services/app.data.service';
+import ModelService from '../../services/model.service';
 import BaseCtrl from '../common/base.controller';
 
 import modelLegalEntity from '../../view-models/gen/legalentity.json';
@@ -23,7 +24,8 @@ export default angular.module('legalEntities', [
   SelectInput,
   SelectInputExtensible,
   PicklistService,
-  AppDataService
+  AppDataService,
+  ModelService
 ])
 .component('legalEntities', {
   template,
@@ -32,14 +34,17 @@ export default angular.module('legalEntities', [
     legalEntityIdentifierType: '<',
     countries: '<'
   },
-
   controller: class LECtrl extends BaseCtrl {
-    constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, $http) {
-      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, 'legalentity', $http);
+    constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService) {
+      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, 'legalentity');
 
       this.legalEntityTypes = JSON.parse(this.legalEntityType.data);
       this.legalEntityIdentifierTypes = JSON.parse(this.legalEntityIdentifierType.data);
       this.countries = JSON.parse(this.countries.data);
+
+      this.picklists = {
+        legalEntityIdentifierTypes: this.legalEntityIdentifierTypes
+      };
 
       this.init().then(() => {this.loading = false;});
       this.getModels();
@@ -52,8 +57,10 @@ export default angular.module('legalEntities', [
       this.modelLegalEntity = Object.assign(modelLegalEntity.fields);
       this.modelLegalEntity.contactaddress = Object.assign(this.modelContactAddress);
       this.modelLegalEntity._url = this.url;
-      // this.modelLegalEntity.legalentitytype = this.legalEntityTypes[0];
-      // this.modelLegalEntity.contactaddress.country = this.countries[0];
+    }
+
+    getModel() {
+      return angular.copy(this.modelLegalEntityIdentifier);
     }
 
     add() {
