@@ -79,21 +79,7 @@ export default function ($stateProvider, $urlRouterProvider) {
 
     .state('globals.products', {
       url: '/products',
-      component: 'products',
-      resolve: {
-        products: ProductService => {
-          return ProductService.getProducts();
-        }
-      }
-    })
-    .state('globals.products.product', {
-      url: '/:productPID',
-      component: 'product',
-      resolve: {
-        product: (ProductService, $stateParams) => {
-          return ProductService.getProduct($stateParams.productPID);
-        }
-      }
+      component: 'products'
     })
     .state('globals.documents', {
       url: '/documents',

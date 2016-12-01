@@ -1,6 +1,19 @@
 <section class='node-page'>
   <sidenav items='$ctrl.products.products' main='genericproductname' on-select='$ctrl.select(item)'></sidenav>
-  <ui-view>
-    <product></product>
-  </ui-view>
+  <text-input label='PID' is-required='true' is-disabled='true'></text-input>
+  <text-input label='Generic Product Name' text-value='$ctrl.product.genericproductname'></text-input>
+  <select-input label='Formulation Type' values='[]'></select-input>
+  <tbl title='Ingredients' items='[]' projection='[]'></tbl>
+  <tbl title='Product Regulatory Authority' items='[]' projection='[]'></tbl>
+  <div style='z-index:100' class='float-bottom'>
+    <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
+      <md-icon md-svg-icon='save' class='light'></md-icon>
+    </md-button>
+    <md-button aria-label='Add New Item' class='md-fab md-primary' ng-click='$ctrl.add()'>
+      <md-icon md-svg-icon='add' class='light'></md-icon>
+    </md-button>
+    <md-button aria-label='Toggle List' class='md-fab md-primary' ng-click='$ctrl.toggleList()'>
+      <md-icon md-svg-icon='list' class='light'></md-icon>
+    </md-button>
+  </div>
 </section>
