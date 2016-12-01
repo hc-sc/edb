@@ -110,6 +110,7 @@ var init = () => {
 
 };
 
+//For development only, should be removed when goes into production 
 var initDB = () => {
   //let ghstsSrv = new GhstsService(undefined, undefined, marshallers['01_00_00'], unmarshallers['01_00_00']);
   return new Q((res, rej) => {
@@ -287,9 +288,25 @@ app.on('ready', function () {
 // const testService = require('./services/picklist.service');
 // const testService = require('./services/dossier.service');
 // const testService = require('./services/substance.service');
+const testService = require('./services/ghsts.service');
 var backendTest = () => {
-//  console.log('--------- Backend Test Start ----------');
-//  let svr = new testService();
+console.log('--------- Backend Test Start ----------');
+let svr = new testService();
+
+svr.edb_get({url: 'ghsts/583f4d2e6f9a5f29f8c7497e/product/583f4d2e6f9a5f29f8c74965'}, true)
+  .then(ret => {
+   console.log(ret);
+ }).catch(err => {
+   console.log(err);
+ });
+
+
+// svr.edb_get({_id: '583f4d2e6f9a5f29f8c7497e'}, true)
+//   .then(ret => {
+//    console.log(ret);
+//  }).catch(err => {
+//    console.log(err);
+//  });
 
 //  svr.edb_put({
 //           "TYPE_NAME": "GHSTS.GHSTS.SUBSTANCES.SUBSTANCE",

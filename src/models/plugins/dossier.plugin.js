@@ -4,5 +4,5 @@ module.exports = exports = function DossierPlugin(schema, options) {
     submission: [{type: 'ObjectId', ref: 'SUBMISSION'}],
     product: [{type: 'ObjectId', ref: 'PRODUCT'}]
   });
-  console.log('dossier plugin loaded');
+  // console.log('dossier plugin loaded');
 };

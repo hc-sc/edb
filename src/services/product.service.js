@@ -57,8 +57,10 @@ module.exports = class ProductService extends BaseService {
 
       let subSvrClass = require('./submission.service');
       let dosSvrClass = require('./dossier.service');
+      let ghstsSvrClass = require('./ghsts.service');
       let subSvr = new subSvrClass();
       let dosSvr = new dosSvrClass();
+      let ghstsSvr = new ghstsSvrClass();
 
       submissions.map((items, index) => {
         qAry = [];        
@@ -66,7 +68,7 @@ module.exports = class ProductService extends BaseService {
           items.map(submission => {
             qAry.push(subSvr.edb_put(submission));
           });
-        } else
+        } else 
           qAry.push(subSvr.edb_put(items));
         
         Q.all(qAry)
@@ -90,6 +92,13 @@ module.exports = class ProductService extends BaseService {
           products[index].dossier = [JSON.parse(rets.data)._id.toString()];
           console.log(products[index].dossier);
           return self.edb_post(products[index]);
+        })
+        .bind(index)
+        .then(rets => {
+          if (dossiers[index].submission.length === 1) {
+            return ghstsSvr.edb_put({_product: [dossiers[index].product[0]]});
+          } else 
+            res();
         })
         .catch(err => {
           rej(err);

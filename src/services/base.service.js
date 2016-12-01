@@ -373,7 +373,6 @@ module.exports = class BaseService {
       let self = this;
       try {
         let jschema = SchemaLoader.loadSchema(self.modelClassNamePre + '.' + self.modelClassName, self.version);
-        //        console.log(JSON.stringify(jschema));
         let mongoose = require('mongoose');
         let Schema = mongoose.Schema;
         let mschema = new Schema(jschema, {

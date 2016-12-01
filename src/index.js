@@ -109,6 +109,7 @@ var init = () => {
 
 };
 
+//For development only, should be removed when goes into production 
 var initDB = () => {
   //let ghstsSrv = new GhstsService(undefined, undefined, marshallers['01_00_00'], unmarshallers['01_00_00']);
   return new Q((res, rej) => {
@@ -126,6 +127,9 @@ var initDB = () => {
         svr = new svrClass('01.00.00');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/substance.service');
+        svr = new svrClass('01.00.00');
+        qAry.push(svr.initDbfromTestData());
+        svrClass = require('./services/file.service');
         svr = new svrClass('01.00.00');
         qAry.push(svr.initDbfromTestData());
         return Q.all(qAry);
@@ -265,7 +269,7 @@ app.on('ready', function () {
   mainWindow.on('closed', function () {
     mainWindow = null;
   });
-  
+    
   mainWindow.loadURL('file://' + __dirname + '/renderer/index.html');
   mainWindow.webContents.on('did-finish-load', function () {
     // TODO: setTitle is being deprecated, find and use alternative
