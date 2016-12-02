@@ -490,17 +490,17 @@
             "documentpid": "urn:nms:71775C1B-427D-4ACC-8A25-4C4128298E7D",
             "documentfamilypid": "urn:pppww:316BFBE5-8AF9-4D46-9BF1-C125C1F3045E",
             "documentfamily": "T-423579",
-            "contentstatushistory": {
-              "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
-              "contentstatusAndSUBMISSIONNUMBER": [
-                {
+            "contentstatushistory": [
+              {
+                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
+                "contentstatus": {
                   "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
                   "value": "New",
                   "valuedecode": "New"
                 },
-                "01"
-              ]
-            },
+                "submissionnumber": "01"
+              }
+            ],
             "documentnumber": [
               {
                 "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER",
@@ -519,17 +519,11 @@
             "documenttitle": "C 6313 - Document J - Confidential information",
             "documentauthor": "Anon.",
             "documentissuedate": {
-              "year": 2004,
-              "month": 11,
-              "day": 5,
-              "hour": null,
-              "minute": null,
-              "second": null,
-              "fractionalSecond": null,
-              "timezone": null,
               "date": "2004-11-05T00:00:00.000Z"
             },
-           
+            "documentowner": [
+              "ECPA"
+            ],
             "publishedindicator": false,
             "completedocumentsource": "Syngenta",
             "testlaboratory": [
@@ -681,17 +675,17 @@
             "documentpid": "urn:nms:4B52D6EE-35B4-4793-B95E-E1041603654F",
             "documentfamilypid": "urn:pppww:8F8AD212-C5B7-4B04-ADA2-2769A6339735",
             "documentfamily": "T-423640",
-            "contentstatushistory": {
-              "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
-              "contentstatusAndSUBMISSIONNUMBER": [
-                {
+            "contentstatushistory": [
+              {
+                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
+                "contentstatus": {
                   "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
                   "value": "New",
                   "valuedecode": "New"
                 },
-                "01"
-              ]
-            },
+                "submissionnumber": "01"
+              }
+            ],
             "documentnumber": [
               {
                 "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER",
@@ -710,17 +704,11 @@
             "documenttitle": "Analytical method - CGA 24 705/C 6313 EC 300/200)",
             "documentauthor": "Anon.",
             "documentissuedate": {
-              "year": 1987,
-              "month": 121,
-              "day": 18,
-              "hour": null,
-              "minute": null,
-              "second": null,
-              "fractionalSecond": null,
-              "timezone": null,
-              "date": "1987-11-18T00:00:00.000Z"
+              "date": "2004-11-05T00:00:00.000Z"
             },
-            
+            "documentowner": [
+              "ECPA"
+            ],
             "publishedindicator": false,
             "completedocumentsource": "Ciba-Geigy Ltd., Basel, Switzerland",
             "testlaboratory": [
@@ -872,17 +860,17 @@
             "documentpid": "urn:nms:440E08DA-7D56-4E37-BB65-8DF839E2116B",
             "documentfamilypid": "urn:pppww:0B61AA8E-C432-4B38-B465-94C0DDD8C70F",
             "documentfamily": "T-423586",
-            "contentstatushistory": {
-              "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
-              "contentstatusAndSUBMISSIONNUMBER": [
-                {
+            "contentstatushistory": [
+              {
+                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
+                "contentstatus": {
                   "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
                   "value": "New",
                   "valuedecode": "New"
                 },
-                "01"
-              ]
-            },
+                "submissionnumber": "01"
+              }
+            ],
             "documentnumber": [
               {
                 "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER",
@@ -901,15 +889,7 @@
             "documenttitle": "C 1983 techn. - Acute oral LD50 in the mouse",
             "documentauthor": "Kobel, W.",
             "documentissuedate": {
-              "year": 1984,
-              "month": 2,
-              "day": 9,
-              "hour": null,
-              "minute": null,
-              "second": null,
-              "fractionalSecond": null,
-              "timezone": null,
-              "date": "1984-02-09T00:00:00.000Z"
+              "date": "2004-11-05T00:00:00.000Z"
             },
             "documentowner": [
               "ECPA"
@@ -1065,17 +1045,17 @@
             "documentpid": "urn:nms:C0E709E4-B9EF-4C35-AA4F-4DC40E873765",
             "documentfamilypid": "urn:pppww:87CD96FF-6CEC-402F-B023-BA7085BA4732",
             "documentfamily": "T-423584",
-            "contentstatushistory": {
-              "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
-              "contentstatusAndSUBMISSIONNUMBER": [
-                {
+            "contentstatushistory": [
+              {
+                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
+                "contentstatus": {
                   "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
                   "value": "New",
                   "valuedecode": "New"
                 },
-                "01"
-              ]
-            },
+                "submissionnumber": "01"
+              }
+            ],
             "documentnumber": [
               {
                 "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER",
@@ -1093,16 +1073,8 @@
             ],
             "documenttitle": "C 3470 techn. - Acute oral LD50 in the Chinese hamster",
             "documentauthor": "Sarasin, G.",
-            "documentissuedate": {
-              "year": 1982,
-              "month": 4,
-              "day": 21,
-              "hour": null,
-              "minute": null,
-              "second": null,
-              "fractionalSecond": null,
-              "timezone": null,
-              "date": "1982-04-21T00:00:00.000Z"
+           "documentissuedate": {
+              "date": "2004-11-05T00:00:00.000Z"
             },
             "documentowner": [
               "ECPA"
@@ -1262,17 +1234,17 @@
             "documentpid": "urn:nms:C62B8C1A-21E8-4101-90CF-2686E8571469",
             "documentfamilypid": "urn:pppww:0F0CB85F-5369-4757-A530-7604FD613AD7",
             "documentfamily": "T-423615",
-            "contentstatushistory": {
-              "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
-              "contentstatusAndSUBMISSIONNUMBER": [
-                {
+            "contentstatushistory": [
+              {
+                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
+                "contentstatus": {
                   "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
                   "value": "New",
                   "valuedecode": "New"
                 },
-                "01"
-              ]
-            },
+                "submissionnumber": "01"
+              }
+            ],
             "documentnumber": [
               {
                 "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER",
@@ -1291,15 +1263,7 @@
             "documenttitle": "Acute aerosol inhalation toxicity in rat of C 6313 + CGA 24 705 (200+300) EC 500 (A-5724A)",
             "documentauthor": "Bretz, R.",
             "documentissuedate": {
-              "year": 1981,
-              "month": 10,
-              "day": 27,
-              "hour": null,
-              "minute": null,
-              "second": null,
-              "fractionalSecond": null,
-              "timezone": null,
-              "date": "1981-10-27T00:00:00.000Z"
+              "date": "2004-11-05T00:00:00.000Z"
             },
             "documentowner": [
               "ECPA"
@@ -1455,17 +1419,17 @@
             "documentpid": "urn:nms:52E454F0-8369-46B7-93A9-F0CA14F3A4BC",
             "documentfamilypid": "urn:pppww:87FE03B5-88AD-4AEB-B517-C81F4E5FFDF5",
             "documentfamily": "T-423612",
-            "contentstatushistory": {
-              "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
-              "contentstatusAndSUBMISSIONNUMBER": [
-                {
+            "contentstatushistory": [
+              {
+                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
+                "contentstatus": {
                   "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
                   "value": "New",
                   "valuedecode": "New"
                 },
-                "01"
-              ]
-            },
+                "submissionnumber": "01"
+              }
+            ],
             "documentnumber": [
               {
                 "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER",
@@ -1484,15 +1448,7 @@
             "documenttitle": "Skin irritation in the rabbit after single application of C 6313 + CGA 24 705 (200+300) EC 500 (A-5724A)",
             "documentauthor": "Gfeller, W.",
             "documentissuedate": {
-              "year": 1981,
-              "month": 9,
-              "day": 29,
-              "hour": null,
-              "minute": null,
-              "second": null,
-              "fractionalSecond": null,
-              "timezone": null,
-              "date": "1981-09-29T00:00:00.000Z"
+              "date": "2004-11-05T00:00:00.000Z"
             },
             "documentowner": [
               "ECPA"
@@ -1652,17 +1608,17 @@
             "documentpid": "urn:nms:30002A42-7742-4242-9ED5-E6EDB2576482",
             "documentfamilypid": "urn:pppww:AE785CAF-C4D7-463A-B90F-225F0A3C36B4",
             "documentfamily": "T-423618",
-            "contentstatushistory": {
-              "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
-              "contentstatusAndSUBMISSIONNUMBER": [
-                {
+            "contentstatushistory": [
+              {
+                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
+                "contentstatus": {
                   "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
                   "value": "New",
                   "valuedecode": "New"
                 },
-                "01"
-              ]
-            },
+                "submissionnumber": "01"
+              }
+            ],
             "documentnumber": [
               {
                 "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER",
@@ -1681,15 +1637,7 @@
             "documenttitle": "Acute dermal LD 50 in rat of C 6313 + CGA 24 705 (200+300) EC 500 (A-5724A)",
             "documentauthor": "Sarasin, G.",
             "documentissuedate": {
-              "year": 1992,
-              "month": 10,
-              "day": 30,
-              "hour": null,
-              "minute": null,
-              "second": null,
-              "fractionalSecond": null,
-              "timezone": null,
-              "date": "1992-10-30T00:00:00.000Z"
+              "date": "2004-11-05T00:00:00.000Z"
             },
             "documentowner": [
               "ECPA"
@@ -1845,17 +1793,17 @@
             "documentpid": "urn:nms:50430F52-13D3-45E7-BA41-9EBC2955D142",
             "documentfamilypid": "urn:pppww:DDB46340-7D35-4109-BCBB-F243E174ACC8",
             "documentfamily": "T-423604",
-            "contentstatushistory": {
-              "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
-              "contentstatusAndSUBMISSIONNUMBER": [
-                {
+            "contentstatushistory": [
+              {
+                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
+                "contentstatus": {
                   "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
                   "value": "New",
                   "valuedecode": "New"
                 },
-                "01"
-              ]
-            },
+                "submissionnumber": "01"
+              }
+            ],
             "documentnumber": [
               {
                 "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER",
@@ -1874,15 +1822,7 @@
             "documenttitle": "A teratology (segment II) study in rats - difenoxuron technical",
             "documentauthor": "Jardel, M. T.; Youreneff, M. A.; Giknis, M. L. A.; Yau, E. T.",
             "documentissuedate": {
-              "year": 1990,
-              "month": 1,
-              "day": 4,
-              "hour": null,
-              "minute": null,
-              "second": null,
-              "fractionalSecond": null,
-              "timezone": null,
-              "date": "1990-01-04T00:00:00.000Z"
+              "date": "2004-11-05T00:00:00.000Z"
             },
             "documentowner": [
               "ECPA"
@@ -2038,17 +1978,17 @@
             "documentpid": "urn:nms:31B06343-6D3D-4B88-863D-C049BB9676A3",
             "documentfamilypid": "urn:pppww:5F4C3864-83F4-414E-A7E1-9FBEFA899317",
             "documentfamily": "T-423613",
-            "contentstatushistory": {
-              "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
-              "contentstatusAndSUBMISSIONNUMBER": [
-                {
+            "contentstatushistory": [
+              {
+                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
+                "contentstatus": {
                   "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
                   "value": "New",
                   "valuedecode": "New"
                 },
-                "01"
-              ]
-            },
+                "submissionnumber": "01"
+              }
+            ],
             "documentnumber": [
               {
                 "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER",
@@ -2067,15 +2007,7 @@
             "documenttitle": "Adsorption and degradation  of chlorbromuron in soil",
             "documentauthor": "Savage, K. E.",
             "documentissuedate": {
-              "year": 1973,
-              "month": 9,
-              "day": 30,
-              "hour": null,
-              "minute": null,
-              "second": null,
-              "fractionalSecond": null,
-              "timezone": null,
-              "date": "1973-09-30T00:00:00.000Z"
+              "date": "2004-11-05T00:00:00.000Z"
             },
             "documentowner": [
               "ECPA"
@@ -2231,17 +2163,17 @@
             "documentpid": "urn:nms:10BA6752-70F0-42F3-90DB-9DDA2FCE19C9",
             "documentfamilypid": "urn:pppww:2274C435-6F68-4E0F-AAB7-799E83684AC3",
             "documentfamily": "T-423605",
-            "contentstatushistory": {
-              "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
-              "contentstatusAndSUBMISSIONNUMBER": [
-                {
+            "contentstatushistory": [
+              {
+                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
+                "contentstatus": {
                   "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
                   "value": "New",
                   "valuedecode": "New"
                 },
-                "01"
-              ]
-            },
+                "submissionnumber": "01"
+              }
+            ],
             "documentnumber": [
               {
                 "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER",
@@ -2260,15 +2192,7 @@
             "documenttitle": "Acute oral LD 50 in the adult japanese quail of C 6313 + CGA 24 705 (200+300) EC 500 (A-5724A)",
             "documentauthor": "Kobel, W.",
             "documentissuedate": {
-              "year": 1981,
-              "month": 11,
-              "day": 10,
-              "hour": null,
-              "minute": null,
-              "second": null,
-              "fractionalSecond": null,
-              "timezone": null,
-              "date": "1981-11-10T00:00:00.000Z"
+              "date": "2004-11-05T00:00:00.000Z"
             },
             "documentowner": [
               "ECPA"
@@ -2424,17 +2348,17 @@
             "documentpid": "urn:nms:FF7A3CDC-0A2C-467D-9564-82ADFEBC9179",
             "documentfamilypid": "urn:pppww:5FDA8E43-9F22-47DB-8073-432AB4C02D1C",
             "documentfamily": "T-423616",
-            "contentstatushistory": {
-              "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
-              "contentstatusAndSUBMISSIONNUMBER": [
-                {
+            "contentstatushistory": [
+              {
+                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
+                "contentstatus": {
                   "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
                   "value": "New",
                   "valuedecode": "New"
                 },
-                "01"
-              ]
-            },
+                "submissionnumber": "01"
+              }
+            ],
             "documentnumber": [
               {
                 "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER",
@@ -2452,16 +2376,8 @@
             ],
             "documenttitle": "Acute oral LD50 in the adult Japanese quail of C 1983",
             "documentauthor": "Sachsse, K.; Ullmann, L.",
-            "documentissuedate": {
-              "year": 1977,
-              "month": 3,
-              "day": 11,
-              "hour": null,
-              "minute": null,
-              "second": null,
-              "fractionalSecond": null,
-              "timezone": null,
-              "date": "1977-03-11T00:00:00.000Z"
+           "documentissuedate": {
+              "date": "2004-11-05T00:00:00.000Z"
             },
             "documentowner": [
               "ECPA"
@@ -2617,17 +2533,17 @@
             "documentpid": "urn:nms:A6566D90-2F73-4B25-A836-59FD30D9F0FE",
             "documentfamilypid": "urn:pppww:5FDA8E43-9F22-47DB-8073-432AB4C02D1C",
             "documentfamily": "T-423616",
-            "contentstatushistory": {
-              "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
-              "contentstatusAndSUBMISSIONNUMBER": [
-                {
+            "contentstatushistory": [
+              {
+                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
+                "contentstatus": {
                   "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
                   "value": "New",
                   "valuedecode": "New"
                 },
-                "01"
-              ]
-            },
+                "submissionnumber": "01"
+              }
+            ],
             "documentnumber": [
               {
                 "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER",
@@ -2646,15 +2562,7 @@
             "documenttitle": "Acute oral LD50 in the adult Japanese quail of C 1983",
             "documentauthor": "Sachsse, K.; Ullmann, L.",
             "documentissuedate": {
-              "year": 1977,
-              "month": 3,
-              "day": 11,
-              "hour": null,
-              "minute": null,
-              "second": null,
-              "fractionalSecond": null,
-              "timezone": null,
-              "date": "1977-03-11T00:00:00.000Z"
+              "date": "2004-11-05T00:00:00.000Z"
             },
             "documentowner": [
               "ECPA"
@@ -2810,17 +2718,17 @@
             "documentpid": "urn:nms:355C02A8-6C6C-42D2-8007-D2A4FFE98FA5",
             "documentfamilypid": "urn:pppww:77EC4C29-D81F-4904-910B-AB6C521A290B",
             "documentfamily": "T-423601",
-            "contentstatushistory": {
-              "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
-              "contentstatusAndSUBMISSIONNUMBER": [
-                {
+            "contentstatushistory": [
+              {
+                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
+                "contentstatus": {
                   "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
                   "value": "New",
                   "valuedecode": "New"
                 },
-                "01"
-              ]
-            },
+                "submissionnumber": "01"
+              }
+            ],
             "documentnumber": [
               {
                 "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER",
@@ -2839,15 +2747,7 @@
             "documenttitle": "Acute toxicity of C 6313/24705 500 EC to rainbow trout",
             "documentauthor": "Hitz, H. R.",
             "documentissuedate": {
-              "year": 1982,
-              "month": 8,
-              "day": 18,
-              "hour": null,
-              "minute": null,
-              "second": null,
-              "fractionalSecond": null,
-              "timezone": null,
-              "date": "1982-08-18T00:00:00.000Z"
+              "date": "2004-11-05T00:00:00.000Z"
             },
             "documentowner": [
               "ECPA"
@@ -3007,17 +2907,17 @@
             "documentpid": "urn:nms:C18E77E9-CC0D-4142-BF16-BD2199512731",
             "documentfamilypid": "urn:pppww:0EBDED8D-72E1-4F0F-B043-5ADEAAE5643D",
             "documentfamily": "T-423656",
-            "contentstatushistory": {
-              "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
-              "contentstatusAndSUBMISSIONNUMBER": [
-                {
+            "contentstatushistory": [
+              {
+                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
+                "contentstatus": {
                   "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
                   "value": "New",
                   "valuedecode": "New"
                 },
-                "01"
-              ]
-            },
+                "submissionnumber": "01"
+              }
+            ],
             "documentnumber": [
               {
                 "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER",
@@ -3036,15 +2936,7 @@
             "documenttitle": "The effects of herbicides used on asparagus on the growth rate of the earthworm Allolobophora caliginasa",
             "documentauthor": "Martin, N. A.",
             "documentissuedate": {
-              "year": 1982,
-              "month": 12,
-              "day": 31,
-              "hour": null,
-              "minute": null,
-              "second": null,
-              "fractionalSecond": null,
-              "timezone": null,
-              "date": "1982-12-31T00:00:00.000Z"
+              "date": "2004-11-05T00:00:00.000Z"
             },
             "documentowner": [
               "ECPA"
@@ -3204,17 +3096,17 @@
             "documentpid": "urn:nms:ECB6A075-174F-4C65-812E-ADE7E99848F9",
             "documentfamilypid": "urn:pppww:DF8145E5-F52E-4FAC-A610-B19B8256C3D5",
             "documentfamily": "M-508647",
-            "contentstatushistory": {
-              "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
-              "contentstatusAndSUBMISSIONNUMBER": [
-                {
+            "contentstatushistory": [
+              {
+                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
+                "contentstatus": {
                   "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
                   "value": "New",
                   "valuedecode": "New"
                 },
-                "01"
-              ]
-            },
+                "submissionnumber": "01"
+              }
+            ],
             "documentnumber": [
               {
                 "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER",
@@ -3232,16 +3124,8 @@
             ],
             "documenttitle": "Reference list of document KIIA Individual test and study reports for GHSTS demo dossier TC",
             "documentauthor": "Anon.",
-            "documentissuedate": {
-              "year": 2015,
-              "month": 1,
-              "day": 29,
-              "hour": null,
-              "minute": null,
-              "second": null,
-              "fractionalSecond": null,
-              "timezone": null,
-              "date": "2015-01-29T00:00:00.000Z"
+			"documentissuedate": {
+              "date": "2004-11-05T00:00:00.000Z"
             },
             "documentowner": [
               "ECPA"
@@ -3401,17 +3285,17 @@
             "documentpid": "urn:nms:8E80F2F1-436E-4EAA-8A78-8FF9967C7C5B",
             "documentfamilypid": "urn:pppww:03FBB236-FE6A-4260-A563-EDAEC34D6A07",
             "documentfamily": "T-423658",
-            "contentstatushistory": {
-              "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
-              "contentstatusAndSUBMISSIONNUMBER": [
-                {
+            "contentstatushistory": [
+              {
+                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
+                "contentstatus": {
                   "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
                   "value": "New",
                   "valuedecode": "New"
                 },
-                "01"
-              ]
-            },
+                "submissionnumber": "01"
+              }
+            ],
             "documentnumber": [
               {
                 "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER",
@@ -3430,15 +3314,7 @@
             "documenttitle": "Appendix 7 - Format for the compilation of Tier II summaries - active substance - Part 1 - Section 1",
             "documentauthor": "Jones, J.",
             "documentissuedate": {
-              "year": 2001,
-              "month": 3,
-              "day": 31,
-              "hour": null,
-              "minute": null,
-              "second": null,
-              "fractionalSecond": null,
-              "timezone": null,
-              "date": "2001-03-31T00:00:00.000Z"
+              "date": "2004-11-05T00:00:00.000Z"
             },
             "documentowner": [
               "ECPA"
@@ -3594,17 +3470,17 @@
             "documentpid": "urn:nms:1F5110E0-B1D8-407B-B394-69912E3506A3",
             "documentfamilypid": "urn:pppww:F2940AE9-3620-4725-8DB2-DBB82B4C778D",
             "documentfamily": "T-423596",
-            "contentstatushistory": {
-              "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
-              "contentstatusAndSUBMISSIONNUMBER": [
-                {
+            "contentstatushistory": [
+              {
+                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
+                "contentstatus": {
                   "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
                   "value": "New",
                   "valuedecode": "New"
                 },
-                "01"
-              ]
-            },
+                "submissionnumber": "01"
+              }
+            ],
             "documentnumber": [
               {
                 "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER",
@@ -3623,15 +3499,7 @@
             "documenttitle": "Appendix 8 - Format for the compilation of Tier II summaries - formulated product - Part 1 - Section 1 Identity of the plant protection product; Physical, chemical and technical properties of the plant protection product; Data on application; Further information on the plant protection product; Proposals including justification of the proposals for the classification and labelling of the plant protection product; Proposals for risk and safety phrases and the proposed label",
             "documentauthor": "Anon.",
             "documentissuedate": {
-              "year": 2001,
-              "month": 3,
-              "day": 31,
-              "hour": null,
-              "minute": null,
-              "second": null,
-              "fractionalSecond": null,
-              "timezone": null,
-              "date": "2001-03-31T00:00:00.000Z"
+              "date": "2004-11-05T00:00:00.000Z"
             },
             "documentowner": [
               "ECPA"
@@ -3787,17 +3655,17 @@
             "documentpid": "urn:nms:57A66AFD-5DED-4DFF-8D0A-BCC8EE72EA3D",
             "documentfamilypid": "urn:pppww:C31C4D49-861A-4074-8444-0C28F4CFA490",
             "documentfamily": "T-423659",
-            "contentstatushistory": {
-              "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
-              "contentstatusAndSUBMISSIONNUMBER": [
-                {
+            "contentstatushistory": [
+              {
+                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
+                "contentstatus": {
                   "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
                   "value": "New",
                   "valuedecode": "New"
                 },
-                "01"
-              ]
-            },
+                "submissionnumber": "01"
+              }
+            ],
             "documentnumber": [
               {
                 "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER",
@@ -3816,15 +3684,7 @@
             "documenttitle": "Appendix 7 - Format for the compilation of Tier II summaries - active substance - Part 2 - Section 2",
             "documentauthor": "Anon.",
             "documentissuedate": {
-              "year": 2001,
-              "month": 3,
-              "day": 31,
-              "hour": null,
-              "minute": null,
-              "second": null,
-              "fractionalSecond": null,
-              "timezone": null,
-              "date": "2001-03-31T00:00:00.000Z"
+              "date": "2004-11-05T00:00:00.000Z"
             },
             "documentowner": [
               "ECPA"
@@ -3980,17 +3840,17 @@
             "documentpid": "urn:nms:C937EBCB-2E1E-4696-971B-0D175391FDF2",
             "documentfamilypid": "urn:pppww:65AC1638-16DD-4627-B1F8-4DEF801FBB85",
             "documentfamily": "T-423662",
-            "contentstatushistory": {
-              "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
-              "contentstatusAndSUBMISSIONNUMBER": [
-                {
+            "contentstatushistory": [
+              {
+                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
+                "contentstatus": {
                   "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
                   "value": "New",
                   "valuedecode": "New"
                 },
-                "01"
-              ]
-            },
+                "submissionnumber": "01"
+              }
+            ],
             "documentnumber": [
               {
                 "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER",
@@ -4009,15 +3869,7 @@
             "documenttitle": "Appendix 7 - Format for the compilation of Tier II summaries - active substance - Part 3 - Section 3 - Toxicological and metabolism studies on the active substance",
             "documentauthor": "Anon.",
             "documentissuedate": {
-              "year": 2011,
-              "month": 3,
-              "day": 31,
-              "hour": null,
-              "minute": null,
-              "second": null,
-              "fractionalSecond": null,
-              "timezone": null,
-              "date": "2011-03-31T00:00:00.000Z"
+              "date": "2004-11-05T00:00:00.000Z"
             },
             "documentowner": [
               "ECPA"
@@ -4173,17 +4025,17 @@
             "documentpid": "urn:nms:120C473E-1AF5-4346-97B9-4E7907FEB3DC",
             "documentfamilypid": "urn:pppww:CA80A98F-5F12-45F7-8954-46F377E616BC",
             "documentfamily": "T-423592",
-            "contentstatushistory": {
-              "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
-              "contentstatusAndSUBMISSIONNUMBER": [
-                {
+            "contentstatushistory": [
+              {
+                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
+                "contentstatus": {
                   "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
                   "value": "New",
                   "valuedecode": "New"
                 },
-                "01"
-              ]
-            },
+                "submissionnumber": "01"
+              }
+            ],
             "documentnumber": [
               {
                 "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER",
@@ -4202,15 +4054,7 @@
             "documenttitle": "Appendix 8 - Format for the compilation of Tier II summaries - formulated product - Part 2 - Section 3 - Toxicological studies and exposure data and information",
             "documentauthor": "Anon.",
             "documentissuedate": {
-              "year": 2001,
-              "month": 3,
-              "day": 31,
-              "hour": null,
-              "minute": null,
-              "second": null,
-              "fractionalSecond": null,
-              "timezone": null,
-              "date": "2001-03-31T00:00:00.000Z"
+              "date": "2004-11-05T00:00:00.000Z"
             },
             "documentowner": [
               "ECPA"
@@ -4366,17 +4210,17 @@
             "documentpid": "urn:nms:27E92BF8-CB52-417F-8301-EAAA11221D5E",
             "documentfamilypid": "urn:pppww:2E90E72A-AE17-4128-8B9F-653CC700CC3F",
             "documentfamily": "T-423663",
-            "contentstatushistory": {
-              "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
-              "contentstatusAndSUBMISSIONNUMBER": [
-                {
+            "contentstatushistory": [
+              {
+                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
+                "contentstatus": {
                   "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
                   "value": "New",
                   "valuedecode": "New"
                 },
-                "01"
-              ]
-            },
+                "submissionnumber": "01"
+              }
+            ],
             "documentnumber": [
               {
                 "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER",
@@ -4395,15 +4239,7 @@
             "documenttitle": "Appendix 7 - Format for the compilation of Tier II summaries - active substance - Part 4 - Section 4 - Residues in or on treated products, food and feed",
             "documentauthor": "Anon.",
             "documentissuedate": {
-              "year": 2001,
-              "month": 3,
-              "day": 31,
-              "hour": null,
-              "minute": null,
-              "second": null,
-              "fractionalSecond": null,
-              "timezone": null,
-              "date": "2001-03-31T00:00:00.000Z"
+              "date": "2004-11-05T00:00:00.000Z"
             },
             "documentowner": [
               "ECPA"
@@ -4559,17 +4395,17 @@
             "documentpid": "urn:nms:7E23EEFB-59C5-4BD6-AA69-645EF28F99CB",
             "documentfamilypid": "urn:pppww:BE19F46A-C1B4-422E-8D99-6B6F09E1A4F3",
             "documentfamily": "T-423664",
-            "contentstatushistory": {
-              "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
-              "contentstatusAndSUBMISSIONNUMBER": [
-                {
+            "contentstatushistory": [
+              {
+                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
+                "contentstatus": {
                   "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
                   "value": "New",
                   "valuedecode": "New"
                 },
-                "01"
-              ]
-            },
+                "submissionnumber": "01"
+              }
+            ],
             "documentnumber": [
               {
                 "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER",
@@ -4588,15 +4424,7 @@
             "documenttitle": "Appendix 7 - Format for the compilation of Tier II summaries - active substance - Part 5 - Section 5 - Fate and behaviour in the environment",
             "documentauthor": "Anon.",
             "documentissuedate": {
-              "year": 2001,
-              "month": 3,
-              "day": 31,
-              "hour": null,
-              "minute": null,
-              "second": null,
-              "fractionalSecond": null,
-              "timezone": null,
-              "date": "2001-03-31T00:00:00.000Z"
+              "date": "2004-11-05T00:00:00.000Z"
             },
             "documentowner": [
               "ECPA"
@@ -4752,17 +4580,17 @@
             "documentpid": "urn:nms:8324107D-DA53-47BD-BF98-7CABCA0C95CB",
             "documentfamilypid": "urn:pppww:2880259A-9088-464C-9F0D-BCA8ECBE57F5",
             "documentfamily": "T-423591",
-            "contentstatushistory": {
-              "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
-              "contentstatusAndSUBMISSIONNUMBER": [
-                {
+            "contentstatushistory": [
+              {
+                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
+                "contentstatus": {
                   "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
                   "value": "New",
                   "valuedecode": "New"
                 },
-                "01"
-              ]
-            },
+                "submissionnumber": "01"
+              }
+            ],
             "documentnumber": [
               {
                 "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER",
@@ -4781,15 +4609,7 @@
             "documenttitle": "Appendix 8 - Format for the compilation of Tier II summaries - formulated product - Part 3 - Section 6 Ecotoxicological Studies and risk assessment",
             "documentauthor": "Anon.",
             "documentissuedate": {
-              "year": 2001,
-              "month": 3,
-              "day": 31,
-              "hour": null,
-              "minute": null,
-              "second": null,
-              "fractionalSecond": null,
-              "timezone": null,
-              "date": "2001-03-31T00:00:00.000Z"
+              "date": "2004-11-05T00:00:00.000Z"
             },
             "documentowner": [
               "ECPA"
@@ -4945,17 +4765,17 @@
             "documentpid": "urn:nms:B54A10B5-0302-4240-99BD-F5234592C44D",
             "documentfamilypid": "urn:pppww:1F2D49BB-4A46-4FFD-88CA-C784DF3329C7",
             "documentfamily": "T-423583",
-            "contentstatushistory": {
-              "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
-              "contentstatusAndSUBMISSIONNUMBER": [
-                {
+            "contentstatushistory": [
+              {
+                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
+                "contentstatus": {
                   "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
                   "value": "New",
                   "valuedecode": "New"
                 },
-                "01"
-              ]
-            },
+                "submissionnumber": "01"
+              }
+            ],
             "documentnumber": [
               {
                 "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER",
@@ -4974,15 +4794,7 @@
             "documenttitle": "Appendix 9 - Format for the listing of end points to be included in the tier III overall summary and assessment - Chapter 1: Identity, Physical and Chemical Properties, Details of Uses, Further information, and proposed classification and labelling",
             "documentauthor": "Anon.",
             "documentissuedate": {
-              "year": 2001,
-              "month": 3,
-              "day": 31,
-              "hour": null,
-              "minute": null,
-              "second": null,
-              "fractionalSecond": null,
-              "timezone": null,
-              "date": "2001-03-31T00:00:00.000Z"
+              "date": "2004-11-05T00:00:00.000Z"
             },
             "documentowner": [
               "ECPA"
@@ -5138,17 +4950,17 @@
             "documentpid": "urn:nms:655B31E3-25DF-45FA-BDF2-C3CA3D3342AA",
             "documentfamilypid": "urn:pppww:D59B56D9-0086-4818-BED9-51AE6850FD07",
             "documentfamily": "T-423585",
-            "contentstatushistory": {
-              "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
-              "contentstatusAndSUBMISSIONNUMBER": [
-                {
+            "contentstatushistory": [
+              {
+                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
+                "contentstatus": {
                   "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
                   "value": "New",
                   "valuedecode": "New"
                 },
-                "01"
-              ]
-            },
+                "submissionnumber": "01"
+              }
+            ],
             "documentnumber": [
               {
                 "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER",
@@ -5167,15 +4979,7 @@
             "documenttitle": "Appendix 10 - Format for the listing of end points to be included in the tier III overall summary and assessment - Chapter 1: The active substance, its properties, uses, proposed classification and labelling",
             "documentauthor": "Anon.",
             "documentissuedate": {
-              "year": 2001,
-              "month": 3,
-              "day": 31,
-              "hour": null,
-              "minute": null,
-              "second": null,
-              "fractionalSecond": null,
-              "timezone": null,
-              "date": "2001-03-31T00:00:00.000Z"
+              "date": "2004-11-05T00:00:00.000Z"
             },
             "documentowner": [
               "ECPA"
@@ -5331,17 +5135,17 @@
             "documentpid": "urn:nms:25831844-4D51-413D-914E-E08554E29343",
             "documentfamilypid": "urn:pppww:7B3F0F1A-406D-4811-8E85-CA1F4636BB5D",
             "documentfamily": "T-423581",
-            "contentstatushistory": {
-              "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
-              "contentstatusAndSUBMISSIONNUMBER": [
-                {
+            "contentstatushistory": [
+              {
+                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
+                "contentstatus": {
                   "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
                   "value": "New",
                   "valuedecode": "New"
                 },
-                "01"
-              ]
-            },
+                "submissionnumber": "01"
+              }
+            ],
             "documentnumber": [
               {
                 "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER",
@@ -5360,15 +5164,7 @@
             "documenttitle": "Part 2 - Evaluation Form 1 - for use in checking that the required supporting documentation has been provided",
             "documentauthor": "Anon.",
             "documentissuedate": {
-              "year": 2001,
-              "month": 3,
-              "day": 31,
-              "hour": null,
-              "minute": null,
-              "second": null,
-              "fractionalSecond": null,
-              "timezone": null,
-              "date": "2001-03-31T00:00:00.000Z"
+              "date": "2004-11-05T00:00:00.000Z"
             },
             "documentowner": [
               "ECPA"
@@ -5524,17 +5320,17 @@
             "documentpid": "urn:nms:76FFDDF8-372C-4AD9-BE5A-47D85F384F5A",
             "documentfamilypid": "urn:pppww:90127765-C7FB-4233-8EF3-563D2EDB5B78",
             "documentfamily": "T-423578",
-            "contentstatushistory": {
-              "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
-              "contentstatusAndSUBMISSIONNUMBER": [
-                {
+            "contentstatushistory": [
+              {
+                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
+                "contentstatus": {
                   "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
                   "value": "New",
                   "valuedecode": "New"
                 },
-                "01"
-              ]
-            },
+                "submissionnumber": "01"
+              }
+            ],
             "documentnumber": [
               {
                 "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER",
@@ -5553,15 +5349,7 @@
             "documenttitle": "Part 2 - Evaluation Form 2 - for use in checking that the required active substance and formulated product dossier summaries and an overall assessment, have been provided",
             "documentauthor": "Anon.",
             "documentissuedate": {
-              "year": 2001,
-              "month": 3,
-              "day": 31,
-              "hour": null,
-              "minute": null,
-              "second": null,
-              "fractionalSecond": null,
-              "timezone": null,
-              "date": "2001-03-31T00:00:00.000Z"
+              "date": "2004-11-05T00:00:00.000Z"
             },
             "documentowner": [
               "ECPA"
