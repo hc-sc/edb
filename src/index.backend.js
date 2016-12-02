@@ -181,6 +181,10 @@ ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL, function (event, arg) {
   }
   lastMessageTimestamp = timestamp;
   svr[method](arg.data).then(result => {
+    if (method === 'edb_get' && arg.data) {  // need to refactory
+      submissions[0] = JSON.parse(result.data);
+    }
+
     event.sender.send(SHARED_CONST.GHSTS_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, result);
   })
     .catch(err => {
@@ -293,20 +297,27 @@ var backendTest = () => {
 console.log('--------- Backend Test Start ----------');
 let svr = new testService();
 
-svr.edb_get({url: 'ghsts/583f4d2e6f9a5f29f8c7497e/product/583f4d2e6f9a5f29f8c74965'}, true)
+//svr.edb_delete('58407a642f2d9a1f74416c17');
+
+// svr.edb_put({productShortName: 'test', submissionid: '58408f1cb601cb256005672b', productid: '58408f1eb601cb25600567e9'})
+//   .then(ret => {
+//     console.log(ret);
+// //     return svr.edb_delete(JSON.parse(ret.data)._id);
+// //  })
+// //  .then(ret => {
+// //    console.log(ret);
+//  }) 
+//  .catch(err => {
+//    console.log(err);
+//  });
+
+
+svr.edb_get({submissionid: '58408f1cb601cb256005672b'})
   .then(ret => {
    console.log(ret);
  }).catch(err => {
    console.log(err);
  });
-
-
-// svr.edb_get({_id: '583f4d2e6f9a5f29f8c7497e'}, true)
-//   .then(ret => {
-//    console.log(ret);
-//  }).catch(err => {
-//    console.log(err);
-//  });
 
 //  svr.edb_put({
 //           "TYPE_NAME": "GHSTS.GHSTS.SUBSTANCES.SUBSTANCE",

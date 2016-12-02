@@ -22,7 +22,7 @@ module.exports = class BaseService {
     this.defDir = path.join(this.schemaDir, this.version.replace(/\./g, '_'), BACKEND_CONST.DEF_SUB_DIR_NAME);
   }
 
-  edb_get(obj, pop) {
+  edb_get(obj, pop, where) {
     return new Q((res, rej) => {
       let self = this;
       let query = obj ? (obj ? obj : {}) : {};
@@ -31,6 +31,10 @@ module.exports = class BaseService {
       try {
         entityClass = require('mongoose').model(self.modelClassName);
         let dbquery;
+        if (where) {
+          dbquery.where(where.fieldname).in(where.ids);
+        }
+
         if (pop) {
           let pops = [];
           let paths = entityClass.schema.paths;
@@ -38,12 +42,13 @@ module.exports = class BaseService {
             if (paths[path].caster)
               pops.push({path: path});
           }
-          dbquery = entityClass.find(query).populate(pops).lean();
+          dbquery = entityClass.find(query).populate(pops);
         }
         else
-          dbquery = entityClass.find(query).lean();
+          dbquery = entityClass.find(query);
         
         dbquery
+          .lean()
           .exec((err, rows) => {
             if (err)
               rej(err);
@@ -90,14 +95,14 @@ module.exports = class BaseService {
           entityClass = require('mongoose').model(self.modelClassName);
 
           entityClass
-            ._remove_status(id, (err, rows) => {
+            .remove({_id: id}, (err, rows) => {
               if (err)
-                rej(new Error(err));
+                rej(err);
               else
                 res(new RVHelper('EDB00000', JSON.stringify(rows)));
             });
         } catch (err) {
-          rej(new Error(new RVHelper('EDB13001')));
+          rej(err);
         }
       } else {
         rej(new Error(new RVHelper('EDB11005', id)));

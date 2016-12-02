@@ -93,13 +93,6 @@ module.exports = class ProductService extends BaseService {
           console.log(products[index].dossier);
           return self.edb_post(products[index]);
         })
-        .bind(index)
-        .then(rets => {
-          if (dossiers[index].submission.length === 1) {
-            return ghstsSvr.edb_put({_product: [dossiers[index].product[0]]});
-          } else 
-            res();
-        })
         .catch(err => {
           rej(err);
         });

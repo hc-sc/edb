@@ -35,6 +35,7 @@ const RETURN_VALUE_CONFIG = {
   EDB12005: { msg: 'Create product from template failed, cannot find template' },
   EDB12006: { msg: 'Packaged submission, reload it?' },
   EDB12007: { msg: 'Cannot create submisson with empty submission number.' },
+  EDB12008: { msg: 'Retriving GHSTS without GHSTS id' },
 
   EDB13001: { msg: 'Mongoose model cannot be found' },
   

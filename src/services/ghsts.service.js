@@ -1,7 +1,8 @@
 // const GHSTS = require('../models/ghsts');
-// const BACKEND_CONST = require('../constants/backend');
+const BACKEND_CONST = require('../constants/backend');
 const SHARED_CONST = require('../constants/shared');
 const RVHelper = require('../utils/return.value.helper').ReturnValueHelper;
+const MetaDataStatus = require('../models/metadatastatus.model').MetaDataStatus;
 const ServiceLevelPlugin = require('../models/plugins/service.level.plugin');
 
 const BaseService = require('./base.service');
@@ -15,7 +16,7 @@ const Q = require('bluebird');
 //   dialog
 // } = require('electron');
 const fs = require('fs');
-// const path = require('path');
+const path = require('path');
 const basePath = fs.realpathSync('./');
 // const templateDir = path.resolve(basePath, BACKEND_CONST.BASE_DIR1, BACKEND_CONST.BASE_DIR2, BACKEND_CONST.TEMPLATE_DIR_NAME);
 
@@ -39,18 +40,23 @@ module.exports = class GhstsService extends BaseService {
       let self = this;
       try {
         let jschema = {
+          _foldername: { type: String, required: true },
+          _submissionid: { type: 'ObjectId', ref: 'SUBMISSION', required: true }, 
+          _submissionnumber: {type: Number, default: 1 },
           _receivers: [{ type: 'ObjectId', ref: 'RECEIVER' }],
-          _product: [{ type: 'ObjectId', ref: 'PRODUCT' }],
+          _product: { type: 'ObjectId', ref: 'PRODUCT' },
           _documents: [{ type: 'ObjectId', ref: 'DOCUMENT' }],
-          _toc2docs: [{ 
-            nodeId: {type: 'ObjectId', ref: 'TOC'}, 
-            docId: {type: 'ObjectId', ref: 'DOCUMENT' }}],
+          _toc2docs: [{
+            nodeId: { type: 'ObjectId', ref: 'TOC' },
+            docId: { type: 'ObjectId', ref: 'DOCUMENT' }
+          }],
           _tocdecription: {
-            tocstandardname: {type: String, required: true, default: 'OECD'},
-            tocversion: {type: String, required: true, default: '01.00.00'}
+            tocstandardname: { type: String, required: true, default: 'OECD' },
+            tocversion: { type: String, required: true, default: '01.00.00' }
           },
-          usedtemplates: [{type: String}],
-          specificationversion: {type: String, default: self.version}
+          _metadatastatus: { type: Object },
+          usedtemplates: [{ type: String }],
+          specificationversion: { type: String, default: self.version }
         };
         let mongoose = require('mongoose');
         let Schema = mongoose.Schema;
@@ -66,6 +72,177 @@ module.exports = class GhstsService extends BaseService {
       }
     });
   }
+
+  edb_package() {
+    console.log('package');
+    //    return this._getGhstsObject().writeXML(absOutputFN);
+  }
+
+  edb_validation() {
+    console.log('validation');
+    // return this._getGhstsObject().validateXML(absOutputFN, this._validate);
+  }
+
+  edb_get(obj, pop, where) {
+    if (!obj) {
+      let dosSvr = new DossierService();
+      return dosSvr.edb_get({}, true);
+    } else if (obj.url) {
+      let inUrl = obj.url.replace('ghsts/', '');
+      let urlAry = inUrl.split('/');
+      let ghstsId = urlAry[0];
+      let subSvrUrl = urlAry[1];
+      let subIds = urlAry[2];
+      if (subSvrUrl) {
+        let svrClass = require('./' + subSvrUrl + '.service');
+        let svr = new svrClass();
+        if (subIds) {
+          return svr.edb_get({ _id: subIds }, true);
+        } else {
+        // let ids4curSub = 
+        // let whereObj = {
+        //   fieldname: '_id',
+          return super.edb_get(obj, pop, where); /// need to return
+        }
+      } else if (ghstsId) {
+        return super.edb_get({_id: ghstsId}, pop, where);
+      } else 
+        return Q.reject(new Error(new RVHelper('EDB12008')));
+    } else {
+      let query = obj;
+      let keys = Object.keys(query);
+      keys.map(key => {
+        query['_' + key] = query[key];
+        delete query[key];        
+      });
+      return super.edb_get(query, pop, where);
+    }
+  }
+
+  edb_put(obj) {
+    let self = this;
+    return new Q((res, rej) => {
+      if (!obj) {
+        rej(new Error(new RVHelper('EDB12002')));
+        return;
+      }
+
+      if (!obj.productShortName) {
+        rej(new Error(new RVHelper('EDB12002')));
+        return;
+      }
+
+      if (!obj.submissionid) {
+        rej(new Error(new RVHelper('EDB12007')));
+        return;
+      }
+
+      let prodAndDossierName = obj.dossierShortName ? obj.productShortName + BACKEND_CONST.PRODUCT_DOSSIER_FOLDER_CONTACT_SYMBOL + obj.dossierShortName : obj.productShortName;
+      let self = this;
+      let entityClass;
+      let mds = new MetaDataStatus(self.version);
+      mds.init(obj.submissionnumber === 1, obj.productid, obj.tocid);
+      delete mds.metadatastatusValues;
+      let entity = {
+        _foldername: prodAndDossierName,
+        _submissionid: obj.submissionid,
+        _product: obj.productid,
+        _submissionnumber: obj.submissionnumber,
+        _metadatastatus: mds
+      };
+
+      try {
+        entityClass = require('mongoose').model(self.modelClassName);
+        if (!entityClass)
+          rej(new Error(new RVHelper('EDB13001')));
+        else {
+          entityClass
+            .create(entity, (err, rows) => {
+              if (err)
+                rej(err);
+              else
+                res(new RVHelper('EDB00000', JSON.stringify(rows)));
+            });
+        }
+      } catch (err) {
+        rej(err);
+      }
+    });
+  }
+
+  // createSubmission(prod_dossier_name, sub_id) {
+  //   let curBasePath = path.resolve(fs.realpathSync('./'), BACKEND_CONST.PRODUCTS_DIR),
+  //     curFolder;
+
+  //   if (!prod_dossier_name)
+  //     throw new RVHelper('EDB12002');
+
+  //   if (!sub_id)
+  //     throw new RVHelper('EDB12007');
+
+  //   try {
+  //     this._createFolder(curBasePath);
+  //     curFolder = path.resolve(curBasePath, prod_dossier_name);
+  //     this._createFolder(curFolder);
+  //     curBasePath = path.resolve(curFolder, sub_id);
+  //     this._createFolder(curBasePath);
+  //     curFolder = path.resolve(curBasePath, 'content');
+  //     this._createFolder(curFolder);
+  //     curFolder = path.resolve(curBasePath, 'confidential');
+  //     this._createFolder(curFolder);
+  //     curFolder = path.resolve(curBasePath, 'utils');
+  //     this._createFolder(curFolder);
+  //     this._createFolder(path.resolve(curFolder, 'viewer'));
+  //     this._createFolder(path.resolve(curFolder, 'toc'));
+  //     this._createFolder(path.resolve(curFolder, 'resources'));
+
+  //     fs.writeFileSync(
+  //       path.resolve(curBasePath, '.incomplete'),
+  //       'The submission is not complated.'
+  //     );
+  //     return new RVHelper('EDB00000');
+  //   } catch (err) {
+  //     throw err;
+  //   }
+  // }
+
+  _createFolder(folderName) {
+        try {
+          fs.mkdirSync(folderName);
+        } catch (err) {
+          if (err.code !== 'EEXIST')
+            throw err;
+        }
+      }
+
+  // _beforeCreateOrLoad(filepath) {
+  //   let curpath = filepath;
+
+  //   if (curpath[1] === ':') {
+  //     curpath = prodsPath[0] + curpath.slice(1);
+  //   }
+  //   curpath = curpath.replace(prodsPath, '').trim().replace(/\\/g, '/');
+  //   if (curpath[0] === '/') curpath = curpath.slice(1);
+  //   let pathArray = curpath.split('/');
+  //   curProdAndDossierDir = curSubDir = undefined;
+
+  //   switch (pathArray.length) {
+  //     case 1:
+  //       curProdAndDossierDir = pathArray[0];
+  //       curSubDir = '01'; //for now
+  //       break;
+  //     case 2:
+  //       curProdAndDossierDir = pathArray[0];
+  //       curSubDir = pathArray[1];
+  //       break;
+  //     default:
+  //       absSubPath = absOutputFN = undefined;
+  //       return new RVHelper('EDB12003');
+  //   }
+  //   absSubPath = path.resolve(prodsPath, curProdAndDossierDir);
+  //   absSubPath = path.resolve(absSubPath, curSubDir);
+  //   absOutputFN = path.resolve(absSubPath, BACKEND_CONST.GHSTS_XML_FILENAME);
+  // }
 
   // _initDbFromTemplate(version) {
   //   return new Q((res, rej) => {
@@ -105,60 +282,7 @@ module.exports = class GhstsService extends BaseService {
   //   });
   // }
 
-  edb_package() {
-    console.log('package');
-//    return this._getGhstsObject().writeXML(absOutputFN);
-  }
 
-  edb_validation() {
-    console.log('validation');
-    // return this._getGhstsObject().validateXML(absOutputFN, this._validate);
-  }
-
-  // edb_put(obj) {
-  //   let self = this;
-  //   return new Q((resolve, reject) => {
-  //     if (obj) {
-  //       if (obj.productShortName) {
-  //         let prodAndDossierName = obj.dossierShortName ? obj.productShortName + BACKEND_CONST.PRODUCT_DOSSIER_FOLDER_CONTACT_SYMBOL + obj.dossierShortName : obj.productShortName;
-  //         try {
-  //           this.createProduct(prodAndDossierName)
-  //           self._beforeCreateOrLoad(prodAndDossierName);
-  //         } catch (err) {
-  //           reject(new RVHelper('EDB10000', err));
-  //         }
-
-  //         self._loadGhsts(templateDir)
-  //           .then(result => {
-  //             self.ghsts[0] = result;
-  //             resolve(new RVHelper('EDB00000'));
-  //           })
-  //           .catch(err => {
-  //             reject(err);
-  //           });
-  //       }
-  //     } else {
-  //       reject(new RVHelper('EDB12002'));
-  //     }
-  //   });
-  // }
-
-  edb_get(obj, pop) {
-    if (!obj) {
-      let dosSvr = new DossierService();
-      return dosSvr.edb_get({}, true);
-    } else if (obj.url) {
-      let inUrl = obj.url.replace('ghsts/', '');
-      let urlAry = inUrl.split('/');
-      let ghstsId = urlAry[0];
-      let subSvrUrl = urlAry[1];
-      let subIds = urlAry[2];
-      let svrClass = require('./' + subSvrUrl + '.service');
-      let svr = new svrClass();
-      return svr.edb_get({_id: subIds}, true);
-    } else {
-      return super.edb_get(obj, pop);
-    }
   //   // let deffer = this.$q.defer(),
   //   //   self = this;
   //   // if (!obj) {
@@ -189,7 +313,6 @@ module.exports = class GhstsService extends BaseService {
   //   //   }
   //   // }
   //   // return deffer.promise;
-  }
 
   // _loadGhsts(templatePath) {
   //   let ghstsObj = {};
@@ -214,81 +337,8 @@ module.exports = class GhstsService extends BaseService {
   //   return obj ? this.ghsts[0] : this.ghsts[0];
   // }
 
-  // createSubmission(prod_dossier_name, sub_name) {
-  //   let curBasePath = path.resolve(fs.realpathSync('./'), 'products'),
-  //     curFolder;
-
-  //   if (!prod_dossier_name)
-  //     throw new RVHelper('EDB12002');
-
-  //   if (!sub_name)
-  //     throw new RVHelper('EDB12007');
-
-  //   try {
-  //     this._createFolder(curBasePath);
-  //     curFolder = path.resolve(curBasePath, prod_dossier_name);
-  //     this._createFolder(curFolder);
-  //     curBasePath = path.resolve(curFolder, sub_name);
-  //     this._createFolder(curBasePath);
-  //     curFolder = path.resolve(curBasePath, 'content');
-  //     this._createFolder(curFolder);
-  //     curFolder = path.resolve(curBasePath, 'confidential');
-  //     this._createFolder(curFolder);
-  //     curFolder = path.resolve(curBasePath, 'utils');
-  //     this._createFolder(curFolder);
-  //     this._createFolder(path.resolve(curFolder, 'viewer'));
-  //     this._createFolder(path.resolve(curFolder, 'toc'));
-  //     this._createFolder(path.resolve(curFolder, 'resources'));
-
-  //     fs.writeFileSync(
-  //       path.resolve(curBasePath, '.incomplete'),
-  //       'The submission is not complated.'
-  //     );
-  //     return new RVHelper('EDB00000');
-  //   } catch (err) {
-  //     throw err;
-  //   }
-  // }
-
   // createProduct(prod_name) {
   //   return this.createSubmission(prod_name, '01');
   // }
 
-  _createFolder(folderName) {
-    try {
-      fs.mkdirSync(folderName);
-    } catch (err) {
-      if (err.code !== 'EEXIST')
-        throw err;
-    }
-  }
-
-  // _beforeCreateOrLoad(filepath) {
-  //   let curpath = filepath;
-
-  //   if (curpath[1] === ':') {
-  //     curpath = prodsPath[0] + curpath.slice(1);
-  //   }
-  //   curpath = curpath.replace(prodsPath, '').trim().replace(/\\/g, '/');
-  //   if (curpath[0] === '/') curpath = curpath.slice(1);
-  //   let pathArray = curpath.split('/');
-  //   curProdAndDossierDir = curSubDir = undefined;
-
-  //   switch (pathArray.length) {
-  //     case 1:
-  //       curProdAndDossierDir = pathArray[0];
-  //       curSubDir = '01'; //for now
-  //       break;
-  //     case 2:
-  //       curProdAndDossierDir = pathArray[0];
-  //       curSubDir = pathArray[1];
-  //       break;
-  //     default:
-  //       absSubPath = absOutputFN = undefined;
-  //       return new RVHelper('EDB12003');
-  //   }
-  //   absSubPath = path.resolve(prodsPath, curProdAndDossierDir);
-  //   absSubPath = path.resolve(absSubPath, curSubDir);
-  //   absOutputFN = path.resolve(absSubPath, BACKEND_CONST.GHSTS_XML_FILENAME);
-  // }
 };
