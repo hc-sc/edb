@@ -37,6 +37,7 @@
 		{
 			"name": "structure",
 			"required": true,
+			"collection": true,
 			"elementName": "STRUCTURE",
 			"typeInfo": ".GHSTS.TOC.STRUCTURE"
 		}
