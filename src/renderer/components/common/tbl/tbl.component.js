@@ -46,7 +46,6 @@ export default angular.module('tbl', [
     }
 
     $onChanges() {
-      console.log('changed');
       this.mapProjection();
     }
 
@@ -86,10 +85,6 @@ export default angular.module('tbl', [
 
     select(id, index) {
       this.onSelect({ id, index });
-    }
-
-    add() {
-      this.onAdd();
     }
 
     delete(index) {

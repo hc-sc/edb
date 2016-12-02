@@ -46,6 +46,7 @@ export default class BaseCtrl {
   // arr - the array of picklist items used to population the select field
   // value - the new picklist value
   createPicklistItem(prop, arr, value) {
+    console.log(prop, arr, value);
     return this.picklistService.edb_put(value)
     .then(result => {
       let item = JSON.parse(result.data);
@@ -102,9 +103,19 @@ export default class BaseCtrl {
   }
 
   deleteTblItem(nodeName, index) {
+    console.log(nodeName, index);
     // need to change the reference so the lists know to update
     this.selected[nodeName] =
       this.selected[nodeName].slice(0, index).concat(this.selected[nodeName].slice(index+1));
+  }
+
+  addTblItem(nodeName) {
+    this.$mdDialog.show(this.buildModal(nodeName, this.selected.length, true))
+    .then(item => {
+      let newArray = this.selected[nodeName].slice();
+      newArray.splice(this.selected.length, 0, item);
+      this.selected[nodeName] = newArray;
+    });
   }
 
   // enables selection from tables
@@ -138,8 +149,7 @@ export default class BaseCtrl {
   equals(node1, node2) {}
 
   // used as a generic function to build our modals
-  buildModal(nodeName, index) {
-    console.log(nodeName, index);
+  buildModal(nodeName, index, isNew) {
     const {template, controller} = getModalValues(nodeName);
     return {
       template,
@@ -147,13 +157,16 @@ export default class BaseCtrl {
       controllerAs: '$ctrl',
       locals: {
         index,
-        node: angular.copy(this.selected[nodeName][index])
+        node: isNew ? this.getModel(nodeName) : angular.copy(this.selected[nodeName][index]),
+        picklists: this.picklists,
+        picklistService: this.picklistService
       }
     };
   }
 }
 
 // in the future, use templateURL instead to cut down on imports
+// we can also use index.js single export method
 import ContactPersonCtrl from '../legal-entities/contact-person/contact-person.controller';
 import contactPersonTemplate from '../legal-entities/contact-person/contact-person.template';
 import LegalEntityIdentifierCtrl from '../legal-entities/identifier/identifier.controller';

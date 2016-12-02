@@ -13,7 +13,8 @@
 
     <md-dialog-content>
       <div class='md-dialog-content'>
-
+        <select-input-extensible label='"Identifier Type"' select-value='$ctrl.node.legalentityidentifiertype' on-update='$ctrl.update("legalentityidentifiertype", value)' values='$ctrl.picklists.legalEntityIdentifierTypes' type-name='EXTENSION_TYPE_LEGALENTITY_IDENTIFIER_TYPE' on-add='$ctrl.createPicklistItem("legalentityidentifiertype", "legalEntityIdentifierTypes", value)'></select-input-extensible>
+        <text-input label='Identifier' text-value='$ctrl.node.identifier' on-update='$ctrl.update("identifier", value)'></text-input>
       </div>
     </md-dialog-content>
 
