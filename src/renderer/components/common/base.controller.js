@@ -1,15 +1,14 @@
 import angular from 'angular';
-import AppDataService from '../../services/app.data.service';
-import PicklistService from '../../services/picklist.service';
 
 export default class BaseCtrl {
-  constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, url) {
+  constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, url) {
     this.$mdDialog = $mdDialog;
     this.$mdToast = $mdToast;
     this.$state = $state;
     this.url = url;
     this.picklistService = PicklistService.getService();
     this.appDataService = AppDataService.getService();
+    this.modelService = ModelService;
     this.sidenavOpen = false;
     this.loading = true;
   }
@@ -39,6 +38,11 @@ export default class BaseCtrl {
 
   getPicklist(typename) {
     return this.picklistService.edb_get({ 'TYPE_NAME': typename });
+  }
+
+  getModel(prop) {
+    console.log(prop);
+    return this.modelService.getModel(prop);
   }
 
   // generates a picklist item.
