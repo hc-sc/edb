@@ -1,7 +1,7 @@
 import angular from 'angular';
 
 export default class BaseCtrl {
-  constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, url) {
+  constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, url, $scope) {
     this.$mdDialog = $mdDialog;
     this.$mdToast = $mdToast;
     this.$state = $state;
@@ -11,6 +11,8 @@ export default class BaseCtrl {
     this.modelService = ModelService;
     this.sidenavOpen = false;
     this.loading = true;
+
+    this.$scope = $scope;
   }
 
   init() {
@@ -27,7 +29,6 @@ export default class BaseCtrl {
   }
 
   createAppData(data = {}, url = this.url) {
-    console.log('here');
     return this.appDataService.edb_put({url, data});
   }
 
@@ -42,7 +43,6 @@ export default class BaseCtrl {
   }
 
   getModel(prop) {
-    console.log(prop);
     return this.modelService.getModel(prop);
   }
 
@@ -51,7 +51,6 @@ export default class BaseCtrl {
   // arr - the array of picklist items used to population the select field
   // value - the new picklist value
   createPicklistItem(prop, arr, value) {
-    console.log(prop, arr, value);
     return this.picklistService.edb_put(value)
     .then(result => {
       let item = JSON.parse(result.data);
@@ -72,9 +71,12 @@ export default class BaseCtrl {
 
   getGHSTS() {}
 
+  add(prop) {
+    this.selected = angular.copy(this.getModel(prop));
+  }
+
   // update an item in the database
   save() {
-    console.log(this.selected);
     // if it doesn't have an id, it's a new item that has been in the database yet
     if (!this.selected.hasOwnProperty('_id')) {
       this.createAppData(angular.copy(this.selected))
@@ -108,7 +110,6 @@ export default class BaseCtrl {
   }
 
   deleteTblItem(nodeName, index) {
-    console.log(nodeName, index);
     // need to change the reference so the lists know to update
     this.selected[nodeName] =
       this.selected[nodeName].slice(0, index).concat(this.selected[nodeName].slice(index+1));
@@ -138,8 +139,7 @@ export default class BaseCtrl {
     this.$mdToast.show(
       this.$mdToast.simple()
       .textContent(message)
-      .position('bottom')
-      .hideDelay(2000)
+      .hideDelay(1200)
     );
   }
 
@@ -164,7 +164,8 @@ export default class BaseCtrl {
         index,
         node: isNew ? this.getModel(nodeName) : angular.copy(this.getRef(nodeName)[index]),
         picklists: this.picklists,
-        picklistService: this.picklistService
+        picklistService: this.picklistService,
+        $scope: this.$scope
       }
     };
   }

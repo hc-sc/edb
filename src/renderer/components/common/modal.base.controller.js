@@ -1,11 +1,13 @@
+import angular from 'angular';
+
 export default class ModalBaseCtrl {
-  constructor($mdDialog, index, node, picklists, picklistService) {
+  constructor($mdDialog, index, node, picklists, picklistService, $scope) {
     this.$mdDialog = $mdDialog;
     this.index = index;
     this.node = node;
+    this.picklists = picklists;
     this.picklistService = picklistService;
-    console.log(picklistService);
-    console.log(this.picklistService);
+    this.$scope = $scope;
   }
 
   cancel() {
@@ -25,22 +27,20 @@ export default class ModalBaseCtrl {
   // arr - the array of picklist items used to population the select field
   // value - the new picklist value
   createPicklistItem(prop, arr, value) {
-    console.log(prop, arr, value);
     return this.picklistService.edb_put(value)
     .then(result => {
       let item = JSON.parse(result.data);
-      this[arr].push(item);
+      this.picklists[arr].push(item);
 
       // need to allow the select component to update BEFORE assigning a new selected
       // in the future, have the select component use lifecycle methods to return when it is finished
       setTimeout(() => {
-        this.selected[prop] = item._id;
+        this.node[prop] = item._id;
+        this.$scope.$apply();
       }, 200);
-
-      this.showMessage(value.valuedecode + ' added successfully!');
     })
     .catch(err => {
-      this.showMessage('Error creating new picklist item');
+      console.log('Error creating new picklist item');
     });
   }
 }
