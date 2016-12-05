@@ -14,7 +14,7 @@
     <md-dialog-content>
       <div class='md-dialog-content'>
         <text-input label='Identifier' text-value='$ctrl.node.identifier' on-update='$ctrl.update("identifier", value)'></text-input>
-        <select-input label='Identifier Type' selectValue='$ctrl.node.substanceidentifiertype' values='$ctrl.identifierTypeOptions' on-update='$ctrl.update("substanceidentifiertype", value)'></select-input>
+        <select-input label='Identifier Type' selectValue='$ctrl.node.substanceidentifiertype' values='$ctrl.identifierTypeOptions' on-update='$ctrl.update("substanceidentifiertype", value)' values='$ctrl.picklists.SubstanceIdentifierTypes' type-name='EXTENSION_TYPE_LEGALENTITY_IDENTIFIER_TYPE' on-add='$ctrl.createPicklistItem("substanceidentifiertype", "substanceIdentifierTypes", value)'></select-input>
       </div>
     </md-dialog-content>
 

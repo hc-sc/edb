@@ -4,7 +4,7 @@
   <text-input label='PID' is-required='true' text-value='$ctrl.selected.substancepid' on-update='$ctrl.update("substancepid", value)'></text-input>
   <text-input label='Name' is-required='true' text-value='$ctrl.selected.substancename' on-update='$ctrl.update("substancename", value)'></text-input>
 
-  <tbl ng-if='!$ctrl.loading' title='Substance Identifier' items='$ctrl.selected.substanceidentifier' projection='$ctrl.identifierProjection' on-select='$ctrl.selectTblItem("substanceidentifier",index)' on-delete='$ctrl.deleteTblItem("substanceidentifier",index)' deletable='true'></tbl>
+  <tbl ng-if='!$ctrl.loading' title='Substance Identifier' items='$ctrl.selected.substanceidentifier' projection='$ctrl.identifierProjection' on-select='$ctrl.selectTblItem("substanceidentifier",index)' on-add='$ctrl.addTblItem("substanceidentifier")' on-delete='$ctrl.deleteTblItem("substanceidentifier",index)'></tbl>
 
   <div style='z-index:100' class='float-bottom'>
     <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>

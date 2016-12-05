@@ -40,20 +40,23 @@ module.exports = class BaseService {
           let paths = entityClass.schema.paths;
           for (var path in paths) {
             if (paths[path].caster)
-              pops.push({path: path});
+              pops.push({ path: path });
           }
+          // pops.push({ path: 'sender.toLegalEntityId', model: 'LEGALENTITY'});
+          // pops.push({ path: 'toLegalEntityId'});
           dbquery = entityClass.find(query).populate(pops);
         }
         else
           dbquery = entityClass.find(query);
-        
+
         dbquery
           .lean()
           .exec((err, rows) => {
             if (err)
               rej(err);
-            else
+            else {
               res(new RVHelper('EDB00000', JSON.stringify(rows)));
+            }
           });
       } catch (err) {
         rej(err);
@@ -95,7 +98,7 @@ module.exports = class BaseService {
           entityClass = require('mongoose').model(self.modelClassName);
 
           entityClass
-            .remove({_id: id}, (err, rows) => {
+            .remove({ _id: id }, (err, rows) => {
               if (err)
                 rej(err);
               else
@@ -120,7 +123,7 @@ module.exports = class BaseService {
           entityClass = require('mongoose').model(self.modelClassName);
 
           entityClass
-            .update({_id: obj._id}, obj, (err, rows) => {
+            .update({ _id: obj._id }, obj, (err, rows) => {
               if (err)
                 rej(new Error(err));
               else
@@ -381,11 +384,12 @@ module.exports = class BaseService {
         let mongoose = require('mongoose');
         let Schema = mongoose.Schema;
         let mschema = new Schema(jschema, {
-//          id: false,
+          //          id: false,
           minimize: false,
           retainKeyOrder: true,
           validateBeforeSave: false
         });
+        mschema.set('toJSON', { getters: true, virtuals: true });
         let selfPlugin;
         mschema.plugin(ServiceLevelPlugin, {
           url: self.modelClassName.toLowerCase()

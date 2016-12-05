@@ -22,9 +22,7 @@ export default angular.module('substances', [
     template,
     controller: SubstancesCtrl,
     bindings: {//assigned by state resolve
-      substances: '<',
-      metadataStatusOptions: '<',
-      identifierTypeOptions: '<'
+      substanceIdentifierTypes: '<'
     },
   })
   .name;

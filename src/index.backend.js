@@ -316,7 +316,7 @@ let svr = new testService();
 //  });
 
 
-svr.edb_get({})
+svr.edb_get({}, true)
   .then(ret => {
    console.log(ret);
  }).catch(err => {
