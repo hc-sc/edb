@@ -22,6 +22,7 @@ import Receivers from './components/receivers/receivers.component';
 import Documents from './components/documents/documents.component';
 import TOC from './components/toc/toc.component';
 
+import Services from './services';
 
 import states from './config/app.states';
 import theme from './config/app.theme';
@@ -35,6 +36,7 @@ angular.module('app', [
   uiRouter,
   ngMaterial,
   mdDataTable,
+  Services,
   Spinner,
   Splash,
   Home,

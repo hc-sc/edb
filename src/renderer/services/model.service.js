@@ -1,12 +1,9 @@
-import angular from 'angular';
-
 import modelLegalEntity from '../view-models/gen/legalentity.json';
 import modelContactAddress from '../view-models/gen/contactaddress.json';
 import modelLegalEntityIdentifier from '../view-models/gen/legalentityidentifier.json';
 import modelContactPerson from '../view-models/gen/contactperson.json';
 
-export default angular.module('ModelService', [])
-.service('ModelService', class ModelService {
+export default class ModelService {
   constructor() {}
   getModel(prop) {
     let model = {};
@@ -24,6 +21,8 @@ export default angular.module('ModelService', [])
         return model;
     }
   }
-})
-.name;
+}
+
+
+
 
