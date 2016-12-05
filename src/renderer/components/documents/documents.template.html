@@ -1,20 +1,28 @@
 <section class='node-page'>
-  <text-input label='PID' is-required='true' is-disabled='true'></text-input>
-  <text-input label='Family PID' is-required='true'></text-input>
-  <text-input label='Document Title'></text-input>
-  <text-input label='Document Author'></text-input>
-  <text-input label='Document Issue Date' is-required='true' max-length='20'></text-input>
-  <tbl title='Document Owner' items='[]' projection='[]'></tbl>
-  <text-input label='Published Indicator'></text-input>
-  <text-input label='Document Family'></text-input>
-  <tbl title='Content Status History' items='[]' projection='[]'></tbl>
-  <tbl title='Referenced Document' items='[]' projection='[]'></tbl>
-  <tbl title='Related To Substance' items='[]' projection='[]'></tbl>
-  <tbl title='Document Number' items='[]' projection='[]'></tbl>
-  <tbl title='Test Laboratory' items='[]' projection='[]'></tbl>
-  <text-input label='DXP Indicator'></text-input>
-  <md-switch ng-model='$ctrl.submission.SUBMISSION[$ctrl.submission.SUBMISSION.length - 1].INCREMENTAL' aria-label='Incremental'
-    class='md-primary' ng-change='$ctrl.printValue()'>Tested on vertebrates</md-switch>
-  <tbl title='Referenced To File' items='[]' projection='[]'></tbl>
-  <tbl title='Document Regulatory Authority' items='[]' projection='[]'></tbl>
+
+  <spinner ng-if='$ctrl.loading'></spinner>
+  <div class='no-margin no-padding' ng-if='!ctrl.loading'>
+        <sidenav items='$ctrl.records' main='documenttitle' is-open='$ctrl.sidenavOpen' on-select='$ctrl.updateSelected(item)'
+            on-add='$ctrl.add(item)'></sidenav>
+        <text-input label='PID' is-required='true' is-disabled='true' text-value='$ctrl.selected.documentgeneric.documentpid '></text-input>
+        <text-input label='Family PID' is-required='true' text-value='$ctrl.selected.documentgeneric.documentfamilypid'></text-input>
+        <text-input label='Document Title' text-value='$ctrl.selected.documentgeneric.documenttitle'></text-input>
+        <text-input label='Document Author' text-value='$ctrl.selected.documentgeneric.documentauthor'></text-input>
+        <text-input label='Document Issue Date' is-required='true' max-length='20' ></text-input>
+        <tbl title='Document Owner' items='[]' projection='[]'></tbl>
+        <text-input label='Published Indicator' text-value='$ctrl.selected.documentgeneric.publishedindicator'></text-input>
+        <text-input label='Document Family' text-value='$ctrl.selected.documentgeneric.documentfamily'></text-input>
+        
+        <tbl ng-if='!$ctrl.loading' title='Content Status History' items='$ctrl.selected.documentgeneric.contentstatushistory' projection='$ctrl.contentStatusProjection' on-select='$ctrl.selectTblItem("documentgeneric.contentstatushistory",index)' on-delete='$ctrl.deleteTblItem("documentgeneric.contentstatushistory",index)' deletable='true'></tbl>
+        
+        <tbl title='Referenced Document' items='[]' projection='[]'></tbl>
+        <tbl title='Related To Substance' items='[]' projection='[]'></tbl>
+        <tbl ng-if='!$ctrl.loading' title='Document Number' items='[]' projection='[]'></tbl>
+        <tbl title='Test Laboratory' items='[]' projection='[]'></tbl>
+        <text-input label='GXP Indicator' text-value='$ctrl.selected.documentgeneric.gxpindicator'></text-input>
+        <md-switch ng-model='$ctrl.submission.SUBMISSION[$ctrl.submission.SUBMISSION.length - 1].INCREMENTAL' aria-label='Incremental'
+          class='md-primary' ng-change='$ctrl.printValue()'>Tested on vertebrates</md-switch>
+        <tbl title='Referenced To File' items='[]' projection='[]'></tbl>
+        <tbl title='Document Regulatory Authority' items='[]' projection='[]'></tbl>
+  </div>
 </section>

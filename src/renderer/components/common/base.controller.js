@@ -18,6 +18,7 @@ export default class BaseCtrl {
     .then(records => {
       this.records = JSON.parse(records.data);
       this.selected = this.records[0];
+      console.log("View Data: " + JSON.stringify(this.selected));
     });
   }
 
@@ -124,10 +125,10 @@ export default class BaseCtrl {
 
   // enables selection from tables
   selectTblItem(nodeName, index) {
-    this.$mdDialog.show(this.buildModal(nodeName, index))
+    this.$mdDialog.show(this.buildModal(nodeName, index, false))
     .then(item => {
-      this.selected[nodeName][index] = item;
-      this.selected[nodeName] = this.selected[nodeName].slice();
+      this.getRef(nodeName)[index] = item;
+      this.selected = angular.copy(this.selected);
       this.showMessage('Updated');
     });
   }
@@ -161,11 +162,21 @@ export default class BaseCtrl {
       controllerAs: '$ctrl',
       locals: {
         index,
-        node: isNew ? this.getModel(nodeName) : angular.copy(this.selected[nodeName][index]),
+        node: isNew ? this.getModel(nodeName) : angular.copy(this.getRef(nodeName)[index]),
         picklists: this.picklists,
         picklistService: this.picklistService
       }
     };
+  }
+
+  getRef(path) {
+    let ref = path.split('.');
+    let end = this.selected;
+    for (let item of ref) {
+      end = end[item];
+    }
+
+    return end;
   }
 }
 
@@ -183,8 +194,12 @@ import ReferencedDossierCtrl from '../description/referenced-dossier/referenced-
 import referencedDossierTemplate from '../description/referenced-dossier/referenced-dossier.template';
 import FileRACtrl from '../files/file-ra/file-ra.controller';
 import fileRATemplate from '../files/file-ra/file-ra.template';
+import contentStatusHistoryTemplate from '../documents/content-status-history/content-status-history.template';
+import contentStatusHistoryCtrl from '../documents/content-status-history/content-status-history.controller';
 
-function getModalValues(nodeName) {
+function getModalValues(nodeName ) {
+  // let ref = nodeName.split('.');
+  // nodeName = ref[ref.length-1];
   switch(nodeName) {
     case 'contactperson':
       return {
@@ -222,7 +237,15 @@ function getModalValues(nodeName) {
         controller: FileRACtrl
       };
 
+    case 'documentgeneric.contentstatushistory':
+
+      return {
+        template: contentStatusHistoryTemplate,
+        controller: contentStatusHistoryCtrl
+      };
+
     default:
+      console.log("No matching node name");
       return null;
   }
 }
