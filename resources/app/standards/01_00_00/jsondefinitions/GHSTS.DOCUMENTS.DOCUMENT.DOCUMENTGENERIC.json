@@ -26,6 +26,7 @@
 		{
 			"name": "contentstatushistory",
 			"required": true,
+			"collection": true,
 			"elementName": "CONTENT_STATUS_HISTORY",
 			"typeInfo": ".GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY"
 		},

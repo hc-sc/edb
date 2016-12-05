@@ -3,20 +3,15 @@
 	"typeName": null,
 	"propertyInfos": [
 		{
-			"name": "contentstatusAndSUBMISSIONNUMBER",
+			"name": "contentstatus",
 			"required": true,
-			"minOccurs": 2,
-			"collection": true,
-			"elementTypeInfos": [
-				{
-					"elementName": "CONTENT_STATUS",
-					"typeInfo": ".TYPECONTENTSTATUSSTRUCT"
-				},
-				{
-					"elementName": "SUBMISSION_NUMBER"
-				}
-			],
-			"type": "elements"
+			"elementName": "CONTENT_STATUS",
+			"typeInfo": ".TYPECONTENTSTATUSSTRUCT"
+		},
+		{
+			"name": "submissionnumber",
+			"required": true,
+			"elementName": "SUBMISSION_NUMBER"
 		}
 	]
 }

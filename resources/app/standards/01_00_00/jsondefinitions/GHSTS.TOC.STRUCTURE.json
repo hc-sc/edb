@@ -5,7 +5,6 @@
 		{
 			"name": "tocnode",
 			"required": true,
-			"collection": true,
 			"elementName": "TOC_NODE",
 			"typeInfo": ".TYPETOCNODE"
 		}

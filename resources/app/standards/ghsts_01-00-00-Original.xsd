@@ -470,12 +470,12 @@
 															<xs:documentation>A simple filter for documents which belongs to one "document family"</xs:documentation>
 														</xs:annotation>
 													</xs:element>
-													<xs:element name="CONTENT_STATUS_HISTORY" maxOccurs="unbounded">
+													<xs:element name="CONTENT_STATUS_HISTORY">
 														<xs:annotation>
 															<xs:documentation>Use this element for listing the document history</xs:documentation>
 														</xs:annotation>
 														<xs:complexType>
-															<xs:sequence >
+															<xs:sequence maxOccurs="unbounded">
 																<xs:element name="CONTENT_STATUS" type="TYPE_CONTENT_STATUS_STRUCT"/>
 																<xs:element name="SUBMISSION_NUMBER" type="submissionnumberType">
 																	<xs:annotation>
@@ -836,9 +836,9 @@
 									</xs:sequence>
 								</xs:complexType>
 							</xs:element>
-							<xs:element name="STRUCTURE" maxOccurs="unbounded">
+							<xs:element name="STRUCTURE">
 								<xs:complexType>
-									<xs:sequence>
+									<xs:sequence maxOccurs="unbounded">
 										<xs:element name="TOC_NODE" type="TYPE_TOC_NODE"/>
 									</xs:sequence>
 								</xs:complexType>
