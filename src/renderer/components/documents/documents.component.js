@@ -30,8 +30,8 @@ export default angular.module('documents', [
     documentNumberTypeOptions: '<'
   },
   controller: class DOCCtrl extends BaseCtrl{
-    constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, $http) {
-      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, 'document', $http);
+    constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $http) {
+      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'document', $http);
       this.metadataStatusOptions = JSON.parse(this.metadataStatusOptions.data);
       this.contentStatusOptions = JSON.parse(this.contentStatusOptions.data);
       this.referenceTypeOptions = JSON.parse(this.referenceTypeOptions.data);

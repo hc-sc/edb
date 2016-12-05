@@ -125,7 +125,7 @@ export default class BaseCtrl {
 
   // enables selection from tables
   selectTblItem(nodeName, index) {
-    this.$mdDialog.show(this.buildModal(nodeName, index))
+    this.$mdDialog.show(this.buildModal(nodeName, index, false))
     .then(item => {
       this.getRef(nodeName)[index] = item;
       this.selected = angular.copy(this.selected);
@@ -162,7 +162,7 @@ export default class BaseCtrl {
       controllerAs: '$ctrl',
       locals: {
         index,
-        node: isNew ? this.getModel(nodeName) : angular.copy(this.selected[nodeName][index]),
+        node: isNew ? this.getModel(nodeName) : angular.copy(this.getRef(nodeName)[index]),
         picklists: this.picklists,
         picklistService: this.picklistService
       }
