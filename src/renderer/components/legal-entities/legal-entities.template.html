@@ -4,22 +4,22 @@
     <sidenav items='$ctrl.records' main='legalentityname' is-open='$ctrl.sidenavOpen' on-select='$ctrl.updateSelected(item)' on-add='$ctrl.add(item)'></sidenav>
     <text-input label='PID' is-disabled='true' text-value='$ctrl.selected.legalentitypid' on-update='$ctrl.update("legalentitypid", value)'></text-input>
     <text-input label='Name' text-value='$ctrl.selected.legalentityname' on-update='$ctrl.update("legalentityname", value)'></text-input>
-    <select-input-extensible label='"Legal Entity Type"' is-required='true' show-value='false' values='$ctrl.legalEntityTypes' select-value='$ctrl.selected.legalentitytype' on-update='$ctrl.update("legalentitytype", value)' on-add='$ctrl.createPicklistItem("legalentitytype", "legalEntityTypes", value)'></select-input-extensible>
+    <select-input-extensible label='"Legal Entity Type"' is-required='true' show-value='false' values='$ctrl.legalEntityTypes' select-value='$ctrl.selected.legalentitytype' on-update='$ctrl.update("legalentitytype", value)' on-add='$ctrl.createPicklistItem("legalentitytype", "legalEntityTypes", value)' type-name='EXTENSION_TYPE_LEGALENTITY_TYPE'></select-input-extensible>
     <!--<text-input label='Other Name' text-value='$ctrl.selected.othername' on-update='$ctrl.update("othername", value)'></text-input>-->
-    <tbl ng-if='!$ctrl.loading' title='Other Name' items='[]' projection='["othername"]'></tbl>
-    <tbl ng-if='!$ctrl.loading' title='Identifier' items='$ctrl.selected.legalentityidentifier' projection='["legalentityidentifiertype", "identifier"]' on-select='$ctrl.selectTblItem("legalentityidentifier", index)'></tbl>
+    <tbl ng-if='!$ctrl.loading' title='Other Name' items='$ctrl.selected.othername' projection='["othername"]'></tbl>
+    <tbl ng-if='!$ctrl.loading' title='Identifier' items='$ctrl.selected.legalentityidentifier' projection='["legalentityidentifiertype", "identifier"]' on-select='$ctrl.selectTblItem("legalentityidentifier", index)' on-add='$ctrl.addTblItem("legalentityidentifier")' on-delete='$ctrl.deleteTblItem("legalentityidentifier", index)'></tbl>
     <fieldset>
       <legend>Contact Address</legend>
       <text-input label='Street 1' text-value='$ctrl.selected.contactaddress.street1' on-update='$ctrl.updateContactAddress("street1", value)'></text-input>
-      <text-input label='Street 2' text-value='$ctrl.selected.contactaddress.street2' on-update='$ctrl.update("contactaddress.street2", value)'></text-input>
-      <text-input label='Zipcode' text-value='$ctrl.selected.contactaddress.zipcode' on-update='$ctrl.update("contactaddress.zipcode", value)'></text-input>
-      <text-input label='City' text-value='$ctrl.selected.contactaddress.city' on-update='$ctrl.update("contactaddress.city", value)'></text-input>
-      <text-input label='State' text-value='$ctrl.selected.contactaddress.state' on-update='$ctrl.update("contactaddress.state", value)'></text-input>
-      <select-input label='Country' show-value='true' select-value='$ctrl.selected.contactaddress.country' values='$ctrl.countries' on-update='$ctrl.update("contactaddress.country", value)'></select-input>
-      <text-input label='Phone' text-value='$ctrl.selected.contactaddress.phone' on-update='$ctrl.update("contactaddress.phone", value)'></text-input>
-      <text-input label='Fax' text-value='$ctrl.selected.contactaddress.fax' on-update='$ctrl.update("contactaddress.fax", value)'></text-input>
-      <text-input label='Email' text-value='$ctrl.selected.contactaddress.email' on-update='$ctrl.update("contactaddress.email", value)'></text-input>
-      <text-input label='Website' text-value='$ctrl.selected.contactaddress.website' on-update='$ctrl.update("contactaddress.website", value)'></text-input>
+      <text-input label='Street 2' text-value='$ctrl.selected.contactaddress.street2' on-update='$ctrl.updateContactAddress("street2", value)'></text-input>
+      <text-input label='Zipcode' text-value='$ctrl.selected.contactaddress.zipcode' on-update='$ctrl.updateContactAddress("zipcode", value)'></text-input>
+      <text-input label='City' text-value='$ctrl.selected.contactaddress.city' on-update='$ctrl.updateContactAddress("city", value)'></text-input>
+      <text-input label='State' text-value='$ctrl.selected.contactaddress.state' on-update='$ctrl.updateContactAddress("state", value)'></text-input>
+      <select-input label='Country' show-value='true' select-value='$ctrl.selected.contactaddress.country' values='$ctrl.countries' on-update='$ctrl.updateContactAddress("country", value)'></select-input>
+      <text-input label='Phone' text-value='$ctrl.selected.contactaddress.phone' on-update='$ctrl.updateContactAddress("phone", value)'></text-input>
+      <text-input label='Fax' text-value='$ctrl.selected.contactaddress.fax' on-update='$ctrl.updateContactAddress("fax", value)'></text-input>
+      <text-input label='Email' text-value='$ctrl.selected.contactaddress.email' on-update='$ctrl.updateContactAddress("email", value)'></text-input>
+      <text-input label='Website' text-value='$ctrl.selected.contactaddress.website' on-update='$ctrl.updateContactAddress("website", value)'></text-input>
     </fieldset>
     <tbl ng-if='!$ctrl.loading' title='Contacts' items='$ctrl.selected.contactperson' projection='["lastname", "firstname", "title", "email"]' on-select='$ctrl.selectTblItem("contactperson", index)' on-delete='$ctrl.deleteTblItem("contactperson", index)'></tbl>
     <div style='z-index:100' class='float-bottom'>

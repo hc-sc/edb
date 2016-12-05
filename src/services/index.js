@@ -7,5 +7,6 @@ module.exports.ServiceNeedInit = exports = [
   'submission',
   'substance',
   'document',
-  'picklist'
+  'picklist',
+  'ghsts'
 ];

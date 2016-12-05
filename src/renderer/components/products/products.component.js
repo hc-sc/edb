@@ -8,7 +8,7 @@ import TextInput from '../common/text-input/text-input.component';
 import Sidenav from '../common/sidenav/sidenav.component';
 
 // for testing
-import ProductService from '../../services/products.service';
+//import ProductService from '../../services/products.service';
 
 export default angular.module('products', [
   ngMaterial,
@@ -34,5 +34,5 @@ export default angular.module('products', [
     }
   }
 })
-.service('ProductService', ProductService)
+//.service('ProductService', ProductService)
 .name;

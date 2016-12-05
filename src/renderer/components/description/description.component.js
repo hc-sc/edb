@@ -2,6 +2,10 @@ import angular from 'angular';
 import ngMaterial from 'angular-material';
 import _ from 'lodash';
 import template from './description.template';
+import {} from 'angular-ui-layout';
+
+import 'angular-ui-layout/src/ui-layout.css';
+
 
 import TextInput from '../common/text-input/text-input.component';
 import SelectInput from '../common/select-input/select-input.component';
@@ -15,7 +19,8 @@ export default angular.module('description', [
   TextInput,
   SelectInput,
   Icon,
-  Tbl
+  Tbl,
+  'ui.layout'
 ])
   .component('description', {
     template,

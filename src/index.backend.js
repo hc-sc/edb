@@ -91,7 +91,7 @@ var init = () => {
 //          console.log('time is up');
           initDB()
             .then(result => {
-              console.log(result);
+              // console.log(result);
             })
             .catch(err => {
               console.log(err);
@@ -110,6 +110,7 @@ var init = () => {
 
 };
 
+//For development only, should be removed when goes into production 
 var initDB = () => {
   //let ghstsSrv = new GhstsService(undefined, undefined, marshallers['01_00_00'], unmarshallers['01_00_00']);
   return new Q((res, rej) => {
@@ -130,6 +131,9 @@ var initDB = () => {
         svr = new svrClass('01.00.00');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/file.service');
+        svr = new svrClass('01.00.00');
+        qAry.push(svr.initDbfromTestData());
+        svrClass = require('./services/receiver.service');
         svr = new svrClass('01.00.00');
         qAry.push(svr.initDbfromTestData());
         return Q.all(qAry);
@@ -180,6 +184,10 @@ ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL, function (event, arg) {
   }
   lastMessageTimestamp = timestamp;
   svr[method](arg.data).then(result => {
+    if (method === 'edb_get' && arg.data) {  // need to refactory
+      submissions[0] = JSON.parse(result.data);
+    }
+
     event.sender.send(SHARED_CONST.GHSTS_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, result);
   })
     .catch(err => {
@@ -287,9 +295,40 @@ app.on('ready', function () {
 // const testService = require('./services/picklist.service');
 // const testService = require('./services/dossier.service');
 // const testService = require('./services/substance.service');
+// const testService = require('./services/ghsts.service');
+const testService = require('./services/receiver.service');
 var backendTest = () => {
-//  console.log('--------- Backend Test Start ----------');
-//  let svr = new testService();
+console.log('--------- Backend Test Start ----------');
+let svr = new testService();
+
+//svr.edb_delete('58407a642f2d9a1f74416c17');
+
+// svr.edb_put({productShortName: 'test', submissionid: '5841eb2d1e14fb153c66fd75', productid: '5841eb2d1e14fb153c66fe3b'})
+//   .then(ret => {
+//     console.log(ret);
+// //     return svr.edb_delete(JSON.parse(ret.data)._id);
+// //  })
+// //  .then(ret => {
+// //    console.log(ret);
+//  }) 
+//  .catch(err => {
+//    console.log(err);
+//  });
+
+
+svr.edb_get({})
+  .then(ret => {
+   console.log(ret);
+ }).catch(err => {
+   console.log(err);
+ });
+
+// svr.edb_get({submissionid: '5841eb2d1e14fb153c66fd75'})
+//   .then(ret => {
+//    console.log(ret);
+//  }).catch(err => {
+//    console.log(err);
+//  });
 
 //  svr.edb_put({
 //           "TYPE_NAME": "GHSTS.GHSTS.SUBSTANCES.SUBSTANCE",
