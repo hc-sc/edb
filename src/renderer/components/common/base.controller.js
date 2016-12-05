@@ -176,7 +176,6 @@ export default class BaseCtrl {
     for (let item of ref) {
       end = end[item];
     }
-
     return end;
   }
 }

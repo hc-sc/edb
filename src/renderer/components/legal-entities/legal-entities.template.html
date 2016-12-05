@@ -6,7 +6,8 @@
     <text-input label='Name' text-value='$ctrl.selected.legalentityname' is-required='true' on-update='$ctrl.update("legalentityname", value)'></text-input>
     <select-input-extensible label='"Legal Entity Type"' values='$ctrl.legalEntityTypes' select-value='$ctrl.selected.legalentitytype' on-update='$ctrl.update("legalentitytype", value)' on-add='$ctrl.createPicklistItem("legalentitytype", "legalEntityTypes", value)' type-name='EXTENSION_TYPE_LEGALENTITY_TYPE'></select-input-extensible>
     <!--<text-input label='Other Name' text-value='$ctrl.selected.othername' on-update='$ctrl.update("othername", value)'></text-input>-->
-    <tbl ng-if='!$ctrl.loading' title='Other Name' items='$ctrl.selected.othername' projection='["othername"]'></tbl>
+    <!--<tbl ng-if='!$ctrl.loading' title='Other Name' items='$ctrl.selected.othername' projection='["othername"]'></tbl>-->
+    <list label='Other Names' items='$ctrl.selected.othername'></list>
     <tbl ng-if='!$ctrl.loading' title='Identifier' items='$ctrl.selected.legalentityidentifier' projection='["legalentityidentifiertype", "identifier"]' on-select='$ctrl.selectTblItem("legalentityidentifier", index)' on-add='$ctrl.addTblItem("legalentityidentifier")' on-delete='$ctrl.deleteTblItem("legalentityidentifier", index)'></tbl>
     <fieldset>
       <legend>Contact Address</legend>
