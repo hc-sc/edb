@@ -1,15 +1,14 @@
 import angular from 'angular';
-import AppDataService from '../../services/app.data.service';
-import PicklistService from '../../services/picklist.service';
 
 export default class BaseCtrl {
-  constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, url) {
+  constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, url) {
     this.$mdDialog = $mdDialog;
     this.$mdToast = $mdToast;
     this.$state = $state;
     this.url = url;
     this.picklistService = PicklistService.getService();
     this.appDataService = AppDataService.getService();
+    this.modelService = ModelService;
     this.sidenavOpen = false;
     this.loading = true;
   }
@@ -42,11 +41,17 @@ export default class BaseCtrl {
     return this.picklistService.edb_get({ 'TYPE_NAME': typename });
   }
 
+  getModel(prop) {
+    console.log(prop);
+    return this.modelService.getModel(prop);
+  }
+
   // generates a picklist item.
   // prop - the node your changing
   // arr - the array of picklist items used to population the select field
   // value - the new picklist value
   createPicklistItem(prop, arr, value) {
+    console.log(prop, arr, value);
     return this.picklistService.edb_put(value)
     .then(result => {
       let item = JSON.parse(result.data);
@@ -103,9 +108,19 @@ export default class BaseCtrl {
   }
 
   deleteTblItem(nodeName, index) {
+    console.log(nodeName, index);
     // need to change the reference so the lists know to update
     this.selected[nodeName] =
       this.selected[nodeName].slice(0, index).concat(this.selected[nodeName].slice(index+1));
+  }
+
+  addTblItem(nodeName) {
+    this.$mdDialog.show(this.buildModal(nodeName, this.selected.length, true))
+    .then(item => {
+      let newArray = this.selected[nodeName].slice();
+      newArray.splice(this.selected.length, 0, item);
+      this.selected[nodeName] = newArray;
+    });
   }
 
   // enables selection from tables
@@ -139,8 +154,7 @@ export default class BaseCtrl {
   equals(node1, node2) {}
 
   // used as a generic function to build our modals
-  buildModal(nodeName, index) {
-    console.log(nodeName, index);
+  buildModal(nodeName, index, isNew) {
     const {template, controller} = getModalValues(nodeName);
     return {
       template,
@@ -148,7 +162,9 @@ export default class BaseCtrl {
       controllerAs: '$ctrl',
       locals: {
         index,
-        node: angular.copy(this.getRef(nodeName)[index])
+        node: isNew ? this.getModel(nodeName) : angular.copy(this.selected[nodeName][index]),
+        picklists: this.picklists,
+        picklistService: this.picklistService
       }
     };
   }
@@ -165,6 +181,7 @@ export default class BaseCtrl {
 }
 
 // in the future, use templateURL instead to cut down on imports
+// we can also use index.js single export method
 import ContactPersonCtrl from '../legal-entities/contact-person/contact-person.controller';
 import contactPersonTemplate from '../legal-entities/contact-person/contact-person.template';
 import LegalEntityIdentifierCtrl from '../legal-entities/identifier/identifier.controller';

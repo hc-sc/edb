@@ -3,5 +3,5 @@ module.exports = exports = function ProductPlugin(schema, options) {
   schema.add({
     dossier: [{type: 'ObjectId', ref: 'DOSSIER'}]
   });
-  console.log('product plugin loaded');
+  // console.log('product plugin loaded');
 };

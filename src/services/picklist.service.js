@@ -1,6 +1,6 @@
 
-const Picklist = require('../models/picklist.model');
 const BaseService = require('./base.service');
+const SHARED_CONST = require('../constants/shared');
 
 const Q = require('bluebird');
 const _ = require('lodash');
@@ -71,6 +71,6 @@ module.exports = class PickListService extends BaseService {
   }
 
   getOtherValue() {
-    return Picklist.getOtherValue();
+    return SHARED_CONST.PICKLIST_OTHER_VALUE;
   }
 };

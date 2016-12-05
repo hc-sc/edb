@@ -1,16 +1,9 @@
 const SHARED_CONST = require('../constants/shared');
 const BACKEND_CONST = require('../constants/backend');
 
-// const Q = require('bluebird');
-
-// global.TUNGUS_DB_OPTIONS =  { nativeObjectID: true, searchInArray: true };
-// const tungus = require('tungus');
 const mongoose = require('mongoose');
-// mongoose.Promise = Q;
 
 const Schema = mongoose.Schema;
-
-// const lastMod = require('./lastMod.plugin');
 
 const moduleSchema = new Schema({
   _version: { type: String, required: true },
