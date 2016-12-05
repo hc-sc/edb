@@ -2,13 +2,13 @@
   "receiver": [
     {
       "TYPE_NAME": "GHSTS.GHSTS.RECEIVERS.RECEIVER",
-      "toLegalEntityId": "5841eb2d1e14fb153c66fd7a",
+      "toLegalEntityId": "5845e6427f737227548198a3",
       "shortname": "BVL",
       "role": "Recipient",
       "sender": [
         {
           "TYPE_NAME": "GHSTS.GHSTS.RECEIVERS.RECEIVER.SENDER",
-          "toLegalEntityId": "5841eb2d1e14fb153c66fd82",
+          "toLegalEntityId": "5845e6427f737227548198ab",
           "companycontactregulatoryrole": "Sender",
           "remark": "no remark"
         }
@@ -16,13 +16,13 @@
     },
     {
       "TYPE_NAME": "GHSTS.GHSTS.RECEIVERS.RECEIVER",
-      "toLegalEntityId": "5841eb2d1e14fb153c66fd7c",
+      "toLegalEntityId": "5845e6427f737227548198a5",
       "shortname": "PMRA",
       "role": "Recipient",
       "sender": [
         {
           "TYPE_NAME": "GHSTS.GHSTS.RECEIVERS.RECEIVER.SENDER",
-          "toLegalEntityId": "5841eb2d1e14fb153c66fd85",
+          "toLegalEntityId": "5845e6427f737227548198ae",
           "companycontactregulatoryrole": "Sender",
           "remark": "no remark"
         }
@@ -30,13 +30,13 @@
     },
     {
       "TYPE_NAME": "GHSTS.GHSTS.RECEIVERS.RECEIVER",
-      "toLegalEntityId": "5841eb2d1e14fb153c66fd7e",
+      "toLegalEntityId": "5845e6427f737227548198a7",
       "shortname": "APVMA",
       "role": "Recipient",
       "sender": [
         {
           "TYPE_NAME": "GHSTS.GHSTS.RECEIVERS.RECEIVER.SENDER",
-          "toLegalEntityId": "5841eb2d1e14fb153c66fd89",
+          "toLegalEntityId": "5845e6427f737227548198b0",
           "companycontactregulatoryrole": "Sender",
           "remark": "no remark"
         }
@@ -44,13 +44,13 @@
     },
     {
       "TYPE_NAME": "GHSTS.GHSTS.RECEIVERS.RECEIVER",
-      "toLegalEntityId": "5841eb2d1e14fb153c66fd80",
+      "toLegalEntityId": "5845e6427f737227548198a9",
       "shortname": "IBAMA",
       "role": "Recipient",
       "sender": [
         {
           "TYPE_NAME": "GHSTS.GHSTS.RECEIVERS.RECEIVER.SENDER",
-          "toLegalEntityId": "5841eb2d1e14fb153c66fd87",
+          "toLegalEntityId": "5845e6427f737227548198b2",
           "companycontactregulatoryrole": "Sender",
           "remark": "no remark"
         }

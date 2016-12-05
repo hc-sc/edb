@@ -303,7 +303,7 @@ let svr = new testService();
 
 //svr.edb_delete('58407a642f2d9a1f74416c17');
 
-// svr.edb_put({productShortName: 'test', submissionid: '5841eb2d1e14fb153c66fd75', productid: '5841eb2d1e14fb153c66fe3b'})
+// svr.edb_put({productShortName: 'test', submissionid: '5845e6427f7372275481989e', productid: '5845e6437f73722754819a39'})
 //   .then(ret => {
 //     console.log(ret);
 // //     return svr.edb_delete(JSON.parse(ret.data)._id);
@@ -323,7 +323,7 @@ svr.edb_get({}, true)
    console.log(err);
  });
 
-// svr.edb_get({submissionid: '5841eb2d1e14fb153c66fd75'})
+// svr.edb_get({submissionid: '5845e6427f7372275481989e'})
 //   .then(ret => {
 //    console.log(ret);
 //  }).catch(err => {

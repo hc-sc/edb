@@ -7,7 +7,7 @@ export class SubstancesCtrl extends BaseCtrl {
     this.substanceIdentifierTypes = JSON.parse(this.substanceIdentifierTypes.data);
 
     this.picklists = {
-      substanceIdentifierTypes: this.substanceIdentifierTypes
+      identifierTypes: this.substanceIdentifierTypes
     };
 
     this.identifierProjection = [
