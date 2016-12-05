@@ -381,7 +381,7 @@ module.exports = class BaseService {
         let mongoose = require('mongoose');
         let Schema = mongoose.Schema;
         let mschema = new Schema(jschema, {
-          id: false,
+//          id: false,
           minimize: false,
           retainKeyOrder: true,
           validateBeforeSave: false

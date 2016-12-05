@@ -15,7 +15,6 @@ module.exports = class ProductService extends BaseService {
       let tdPath = path.resolve('./', BACKEND_CONST.BASE_DIR1, BACKEND_CONST.BASE_DIR2, 'test', 'product.json');
       let td = require(tdPath)['product'];
       let submissions = [], dossiers = [], products = [], qAry = [];
-      // let plkInst = new PicklistService();
 
       td.map(item => {
         submissions.push(item.product.dossier.submission);
@@ -57,10 +56,8 @@ module.exports = class ProductService extends BaseService {
 
       let subSvrClass = require('./submission.service');
       let dosSvrClass = require('./dossier.service');
-      let ghstsSvrClass = require('./ghsts.service');
       let subSvr = new subSvrClass();
       let dosSvr = new dosSvrClass();
-      let ghstsSvr = new ghstsSvrClass();
 
       submissions.map((items, index) => {
         qAry = [];        
@@ -84,13 +81,13 @@ module.exports = class ProductService extends BaseService {
         .then(rets => {
           products[index] = JSON.parse(rets.data);
           dossiers[index].product = [products[index]._id.toString()];
-          console.log(dossiers[index].product);
+          // console.log(dossiers[index].product);
           return dosSvr.edb_put(dossiers[index]);
         })
         .bind(index)
         .then(rets => {
           products[index].dossier = [JSON.parse(rets.data)._id.toString()];
-          console.log(products[index].dossier);
+          // console.log(products[index].dossier);
           return self.edb_post(products[index]);
         })
         .catch(err => {

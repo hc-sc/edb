@@ -91,7 +91,7 @@ var init = () => {
 //          console.log('time is up');
           initDB()
             .then(result => {
-              console.log(result);
+              // console.log(result);
             })
             .catch(err => {
               console.log(err);
@@ -131,6 +131,9 @@ var initDB = () => {
         svr = new svrClass('01.00.00');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/file.service');
+        svr = new svrClass('01.00.00');
+        qAry.push(svr.initDbfromTestData());
+        svrClass = require('./services/receiver.service');
         svr = new svrClass('01.00.00');
         qAry.push(svr.initDbfromTestData());
         return Q.all(qAry);
@@ -292,14 +295,15 @@ app.on('ready', function () {
 // const testService = require('./services/picklist.service');
 // const testService = require('./services/dossier.service');
 // const testService = require('./services/substance.service');
-const testService = require('./services/ghsts.service');
+// const testService = require('./services/ghsts.service');
+const testService = require('./services/receiver.service');
 var backendTest = () => {
 console.log('--------- Backend Test Start ----------');
 let svr = new testService();
 
 //svr.edb_delete('58407a642f2d9a1f74416c17');
 
-// svr.edb_put({productShortName: 'test', submissionid: '58408f1cb601cb256005672b', productid: '58408f1eb601cb25600567e9'})
+// svr.edb_put({productShortName: 'test', submissionid: '5841eb2d1e14fb153c66fd75', productid: '5841eb2d1e14fb153c66fe3b'})
 //   .then(ret => {
 //     console.log(ret);
 // //     return svr.edb_delete(JSON.parse(ret.data)._id);
@@ -312,12 +316,19 @@ let svr = new testService();
 //  });
 
 
-svr.edb_get({submissionid: '58408f1cb601cb256005672b'})
+svr.edb_get({})
   .then(ret => {
    console.log(ret);
  }).catch(err => {
    console.log(err);
  });
+
+// svr.edb_get({submissionid: '5841eb2d1e14fb153c66fd75'})
+//   .then(ret => {
+//    console.log(ret);
+//  }).catch(err => {
+//    console.log(err);
+//  });
 
 //  svr.edb_put({
 //           "TYPE_NAME": "GHSTS.GHSTS.SUBSTANCES.SUBSTANCE",

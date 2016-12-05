@@ -1,0 +1,60 @@
+{
+  "receiver": [
+    {
+      "TYPE_NAME": "GHSTS.GHSTS.RECEIVERS.RECEIVER",
+      "toLegalEntityId": "5841eb2d1e14fb153c66fd7a",
+      "shortname": "BVL",
+      "role": "Recipient",
+      "sender": [
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.RECEIVERS.RECEIVER.SENDER",
+          "toLegalEntityId": "5841eb2d1e14fb153c66fd82",
+          "companycontactregulatoryrole": "Sender",
+          "remark": "no remark"
+        }
+      ]
+    },
+    {
+      "TYPE_NAME": "GHSTS.GHSTS.RECEIVERS.RECEIVER",
+      "toLegalEntityId": "5841eb2d1e14fb153c66fd7c",
+      "shortname": "PMRA",
+      "role": "Recipient",
+      "sender": [
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.RECEIVERS.RECEIVER.SENDER",
+          "toLegalEntityId": "5841eb2d1e14fb153c66fd85",
+          "companycontactregulatoryrole": "Sender",
+          "remark": "no remark"
+        }
+      ]
+    },
+    {
+      "TYPE_NAME": "GHSTS.GHSTS.RECEIVERS.RECEIVER",
+      "toLegalEntityId": "5841eb2d1e14fb153c66fd7e",
+      "shortname": "APVMA",
+      "role": "Recipient",
+      "sender": [
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.RECEIVERS.RECEIVER.SENDER",
+          "toLegalEntityId": "5841eb2d1e14fb153c66fd89",
+          "companycontactregulatoryrole": "Sender",
+          "remark": "no remark"
+        }
+      ]
+    },
+    {
+      "TYPE_NAME": "GHSTS.GHSTS.RECEIVERS.RECEIVER",
+      "toLegalEntityId": "5841eb2d1e14fb153c66fd80",
+      "shortname": "IBAMA",
+      "role": "Recipient",
+      "sender": [
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.RECEIVERS.RECEIVER.SENDER",
+          "toLegalEntityId": "5841eb2d1e14fb153c66fd87",
+          "companycontactregulatoryrole": "Sender",
+          "remark": "no remark"
+        }
+      ]
+    }
+  ]
+}
