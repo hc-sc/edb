@@ -94,9 +94,18 @@ export default function ($stateProvider, $urlRouterProvider) {
       url: '/documents',
       component: 'documents',
       resolve: {
-        documents: AppDataService => {
-          return AppDataService.getService().edb_get({ url: 'picklist', data: {} });
-        }
+        metadataStatusOptions: PicklistService => {
+          return PicklistService.getService().edb_get({ 'TYPE_NAME': 'TYPE_METADATA_STATUS' });
+        },
+        contentStatusOptions: PicklistService => {
+          return PicklistService.getService().edb_get({ 'TYPE_NAME': 'TYPE_CONTENT_STATUS' });
+        },
+        referenceTypeOptions: PicklistService => {
+          return PicklistService.getService().edb_get({ 'TYPE_NAME': 'TYPE_REFERENCE_TYPE' });
+        },
+        documentNumberTypeOptions: PicklistService => {
+          return PicklistService.getService().edb_get({ 'TYPE_NAME': 'EXTENSION_TYPE_DOCUMENT_NUMBER_TYPE' });
+        },
       }
     })
     .state('settings', {
