@@ -18,8 +18,6 @@ export default angular.module('selectInput', [
     onUpdate: '&'
   },
   controller: class SelectInputCtrl {
-    constructor() {}
-
     update(item) {
       this.onUpdate({ value: item._id });
     }
