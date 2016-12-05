@@ -6,8 +6,8 @@ import modelSubstanceIdentifier from '../../view-models/gen/substanceidentifier.
 
 
 export class SubstancesCtrl extends BaseCtrl {
-  constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, $scope) {
-    super($mdDialog, $mdToast, $state, PicklistService, AppDataService, 'substance', $scope);
+  constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope) {
+    super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'substance', $scope);
     this.metadataStatusOptions = JSON.parse(this.metadataStatusOptions.data);
     this.identifierTypeOptions = JSON.parse(this.identifierTypeOptions.data);
     this.identifierProjection = [

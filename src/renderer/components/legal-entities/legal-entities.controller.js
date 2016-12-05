@@ -2,9 +2,8 @@ import angular from 'angular';
 import BaseCtrl from '../common/base.controller';
 
 export default class LECtrl extends BaseCtrl {
-  constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService) {
-    super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'legalentity');
-    console.log(arguments);
+  constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope) {
+    super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'legalentity', $scope);
     this.legalEntityTypes = JSON.parse(this.legalEntityType.data);
     this.legalEntityIdentifierTypes = JSON.parse(this.legalEntityIdentifierType.data);
     this.countries = JSON.parse(this.countries.data);
@@ -14,10 +13,6 @@ export default class LECtrl extends BaseCtrl {
     };
 
     this.init().then(() => {this.loading = false;});
-  }
-
-  add() {
-    this.selected = angular.copy(this.getModel('legalentity'));
   }
 
   updateContactAddress(prop, value) {

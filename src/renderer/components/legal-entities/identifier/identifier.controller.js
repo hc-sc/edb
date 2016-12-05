@@ -1,11 +1,7 @@
 import ModalBaseCtrl from '../../common/modal.base.controller';
 
 export default class IdentifierCtrl extends ModalBaseCtrl {
-  constructor($mdDialog, index, node, picklists) {
-    super($mdDialog);
-    this.node = node;
-    this.index = index;
-    this.picklists = picklists;
-    console.log(this);
+  constructor($mdDialog, index, node, picklists, picklistService, $scope) {
+    super($mdDialog, index, node, picklists, picklistService, $scope);
   }
 }
