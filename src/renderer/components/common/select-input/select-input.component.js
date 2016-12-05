@@ -15,11 +15,22 @@ export default angular.module('selectInput', [
     showValue: '<',
     selectValue: '<',
     values: '<',
+    main: '<',
     onUpdate: '&'
   },
   controller: class SelectInputCtrl {
     update(item) {
       this.onUpdate({ value: item._id });
+    }
+
+    getMain(item) {
+      return item[this.main];
+      // let refs = this.main.split('.');
+      // let path = this.item;
+      // for (let ref of refs) {
+      //   path = path[ref];
+      // }
+      // return path;
     }
   }
 })
