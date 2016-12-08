@@ -146,7 +146,7 @@ export default class BaseCtrl {
   // updates which sidenav item is being modified
   updateSelected(data) {
     this.selected = this.records.filter(record => {
-      return record.id === data.id;
+      return record._id === data._id;
     })[0];
   }
 
@@ -197,6 +197,12 @@ import fileRATemplate from '../files/file-ra/file-ra.template';
 import contentStatusHistoryTemplate from '../documents/content-status-history/content-status-history.template';
 import contentStatusHistoryCtrl from '../documents/content-status-history/content-status-history.controller';
 
+import ingredientTemplate from '../products/ingredient/ingredient.template';
+import IngredientCtrl from '../products/ingredient/ingredient.controller';
+import productraTemplate from '../products/product-ra/product-ra.template';
+import ProductRACtrl from '../products/product-ra/product-ra.controller';
+
+
 function getModalValues(nodeName ) {
   // let ref = nodeName.split('.');
   // nodeName = ref[ref.length-1];
@@ -242,6 +248,18 @@ function getModalValues(nodeName ) {
       return {
         template: contentStatusHistoryTemplate,
         controller: contentStatusHistoryCtrl
+      };
+
+    case 'ingredients.ingredient':
+      return {
+        template: ingredientTemplate,
+        controller: IngredientCtrl
+      };
+    
+    case 'productra':
+      return {
+        template: productraTemplate,
+        controller: ProductRACtrl
       };
 
     default:

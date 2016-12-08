@@ -41,7 +41,6 @@ export default function ($stateProvider, $urlRouterProvider) {
       url: '/files',
       component: 'files',
       resolve: {
-        // for testing purposes, this should already be loaded in the db in the future
         fileType: PicklistService => {
           return PicklistService.getService().edb_get({ 'TYPE_NAME': 'TYPE_FILE_TYPE' });
         },
@@ -84,7 +83,18 @@ export default function ($stateProvider, $urlRouterProvider) {
 
     .state('globals.products', {
       url: '/products',
-      component: 'products'
+      component: 'products',
+      resolve: {
+        adminNumberType: PicklistService => {
+          return PicklistService.getService().edb_get({ 'TYPE_NAME': 'EXTENSION_TYPE_ADMIN_NUMBER_TYPE' });
+        },
+        formulationType: PicklistService => {
+          return PicklistService.getService().edb_get({ 'TYPE_NAME': 'EXTENSION_TYPE_FORMULATION_TYPE' });
+        },
+        unitType: PicklistService => {
+          return PicklistService.getService().edb_get({ 'TYPE_NAME': 'EXTENSION_TYPE_UNIT' });
+        },
+      }
     })
     .state('globals.documents', {
       url: '/documents',

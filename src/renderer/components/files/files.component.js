@@ -12,9 +12,6 @@ import AppDataService from '../../services/app.data.service';
 import BaseCtrl from '../common/base.controller';
 
 import modelFile from '../../view-models/gen/file.json';
-// import modelContactAddress from '../../view-models/gen/contactaddress.json';
-// import modelLegalEntityIdentifier from '../../view-models/gen/legalentityidentifier.json';
-// import modelContactPerson from '../../view-models/gen/contactperson.json';
 
 export default angular.module('files', [
   ngMaterial,
@@ -33,34 +30,19 @@ export default angular.module('files', [
   },
 
   controller: class FileCtrl extends BaseCtrl {
-    constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService) {
-      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'file');
+    constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope) {
+      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'file', $scope);
 
       this.fileType = JSON.parse(this.fileType.data);
       this.contentStatus = JSON.parse(this.contentStatus.data);
 
       this.init().then(() => {this.loading = false;});
-      this.getModels();
-    }
-
-    getModels() {
-      this.modelFile = Object.assign(modelFile.fields);
-      // this.modelContactPerson = Object.assign(modelContactPerson.fields);
-      // this.modelLegalEntityIdentifier = Object.assign(modelLegalEntityIdentifier.fields);
-      // this.modelLegalEntity = Object.assign(modelLegalEntity.fields);
-      // this.modelLegalEntity.contactaddress = Object.assign(this.modelContactAddress);
-      this.modelFile._url = this.url;
-      // this.modelLegalEntity.legalentitytype = this.legalEntityTypes[0];
-      // this.modelLegalEntity.contactaddress.country = this.countries[0];
     }
 
     add() {
-      this.selected = angular.copy(this.modelFile);
+      this.selected = angular.copy(this.getModel('file'));
     }
-
-    // updateContactAddress(prop, value) {
-    //   this.selected.contactaddress[prop] = value;
-    // }
+    
   }
 })
 .name;

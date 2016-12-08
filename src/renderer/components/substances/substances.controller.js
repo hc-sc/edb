@@ -1,19 +1,15 @@
 import angular from 'angular';
 import BaseCtrl from '../common/base.controller';
 
-export class SubstancesCtrl extends BaseCtrl {
-  constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService) {
-    super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'substance');
+export default class SubstancesCtrl extends BaseCtrl {
+  constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope) {
+    super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'substance', $scope);
     this.substanceIdentifierTypes = JSON.parse(this.substanceIdentifierTypes.data);
 
     this.picklists = {
       identifierTypes: this.substanceIdentifierTypes
     };
 
-    this.identifierProjection = [
-      'identifier',
-      'substanceidentifiertype'
-    ];
     this.init().then(() => {this.loading = false;});
   }
 

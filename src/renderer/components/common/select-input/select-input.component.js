@@ -15,7 +15,7 @@ export default angular.module('selectInput', [
     showValue: '<',
     selectValue: '<',
     values: '<',
-    main: '<',
+    main: '@',
     onUpdate: '&'
   },
   controller: class SelectInputCtrl {

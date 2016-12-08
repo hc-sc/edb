@@ -4,6 +4,10 @@
     <sidenav items='$ctrl.records' main='filegeneric.filename' is-open='$ctrl.sidenavOpen' on-select='$ctrl.updateSelected(item)'
       on-add='$ctrl.add(item)'></sidenav>
 
+    <div>
+      <text-input label='File Full Location' is-disabled='true' is-required='true' text-value='$ctrl.selected._filereallocation'></text-input>
+      <button>Choose file</button>
+    </div>
     <text-input label='File PID' is-required='true' text-value='$ctrl.selected.filegeneric.filepid' on-update='$ctrl.update("filegeneric.filepid", value)'></text-input>
     <text-input label='File Company ID' text-value='$ctrl.selected.filegeneric.filecompanyid' on-update='$ctrl.update("filegeneric.filecompanyid", value)'></text-input>
     <select-input label='Content Status' is-required='true' select-value='$ctrl.selected.filegeneric.contentstatus' values='$ctrl.contentStatus' on-update='$ctrl.update("filegeneric.contentstatus", value)'></select-input>
@@ -13,7 +17,7 @@
     <text-input label='MD5 Checksum' text-value='$ctrl.selected.filegeneric.md5CHECKSUM' on-update='$ctrl.update("filegeneric.md5CHECKSUM", value)'></text-input>
     <text-input label='Filename' is-required='true' text-value='$ctrl.selected.filegeneric.filename' on-update='$ctrl.update("filegeneric.filename", value)'></text-input>
     <tbl ng-if='!$ctrl.loading' title='File Regulatory Authority' items='$ctrl.selected.filera' projection='["cbidesignation", "filecomment", "toSpecificForRAId"]'
-      on-select='$ctrl.selectTblItem("filera",index)' on-delete='$ctrl.deleteTblItem("filera",index)' deletable='true'></tbl>
+      on-select='$ctrl.selectTblItem("filera",index)' on-delete='$ctrl.deleteTblItem("filera",index)' on-add='$ctrl.addTblItem("filera")'></tbl>
     <div style='z-index:100' class='float-bottom'>
       <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
         <md-icon md-svg-icon='save' class='light'></md-icon>
