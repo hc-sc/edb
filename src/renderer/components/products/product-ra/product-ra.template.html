@@ -1,0 +1,36 @@
+<md-dialog aria-label='Product R' flex='80'>
+  <form ng-cloak>
+    <md-toolbar>
+      <div class='md-toolbar-tools'>
+        <h2>Product RA</h2>
+        <span flex></span>
+        <md-button class='md-icon-button' ng-click='$ctrl.cancel()'>
+          <md-icon md-svg-icon='close' aria-label='close dialog' class='light'></md-icon>
+          <md-tooltip>Close</md-tooltip>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class='md-dialog-content'>
+        <text-input label='"Product Name"' is-required='true' text-value='$ctrl.node.productname' on-update='$ctrl.update("productname", value)'></text-input>
+        <select-input label='Substance' main='substancename' select-value='$ctrl.node.toSpecificForRAId' values='$ctrl.substances' on-update='$ctrl.update("toSubstanceId", value)'></select-input>
+        <fieldset>
+          <legend>Admin Number</legend>
+          <div class='md-dialog-content' ng-repeat='adminnumber as $ctrl.node.adminnumber'>
+            <text-input label='Street 1' text-value='adminnumber.identifier' on-update='$ctrl.updateContactAddress("street1", value)'></text-input>
+          </div>
+        </fieldset>
+        <select-input-extensible label='Unit' select-value='$ctrl.node.unit' on-update='$ctrl.update("unit", value)'
+          values='$ctrl.picklists.unitType' type-name='EXTENSION_TYPE_UNIT' on-add='$ctrl.createPicklistItem("unit", "unitType", value)'>
+        </select-input-extensible>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout='row'>
+      <span flex></span>
+      <md-button ng-click='$ctrl.confirm()'>Okay</md-button>
+      <md-button ng-click='$ctrl.cancel()'>Cancel</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

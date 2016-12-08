@@ -3,6 +3,15 @@ import modelContactAddress from '../view-models/gen/contactaddress.json';
 import modelLegalEntityIdentifier from '../view-models/gen/legalentityidentifier.json';
 import modelContactPerson from '../view-models/gen/contactperson.json';
 
+import modelSubstance from '../view-models/gen/substance.json';
+import modelSubstanceIdentifier from '../view-models/gen/substanceidentifier.json';
+import modelFile from '../view-models/gen/file.json';
+import modelFileRA from '../view-models/gen/filera.json';
+
+import modelProduct from '../view-models/gen/product.json';
+import modelProductRA from '../view-models/gen/productra.json';
+import modelIngredient from '../view-models/gen/ingredient.json';
+
 export default class ModelService {
   constructor() {}
   getModel(prop) {
@@ -19,6 +28,27 @@ export default class ModelService {
         model.contactaddress = this.getModel('contactaddress');
         model._url = 'legalentity';
         return model;
+      case 'substance':
+        model = Object.assign(modelSubstance.fields);
+        model._url = prop;
+        return model;
+      case 'substanceidentifier':
+        return Object.assign(modelSubstanceIdentifier.fields);
+      case 'file':
+        model = Object.assign(modelFile.fields);
+        model._url = prop;
+        return model;
+      case 'filera':
+        return Object.assign(modelFileRA.fields);
+      case 'product':
+        model = Object.assign(modelProduct.fields);
+        model.ingredients = {ingredient: []};
+        model._url = 'product';
+        return model;
+      case 'productra':
+        return Object.assign(modelProductRA.fields);
+      case 'ingredients.ingredient':
+        return Object.assign(modelIngredient.fields);
     }
   }
 }

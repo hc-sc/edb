@@ -146,7 +146,7 @@ export default class BaseCtrl {
   // updates which sidenav item is being modified
   updateSelected(data) {
     this.selected = this.records.filter(record => {
-      return record.id === data.id;
+      return record._id === data._id;
     })[0];
   }
 
@@ -200,6 +200,12 @@ import referenceDocumentTemplate from '../documents/reference-document/reference
 import referenceDocumentCtrl from '../documents/reference-document/reference-document.controller';
 import documentNumberTemplate from '../documents/document-number/document-number.template';
 import documentNumberCtrl from '../documents/document-number/document-number.controller';
+
+
+import ingredientTemplate from '../products/ingredient/ingredient.template';
+import IngredientCtrl from '../products/ingredient/ingredient.controller';
+import productraTemplate from '../products/product-ra/product-ra.template';
+import ProductRACtrl from '../products/product-ra/product-ra.controller';
 
 
 function getModalValues(nodeName ) {
@@ -262,6 +268,19 @@ function getModalValues(nodeName ) {
         template: documentNumberTemplate,
         controller: documentNumberCtrl
       };
+
+    case 'ingredients.ingredient':
+      return {
+        template: ingredientTemplate,
+        controller: IngredientCtrl
+      };
+    
+    case 'productra':
+      return {
+        template: productraTemplate,
+        controller: ProductRACtrl
+      };
+
     default:
       console.log("No matching node name");
       return null;
