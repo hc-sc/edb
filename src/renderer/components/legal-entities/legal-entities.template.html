@@ -2,6 +2,21 @@
   <spinner ng-if='$ctrl.loading'></spinner>
   <div class='no-margin no-padding' ng-if='!ctrl.loading'>
     <sidenav items='$ctrl.records' main='legalentityname' is-open='$ctrl.sidenavOpen' on-select='$ctrl.updateSelected(item)' on-add='$ctrl.add(item)'></sidenav>
+    <text-input label='PID' is-disabled='true' text-value='$ctrl.selected.legalentitypid' on-update='$ctrl.update("legalentitypid", value)'></text-input>
+    <text-input label='Name' text-value='$ctrl.selected.legalentityname' on-update='$ctrl.update("legalentityname", value)'></text-input>
+    <select-input-extensible label='"Legal Entity Type"' is-required='true' show-value='false' values='$ctrl.legalEntityTypes' 
+          select-value='$ctrl.selected.legalentitytype' 
+          on-update='$ctrl.update("legalentitytype", value)' 
+          on-add='$ctrl.createPicklistItem("legalentitytype", "legalEntityTypes", value)' 
+          type-name='EXTENSION_TYPE_LEGALENTITY_TYPE'>
+    </select-input-extensible>
+    <!--<text-input label='Other Name' text-value='$ctrl.selected.othername' on-update='$ctrl.update("othername", value)'></text-input>-->
+    <tbl ng-if='!$ctrl.loading' title='Other Name' items='$ctrl.selected.othername' projection='["othername"]'></tbl>
+    <tbl ng-if='!$ctrl.loading' title='Identifier' items='$ctrl.selected.legalentityidentifier' projection='["legalentityidentifiertype", "identifier"]' 
+        on-select='$ctrl.selectTblItem("legalentityidentifier", index)' 
+        on-add='$ctrl.addTblItem("legalentityidentifier")' 
+        on-delete='$ctrl.deleteTblItem("legalentityidentifier", index)'>
+    </tbl>
     <text-input label='Legal Entity PID' is-disabled='true' text-value='$ctrl.selected.legalentitypid' is-required='true' on-update='$ctrl.update("legalentitypid", value)'></text-input>
     <text-input label='Name' text-value='$ctrl.selected.legalentityname' is-required='true' on-update='$ctrl.update("legalentityname", value)'></text-input>
     <select-input-extensible label='"Legal Entity Type"' values='$ctrl.legalEntityTypes' select-value='$ctrl.selected.legalentitytype' on-update='$ctrl.update("legalentitytype", value)' on-add='$ctrl.createPicklistItem("legalentitytype", "legalEntityTypes", value)' type-name='EXTENSION_TYPE_LEGALENTITY_TYPE'></select-input-extensible>
