@@ -1,3 +1,4 @@
+
 'use strict';
 global.modulesInMemory = {};
 
@@ -90,7 +91,7 @@ var init = () => {
 //          console.log('time is up');
           initDB()
             .then(result => {
-              console.log(result);
+              // console.log(result);
             })
             .catch(err => {
               console.log(err);
@@ -130,6 +131,9 @@ var initDB = () => {
         svr = new svrClass('01.00.00');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/file.service');
+        svr = new svrClass('01.00.00');
+        qAry.push(svr.initDbfromTestData());
+        svrClass = require('./services/document.service');
         svr = new svrClass('01.00.00');
         qAry.push(svr.initDbfromTestData());
         return Q.all(qAry);
@@ -180,6 +184,10 @@ ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL, function (event, arg) {
   }
   lastMessageTimestamp = timestamp;
   svr[method](arg.data).then(result => {
+    if (method === 'edb_get' && arg.data) {  // need to refactory
+      submissions[0] = JSON.parse(result.data);
+    }
+
     event.sender.send(SHARED_CONST.GHSTS_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, result);
   })
     .catch(err => {

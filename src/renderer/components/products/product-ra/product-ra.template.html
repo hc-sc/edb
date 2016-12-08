@@ -14,16 +14,17 @@
     <md-dialog-content>
       <div class='md-dialog-content'>
         <text-input label='"Product Name"' is-required='true' text-value='$ctrl.node.productname' on-update='$ctrl.update("productname", value)'></text-input>
-        <select-input label='Substance' main='substancename' select-value='$ctrl.node.toSpecificForRAId' values='$ctrl.substances' on-update='$ctrl.update("toSubstanceId", value)'></select-input>
+        <select-input label='Receiver' main='shortname' select-value='$ctrl.node.toSpecificForRAId' values='$ctrl.receivers' on-update='$ctrl.update("toSubstanceId", value)'></select-input>
         <fieldset>
           <legend>Admin Number</legend>
-          <div class='md-dialog-content' ng-repeat='adminnumber as $ctrl.node.adminnumber'>
-            <text-input label='Street 1' text-value='adminnumber.identifier' on-update='$ctrl.updateContactAddress("street1", value)'></text-input>
+          <div ng-repeat='adminnumber in $ctrl.node.adminnumber'>
+            <text-input label='Identifier' text-value='adminnumber.identifier' on-update='$ctrl.update("identifier", value)'></text-input>
+            {{adminnumber.adminnumbertype}}
+            <select-input-extensible label='"Admin Number Type"' select-value='adminnumber.adminnumbertype' on-update='$ctrl.update("adminnumber.adminnumbertype", value)'
+              values='$ctrl.picklists.adminNumberType' show-value='true' type-name='EXTENSION_TYPE_ADMIN_NUMBER_TYPE' on-add='$ctrl.createPicklistItem("adminnumbertype", "adminNumberType", value)'>
+            </select-input-extensible>
           </div>
         </fieldset>
-        <select-input-extensible label='Unit' select-value='$ctrl.node.unit' on-update='$ctrl.update("unit", value)'
-          values='$ctrl.picklists.unitType' type-name='EXTENSION_TYPE_UNIT' on-add='$ctrl.createPicklistItem("unit", "unitType", value)'>
-        </select-input-extensible>
       </div>
     </md-dialog-content>
 

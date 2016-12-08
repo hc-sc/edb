@@ -15,7 +15,7 @@
       <div class='md-dialog-content'>
         <select-input label='Substance' main='substancename' select-value='$ctrl.node.toSubstanceId' values='$ctrl.substances' on-update='$ctrl.update("toSubstanceId", value)'></select-input>
         <text-input label='Quantity' text-value='$ctrl.node.quantity' on-update='$ctrl.update("quantity", value)'></text-input>
-        <select-input-extensible label='Unit' select-value='$ctrl.node.unit' on-update='$ctrl.update("unit", value)'
+        <select-input-extensible label='"Unit"' select-value='$ctrl.node.unit' on-update='$ctrl.update("unit", value)'
           values='$ctrl.picklists.unitType' type-name='EXTENSION_TYPE_UNIT' on-add='$ctrl.createPicklistItem("unit", "unitType", value)'>
         </select-input-extensible>
       </div>

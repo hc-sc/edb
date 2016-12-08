@@ -292,11 +292,12 @@ app.on('ready', function () {
 });
 
 //Test request
+const testService = require('./services/legalentity.service');
 // const testService = require('./services/picklist.service');
 // const testService = require('./services/dossier.service');
 // const testService = require('./services/substance.service');
 // const testService = require('./services/ghsts.service');
-const testService = require('./services/receiver.service');
+// const testService = require('./services/receiver.service');
 var backendTest = () => {
 console.log('--------- Backend Test Start ----------');
 let svr = new testService();
