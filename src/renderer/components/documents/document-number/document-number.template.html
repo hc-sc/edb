@@ -1,8 +1,8 @@
-<md-dialog aria-label='identifier' flex='80'>
+<md-dialog aria-label='dossier regulatory authority' flex='80'>
   <form ng-cloak>
     <md-toolbar>
       <div class='md-toolbar-tools'>
-        <h2>Identifier</h2>
+        <h2>Document Number</h2>
         <span flex></span>
         <md-button class='md-icon-button' ng-click='$ctrl.cancel()'>
           <md-icon md-svg-icon='close' aria-label='close dialog' class='light'></md-icon>
@@ -12,13 +12,16 @@
     </md-toolbar>
 
     <md-dialog-content>
-      <div class='md-dialog-content'>
-        <select-input-extensible label='"Identifier Type"' select-value='$ctrl.node.legalentityidentifiertype' 
-            on-update='$ctrl.update("legalentityidentifiertype", value)' 
-            values='$ctrl.picklists.legalEntityIdentifierTypes' 
-            type-name='EXTENSION_TYPE_LEGALENTITY_IDENTIFIER_TYPE' 
-            on-add='$ctrl.createPicklistItem("legalentityidentifiertype", "legalEntityIdentifierTypes", value)'>
+        <div class='md-dialog-content'>
+             <!--on-update='$ctrl. updateDocNumType("documentnumbertype", value)' -->
+        <select-input-extensible label='"Document Number Type"' select-value='$ctrl.node.documentnumbertype' 
+               
+                on-update='$ctrl. update("documentnumbertype", value)'
+                values='$ctrl.picklists.documentNumberTypeOptions' 
+                type-name='EXTENSION_TYPE_DOCUMENT_NUMBER_TYPE' 
+                on-add='$ctrl.createPicklistItem("documentnumbertype", "documentNumberTypeOptions", value)'>
         </select-input-extensible>
+        <!--on-update='$ctrl.updateDocNumType("identifier", value)'-->
         <text-input label='Identifier' text-value='$ctrl.node.identifier' on-update='$ctrl.update("identifier", value)'></text-input>
       </div>
     </md-dialog-content>

@@ -13,11 +13,21 @@
         <text-input label='Published Indicator' text-value='$ctrl.selected.documentgeneric.publishedindicator'></text-input>
         <text-input label='Document Family' text-value='$ctrl.selected.documentgeneric.documentfamily'></text-input>
         
-        <tbl ng-if='!$ctrl.loading' title='Content Status History' items='$ctrl.selected.documentgeneric.contentstatushistory' projection='$ctrl.contentStatusProjection' on-select='$ctrl.selectTblItem("documentgeneric.contentstatushistory",index)' on-delete='$ctrl.deleteTblItem("documentgeneric.contentstatushistory",index)' deletable='true'></tbl>
+        <tbl ng-if='!$ctrl.loading' title='Content Status History' items='$ctrl.selected.documentgeneric.contentstatushistory' projection='$ctrl.contentStatusProjection' 
+              on-select='$ctrl.selectTblItem("documentgeneric.contentstatushistory",index)' 
+              on-add='$ctrl.addTblItem("documentgeneric.contentstatushistory")' 
+              on-delete='$ctrl.deleteTblItem("documentgeneric.contentstatushistory",index)'>
+        </tbl>
         
         <tbl title='Referenced Document' items='[]' projection='[]'></tbl>
         <tbl title='Related To Substance' items='[]' projection='[]'></tbl>
-        <tbl ng-if='!$ctrl.loading' title='Document Number' items='[]' projection='[]'></tbl>
+
+        <tbl ng-if='!$ctrl.loading' title='Document Number' items='$ctrl.selected.documentgeneric.documentnumber'  projection='["documentnumbertype", "identifier"]'
+              on-select='$ctrl.selectTblItem("documentgeneric.documentnumber",index)' 
+              on-add='$ctrl.addTblItem("documentgeneric.documentnumber")' 
+              on-delete='$ctrl.deleteTblItem("documentgeneric.documentnumber",index)'>
+        </tbl>
+
         <tbl title='Test Laboratory' items='[]' projection='[]'></tbl>
         <text-input label='GXP Indicator' text-value='$ctrl.selected.documentgeneric.gxpindicator'></text-input>
         <md-switch ng-model='$ctrl.submission.SUBMISSION[$ctrl.submission.SUBMISSION.length - 1].INCREMENTAL' aria-label='Incremental'

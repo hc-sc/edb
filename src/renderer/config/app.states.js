@@ -94,16 +94,16 @@ export default function ($stateProvider, $urlRouterProvider) {
       url: '/documents',
       component: 'documents',
       resolve: {
-        metadataStatusOptions: PicklistService => {
+        metadataStatusType: PicklistService => {
           return PicklistService.getService().edb_get({ 'TYPE_NAME': 'TYPE_METADATA_STATUS' });
         },
-        contentStatusOptions: PicklistService => {
+        contentStatusType: PicklistService => {
           return PicklistService.getService().edb_get({ 'TYPE_NAME': 'TYPE_CONTENT_STATUS' });
         },
-        referenceTypeOptions: PicklistService => {
+        referenceType: PicklistService => {
           return PicklistService.getService().edb_get({ 'TYPE_NAME': 'TYPE_REFERENCE_TYPE' });
         },
-        documentNumberTypeOptions: PicklistService => {
+        documentNumberType: PicklistService => {
           return PicklistService.getService().edb_get({ 'TYPE_NAME': 'EXTENSION_TYPE_DOCUMENT_NUMBER_TYPE' });
         },
       }

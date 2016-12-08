@@ -1,6 +1,7 @@
 import angular from 'angular';
 import ngMaterial from 'angular-material';
 import template from './documents.template';
+import DocumentCtrl from './documents.controller';
 
 import Sidenav from '../common/sidenav/sidenav.component';
 import TextInput from '../common/text-input/text-input.component';
@@ -23,29 +24,11 @@ export default angular.module('documents', [
 .component('documents', {
   template,
   bindings: {
-    documents: '<',
-    metadataStatusOptions: '<',
-    contentStatusOptions: '<',
-    referenceTypeOptions: '<',
-    documentNumberTypeOptions: '<'
+    metadataStatusType: '<',
+    contentStatusType: '<',
+    referenceType: '<',
+    documentNumberType: '<'
   },
-  controller: class DOCCtrl extends BaseCtrl{
-    constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $http) {
-      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'document', $http);
-      this.metadataStatusOptions = JSON.parse(this.metadataStatusOptions.data);
-      this.contentStatusOptions = JSON.parse(this.contentStatusOptions.data);
-      this.referenceTypeOptions = JSON.parse(this.referenceTypeOptions.data);
-      this.documentNumberTypeOptions = JSON.parse(this.documentNumberTypeOptions.data);
-      // Columns to be displayed
-      this.contentStatusProjection = [
-        'contentstatus',
-        'submissionnumber'
-      ];
-
-      this.init().then(() => {this.loading = false;});
-      //this.getModels();
-    }
-
-  }
+  controller: DocumentCtrl
 })
 .name;
