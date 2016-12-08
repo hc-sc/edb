@@ -28,7 +28,7 @@
         </thead>
         <tbody md-body>
           <tr ng-repeat='row in $ctrl.rows | index | filter:$ctrl.searchText | orderBy:$ctrl.sortField:$ctrl.reverse' md-row>
-            <td ng-repeat='data in row track by $index' ng-if='!$last' md-cell ng-click='$ctrl.select(row[row.length - 1], row.index)'>{{ data }}</td>
+            <td ng-repeat='data in row track by $index' ng-if='!$last' md-cell ng-click='$ctrl.select(row[row.length - 1], row.index)'>{{$ctrl.getData(data, $index)}}</td>
             <td ng-if='$ctrl.deletable' md-cell>
               <icon icon='$ctrl.deleteIcon' ng-click='$ctrl.delete(row.index)'></icon>
             </td>
