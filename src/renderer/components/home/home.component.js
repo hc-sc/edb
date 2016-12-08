@@ -9,10 +9,10 @@ import Toolbar from '../common/toolbar/toolbar.component';
 import Tbl from '../common/tbl/tbl.component';
 import Footer from '../common/footer/footer.component';
 import DossierService from '../../services/dossier.service';
-import PicklistService from '../../services/picklist.service';
 import { } from '../../services/ghsts.service';
 import { } from '../../services/app.data.service';
 import { GHSTS_NG_MODULE_NAME, APP_DATA_NG_MODULE_NAME,PICKLIST_NG_MODULE_NAME } from '../../../constants/shared';
+import newDossierTemplate from './new-dossier/new-dossier.template';
 
 export default angular.module('home', [
   uiRouter,
@@ -28,12 +28,14 @@ export default angular.module('home', [
 .component('home', {
   template,
   controller: class HomeCtrl {
-    constructor($mdDialog, $state, GhstsService, PicklistService) {
+    constructor($mdDialog, $state, GhstsService, PicklistService, AppDataService) {
       this.$mdDialog = $mdDialog;
       this.$state = $state;
       this.GhstsService = GhstsService.getService();
-      this.PicklistService = PicklistService.getService();
+      this.picklistService = PicklistService.getService();
+      this.appDataService = AppDataService.getService();
       this.dossiers = [];
+      this.dossierTitle;
 
       this.GhstsService.edb_get().then( result => {
         this.dossiers = JSON.parse(result.data)
@@ -42,6 +44,10 @@ export default angular.module('home', [
                           return dossier;
                         });
         this.results = this.dossiers.slice();
+        return this.appDataService.edb_get({_url: 'product'});
+      })
+      .then(products => {
+        this.products = JSON.parse(products.data);
       });
       this.toolbarItems = {
         navIcons: [
@@ -91,23 +97,48 @@ export default angular.module('home', [
     }
 
     newDossier() {
-      let prompt = this.$mdDialog.prompt()
-        .title('New Product')
-        .textContent('Enter the short name of the product, typically the name of the product. This cannot be changed after creation')
-        .placeholder('Name')
-        .ariaLabel('New Project Dialog')
-        .ok('Okay')
-        .cancel('Cancel');
+      let prompt = {
+        template: newDossierTemplate,
+        controller: class NewDossierCtrl {
+          constructor($mdDialog, products) {
+            this.$mdDialog = $mdDialog;
+            this.foldertitle;
+            this.products = products;
+            this.product;
+          }
+
+          confirm() {
+            this.$mdDialog.hide({
+              foldertitle: this.foldertitle,
+              product: this.product
+            });
+          }
+
+          cancel() {
+            this.$mdDialog.cancel();
+          }
+
+          update(prop, value) {
+            this[prop] = value;
+          }
+        },
+        controllerAs: '$ctrl',
+        locals: {
+          $mdDialog: this.$mdDialog,
+          products: this.products
+        }
+      };
 
       this.$mdDialog.show(prompt)
         .then(name => {
-          let nameAry = name.split('/');
-          this.GhstsService.edb_put({ productShortName: nameAry[0], dossierShortName: nameAry[1] }).then(result => {
-            console.log(result);
-            this.$state.go('submission.description', { dossierPID: 43243, submissionNumber: 1 });
-          }).catch(err => {
-            console.log(err);
-          });
+          let {foldertitle, product} = name;
+          // let nameAry = name.split('/');
+          // this.GhstsService.edb_put({ productShortName: nameAry[0], dossierShortName: nameAry[1] }).then(result => {
+          //   console.log(result);
+          //   this.$state.go('submission.description', { dossierPID: 43243, submissionNumber: 1 });
+          // }).catch(err => {
+          //   console.log(err);
+          // });
         });
     }
 
@@ -136,7 +167,7 @@ export default angular.module('home', [
       //   .catch(err => {
       //     console.log(err);
       //   });
-      this.PicklistService.edb_put(
+      this.picklistService.edb_put(
       {
     TYPE_NAME: 'EXTENSION_TYPE_ADMIN_NUMBER_TYPE',
     value: 'AAAAAAAAAAAAAAAAA',
