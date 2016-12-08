@@ -12,12 +12,8 @@
     </md-toolbar>
 
     <md-dialog-content>
-      <div class='md-dialog-content'>
-        <select-input label='Content Status' values='[]'></select-input>
-        <text-input label='Submission Number'></text-input>
-      </div>
        <div class='md-dialog-content'>
-         <select-input label='Content Status' select-value='$ctrl.node.contentstatus' values='$ctrl.contentStatusOptions' on-update='$ctrl.update("contentstatus", value)'></select-input>
+         <select-input label='Content Status' select-value='$ctrl.node.contentstatus' values='$ctrl.picklists.contentStatusOptions' on-update='$ctrl.update("contentstatus", value)'></select-input>
         <text-input label='Submission Number' text-value='$ctrl.node.submissionnumber' on-update='$ctrl.update("submissionnumber", value)'></text-input>
       </div>
     </md-dialog-content>

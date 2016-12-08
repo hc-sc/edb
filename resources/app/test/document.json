@@ -153,12 +153,8 @@
                 "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER",
                 "documentnumbertype": {
                   "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER.DOCUMENTNUMBERTYPE",
-                  "value": {
-                    "TYPE_NAME": "GHSTS.EXTENSIONTYPEDOCUMENTNUMBERTYPE",
-                    "otherValue": "COMPID",
-                    "value": "other"
-                  },
-                  "valuedecode": "Company ID"
+                  "value": "Plot Number",
+                  "valuedecode": "Plot Number"
                 },
                 "identifier": "T-423579-01-1\n\t\t"
               }

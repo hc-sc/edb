@@ -20,7 +20,7 @@ export default class BaseCtrl {
     .then(records => {
       this.records = JSON.parse(records.data);
       this.selected = this.records[0];
-      console.log("View Data: " + JSON.stringify(this.selected));
+      //console.log("View Data: " + JSON.stringify(this.selected));
     });
   }
 
@@ -196,6 +196,11 @@ import FileRACtrl from '../files/file-ra/file-ra.controller';
 import fileRATemplate from '../files/file-ra/file-ra.template';
 import contentStatusHistoryTemplate from '../documents/content-status-history/content-status-history.template';
 import contentStatusHistoryCtrl from '../documents/content-status-history/content-status-history.controller';
+import referenceDocumentTemplate from '../documents/reference-document/reference-document.template';
+import referenceDocumentCtrl from '../documents/reference-document/reference-document.controller';
+import documentNumberTemplate from '../documents/document-number/document-number.template';
+import documentNumberCtrl from '../documents/document-number/document-number.controller';
+
 
 function getModalValues(nodeName ) {
   // let ref = nodeName.split('.');
@@ -244,6 +249,19 @@ function getModalValues(nodeName ) {
         controller: contentStatusHistoryCtrl
       };
 
+    case 'documentgeneric.referenceddocument':
+
+      return {
+        template: referenceDocumentTemplate,
+        controller: referenceDocumentCtrl
+      };
+
+    case 'documentgeneric.documentnumber':
+
+      return {
+        template: documentNumberTemplate,
+        controller: documentNumberCtrl
+      };
     default:
       console.log("No matching node name");
       return null;
