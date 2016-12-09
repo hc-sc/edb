@@ -118,9 +118,23 @@ export default class BaseCtrl {
   addTblItem(nodeName) {
     this.$mdDialog.show(this.buildModal(nodeName, this.selected.length, true))
     .then(item => {
-      let newArray = this.selected[nodeName].slice();
-      newArray.splice(this.selected.length, 0, item);
-      this.selected[nodeName] = newArray;
+      // let newArray = this.selected[nodeName].slice();
+      // newArray.splice(this.selected.length, 0, item);
+      // this.selected[nodeName] = newArray;
+      let newArray = [];
+      if (nodeName.indexOf('.') > 0) {
+        console.log('In here');
+        let pathAry = nodeName.split('.');
+        let topEntity = {};
+        newArray = this.getRef(nodeName).slice();
+        newArray.push(item);
+        topEntity[pathAry[1]] = newArray;
+        this.selected[pathAry[0]] = topEntity;
+      } else {
+        newArray = this.selected[nodeName].slice();
+        newArray.splice(this.selected.length, 0, item);
+        this.selected[nodeName] = newArray;
+      }
     });
   }
 

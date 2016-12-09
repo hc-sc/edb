@@ -35,7 +35,8 @@ module.exports = class PickListService extends BaseService {
           value: { type: String, required: true },
           valuedecode: { type: String, required: true, default: '' },
           status: { type: String, required: true, default: 'enabled' },
-          isExt: { type: Boolean, required: true, default: false }
+          isExt: { type: Boolean, required: true, default: false },
+          _fieldname : {type: String, required: true}
         };
         let mongoose = require('mongoose');
         let Schema = mongoose.Schema;

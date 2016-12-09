@@ -292,10 +292,10 @@ app.on('ready', function () {
 });
 
 //Test request
-const testService = require('./services/legalentity.service');
+// const testService = require('./services/legalentity.service');
 // const testService = require('./services/picklist.service');
 // const testService = require('./services/dossier.service');
-// const testService = require('./services/substance.service');
+const testService = require('./services/substance.service');
 // const testService = require('./services/ghsts.service');
 // const testService = require('./services/receiver.service');
 var backendTest = () => {
@@ -317,7 +317,7 @@ let svr = new testService();
 //  });
 
 
-svr.edb_get({}, true)
+svr.edb_get({})
   .then(ret => {
    console.log(ret);
  }).catch(err => {
@@ -366,15 +366,15 @@ svr.edb_get({}, true)
   //   .then(result => {
   //  console.log(result.data);
   // });
-//   svr.edb_put({
-//     TYPE_NAME: 'EXTENSION_TYPE_ADMIN_NUMBER_TYPE', 
-//     value: 'AAAAAAAAAAAAAAAAA',
-//     valuedecode: 'AAAAAAAAAAAAAAAAA',
-//     isExt: true})
-//     .then(result => {
-//       console.log(result);
-//      svr.edb_delete(JSON. result);
-//     });
+  // svr.edb_get({
+  //   TYPE_NAME: 'EXTENSION_TYPE_ADMIN_NUMBER_TYPE', 
+  //   value: 'AAAAAAAAAAAAAAAAA',
+  //   valuedecode: 'AAAAAAAAAAAAAAAAA',
+  //   isExt: true})
+  //   .then(result => {
+  //     console.log(result);
+  //    svr.edb_delete(JSON. result);
+  //   });
 };
 
 //Test request end

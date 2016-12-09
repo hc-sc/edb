@@ -50,7 +50,7 @@ module.exports = class BaseService {
           dbquery = entityClass.find(query);
 
         dbquery
-          .lean()
+//          .lean()
           .exec((err, rows) => {
             if (err)
               rej(err);
@@ -345,6 +345,7 @@ module.exports = class BaseService {
                   type.valuedecode = APP_INFO.DECODE;
                   type.status = APP_INFO.STATUS;
                   type.isExt = false;
+                  type._fieldname = self._getFieldNamebyTypeName(type.TYPE_NAME);
                   dbmodel.create(type, (err, result) => {
                     if (err)
                       rej(err);
@@ -363,6 +364,19 @@ module.exports = class BaseService {
         rej(new Error('EDB13001'));
       }
     });
+  }
+
+  _getFieldNamebyTypeName(typeName) {
+    let keys = Object.keys(PicklistFieldsConfig);
+    let retVal = undefined;
+    keys.every(key => {
+      if (PicklistFieldsConfig[key].typename === typeName) {
+        retVal = key;
+        return false;
+      } else
+        return true; 
+    });
+    return retVal;
   }
 
   static edb_getSync(obj) {
