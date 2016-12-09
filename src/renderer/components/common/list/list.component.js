@@ -10,11 +10,6 @@ export default angular.module('list', [
   bindings: {
     label: '@',
     items: '<'
-  },
-  controller: class ListCtrl {
-    constructor() {
-      console.log(this);
-    }
   }
 })
 .name;

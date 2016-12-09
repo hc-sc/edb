@@ -14,7 +14,7 @@ module.exports = class PickListService extends BaseService {
   }
   // used to get all types with a given name. Can additionally provide a true/false status, which only returns enabled types
   edb_get(typeName, isEnabled) {
-    let query = {data: {}};
+    let query = { data: {} };
     if (typeof typeName === 'object') {
       query.data = typeName;
     } else if (typeof typeName === 'string') {
@@ -36,7 +36,7 @@ module.exports = class PickListService extends BaseService {
           valuedecode: { type: String, required: true, default: '' },
           status: { type: String, required: true, default: 'enabled' },
           isExt: { type: Boolean, required: true, default: false },
-          _fieldname : {type: String, required: true}
+          _fieldname: { type: String, required: true }
         };
         let mongoose = require('mongoose');
         let Schema = mongoose.Schema;
@@ -50,18 +50,23 @@ module.exports = class PickListService extends BaseService {
           .find({})
           .lean()
           .exec((err, result) => {
-            if (err) 
+            if (err)
               rej(err);
             else if (result.length === 0) {
               self.initFromXSD('ghsts-picklists.xsd')
-              .then(result => {
-                res(result);
-              })
-              .catch(err => {
-                rej(err);
-              });
+                .then(result => {
+                  res(result);
+                })
+                .catch(err => {
+                  rej(err);
+                });
             } else {
-              global.modulesInMemory[self.modelClassName.toLowerCase()] = result;
+              let retInMem = result.map(ret => {
+                let newRet = ret;
+                newRet._id = ret._id.toString();
+                return newRet;
+              });
+              global.modulesInMemory[self.modelClassName.toLowerCase()] = retInMem;
               res(new RVHelper('EDB00000'));
             }
           });

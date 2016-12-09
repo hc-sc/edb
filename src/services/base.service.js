@@ -419,12 +419,16 @@ module.exports = class BaseService {
         let mmodule = mongoose.model(self.modelClassName, mschema);
         if (self.inmem) {
           mmodule.find({})
-            .lean()
             .exec((err, result) => {
               if (err)
                 rej(err);
               else {
-                global.modulesInMemory[self.modelClassName.toLowerCase()] = result;
+                let retInMem = result.map(ret => {
+                  let newRet = ret.toObject();
+                  newRet._id = ret._id.toString();
+                  return newRet;
+                });
+                global.modulesInMemory[self.modelClassName.toLowerCase()] = retInMem;
                 res(new RVHelper('EDB00000'));
               }
             });

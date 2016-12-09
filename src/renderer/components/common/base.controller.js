@@ -1,13 +1,13 @@
 import angular from 'angular';
+import QueryCtrl from './query.controller';
 
-export default class BaseCtrl {
+export default class BaseCtrl extends QueryCtrl {
   constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, url, $scope) {
+    super(PicklistService, AppDataService);
     this.$mdDialog = $mdDialog;
     this.$mdToast = $mdToast;
     this.$state = $state;
     this.url = url;
-    this.picklistService = PicklistService.getService();
-    this.appDataService = AppDataService.getService();
     this.modelService = ModelService;
     this.sidenavOpen = false;
     this.loading = true;
@@ -20,7 +20,7 @@ export default class BaseCtrl {
     .then(records => {
       this.records = JSON.parse(records.data);
       this.selected = this.records[0];
-      //console.log("View Data: " + JSON.stringify(this.selected));
+      // console.log("View Data: " + JSON.stringify(this.selected));
     });
   }
 

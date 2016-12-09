@@ -19,4 +19,21 @@ module.exports = class ServiceDispatcher {
       return new RVHelper('EDB11001');
     }
   }
+
+  getServiceClass(url) {
+    if (url) {
+      let serClassFileName = url, serClass;
+      if (serClassFileName[0] === '/') serClassFileName = serClassFileName.slice(1);
+      serClassFileName = './' + serClassFileName.split('/')[0] + '.service';
+      serClass = require(serClassFileName);
+      if (serClass) {
+        return serClass;
+      } else {
+        return new RVHelper('EDB11002');
+      }
+    } else {
+      return new RVHelper('EDB11001');
+    }
+  }
+  
 };

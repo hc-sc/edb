@@ -171,7 +171,7 @@ ipc.on(SHARED_CONST.PICKLIST_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, functi
     event.returnValue = new RVHelper('EDB10003');
   } else {
     let method = 'edb_' + arg.method + 'Sync';
-    event.returnValue = svr[method](arg.data);
+    event.returnValue = PicklistService[method](arg.data);
   }
 });
 
@@ -229,8 +229,8 @@ ipc.on(SHARED_CONST.APP_DATA_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, functi
   } else {
     if (!svrDisp)
       svrDisp = new ServiceDispatcher();
-    let svr = svrDisp.getService(arg.url);
-    let method = 'edb_' + arg.method;
+    let svr = svrDisp.getServiceClass(arg.url);
+    let method = 'edb_' + arg.method + 'Sync';
     event.returnValue = svr[method](arg.data);
   }
 });
@@ -295,12 +295,12 @@ app.on('ready', function () {
 // const testService = require('./services/legalentity.service');
 // const testService = require('./services/picklist.service');
 // const testService = require('./services/dossier.service');
-const testService = require('./services/substance.service');
+// const testService = require('./services/substance.service');
 // const testService = require('./services/ghsts.service');
 // const testService = require('./services/receiver.service');
 var backendTest = () => {
 console.log('--------- Backend Test Start ----------');
-let svr = new testService();
+//let svr = new testService();
 
 //svr.edb_delete('58407a642f2d9a1f74416c17');
 
@@ -317,12 +317,19 @@ let svr = new testService();
 //  });
 
 
-svr.edb_get({})
-  .then(ret => {
-   console.log(ret);
- }).catch(err => {
-   console.log(err);
- });
+// testService.edb_getSync({_id: '5849d9d3770cf21af410fc5f'})
+//   .then(ret => {
+//    console.log(ret);
+//  }).catch(err => {
+//    console.log(err);
+//  });
+
+// svr.edb_get({})
+//   .then(ret => {
+//    console.log(ret);
+//  }).catch(err => {
+//    console.log(err);
+//  });
 
 // svr.edb_get({submissionid: '5845e6427f7372275481989e'})
 //   .then(ret => {
