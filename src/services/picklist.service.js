@@ -35,8 +35,7 @@ module.exports = class PickListService extends BaseService {
           value: { type: String, required: true },
           valuedecode: { type: String, required: true, default: '' },
           status: { type: String, required: true, default: 'enabled' },
-          isExt: { type: Boolean, required: true, default: false },
-          _fieldname: { type: String, required: true }
+          isExt: { type: Boolean, required: true, default: false }
         };
         let mongoose = require('mongoose');
         let Schema = mongoose.Schema;
@@ -48,7 +47,6 @@ module.exports = class PickListService extends BaseService {
         let mmodule = mongoose.model(self.modelClassName, mschema);
         mmodule
           .find({})
-          .lean()
           .exec((err, result) => {
             if (err)
               rej(err);
@@ -62,7 +60,7 @@ module.exports = class PickListService extends BaseService {
                 });
             } else {
               let retInMem = result.map(ret => {
-                let newRet = ret;
+                let newRet = ret.toObject();
                 newRet._id = ret._id.toString();
                 return newRet;
               });

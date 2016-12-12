@@ -104,7 +104,7 @@ export default angular.module('tbl', [
                     data: query
                   };
                   let queryRet = this.appDataService.edb_getSync(query)[0];
-                  if (queryRet && queryRet.valuedecode) 
+                  if (queryRet && queryRet.hasOwnProperty('valuedecode')) 
                     row.push(queryRet.valuedecode);
                   else
                     row.push(item[header.name]);
@@ -112,7 +112,6 @@ export default angular.module('tbl', [
               } 
             }
             row.push(item['_id']);
-            console.log(row);
             return row;
           });
         }
@@ -146,12 +145,11 @@ export default angular.module('tbl', [
           return this.picklistService.edb_get({data: {where: '_id in ' + ids}})
             .then(results => {
               const data = JSON.parse(results.data);
-              console.log(data);
+              // console.log(data);
               ids.forEach(id => {
                 let index = -1;
                 for (let i = 0; i < data.length; ++i) {
                   if (data[i]._id === id) {
-                    console.log('here');
                     index = i;
                     break;
                   }
@@ -167,7 +165,7 @@ export default angular.module('tbl', [
         else {
           return this.appDataService.edb_get({ _url: url })
             .then(results => {
-              console.log(JSON.parse(results.data));
+              // console.log(JSON.parse(results.data));
 
               return mappings;
             });

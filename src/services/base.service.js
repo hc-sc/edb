@@ -345,7 +345,6 @@ module.exports = class BaseService {
                   type.valuedecode = APP_INFO.DECODE;
                   type.status = APP_INFO.STATUS;
                   type.isExt = false;
-                  type._fieldname = self._getFieldNamebyTypeName(type.TYPE_NAME);
                   dbmodel.create(type, (err, result) => {
                     if (err)
                       rej(err);

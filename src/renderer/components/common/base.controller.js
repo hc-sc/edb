@@ -1,9 +1,9 @@
 import angular from 'angular';
 import QueryCtrl from './query.controller';
 
-export default class BaseCtrl extends QueryCtrl {
+export default class BaseCtrl {
   constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, url, $scope) {
-    super(PicklistService, AppDataService);
+    // super(PicklistService, AppDataService);
     this.$mdDialog = $mdDialog;
     this.$mdToast = $mdToast;
     this.$state = $state;
@@ -12,31 +12,33 @@ export default class BaseCtrl extends QueryCtrl {
     this.sidenavOpen = false;
     this.loading = true;
 
+    this.picklistService = PicklistService.getService();
+    this.appDataService = AppDataService.getService();
     this.$scope = $scope;
   }
 
   init() {
     return this.getAppData()
-    .then(records => {
-      this.records = JSON.parse(records.data);
-      this.selected = this.records[0];
-      // console.log("View Data: " + JSON.stringify(this.selected));
-    });
+      .then(records => {
+        this.records = JSON.parse(records.data);
+        this.selected = this.records[0];
+        // console.log("View Data: " + JSON.stringify(this.selected));
+      });
   }
 
   getAppData(data = {}, url = this.url) {
-    return this.appDataService.edb_get({url, data});
+    return this.appDataService.edb_get({ url, data });
   }
 
   createAppData(data = {}, url = this.url) {
-    return this.appDataService.edb_put({url, data});
+    return this.appDataService.edb_put({ url, data });
   }
 
   updateAppData(data = {}, url = this.url) {
     return this.appDataService.edb_post(data);
   }
 
-  deleteAppData(id, url = this.url) {}
+  deleteAppData(id, url = this.url) { }
 
   getPicklist(typename) {
     return this.picklistService.edb_get({ 'TYPE_NAME': typename });
@@ -52,24 +54,24 @@ export default class BaseCtrl extends QueryCtrl {
   // value - the new picklist value
   createPicklistItem(prop, arr, value) {
     return this.picklistService.edb_put(value)
-    .then(result => {
-      let item = JSON.parse(result.data);
-      this[arr].push(item);
+      .then(result => {
+        let item = JSON.parse(result.data);
+        this[arr].push(item);
 
-      // need to allow the select component to update BEFORE assigning a new selected
-      // in the future, have the select component use lifecycle methods to return when it is finished
-      setTimeout(() => {
-        this.selected[prop] = item._id;
-      }, 200);
+        // need to allow the select component to update BEFORE assigning a new selected
+        // in the future, have the select component use lifecycle methods to return when it is finished
+        setTimeout(() => {
+          this.selected[prop] = item._id;
+        }, 200);
 
-      this.showMessage(value.valuedecode + ' added successfully!');
-    })
-    .catch(err => {
-      this.showMessage('Error creating new picklist item');
-    });
+        this.showMessage(value.valuedecode + ' added successfully!');
+      })
+      .catch(err => {
+        this.showMessage('Error creating new picklist item');
+      });
   }
 
-  getGHSTS() {}
+  getGHSTS() { }
 
   add(prop) {
     this.selected = angular.copy(this.getModel(prop));
@@ -80,21 +82,21 @@ export default class BaseCtrl extends QueryCtrl {
     // if it doesn't have an id, it's a new item that has been in the database yet
     if (!this.selected.hasOwnProperty('_id')) {
       this.createAppData(angular.copy(this.selected))
-      .then(result => {
-        console.log(result);
-      })
-      .catch(err => {
-        this.showMessage(err);
-      });
+        .then(result => {
+          console.log(result);
+        })
+        .catch(err => {
+          this.showMessage(err);
+        });
     }
     else {
       this.updateAppData(angular.copy(this.selected))
-      .then(result => {
-        this.showMessage('Saved successfully');
-      })
-      .catch(err => {
-        this.showMessage(err);
-      });
+        .then(result => {
+          this.showMessage('Saved successfully');
+        })
+        .catch(err => {
+          this.showMessage(err);
+        });
     }
   }
 
@@ -111,49 +113,58 @@ export default class BaseCtrl extends QueryCtrl {
 
   deleteTblItem(nodeName, index) {
     // need to change the reference so the lists know to update
-    this.selected[nodeName] =
-      this.selected[nodeName].slice(0, index).concat(this.selected[nodeName].slice(index+1));
+    let newArray = [];
+    if (nodeName.indexOf('.') > 0) {
+      let pathAry = nodeName.split('.');
+      let topEntity = {};
+      newArray = this.getRef(nodeName).slice();
+      newArray = newArray.slice(0, index).concat(newArray.slice(index + 1));
+      topEntity[pathAry[1]] = newArray;
+      this.selected[pathAry[0]] = topEntity;
+    } else {
+      this.selected[nodeName] =
+        this.selected[nodeName].slice(0, index).concat(this.selected[nodeName].slice(index + 1));
+    }
   }
 
   addTblItem(nodeName) {
     this.$mdDialog.show(this.buildModal(nodeName, this.selected.length, true))
-    .then(item => {
-      // let newArray = this.selected[nodeName].slice();
-      // newArray.splice(this.selected.length, 0, item);
-      // this.selected[nodeName] = newArray;
-      let newArray = [];
-      if (nodeName.indexOf('.') > 0) {
-        console.log('In here');
-        let pathAry = nodeName.split('.');
-        let topEntity = {};
-        newArray = this.getRef(nodeName).slice();
-        newArray.push(item);
-        topEntity[pathAry[1]] = newArray;
-        this.selected[pathAry[0]] = topEntity;
-      } else {
-        newArray = this.selected[nodeName].slice();
-        newArray.splice(this.selected.length, 0, item);
-        this.selected[nodeName] = newArray;
-      }
-    });
+      .then(item => {
+        // let newArray = this.selected[nodeName].slice();
+        // newArray.splice(this.selected.length, 0, item);
+        // this.selected[nodeName] = newArray;
+        let newArray = [];
+        if (nodeName.indexOf('.') > 0) {
+          let pathAry = nodeName.split('.');
+          let topEntity = {};
+          newArray = this.getRef(nodeName).slice();
+          newArray.push(item);
+          topEntity[pathAry[1]] = newArray;
+          this.selected[pathAry[0]] = topEntity;
+        } else {
+          newArray = this.selected[nodeName].slice();
+          newArray.splice(this.selected.length, 0, item);
+          this.selected[nodeName] = newArray;
+        }
+      });
   }
 
   // enables selection from tables
   selectTblItem(nodeName, index) {
     this.$mdDialog.show(this.buildModal(nodeName, index, false))
-    .then(item => {
-      this.getRef(nodeName)[index] = item;
-      this.selected = angular.copy(this.selected);
-      this.showMessage('Updated');
-    });
+      .then(item => {
+        this.getRef(nodeName)[index] = item;
+        this.selected = angular.copy(this.selected);
+        this.showMessage('Updated');
+      });
   }
 
   // used to display notifications to the user
   showMessage(message) {
     this.$mdToast.show(
       this.$mdToast.simple()
-      .textContent(message)
-      .hideDelay(1200)
+        .textContent(message)
+        .hideDelay(1200)
     );
   }
 
@@ -165,7 +176,7 @@ export default class BaseCtrl extends QueryCtrl {
   }
 
   // used to compare current node to a valid or old node (for validation and/or updating metadata status)
-  equals(node1, node2) {}
+  equals(node1, node2) { }
 
   // used as a generic function to build our modals
   buildModal(nodeName, index, isNew) {
@@ -222,10 +233,10 @@ import productraTemplate from '../products/product-ra/product-ra.template';
 import ProductRACtrl from '../products/product-ra/product-ra.controller';
 
 
-function getModalValues(nodeName ) {
+function getModalValues(nodeName) {
   // let ref = nodeName.split('.');
   // nodeName = ref[ref.length-1];
-  switch(nodeName) {
+  switch (nodeName) {
     case 'contactperson':
       return {
         template: contactPersonTemplate,
@@ -288,7 +299,7 @@ function getModalValues(nodeName ) {
         template: ingredientTemplate,
         controller: IngredientCtrl
       };
-    
+
     case 'productra':
       return {
         template: productraTemplate,

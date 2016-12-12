@@ -15,8 +15,8 @@
     <select-input label='File Type' is-required='true' select-value='$ctrl.selected.filegeneric.filetype' values='$ctrl.fileType' on-update='$ctrl.update("filegeneric.filetype", value)'></select-input>
     <text-input label='Format Comment' text-value='$ctrl.selected.filegeneric.formatcomment' on-update='$ctrl.update("filegeneric.formatcomment", value)'></text-input>
     <text-input label='MD5 Checksum' text-value='$ctrl.selected.filegeneric.md5CHECKSUM' on-update='$ctrl.update("filegeneric.md5CHECKSUM", value)'></text-input>
-    <text-input label='Filename' is-required='true' text-value='$ctrl.selected.filegeneric.filename' on-update='$ctrl.update("filegeneric.filename", value)'></text-input>
-    <tbl ng-if='!$ctrl.loading' title='File Regulatory Authority' items='$ctrl.selected.filera' projection='["cbidesignation", "filecomment", "toSpecificForRAId"]'
+    <text-input label='File Name' is-required='true' text-value='$ctrl.selected.filegeneric.filename' on-update='$ctrl.update("filegeneric.filename", value)'></text-input>
+    <tbl ng-if='!$ctrl.loading' title='File Regulatory Authorities' items='$ctrl.selected.filera' projection='["toSpecificForRAId", "cbidesignation", "filecomment"]'
       on-select='$ctrl.selectTblItem("filera",index)' on-delete='$ctrl.deleteTblItem("filera",index)' on-add='$ctrl.addTblItem("filera")'></tbl>
     <div style='z-index:100' class='float-bottom'>
       <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>

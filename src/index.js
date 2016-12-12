@@ -1,4 +1,3 @@
-
 'use strict';
 global.modulesInMemory = {};
 
@@ -171,7 +170,7 @@ ipc.on(SHARED_CONST.PICKLIST_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, functi
     event.returnValue = new RVHelper('EDB10003');
   } else {
     let method = 'edb_' + arg.method + 'Sync';
-    event.returnValue = svr[method](arg.data);
+    event.returnValue = PicklistService[method](arg.data);
   }
 });
 
@@ -229,8 +228,8 @@ ipc.on(SHARED_CONST.APP_DATA_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, functi
   } else {
     if (!svrDisp)
       svrDisp = new ServiceDispatcher();
-    let svr = svrDisp.getService(arg.url);
-    let method = 'edb_' + arg.method;
+    let svr = svrDisp.getServiceClass(arg.url);
+    let method = 'edb_' + arg.method + 'Sync';
     event.returnValue = svr[method](arg.data);
   }
 });
