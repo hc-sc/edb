@@ -21,7 +21,15 @@ export default class BaseCtrl {
     return this.getAppData()
       .then(records => {
         this.records = JSON.parse(records.data);
-        this.selected = this.records[0];
+        console.log(this.records);
+        if (this.records.length > 0) {
+          // there is some data in the db
+          this.selected = this.records[0];
+        }
+        else {
+          // empty table, need to prompt to create first
+          console.error('EMPTY ON INIT');
+        }
         // console.log("View Data: " + JSON.stringify(this.selected));
       });
   }

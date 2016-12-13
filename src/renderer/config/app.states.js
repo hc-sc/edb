@@ -96,6 +96,12 @@ export default function ($stateProvider, $urlRouterProvider) {
         },
       }
     })
+
+    .state('globals.dossiers', {
+      url: '/dossiers',
+      component: 'description'
+    })
+
     .state('globals.documents', {
       url: '/documents',
       component: 'documents',

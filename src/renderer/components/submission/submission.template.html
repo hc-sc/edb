@@ -1,19 +1,19 @@
 <ui-layout options="{ flow: 'row', dividerSize: '0'}">
     <div ui-layout-container size='64px'>
         <toolbar items='$ctrl.toolbarItems'></toolbar>
-    </div>    
+    </div>
     <div ui-layout-container>
       <div ui-layout options="{ flow: 'column'}" >
         <div ui-layout-container size='30%'>
             <div ui-layout options="{ flow: 'row'}" >
-              <div ui-layout-container>Receivers -> Senders View</div>
-              <div ui-layout-container>TOC tree</div>
+              <div ui-view='receivers'>
+              <div ui-view='toc'>
             </div>
         </div>
         <div ui-layout-container='central'>
-          <ui-view submission='$ctrl.submission' dossier='$ctrl.dossier' class='flex scroll-overflow'></ui-view>
+          <div ui-view submission='$ctrl.submission' dossier='$ctrl.dossier' class='flex scroll-overflow'></ui-view>
         </div>
-    </div>  
+    </div>
 <!--<section class='node-page'> -->
 
 <!--  <spinner ng-if='$ctrl.loading'></spinner>
@@ -35,7 +35,7 @@
   </div>  -->
 <!--</section> -->
   </div>
-</ui-layout>      
+</ui-layout>
 
 <!--
 <div class='main-layout'>
