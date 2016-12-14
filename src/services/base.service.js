@@ -7,11 +7,22 @@ const path = require('path');
 const Q = require('bluebird');
 const _ = require('lodash');
 
+// const async = require('asyncawait/async');
+// const async_await  = require('asyncawait/await');
+
+const sync = require('synchronize');
+
 const PicklistFieldsConfig = require('../configs/picklist.fields');
 const RVHelper = require('../utils/return.value.helper').ReturnValueHelper;
 const SchemaLoader = require('../models/mongoose.schema.loader');
 const ServiceLevelPlugin = require('../models/plugins/service.level.plugin');
 const BACKEND_CONST = require('../constants/backend');
+
+//   var longCalculation = async (function (seconds, result) {
+//     async_await (Q.delay(seconds * 1000));
+//     return result;
+// });
+
 
 module.exports = class BaseService {
   constructor(modelClassName, inmem, version) {
@@ -20,6 +31,8 @@ module.exports = class BaseService {
     this.version = version ? version : '01.00.00';
     this.schemaDir = path.resolve('./', BACKEND_CONST.BASE_DIR1, BACKEND_CONST.BASE_DIR2, BACKEND_CONST.STANDARD_DIR_NAME);
     this.defDir = path.join(this.schemaDir, this.version.replace(/\./g, '_'), BACKEND_CONST.DEF_SUB_DIR_NAME);
+
+    // this.edb_SyncTest = sync(this, '_edb_SyncTest');
   }
 
   edb_get(obj, pop, where) {
@@ -168,6 +181,31 @@ module.exports = class BaseService {
 
       return Q.all(qAry);
     });
+  }
+
+
+    edb_SyncTest() {
+      sync(fs, 'readFile');
+//       try {
+//         console.log('zero...');
+
+//         var msg = async_await(longCalculation(1, 'one...'));
+//         console.log(msg);
+
+//         msg = async_await(longCalculation(1, 'two...'));
+//         console.log(msg);
+
+//         msg = async_await(longCalculation(1, 'three...'));
+//         console.log(msg);
+
+// //        var file = async_await(readFile('NonExistingFilename'));
+
+// //        msg = async_await(longCalculation(1, 'four...'));
+//         // console.log(msg);
+//       } catch (ex) {
+//         console.log('Caught an error');
+//       }
+      // return fs.readFile('../configs/picklist.fields.js');
   }
   // _initDbFromTemplate(version, obj, pklInst) {
   //   return new Q((res, rej) => {
@@ -397,12 +435,11 @@ module.exports = class BaseService {
         let mongoose = require('mongoose');
         let Schema = mongoose.Schema;
         let mschema = new Schema(jschema, {
-          //          id: false,
-          minimize: false,
           retainKeyOrder: true,
-          validateBeforeSave: false
+          validateBeforeSave: false,
+          toJSON: { getters: true, virtuals: true },
+          toObject: { getters: true, virtuals: true }
         });
-        mschema.set('toJSON', { getters: true, virtuals: true });
         let selfPlugin;
         mschema.plugin(ServiceLevelPlugin, {
           url: self.modelClassName.toLowerCase()
