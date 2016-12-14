@@ -51,6 +51,10 @@ module.exports = class SchemaLoader {
               ref: 'Picklist',
               set: ignoreEmpty
             };
+          } else if (item.typeInfo === '.GHSTS.TOC.STRUCTURE') {
+            cover = {
+              type: 'String'
+            };
           } else {
             cover = SchemaLoader.loadSchema(item.typeInfo.slice(1), version);
           }
