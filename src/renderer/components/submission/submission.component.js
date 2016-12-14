@@ -26,16 +26,15 @@ export default angular.module('submission', [
       dossierData: '<'
     },
     controller: class SubmissionCtrl {
-      constructor($state, GhstsService, $transitions, $rootScope) {
+      constructor($state, AppDataService, $transitions) {
+        console.log(this);
+        this.appDataService = AppDataService.getService();
 
         //allows for interrupting state transition (for use with ensuring any modifications are saved)
         this.dereg = $transitions.onBefore({}, (event) => {
           // SO hacky...
           return true;
         });
-
-        this.$state = $state;
-        this.GhstsService = GhstsService.getService();
 
         this.navbarItems = [
           { title: 'Description', state: '.description' },

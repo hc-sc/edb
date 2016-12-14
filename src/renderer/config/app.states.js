@@ -12,7 +12,6 @@ export default function ($stateProvider, $urlRouterProvider) {
       }
     })
     .state('submission', {
-      abstract: true,
       url: '/submission/:submissionid/:dossiertitle/:dossierid/',
       component: 'submission',
       resolve: {
@@ -22,21 +21,14 @@ export default function ($stateProvider, $urlRouterProvider) {
             dossierid: $stateParams.dossierid,
             submissionid: $stateParams.submissionid
           };
+        },
+        dossier: (AppDataService, $stateParams) => {
+          console.log(AppDataService.getService().edb_get({_url: 'submission', data: {_id: $stateParams.submissionid}}));
+          return AppDataService.getService().edb_get({_url: 'submission', data: {_id: $stateParams.submissionid}});
         }
       }
     })
-    .state('submission.receivers', {
-      url: '/receivers',
-      component: 'receivers'
-    })
-    .state('submission.toc', {
-      url: '/toc',
-      component: 'toc'
-    })
-    .state('submission.description', {
-      url: '/description',
-      component: 'description'
-    })
+
     .state('globals.files', {
       url: '/files',
       component: 'files',

@@ -1,47 +1,23 @@
-<ui-layout options="{ flow: 'row', dividerSize: '0'}">
+<ui-layout options="{flow: 'row', dividerSize: '0'}">
     <div ui-layout-container size='64px'>
         <toolbar items='$ctrl.toolbarItems'></toolbar>
     </div>
     <div ui-layout-container>
       <div ui-layout options="{ flow: 'column'}" >
         <div ui-layout-container size='30%'>
-            <div ui-layout options="{ flow: 'row'}" >
-              <div ui-view='receivers'></div>
-              <div ui-view='toc'></div>
+          <div ui-layout options="{flow: 'row'}" >
+            <div ui-layout-container>
+              <p>Product</p>
+              <p>Dossier</p>
+              <p>Submission</p>
             </div>
+            <div ui-layout-container><receivers></receivers></div>
+          </div>
         </div>
         <div ui-layout-container='central'>
-          <div ui-view submission='$ctrl.submission' dossier='$ctrl.dossier' class='flex scroll-overflow'></ui-view>
+          <toc></toc>
         </div>
+      </div>
     </div>
-<!--<section class='node-page'> -->
-
-<!--  <spinner ng-if='$ctrl.loading'></spinner>
-  <div class='no-margin no-padding' ng-if='!$ctrl.loading'>
-    <div class='no-margin no-padding flex-container'>
-    <text-input label='PID' is-disabled='true' text-value='$ctrl.selected.dossierpid' has-pattern='^[0-9]*$'
-      message='Needs to be a valid PID' on-update='$ctrl.update("dossierpid", value)'></text-input>
-    <text-input label='Company ID' is-required='true' text-value='$ctrl.selected.dossiercompid' has-pattern='^[0-9]*$' message='Needs to be a valid PID'
-      on-update='$ctrl.update("dossiercompid", value)' max-length='20'></text-input>
-    </div>
-    <text-input label='Title' is-required='true' text-value='$ctrl.selected.dossierdescriptiontitle' max-length='2000' on-update='$ctrl.update("dossierdescriptiontitle", value)'></text-input>
-    <md-switch ng-if='!$ctrl.loading' ng-model='$ctrl.submission.incremental' aria-label='Incremental'
-      class='md-primary' ng-change='$ctrl.printValue()'>Incremental</md-switch>
-    <tbl ng-if='!$ctrl.loading' title='Dossier Regulatory Authorities' items='$ctrl.selected.dossierra' projection='["regulatorytype", "applicationtype", "projectidnumber"]' min-items='1'
-      on-select='$ctrl.selectTblItem("dossierra", index)' on-delete='$ctrl.deleteTblItem("dossierra", index)' deletable='true'></tbl>
-    <tbl ng-if='!$ctrl.loading' title='Referenced Dossiers' items='$ctrl.selected.referenceddossier' projection='["referencedossierreason", "referenceddossiernumber"]'
-      min-items='0' on-select='$ctrl.selectTblItem("referenceddossier", index)' on-delete='$ctrl.deleteTblItem("referenceddossier", index)'
-      deletable='false'></tbl>
-  </div>  -->
-<!--</section> -->
   </div>
 </ui-layout>
-
-<!--
-<div class='main-layout'>
-  <div>
-    <toolbar items='$ctrl.toolbarItems'></toolbar>
-    <navbar items='$ctrl.navbarItems'></navbar>
-  </div>
-  <ui-view submission='$ctrl.submission' dossier='$ctrl.dossier' class='flex scroll-overflow'></ui-view>
-</div> -->

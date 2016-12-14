@@ -1,13 +1,18 @@
-<li>
   <div class='node-title'>
-    <a class='node-title' ng-click='$ctrl.toggleShow()' >
-      <!--<icon class='tree-icon' name='right' colour='dark' label='expand' ng-if='$ctrl.hasChildren && !$ctrl.show'></icon>
-      <icon class='tree-icon' name='down' colour='dark' label='collapse' ng-if='$ctrl.hasChildren && $ctrl.show'></icon>
-      <icon class='tree-icon' name='folder' colour='dark' label='is folder' ng-if='$ctrl.isFolder'></icon>-->
-      {{ $ctrl.treeData.name }}
+    <a class='node-title' ng-click='$ctrl.toggleHidden()'>
+      <icon class='tree-icon' ng-show='!$ctrl.isHidden && $ctrl.canExpand()' icon='$ctrl.expand'></icon>
+      <icon class='tree-icon' ng-show='$ctrl.isHidden && $ctrl.canExpand()' icon='$ctrl.collapse'></icon>
+      <!--<icon class='tree-icon' icon='$ctrl.add'></icon>-->
+      {{$ctrl.node.nodename}} - {{$ctrl.node.nodeheading}}
     </a>
   </div>
-  <ul ng-if='$ctrl.show'>
-    <tree ng-repeat='child in $ctrl.treeData.children' tree-data='child'></tree>
+  <ul ng-show='!$ctrl.isHidden && $ctrl.node.toc2DOC && $ctrl.node.toc2DOC.length > 0' class='node-document'>
+    <li ng-repeat='doc in $ctrl.node.toc2DOC'>
+      DOC
+    </li>
   </ul>
-</li>
+  <ul ng-show='!$ctrl.isHidden && $ctrl.node.tocnode && $ctrl.node.tocnode.length > 0'>
+    <li ng-repeat='node in $ctrl.node.tocnode'>
+      <tree node='node'></tree>
+    </li>
+  </ul>
