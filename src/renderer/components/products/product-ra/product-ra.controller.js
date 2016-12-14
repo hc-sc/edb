@@ -11,5 +11,12 @@ export default class ProductRACtrl extends ModalBaseCtrl {
       .catch(err => {
         console.log(err);
       });
+    this.appDataService.edb_get({_url: 'receiver'})
+      .then(ret => {
+        this.receivers = JSON.parse(ret.data); 
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 }

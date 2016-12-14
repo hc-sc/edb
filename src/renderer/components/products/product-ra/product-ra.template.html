@@ -14,7 +14,7 @@
     <md-dialog-content>
       <div class='md-dialog-content'>
         <text-input label='Product Name' is-required='true' text-value='$ctrl.node.productname' on-update='$ctrl.update("productname", value)'></text-input>
-        <select-input label='Receiver' main='shortname' select-value='$ctrl.node.toSpecificForRAId' values='$ctrl.receivers' on-update='$ctrl.update("toSubstanceId", value)'></select-input>
+        <select-input label='Receiver' main='shortname' select-value='$ctrl.node.toSpecificForRAId' values='$ctrl.receivers' on-update='$ctrl.update("toSpecificForRAId", value)'></select-input>
         <fieldset>
           <legend>Admin Number</legend>
           <div ng-repeat='adminnumber in $ctrl.node.adminnumber'>

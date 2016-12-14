@@ -61,8 +61,10 @@ module.exports = class GhstsService extends BaseService {
         let mongoose = require('mongoose');
         let Schema = mongoose.Schema;
         let mschema = new Schema(jschema, {
-          id: false,
-          minimize: false
+          retainKeyOrder: true,
+          validateBeforeSave: false,
+          toJSON: { getters: true, virtuals: true },
+          toObject: { getters: true, virtuals: true }
         });
         mschema.plugin(ServiceLevelPlugin, { url: self.modelClassName.toLowerCase() });
         mongoose.model(self.modelClassName, mschema);
