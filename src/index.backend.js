@@ -12,6 +12,12 @@ const app = require('electron').app;
 const ipc = require('electron').ipcMain;
 const BrowserWindow = require('electron').BrowserWindow;
 
+const async = require('asyncawait/async');
+const async_await  = require('asyncawait/await');
+
+const sync = require('synchronize');
+
+
 const SHARED_CONST = require('./constants/shared');
 const BACKEND_CONST = require('./constants/backend');
 const ServiceDispatcher = require('./services/service.dispatcher');
@@ -136,6 +142,12 @@ var initDB = () => {
         svrClass = require('./services/document.service');
         svr = new svrClass('01.00.00');
         qAry.push(svr.initDbfromTestData());
+        svrClass = require('./services/receiver.service');
+        svr = new svrClass('01.00.00');
+        qAry.push(svr.initDbfromTestData());
+        svrClass = require('./services/toc.service');
+        svr = new svrClass('01.00.00');
+        qAry.push(svr.initDbfromTestData());
         return Q.all(qAry);
       } 
     })
@@ -172,6 +184,7 @@ ipc.on(SHARED_CONST.PICKLIST_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, functi
   } else {
     let method = 'edb_' + arg.method + 'Sync';
     event.returnValue = PicklistService[method](arg.data);
+    // event.returnValue = sync.await(svr['edb_get'](arg.data));
   }
 });
 
@@ -298,10 +311,20 @@ app.on('ready', function () {
 // const testService = require('./services/substance.service');
 // const testService = require('./services/ghsts.service');
 // const testService = require('./services/receiver.service');
+// const testService = require('./services/file.service');
+const testService = require('./services/toc.service');
+// const testService = require('./services/submission.service');
 var backendTest = () => {
 console.log('--------- Backend Test Start ----------');
-//let svr = new testService();
+let svr = new testService();
 
+// svr.initDbfromTestData();
+//const Fiber = require('fibers');
+// console.log('here');
+// sync(fs, 'readFile');
+
+// let ret = sync.await(fs.readFile('./src/configs/picklist.fields.js'));
+  // console.log(ret);
 //svr.edb_delete('58407a642f2d9a1f74416c17');
 
 // svr.edb_put({productShortName: 'test', submissionid: '5845e6427f7372275481989e', productid: '5845e6437f73722754819a39'})
@@ -324,12 +347,12 @@ console.log('--------- Backend Test Start ----------');
 //    console.log(err);
 //  });
 
-// svr.edb_get({})
-//   .then(ret => {
-//    console.log(ret);
-//  }).catch(err => {
-//    console.log(err);
-//  });
+svr.edb_get({})
+  .then(ret => {
+   console.log(ret);
+ }).catch(err => {
+   console.log(err);
+ });
 
 // svr.edb_get({submissionid: '5845e6427f7372275481989e'})
 //   .then(ret => {
