@@ -145,6 +145,9 @@ var initDB = () => {
         svrClass = require('./services/receiver.service');
         svr = new svrClass('01.00.00');
         qAry.push(svr.initDbfromTestData());
+        svrClass = require('./services/toc.service');
+        svr = new svrClass('01.00.00');
+        qAry.push(svr.initDbfromTestData());
         return Q.all(qAry);
       } 
     })
@@ -308,11 +311,14 @@ app.on('ready', function () {
 // const testService = require('./services/substance.service');
 // const testService = require('./services/ghsts.service');
 // const testService = require('./services/receiver.service');
-const testService = require('./services/file.service');
+// const testService = require('./services/file.service');
+const testService = require('./services/toc.service');
+// const testService = require('./services/submission.service');
 var backendTest = () => {
 console.log('--------- Backend Test Start ----------');
 let svr = new testService();
 
+// svr.initDbfromTestData();
 //const Fiber = require('fibers');
 // console.log('here');
 // sync(fs, 'readFile');
