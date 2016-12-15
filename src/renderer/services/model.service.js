@@ -12,9 +12,15 @@ import modelProduct from '../view-models/gen/product.json';
 import modelProductRA from '../view-models/gen/productra.json';
 import modelIngredient from '../view-models/gen/ingredient.json';
 
+import modelDocument from '../view-models/gen/document.json';
+import modelDocumentGeneric from '../view-models/gen/documentgeneric.json';
+import modelDocumentRA from '../view-models/gen/documentra.json';
+import modelDocumentNumber from '../view-models/gen/documentnumber.json';
+import modelDocumentContentStatus from '../view-models/gen/contentstatushistory.json';
 export default class ModelService {
   constructor() {}
   getModel(prop) {
+    console.log('in model service', prop)
     let model = {};
     switch(prop) {
       case 'contactaddress':
@@ -49,6 +55,24 @@ export default class ModelService {
         return Object.assign(modelProductRA.fields);
       case 'ingredients.ingredient':
         return Object.assign(modelIngredient.fields);
+
+      case 'document':
+        model = Object.assign(modelDocument.fields);
+        model.documentgeneric = this.getModel('documentgeneric');
+        model._url = 'document';
+        return model;
+
+      case 'documentgeneric':
+        return Object.assign(modelDocumentGeneric.fields);
+        
+      case 'documentra':
+        return Object.assign(modelDocumentRA.fields);
+
+      case 'documentgeneric.documentnumber':
+        return Object.assign(modelDocumentNumber.fields);
+
+      case 'documentgeneric.contentstatushistory':
+        return Object.assign(modelDocumentContentStatus.fields);
     }
   }
 }
