@@ -2,8 +2,11 @@
 
   <spinner ng-if='$ctrl.loading'></spinner>
   <div class='no-margin no-padding' ng-if='!ctrl.loading'>
-        <sidenav items='$ctrl.records' main='documenttitle' is-open='$ctrl.sidenavOpen' on-select='$ctrl.updateSelected(item)'
-            on-add='$ctrl.add(item)'></sidenav>
+        <sidenav items='$ctrl.records' 
+                  main='documentgeneric.documenttitle' 
+                  is-open='$ctrl.sidenavOpen' 
+                  on-select='$ctrl.updateSelected(item)'>
+        </sidenav>
         <text-input label='PID' is-required='true' is-disabled='true' text-value='$ctrl.selected.documentgeneric.documentpid '></text-input>
         <text-input label='Family PID' is-required='true' text-value='$ctrl.selected.documentgeneric.documentfamilypid'></text-input>
         <text-input label='Document Title' text-value='$ctrl.selected.documentgeneric.documenttitle'></text-input>
@@ -34,5 +37,16 @@
           class='md-primary' ng-change='$ctrl.printValue()'>Tested on vertebrates</md-switch>
         <tbl title='Referenced To File' items='[]' projection='[]'></tbl>
         <tbl title='Document Regulatory Authority' items='[]' projection='[]'></tbl>
+        <div style='z-index:100' class='float-bottom'>
+            <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
+            <md-icon md-svg-icon='save' class='light'></md-icon>
+            </md-button>
+            <md-button aria-label='Add New Item' class='md-fab md-primary' ng-click='$ctrl.add("document")'>
+            <md-icon md-svg-icon='add' class='light'></md-icon>
+            </md-button>
+            <md-button aria-label='Toggle List' class='md-fab md-primary' ng-click='$ctrl.toggleList()'>
+            <md-icon md-svg-icon='list' class='light'></md-icon>
+            </md-button>
+        </div>
   </div>
 </section>
