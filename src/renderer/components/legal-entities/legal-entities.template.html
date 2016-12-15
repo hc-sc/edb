@@ -1,7 +1,12 @@
 <section class='node-page'>
   <spinner ng-if='$ctrl.loading'></spinner>
   <div class='no-margin no-padding' ng-if='!ctrl.loading'>
-    <sidenav items='$ctrl.records' main='legalentityname' is-open='$ctrl.sidenavOpen' on-select='$ctrl.updateSelected(item)' on-add='$ctrl.add(item)'></sidenav>
+    <sidenav items='$ctrl.records' 
+          main='legalentityname' 
+          is-open='$ctrl.sidenavOpen' 
+          on-select='$ctrl.updateSelected(item)' 
+          on-add='$ctrl.add(item)'>
+    </sidenav>
     <text-input label='Legal Entity PID' text-value='$ctrl.selected.legalentitypid' is-required='true' on-update='$ctrl.update("legalentitypid", value)'></text-input>
     <text-input label='Legal Entity Name' text-value='$ctrl.selected.legalentityname' is-required='true' on-update='$ctrl.update("legalentityname", value)'></text-input>
     <select-input-extensible label='"Legal Entity Type"' values='$ctrl.legalEntityTypes' select-value='$ctrl.selected.legalentitytype' on-update='$ctrl.update("legalentitytype", value)' on-add='$ctrl.createPicklistItem("legalentitytype", "legalEntityTypes", value)' type-name='EXTENSION_TYPE_LEGALENTITY_TYPE'></select-input-extensible>

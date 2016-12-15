@@ -13,12 +13,6 @@ const SchemaLoader = require('../models/mongoose.schema.loader');
 const ServiceLevelPlugin = require('../models/plugins/service.level.plugin');
 const BACKEND_CONST = require('../constants/backend');
 
-//   var longCalculation = async (function (seconds, result) {
-//     async_await (Q.delay(seconds * 1000));
-//     return result;
-// });
-
-
 module.exports = class BaseService {
   constructor(modelClassName, inmem, version) {
     this.modelClassName = modelClassName;
@@ -26,8 +20,6 @@ module.exports = class BaseService {
     this.version = version ? version : '01.00.00';
     this.schemaDir = path.resolve('./', BACKEND_CONST.BASE_DIR1, BACKEND_CONST.BASE_DIR2, BACKEND_CONST.STANDARD_DIR_NAME);
     this.defDir = path.join(this.schemaDir, this.version.replace(/\./g, '_'), BACKEND_CONST.DEF_SUB_DIR_NAME);
-
-    // this.edb_SyncTest = sync(this, '_edb_SyncTest');
   }
 
   edb_get(obj, pop, where) {
@@ -48,17 +40,17 @@ module.exports = class BaseService {
           let paths = entityClass.schema.paths;
           for (var path in paths) {
             if (paths[path].caster)
-              pops.push({ path: path });
+              pops.push({
+                path: path
+              });
           }
           // pops.push({ path: 'sender.toLegalEntityId', model: 'LEGALENTITY'});
           // pops.push({ path: 'toLegalEntityId'});
           dbquery = entityClass.find(query).populate(pops);
-        }
-        else
+        } else
           dbquery = entityClass.find(query);
 
         dbquery
-//          .lean()
           .exec((err, rows) => {
             if (err)
               rej(err);
@@ -86,8 +78,14 @@ module.exports = class BaseService {
             .create(obj, (err, rows) => {
               if (err)
                 rej(err);
-              else
+              else {
+                if (self.inmem) {
+                  if (!Array.isArray(global.modulesInMemory[self.modelClassName.toLowerCase()]))
+                    global.modulesInMemory[self.modelClassName.toLowerCase()] = [];
+                  global.modulesInMemory[self.modelClassName.toLowerCase()].push(self._format4InMem(rows));
+                }
                 res(new RVHelper('EDB00000', JSON.stringify(rows)));
+              }
             });
         }
       } else {
@@ -106,11 +104,19 @@ module.exports = class BaseService {
           entityClass = require('mongoose').model(self.modelClassName);
 
           entityClass
-            .remove({ _id: id }, (err, rows) => {
+            .remove({
+              _id: id
+            }, (err, rows) => {
               if (err)
                 rej(err);
-              else
+              else {
+                if (self.inmem) {
+                  _.remove(global.modulesInMemory[self.modelClassName.toLowerCase()], (item) => {
+                    return item._id === id;
+                  });
+                }
                 res(new RVHelper('EDB00000', JSON.stringify(rows)));
+              }
             });
         } catch (err) {
           rej(err);
@@ -133,12 +139,25 @@ module.exports = class BaseService {
           entityClass
             .update({ _id: obj._id }, obj, (err, rows) => {
               if (err)
-                rej(new Error(err));
-              else
-                res(new RVHelper('EDB00000', JSON.stringify(rows)));
+                rej(err);
+              else {
+                entityClass.find({ _id: obj._id }, (err, rows) => {
+                  if (err)
+                    rej(err);
+                  else {
+                    if (self.inmem) {
+                      _.remove(global.modulesInMemory[self.modelClassName.toLowerCase()], (item) => {
+                        return item._id === obj._id;
+                      });
+                      global.modulesInMemory[self.modelClassName.toLowerCase()].push(self._format4InMem(rows[0]));
+                    }
+                    res(new RVHelper('EDB00000', JSON.stringify(rows)));
+                  }
+                });
+              }
             });
         } catch (err) {
-          rej(new Error(new RVHelper('EDB13001')));
+          rej(err);
         }
       } else {
         rej(new Error(new RVHelper('EDB11006', obj)));
@@ -178,29 +197,22 @@ module.exports = class BaseService {
     });
   }
 
+  _format4InMem(data) {
+    let retVal;
+    if (!data)
+      return undefined;
 
-    edb_SyncTest() {
-      sync(fs, 'readFile');
-//       try {
-//         console.log('zero...');
-
-//         var msg = async_await(longCalculation(1, 'one...'));
-//         console.log(msg);
-
-//         msg = async_await(longCalculation(1, 'two...'));
-//         console.log(msg);
-
-//         msg = async_await(longCalculation(1, 'three...'));
-//         console.log(msg);
-
-// //        var file = async_await(readFile('NonExistingFilename'));
-
-// //        msg = async_await(longCalculation(1, 'four...'));
-//         // console.log(msg);
-//       } catch (ex) {
-//         console.log('Caught an error');
-//       }
-      // return fs.readFile('../configs/picklist.fields.js');
+    if (Array.isArray(data)) {
+      retVal = data.map(ret => {
+        let newRet = ret.toObject();
+        newRet._id = ret._id.toString();
+        return newRet;
+      });
+    } else {
+      retVal = data.toObject();
+      retVal._id = data._id.toString();
+    }
+    return retVal;
   }
   // _initDbFromTemplate(version, obj, pklInst) {
   //   return new Q((res, rej) => {
@@ -291,7 +303,8 @@ module.exports = class BaseService {
 
   _testDataPlkDecode(obj, plkInst) {
     let self = this;
-    let retVal = {}, picklistFieldsConfig, query, plEntity, dbOutput;
+    let retVal = {},
+      picklistFieldsConfig, query, plEntity, dbOutput;
     let keys = Object.keys(obj);
     let plkI = plkInst ? plkInst : require('./picklist.service');
 
@@ -339,7 +352,8 @@ module.exports = class BaseService {
 
   initFromXSD(standardname) {
     return new Q((res, rej) => {
-      let self = this, data;
+      let self = this,
+        data;
       let filename = path.join(self.schemaDir, standardname.endsWith('.xsd') ? standardname : standardname + '.xsd');
 
       let dbmodel = require('mongoose').model(self.modelClassName);
@@ -382,7 +396,7 @@ module.exports = class BaseService {
                     if (err)
                       rej(err);
                     else
-                      global.modulesInMemory[self.modelClassName.toLowerCase()].push(result);
+                      global.modulesInMemory[self.modelClassName.toLowerCase()].push(self._format4InMem(result));
                   });
                 }
               }
@@ -432,8 +446,14 @@ module.exports = class BaseService {
         let mschema = new Schema(jschema, {
           retainKeyOrder: true,
           validateBeforeSave: false,
-          toJSON: { getters: true, virtuals: true },
-          toObject: { getters: true, virtuals: true }
+          toJSON: {
+            getters: true,
+            virtuals: true
+          },
+          toObject: {
+            getters: true,
+            virtuals: true
+          }
         });
         let selfPlugin;
         mschema.plugin(ServiceLevelPlugin, {
@@ -454,12 +474,8 @@ module.exports = class BaseService {
               if (err)
                 rej(err);
               else {
-                let retInMem = result.map(ret => {
-                  let newRet = ret.toObject();
-                  newRet._id = ret._id.toString();
-                  return newRet;
-                });
-                global.modulesInMemory[self.modelClassName.toLowerCase()] = retInMem;
+                if (self.inmem && result.length > 0)
+                  global.modulesInMemory[self.modelClassName.toLowerCase()] = self._format4InMem(result);
                 res(new RVHelper('EDB00000'));
               }
             });

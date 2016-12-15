@@ -85,10 +85,10 @@ var init = () => {
 
   init_mongoose()
     .then(result => {
-      console.log(result);
+      // console.log(result);
       if (needInitDB) {
         setTimeout(() => {
-//          console.log('time is up');
+        //  console.log('time is up');
           initDB()
             .then(result => {
               // console.log(result);
@@ -102,7 +102,7 @@ var init = () => {
         return new RVHelper('EDB00000');
     })
     .then(ret => {
-      console.log(ret);
+      // console.log(ret);
     })
     .catch(err => {
       console.log(err);
@@ -121,8 +121,11 @@ var initDB = () => {
         rej(new Error('picklist not done yet.'));
       else {
         let qAry = [];
-        let svrClass = require('./services/product.service');
-        let svr = new svrClass('01.00.00');
+        let svrClass;
+        let svr;
+        
+        svrClass = require('./services/product.service');
+        svr = new svrClass('01.00.00');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/legalentity.service');
         svr = new svrClass('01.00.00');
@@ -288,7 +291,8 @@ app.on('ready', function () {
   mainWindow.loadURL('file://' + __dirname + '/../build/renderer/index.html');
   mainWindow.webContents.on('did-finish-load', function () {
     // TODO: setTitle is being deprecated, find and use alternative
-    mainWindow.setTitle("e-Dossier Builder (V1.3.0)");    //if (configure.env.toString().toUpper() == 'DEV'){
+    mainWindow.setTitle("e-Dossier Builder (V1.3.0)");
+    //if (configure.env.toString().toUpper() == 'DEV'){
     mainWindow.openDevTools();
     //}
   });

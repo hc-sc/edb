@@ -142,14 +142,17 @@ export default class BaseCtrl {
         // this.selected[nodeName] = newArray;
         let newArray = [];
         if (nodeName.indexOf('.') > 0) {
-          let pathAry = nodeName.split('.');
-          let topEntity = {};
           newArray = this.getRef(nodeName).slice();
           newArray.push(item);
-          topEntity[pathAry[1]] = newArray;
-          this.selected[pathAry[0]] = topEntity;
+          let end = this.selected;
+          let path = nodeName.split('.');
+          for (let i = 0; i < path.length - 1; ++i) {
+            end = end[path[i]];
+          }
+          end[path[path.length - 1]] = newArray;
+         
         } else {
-          newArray = this.selected[nodeName].slice();
+          newArray = this.selected[nodeName].slice();    
           newArray.splice(this.selected.length, 0, item);
           this.selected[nodeName] = newArray;
         }
