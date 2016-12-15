@@ -23,19 +23,19 @@ export default angular.module('submission', [
   .component('submission', {
     template,
     bindings: {
-      dossierData: '<'
+      dossierData: '<',
+      toc: '<'
     },
     controller: class SubmissionCtrl {
-      constructor($state, GhstsService, $transitions, $rootScope) {
+      constructor($state, AppDataService, $transitions) {
+        this.$state = $state;
+        this.appDataService = AppDataService.getService();
 
         //allows for interrupting state transition (for use with ensuring any modifications are saved)
         this.dereg = $transitions.onBefore({}, (event) => {
           // SO hacky...
           return true;
         });
-
-        this.$state = $state;
-        this.GhstsService = GhstsService.getService();
 
         this.navbarItems = [
           { title: 'Description', state: '.description' },
@@ -63,6 +63,11 @@ export default angular.module('submission', [
       $onDestroy() {
         // need to deregister the listener or else we end up with multiple calls
         this.dereg();
+      }
+
+      goTo(url) {
+        console.log(`.${url}`);
+        this.$state.go(`.${url}`);
       }
 
       validateXML() {

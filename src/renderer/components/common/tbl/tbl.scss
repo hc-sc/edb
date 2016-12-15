@@ -30,3 +30,7 @@ div.table-container {
   margin: 15px 0;
   padding: 0;
 }
+
+table.md-table td.md-cell:last-child, table.md-table th.md-column:last-child {
+  width: 30px;
+}

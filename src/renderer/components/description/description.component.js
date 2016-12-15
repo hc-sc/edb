@@ -28,37 +28,10 @@ export default angular.module('description', [
       dossierData: '<'
     },
     controller: class DescriptionCtrl extends BaseCtrl {
-      constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, $rootScope) {
-        super($mdDialog, $mdToast, $state, PicklistService, AppDataService, 'dossier');
-        this.$rootScope = $rootScope;
+      constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope) {
+        super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'dossier', $scope);
 
-        this.getAppData({_id: this.dossierData.submissionid}, 'submission')
-        .then(result => {
-          this.submission = JSON.parse(result.data)[0];
-          return this.getAppData({_id: this.dossierData.dossierid}, 'dossier');
-        })
-        .then(result => {
-          this.dossier = JSON.parse(result.data)[0];
-
-          // have two references, so we can still use the base ctrl code
-          this.selected = this.dossier;
-          this.loading = false;
-        });
-      }
-
-      // need to have one for submission and another for dossier
-      update(prop, value) {
-        if (prop === 'dossierdescriptiontitle') {
-          this.$rootScope.title = value;
-        }
-        this.selected[prop] = value;
-      }
-
-      /** set up business rules as to which items are deletable */
-      markDeletable() {
-        for (let dossierra of this.dossier.dossierra) {
-          dossierra.deletable = true;
-        }
+        this.init().then(() => {this.loading = false;});
       }
     }
   })

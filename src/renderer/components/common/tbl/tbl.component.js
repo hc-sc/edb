@@ -61,7 +61,7 @@ export default angular.module('tbl', [
         //     if (data === value._id) return value.valuedecode;
         //   }
         // }
-        return data;
+        return Array.isArray(data) ? data.join(', ') : data;
       }
 
       setSort(item) {
@@ -81,7 +81,7 @@ export default angular.module('tbl', [
           this.headers = this.projection.map(item => {
             if (typeof item === 'string' )
               return { name: item, paramName: item };
-            else 
+            else
               return { name: item.name, paramName: item.name}
           });
         }
@@ -104,12 +104,12 @@ export default angular.module('tbl', [
                     data: query
                   };
                   let queryRet = this.appDataService.edb_getSync(query)[0];
-                  if (queryRet && queryRet.hasOwnProperty('valuedecode')) 
+                  if (queryRet && queryRet.hasOwnProperty('valuedecode'))
                     row.push(queryRet.valuedecode);
                   else
                     row.push(item[header.name]);
-                } 
-              } 
+                }
+              }
             }
             row.push(item['_id']);
             return row;

@@ -25,17 +25,18 @@ export default function ($stateProvider, $urlRouterProvider) {
         }
       }
     })
+    .state('submission.toc', {
+      url: '/toc',
+      component: 'toc',
+      resolve: {
+        toc: (AppDataService, $stateParams) => {
+          return AppDataService.getService().edb_get({_url: 'toc'});
+        }
+      }
+    })
     .state('submission.receivers', {
       url: '/receivers',
       component: 'receivers'
-    })
-    .state('submission.toc', {
-      url: '/toc',
-      component: 'toc'
-    })
-    .state('submission.description', {
-      url: '/description',
-      component: 'description'
     })
     .state('globals.files', {
       url: '/files',
@@ -96,6 +97,12 @@ export default function ($stateProvider, $urlRouterProvider) {
         },
       }
     })
+
+    .state('globals.dossiers', {
+      url: '/dossiers',
+      component: 'description'
+    })
+
     .state('globals.documents', {
       url: '/documents',
       component: 'documents',

@@ -26,7 +26,7 @@
       <text-input label='Website' text-value='$ctrl.selected.contactaddress.website' on-update='$ctrl.updateContactAddress("website", value)'></text-input>
     </fieldset>
     <tbl ng-if='!$ctrl.loading' title='Contacts' items='$ctrl.selected.contactperson' projection='["lastname", "firstname", "title", "email"]' on-select='$ctrl.selectTblItem("contactperson", index)' on-add='$ctrl.addTblItem("contactperson")' on-delete='$ctrl.deleteTblItem("contactperson", index)'></tbl>
-    <div style='z-index:100' class='float-bottom'>
+    <div class='float-bottom'>
       <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
         <md-icon md-svg-icon='save' class='light'></md-icon>
       </md-button>

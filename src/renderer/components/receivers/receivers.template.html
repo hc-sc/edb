@@ -1,17 +1,16 @@
 <section class='node-page'>
-  
   <text-input label='Short Name' is-required='true'></text-input>
   <text-input label='Role'></text-input>
   <tbl title='Sender' items='[]' projection='[]'></tbl>
-    <div style='z-index:100' class='float-bottom'>
-      <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
-        <md-icon md-svg-icon='save' class='light'></md-icon>
-      </md-button>
-      <md-button aria-label='Add New Item' class='md-fab md-primary' ng-click='$ctrl.add()'>
-        <md-icon md-svg-icon='add' class='light'></md-icon>
-      </md-button>
-      <md-button aria-label='Toggle List' class='md-fab md-primary' ng-click='$ctrl.toggleList()'>
-        <md-icon md-svg-icon='list' class='light'></md-icon>
-      </md-button>
-    </div>
+  <div class='float-bottom'>
+    <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
+      <md-icon md-svg-icon='save' class='light'></md-icon>
+    </md-button>
+    <md-button aria-label='Add New Item' class='md-fab md-primary' ng-click='$ctrl.add()'>
+      <md-icon md-svg-icon='add' class='light'></md-icon>
+    </md-button>
+    <md-button aria-label='Toggle List' class='md-fab md-primary' ng-click='$ctrl.toggleList()'>
+      <md-icon md-svg-icon='list' class='light'></md-icon>
+    </md-button>
+  </div>
 </section>
