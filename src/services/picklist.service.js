@@ -61,12 +61,7 @@ module.exports = class PickListService extends BaseService {
                   rej(err);
                 });
             } else {
-              let retInMem = result.map(ret => {
-                let newRet = ret.toObject();
-                newRet._id = ret._id.toString();
-                return newRet;
-              });
-              global.modulesInMemory[self.modelClassName.toLowerCase()] = retInMem;
+              global.modulesInMemory[self.modelClassName.toLowerCase()] = self._format4InMem(result);
               res(new RVHelper('EDB00000'));
             }
           });
