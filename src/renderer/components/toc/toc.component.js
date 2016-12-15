@@ -19,10 +19,12 @@ export default angular.module('toc', [
 .component('toc', {
   template,
   bindings: {
+    dossierData: '<',
     toc: '<'
   },
   controller: class TOCCtrl {
     constructor(AppDataService) {
+      console.log(this);
       this.loading = true;
       this.appDataService = AppDataService.getService();
       this.tree = JSON.parse(this.toc.data)[0].structure[0];

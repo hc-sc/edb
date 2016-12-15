@@ -12,6 +12,7 @@ export default function ($stateProvider, $urlRouterProvider) {
       }
     })
     .state('submission', {
+      abstract: true,
       url: '/submission/:submissionid/:dossiertitle/:dossierid/',
       component: 'submission',
       resolve: {
@@ -21,13 +22,19 @@ export default function ($stateProvider, $urlRouterProvider) {
             dossierid: $stateParams.dossierid,
             submissionid: $stateParams.submissionid
           };
-        },
+        }
+      }
+    })
+    .state('submission.toc', {
+      url: '/toc',
+      component: 'toc',
+      resolve: {
         toc: (AppDataService, $stateParams) => {
           return AppDataService.getService().edb_get({_url: 'toc'});
         }
       }
     })
-    .state('receivers', {
+    .state('submission.receivers', {
       url: '/receivers',
       component: 'receivers'
     })

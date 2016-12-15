@@ -1,4 +1,24 @@
-<section class='node-page' layout-padding>
-  <spinner ng-show='$ctrl.loading'></spinner>
-  <tree node='$ctrl.tree' ng-show='!$ctrl.loading'>TOC</tree>
-</section>
+  <div ui-layout options="{ flow: 'column'}" >
+    <div ui-layout-container size='30%'>
+      <div ui-layout options="{flow: 'row'}" >
+        <div ui-layout-container>
+          <a href='#' ui-sref='submission.receivers'>Receivers</a>
+          <a href='#' ng-click='$ctrl.goTo("product")'>Product</a>
+          <a href='#' ng-click='$ctrl.goTo("dossier")'>Dossier</a>
+        </div>
+        <div ui-layout-container>
+          <text-input label='Short Name'></text-input>
+          <select-input label='Owner'></select-input>
+          <text-input label='Full Name'></text-input>
+          <fieldset>
+            <legend>Standard Reference</legend>
+            <text-input label='Standard PID' is-disabled='true'></text-input>
+            <text-input label='Filename'></text-input>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+    <div ui-layout-container='central'>
+      Hi there
+    </div>
+  </div>
