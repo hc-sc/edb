@@ -1,11 +1,4 @@
 <section class='node-page' layout-padding>
-  <!--<text-input label='Short Name'></text-input>
-  <select-input label='Owner'></select-input>
-  <text-input label='Full Name'></text-input>
-  <fieldset>
-    <legend>Standard Reference</legend>
-    <text-input label='Standard PID' is-disabled='true'></text-input>
-    <text-input label='Filename'></text-input>
-  </fieldset>-->
-  <tree node='$ctrl.dummy'>{{$ctrl.dummy}}</tree>
+  <spinner ng-show='$ctrl.loading'></spinner>
+  <tree node='$ctrl.tree' ng-show='!$ctrl.loading'>TOC</tree>
 </section>

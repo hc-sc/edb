@@ -21,7 +21,6 @@ export default class BaseCtrl {
     return this.getAppData()
       .then(records => {
         this.records = JSON.parse(records.data);
-        console.log(this.records);
         if (this.records.length > 0) {
           // there is some data in the db
           this.selected = this.records[0];

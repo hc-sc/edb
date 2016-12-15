@@ -7,11 +7,6 @@ const path = require('path');
 const Q = require('bluebird');
 const _ = require('lodash');
 
-// const async = require('asyncawait/async');
-// const async_await  = require('asyncawait/await');
-
-const sync = require('synchronize');
-
 const PicklistFieldsConfig = require('../configs/picklist.fields');
 const RVHelper = require('../utils/return.value.helper').ReturnValueHelper;
 const SchemaLoader = require('../models/mongoose.schema.loader');
@@ -411,7 +406,7 @@ module.exports = class BaseService {
         retVal = key;
         return false;
       } else
-        return true; 
+        return true;
     });
     return retVal;
   }

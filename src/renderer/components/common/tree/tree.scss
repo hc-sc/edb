@@ -1,14 +1,18 @@
 @import '../../../scss/constants';
 
-ul {
+.tree-ul {
   list-style: none inside none;
   margin: 0;
   padding: 0;
 }
 
+.tree-ul:not(:first-child) {
+  margin-left: 20px;
+}
+
 .node-title {
   margin: 0;
-  padding: 0 10px 0 0;
+  padding: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -22,15 +26,19 @@ ul {
 
 .tree-icon {
   display: inline-block;
+  min-width: 0;
+  width: 20px;
 }
 
-ul:not(:first-child) {
-  margin-left: 15px;
+.tree-options {
+  display: inline-block;
+  width: 25px;
+  min-width: 25px;
 }
 
-li {
-  margin: 0;
+.tree-li {
   padding: 0;
+  margin: 0;
 }
 
 .toggle {

@@ -22,13 +22,15 @@ export default function ($stateProvider, $urlRouterProvider) {
             submissionid: $stateParams.submissionid
           };
         },
-        dossier: (AppDataService, $stateParams) => {
-          console.log(AppDataService.getService().edb_get({_url: 'submission', data: {_id: $stateParams.submissionid}}));
-          return AppDataService.getService().edb_get({_url: 'submission', data: {_id: $stateParams.submissionid}});
+        toc: (AppDataService, $stateParams) => {
+          return AppDataService.getService().edb_get({_url: 'toc'});
         }
       }
     })
-
+    .state('receivers', {
+      url: '/receivers',
+      component: 'receivers'
+    })
     .state('globals.files', {
       url: '/files',
       component: 'files',

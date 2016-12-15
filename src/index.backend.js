@@ -12,9 +12,6 @@ const app = require('electron').app;
 const ipc = require('electron').ipcMain;
 const BrowserWindow = require('electron').BrowserWindow;
 
-const async = require('asyncawait/async');
-const async_await  = require('asyncawait/await');
-
 const sync = require('synchronize');
 
 
@@ -105,7 +102,7 @@ var init = () => {
         }, 1000);
       }
       else
-        return new RVHelper('EDB00000'); 
+        return new RVHelper('EDB00000');
     })
     .then(ret => {
       console.log(ret);
@@ -116,7 +113,7 @@ var init = () => {
 
 };
 
-//For development only, should be removed when goes into production 
+//For development only, should be removed when goes into production
 var initDB = () => {
   //let ghstsSrv = new GhstsService(undefined, undefined, marshallers['01_00_00'], unmarshallers['01_00_00']);
   return new Q((res, rej) => {
@@ -149,7 +146,7 @@ var initDB = () => {
         svr = new svrClass('01.00.00');
         qAry.push(svr.initDbfromTestData());
         return Q.all(qAry);
-      } 
+      }
     })
     .catch(err => {
       rej(err);
@@ -268,7 +265,7 @@ app.on('ready', function () {
     let GHSTSJsonSchema = JSON.parse(fs.readFileSync('./resources/app/standards/' + versionDir + '/GHSTS.jsonschema').toString());
     validateInsts[versionDir] = ajvInst.compile(GHSTSJsonSchema);
 //    let GHSTS = require('../resources/app/standards/' + versionDir + '/GHSTS').GHSTS;
-    let sfile = path.resolve(basePath, 'resources', 'app', 'standards', versionDir, 'GHSTS.js'); 
+    let sfile = path.resolve(basePath, 'resources', 'app', 'standards', versionDir, 'GHSTS.js');
     let GHSTS = require(sfile).GHSTS;
     let context = new Jsonix.Context([GHSTS]);
     unmarshallers[versionDir] = context.createUnmarshaller();
@@ -276,7 +273,7 @@ app.on('ready', function () {
   }
 
   init();
-  
+
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
@@ -334,7 +331,7 @@ let svr = new testService();
 // //  })
 // //  .then(ret => {
 // //    console.log(ret);
-//  }) 
+//  })
 //  .catch(err => {
 //    console.log(err);
 //  });
@@ -397,7 +394,7 @@ svr.edb_get({})
   //  console.log(result.data);
   // });
   // svr.edb_get({
-  //   TYPE_NAME: 'EXTENSION_TYPE_ADMIN_NUMBER_TYPE', 
+  //   TYPE_NAME: 'EXTENSION_TYPE_ADMIN_NUMBER_TYPE',
   //   value: 'AAAAAAAAAAAAAAAAA',
   //   valuedecode: 'AAAAAAAAAAAAAAAAA',
   //   isExt: true})
