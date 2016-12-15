@@ -12,12 +12,6 @@ const app = require('electron').app;
 const ipc = require('electron').ipcMain;
 const BrowserWindow = require('electron').BrowserWindow;
 
-const async = require('asyncawait/async');
-const async_await  = require('asyncawait/await');
-
-const sync = require('synchronize');
-
-
 const SHARED_CONST = require('./constants/shared');
 const BACKEND_CONST = require('./constants/backend');
 const ServiceDispatcher = require('./services/service.dispatcher');
@@ -91,10 +85,10 @@ var init = () => {
 
   init_mongoose()
     .then(result => {
-      console.log(result);
+      // console.log(result);
       if (needInitDB) {
         setTimeout(() => {
-//          console.log('time is up');
+        //  console.log('time is up');
           initDB()
             .then(result => {
               // console.log(result);
@@ -108,7 +102,7 @@ var init = () => {
         return new RVHelper('EDB00000'); 
     })
     .then(ret => {
-      console.log(ret);
+      // console.log(ret);
     })
     .catch(err => {
       console.log(err);
@@ -127,8 +121,11 @@ var initDB = () => {
         rej(new Error('picklist not done yet.'));
       else {
         let qAry = [];
-        let svrClass = require('./services/product.service');
-        let svr = new svrClass('01.00.00');
+        let svrClass;
+        let svr;
+        
+        svrClass = require('./services/product.service');
+        svr = new svrClass('01.00.00');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/legalentity.service');
         svr = new svrClass('01.00.00');
@@ -347,12 +344,12 @@ let svr = new testService();
 //    console.log(err);
 //  });
 
-svr.edb_get({})
-  .then(ret => {
-   console.log(ret);
- }).catch(err => {
-   console.log(err);
- });
+// svr.edb_get({})
+//   .then(ret => {
+//    console.log(ret);
+//  }).catch(err => {
+//    console.log(err);
+//  });
 
 // svr.edb_get({submissionid: '5845e6427f7372275481989e'})
 //   .then(ret => {
