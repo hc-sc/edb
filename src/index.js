@@ -1,3 +1,4 @@
+
 'use strict';
 global.modulesInMemory = {};
 
@@ -10,6 +11,12 @@ const fs = require('fs');
 const app = require('electron').app;
 const ipc = require('electron').ipcMain;
 const BrowserWindow = require('electron').BrowserWindow;
+
+const async = require('asyncawait/async');
+const async_await  = require('asyncawait/await');
+
+const sync = require('synchronize');
+
 
 const SHARED_CONST = require('./constants/shared');
 const BACKEND_CONST = require('./constants/backend');
@@ -135,6 +142,12 @@ var initDB = () => {
         svrClass = require('./services/document.service');
         svr = new svrClass('01.00.00');
         qAry.push(svr.initDbfromTestData());
+        svrClass = require('./services/receiver.service');
+        svr = new svrClass('01.00.00');
+        qAry.push(svr.initDbfromTestData());
+        svrClass = require('./services/toc.service');
+        svr = new svrClass('01.00.00');
+        qAry.push(svr.initDbfromTestData());
         return Q.all(qAry);
       } 
     })
@@ -171,6 +184,7 @@ ipc.on(SHARED_CONST.PICKLIST_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, functi
   } else {
     let method = 'edb_' + arg.method + 'Sync';
     event.returnValue = PicklistService[method](arg.data);
+    // event.returnValue = sync.await(svr['edb_get'](arg.data));
   }
 });
 
@@ -276,12 +290,11 @@ app.on('ready', function () {
   mainWindow.on('closed', function () {
     mainWindow = null;
   });
-    
-  mainWindow.loadURL('file://' + __dirname + '/renderer/index.html');
+
+  mainWindow.loadURL('file://' + __dirname + '/../build/renderer/index.html');
   mainWindow.webContents.on('did-finish-load', function () {
     // TODO: setTitle is being deprecated, find and use alternative
-    mainWindow.setTitle("e-Dossier Builder (V1.3.0)");
-    //if (configure.env.toString().toUpper() == 'DEV'){
+    mainWindow.setTitle("e-Dossier Builder (V1.3.0)");    //if (configure.env.toString().toUpper() == 'DEV'){
     mainWindow.openDevTools();
     //}
   });
