@@ -3,6 +3,7 @@ node_modules
 build
 dist
 projects
+products
 css
 data
 prepublish/win-unpacked
