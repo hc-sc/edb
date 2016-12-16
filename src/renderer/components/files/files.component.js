@@ -11,8 +11,6 @@ import PicklistService from '../../services/picklist.service';
 import AppDataService from '../../services/app.data.service';
 import BaseCtrl from '../common/base.controller';
 
-import modelFile from '../../view-models/gen/file.json';
-
 export default angular.module('files', [
   ngMaterial,
   Sidenav,
@@ -47,7 +45,8 @@ export default angular.module('files', [
     selectFile() {
       this.appDataService.edb_get({_url: 'file', method: 'selectFile', data: angular.copy(this.selected)})
         .then(ret => {
-          this.selected = JSON.parse(ret.data)[0];
+          this.selected = JSON.parse(ret.data);
+          console.log(this.selected);
         })
         .catch(err => {
           console.log(err);

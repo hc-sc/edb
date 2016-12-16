@@ -39,8 +39,13 @@ module.exports = class FileService extends BaseService {
             entity._filereallocation = selFile[0];
             entity.filegeneric = {};
             entity.filegeneric.md5CHECKSUM = md5;
-            return self.edb_put(entity);
-            // self.edb_put(entity);
+            self.edb_put(entity)
+              .then(ret => {
+                res(ret);
+              })
+              .catch(err => {
+                rej(err);
+              });
           }
         } catch (err) {
           rej(err);
