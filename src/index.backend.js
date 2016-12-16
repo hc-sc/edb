@@ -306,11 +306,11 @@ app.on('ready', function () {
 // const testService = require('./services/legalentity.service');
 // const testService = require('./services/picklist.service');
 // const testService = require('./services/dossier.service');
-// const testService = require('./services/substance.service');
+const testService = require('./services/substance.service');
 // const testService = require('./services/ghsts.service');
 // const testService = require('./services/receiver.service');
 // const testService = require('./services/file.service');
-const testService = require('./services/toc.service');
+// const testService = require('./services/toc.service');
 // const testService = require('./services/submission.service');
 var backendTest = () => {
 console.log('--------- Backend Test Start ----------');
@@ -345,12 +345,20 @@ let svr = new testService();
 //    console.log(err);
 //  });
 
-// svr.edb_get({})
-//   .then(ret => {
-//    console.log(ret);
-//  }).catch(err => {
-//    console.log(err);
-//  });
+svr.edb_get({_id:'5852f9fd1f9fa11280ed2005'})
+  .then(ret => {
+   console.log(ret);
+   let rawObj = svr._remove__fields(JSON.parse(ret.data))[0];
+  //  delete rawObj.substanceidentifier;
+   console.log(rawObj);
+   let _ = require('lodash');
+   console.log(_.filter(global.modulesInMemory['substance'], _.matchesProperty(rawObj)));
+  //  svr.edb_get(rawObj[0]).then(rets => {
+  //    console.log(JSON.parse(rets.data));
+  //  });
+ }).catch(err => {
+   console.log(err);
+ });
 
 // svr.edb_get({submissionid: '5845e6427f7372275481989e'})
 //   .then(ret => {

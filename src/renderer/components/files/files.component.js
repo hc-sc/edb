@@ -35,6 +35,7 @@ export default angular.module('files', [
 
       this.fileType = JSON.parse(this.fileType.data);
       this.contentStatus = JSON.parse(this.contentStatus.data);
+      this.listFileButton = { name: 'list', label: 'Select File', color: 'dark' };
 
       this.init().then(() => {this.loading = false;});
     }
@@ -43,6 +44,15 @@ export default angular.module('files', [
       this.selected = angular.copy(this.getModel('file'));
     }
     
+    selectFile() {
+      this.appDataService.edb_get({_url: 'file', method: 'selectFile', data: angular.copy(this.selected)})
+        .then(ret => {
+          this.selected = JSON.parse(ret.data)[0];
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   }
 })
 .name;

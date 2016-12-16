@@ -124,7 +124,7 @@ export default class BaseService {
 //the returned object structure {url:null,method:null,data:object}
   _msg_envelope(method, obj, timestamp) {
     let retVal = {};
-    retVal.method = method;
+    retVal.method = obj.method ? obj.method : method;
     if (obj) {
       retVal.url = obj.url ? obj.url : obj._url;
       retVal.data = obj.data ? obj.data : obj;

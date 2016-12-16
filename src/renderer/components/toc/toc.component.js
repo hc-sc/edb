@@ -30,7 +30,16 @@ export default angular.module('toc', [
       this.tree = JSON.parse(this.toc.data)[0].structure[0];
       console.log(this.tree);
       this.tree.nodename = 'TOC';
-      this.loading = false;
+      this.appDataService.edb_get({_url: 'product'}).then(ret => {
+        this.products = JSON.parse(ret.data);
+        console.log(this.products);
+        return this.appDataService.edb_get({_url: 'dossier'});
+      }).then(ret => {
+        this.dossiers = JSON.parse(ret.data);
+        console.log(this.dossiers);
+        // return this.appDataService.edb_get({_url: 'submission'});
+        this.loading = false;
+      }); 
 
       // Tree Structure
       // nodename - name of node
