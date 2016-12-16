@@ -129,7 +129,7 @@ module.exports = class BaseService {
                       });
                       global.modulesInMemory[self.modelClassName.toLowerCase()].push(self._format4InMem(rows[0]));
                     }
-                    res(new RVHelper('EDB00000', JSON.stringify(rows)));
+                    res(new RVHelper('EDB00000', JSON.stringify(rows[0])));
                   }
                 });
               }
