@@ -99,7 +99,7 @@ var init = () => {
         }, 1000);
       }
       else
-        return new RVHelper('EDB00000'); 
+        return new RVHelper('EDB00000');
     })
     .then(ret => {
       // console.log(ret);
@@ -110,7 +110,7 @@ var init = () => {
 
 };
 
-//For development only, should be removed when goes into production 
+//For development only, should be removed when goes into production
 var initDB = () => {
   //let ghstsSrv = new GhstsService(undefined, undefined, marshallers['01_00_00'], unmarshallers['01_00_00']);
   return new Q((res, rej) => {
@@ -146,7 +146,7 @@ var initDB = () => {
         svr = new svrClass('01.00.00');
         qAry.push(svr.initDbfromTestData());
         return Q.all(qAry);
-      } 
+      }
     })
     .catch(err => {
       rej(err);
@@ -265,7 +265,7 @@ app.on('ready', function () {
     let GHSTSJsonSchema = JSON.parse(fs.readFileSync('./resources/app/standards/' + versionDir + '/GHSTS.jsonschema').toString());
     validateInsts[versionDir] = ajvInst.compile(GHSTSJsonSchema);
 //    let GHSTS = require('../resources/app/standards/' + versionDir + '/GHSTS').GHSTS;
-    let sfile = path.resolve(basePath, 'resources', 'app', 'standards', versionDir, 'GHSTS.js'); 
+    let sfile = path.resolve(basePath, 'resources', 'app', 'standards', versionDir, 'GHSTS.js');
     let GHSTS = require(sfile).GHSTS;
     let context = new Jsonix.Context([GHSTS]);
     unmarshallers[versionDir] = context.createUnmarshaller();
@@ -273,7 +273,7 @@ app.on('ready', function () {
   }
 
   init();
-  
+
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
