@@ -22,6 +22,16 @@ module.exports = class BaseService {
     this.defDir = path.join(this.schemaDir, this.version.replace(/\./g, '_'), BACKEND_CONST.DEF_SUB_DIR_NAME);
   }
 
+  edb_put(obj) {
+    let self = this;
+    return self._create(obj);
+  }
+
+  edb_post(obj) {
+    let self = this;
+    return self._update(obj);
+  }
+
   edb_get(obj, pop, where) {
     return new Q((res, rej) => {
       let self = this;
@@ -64,7 +74,7 @@ module.exports = class BaseService {
     });
   }
 
-  edb_put(obj) {
+  _create(obj) {
     return new Q((res, rej) => {
       let self = this;
       let entityClass;
@@ -92,42 +102,9 @@ module.exports = class BaseService {
         rej(new Error(RVHelper('EDB11004', obj)));
       }
     });
-  }
+  } 
 
-  edb_delete(id) {
-    return new Q((res, rej) => {
-      let self = this;
-      let entityClass;
-
-      if (id && typeof id === 'string') {
-        try {
-          entityClass = require('mongoose').model(self.modelClassName);
-
-          entityClass
-            .remove({
-              _id: id
-            }, (err, rows) => {
-              if (err)
-                rej(err);
-              else {
-                if (self.inmem) {
-                  _.remove(global.modulesInMemory[self.modelClassName.toLowerCase()], (item) => {
-                    return item._id === id;
-                  });
-                }
-                res(new RVHelper('EDB00000', JSON.stringify(rows)));
-              }
-            });
-        } catch (err) {
-          rej(err);
-        }
-      } else {
-        rej(new Error(new RVHelper('EDB11005', id)));
-      }
-    });
-  }
-
-  edb_post(obj) {
+  _update(obj) {
     return new Q((res, rej) => {
       let self = this;
       let entityClass;
@@ -350,6 +327,74 @@ module.exports = class BaseService {
     return retVal;
   }
 
+  _getFieldNamebyTypeName(typeName) {
+    let keys = Object.keys(PicklistFieldsConfig);
+    let retVal = undefined;
+    keys.every(key => {
+      if (PicklistFieldsConfig[key].typename === typeName) {
+        retVal = key;
+        return false;
+      } else
+        return true;
+    });
+    return retVal;
+  }
+
+  _remove__fields(obj) {
+    let retVal, self = this;
+
+    if (Array.isArray(obj)) {
+      let retValAry = obj.map(item => {
+        return self._remove__fields(item);
+      });
+      return retValAry;
+    } else {
+      retVal = obj;
+      let keys = Object.keys(retVal);
+      keys.map(key => {
+        if (key.startsWith('_') || key === 'valuedecode' || key === 'id') 
+          delete retVal[key];
+        else if (retVal[key]) {
+          if (Array.isArray(retVal[key]) || typeof retVal[key] === 'object') {
+            retVal[key] = self._remove__fields(retVal[key]);
+          }
+        }
+      });
+      return retVal;
+    }
+  }
+
+  edb_delete(id) {
+    return new Q((res, rej) => {
+      let self = this;
+      let entityClass;
+
+      if (id && typeof id === 'string') {
+        try {
+          entityClass = require('mongoose').model(self.modelClassName);
+
+          entityClass
+            .remove({ _id: id }, (err, rows) => {
+              if (err)
+                rej(err);
+              else {
+                if (self.inmem) {
+                  _.remove(global.modulesInMemory[self.modelClassName.toLowerCase()], (item) => {
+                    return item._id === id;
+                  });
+                }
+                res(new RVHelper('EDB00000', JSON.stringify(rows)));
+              }
+            });
+        } catch (err) {
+          rej(err);
+        }
+      } else {
+        rej(new Error(new RVHelper('EDB11005', id)));
+      }
+    });
+  }
+
   initFromXSD(standardname) {
     return new Q((res, rej) => {
       let self = this,
@@ -410,19 +455,6 @@ module.exports = class BaseService {
         rej(new Error('EDB13001'));
       }
     });
-  }
-
-  _getFieldNamebyTypeName(typeName) {
-    let keys = Object.keys(PicklistFieldsConfig);
-    let retVal = undefined;
-    keys.every(key => {
-      if (PicklistFieldsConfig[key].typename === typeName) {
-        retVal = key;
-        return false;
-      } else
-        return true;
-    });
-    return retVal;
   }
 
   static edb_getSync(obj) {
