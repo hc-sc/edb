@@ -20,6 +20,7 @@ module.exports = class BaseService {
     this.version = version ? version : '01.00.00';
     this.schemaDir = path.resolve('./', BACKEND_CONST.BASE_DIR1, BACKEND_CONST.BASE_DIR2, BACKEND_CONST.STANDARD_DIR_NAME);
     this.defDir = path.join(this.schemaDir, this.version.replace(/\./g, '_'), BACKEND_CONST.DEF_SUB_DIR_NAME);
+    this.productDir = path.resolve('./', BACKEND_CONST.PRODUCTS_DIR);
   }
 
   edb_put(obj) {
