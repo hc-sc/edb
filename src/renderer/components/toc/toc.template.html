@@ -2,9 +2,14 @@
     <div ui-layout-container size='30%'>
       <div ui-layout options="{flow: 'row'}" >
         <div ui-layout-container>
+          <!--<a href='#' ng-click='$ctrl.goTo("dossier")'>Dossier</a>-->
+          <select-input label='Dossier' values='$ctrl.dossiers' main='dossierdescriptiontitle'></select-input>
+          <!--<a href='#' ng-click='$ctrl.goTo("product")'>Product</a>-->
+          <select-input label='Product' values='$ctrl.products' main='genericproductname'></select-input>
+          <a href='#' ng-click='$ctrl.goTo("submission")'>Submission</a>
+        </div>
+        <div ui-layout-container>
           <a href='#' ui-sref='submission.receivers'>Receivers</a>
-          <a href='#' ng-click='$ctrl.goTo("product")'>Product</a>
-          <a href='#' ng-click='$ctrl.goTo("dossier")'>Dossier</a>
         </div>
         <div ui-layout-container>
           <text-input label='Short Name'></text-input>
