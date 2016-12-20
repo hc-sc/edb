@@ -125,17 +125,17 @@ module.exports = class GhstsService extends BaseService {
     let self = this;
     return new Q((res, rej) => {
       if (!obj) {
-        rej(new Error(new RVHelper('EDB12002')));
+        rej(new RVHelper('EDB12002', obj));
         return;
       }
 
       if (!obj.productShortName) {
-        rej(new Error(new RVHelper('EDB12002')));
+        rej(new RVHelper('EDB12002', obj));
         return;
       }
 
       if (!obj.submissionid) {
-        rej(new Error(new RVHelper('EDB12007')));
+        rej(new RVHelper('EDB12007', obj));
         return;
       }
 
@@ -156,7 +156,7 @@ module.exports = class GhstsService extends BaseService {
       try {
         entityClass = require('mongoose').model(self.modelClassName);
         if (!entityClass)
-          rej(new Error(new RVHelper('EDB13001')));
+          rej(new RVHelper('EDB13001', self.modelClassName));
         else {
           entityClass
             .create(entity, (err, rows) => {

@@ -14,7 +14,7 @@
     <text-input label='Replaced File PID' text-value='$ctrl.selected.filegeneric.replacedfilepid' on-update='$ctrl.update("filegeneric.replacedfilepid", value)'></text-input>
     <select-input label='File Type' is-required='true' select-value='$ctrl.selected.filegeneric.filetype' values='$ctrl.fileType' on-update='$ctrl.update("filegeneric.filetype", value)'></select-input>
     <text-input label='Format Comment' text-value='$ctrl.selected.filegeneric.formatcomment' on-update='$ctrl.update("filegeneric.formatcomment", value)'></text-input>
-    <text-input label='MD5 Checksum' text-value='$ctrl.selected.filegeneric.md5CHECKSUM' on-update='$ctrl.update("filegeneric.md5CHECKSUM", value)'></text-input>
+    <text-input label='MD5 Checksum' is-disabled='true' text-value='$ctrl.selected.filegeneric.md5CHECKSUM' on-update='$ctrl.update("filegeneric.md5CHECKSUM", value)'></text-input>
     <text-input label='File Name' is-required='true' text-value='$ctrl.selected.filegeneric.filename' on-update='$ctrl.update("filegeneric.filename", value)'></text-input>
     <tbl ng-if='!$ctrl.loading' title='File Regulatory Authorities' items='$ctrl.selected.filera' projection='[{name: "toSpecificForRAId", url: "receiver"}, "cbidesignation", "filecomment"]'
       on-select='$ctrl.selectTblItem("filera",index)' on-delete='$ctrl.deleteTblItem("filera",index)' on-add='$ctrl.addTblItem("filera")'></tbl>
