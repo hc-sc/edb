@@ -28,18 +28,10 @@ export default function ($stateProvider, $urlRouterProvider) {
     .state('submission.toc', {
       url: '/toc',
       component: 'toc',
-      resolve: {
-        toc: (AppDataService, $stateParams) => {
-          return AppDataService.getService().edb_get({_url: 'toc'});
-        },
-        tocOwnerType: PicklistService => {
-          return PicklistService.getService().edb_get({ 'TYPE_NAME': 'EXTENSION_TYPE_TOC_OWNER' });
-        },
-      }
     })
     .state('submission.receivers', {
-      url: '/receivers',
-      component: 'receivers'
+      url: '/receiver',
+      component: 'receiver'
     })
     .state('submission.dossier', {
       url: '/dossier',

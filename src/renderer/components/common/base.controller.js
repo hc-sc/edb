@@ -3,7 +3,6 @@ import QueryCtrl from './query.controller';
 
 export default class BaseCtrl {
   constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, url, $scope) {
-    // super(PicklistService, AppDataService);
     this.$mdDialog = $mdDialog;
     this.$mdToast = $mdToast;
     this.$state = $state;
@@ -15,6 +14,8 @@ export default class BaseCtrl {
     this.picklistService = PicklistService.getService();
     this.appDataService = AppDataService.getService();
     this.$scope = $scope;
+    this.$scope.$root.loading = true;
+    console.log(this);
   }
 
   init() {
@@ -150,9 +151,9 @@ export default class BaseCtrl {
             end = end[path[i]];
           }
           end[path[path.length - 1]] = newArray;
-         
+
         } else {
-          newArray = this.selected[nodeName].slice();    
+          newArray = this.selected[nodeName].slice();
           newArray.splice(this.selected.length, 0, item);
           this.selected[nodeName] = newArray;
         }

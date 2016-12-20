@@ -1,8 +1,17 @@
-<ui-layout options="{flow: 'row', dividerSize: '0'}">
+<!--<ui-layout options="{flow: 'row', dividerSize: '0'}">
   <div ui-layout-container size='64px'>
       <toolbar items='$ctrl.toolbarItems'></toolbar>
   </div>
   <div ui-layout-container>
     <ui-view></ui-view>
   </div>
-</ui-layout>
+</ui-layout>-->
+
+<div class='main-layout'>
+  <div>
+    <toolbar items='$ctrl.toolbarItems'></toolbar>
+    <navbar items='$ctrl.navbarItems'></navbar>
+  </div>
+  <spinner ng-show='$ctrl.$rootScope.loading'></spinner>
+  <ui-view ng-show='!$ctrl.$rootScope.loading' class='flex scroll-overflow'></ui-view>
+</div>

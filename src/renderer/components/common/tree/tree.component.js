@@ -32,7 +32,7 @@ export default angular.module('tree', [
     }
 
     canExpand() {
-      return (this.node.toc2doc && this.node.toc2doc.length > 0) || (this.node.tocnode && this.node.tocnode.length > 0);
+      return this.node && ((this.node.toc2doc && this.node.toc2doc.length > 0) || (this.node.tocnode && this.node.tocnode.length > 0));
     }
 
     expandAll() {

@@ -6,6 +6,7 @@ import { equals } from 'easy-equals';
 import Toolbar from '../common/toolbar/toolbar.component';
 import Navbar from '../common/navbar/navbar.component';
 import Icon from '../common/icon/icon.component';
+import Spinner from '../common/spinner/spinner.component';
 
 import { } from '../../services/ghsts.service';
 import { GHSTS_NG_MODULE_NAME} from '../../../constants/shared';
@@ -17,6 +18,7 @@ export default angular.module('submission', [
   Toolbar,
   Navbar,
   Icon,
+  Spinner,
   GHSTS_NG_MODULE_NAME,
   AppDataService
 ])
@@ -27,8 +29,9 @@ export default angular.module('submission', [
       toc: '<'
     },
     controller: class SubmissionCtrl {
-      constructor($state, AppDataService, $transitions) {
+      constructor($state, AppDataService, $transitions, $rootScope) {
         this.$state = $state;
+        this.$rootScope = $rootScope;
         this.appDataService = AppDataService.getService();
 
         //allows for interrupting state transition (for use with ensuring any modifications are saved)
@@ -38,8 +41,8 @@ export default angular.module('submission', [
         });
 
         this.navbarItems = [
-          { title: 'Description', state: '.description' },
           { title: 'Receivers', state: '.receivers' },
+          { title: 'Dossier', state: '.dossier' },
           { title: 'TOC', state: '.toc' }
         ];
 
@@ -48,7 +51,6 @@ export default angular.module('submission', [
             { name: 'back', label: 'Back', state: 'home' },
             { name: 'home', label: 'Home', state: 'splash' }
           ],
-          title: '',//this.submission.dossierdescriptiontitle,
           functionIcons: [
             { name: 'globals', label: 'App Data', state: 'globals.legalEntities' },
             { name: 'compare', label: 'Compare' },
@@ -63,11 +65,6 @@ export default angular.module('submission', [
       $onDestroy() {
         // need to deregister the listener or else we end up with multiple calls
         this.dereg();
-      }
-
-      goTo(url) {
-        console.log(`.${url}`);
-        this.$state.go(`.${url}`);
       }
 
       validateXML() {

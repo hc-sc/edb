@@ -7,17 +7,21 @@ import Tbl from '../common/tbl/tbl.component';
 import SelectInput from '../common/select-input/select-input.component';
 import BaseCtrl from '../common/base.controller';
 
-export default angular.module('receivers', [
+export default angular.module('receiver', [
   ngMaterial,
   TextInput,
   Tbl,
   SelectInput
 ])
-.component('receivers', {
+.component('receiver', {
   template,
+  bindings: {
+    dossierData: '<'
+  },
   controller: class ReceiversCtrl extends BaseCtrl {
-    constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, url, $scope) {
-      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'receivers', $scope);
+    constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope) {
+      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'receiver', $scope);
+      this.init().then(() => {this.$scope.$root.loading = false;});
     }
   }
 })

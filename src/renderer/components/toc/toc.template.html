@@ -1,14 +1,23 @@
-  <div ui-layout options="{ flow: 'column'}" >
+<section class='node-page'>
+  <text-input label='Short Name' text-value='$ctrl.toc.tocshortname' on-update='$ctrl.updateTOC("tocshortname", value)'></text-input>
+  <select-input-extensible label='"Owner"' select-value='$ctrl.toc.tocowner' values='$ctrl.tocOwnerType' on-update='$ctrl.updateTOC("tocowner", value)' on-add='$ctrl.createPicklistItem("tocowner", "tocOwnerType", value)'></select-input-extensible>
+  <text-input label='Full Name' text-value='$ctrl.toc.tocfullname' on-update='$ctrl.updateTOC("tocfullname", value)'></text-input>
+  <text-input label='Versions' is-disabled='true' text-value='$ctrl.toc.tocversion'></text-input>
+  <fieldset style='margin-top: 20px'>
+    <legend>Standard Reference</legend>
+    <text-input label='Standard PID' text-value='$ctrl.toc.standardreference.standardtocpid' on-update='$ctrl.updateStandardReference("standardtocpid", value)' is-disabled='true'></text-input>
+    <text-input label='Filename' text-value='$ctrl.toc.standardreference.filename' on-update='$ctrl.updateStandardReference("filename", value)'></text-input>
+  </fieldset>
+  <section>
+    <tree node='$ctrl.tree'></tree>
+  </section>
+</section>
+
+
+  <!--<div ui-layout options="{ flow: 'column'}" >
     <div ui-layout-container size='30%'>
       <div ui-layout options="{flow: 'row'}" >
-        <!--<div ui-layout-container>
-          <a href='#' ng-click='$ctrl.goTo("dossier")'>Dossier</a>
-          <select-input label='Dossier' values='$ctrl.dossiers' main='dossierdescriptiontitle'></select-input>
-          <a href='#' ng-click='$ctrl.goTo("product")'>Product</a>
-          <select-input label='Product' values='$ctrl.products' main='genericproductname'></select-input>
-          <a href='#' ng-click='$ctrl.goTo("submission")'>Submission</a>
-          Submission Number
-        </div>-->
+
         <section ui-layout-container size='30%'>
           <a ui-sref='submission.dossier'>Dossier</a>
           <a ui-sref='submission.toc'>TOC</a>
@@ -31,4 +40,5 @@
       <ui-view></ui-view>
       <tree node='$ctrl.tree'></tree>
     </div>
-  </div>
+  </div>-->
+

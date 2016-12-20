@@ -3,5 +3,6 @@
     <toolbar items='$ctrl.toolbarItems'></toolbar>
     <navbar items='$ctrl.navbarItems'></navbar>
   </div>
-  <ui-view class='flex scroll-overflow'></ui-view>
+  <spinner ng-show='$ctrl.$rootScope.loading'></spinner>
+  <ui-view ng-show='!$ctrl.$rootScope.loading' class='flex scroll-overflow'></ui-view>
 </div>
