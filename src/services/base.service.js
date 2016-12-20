@@ -112,7 +112,7 @@ module.exports = class BaseService {
             });
         }
       } else {
-        rej(new VHelper('EDB11004', obj));
+        rej(new RVHelper('EDB11004', obj));
       }
     });
   } 
@@ -155,11 +155,11 @@ module.exports = class BaseService {
     });
   }
 
-  _reference_check(ref_name, id) {
+  _reference_check(refNameAndId) {
     return new Q((res, rej) => {
       let self = this;
       let entityClass = require('mongoose').model(self.modelClassName);
-      entityClass.referenceCheck(ref_name, id, (err, rets) => {
+      entityClass.referenceCheck(refNameAndId, (err, rets) => {
         if (err)
           rej(err);
         else
@@ -227,10 +227,10 @@ module.exports = class BaseService {
         qAry = [];
         if (items.constructor === Array) {
           items.map(item => {
-            qAry.push(self.edb_put(item));
+            qAry.push(self._create(item));
           });
         } else
-          qAry.push(self.edb_put(items));
+          qAry.push(self._create(items));
       });
 
       res(Q.all(qAry));
@@ -547,6 +547,11 @@ module.exports = class BaseService {
             virtuals: true
           }
         });
+
+        // mschema.statics.referenceCheck = (refNameAndId, callback) => {
+        //       return this.find({_id : refNameAndId._id}, callback);
+        // };
+
         let selfPlugin;
         mschema.plugin(ServiceLevelPlugin, {
           url: self.modelClassName.toLowerCase()
