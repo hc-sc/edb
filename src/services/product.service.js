@@ -63,10 +63,10 @@ module.exports = class ProductService extends BaseService {
         qAry = [];        
         if (items.constructor === Array) {
           items.map(submission => {
-            qAry.push(subSvr.edb_put(submission));
+            qAry.push(subSvr._create(submission));
           });
         } else 
-          qAry.push(subSvr.edb_put(items));
+          qAry.push(subSvr._create(items));
         
         Q.all(qAry)
         .bind(index)
@@ -75,14 +75,14 @@ module.exports = class ProductService extends BaseService {
           rets.map(items => {
             dossiers[index].submission.push(JSON.parse(items.data)._id.toString());
           });
-          return self.edb_put(products[index]);
+          return self._create(products[index]);
         })
         .bind(index)
         .then(rets => {
           products[index] = JSON.parse(rets.data);
           dossiers[index].product = [products[index]._id.toString()];
           // console.log(dossiers[index].product);
-          return dosSvr.edb_put(dossiers[index]);
+          return dosSvr._create(dossiers[index]);
         })
         .bind(index)
         .then(rets => {
