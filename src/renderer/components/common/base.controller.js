@@ -130,6 +130,9 @@ export default class BaseCtrl {
       topEntity[pathAry[1]] = newArray;
       this.selected[pathAry[0]] = topEntity;
     } else {
+      console.log('here', nodeName);
+      console.log(this.selected);
+      console.log(index);
       this.selected[nodeName] =
         this.selected[nodeName].slice(0, index).concat(this.selected[nodeName].slice(index + 1));
     }
@@ -236,7 +239,8 @@ import referenceDocumentTemplate from '../documents/reference-document/reference
 import referenceDocumentCtrl from '../documents/reference-document/reference-document.controller';
 import documentNumberTemplate from '../documents/document-number/document-number.template';
 import documentNumberCtrl from '../documents/document-number/document-number.controller';
-
+import senderTemplate from '../receivers/senders/senders.template';
+import SenderCtrl from '../receivers/senders/senders.controller';
 
 import ingredientTemplate from '../products/ingredient/ingredient.template';
 import IngredientCtrl from '../products/ingredient/ingredient.controller';
@@ -315,6 +319,12 @@ function getModalValues(nodeName) {
       return {
         template: productraTemplate,
         controller: ProductRACtrl
+      };
+
+    case 'sender':
+      return {
+        template: senderTemplate,
+        controller: SenderCtrl
       };
 
     default:

@@ -21,7 +21,14 @@ export default angular.module('receiver', [
   controller: class ReceiversCtrl extends BaseCtrl {
     constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope) {
       super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'receiver', $scope);
-      this.init().then(() => {this.$scope.$root.loading = false;});
+      this.init()
+      .then(() => {
+        return this.getAppData({}, 'legalentity');
+      })
+      .then(legalentities => {
+        this.legalEntities = JSON.parse(legalentities.data);
+        this.$scope.$root.loading = false;
+      });
     }
   }
 })
