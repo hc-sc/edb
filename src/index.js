@@ -12,6 +12,8 @@ const app = require('electron').app;
 const ipc = require('electron').ipcMain;
 const BrowserWindow = require('electron').BrowserWindow;
 
+const _ = require('lodash');
+
 const SHARED_CONST = require('./constants/shared');
 const BACKEND_CONST = require('./constants/backend');
 const ServiceDispatcher = require('./services/service.dispatcher');
@@ -123,7 +125,7 @@ var initDB = () => {
         let qAry = [];
         let svrClass;
         let svr;
-        
+
         svrClass = require('./services/product.service');
         svr = new svrClass('01.00.00');
         qAry.push(svr.initDbfromTestData());
