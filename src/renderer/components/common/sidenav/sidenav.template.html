@@ -8,6 +8,7 @@
   <md-list ng-if='$ctrl.items'>
     <md-list-item ng-repeat='item in $ctrl.items | filter:$ctrl.searchText | orderBy:item[$ctrl.getMain(item)]' ng-click='$ctrl.select(item)'>
       <p>{{ $ctrl.getMain(item) }}</p>
+      <md-divider></md-divider>
     </md-list-item>
   </md-list>
 </md-sidenav>

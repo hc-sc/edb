@@ -31,12 +31,19 @@ export default function ($stateProvider, $urlRouterProvider) {
       resolve: {
         toc: (AppDataService, $stateParams) => {
           return AppDataService.getService().edb_get({_url: 'toc'});
-        }
+        },
+        tocOwnerType: PicklistService => {
+          return PicklistService.getService().edb_get({ 'TYPE_NAME': 'EXTENSION_TYPE_TOC_OWNER' });
+        },
       }
     })
     .state('submission.receivers', {
       url: '/receivers',
       component: 'receivers'
+    })
+    .state('submission.dossier', {
+      url: '/dossier',
+      component: 'description'
     })
     .state('globals.files', {
       url: '/files',

@@ -9,7 +9,7 @@
   </div>
   <ul class='tree-ul' ng-show='!$ctrl.isHidden && $ctrl.node.toc2doc && $ctrl.node.toc2doc.length > 0' class='node-document'>
     <li class='tree-li tree-doc' ng-repeat='doc in $ctrl.node.toc2doc' class='tree-document'>
-      ----------------------------------------------
+      {{doc}}
     </li>
   </ul>
   <ul class='tree-ul' ng-show='!$ctrl.isHidden && $ctrl.node.tocnode && $ctrl.node.tocnode.length > 0'>

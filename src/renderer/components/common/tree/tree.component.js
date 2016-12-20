@@ -14,6 +14,13 @@ export default angular.module('tree', [
   },
   controller: class TreeCtrl {
     constructor() {
+      // Tree Structure
+      // nodename - name of node
+      // nodeheading - annotation
+      // logicaldeleted - ?????
+      // emptynode - flag for if it's a leaf
+      // toc2doc - the documents related to this node
+      // tocnode - subnodes for this node
       this.expand = {name: 'down'};
       this.collapse = {name: 'right'};
       this.add = {name: 'add'};
@@ -25,7 +32,7 @@ export default angular.module('tree', [
     }
 
     canExpand() {
-      return (this.node.toc2DOC && this.node.toc2DOC.length > 0) || (this.node.tocnode && this.node.tocnode.length > 0);
+      return (this.node.toc2doc && this.node.toc2doc.length > 0) || (this.node.tocnode && this.node.tocnode.length > 0);
     }
 
     expandAll() {

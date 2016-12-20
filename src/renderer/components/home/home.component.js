@@ -1,7 +1,6 @@
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import ngMaterial from 'angular-material';
-import _ from 'lodash';
 import mdDataTable from 'angular-material-data-table';
 import template from './home.template';
 

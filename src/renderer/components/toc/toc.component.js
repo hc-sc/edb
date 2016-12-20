@@ -2,6 +2,7 @@ import angular from 'angular';
 import ngMaterial from 'angular-material';
 import template from './toc.template';
 
+import BaseCtrl from '../common/base.controller';
 import TextInput from '../common/text-input/text-input.component';
 import SelectInput from '../common/select-input/select-input.component';
 import Tbl from '../common/tbl/tbl.component';
@@ -20,34 +21,33 @@ export default angular.module('toc', [
   template,
   bindings: {
     dossierData: '<',
-    toc: '<'
+    toc: '<',
+    tocOwnerType: '<'
   },
-  controller: class TOCCtrl {
-    constructor(AppDataService) {
+  controller: class TOCCtrl extends BaseCtrl {
+    constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope) {
+      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'toc', $scope);
       console.log(this);
-      this.loading = true;
-      this.appDataService = AppDataService.getService();
-      this.tree = JSON.parse(this.toc.data)[0].structure[0];
-      console.log(this.tree);
+      this.toc = JSON.parse(this.toc.data)[0];
+      this.tree = this.toc.structure[0];
       this.tree.nodename = 'TOC';
+      this.tocOwnerType = JSON.parse(this.tocOwnerType.data);
       this.appDataService.edb_get({_url: 'product'}).then(ret => {
         this.products = JSON.parse(ret.data);
-        console.log(this.products);
         return this.appDataService.edb_get({_url: 'dossier'});
       }).then(ret => {
         this.dossiers = JSON.parse(ret.data);
-        console.log(this.dossiers);
         // return this.appDataService.edb_get({_url: 'submission'});
         this.loading = false;
-      }); 
+      });
+    }
 
-      // Tree Structure
-      // nodename - name of node
-      // nodeheading - annotation
-      // logicaldeleted - ?????
-      // emptynode - flag for if it's a leaf
-      // toc2doc - the documents related to this node
-      // tocnode - subnodes for this node
+    updateTOC(node, value) {
+      this.toc[node] = value;
+    }
+
+    updateStandardReference(node, value) {
+      this.toc.standardreference[node] = value;
     }
   }
 })

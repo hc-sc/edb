@@ -17,7 +17,7 @@ export default angular.module('receivers', [
   template,
   controller: class ReceiversCtrl extends BaseCtrl {
     constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, url, $scope) {
-      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'receiver', $scope);
+      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'receivers', $scope);
     }
   }
 })
