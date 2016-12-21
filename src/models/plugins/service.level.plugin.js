@@ -10,10 +10,6 @@ module.exports = exports = function ServiceLevelPlugin(schema, options) {
     _updateFrom: {type: String }
   });
 
-  schema.method('referenceCheck', function() {
-    console.log('in here');
-  });
-
   schema.pre('save', function (next) {
     this._lastMod = new Date();
     next();
