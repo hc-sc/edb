@@ -241,7 +241,6 @@ import documentNumberTemplate from '../documents/document-number/document-number
 import documentNumberCtrl from '../documents/document-number/document-number.controller';
 import senderTemplate from '../receivers/senders/senders.template';
 import SenderCtrl from '../receivers/senders/senders.controller';
-
 import ingredientTemplate from '../products/ingredient/ingredient.template';
 import IngredientCtrl from '../products/ingredient/ingredient.controller';
 import productraTemplate from '../products/product-ra/product-ra.template';

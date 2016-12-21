@@ -9,36 +9,7 @@
     <text-input label='Filename' text-value='$ctrl.toc.standardreference.filename' on-update='$ctrl.updateStandardReference("filename", value)'></text-input>
   </fieldset>
   <section>
-    <tree node='$ctrl.tree'></tree>
+    <tree node='$ctrl.tree' items='$ctrl.docs'></tree>
+    <button ng-click='$ctrl.showTree()'>Show Tree</button>
   </section>
 </section>
-
-
-  <!--<div ui-layout options="{ flow: 'column'}" >
-    <div ui-layout-container size='30%'>
-      <div ui-layout options="{flow: 'row'}" >
-
-        <section ui-layout-container size='30%'>
-          <a ui-sref='submission.dossier'>Dossier</a>
-          <a ui-sref='submission.toc'>TOC</a>
-          <a ui-sref='submission.receivers'>Receivers/Senders</a>
-        </section>
-        <section ui-layout-container style='padding: 10px;'>
-          <text-input label='Short Name' text-value='$ctrl.toc.tocshortname' on-update='$ctrl.updateTOC("tocshortname", value)'></text-input>
-          <select-input-extensible label='"Owner"' select-value='$ctrl.toc.tocowner' values='$ctrl.tocOwnerType' on-update='$ctrl.updateTOC("tocowner", value)' on-add='$ctrl.createPicklistItem("tocowner", "tocOwnerType", value)'></select-input-extensible>
-          <text-input label='Full Name' text-value='$ctrl.toc.tocfullname' on-update='$ctrl.updateTOC("tocfullname", value)'></text-input>
-          <text-input label='Versions' is-disabled='true' text-value='$ctrl.toc.tocversion'></text-input>
-          <fieldset style='margin-top: 20px'>
-            <legend>Standard Reference</legend>
-            <text-input label='Standard PID' text-value='$ctrl.toc.standardreference.standardtocpid' on-update='$ctrl.updateStandardReference("standardtocpid", value)' is-disabled='true'></text-input>
-            <text-input label='Filename' text-value='$ctrl.toc.standardreference.filename' on-update='$ctrl.updateStandardReference("filename", value)'></text-input>
-          </fieldset>
-        </section>
-      </div>
-    </div>
-    <div ui-layout-container='central'>
-      <ui-view></ui-view>
-      <tree node='$ctrl.tree'></tree>
-    </div>
-  </div>-->
-

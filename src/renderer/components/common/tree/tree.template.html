@@ -1,8 +1,9 @@
   <div class='no-padding no-margin node-title'>
+    <span class='tree-options'>
+    <icon class='tree-icon' ng-show='!$ctrl.logicaldeleted' icon='$ctrl.addIcon' ng-click='$ctrl.addDocument()'></icon>
     <a class='node-title' ng-click='$ctrl.toggleHidden()'>
-      <span class='tree-options'>
-      <icon class='tree-icon' ng-show='!$ctrl.isHidden && $ctrl.canExpand()' icon='$ctrl.expand'></icon>
-      <icon class='tree-icon' ng-show='$ctrl.isHidden && $ctrl.canExpand()' icon='$ctrl.collapse'></icon>
+      <icon class='tree-icon' ng-show='!$ctrl.isHidden && $ctrl.canExpand()' icon='$ctrl.expandIcon'></icon>
+      <icon class='tree-icon' ng-show='$ctrl.isHidden && $ctrl.canExpand()' icon='$ctrl.collapseIcon'></icon>
       </span>
       {{$ctrl.node.nodename}} - {{$ctrl.node.nodeheading}}
     </a>
@@ -14,6 +15,6 @@
   </ul>
   <ul class='tree-ul' ng-show='!$ctrl.isHidden && $ctrl.node.tocnode && $ctrl.node.tocnode.length > 0'>
     <li class='tree-li' ng-repeat='node in $ctrl.node.tocnode'>
-      <tree node='node'></tree>
+      <tree node='node' items='$ctrl.items'></tree>
     </li>
   </ul>
