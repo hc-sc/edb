@@ -52,7 +52,6 @@ export default angular.module('home', [
         navIcons: [
           { name: 'home', label: 'Home', state: 'splash' }
         ],
-        title: 'Manage Dossiers',
         functionIcons: [
           { name: 'globals', state: 'globals.legalEntities', label: 'Entities' },
           { name: 'settings', state: 'settings', label: 'Settings' },
@@ -146,7 +145,7 @@ export default angular.module('home', [
     }
 
     selectSubmission(id, index) {
-      this.$state.go('submission.toc', {
+      this.$state.go('submission.receivers', {
         dossierid: this.dossier._id,
         submissionid: this.submissions[index]._id,
         dossiertitle: this.dossier.dossierdescriptiontitle
