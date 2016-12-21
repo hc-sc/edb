@@ -144,6 +144,9 @@ var initDB = () => {
         svrClass = require('./services/receiver.service');
         svr = new svrClass('01.00.00');
         qAry.push(svr.initDbfromTestData());
+        svrClass = require('./services/sender.service');
+        svr = new svrClass('01.00.00');
+        qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/toc.service');
         svr = new svrClass('01.00.00');
         qAry.push(svr.initDbfromTestData());
@@ -293,7 +296,7 @@ app.on('ready', function () {
   mainWindow.loadURL('file://' + __dirname + '/../build/renderer/index.html');
   mainWindow.webContents.on('did-finish-load', function () {
     // TODO: setTitle is being deprecated, find and use alternative
-    mainWindow.setTitle("e-Dossier Builder (V1.3.0)");
+    mainWindow.setTitle("e-Dossier Builder (V1.3.0 DRAFT)");
     //if (configure.env.toString().toUpper() == 'DEV'){
     mainWindow.openDevTools();
     backendTest();
@@ -320,13 +323,13 @@ let svr = new testService();
 let names = require('mongoose').modelNames();
 console.log(names);
 
-svr._reference_check('product', '5852f9fd1f9fa11280ed2005')
-  .then(ret => {
-    console.log(ret);
- })
- .then(ret => {
-   console.log(ret);
- })
+// svr._reference_check({refName: 'product', _id: '5852f9fd1f9fa11280ed2005'})
+//   .then(ret => {
+//     console.log(ret);
+//  })
+//  .then(ret => {
+//    console.log(ret);
+//  })
 
 // svr.initDbfromTestData();
 //const Fiber = require('fibers');
