@@ -12,6 +12,7 @@ const app = require('electron').app;
 const ipc = require('electron').ipcMain;
 const BrowserWindow = require('electron').BrowserWindow;
 
+const _ = require('lodash');
 
 const SHARED_CONST = require('./constants/shared');
 const BACKEND_CONST = require('./constants/backend');
@@ -141,6 +142,9 @@ var initDB = () => {
         svr = new svrClass('01.00.00');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/receiver.service');
+        svr = new svrClass('01.00.00');
+        qAry.push(svr.initDbfromTestData());
+        svrClass = require('./services/sender.service');
         svr = new svrClass('01.00.00');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/toc.service');
@@ -292,7 +296,7 @@ app.on('ready', function () {
   mainWindow.loadURL('file://' + __dirname + '/../build/renderer/index.html');
   mainWindow.webContents.on('did-finish-load', function () {
     // TODO: setTitle is being deprecated, find and use alternative
-    mainWindow.setTitle("e-Dossier Builder (V1.3.0)");
+    mainWindow.setTitle("e-Dossier Builder (V1.3.0 DRAFT)");
     //if (configure.env.toString().toUpper() == 'DEV'){
     mainWindow.openDevTools();
     backendTest();
@@ -311,10 +315,21 @@ const testService = require('./services/substance.service');
 // const testService = require('./services/receiver.service');
 // const testService = require('./services/file.service');
 // const testService = require('./services/toc.service');
+// const testService = require('./services/document.service');
 // const testService = require('./services/submission.service');
 var backendTest = () => {
 console.log('--------- Backend Test Start ----------');
 let svr = new testService();
+let names = require('mongoose').modelNames();
+console.log(names);
+
+// svr._reference_check({refName: 'product', _id: '5852f9fd1f9fa11280ed2005'})
+//   .then(ret => {
+//     console.log(ret);
+//  })
+//  .then(ret => {
+//    console.log(ret);
+//  })
 
 // svr.initDbfromTestData();
 //const Fiber = require('fibers');
@@ -345,20 +360,17 @@ let svr = new testService();
 //    console.log(err);
 //  });
 
-svr.edb_get({_id:'5852f9fd1f9fa11280ed2005'})
-  .then(ret => {
-   console.log(ret);
-   let rawObj = svr._remove__fields(JSON.parse(ret.data))[0];
-  //  delete rawObj.substanceidentifier;
-   console.log(rawObj);
-   let _ = require('lodash');
-   console.log(_.filter(global.modulesInMemory['substance'], _.matchesProperty(rawObj)));
-  //  svr.edb_get(rawObj[0]).then(rets => {
-  //    console.log(JSON.parse(rets.data));
-  //  });
- }).catch(err => {
-   console.log(err);
- });
+// svr.edb_get({_id:'5852f9fd1f9fa11280ed20ad'})
+//   .then(ret => {
+//     let obj = JSON.parse(ret.data)[0];
+//   svr.edb_put(obj).then(ret => {
+//     console.log(ret);
+//   }).catch(err => {
+//     console.log(err);
+//   });
+//  }).catch(err => {
+//    console.log(err);
+//  });
 
 // svr.edb_get({submissionid: '5845e6427f7372275481989e'})
 //   .then(ret => {

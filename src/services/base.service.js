@@ -24,8 +24,20 @@ module.exports = class BaseService {
   }
 
   edb_put(obj) {
-    let self = this;
-    return self._create(obj);
+    return new Q((res, rej) => {
+      let self = this;
+      self._exist_check(obj)
+        .then(ret => {
+          if (ret.length > 0){
+            rej(new RVHelper('EDB10004', obj));
+          } else {
+            res(self._create(obj));
+          }
+        })
+        .catch(err => {
+          rej(err);
+        });
+    });
   }
 
   edb_post(obj) {
@@ -83,7 +95,7 @@ module.exports = class BaseService {
       entityClass = require('mongoose').model(self.modelClassName);
       if (obj && typeof obj === 'object') {
         if (!entityClass)
-          rej(new Error(new RVHelper('EDB13001')));
+          rej(new RVHelper('EDB13001'));
         else {
           entityClass
             .create(obj, (err, rows) => {
@@ -100,7 +112,7 @@ module.exports = class BaseService {
             });
         }
       } else {
-        rej(new Error(RVHelper('EDB11004', obj)));
+        rej(new RVHelper('EDB11004', obj));
       }
     });
   } 
@@ -138,7 +150,57 @@ module.exports = class BaseService {
           rej(err);
         }
       } else {
-        rej(new Error(new RVHelper('EDB11006', obj)));
+        rej(new RVHelper('EDB11006', obj));
+      }
+    });
+  }
+
+  _reference_check(refNameAndId) {
+    return new Q((res, rej) => {
+      let self = this;
+      let entityClass = require('mongoose').model(self.modelClassName);
+      entityClass.referenceCheck(refNameAndId, (err, rets) => {
+        if (err)
+          rej(err);
+        else
+          res(rets);
+      })
+    });
+  }
+
+  _exist_check(obj) {
+    return new Q((res, rej) => {
+      let self = this;
+      try {
+        let rawObj = self._get_raw_data(obj);
+        let firstLevel = _.merge({}, rawObj);
+        let secondLevel = _.merge({}, rawObj);
+        let keys = Object.keys(firstLevel);
+        keys.map(key => {
+          if (typeof firstLevel[key] === 'object') 
+            delete firstLevel[key];
+          else 
+            delete secondLevel[key];
+        });
+
+        let entityClass = require('mongoose').model(self.modelClassName);
+
+        let query = entityClass.find(firstLevel);
+        keys = Object.keys(secondLevel);
+        keys.map(key => {
+          let subKeys = Object.keys(secondLevel[key]);
+          subKeys.map(subkey => {
+            query.where(key + '.' + subkey).equals(secondLevel[key][subkey]); 
+          });
+        });
+        query.exec((err, rets) => {
+          if (err)
+            rej(err);
+          else
+            res(JSON.stringify(rets));
+        });
+      } catch(err) {
+        rej(err);
       }
     });
   }
@@ -165,13 +227,13 @@ module.exports = class BaseService {
         qAry = [];
         if (items.constructor === Array) {
           items.map(item => {
-            qAry.push(self.edb_put(item));
+            qAry.push(self._create(item));
           });
         } else
-          qAry.push(self.edb_put(items));
+          qAry.push(self._create(items));
       });
 
-      return Q.all(qAry);
+      res(Q.all(qAry));
     });
   }
 
@@ -341,24 +403,21 @@ module.exports = class BaseService {
     return retVal;
   }
 
-  _remove__fields(obj) {
+  _get_raw_data(obj) {
     let retVal, self = this;
 
-    if (Array.isArray(obj)) {
-      let retValAry = obj.map(item => {
-        return self._remove__fields(item);
-      });
-      return retValAry;
-    } else {
+    if (!Array.isArray(obj)) {
       retVal = obj;
       let keys = Object.keys(retVal);
       keys.map(key => {
         if (key.startsWith('_') || key === 'valuedecode' || key === 'id') 
           delete retVal[key];
         else if (retVal[key]) {
-          if (Array.isArray(retVal[key]) || typeof retVal[key] === 'object') {
-            retVal[key] = self._remove__fields(retVal[key]);
-          }
+          if (Array.isArray(retVal[key])) {
+            delete retVal[key];
+          } else if (typeof retVal[key] === 'object') {
+            retVal[key] = self._get_raw_data(retVal[key]);
+          } 
         }
       });
       return retVal;
@@ -391,7 +450,7 @@ module.exports = class BaseService {
           rej(err);
         }
       } else {
-        rej(new Error(new RVHelper('EDB11005', id)));
+        rej(new RVHelper('EDB11005', id));
       }
     });
   }
@@ -453,7 +512,7 @@ module.exports = class BaseService {
           rej(err);
         }
       } else {
-        rej(new Error('EDB13001'));
+        rej(new RVHelper('EDB13001'));
       }
     });
   }
@@ -488,6 +547,11 @@ module.exports = class BaseService {
             virtuals: true
           }
         });
+
+        // mschema.statics.referenceCheck = (refNameAndId, callback) => {
+        //       return this.find({_id : refNameAndId._id}, callback);
+        // };
+
         let selfPlugin;
         mschema.plugin(ServiceLevelPlugin, {
           url: self.modelClassName.toLowerCase()

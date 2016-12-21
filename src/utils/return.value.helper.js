@@ -19,6 +19,7 @@ const RETURN_VALUE_CONFIG = {
   EDB10001: { msg: 'Please run application in electron' },
   EDB10002: { msg: 'not implement yet' },
   EDB10003: { msg: 'only getSync is implemented' },
+  EDB10004: { msg: 'Existing record, new record save failure'},
 
   EDB11001: { msg: 'Calling service with empty url' },
   EDB11002: { msg: 'Service not found'},
@@ -51,33 +52,14 @@ const RETURN_VALUE_CONFIG = {
 class ReturnValueHelper {
   constructor(code, obj) {
     this.code = code;
-    switch (code[3]) {
-      case '1':
-        if (code[7] === '0') {
-          this.err = {
-            code: obj.code,
-            errorMsg: obj.errorMsg
-          };
-        } else {
-          this.err = {
-            code: code,
-            errorMsg: RETURN_VALUE_CONFIG[code].msg
-          };
-        }
-        break;
-      case '2':
-        this.message = RETURN_VALUE_CONFIG[code].msg;
-        break;
-      case '3':
-        if (code[7] !== '0') {
-          this.err = {
-            code: code,
-            errors: obj
-          };
-        }
-        break;
-      default:
-        this.data = obj;
+    if (code[3] > 0) {
+      let msg = RETURN_VALUE_CONFIG[code].msg;
+      msg += obj ? ' -- for data: -- ' + JSON.stringify(obj) : '';
+      let error = new Error(msg);
+      error.code = code;
+      return error;
+    } else {
+      this.data = obj;
     }
   }
 }

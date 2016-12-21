@@ -12,6 +12,8 @@ const app = require('electron').app;
 const ipc = require('electron').ipcMain;
 const BrowserWindow = require('electron').BrowserWindow;
 
+const _ = require('lodash');
+
 const SHARED_CONST = require('./constants/shared');
 const BACKEND_CONST = require('./constants/backend');
 const ServiceDispatcher = require('./services/service.dispatcher');
@@ -123,7 +125,7 @@ var initDB = () => {
         let qAry = [];
         let svrClass;
         let svr;
-        
+
         svrClass = require('./services/product.service');
         svr = new svrClass('01.00.00');
         qAry.push(svr.initDbfromTestData());
@@ -140,6 +142,9 @@ var initDB = () => {
         svr = new svrClass('01.00.00');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/receiver.service');
+        svr = new svrClass('01.00.00');
+        qAry.push(svr.initDbfromTestData());
+        svrClass = require('./services/sender.service');
         svr = new svrClass('01.00.00');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/toc.service');
@@ -291,10 +296,9 @@ app.on('ready', function () {
   mainWindow.loadURL('file://' + __dirname + '/../build/renderer/index.html');
   mainWindow.webContents.on('did-finish-load', function () {
     // TODO: setTitle is being deprecated, find and use alternative
-    mainWindow.setTitle("e-Dossier Builder (V1.3.0)");
+    mainWindow.setTitle("e-Dossier Builder (V1.3.0 DRAFT)");
     //if (configure.env.toString().toUpper() == 'DEV'){
-    mainWindow.openDevTools();
-    //}
+    mainWindow.openDevTools();    //}
   });
   mainWindow.show();
 });
