@@ -12,6 +12,8 @@ const RVHelper = require('../utils/return.value.helper').ReturnValueHelper;
 const SchemaLoader = require('../models/mongoose.schema.loader');
 const ServiceLevelPlugin = require('../models/plugins/service.level.plugin');
 const BACKEND_CONST = require('../constants/backend');
+const GhstsPid = require('../utils/pid');
+const NestedPropertyProc = require('../utils/nested-property.process');
 
 module.exports = class BaseService {
   constructor(modelClassName, inmem, version) {
@@ -22,17 +24,18 @@ module.exports = class BaseService {
     this.defDir = path.join(this.schemaDir, this.version.replace(/\./g, '_'), BACKEND_CONST.DEF_SUB_DIR_NAME);
     this.productDir = path.resolve('./', BACKEND_CONST.PRODUCTS_DIR);
     this.referencedBy = undefined;
+    this.pidField = undefined;
   }
 
   edb_put(obj) {
     return new Q((res, rej) => {
-      let self = this;
+      let self = this, obj2db = _.merge({}, obj);
       self._exist_check(obj)
         .then(ret => {
-          if (ret.length > 0) {
-            rej(new RVHelper('EDB10004', obj));
+          if (JSON.parse(ret).length > 0) {
+            rej(new RVHelper('EDB10004', obj2db));
           } else {
-            res(self._create(obj));
+            res(self._create(obj2db));
           }
         })
         .catch(err => {
@@ -98,6 +101,7 @@ module.exports = class BaseService {
         if (!entityClass)
           rej(new RVHelper('EDB13001'));
         else {
+          self._pid_check(obj);
           entityClass
             .create(obj, (err, rows) => {
               if (err)
@@ -126,7 +130,7 @@ module.exports = class BaseService {
       if (obj && typeof obj === 'object' && obj.hasOwnProperty('_id')) {
         try {
           entityClass = require('mongoose').model(self.modelClassName);
-
+          self._pid_check(obj);
           entityClass
             .update({ _id: obj._id }, obj, (err, rows) => {
               if (err)
@@ -169,9 +173,21 @@ module.exports = class BaseService {
           else
             res(rets);
         });
-      } else 
+      } else
         res(0);
     });
+  }
+
+  _pid_check(obj) {
+    let self = this;
+    if (self.pidField) {
+      let fields = Array.isArray(self.pidField) ? self.pidField : _.castArray(self.pidField);
+      fields.map(field => {
+        let pid = NestedPropertyProc.getValue(obj, field);
+        let validPid = GhstsPid.validatePid(pid);
+        NestedPropertyProc.setValue(obj, field, validPid);
+      });
+    }
   }
 
   _exist_check(obj) {
@@ -554,7 +570,7 @@ module.exports = class BaseService {
           }
         });
 
-        mschema.statics.referenceCheck = function(refNameAndId, callback) {
+        mschema.statics.referenceCheck = function (refNameAndId, callback) {
           let refModel = require('mongoose').model(refNameAndId.refName.toUpperCase());
           let query = {};
           query[refNameAndId.field] = refNameAndId._id;

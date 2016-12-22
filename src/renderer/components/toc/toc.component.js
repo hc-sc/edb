@@ -40,12 +40,27 @@ export default angular.module('toc', [
         return this.picklistService.edb_get({ 'TYPE_NAME': 'EXTENSION_TYPE_TOC_OWNER' });
       }).then(ret => {
         this.tocOwnerType = JSON.parse(ret.data);
+        this.treeNodes = [];
+        this.tree.tocnode.forEach(node => this.getNodes(this.treeNodes, node));
         this.$scope.$root.loading = false;
       });
     }
 
-    selectTreeNode(node) {
-      console.log()
+    updateSelected(value) {
+      const node = this.findNode(value);
+      console.log(node);
+      this.selectedNode = node ? node : this.tree;
+    }
+
+    findNode(tree, pid) {
+      return tree;
+      if (tree.tocnodepid && tree.tocnodepid === pid) return tree;
+      return this.tree.tocnode.forEach(node => {return this.findNode(node, pid)});
+    }
+
+    getNodes(list, tree) {
+      list.push({nodename: tree.nodename, _id: tree.tocnodepid});
+      if (tree.tocnode) tree.tocnode.forEach(node => this.getNodes(list, node));
     }
 
     toggleShowTOCData() {

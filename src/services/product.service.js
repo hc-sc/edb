@@ -8,6 +8,8 @@ module.exports = class ProductService extends BaseService {
   constructor(version) {
     super('PRODUCT', true, version);
     this.modelClassNamePre = 'GHSTS';
+    this.referencedBy = {refName: 'ghsts', field: '_product'};
+    this.pidField = 'productpid';
   }
 
   initDbfromTestData() {
