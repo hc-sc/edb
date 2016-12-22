@@ -39,27 +39,31 @@ module.exports = class GhstsService extends BaseService {
     return new Q((res, rej) => {
       let self = this;
       try {
+        let mongoose = require('mongoose');
+        let Schema = mongoose.Schema;
+        
         let jschema = {
           _foldername: { type: String, required: true },
           _submissionid: { type: 'ObjectId', ref: 'SUBMISSION', required: true }, 
           _submissionnumber: {type: Number, default: 1 },
-          _receivers: [{ type: 'ObjectId', ref: 'RECEIVER' }],
+          _receivers: [{
+            receiver: { type: 'ObjectId', ref: 'RECEIVER' },
+            sender: [{type: 'ObjectId', ref: 'SENDER'}]
+          }],
           _product: { type: 'ObjectId', ref: 'PRODUCT' },
           _documents: [{ type: 'ObjectId', ref: 'DOCUMENT' }],
           _toc2docs: [{
-            nodeId: { type: 'ObjectId', ref: 'TOC' },
+            tocnodepid: { type: String },
             docId: { type: 'ObjectId', ref: 'DOCUMENT' }
           }],
           _tocdecription: {
             tocstandardname: { type: String, required: true, default: 'OECD' },
             tocversion: { type: String, required: true, default: '01.00.00' }
           },
-          _metadatastatus: { type: Object },
+          _metadatastatus: { type: Schema.Types.Mixed },
           usedtemplates: [{ type: String }],
           specificationversion: { type: String, default: self.version }
         };
-        let mongoose = require('mongoose');
-        let Schema = mongoose.Schema;
         let mschema = new Schema(jschema, {
           retainKeyOrder: true,
           validateBeforeSave: false,

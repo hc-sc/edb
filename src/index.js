@@ -103,9 +103,9 @@ var init = () => {
       else
         return new RVHelper('EDB00000');
     })
-    .then(ret => {
-      // console.log(ret);
-    })
+    // .then(ret => {
+    //   // console.log(ret);
+    // })
     .catch(err => {
       console.log(err);
     });
@@ -150,7 +150,7 @@ var initDB = () => {
         svrClass = require('./services/toc.service');
         svr = new svrClass('01.00.00');
         qAry.push(svr.initDbfromTestData());
-        return Q.all(qAry);
+        res(Q.all(qAry));
       }
     })
     .catch(err => {
@@ -298,7 +298,7 @@ app.on('ready', function () {
     // TODO: setTitle is being deprecated, find and use alternative
     mainWindow.setTitle("e-Dossier Builder (V1.3.0 DRAFT)");
     //if (configure.env.toString().toUpper() == 'DEV'){
-    mainWindow.openDevTools();    //}
+    mainWindow.openDevTools();
   });
   mainWindow.show();
 });
