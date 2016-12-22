@@ -28,15 +28,37 @@ export default function ($stateProvider, $urlRouterProvider) {
     .state('submission.toc', {
       url: '/toc',
       component: 'toc',
-      resolve: {
-        toc: (AppDataService, $stateParams) => {
-          return AppDataService.getService().edb_get({_url: 'toc'});
-        }
-      }
     })
     .state('submission.receivers', {
-      url: '/receivers',
-      component: 'receivers'
+      url: '/receiver',
+      component: 'receiver',
+      resolve: {
+        receivers: GhstsService => {
+          return GhstsService.getService().edb_get({_url: 'receiver'});
+        },
+        isSubmission: ['$stateParams', () => true]
+      }
+    })
+    .state('submission.dossier', {
+      url: '/dossier',
+      component: 'description'
+    })
+    .state('globals', {
+      url: '/globals',
+      component: 'globals',
+      onEnter: $rootScope => {
+        $rootScope.title = 'Manage Application Data';
+      }
+    })
+    .state('globals.receivers', {
+      url: '/receiver',
+      component: 'receiver',
+      resolve: {
+        receivers: AppDataService => {
+          return AppDataService.getService().edb_get({_url: 'receiver'});
+        },
+        isSubmission: ['$stateParams', () => false]
+      },
     })
     .state('globals.files', {
       url: '/files',
@@ -48,13 +70,9 @@ export default function ($stateProvider, $urlRouterProvider) {
         contentStatus: PicklistService => {
           return PicklistService.getService().edb_get({ 'TYPE_NAME': 'TYPE_CONTENT_STATUS' });
         }
-      }
-    })
-    .state('globals', {
-      url: '/globals',
-      component: 'globals',
-      onEnter: $rootScope => {
-        $rootScope.title = 'Manage Application Data';
+      },
+      onExit: $rootScope => {
+        $rootScope.loading = true;
       }
     })
     .state('globals.substances', {

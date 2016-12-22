@@ -27,9 +27,9 @@ export default angular.module('globals', [
 
       this.navbarItems = [
         { title: 'Legal Entities', state: 'globals.legalEntities' },
+        { title: 'Receivers', state: 'globals.receivers' },
         { title: 'Substances', state: 'globals.substances' },
         { title: 'Products', state: 'globals.products' },
-        { title: 'Dossiers', state: 'globals.dossiers' },
         { title: 'Files', state: 'globals.files' },
         { title: 'Documents', state: 'globals.documents' },
         { title: 'Picklists', state: 'globals.picklists' }

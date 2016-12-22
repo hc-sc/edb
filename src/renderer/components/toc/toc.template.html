@@ -1,30 +1,24 @@
-  <div ui-layout options="{ flow: 'column'}" >
-    <div ui-layout-container size='30%'>
-      <div ui-layout options="{flow: 'row'}" >
-        <div ui-layout-container>
-          <!--<a href='#' ng-click='$ctrl.goTo("dossier")'>Dossier</a>-->
-          <select-input label='Dossier' values='$ctrl.dossiers' main='dossierdescriptiontitle'></select-input>
-          <!--<a href='#' ng-click='$ctrl.goTo("product")'>Product</a>-->
-          <select-input label='Product' values='$ctrl.products' main='genericproductname'></select-input>
-          <!--<a href='#' ng-click='$ctrl.goTo("submission")'>Submission</a>-->
-          Submission Number
-        </div>
-        <div ui-layout-container>
-          <a href='#' ui-sref='submission.receivers'>Receivers</a>
-        </div>
-        <div ui-layout-container>
-          <text-input label='Short Name'></text-input>
-          <select-input label='Owner'></select-input>
-          <text-input label='Full Name'></text-input>
-          <fieldset>
-            <legend>Standard Reference</legend>
-            <text-input label='Standard PID' is-disabled='true'></text-input>
-            <text-input label='Filename'></text-input>
-          </fieldset>
-        </div>
-      </div>
-    </div>
-    <div ui-layout-container='central'>
-      Hi there
-    </div>
+<section class='node-page'>
+  <button ng-click='$ctrl.toggleShowTOCData()'>Show TOC Data</button>
+  <div ng-show='$ctrl.showTOCData'>
+    <text-input label='Short Name' text-value='$ctrl.toc.tocshortname' on-update='$ctrl.updateTOC("tocshortname", value)'></text-input>
+    <select-input-extensible label='"Owner"' select-value='$ctrl.toc.tocowner' values='$ctrl.tocOwnerType' on-update='$ctrl.updateTOC("tocowner", value)' on-add='$ctrl.createPicklistItem("tocowner", "tocOwnerType", value)'></select-input-extensible>
+    <text-input label='Full Name' text-value='$ctrl.toc.tocfullname' on-update='$ctrl.updateTOC("tocfullname", value)'></text-input>
+    <text-input label='Versions' is-disabled='true' text-value='$ctrl.toc.tocversion'></text-input>
+    <fieldset style='margin-top: 20px'>
+      <legend>Standard Reference</legend>
+      <text-input label='Standard PID' text-value='$ctrl.toc.standardreference.standardtocpid' on-update='$ctrl.updateStandardReference("standardtocpid", value)' is-disabled='true'></text-input>
+      <text-input label='Filename' text-value='$ctrl.toc.standardreference.filename' on-update='$ctrl.updateStandardReference("filename", value)'></text-input>
+    </fieldset>
   </div>
+  <section>
+    <select-input label='Search' select-value='$ctrl.selectedNode' on-update='$ctrl.update("selectedNode", value)'></select-input>
+    <tree node='$ctrl.selectedNode' items='$ctrl.docs'></tree>
+    <!--<button ng-click='$ctrl.showTree()'>Show Tree</button>-->
+  </section>
+  <div class='float-bottom'>
+    <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
+      <md-icon md-svg-icon='save' class='light'></md-icon>
+    </md-button>
+  </div>
+</section>

@@ -25,5 +25,6 @@ export default function($mdIconProvider) {
   .icon('edit', `${IMG_DIR}edit${SUF}`)
   .icon('close', `${IMG_DIR}close${SUF}`)
   .icon('copy', `${IMG_DIR}content_copy${SUF}`)
-  .icon('menu', `${IMG_DIR}menu${SUF}`);
+  .icon('menu', `${IMG_DIR}menu${SUF}`)
+  .icon('description', `${IMG_DIR}description${SUF}`);
 }

@@ -1,9 +1,8 @@
 <section class='node-page'>
-  <spinner ng-if='$ctrl.loading'></spinner>
-  <div class='no-margin no-padding' ng-if='!$ctrl.loading'>
-    <sidenav items='$ctrl.records' main='dossierdescriptiontitle' is-open='$ctrl.sidenavOpen' on-select='$ctrl.updateSelected(item)' on-add='$ctrl.add(item)'></sidenav>
+  <spinner ng-show='$ctrl.$scope.$root.loading'></spinner>
+  <div class='no-margin no-padding' ng-show='!$ctrl.$scope.$root.loading'>
     <div class='no-margin no-padding flex-container'>
-    <text-input label='Dossier PID' is-disabled='true' text-value='$ctrl.selected.dossierpid' has-pattern='^[A-Za-z0-9:]*$'
+    <text-input label='Dossier PID' text-value='$ctrl.selected.dossierpid'
       message='Needs to be a valid PID' on-update='$ctrl.update("dossierpid", value)'></text-input>
     <text-input label='Company ID' is-required='true' text-value='$ctrl.selected.dossiercompid' has-pattern='^[A-Za-z0-9:]*$' message='Needs to be a valid PID'
       on-update='$ctrl.update("dossiercompid", value)' max-length='20'></text-input>
@@ -11,23 +10,15 @@
     <text-input label='Title' is-required='true' text-value='$ctrl.selected.dossierdescriptiontitle' max-length='2000' on-update='$ctrl.update("dossierdescriptiontitle", value)'></text-input>
     <md-switch ng-if='!$ctrl.loading' ng-model='$ctrl.submission.incremental' aria-label='Incremental'
       class='md-primary' ng-change='$ctrl.printValue()'>Incremental</md-switch>
-    <tbl ng-if='!$ctrl.loading' title='Dossier Regulatory Authorities' items='$ctrl.selected.dossierra' projection='["regulatorytype", "applicationtype", "projectidnumber"]' min-items='1'
+    <tbl ng-if='!$ctrl.$scope.$root.loading' title='Dossier Regulatory Authorities' items='$ctrl.selected.dossierra' projection='[{name: "regulatorytype", url: "picklist"}, {name: "applicationtype", url: "picklist"}, "projectidnumber"]' min-items='1'
       on-select='$ctrl.selectTblItem("dossierra", index)' on-delete='$ctrl.deleteTblItem("dossierra", index)' deletable='true'></tbl>
-    <tbl ng-if='!$ctrl.loading' title='Referenced Dossiers' items='$ctrl.selected.referenceddossier' projection='["referencedossierreason", "referenceddossiernumber"]'
+    <tbl ng-if='!$ctrl.$scope.$root.loading' title='Referenced Dossiers' items='$ctrl.selected.referenceddossier' projection='["referenceddossierreason", "referenceddossiernumber"]'
       min-items='0' on-select='$ctrl.selectTblItem("referenceddossier", index)' on-delete='$ctrl.deleteTblItem("referenceddossier", index)'
       deletable='false'></tbl>
   </div>
-
   <div class='float-bottom'>
     <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
       <md-icon md-svg-icon='save' class='light'></md-icon>
     </md-button>
-    <md-button aria-label='Add New Item' class='md-fab md-primary' ng-click='$ctrl.add()'>
-      <md-icon md-svg-icon='add' class='light'></md-icon>
-    </md-button>
-    <md-button aria-label='Toggle List' class='md-fab md-primary' ng-click='$ctrl.toggleList()'>
-      <md-icon md-svg-icon='list' class='light'></md-icon>
-    </md-button>
   </div>
-
 </section>
