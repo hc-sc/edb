@@ -121,6 +121,7 @@ export default class BaseCtrl {
   // update the field values, only works for first level deep items
   // overload it if you need additional ones
   update(prop, value) {
+    console.log(prop, value);
     this.selected[prop] = value;
   }
 
