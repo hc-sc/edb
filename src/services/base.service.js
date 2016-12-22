@@ -21,6 +21,7 @@ module.exports = class BaseService {
     this.schemaDir = path.resolve('./', BACKEND_CONST.BASE_DIR1, BACKEND_CONST.BASE_DIR2, BACKEND_CONST.STANDARD_DIR_NAME);
     this.defDir = path.join(this.schemaDir, this.version.replace(/\./g, '_'), BACKEND_CONST.DEF_SUB_DIR_NAME);
     this.productDir = path.resolve('./', BACKEND_CONST.PRODUCTS_DIR);
+    this.referencedBy = undefined;
   }
 
   edb_put(obj) {
@@ -28,7 +29,7 @@ module.exports = class BaseService {
       let self = this;
       self._exist_check(obj)
         .then(ret => {
-          if (ret.length > 0){
+          if (ret.length > 0) {
             rej(new RVHelper('EDB10004', obj));
           } else {
             res(self._create(obj));
@@ -115,7 +116,7 @@ module.exports = class BaseService {
         rej(new RVHelper('EDB11004', obj));
       }
     });
-  } 
+  }
 
   _update(obj) {
     return new Q((res, rej) => {
@@ -155,16 +156,21 @@ module.exports = class BaseService {
     });
   }
 
-  _reference_check(refNameAndId) {
+  _reference_check(id) {
     return new Q((res, rej) => {
       let self = this;
       let entityClass = require('mongoose').model(self.modelClassName);
-      entityClass.referenceCheck(refNameAndId, (err, rets) => {
-        if (err)
-          rej(err);
-        else
-          res(rets);
-      })
+      let refObj = self.referencedBy;
+      if (refObj) {
+        refObj._id = id;
+        entityClass.referenceCheck(refObj, (err, rets) => {
+          if (err)
+            rej(err);
+          else
+            res(rets);
+        });
+      } else 
+        res(0);
     });
   }
 
@@ -177,9 +183,9 @@ module.exports = class BaseService {
         let secondLevel = _.merge({}, rawObj);
         let keys = Object.keys(firstLevel);
         keys.map(key => {
-          if (typeof firstLevel[key] === 'object') 
+          if (typeof firstLevel[key] === 'object')
             delete firstLevel[key];
-          else 
+          else
             delete secondLevel[key];
         });
 
@@ -190,7 +196,7 @@ module.exports = class BaseService {
         keys.map(key => {
           let subKeys = Object.keys(secondLevel[key]);
           subKeys.map(subkey => {
-            query.where(key + '.' + subkey).equals(secondLevel[key][subkey]); 
+            query.where(key + '.' + subkey).equals(secondLevel[key][subkey]);
           });
         });
         query.exec((err, rets) => {
@@ -199,7 +205,7 @@ module.exports = class BaseService {
           else
             res(JSON.stringify(rets));
         });
-      } catch(err) {
+      } catch (err) {
         rej(err);
       }
     });
@@ -410,14 +416,14 @@ module.exports = class BaseService {
       retVal = obj;
       let keys = Object.keys(retVal);
       keys.map(key => {
-        if (key.startsWith('_') || key === 'valuedecode' || key === 'id') 
+        if (key.startsWith('_') || key === 'valuedecode' || key === 'id')
           delete retVal[key];
         else if (retVal[key]) {
           if (Array.isArray(retVal[key])) {
             delete retVal[key];
           } else if (typeof retVal[key] === 'object') {
             retVal[key] = self._get_raw_data(retVal[key]);
-          } 
+          }
         }
       });
       return retVal;
@@ -548,9 +554,12 @@ module.exports = class BaseService {
           }
         });
 
-        // mschema.statics.referenceCheck = (refNameAndId, callback) => {
-        //       return this.find({_id : refNameAndId._id}, callback);
-        // };
+        mschema.statics.referenceCheck = function(refNameAndId, callback) {
+          let refModel = require('mongoose').model(refNameAndId.refName.toUpperCase());
+          let query = {};
+          query[refNameAndId.field] = refNameAndId._id;
+          return refModel.count(query, callback);
+        };
 
         let selfPlugin;
         mschema.plugin(ServiceLevelPlugin, {

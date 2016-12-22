@@ -9,6 +9,7 @@ module.exports = class FileService extends BaseService {
   constructor(version) {
     super('FILE', true, version);
     this.modelClassNamePre = 'GHSTS.FILES';
+    this.referencedBy = {refName: 'document', field: 'documentgeneric.referencedtofile.toFileId'};
   }
 
   edb_selectFile(obj) {

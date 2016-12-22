@@ -103,9 +103,9 @@ var init = () => {
       else
         return new RVHelper('EDB00000');
     })
-    .then(ret => {
-      // console.log(ret);
-    })
+    // .then(ret => {
+    //   // console.log(ret);
+    // })
     .catch(err => {
       console.log(err);
     });
@@ -150,7 +150,7 @@ var initDB = () => {
         svrClass = require('./services/toc.service');
         svr = new svrClass('01.00.00');
         qAry.push(svr.initDbfromTestData());
-        return Q.all(qAry);
+        res(Q.all(qAry));
       }
     })
     .catch(err => {
@@ -310,10 +310,10 @@ app.on('ready', function () {
 // const testService = require('./services/legalentity.service');
 // const testService = require('./services/picklist.service');
 // const testService = require('./services/dossier.service');
-const testService = require('./services/substance.service');
+// const testService = require('./services/substance.service');
 // const testService = require('./services/ghsts.service');
 // const testService = require('./services/receiver.service');
-// const testService = require('./services/file.service');
+const testService = require('./services/file.service');
 // const testService = require('./services/toc.service');
 // const testService = require('./services/document.service');
 // const testService = require('./services/submission.service');
@@ -323,13 +323,13 @@ let svr = new testService();
 let names = require('mongoose').modelNames();
 console.log(names);
 
-// svr._reference_check({refName: 'product', _id: '5852f9fd1f9fa11280ed2005'})
-//   .then(ret => {
-//     console.log(ret);
-//  })
-//  .then(ret => {
-//    console.log(ret);
-//  })
+svr._reference_check('585ae098d43ca918581c8e7b')
+  .then(ret => {
+    console.log(ret);
+ })
+ .catch(err => {
+   console.log(err);
+ })
 
 // svr.initDbfromTestData();
 //const Fiber = require('fibers');

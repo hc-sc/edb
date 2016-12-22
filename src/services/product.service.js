@@ -2,6 +2,7 @@ const BaseService = require('./base.service');
 const path = require('path');
 const Q = require('bluebird');
 const BACKEND_CONST = require('../constants/backend');
+const RVHelper = require('../utils/return.value.helper').ReturnValueHelper;
 
 module.exports = class ProductService extends BaseService {
   constructor(version) {
@@ -56,8 +57,10 @@ module.exports = class ProductService extends BaseService {
 
       let subSvrClass = require('./submission.service');
       let dosSvrClass = require('./dossier.service');
+      let ghstsSvrClass = require('./ghsts.service');
       let subSvr = new subSvrClass();
       let dosSvr = new dosSvrClass();
+      let ghstsSvr = new ghstsSvrClass();
 
       submissions.map((items, index) => {
         qAry = [];        
@@ -89,6 +92,25 @@ module.exports = class ProductService extends BaseService {
           products[index].dossier = [JSON.parse(rets.data)._id.toString()];
           // console.log(products[index].dossier);
           return self.edb_post(products[index]);
+        })
+        .bind(index)
+        .then(rets => {
+          if (submissions[index].length === 1) {
+            ghstsSvr._create({
+              _submissionid: dossiers[index].submission[0],
+              _submissionnumber: submissions[index][0].submissionnumber,
+              _product: products[index]._id,
+              _foldername: products[index].genericproductname + BACKEND_CONST.PRODUCT_DOSSIER_FOLDER_CONTACT_SYMBOL + dossiers[index].dossierdescriptiontitle
+            })
+            .then(ret => {
+              res(ret);
+            })
+            .catch(err => {
+              rej(err);
+            });
+          } else {
+            res(new RVHelper('EDB00000'));
+          }
         })
         .catch(err => {
           rej(err);
