@@ -13,8 +13,8 @@
 
     <md-dialog-content>
       <div class='md-dialog-content'>
-        <select-input label='Regulatory Type' select-value='$ctrl.node.regulatorytype' values='[]' on-update='$ctrl.update("regulatorytype", value)'></select-input>
-        <select-input label='Application Type' select-value='$ctrl.node.applicationtype' values='[]' on-update='$ctrl.update("applicationtype", value)'></select-input>
+        <select-input-extensible label='"Regulatory Type"' select-value='$ctrl.node.regulatorytype' values='$ctrl.picklists.regulatoryTypes' on-update='$ctrl.update("regulatorytype", value)'></select-input-extensible>
+        <select-input-extensible label='"Application Type"' select-value='$ctrl.node.applicationtype' values='$ctrl.picklists.applicationTypes' on-update='$ctrl.update("applicationtype", value)'></select-input-extensible>
         <text-input label='Project Id' is-required='false' text-value='$ctrl.node.projectidnumber' on-update='$ctrl.update("projectidnumber", value)'></text-input>
       </div>
     </md-dialog-content>

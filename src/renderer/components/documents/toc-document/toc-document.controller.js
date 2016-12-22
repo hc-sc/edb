@@ -4,27 +4,11 @@ export default class TocDocumentCtrl {
     this.items = items;
     this.$scope = $scope;
     this.document;
-    this.documentra;
-    this.documentras;
     console.log(this);
   }
 
   update(prop, value) {
-    console.log(prop, value);
-    if (prop === 'document') {
-      this[prop] = value;
-      this.getDocumentRAs();
-
-    }
-    else this[prop] = value;
-  }
-
-  getDocumentRAs() {
-    this.items.forEach(item => {
-      if (item._id === this.document) {
-        this.documentras = item.documentra;
-      }
-    });
+    this[prop] = value;
   }
 
   cancel() {
@@ -32,9 +16,17 @@ export default class TocDocumentCtrl {
   }
 
   confirm() {
-    this.$mdDialog.hide({
-      document: this.document,
-      documentra: this.documentra
-    });
+    let document;
+    for (let i = 0; i < this.items.length; ++i) {
+      if (this.items[i]._id === this.document) {
+        document = {
+          _id: this.items[i]._id,
+          documenttitle: this.items[i].documentgeneric.documenttitle
+        }
+        break;
+      }
+    }
+    console.log(document);
+    this.$mdDialog.hide({document});
   }
 }

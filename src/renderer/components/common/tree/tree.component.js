@@ -28,6 +28,8 @@ export default angular.module('tree', [
       this.expandIcon = {name: 'down', color: 'dark'};
       this.collapseIcon = {name: 'right', color: 'dark'};
       this.addIcon = {name: 'add', color: 'dark'};
+      this.documentIcon = {name: 'description', color: 'dark'};
+      this.deleteIcon = {name: 'delete', color: 'dark'};
       this.isHidden = true;
     }
 
@@ -66,7 +68,9 @@ export default angular.module('tree', [
       });
     }
 
-    deleteDocument() {}
+    deleteDocument(index) {
+      this.node.toc2doc = this.node.toc2doc.slice(0, index).concat(this.node.toc2doc.slice(index + 1));
+    }
 
     validate() {
       // set flags if needed

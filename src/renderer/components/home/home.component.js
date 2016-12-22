@@ -176,7 +176,6 @@ export default angular.module('home', [
         console.log('it is /// ' + ret );
       });
     }
-
   }
 })
 .service('DossierService', DossierService)

@@ -12,8 +12,9 @@
     </md-toolbar>
 
     <md-dialog-content>
-      <select-input label='Document' select-value='$ctrl.document' values='$ctrl.items' main='id' on-update='$ctrl.update("document", value)'></select-input>
-      <select-input label='Document RA' select-value='$ctrl.documentra' values='$ctrl.documentras' main='toSpecificForRAId' on-update='$ctrl.update("documentra", value)'></select-input>
+      <div class='md-dialog-content'>
+        <select-input label='Document' select-value='$ctrl.document' values='$ctrl.items' main='id' on-update='$ctrl.update("document", value)'></select-input>
+      </div>
     </md-dialog-content>
 
     <md-dialog-actions layout='row'>

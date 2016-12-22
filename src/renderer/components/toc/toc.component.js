@@ -33,7 +33,6 @@ export default angular.module('toc', [
 
         // assign the top level node some data to show better
         this.tree.nodename = 'TOC';
-        this.tree.logicaldeleted = true;
         return this.getAppData({}, 'document');
       }).then(docs => {
         this.docs = JSON.parse(docs.data);

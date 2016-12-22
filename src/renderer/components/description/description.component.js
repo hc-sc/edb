@@ -24,7 +24,19 @@ export default angular.module('description', [
     controller: class DescriptionCtrl extends BaseCtrl {
       constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope) {
         super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'dossier', $scope);
-        this.init().then(() => {this.$scope.$root.loading = false;});
+        this.init().then(() => {
+          return this.getPicklist('EXTENSION_TYPE_REGULATORY_TYPE');
+        }).then(regulatorytype => {
+          this.regulatoryTypes = JSON.parse(regulatorytype.data);
+          return this.getPicklist('EXTENSION_TYPE_APPLICATION_TYPE');
+        }).then(applicationtype => {
+          this.applicationTypes = JSON.parse(applicationtype.data);
+          this.picklists = {
+            regulatoryTypes: this.regulatoryTypes,
+            applicationTypes: this.applicationTypes
+          };
+          this.$scope.$root.loading = false;
+        });
       }
     }
   })
