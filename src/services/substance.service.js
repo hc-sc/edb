@@ -5,6 +5,7 @@ module.exports = class SubstanceService extends BaseService {
     super('SUBSTANCE', true, version);
     this.modelClassNamePre = 'GHSTS.SUBSTANCES';
     this.referencedBy = {refName: 'product', field: 'ingredients.ingredient.toSubstanceId'};
+    this.pidField = 'substancepid';
   }
 };
 
