@@ -1,11 +1,6 @@
 import angular from 'angular';
 import ngMaterial from 'angular-material';
-import _ from 'lodash';
 import template from './description.template';
-import {} from 'angular-ui-layout';
-
-import 'angular-ui-layout/src/ui-layout.css';
-
 
 import TextInput from '../common/text-input/text-input.component';
 import SelectInput from '../common/select-input/select-input.component';
@@ -19,8 +14,7 @@ export default angular.module('description', [
   TextInput,
   SelectInput,
   Icon,
-  Tbl,
-  'ui.layout'
+  Tbl
 ])
   .component('description', {
     template,
@@ -30,8 +24,19 @@ export default angular.module('description', [
     controller: class DescriptionCtrl extends BaseCtrl {
       constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope) {
         super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'dossier', $scope);
-
-        this.init().then(() => {this.loading = false;});
+        this.init().then(() => {
+          return this.getPicklist('EXTENSION_TYPE_REGULATORY_TYPE');
+        }).then(regulatorytype => {
+          this.regulatoryTypes = JSON.parse(regulatorytype.data);
+          return this.getPicklist('EXTENSION_TYPE_APPLICATION_TYPE');
+        }).then(applicationtype => {
+          this.applicationTypes = JSON.parse(applicationtype.data);
+          this.picklists = {
+            regulatoryTypes: this.regulatoryTypes,
+            applicationTypes: this.applicationTypes
+          };
+          this.$scope.$root.loading = false;
+        });
       }
     }
   })

@@ -3,7 +3,6 @@ import QueryCtrl from './query.controller';
 
 export default class BaseCtrl {
   constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, url, $scope) {
-    // super(PicklistService, AppDataService);
     this.$mdDialog = $mdDialog;
     this.$mdToast = $mdToast;
     this.$state = $state;
@@ -15,6 +14,8 @@ export default class BaseCtrl {
     this.picklistService = PicklistService.getService();
     this.appDataService = AppDataService.getService();
     this.$scope = $scope;
+    this.$scope.$root.loading = true;
+    console.log(this);
   }
 
   init() {
@@ -33,26 +34,32 @@ export default class BaseCtrl {
       });
   }
 
+  // return some global item(s)
   getAppData(data = {}, url = this.url) {
     return this.appDataService.edb_get({ url, data });
   }
 
+  // create a new global item
   createAppData(data = {}, url = this.url) {
     return this.appDataService.edb_put({ url, data });
   }
 
+  // update a global item
   updateAppData(data = {}, url = this.url) {
     return this.appDataService.edb_post(data);
   }
 
+  // delete a global item
   deleteAppData(id, url = this.url) { }
 
+  // gets the specified list of picklist
   getPicklist(typename) {
     return this.picklistService.edb_get({ 'TYPE_NAME': typename });
   }
 
-  getModel(prop) {
-    return this.modelService.getModel(prop);
+  // returns the ghsts item with the given id
+  getGHSTS(id, nodeName) {
+    return this.ghstsService.edb_get(id, nodeName)
   }
 
   // generates a picklist item.
@@ -78,8 +85,12 @@ export default class BaseCtrl {
       });
   }
 
-  getGHSTS() { }
+  // build a blank object as defined in the xsd
+  getModel(prop) {
+    return this.modelService.getModel(prop);
+  }
 
+  // creates a new blank object to create a new item
   add(prop) {
     this.selected = angular.copy(this.getModel(prop));
   }
@@ -129,6 +140,9 @@ export default class BaseCtrl {
       topEntity[pathAry[1]] = newArray;
       this.selected[pathAry[0]] = topEntity;
     } else {
+      console.log('here', nodeName);
+      console.log(this.selected);
+      console.log(index);
       this.selected[nodeName] =
         this.selected[nodeName].slice(0, index).concat(this.selected[nodeName].slice(index + 1));
     }
@@ -150,9 +164,9 @@ export default class BaseCtrl {
             end = end[path[i]];
           }
           end[path[path.length - 1]] = newArray;
-         
+
         } else {
-          newArray = this.selected[nodeName].slice();    
+          newArray = this.selected[nodeName].slice();
           newArray.splice(this.selected.length, 0, item);
           this.selected[nodeName] = newArray;
         }
@@ -190,6 +204,7 @@ export default class BaseCtrl {
 
   // used as a generic function to build our modals
   buildModal(nodeName, index, isNew) {
+    console.log(this.selected);
     const {template, controller} = getModalValues(nodeName);
     return {
       template,
@@ -235,8 +250,8 @@ import referenceDocumentTemplate from '../documents/reference-document/reference
 import referenceDocumentCtrl from '../documents/reference-document/reference-document.controller';
 import documentNumberTemplate from '../documents/document-number/document-number.template';
 import documentNumberCtrl from '../documents/document-number/document-number.controller';
-
-
+import senderTemplate from '../receivers/senders/senders.template';
+import SenderCtrl from '../receivers/senders/senders.controller';
 import ingredientTemplate from '../products/ingredient/ingredient.template';
 import IngredientCtrl from '../products/ingredient/ingredient.controller';
 import productraTemplate from '../products/product-ra/product-ra.template';
@@ -314,6 +329,12 @@ function getModalValues(nodeName) {
       return {
         template: productraTemplate,
         controller: ProductRACtrl
+      };
+
+    case 'sender':
+      return {
+        template: senderTemplate,
+        controller: SenderCtrl
       };
 
     default:

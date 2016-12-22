@@ -1,12 +1,26 @@
 <section class='node-page'>
-  <text-input label='Short Name' is-required='true'></text-input>
-  <text-input label='Role'></text-input>
-  <tbl title='Sender' items='[]' projection='[]'></tbl>
+  <sidenav items='$ctrl.records'
+          main='shortname'
+          is-open='$ctrl.sidenavOpen'
+          on-select='$ctrl.updateSelected(item)'
+          on-add='$ctrl.add(item)'>
+  </sidenav>
+  <div ng-show='!$ctrl.isSubmission' class='no-padding no-margin'>
+    <select-input label='Receiver' select-value='$ctrl.selected.receiver' values='$ctrl.receivers' main='receiver'></select-input>
+    <text-input label='Short Name' is-required='true' text-value='$ctrl.selected.shortname' on-update='$ctrl.update("shortnamem", value)'></text-input>
+    <text-input label='Role' text-value='$ctrl.selected.role' on-update='$ctrl.update("role", value)'></text-input>
+  </div>
+  <div ng-show='$ctrl.isSubmission' class='no-padding no-margin'>
+    <tbl ng-if='!$ctrl.$scope.$root.loading' title='{{$ctrl.selected.shortname}} Senders' items='$ctrl.selected.sender' projection='["companycontactregulatoryrole", "remark"]' on-select='$ctrl.selectTblItem("sender", index)' on-add='$ctrl.addTblItem("sender")' on-delete='$ctrl.deleteTblItem("sender", index)'></tbl>
+  </div>
   <div class='float-bottom'>
-    <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
-      <md-icon md-svg-icon='save' class='light'></md-icon>
+      <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
+        <md-icon md-svg-icon='save' class='light'></md-icon>
+      </md-button>
+    <md-button ng-show='$ctrl.isSubmission' aria-label='Delete Item' class='md-fab md-primary' ng-click='$ctrl.delete()'>
+      <md-icon md-svg-icon='delete' class='light'></md-icon>
     </md-button>
-    <md-button aria-label='Add New Item' class='md-fab md-primary' ng-click='$ctrl.add()'>
+    <md-button aria-label='Add New Item' class='md-fab md-primary' ng-click='$ctrl.add("receiver")'>
       <md-icon md-svg-icon='add' class='light'></md-icon>
     </md-button>
     <md-button aria-label='Toggle List' class='md-fab md-primary' ng-click='$ctrl.toggleList()'>

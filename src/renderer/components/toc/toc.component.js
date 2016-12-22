@@ -2,52 +2,66 @@ import angular from 'angular';
 import ngMaterial from 'angular-material';
 import template from './toc.template';
 
+import BaseCtrl from '../common/base.controller';
 import TextInput from '../common/text-input/text-input.component';
 import SelectInput from '../common/select-input/select-input.component';
 import Tbl from '../common/tbl/tbl.component';
 import Tree from '../common/tree/tree.component';
-import Spinner from '../common/spinner/spinner.component';
+
+import '../common/tree/tree.scss';
 
 export default angular.module('toc', [
   ngMaterial,
   TextInput,
   SelectInput,
   Tbl,
-  Tree,
-  Spinner
+  Tree
 ])
 .component('toc', {
   template,
   bindings: {
     dossierData: '<',
-    toc: '<'
   },
-  controller: class TOCCtrl {
-    constructor(AppDataService) {
-      console.log(this);
-      this.loading = true;
-      this.appDataService = AppDataService.getService();
-      this.tree = JSON.parse(this.toc.data)[0].structure[0];
-      console.log(this.tree);
-      this.tree.nodename = 'TOC';
-      this.appDataService.edb_get({_url: 'product'}).then(ret => {
-        this.products = JSON.parse(ret.data);
-        console.log(this.products);
-        return this.appDataService.edb_get({_url: 'dossier'});
-      }).then(ret => {
-        this.dossiers = JSON.parse(ret.data);
-        console.log(this.dossiers);
-        // return this.appDataService.edb_get({_url: 'submission'});
-        this.loading = false;
-      }); 
+  controller: class TOCCtrl extends BaseCtrl {
+    constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope) {
+      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'toc', $scope);
+      this.showTOCData = false;
+      this.getAppData({}, 'toc')
+      .then(toc => {
+        this.toc = JSON.parse(toc.data)[0];
+        this.tree = this.toc.structure[0];
+        this.selectedNode = this.tree;
 
-      // Tree Structure
-      // nodename - name of node
-      // nodeheading - annotation
-      // logicaldeleted - ?????
-      // emptynode - flag for if it's a leaf
-      // toc2doc - the documents related to this node
-      // tocnode - subnodes for this node
+        // assign the top level node some data to show better
+        this.tree.nodename = 'TOC';
+        return this.getAppData({}, 'document');
+      }).then(docs => {
+        this.docs = JSON.parse(docs.data);
+        return this.picklistService.edb_get({ 'TYPE_NAME': 'EXTENSION_TYPE_TOC_OWNER' });
+      }).then(ret => {
+        this.tocOwnerType = JSON.parse(ret.data);
+        this.$scope.$root.loading = false;
+      });
+    }
+
+    selectTreeNode(node) {
+      console.log()
+    }
+
+    toggleShowTOCData() {
+      this.showTOCData = !this.showTOCData;
+    }
+
+    updateTOC(node, value) {
+      this.toc[node] = value;
+    }
+
+    updateStandardReference(node, value) {
+      this.toc.standardreference[node] = value;
+    }
+
+    showTree() {
+      console.log(this.tree);
     }
   }
 })
