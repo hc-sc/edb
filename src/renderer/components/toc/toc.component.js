@@ -25,11 +25,12 @@ export default angular.module('toc', [
   controller: class TOCCtrl extends BaseCtrl {
     constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope) {
       super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'toc', $scope);
-
+      this.showTOCData = false;
       this.getAppData({}, 'toc')
       .then(toc => {
         this.toc = JSON.parse(toc.data)[0];
         this.tree = this.toc.structure[0];
+        this.selectedNode = this.tree;
 
         // assign the top level node some data to show better
         this.tree.nodename = 'TOC';
@@ -41,6 +42,14 @@ export default angular.module('toc', [
         this.tocOwnerType = JSON.parse(ret.data);
         this.$scope.$root.loading = false;
       });
+    }
+
+    selectTreeNode(node) {
+      console.log()
+    }
+
+    toggleShowTOCData() {
+      this.showTOCData = !this.showTOCData;
     }
 
     updateTOC(node, value) {

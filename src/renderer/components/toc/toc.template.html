@@ -1,15 +1,24 @@
 <section class='node-page'>
-  <text-input label='Short Name' text-value='$ctrl.toc.tocshortname' on-update='$ctrl.updateTOC("tocshortname", value)'></text-input>
-  <select-input-extensible label='"Owner"' select-value='$ctrl.toc.tocowner' values='$ctrl.tocOwnerType' on-update='$ctrl.updateTOC("tocowner", value)' on-add='$ctrl.createPicklistItem("tocowner", "tocOwnerType", value)'></select-input-extensible>
-  <text-input label='Full Name' text-value='$ctrl.toc.tocfullname' on-update='$ctrl.updateTOC("tocfullname", value)'></text-input>
-  <text-input label='Versions' is-disabled='true' text-value='$ctrl.toc.tocversion'></text-input>
-  <fieldset style='margin-top: 20px'>
-    <legend>Standard Reference</legend>
-    <text-input label='Standard PID' text-value='$ctrl.toc.standardreference.standardtocpid' on-update='$ctrl.updateStandardReference("standardtocpid", value)' is-disabled='true'></text-input>
-    <text-input label='Filename' text-value='$ctrl.toc.standardreference.filename' on-update='$ctrl.updateStandardReference("filename", value)'></text-input>
-  </fieldset>
+  <button ng-click='$ctrl.toggleShowTOCData()'>Show TOC Data</button>
+  <div ng-show='$ctrl.showTOCData'>
+    <text-input label='Short Name' text-value='$ctrl.toc.tocshortname' on-update='$ctrl.updateTOC("tocshortname", value)'></text-input>
+    <select-input-extensible label='"Owner"' select-value='$ctrl.toc.tocowner' values='$ctrl.tocOwnerType' on-update='$ctrl.updateTOC("tocowner", value)' on-add='$ctrl.createPicklistItem("tocowner", "tocOwnerType", value)'></select-input-extensible>
+    <text-input label='Full Name' text-value='$ctrl.toc.tocfullname' on-update='$ctrl.updateTOC("tocfullname", value)'></text-input>
+    <text-input label='Versions' is-disabled='true' text-value='$ctrl.toc.tocversion'></text-input>
+    <fieldset style='margin-top: 20px'>
+      <legend>Standard Reference</legend>
+      <text-input label='Standard PID' text-value='$ctrl.toc.standardreference.standardtocpid' on-update='$ctrl.updateStandardReference("standardtocpid", value)' is-disabled='true'></text-input>
+      <text-input label='Filename' text-value='$ctrl.toc.standardreference.filename' on-update='$ctrl.updateStandardReference("filename", value)'></text-input>
+    </fieldset>
+  </div>
   <section>
-    <tree node='$ctrl.tree' items='$ctrl.docs'></tree>
-    <button ng-click='$ctrl.showTree()'>Show Tree</button>
+    <select-input label='Search' select-value='$ctrl.selectedNode' on-update='$ctrl.update("selectedNode", value)'></select-input>
+    <tree node='$ctrl.selectedNode' items='$ctrl.docs'></tree>
+    <!--<button ng-click='$ctrl.showTree()'>Show Tree</button>-->
   </section>
+  <div class='float-bottom'>
+    <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
+      <md-icon md-svg-icon='save' class='light'></md-icon>
+    </md-button>
+  </div>
 </section>

@@ -32,9 +32,12 @@ export default function ($stateProvider, $urlRouterProvider) {
     .state('submission.receivers', {
       url: '/receiver',
       component: 'receiver',
+      resolve: {
         receivers: GhstsService => {
           return GhstsService.getService().edb_get({_url: 'receiver'});
-        }
+        },
+        isSubmission: ['$stateParams', () => true]
+      }
     })
     .state('submission.dossier', {
       url: '/dossier',
@@ -53,8 +56,9 @@ export default function ($stateProvider, $urlRouterProvider) {
       resolve: {
         receivers: AppDataService => {
           return AppDataService.getService().edb_get({_url: 'receiver'});
-        }
-      }
+        },
+        isSubmission: ['$stateParams', () => false]
+      },
     })
     .state('globals.files', {
       url: '/files',

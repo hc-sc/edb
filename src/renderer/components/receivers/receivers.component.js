@@ -16,7 +16,8 @@ export default angular.module('receiver', [
 .component('receiver', {
   template,
   bindings: {
-    dossierData: '<'
+    dossierData: '<',
+    isSubmission: '<'
   },
   controller: class ReceiversCtrl extends BaseCtrl {
     constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope) {
@@ -29,6 +30,27 @@ export default angular.module('receiver', [
         this.legalEntities = JSON.parse(legalentities.data);
         this.$scope.$root.loading = false;
       });
+    }
+
+    // need to override since the method depends on whether it is a submission or not
+    save() {
+      if (this.isSubmission) console.log('saving submission receivers to ghsts');
+      else console.log('saving to global receivers');
+    }
+
+    add() {
+      if (this.isSubmission) {
+        console.log('adding new receiver');
+        this.$mdDialog.show({
+        }).then(result => {
+          console.log(result);
+        });
+      }
+      else console.log('need to select a new receiver from the list of global receivers, and then add senders to it');
+    }
+
+    delete() {
+      console.log('deleting this receiver, make sure it isn\'t the receiver from the product');
     }
   }
 })

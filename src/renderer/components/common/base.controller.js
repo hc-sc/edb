@@ -204,6 +204,7 @@ export default class BaseCtrl {
 
   // used as a generic function to build our modals
   buildModal(nodeName, index, isNew) {
+    console.log(this.selected);
     const {template, controller} = getModalValues(nodeName);
     return {
       template,
