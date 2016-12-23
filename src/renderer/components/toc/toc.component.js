@@ -47,15 +47,18 @@ export default angular.module('toc', [
     }
 
     updateSelected(value) {
-      const node = this.findNode(value);
-      console.log(node);
-      this.selectedNode = node ? node : this.tree;
+      const node = this.findNode(this.tree, value);
+      this.selectedNode = node ? node : this.selectedNode;
     }
 
     findNode(tree, pid) {
-      return tree;
       if (tree.tocnodepid && tree.tocnodepid === pid) return tree;
-      return this.tree.tocnode.forEach(node => {return this.findNode(node, pid)});
+      if (!tree.tocnode) return null;
+      for (let node of tree.tocnode) {
+        const result = this.findNode(node, pid);
+        if (result !== null) return result;
+      }
+      return null;
     }
 
     getNodes(list, tree) {
@@ -76,6 +79,7 @@ export default angular.module('toc', [
     }
 
     showTree() {
+      this.selectedNode = this.tree;
       console.log(this.tree);
     }
   }
