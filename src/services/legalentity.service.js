@@ -5,6 +5,7 @@ module.exports = class LegalentityService extends BaseService {
     super('LEGALENTITY', true, version);
     this.modelClassNamePre = 'GHSTS.LEGALENTITIES';
     this.referencedBy = [{refName: 'receiver', field: 'toLegalEntityId'}, {refName: 'sender', field: 'toLegalEntityId'}];
+    this.pidField = 'legalentitypid';
   }
 };
 

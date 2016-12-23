@@ -6,6 +6,7 @@ This module is responsible for generating and validating PID's. Use it to genera
 // The user should be able to create any number of nill pids
 const regex = new RegExp(/^[0-9a-f]{8}-?[0-9a-f]{4}-?[0-5][0-9a-f]{3}-?[089ab][0-9a-f]{3}-?[0-9a-f]{12}$/i);
 
+// module.exports = exports = class GhstsPid {
 class GhstsPid {
   // Generates pid with custom prefix.
   static generatePid(prefix) {
@@ -14,6 +15,9 @@ class GhstsPid {
 
   // Formats and validates pid. If it fails validation, it will generate a new one
   static validatePid(pid, prefix) {
+    if (!pid) 
+      return GhstsPid.generatePid(prefix);
+
     pid.replace(/ /g, '');
     if (pid.indexOf(':') === -1) {
       if (pid.match(regex)) {
@@ -38,6 +42,9 @@ class GhstsPid {
   }
 }
 
-(function (exports) {
-  exports.GhstsPid = GhstsPid;
-})(typeof exports === 'undefined' ? this['GhstsPid'] = {} : exports);
+module.exports = GhstsPid;
+
+
+// (function (exports) {
+//   exports.GhstsPid = GhstsPid;
+// })(typeof exports === 'undefined' ? this['GhstsPid'] = {} : exports);
