@@ -4,6 +4,8 @@ module.exports = class DossierService extends BaseService {
   constructor(version) {
     super('DOSSIER', true, version);
     this.modelClassNamePre = 'GHSTS.PRODUCT';
+    this.referencedBy = {refName: 'product', field: 'dossier'};
+    this.pidField = 'dossierpid';
   }
 };
 /*

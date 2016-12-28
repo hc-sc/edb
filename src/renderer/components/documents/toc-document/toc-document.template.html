@@ -10,12 +10,13 @@
         </md-button>
       </div>
     </md-toolbar>
+
     <md-dialog-content>
       <div class='md-dialog-content'>
-        <text-input label='Reason' text-value='$ctrl.node.referenceddossierreason' on-update='$ctrl.update("referenceddossierreason", value)'></text-input>
-        <text-input label='Dossier Number' text-value='$ctrl.node.referenceddossiernumber' on-update='$ctrl.update("referenceddossiernumber", value)'></text-input>
+        <select-input label='Document' select-value='$ctrl.document' values='$ctrl.items' main='id' on-update='$ctrl.update("document", value)'></select-input>
       </div>
     </md-dialog-content>
+
     <md-dialog-actions layout='row'>
       <span flex></span>
       <md-button ng-click='$ctrl.confirm()'>Okay</md-button>

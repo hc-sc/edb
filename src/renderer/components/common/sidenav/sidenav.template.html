@@ -5,9 +5,10 @@
     <input type='text' name='searchBar' ng-model='$ctrl.searchText'>
   </md-input-container>
   <md-divider></md-divider>
-  <md-list>
-    <md-list-item ng-repeat='item in $ctrl.items | orderBy:item[$ctrl.main] | filter:$ctrl.searchText' ng-click='$ctrl.select(item)'>
+  <md-list ng-if='$ctrl.items'>
+    <md-list-item ng-repeat='item in $ctrl.items | filter:$ctrl.searchText | orderBy:item[$ctrl.getMain(item)]' ng-click='$ctrl.select(item)'>
       <p>{{ $ctrl.getMain(item) }}</p>
+      <md-divider></md-divider>
     </md-list-item>
   </md-list>
 </md-sidenav>

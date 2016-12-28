@@ -17,10 +17,14 @@ import modelDocumentGeneric from '../view-models/gen/documentgeneric.json';
 import modelDocumentRA from '../view-models/gen/documentra.json';
 import modelDocumentNumber from '../view-models/gen/documentnumber.json';
 import modelDocumentContentStatus from '../view-models/gen/contentstatushistory.json';
+
+import modelSender from '../view-models/gen/sender.json';
+import modelReceiver from '../view-models/gen/receiver.json';
+
 export default class ModelService {
   constructor() {}
   getModel(prop) {
-    console.log('in model service', prop)
+    console.log('in model service', prop);
     let model = {};
     switch(prop) {
       case 'contactaddress':
@@ -64,7 +68,7 @@ export default class ModelService {
 
       case 'documentgeneric':
         return Object.assign(modelDocumentGeneric.fields);
-        
+
       case 'documentra':
         return Object.assign(modelDocumentRA.fields);
 
@@ -73,6 +77,12 @@ export default class ModelService {
 
       case 'documentgeneric.contentstatushistory':
         return Object.assign(modelDocumentContentStatus.fields);
+
+      case 'sender':
+        return Object.assign(modelSender.fields);
+
+      case 'receiver':
+        return Object.assign(modelReceiver.fields);
     }
   }
 }

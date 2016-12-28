@@ -7,22 +7,13 @@ const path = require('path');
 const Q = require('bluebird');
 const _ = require('lodash');
 
-// const async = require('asyncawait/async');
-// const async_await  = require('asyncawait/await');
-
-const sync = require('synchronize');
-
 const PicklistFieldsConfig = require('../configs/picklist.fields');
 const RVHelper = require('../utils/return.value.helper').ReturnValueHelper;
 const SchemaLoader = require('../models/mongoose.schema.loader');
 const ServiceLevelPlugin = require('../models/plugins/service.level.plugin');
 const BACKEND_CONST = require('../constants/backend');
-
-//   var longCalculation = async (function (seconds, result) {
-//     async_await (Q.delay(seconds * 1000));
-//     return result;
-// });
-
+const GhstsPid = require('../utils/pid');
+const NestedPropertyProc = require('../utils/nested-property.process');
 
 module.exports = class BaseService {
   constructor(modelClassName, inmem, version) {
@@ -31,8 +22,31 @@ module.exports = class BaseService {
     this.version = version ? version : '01.00.00';
     this.schemaDir = path.resolve('./', BACKEND_CONST.BASE_DIR1, BACKEND_CONST.BASE_DIR2, BACKEND_CONST.STANDARD_DIR_NAME);
     this.defDir = path.join(this.schemaDir, this.version.replace(/\./g, '_'), BACKEND_CONST.DEF_SUB_DIR_NAME);
+    this.productDir = path.resolve('./', BACKEND_CONST.PRODUCTS_DIR);
+    this.referencedBy = undefined;
+    this.pidField = undefined;
+  }
 
-    // this.edb_SyncTest = sync(this, '_edb_SyncTest');
+  edb_put(obj) {
+    return new Q((res, rej) => {
+      let self = this, obj2db = _.merge({}, obj);
+      self._exist_check(obj)
+        .then(ret => {
+          if (JSON.parse(ret).length > 0) {
+            rej(new RVHelper('EDB10004', obj2db));
+          } else {
+            res(self._create(obj2db));
+          }
+        })
+        .catch(err => {
+          rej(err);
+        });
+    });
+  }
+
+  edb_post(obj) {
+    let self = this;
+    return self._update(obj);
   }
 
   edb_get(obj, pop, where) {
@@ -53,17 +67,17 @@ module.exports = class BaseService {
           let paths = entityClass.schema.paths;
           for (var path in paths) {
             if (paths[path].caster)
-              pops.push({ path: path });
+              pops.push({
+                path: path
+              });
           }
           // pops.push({ path: 'sender.toLegalEntityId', model: 'LEGALENTITY'});
           // pops.push({ path: 'toLegalEntityId'});
           dbquery = entityClass.find(query).populate(pops);
-        }
-        else
+        } else
           dbquery = entityClass.find(query);
 
         dbquery
-//          .lean()
           .exec((err, rows) => {
             if (err)
               rej(err);
@@ -77,7 +91,7 @@ module.exports = class BaseService {
     });
   }
 
-  edb_put(obj) {
+  _create(obj) {
     return new Q((res, rej) => {
       let self = this;
       let entityClass;
@@ -85,48 +99,30 @@ module.exports = class BaseService {
       entityClass = require('mongoose').model(self.modelClassName);
       if (obj && typeof obj === 'object') {
         if (!entityClass)
-          rej(new Error(new RVHelper('EDB13001')));
+          rej(new RVHelper('EDB13001'));
         else {
+          self._pid_check(obj);
           entityClass
             .create(obj, (err, rows) => {
               if (err)
                 rej(err);
-              else
+              else {
+                if (self.inmem) {
+                  if (!Array.isArray(global.modulesInMemory[self.modelClassName.toLowerCase()]))
+                    global.modulesInMemory[self.modelClassName.toLowerCase()] = [];
+                  global.modulesInMemory[self.modelClassName.toLowerCase()].push(self._format4InMem(rows));
+                }
                 res(new RVHelper('EDB00000', JSON.stringify(rows)));
+              }
             });
         }
       } else {
-        rej(new Error(RVHelper('EDB11004', obj)));
+        rej(new RVHelper('EDB11004', obj));
       }
     });
   }
 
-  edb_delete(id) {
-    return new Q((res, rej) => {
-      let self = this;
-      let entityClass;
-
-      if (id && typeof id === 'string') {
-        try {
-          entityClass = require('mongoose').model(self.modelClassName);
-
-          entityClass
-            .remove({ _id: id }, (err, rows) => {
-              if (err)
-                rej(err);
-              else
-                res(new RVHelper('EDB00000', JSON.stringify(rows)));
-            });
-        } catch (err) {
-          rej(err);
-        }
-      } else {
-        rej(new Error(new RVHelper('EDB11005', id)));
-      }
-    });
-  }
-
-  edb_post(obj) {
+  _update(obj) {
     return new Q((res, rej) => {
       let self = this;
       let entityClass;
@@ -134,19 +130,99 @@ module.exports = class BaseService {
       if (obj && typeof obj === 'object' && obj.hasOwnProperty('_id')) {
         try {
           entityClass = require('mongoose').model(self.modelClassName);
-
+          self._pid_check(obj);
           entityClass
             .update({ _id: obj._id }, obj, (err, rows) => {
               if (err)
-                rej(new Error(err));
-              else
-                res(new RVHelper('EDB00000', JSON.stringify(rows)));
+                rej(err);
+              else {
+                entityClass.find({ _id: obj._id }, (err, rows) => {
+                  if (err)
+                    rej(err);
+                  else {
+                    if (self.inmem) {
+                      _.remove(global.modulesInMemory[self.modelClassName.toLowerCase()], (item) => {
+                        return item._id === obj._id;
+                      });
+                      global.modulesInMemory[self.modelClassName.toLowerCase()].push(self._format4InMem(rows[0]));
+                    }
+                    res(new RVHelper('EDB00000', JSON.stringify(rows[0])));
+                  }
+                });
+              }
             });
         } catch (err) {
-          rej(new Error(new RVHelper('EDB13001')));
+          rej(err);
         }
       } else {
-        rej(new Error(new RVHelper('EDB11006', obj)));
+        rej(new RVHelper('EDB11006', obj));
+      }
+    });
+  }
+
+  _reference_check(id) {
+    return new Q((res, rej) => {
+      let self = this;
+      let entityClass = require('mongoose').model(self.modelClassName);
+      let refObj = self.referencedBy;
+      if (refObj) {
+        refObj._id = id;
+        entityClass.referenceCheck(refObj, (err, rets) => {
+          if (err)
+            rej(err);
+          else
+            res(rets);
+        });
+      } else
+        res(0);
+    });
+  }
+
+  _pid_check(obj) {
+    let self = this;
+    if (self.pidField) {
+      let fields = Array.isArray(self.pidField) ? self.pidField : _.castArray(self.pidField);
+      fields.map(field => {
+        let pid = NestedPropertyProc.getValue(obj, field);
+        let validPid = GhstsPid.validatePid(pid);
+        NestedPropertyProc.setValue(obj, field, validPid);
+      });
+    }
+  }
+
+  _exist_check(obj) {
+    return new Q((res, rej) => {
+      let self = this;
+      try {
+        let rawObj = self._get_raw_data(obj);
+        let firstLevel = _.merge({}, rawObj);
+        let secondLevel = _.merge({}, rawObj);
+        let keys = Object.keys(firstLevel);
+        keys.map(key => {
+          if (typeof firstLevel[key] === 'object')
+            delete firstLevel[key];
+          else
+            delete secondLevel[key];
+        });
+
+        let entityClass = require('mongoose').model(self.modelClassName);
+
+        let query = entityClass.find(firstLevel);
+        keys = Object.keys(secondLevel);
+        keys.map(key => {
+          let subKeys = Object.keys(secondLevel[key]);
+          subKeys.map(subkey => {
+            query.where(key + '.' + subkey).equals(secondLevel[key][subkey]);
+          });
+        });
+        query.exec((err, rets) => {
+          if (err)
+            rej(err);
+          else
+            res(JSON.stringify(rets));
+        });
+      } catch (err) {
+        rej(err);
       }
     });
   }
@@ -173,39 +249,32 @@ module.exports = class BaseService {
         qAry = [];
         if (items.constructor === Array) {
           items.map(item => {
-            qAry.push(self.edb_put(item));
+            qAry.push(self._create(item));
           });
         } else
-          qAry.push(self.edb_put(items));
+          qAry.push(self._create(items));
       });
 
-      return Q.all(qAry);
+      res(Q.all(qAry));
     });
   }
 
+  _format4InMem(data) {
+    let retVal;
+    if (!data)
+      return undefined;
 
-    edb_SyncTest() {
-      sync(fs, 'readFile');
-//       try {
-//         console.log('zero...');
-
-//         var msg = async_await(longCalculation(1, 'one...'));
-//         console.log(msg);
-
-//         msg = async_await(longCalculation(1, 'two...'));
-//         console.log(msg);
-
-//         msg = async_await(longCalculation(1, 'three...'));
-//         console.log(msg);
-
-// //        var file = async_await(readFile('NonExistingFilename'));
-
-// //        msg = async_await(longCalculation(1, 'four...'));
-//         // console.log(msg);
-//       } catch (ex) {
-//         console.log('Caught an error');
-//       }
-      // return fs.readFile('../configs/picklist.fields.js');
+    if (Array.isArray(data)) {
+      retVal = data.map(ret => {
+        let newRet = ret.toObject();
+        newRet._id = ret._id.toString();
+        return newRet;
+      });
+    } else {
+      retVal = data.toObject();
+      retVal._id = data._id.toString();
+    }
+    return retVal;
   }
   // _initDbFromTemplate(version, obj, pklInst) {
   //   return new Q((res, rej) => {
@@ -296,7 +365,8 @@ module.exports = class BaseService {
 
   _testDataPlkDecode(obj, plkInst) {
     let self = this;
-    let retVal = {}, picklistFieldsConfig, query, plEntity, dbOutput;
+    let retVal = {},
+      picklistFieldsConfig, query, plEntity, dbOutput;
     let keys = Object.keys(obj);
     let plkI = plkInst ? plkInst : require('./picklist.service');
 
@@ -342,9 +412,75 @@ module.exports = class BaseService {
     return retVal;
   }
 
+  _getFieldNamebyTypeName(typeName) {
+    let keys = Object.keys(PicklistFieldsConfig);
+    let retVal = undefined;
+    keys.every(key => {
+      if (PicklistFieldsConfig[key].typename === typeName) {
+        retVal = key;
+        return false;
+      } else
+        return true;
+    });
+    return retVal;
+  }
+
+  _get_raw_data(obj) {
+    let retVal, self = this;
+
+    if (!Array.isArray(obj)) {
+      retVal = obj;
+      let keys = Object.keys(retVal);
+      keys.map(key => {
+        if (key.startsWith('_') || key === 'valuedecode' || key === 'id')
+          delete retVal[key];
+        else if (retVal[key]) {
+          if (Array.isArray(retVal[key])) {
+            delete retVal[key];
+          } else if (typeof retVal[key] === 'object') {
+            retVal[key] = self._get_raw_data(retVal[key]);
+          }
+        }
+      });
+      return retVal;
+    }
+  }
+
+  edb_delete(id) {
+    return new Q((res, rej) => {
+      let self = this;
+      let entityClass;
+
+      if (id && typeof id === 'string') {
+        try {
+          entityClass = require('mongoose').model(self.modelClassName);
+
+          entityClass
+            .remove({ _id: id }, (err, rows) => {
+              if (err)
+                rej(err);
+              else {
+                if (self.inmem) {
+                  _.remove(global.modulesInMemory[self.modelClassName.toLowerCase()], (item) => {
+                    return item._id === id;
+                  });
+                }
+                res(new RVHelper('EDB00000', JSON.stringify(rows)));
+              }
+            });
+        } catch (err) {
+          rej(err);
+        }
+      } else {
+        rej(new RVHelper('EDB11005', id));
+      }
+    });
+  }
+
   initFromXSD(standardname) {
     return new Q((res, rej) => {
-      let self = this, data;
+      let self = this,
+        data;
       let filename = path.join(self.schemaDir, standardname.endsWith('.xsd') ? standardname : standardname + '.xsd');
 
       let dbmodel = require('mongoose').model(self.modelClassName);
@@ -387,7 +523,7 @@ module.exports = class BaseService {
                     if (err)
                       rej(err);
                     else
-                      global.modulesInMemory[self.modelClassName.toLowerCase()].push(result);
+                      global.modulesInMemory[self.modelClassName.toLowerCase()].push(self._format4InMem(result));
                   });
                 }
               }
@@ -398,22 +534,9 @@ module.exports = class BaseService {
           rej(err);
         }
       } else {
-        rej(new Error('EDB13001'));
+        rej(new RVHelper('EDB13001'));
       }
     });
-  }
-
-  _getFieldNamebyTypeName(typeName) {
-    let keys = Object.keys(PicklistFieldsConfig);
-    let retVal = undefined;
-    keys.every(key => {
-      if (PicklistFieldsConfig[key].typename === typeName) {
-        retVal = key;
-        return false;
-      } else
-        return true; 
-    });
-    return retVal;
   }
 
   static edb_getSync(obj) {
@@ -437,9 +560,23 @@ module.exports = class BaseService {
         let mschema = new Schema(jschema, {
           retainKeyOrder: true,
           validateBeforeSave: false,
-          toJSON: { getters: true, virtuals: true },
-          toObject: { getters: true, virtuals: true }
+          toJSON: {
+            getters: true,
+            virtuals: true
+          },
+          toObject: {
+            getters: true,
+            virtuals: true
+          }
         });
+
+        mschema.statics.referenceCheck = function (refNameAndId, callback) {
+          let refModel = require('mongoose').model(refNameAndId.refName.toUpperCase());
+          let query = {};
+          query[refNameAndId.field] = refNameAndId._id;
+          return refModel.count(query, callback);
+        };
+
         let selfPlugin;
         mschema.plugin(ServiceLevelPlugin, {
           url: self.modelClassName.toLowerCase()
@@ -459,12 +596,8 @@ module.exports = class BaseService {
               if (err)
                 rej(err);
               else {
-                let retInMem = result.map(ret => {
-                  let newRet = ret.toObject();
-                  newRet._id = ret._id.toString();
-                  return newRet;
-                });
-                global.modulesInMemory[self.modelClassName.toLowerCase()] = retInMem;
+                if (self.inmem && result.length > 0)
+                  global.modulesInMemory[self.modelClassName.toLowerCase()] = self._format4InMem(result);
                 res(new RVHelper('EDB00000'));
               }
             });

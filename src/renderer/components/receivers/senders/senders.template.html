@@ -1,8 +1,8 @@
-<md-dialog aria-label='referenced dossier' flex='80'>
+<md-dialog aria-label='contact person' flex='80'>
   <form ng-cloak>
     <md-toolbar>
       <div class='md-toolbar-tools'>
-        <h2>{{ $ctrl.title }}</h2>
+        <h2>Contact Person</h2>
         <span flex></span>
         <md-button class='md-icon-button' ng-click='$ctrl.cancel()'>
           <md-icon md-svg-icon='close' aria-label='close dialog' class='light'></md-icon>
@@ -10,12 +10,14 @@
         </md-button>
       </div>
     </md-toolbar>
+
     <md-dialog-content>
       <div class='md-dialog-content'>
-        <text-input label='Reason' text-value='$ctrl.node.referenceddossierreason' on-update='$ctrl.update("referenceddossierreason", value)'></text-input>
-        <text-input label='Dossier Number' text-value='$ctrl.node.referenceddossiernumber' on-update='$ctrl.update("referenceddossiernumber", value)'></text-input>
+        <text-input label='Company Contact Regulatory Role' text-value='$ctrl.node.companycontactregulatoryrole' on-update='$ctrl.update("companycontactregulatoryrole", value)'></text-input>
+        <text-input label='Remark' text-value='$ctrl.node.remark' on-update='$ctrl.update("remark", value)'></text-input>
       </div>
     </md-dialog-content>
+
     <md-dialog-actions layout='row'>
       <span flex></span>
       <md-button ng-click='$ctrl.confirm()'>Okay</md-button>

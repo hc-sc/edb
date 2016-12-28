@@ -25,17 +25,40 @@ export default function ($stateProvider, $urlRouterProvider) {
         }
       }
     })
-    .state('submission.receivers', {
-      url: '/receivers',
-      component: 'receivers'
-    })
     .state('submission.toc', {
       url: '/toc',
-      component: 'toc'
+      component: 'toc',
     })
-    .state('submission.description', {
-      url: '/description',
+    .state('submission.receivers', {
+      url: '/receiver',
+      component: 'receiver',
+      resolve: {
+        receivers: GhstsService => {
+          return GhstsService.getService().edb_get({_url: 'receiver'});
+        },
+        isSubmission: ['$stateParams', () => true]
+      }
+    })
+    .state('submission.dossier', {
+      url: '/dossier',
       component: 'description'
+    })
+    .state('globals', {
+      url: '/globals',
+      component: 'globals',
+      onEnter: $rootScope => {
+        $rootScope.title = 'Manage Application Data';
+      }
+    })
+    .state('globals.receivers', {
+      url: '/receiver',
+      component: 'receiver',
+      resolve: {
+        receivers: AppDataService => {
+          return AppDataService.getService().edb_get({_url: 'receiver'});
+        },
+        isSubmission: ['$stateParams', () => false]
+      },
     })
     .state('globals.files', {
       url: '/files',
@@ -47,13 +70,9 @@ export default function ($stateProvider, $urlRouterProvider) {
         contentStatus: PicklistService => {
           return PicklistService.getService().edb_get({ 'TYPE_NAME': 'TYPE_CONTENT_STATUS' });
         }
-      }
-    })
-    .state('globals', {
-      url: '/globals',
-      component: 'globals',
-      onEnter: $rootScope => {
-        $rootScope.title = 'Manage Application Data';
+      },
+      onExit: $rootScope => {
+        $rootScope.loading = true;
       }
     })
     .state('globals.substances', {
@@ -96,6 +115,12 @@ export default function ($stateProvider, $urlRouterProvider) {
         },
       }
     })
+
+    .state('globals.dossiers', {
+      url: '/dossiers',
+      component: 'description'
+    })
+
     .state('globals.documents', {
       url: '/documents',
       component: 'documents',

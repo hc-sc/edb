@@ -1,13 +1,27 @@
-<li>
-  <div class='node-title'>
-    <a class='node-title' ng-click='$ctrl.toggleShow()' >
-      <!--<icon class='tree-icon' name='right' colour='dark' label='expand' ng-if='$ctrl.hasChildren && !$ctrl.show'></icon>
-      <icon class='tree-icon' name='down' colour='dark' label='collapse' ng-if='$ctrl.hasChildren && $ctrl.show'></icon>
-      <icon class='tree-icon' name='folder' colour='dark' label='is folder' ng-if='$ctrl.isFolder'></icon>-->
-      {{ $ctrl.treeData.name }}
+  <div class='no-padding no-margin node-title'>
+    <span class='tree-options'>
+      <icon class='tree-icon' ng-show='$ctrl.node.logicaldeleted === false' icon='$ctrl.addIcon' ng-click='$ctrl.addDocument()'></icon>
+      <icon class='tree-icon' ng-show='!$ctrl.isHidden && $ctrl.canExpand()' icon='$ctrl.expandIcon' ng-click='$ctrl.toggleHidden()'></icon>
+      <icon class='tree-icon' ng-show='$ctrl.isHidden && $ctrl.canExpand()' icon='$ctrl.collapseIcon' ng-click='$ctrl.toggleHidden()'></icon>
+    </span>
+    <a class='node-title' ng-click='$ctrl.toggleHidden()'>
+      {{$ctrl.node.nodename}}
+      <span ng-show='$ctrl.node.nodeheading'>
+        - {{$ctrl.node.nodeheading}}
+      </span>
     </a>
   </div>
-  <ul ng-if='$ctrl.show'>
-    <tree ng-repeat='child in $ctrl.treeData.children' tree-data='child'></tree>
+  <ul class='tree-ul' ng-show='!$ctrl.isHidden && $ctrl.node.toc2doc && $ctrl.node.toc2doc.length > 0' class='node-document'>
+    <li class='tree-li tree-doc' ng-repeat='doc in $ctrl.node.toc2doc track by $index' class='tree-document'>
+      <span class='tree-options'>
+        <icon class='tree-icon' icon='$ctrl.deleteIcon' ng-click='$ctrl.deleteDocument($index)'></icon>
+        <icon class='tree-icon' icon='$ctrl.documentIcon'></icon>
+      </span>
+      {{doc.document.documenttitle}}
+    </li>
   </ul>
-</li>
+  <ul class='tree-ul' ng-show='!$ctrl.isHidden && $ctrl.node.tocnode && $ctrl.node.tocnode.length > 0'>
+    <li class='tree-li' ng-repeat='node in $ctrl.node.tocnode'>
+      <tree node='node' items='$ctrl.items'></tree>
+    </li>
+  </ul>

@@ -9,5 +9,6 @@ module.exports.ServiceNeedInit = exports = [
   'document',
   'picklist',
   'ghsts',
-  'toc'
+  'toc',
+  'sender'
 ];

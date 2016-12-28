@@ -12,11 +12,7 @@ const app = require('electron').app;
 const ipc = require('electron').ipcMain;
 const BrowserWindow = require('electron').BrowserWindow;
 
-const async = require('asyncawait/async');
-const async_await  = require('asyncawait/await');
-
-const sync = require('synchronize');
-
+const _ = require('lodash');
 
 const SHARED_CONST = require('./constants/shared');
 const BACKEND_CONST = require('./constants/backend');
@@ -91,10 +87,10 @@ var init = () => {
 
   init_mongoose()
     .then(result => {
-      console.log(result);
+      // console.log(result);
       if (needInitDB) {
         setTimeout(() => {
-//          console.log('time is up');
+        //  console.log('time is up');
           initDB()
             .then(result => {
               // console.log(result);
@@ -105,18 +101,18 @@ var init = () => {
         }, 1000);
       }
       else
-        return new RVHelper('EDB00000'); 
+        return new RVHelper('EDB00000');
     })
-    .then(ret => {
-      console.log(ret);
-    })
+    // .then(ret => {
+    //   // console.log(ret);
+    // })
     .catch(err => {
       console.log(err);
     });
 
 };
 
-//For development only, should be removed when goes into production 
+//For development only, should be removed when goes into production
 var initDB = () => {
   //let ghstsSrv = new GhstsService(undefined, undefined, marshallers['01_00_00'], unmarshallers['01_00_00']);
   return new Q((res, rej) => {
@@ -127,8 +123,11 @@ var initDB = () => {
         rej(new Error('picklist not done yet.'));
       else {
         let qAry = [];
-        let svrClass = require('./services/product.service');
-        let svr = new svrClass('01.00.00');
+        let svrClass;
+        let svr;
+
+        svrClass = require('./services/product.service');
+        svr = new svrClass('01.00.00');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/legalentity.service');
         svr = new svrClass('01.00.00');
@@ -145,11 +144,14 @@ var initDB = () => {
         svrClass = require('./services/receiver.service');
         svr = new svrClass('01.00.00');
         qAry.push(svr.initDbfromTestData());
+        svrClass = require('./services/sender.service');
+        svr = new svrClass('01.00.00');
+        qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/toc.service');
         svr = new svrClass('01.00.00');
         qAry.push(svr.initDbfromTestData());
-        return Q.all(qAry);
-      } 
+        res(Q.all(qAry));
+      }
     })
     .catch(err => {
       rej(err);
@@ -268,7 +270,7 @@ app.on('ready', function () {
     let GHSTSJsonSchema = JSON.parse(fs.readFileSync('./resources/app/standards/' + versionDir + '/GHSTS.jsonschema').toString());
     validateInsts[versionDir] = ajvInst.compile(GHSTSJsonSchema);
 //    let GHSTS = require('../resources/app/standards/' + versionDir + '/GHSTS').GHSTS;
-    let sfile = path.resolve(basePath, 'resources', 'app', 'standards', versionDir, 'GHSTS.js'); 
+    let sfile = path.resolve(basePath, 'resources', 'app', 'standards', versionDir, 'GHSTS.js');
     let GHSTS = require(sfile).GHSTS;
     let context = new Jsonix.Context([GHSTS]);
     unmarshallers[versionDir] = context.createUnmarshaller();
@@ -276,7 +278,7 @@ app.on('ready', function () {
   }
 
   init();
-  
+
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
@@ -294,7 +296,7 @@ app.on('ready', function () {
   mainWindow.loadURL('file://' + __dirname + '/../build/renderer/index.html');
   mainWindow.webContents.on('did-finish-load', function () {
     // TODO: setTitle is being deprecated, find and use alternative
-    mainWindow.setTitle("e-Dossier Builder (V1.3.0)");
+    mainWindow.setTitle("e-Dossier Builder (V1.3.0 DRAFT)");
     //if (configure.env.toString().toUpper() == 'DEV'){
     mainWindow.openDevTools();
     backendTest();
@@ -311,12 +313,23 @@ app.on('ready', function () {
 // const testService = require('./services/substance.service');
 // const testService = require('./services/ghsts.service');
 // const testService = require('./services/receiver.service');
-// const testService = require('./services/file.service');
-const testService = require('./services/toc.service');
+const testService = require('./services/file.service');
+// const testService = require('./services/toc.service');
+// const testService = require('./services/document.service');
 // const testService = require('./services/submission.service');
 var backendTest = () => {
 console.log('--------- Backend Test Start ----------');
 let svr = new testService();
+let names = require('mongoose').modelNames();
+console.log(names);
+
+svr._reference_check('585ae098d43ca918581c8e7b')
+  .then(ret => {
+    console.log(ret);
+ })
+ .catch(err => {
+   console.log(err);
+ })
 
 // svr.initDbfromTestData();
 //const Fiber = require('fibers');
@@ -334,7 +347,7 @@ let svr = new testService();
 // //  })
 // //  .then(ret => {
 // //    console.log(ret);
-//  }) 
+//  })
 //  .catch(err => {
 //    console.log(err);
 //  });
@@ -347,12 +360,17 @@ let svr = new testService();
 //    console.log(err);
 //  });
 
-svr.edb_get({})
-  .then(ret => {
-   console.log(ret);
- }).catch(err => {
-   console.log(err);
- });
+// svr.edb_get({_id:'5852f9fd1f9fa11280ed20ad'})
+//   .then(ret => {
+//     let obj = JSON.parse(ret.data)[0];
+//   svr.edb_put(obj).then(ret => {
+//     console.log(ret);
+//   }).catch(err => {
+//     console.log(err);
+//   });
+//  }).catch(err => {
+//    console.log(err);
+//  });
 
 // svr.edb_get({submissionid: '5845e6427f7372275481989e'})
 //   .then(ret => {
@@ -397,7 +415,7 @@ svr.edb_get({})
   //  console.log(result.data);
   // });
   // svr.edb_get({
-  //   TYPE_NAME: 'EXTENSION_TYPE_ADMIN_NUMBER_TYPE', 
+  //   TYPE_NAME: 'EXTENSION_TYPE_ADMIN_NUMBER_TYPE',
   //   value: 'AAAAAAAAAAAAAAAAA',
   //   valuedecode: 'AAAAAAAAAAAAAAAAA',
   //   isExt: true})
