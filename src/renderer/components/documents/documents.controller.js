@@ -16,21 +16,27 @@ export default class DocumentCtrl extends BaseCtrl{
       };
       // projection item name must match with name defined in propertyInfos of jsonschema definition
       this.contentStatusProjection = [
-        'contentstatus',
+        {name: "contentstatus", url: "picklist"},
         'submissionnumber'
+      ];
+
+     
+
+      this.referencedDocumentProjection = [
+        {name: "referencetype", url: "picklist"},
+        'internal',
+        'documentpid',
+        {name: "documentnumbertype", url: "picklist"}
+      ];
+
+       this.documentnumberProjection = [
+         {name: "documentnumbertype", url: "picklist"},
+         'identifier'       
       ];
 
       this.init().then(() => {this.loading = false;});
       //this.getModels();
     }
 
-        // updateDocumentNumber(prop, value) {
-        //     this.selected.contactaddress[prop] = value;
-        // }
-
-        updateDocumentNumber(value) {
-            console.log(value);
-        }
+    
 }
-// DocumentCtrl.$inject = ['$mdDialog', '$mdToast', '$state', 'PicklistService', 'AppDataService', 'ModelService',  '$scope']
-// export {DocumentCtrl}

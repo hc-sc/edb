@@ -18,8 +18,12 @@ import modelDocumentRA from '../view-models/gen/documentra.json';
 import modelDocumentNumber from '../view-models/gen/documentnumber.json';
 import modelDocumentContentStatus from '../view-models/gen/contentstatushistory.json';
 
+import modelReferencedDocument from '../view-models/gen/referenceddocument.json';
+
+
 import modelSender from '../view-models/gen/sender.json';
 import modelReceiver from '../view-models/gen/receiver.json';
+
 
 export default class ModelService {
   constructor() {}
@@ -78,11 +82,18 @@ export default class ModelService {
       case 'documentgeneric.contentstatushistory':
         return Object.assign(modelDocumentContentStatus.fields);
 
+
+      case 'documentgeneric.referenceddocument':
+        model = Object.assign(modelReferencedDocument.fields);
+        //model.documentnumber = this.getModel('documentgeneric.documentnumber');
+        return model;
+
       case 'sender':
         return Object.assign(modelSender.fields);
 
       case 'receiver':
         return Object.assign(modelReceiver.fields);
+
     }
   }
 }
