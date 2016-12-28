@@ -90,7 +90,7 @@ var init = () => {
       // console.log(result);
       if (needInitDB) {
         setTimeout(() => {
-        //  console.log('time is up');
+          //  console.log('time is up');
           initDB()
             .then(result => {
               // console.log(result);
@@ -153,9 +153,9 @@ var initDB = () => {
         res(Q.all(qAry));
       }
     })
-    .catch(err => {
-      rej(err);
-    });
+      .catch(err => {
+        rej(err);
+      });
   });
 };
 
@@ -269,7 +269,7 @@ app.on('ready', function () {
     let versionDir = supprtVersions[i].replace(/\./g, '_');
     let GHSTSJsonSchema = JSON.parse(fs.readFileSync('./resources/app/standards/' + versionDir + '/GHSTS.jsonschema').toString());
     validateInsts[versionDir] = ajvInst.compile(GHSTSJsonSchema);
-//    let GHSTS = require('../resources/app/standards/' + versionDir + '/GHSTS').GHSTS;
+    //    let GHSTS = require('../resources/app/standards/' + versionDir + '/GHSTS').GHSTS;
     let sfile = path.resolve(basePath, 'resources', 'app', 'standards', versionDir, 'GHSTS.js');
     let GHSTS = require(sfile).GHSTS;
     let context = new Jsonix.Context([GHSTS]);
@@ -310,105 +310,105 @@ app.on('ready', function () {
 // const testService = require('./services/legalentity.service');
 // const testService = require('./services/picklist.service');
 // const testService = require('./services/dossier.service');
-// const testService = require('./services/substance.service');
+const testService = require('./services/substance.service');
 // const testService = require('./services/ghsts.service');
 // const testService = require('./services/receiver.service');
-const testService = require('./services/file.service');
+// const testService = require('./services/file.service');
 // const testService = require('./services/toc.service');
 // const testService = require('./services/document.service');
 // const testService = require('./services/submission.service');
 var backendTest = () => {
-console.log('--------- Backend Test Start ----------');
-let svr = new testService();
-let names = require('mongoose').modelNames();
-console.log(names);
+  console.log('--------- Backend Test Start ----------');
+  let svr = new testService();
+  let names = require('mongoose').modelNames();
+  console.log(names);
 
-svr._reference_check('585ae098d43ca918581c8e7b')
-  .then(ret => {
-    console.log(ret);
- })
- .catch(err => {
-   console.log(err);
- })
+  svr._reference_check('585bf5be491a3614a4f90537')
+    .then(ret => {
+      console.log(ret);
+    })
+    .catch(err => {
+      console.log(err);
+    });
 
-// svr.initDbfromTestData();
-//const Fiber = require('fibers');
-// console.log('here');
-// sync(fs, 'readFile');
+  // svr.initDbfromTestData();
+  //const Fiber = require('fibers');
+  // console.log('here');
+  // sync(fs, 'readFile');
 
-// let ret = sync.await(fs.readFile('./src/configs/picklist.fields.js'));
+  // let ret = sync.await(fs.readFile('./src/configs/picklist.fields.js'));
   // console.log(ret);
-//svr.edb_delete('58407a642f2d9a1f74416c17');
+  //svr.edb_delete('58407a642f2d9a1f74416c17');
 
-// svr.edb_put({productShortName: 'test', submissionid: '5845e6427f7372275481989e', productid: '5845e6437f73722754819a39'})
-//   .then(ret => {
-//     console.log(ret);
-// //     return svr.edb_delete(JSON.parse(ret.data)._id);
-// //  })
-// //  .then(ret => {
-// //    console.log(ret);
-//  })
-//  .catch(err => {
-//    console.log(err);
-//  });
+  // svr.edb_put({productShortName: 'test', submissionid: '5845e6427f7372275481989e', productid: '5845e6437f73722754819a39'})
+  //   .then(ret => {
+  //     console.log(ret);
+  // //     return svr.edb_delete(JSON.parse(ret.data)._id);
+  // //  })
+  // //  .then(ret => {
+  // //    console.log(ret);
+  //  })
+  //  .catch(err => {
+  //    console.log(err);
+  //  });
 
 
-// testService.edb_getSync({_id: '5849d9d3770cf21af410fc5f'})
-//   .then(ret => {
-//    console.log(ret);
-//  }).catch(err => {
-//    console.log(err);
-//  });
+  // testService.edb_getSync({_id: '5849d9d3770cf21af410fc5f'})
+  //   .then(ret => {
+  //    console.log(ret);
+  //  }).catch(err => {
+  //    console.log(err);
+  //  });
 
-// svr.edb_get({_id:'5852f9fd1f9fa11280ed20ad'})
-//   .then(ret => {
-//     let obj = JSON.parse(ret.data)[0];
-//   svr.edb_put(obj).then(ret => {
-//     console.log(ret);
-//   }).catch(err => {
-//     console.log(err);
-//   });
-//  }).catch(err => {
-//    console.log(err);
-//  });
+  // svr.edb_get({_id:'5852f9fd1f9fa11280ed20ad'})
+  //   .then(ret => {
+  //     let obj = JSON.parse(ret.data)[0];
+  //   svr.edb_put(obj).then(ret => {
+  //     console.log(ret);
+  //   }).catch(err => {
+  //     console.log(err);
+  //   });
+  //  }).catch(err => {
+  //    console.log(err);
+  //  });
 
-// svr.edb_get({submissionid: '5845e6427f7372275481989e'})
-//   .then(ret => {
-//    console.log(ret);
-//  }).catch(err => {
-//    console.log(err);
-//  });
+  // svr.edb_get({submissionid: '5845e6427f7372275481989e'})
+  //   .then(ret => {
+  //    console.log(ret);
+  //  }).catch(err => {
+  //    console.log(err);
+  //  });
 
-//  svr.edb_put({
-//           "TYPE_NAME": "GHSTS.GHSTS.SUBSTANCES.SUBSTANCE",
-//           "id": "IDS0000003333",
-//           "metadatastatus": 'aaa',
-//           "substancename": "RGA1608-05",
-//           "substancepid": "urn:ghsts:9A5C394B-872E-433B-A391-00899F06613E",
-//           "substanceidentifier": [
-//             {
-//               "TYPE_NAME": "GHSTS.GHSTS.SUBSTANCES.SUBSTANCE.SUBSTANCEIDENTIFIER",
-//               "substanceidentifiertype":'bbb',
-//               "identifier": "616890-34-1"
-//             },
-//             {
-//               "TYPE_NAME": "GHSTS.GHSTS.SUBSTANCES.SUBSTANCE.SUBSTANCEIDENTIFIER",
-//               "substanceidentifiertype": {
-//                 "TYPE_NAME": "GHSTS.GHSTS.SUBSTANCES.SUBSTANCE.SUBSTANCEIDENTIFIER.SUBSTANCEIDENTIFIERTYPE",
-//                 "value": {
-//                   "TYPE_NAME": "GHSTS.EXTENSIONTYPESUBSTANCEIDENTIFIERTYPE",
-//                   "value": "IUBMB"
-//                 },
-//                 "valuedecode": "IUBMB"
-//               },
-//               "identifier": "4467"
-//             }
-//           ]
-//  }).then(ret => {
-//    console.log(ret);
-//  }).catch(err => {
-//    console.log(err);
-//  });
+  //  svr.edb_put({
+  //           "TYPE_NAME": "GHSTS.GHSTS.SUBSTANCES.SUBSTANCE",
+  //           "id": "IDS0000003333",
+  //           "metadatastatus": 'aaa',
+  //           "substancename": "RGA1608-05",
+  //           "substancepid": "urn:ghsts:9A5C394B-872E-433B-A391-00899F06613E",
+  //           "substanceidentifier": [
+  //             {
+  //               "TYPE_NAME": "GHSTS.GHSTS.SUBSTANCES.SUBSTANCE.SUBSTANCEIDENTIFIER",
+  //               "substanceidentifiertype":'bbb',
+  //               "identifier": "616890-34-1"
+  //             },
+  //             {
+  //               "TYPE_NAME": "GHSTS.GHSTS.SUBSTANCES.SUBSTANCE.SUBSTANCEIDENTIFIER",
+  //               "substanceidentifiertype": {
+  //                 "TYPE_NAME": "GHSTS.GHSTS.SUBSTANCES.SUBSTANCE.SUBSTANCEIDENTIFIER.SUBSTANCEIDENTIFIERTYPE",
+  //                 "value": {
+  //                   "TYPE_NAME": "GHSTS.EXTENSIONTYPESUBSTANCEIDENTIFIERTYPE",
+  //                   "value": "IUBMB"
+  //                 },
+  //                 "valuedecode": "IUBMB"
+  //               },
+  //               "identifier": "4467"
+  //             }
+  //           ]
+  //  }).then(ret => {
+  //    console.log(ret);
+  //  }).catch(err => {
+  //    console.log(err);
+  //  });
 
   // new testService().edb_get({}, true)
   //   .then(result => {

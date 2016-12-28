@@ -28,7 +28,7 @@ const basePath = fs.realpathSync('./');
 
 module.exports = class GhstsService extends BaseService {
   constructor(submissions_ref, validateInstance, marsh, unmarsh, version) {
-    super('GHSTS', false, version);
+    super('GHSTS', true, version);
     this.ghsts = submissions_ref;
     this._validate = validateInstance;
     this._marsh = marsh;
@@ -41,14 +41,14 @@ module.exports = class GhstsService extends BaseService {
       try {
         let mongoose = require('mongoose');
         let Schema = mongoose.Schema;
-        
+
         let jschema = {
           _foldername: { type: String, required: true },
-          _submissionid: { type: 'ObjectId', ref: 'SUBMISSION', required: true }, 
-          _submissionnumber: {type: Number, default: 1 },
+          _submissionid: { type: 'ObjectId', ref: 'SUBMISSION', required: true },
+          _submissionnumber: { type: Number, default: 1 },
           _receivers: [{
             receiver: { type: 'ObjectId', ref: 'RECEIVER' },
-            sender: [{type: 'ObjectId', ref: 'SENDER'}]
+            sender: [{ type: 'ObjectId', ref: 'SENDER' }]
           }],
           _product: { type: 'ObjectId', ref: 'PRODUCT' },
           _documents: [{ type: 'ObjectId', ref: 'DOCUMENT' }],
@@ -105,28 +105,27 @@ module.exports = class GhstsService extends BaseService {
         if (subIds) {
           return svr.edb_get({ _id: subIds }, true);
         } else {
-        // let ids4curSub = 
-        // let whereObj = {
-        //   fieldname: '_id',
+          // let ids4curSub = 
+          // let whereObj = {
+          //   fieldname: '_id',
           return super.edb_get(obj, pop, where); /// need to return
         }
       } else if (ghstsId) {
-        return super.edb_get({_id: ghstsId}, pop, where);
-      } else 
-        return Q.reject(new Error(new RVHelper('EDB12008')));
+        return super.edb_get({ _id: ghstsId }, pop, where);
+      } else
+        return Q.reject(new RVHelper('EDB12008'));
     } else {
       let query = obj;
       let keys = Object.keys(query);
       keys.map(key => {
         query['_' + key] = query[key];
-        delete query[key];        
+        delete query[key];
       });
       return super.edb_get(query, pop, where);
     }
   }
 
   edb_put(obj) {
-    let self = this;
     return new Q((res, rej) => {
       if (!obj) {
         rej(new RVHelper('EDB12002', obj));
@@ -213,13 +212,13 @@ module.exports = class GhstsService extends BaseService {
   // }
 
   _createFolder(folderName) {
-        try {
-          fs.mkdirSync(folderName);
-        } catch (err) {
-          if (err.code !== 'EEXIST')
-            throw err;
-        }
-      }
+    try {
+      fs.mkdirSync(folderName);
+    } catch (err) {
+      if (err.code !== 'EEXIST')
+        throw err;
+    }
+  }
 
   // _beforeCreateOrLoad(filepath) {
   //   let curpath = filepath;

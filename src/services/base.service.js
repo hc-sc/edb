@@ -166,6 +166,12 @@ module.exports = class BaseService {
       let entityClass = require('mongoose').model(self.modelClassName);
       let refObj = self.referencedBy;
       if (refObj) {
+        Q.coroutine(function* (id){
+
+        });
+        refObj.refName.map(item => {
+
+        });
         refObj._id = id;
         entityClass.referenceCheck(refObj, (err, rets) => {
           if (err)
@@ -569,13 +575,6 @@ module.exports = class BaseService {
             virtuals: true
           }
         });
-
-        mschema.statics.referenceCheck = function (refNameAndId, callback) {
-          let refModel = require('mongoose').model(refNameAndId.refName.toUpperCase());
-          let query = {};
-          query[refNameAndId.field] = refNameAndId._id;
-          return refModel.count(query, callback);
-        };
 
         let selfPlugin;
         mschema.plugin(ServiceLevelPlugin, {
