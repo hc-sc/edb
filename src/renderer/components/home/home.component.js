@@ -1,7 +1,6 @@
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import ngMaterial from 'angular-material';
-import _ from 'lodash';
 import mdDataTable from 'angular-material-data-table';
 import template from './home.template';
 
@@ -53,7 +52,6 @@ export default angular.module('home', [
         navIcons: [
           { name: 'home', label: 'Home', state: 'splash' }
         ],
-        title: 'Manage Dossiers',
         functionIcons: [
           { name: 'globals', state: 'globals.legalEntities', label: 'Entities' },
           { name: 'settings', state: 'settings', label: 'Settings' },
@@ -147,7 +145,7 @@ export default angular.module('home', [
     }
 
     selectSubmission(id, index) {
-      this.$state.go('submission.description', {
+      this.$state.go('submission.receivers', {
         dossierid: this.dossier._id,
         submissionid: this.submissions[index]._id,
         dossiertitle: this.dossier.dossierdescriptiontitle
@@ -178,7 +176,6 @@ export default angular.module('home', [
         console.log('it is /// ' + ret );
       });
     }
-
   }
 })
 .service('DossierService', DossierService)

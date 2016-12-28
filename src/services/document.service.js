@@ -4,6 +4,8 @@ module.exports = class DocumentService extends BaseService {
   constructor(version) {
     super('DOCUMENT', false, version);
     this.modelClassNamePre = 'GHSTS.DOCUMENTS';
+    this.referencedBy = {refName: 'ghsts', field: '_documents'};
+    this.pidField = ['documentgeneric.documentpid', 'documentgeneric.documentfamilypid'];
   }
 };
 

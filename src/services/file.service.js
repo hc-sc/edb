@@ -1,9 +1,61 @@
 const BaseService = require('./base.service');
+const { dialog } = require('electron');
+const Q = require('bluebird');
+const fs = require('fs');
+const RVHelper = require('../utils/return.value.helper').ReturnValueHelper;
+const crypto = require('crypto');
 
 module.exports = class FileService extends BaseService {
   constructor(version) {
     super('FILE', true, version);
     this.modelClassNamePre = 'GHSTS.FILES';
+    this.referencedBy = {refName: 'document', field: 'documentgeneric.referencedtofile.toFileId'};
+    this.pidField = 'filegeneric.filepid';
+  }
+
+  edb_selectFile(obj) {
+    return new Q((res, rej) => {
+      let self = this;
+      let selFile = dialog.showOpenDialog({
+        title: 'Choose a file',
+        properties: ['openFile'],
+        defaultPath: self.productDir
+      });
+      if (selFile.length === 1) {
+        console.log(JSON.stringify(obj));
+        try {
+          let data = fs.readFileSync(selFile[0]);
+          let md5 = crypto.createHash('md5').update(data).digest('hex');
+          let entity = obj ? obj : {};
+          if (entity._id) {
+            entity._filereallocation = selFile[0];
+            entity.filegeneric.md5CHECKSUM = md5;
+            self.edb_post(entity)
+              .then(ret => {
+                res(ret);
+              })
+              .catch(err =>{
+                rej(err);
+              });
+          } else {
+            entity._filereallocation = selFile[0];
+            entity.filegeneric = {};
+            entity.filegeneric.md5CHECKSUM = md5;
+            self.edb_put(entity)
+              .then(ret => {
+                res(ret);
+              })
+              .catch(err => {
+                rej(err);
+              });
+          }
+        } catch (err) {
+          rej(err);
+        }
+      } else {
+        res(new RVHelper('EDB00001'));
+      }
+    });
   }
 };
 

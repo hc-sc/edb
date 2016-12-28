@@ -40,8 +40,10 @@ module.exports = class PickListService extends BaseService {
         let mongoose = require('mongoose');
         let Schema = mongoose.Schema;
         let mschema = new Schema(jschema, {
-          id: false,
-          minimize: false
+          retainKeyOrder: true,
+          validateBeforeSave: false,
+          toJSON: { getters: true, virtuals: true },
+          toObject: { getters: true, virtuals: true }
         });
         mschema.plugin(ServiceLevelPlugin, { url: self.modelClassName.toLowerCase() });
         let mmodule = mongoose.model(self.modelClassName, mschema);
@@ -59,12 +61,7 @@ module.exports = class PickListService extends BaseService {
                   rej(err);
                 });
             } else {
-              let retInMem = result.map(ret => {
-                let newRet = ret.toObject();
-                newRet._id = ret._id.toString();
-                return newRet;
-              });
-              global.modulesInMemory[self.modelClassName.toLowerCase()] = retInMem;
+              global.modulesInMemory[self.modelClassName.toLowerCase()] = self._format4InMem(result);
               res(new RVHelper('EDB00000'));
             }
           });

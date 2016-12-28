@@ -1,11 +1,6 @@
 import angular from 'angular';
 import ngMaterial from 'angular-material';
-import _ from 'lodash';
 import template from './description.template';
-import {} from 'angular-ui-layout';
-
-import 'angular-ui-layout/src/ui-layout.css';
-
 
 import TextInput from '../common/text-input/text-input.component';
 import SelectInput from '../common/select-input/select-input.component';
@@ -19,8 +14,7 @@ export default angular.module('description', [
   TextInput,
   SelectInput,
   Icon,
-  Tbl,
-  'ui.layout'
+  Tbl
 ])
   .component('description', {
     template,
@@ -28,37 +22,21 @@ export default angular.module('description', [
       dossierData: '<'
     },
     controller: class DescriptionCtrl extends BaseCtrl {
-      constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, $rootScope) {
-        super($mdDialog, $mdToast, $state, PicklistService, AppDataService, 'dossier');
-        this.$rootScope = $rootScope;
-
-        this.getAppData({_id: this.dossierData.submissionid}, 'submission')
-        .then(result => {
-          this.submission = JSON.parse(result.data)[0];
-          return this.getAppData({_id: this.dossierData.dossierid}, 'dossier');
-        })
-        .then(result => {
-          this.dossier = JSON.parse(result.data)[0];
-
-          // have two references, so we can still use the base ctrl code
-          this.selected = this.dossier;
-          this.loading = false;
+      constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope) {
+        super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'dossier', $scope);
+        this.init().then(() => {
+          return this.getPicklist('EXTENSION_TYPE_REGULATORY_TYPE');
+        }).then(regulatorytype => {
+          this.regulatoryTypes = JSON.parse(regulatorytype.data);
+          return this.getPicklist('EXTENSION_TYPE_APPLICATION_TYPE');
+        }).then(applicationtype => {
+          this.applicationTypes = JSON.parse(applicationtype.data);
+          this.picklists = {
+            regulatoryTypes: this.regulatoryTypes,
+            applicationTypes: this.applicationTypes
+          };
+          this.$scope.$root.loading = false;
         });
-      }
-
-      // need to have one for submission and another for dossier
-      update(prop, value) {
-        if (prop === 'dossierdescriptiontitle') {
-          this.$rootScope.title = value;
-        }
-        this.selected[prop] = value;
-      }
-
-      /** set up business rules as to which items are deletable */
-      markDeletable() {
-        for (let dossierra of this.dossier.dossierra) {
-          dossierra.deletable = true;
-        }
       }
     }
   })

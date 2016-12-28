@@ -8,6 +8,7 @@
     <select-input-extensible label='"Formulation Type"' select-value='$ctrl.selected.formulationtype' on-update='$ctrl.update("formulationtype", value)'
       values='$ctrl.formulationType' type-name='EXTENSION_TYPE_FORMULATION_TYPE' on-add='$ctrl.createPicklistItem("formulationtype", "formulationType", value)'>
     </select-input-extensible>
+<<<<<<< HEAD
     <tbl ng-if='!$ctrl.loading' title='Ingredients' 
           items='$ctrl.selected.ingredients.ingredient' 
           projection='[{name: "toSubstanceId", url: "substance"}, "quantity", {name: "unit", url: "picklist"}]' 
@@ -16,6 +17,10 @@
           on-delete='$ctrl.deleteTblItem("ingredients.ingredient",index)'>
     </tbl>
     <tbl ng-if='!$ctrl.loading' title='Product Regulatory Authorities' items='$ctrl.selected.productra' projection='["productname", "toSpecificForRAId"]' on-select='$ctrl.selectTblItem("productra",index)' on-add='$ctrl.addTblItem("productra")' on-delete='$ctrl.deleteTblItem("productra",index)'></tbl>
+=======
+    <tbl ng-if='!$ctrl.loading' title='Ingredients' items='$ctrl.selected.ingredients.ingredient' projection='[{name: "toSubstanceId", url: "substance"}, "quantity", {name: "unit", url: "picklist"}]' on-select='$ctrl.selectTblItem("ingredients.ingredient",index)' on-add='$ctrl.addTblItem("ingredients.ingredient")' on-delete='$ctrl.deleteTblItem("ingredients.ingredient",index)'></tbl>
+    <tbl ng-if='!$ctrl.loading' title='Product Regulatory Authorities' items='$ctrl.selected.productra' projection='["productname", {name: "toSpecificForRAId", url: "receiver"}]' on-select='$ctrl.selectTblItem("productra",index)' on-add='$ctrl.addTblItem("productra")' on-delete='$ctrl.deleteTblItem("productra",index)'></tbl>
+>>>>>>> ec9648dee6491ac545ff561fbb3fcb75e5152ac0
     <div style='z-index:100' class='float-bottom'>
       <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
         <md-icon md-svg-icon='save' class='light'></md-icon>

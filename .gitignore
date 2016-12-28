@@ -3,7 +3,9 @@ node_modules
 build
 dist
 projects
+products
 css
 data
-prepublish
+prepublish/win-unpacked
+prepublish/*.zip
 src/renderer/view-models/gen

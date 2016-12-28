@@ -1,5 +1,3 @@
-import angular from 'angular';
-
 export default class ModalBaseCtrl {
   constructor($mdDialog, index, node, picklists, picklistService, $scope) {
     this.$mdDialog = $mdDialog;
