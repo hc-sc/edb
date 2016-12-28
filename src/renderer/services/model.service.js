@@ -17,6 +17,8 @@ import modelDocumentGeneric from '../view-models/gen/documentgeneric.json';
 import modelDocumentRA from '../view-models/gen/documentra.json';
 import modelDocumentNumber from '../view-models/gen/documentnumber.json';
 import modelDocumentContentStatus from '../view-models/gen/contentstatushistory.json';
+import modelReferencedDocument from '../view-models/gen/referenceddocument.json';
+
 export default class ModelService {
   constructor() {}
   getModel(prop) {
@@ -73,6 +75,11 @@ export default class ModelService {
 
       case 'documentgeneric.contentstatushistory':
         return Object.assign(modelDocumentContentStatus.fields);
+
+      case 'documentgeneric.referenceddocument':
+        model = Object.assign(modelReferencedDocument.fields);
+        //model.documentnumber = this.getModel('documentgeneric.documentnumber');
+        return model;
     }
   }
 }

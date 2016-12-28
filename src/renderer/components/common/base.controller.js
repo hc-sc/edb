@@ -158,6 +158,7 @@ export default class BaseCtrl {
       .then(item => {
         this.getRef(nodeName)[index] = item;
         this.selected = angular.copy(this.selected);
+        // console.log("selectTblItem" + this.selected);
         this.showMessage('Updated');
       });
   }
