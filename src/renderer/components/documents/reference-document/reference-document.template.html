@@ -13,8 +13,25 @@
 
     <md-dialog-content>
       <div class='md-dialog-content'>
-        <select-input label='Reference Type' values='[]'></select-input>
-        <md-switch>Internal</md-switch>
+        <select-input label='Reference Type' 
+            select-value='$ctrl.node.referencetype' 
+            values='$ctrl.picklists.referenceTypeOptions' 
+            on-update='$ctrl.update("referencetype", value)'>
+         </select-input>
+        <text-input label='Internal' 
+            text-value='$ctrl.node.internal' 
+            on-update='$ctrl.update("internal", value)'>
+        </text-input>
+        <text-input label='Document PID' 
+            text-value='$ctrl.node.documentpid' 
+            on-update='$ctrl.update("documentpid", value)'>
+        </text-input>
+        <select-input-extensible label='"Document Number Type"' select-value='$ctrl.node.documentnumber.documentnumbertype'         
+                on-update='$ctrl. update("documentnumbertype", value)'
+                values='$ctrl.picklists.documentNumberTypeOptions' 
+                type-name='EXTENSION_TYPE_DOCUMENT_NUMBER_TYPE' 
+                on-add='$ctrl.createPicklistItem("documentnumbertype", "documentNumberTypeOptions", value)'>
+        </select-input-extensible>
       </div>
     </md-dialog-content>
 
@@ -23,5 +40,6 @@
       <md-button ng-click='$ctrl.confirm()'>Okay</md-button>
       <md-button ng-click='$ctrl.cancel()'>Cancel</md-button>
     </md-dialog-actions>
+    
   </form>
 </md-dialog>

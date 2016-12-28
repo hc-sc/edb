@@ -162,10 +162,36 @@
                 "identifier": "T-423579-01-1"
               }
             ],
+			    "referenceddocument": [    
+              {
+                "TYPE_NAME": "GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.REFERENCEDDOCUMENT",
+                "referencetype": {
+                  "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.REFERENCEDDOCUMENT.REFERENCETYPE",
+                  "value": "document to replaced document",
+                  "valuedecode": "document to replaced document"
+                },
+                "internal": true,
+				        "documentpid": "123Hai",
+                "documentnumber": 
+                      {
+                          "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.REFERENCEDDOCUMENT.DOCUMENTNUMBER",
+                          "documentnumbertype": {
+                          "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.REFERENCEDDOCUMENT.DOCUMENTNUMBER.DOCUMENTNUMBERTYPE",
+                          "value": {
+                            "TYPE_NAME": "GHSTS.EXTENSIONTYPEDOCUMENTNUMBERTYPE",
+                            "value": "Project Number"
+                            },
+                          "valuedecode": "Project Number"
+                        },
+                        "identifier": "THITHI"
+                      }
+            
+              }
+            ],
             "documenttitle": "C 6313 - Document J - Confidential information",
             "documentauthor": "Anon.",
             "documentissuedate": {
-              "date": "2004-11-05T00:00:00.000Z"
+              "date": "2004-11-05"
             },
             "documentowner": [
               "ECPA"
@@ -349,7 +375,7 @@
             "documenttitle": "Analytical method - CGA 24 705/C 6313 EC 300/200)",
             "documentauthor": "Anon.",
             "documentissuedate": {
-              "date": "2004-11-05T00:00:00.000Z"
+              "date": "2004-11-05"
             },
             "documentowner": [
               "ECPA"

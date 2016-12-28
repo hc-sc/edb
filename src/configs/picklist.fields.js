@@ -11,8 +11,12 @@ const PicklistFieldsConfig = {
   contentstatus: {typename: 'TYPE_CONTENT_STATUS', isExt: false},
   filetype: {typename: 'TYPE_FILE_TYPE', isExt: false},
   documentnumbertype: {typename: 'EXTENSION_TYPE_DOCUMENT_NUMBER_TYPE', isExt: false},
+<<<<<<< HEAD
+  referencetype:{typename: 'TYPE_REFERENCE_TYPE', isExt: false}
+=======
   tocowner: {typename: 'EXTENSION_TYPE_TOC_OWNER', isExt: true}
 
+>>>>>>> ec9648dee6491ac545ff561fbb3fcb75e5152ac0
 };
 
 // const getPropertyName = (typename) => {
