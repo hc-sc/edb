@@ -22,7 +22,7 @@ module.exports = class FileService extends BaseService {
         defaultPath: self.productDir
       });
       if (selFile.length === 1) {
-        console.log(JSON.stringify(obj));
+        // console.log(JSON.stringify(obj));
         try {
           let data = fs.readFileSync(selFile[0]);
           let md5 = crypto.createHash('md5').update(data).digest('hex');
