@@ -29,10 +29,11 @@ export default angular.module('submission', [
       toc: '<'
     },
     controller: class SubmissionCtrl {
-      constructor($state, AppDataService, $transitions, $rootScope) {
+      constructor($state, AppDataService, $transitions, $rootScope, GhstsService) {
         this.$state = $state;
         this.$rootScope = $rootScope;
         this.appDataService = AppDataService.getService();
+        this.ghstsService = GhstsService.getService();
 
         //allows for interrupting state transition (for use with ensuring any modifications are saved)
         this.dereg = $transitions.onBefore({}, (event) => {
@@ -68,7 +69,7 @@ export default angular.module('submission', [
       }
 
       validateXML() {
-        this.GhstsService.edb_validation()
+        this.ghstsService.edb_validation()
         .then(results => {
           console.log(results);
         })
@@ -78,7 +79,7 @@ export default angular.module('submission', [
       }
 
       package() {
-        this.GhstsService.edb_package()
+        this.ghstsService.edb_package()
         .then(results => {
           console.log(results);
         })

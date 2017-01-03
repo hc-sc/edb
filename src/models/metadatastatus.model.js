@@ -32,12 +32,7 @@ module.exports.MetaDataStatusNode = MetaDataStatusNode;
 module.exports.MetaDataStatus = class MetaDataStatus {
   constructor(version) {
     this.version = version;
-    this.metadatastatusValues = {};
-
-    let mds = PicklistService.edb_getSync({TYPE_NAME: 'TYPE_METADATA_STATUS'});
-    mds.map(item => {
-      this.metadatastatusValues[item.value.toLowerCase().replace(' ', '')] = item._id;
-    });
+    this.metadatastatusValues = MetaDataStatus.getMetadataStatusValues();
     Object.assign(this, metadataStatusdef[this.version].fields);
   }
 
@@ -45,5 +40,23 @@ module.exports.MetaDataStatus = class MetaDataStatus {
     this.product = new MetaDataStatusNode(productid, isNew ? this.metadatastatusValues.new : this.metadatastatusValues.nochange);
     if (tocid)
       this.toc = new MetaDataStatusNode(tocid, isNew ? this.metadatastatusValues.new : this.metadatastatusValues.nochange);
+  }
+
+  static getMetadataStatusValues() {
+    let mds = PicklistService.edb_getSync({TYPE_NAME: 'TYPE_METADATA_STATUS'});
+    let retVal = {};
+    mds.map(item => {
+      retVal[item.value.toLowerCase().replace(' ', '')] = item._id;
+    });
+    return retVal;
+  }
+
+  static getMetadataStatusIdbyValue(value) {
+    let mds = PicklistService.edb_getSync({TYPE_NAME: 'TYPE_METADATA_STATUS'});
+    let retVal = _.filter(mds, item => {
+      if (item.valuedecode.toLowerCase().replace(' ', '') === value.toLowerCase().replace(' ', ''))
+        return item;
+    });
+    return retVal[0]._id.toString();
   }
 };
