@@ -12,7 +12,8 @@ const BACKEND_CONSTANTS = {
   TEMPLATE_DIR_NAME: 'templates',
   STANDARD_DIR_NAME: 'standards',
   DEF_SUB_DIR_NAME: 'jsondefinitions',
-  DEFAULT_GHSTS_VERSION: '01.00.00'
+  DEFAULT_GHSTS_VERSION: '01.00.00',
+  HTML5_METHODS: ['get', 'put', 'post', 'delete']
 };
 
 module.exports = BACKEND_CONSTANTS;

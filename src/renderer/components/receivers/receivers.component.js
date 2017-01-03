@@ -20,14 +20,26 @@ export default angular.module('receiver', [
     isSubmission: '<'
   },
   controller: class ReceiversCtrl extends BaseCtrl {
-    constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope) {
+    constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope, GhstsService) {
       super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'receiver', $scope);
+      this.ghstsService = GhstsService.getService();
+      console.log(this.dossierData);
       this.init()
       .then(() => {
-        return this.getAppData({}, 'legalentity');
+        return this.ghstsService.edb_get({_submissionid: this.dossierData.submissionid});
       })
-      .then(legalentities => {
-        this.legalEntities = JSON.parse(legalentities.data);
+      .then(ghsts => {
+        console.log(ghsts);
+        this.ghsts = JSON.parse(ghsts.data)[0];
+        return GhstsService.getService().edb_get({_url: 'receiver'});
+      })
+      .then(receivers => {
+        console.log(receivers);
+        this.records = receivers.data ? JSON.parse(receivers.data) : [];
+      //   return this.getAppData({}, 'legalentity');
+      // })
+      // .then(legalentities => {
+      //   this.legalEntities = JSON.parse(legalentities.data);
         this.$scope.$root.loading = false;
       });
     }

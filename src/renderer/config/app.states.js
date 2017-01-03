@@ -33,9 +33,6 @@ export default function ($stateProvider, $urlRouterProvider) {
       url: '/receiver',
       component: 'receiver',
       resolve: {
-        receivers: GhstsService => {
-          return GhstsService.getService().edb_get({_url: 'receiver'});
-        },
         isSubmission: ['$stateParams', () => true]
       }
     })

@@ -58,9 +58,6 @@ module.exports = class BaseService {
       try {
         entityClass = require('mongoose').model(self.modelClassName);
         let dbquery;
-        if (where) {
-          dbquery.where(where.fieldname).in(where.ids);
-        }
 
         if (pop) {
           let pops = [];
@@ -77,6 +74,9 @@ module.exports = class BaseService {
         } else
           dbquery = entityClass.find(query);
 
+        if (where) {
+          dbquery.where(where.fieldname ? where.fieldname : '_id').in(where.ids ? where.ids : where);
+        }
         dbquery
           .exec((err, rows) => {
             if (err)
@@ -272,12 +272,12 @@ module.exports = class BaseService {
 
     if (Array.isArray(data)) {
       retVal = data.map(ret => {
-        let newRet = ret.toObject();
+        let newRet = _.merge({}, ret.toObject());
         newRet._id = ret._id.toString();
         return newRet;
       });
     } else {
-      retVal = data.toObject();
+      retVal = _.merge({}, data.toObject());
       retVal._id = data._id.toString();
     }
     return retVal;
@@ -551,6 +551,17 @@ module.exports = class BaseService {
     classname = classname.slice(0, classname.indexOf('Service')).toLowerCase();
     if (!global.modulesInMemory[classname])
       return new RVHelper('EDB10002');
+    else if (Array.isArray(obj))
+      retVal = _.filter(global.modulesInMemory[classname], p => {
+        return _.includes(obj, p._id);
+      });
+    else if (obj && obj.hasOwnProperty('where')) {
+      let condi = obj.where;
+      let key = Object.keys(condi)[0];
+      retVal =  _.filter(global.modulesInMemory[classname], p => {
+        return _.includes(p[key].toString(), condi[key]);
+      });
+    }
     else
       retVal = _.filter(global.modulesInMemory[classname], obj);
     return retVal;

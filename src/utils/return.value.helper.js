@@ -37,6 +37,13 @@ const RETURN_VALUE_CONFIG = {
   EDB12006: { msg: 'Packaged submission, reload it?' },
   EDB12007: { msg: 'Cannot create submisson with empty submission number.' },
   EDB12008: { msg: 'Retriving GHSTS without GHSTS id' },
+  EDB12009: { msg: 'Create submission without product id' },
+  EDB12010: { msg: 'Create submission without dossier id' },
+  EDB12011: { msg: 'Create submission without toc id' },
+  EDB12012: { msg: 'Link sub element for one submission without sub url' },
+  EDB12013: { msg: 'Update sub element for one submission without sub url' },
+  EDB12014: { msg: 'Link sub element for one submission without sub id' },
+  EDB12015: { msg: 'Update sub element for one submission without sub id' },
 
   EDB13001: { msg: 'Mongoose model cannot be found' },
   

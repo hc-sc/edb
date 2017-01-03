@@ -180,29 +180,37 @@ ipc.on(SHARED_CONST.PICKLIST_MSG_CHANNEL, function (event, arg) {
 });
 
 ipc.on(SHARED_CONST.PICKLIST_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, function (event, arg) {
-  let svr = new PicklistService();
   if (arg.method !== 'get') {
     event.returnValue = new RVHelper('EDB10003');
   } else {
     let method = 'edb_' + arg.method + 'Sync';
     event.returnValue = PicklistService[method](arg.data);
-    // event.returnValue = sync.await(svr['edb_get'](arg.data));
   }
 });
 
 ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL, function (event, arg) {
   let svr = new GhstsService(submissions, validateInsts['01_00_00']);
-  let method = 'edb_' + arg.method;
   let timestamp = arg.timestamp;
   if (lastMessageTimestamp === timestamp) {
     console.log('There are duplicatied message request');
   }
   lastMessageTimestamp = timestamp;
-  svr[method](arg.data).then(result => {
-    if (method === 'edb_get' && arg.data) {  // need to refactory
-      submissions[0] = JSON.parse(result.data);
-    }
 
+  let method = 'edb_' + arg.method, newData = arg.data ? _.merge({}, arg.data) : undefined;
+
+  if (newData && BACKEND_CONST.HTML5_METHODS.indexOf(arg.method) >= 0) {  /// may have sub-url
+    if ((arg.url && arg.url !== 'ghsts') && (arg.data && arg.data._url && arg.data._url !== 'ghsts')) { ///has sub-url
+      if (arg.url === arg.data._url) 
+        newData._subUrl = arg.url.replace('/^ghsts\//', '');
+      else
+        newData._subUrl = arg.url.replace('/^ghsts\//', '').concat('/').concat(arg.data._url.replace('/^ghsts/', ''));
+    } else if (arg.url && arg.url !== 'ghsts') {
+      newData._subUrl = arg.url.replace('/^ghsts\//', '');
+    } else if (arg.data && arg.data._url && arg.data._url !== 'ghsts') {
+      newData._subUrl = arg.data._url.replace('/^ghsts/', '');
+    } 
+  }
+  svr[method](newData).then(result => {
     event.sender.send(SHARED_CONST.GHSTS_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, result);
   })
     .catch(err => {
@@ -296,7 +304,7 @@ app.on('ready', function () {
   mainWindow.loadURL('file://' + __dirname + '/../build/renderer/index.html');
   mainWindow.webContents.on('did-finish-load', function () {
     // TODO: setTitle is being deprecated, find and use alternative
-    mainWindow.setTitle("e-Dossier Builder (V1.3.0 DRAFT)");
+    mainWindow.setTitle("e-Dossier Builder (V1.4.0 DRAFT)");
     //if (configure.env.toString().toUpper() == 'DEV'){
     mainWindow.openDevTools();
     backendTest();
@@ -310,8 +318,9 @@ app.on('ready', function () {
 // const testService = require('./services/legalentity.service');
 // const testService = require('./services/picklist.service');
 // const testService = require('./services/dossier.service');
-const testService = require('./services/substance.service');
-// const testService = require('./services/ghsts.service');
+// const testService = require('./services/substance.service');
+const testService = require('./services/ghsts.service');
+const ReceiverService = require('./services/receiver.service');
 // const testService = require('./services/receiver.service');
 // const testService = require('./services/file.service');
 // const testService = require('./services/toc.service');
@@ -319,17 +328,47 @@ const testService = require('./services/substance.service');
 // const testService = require('./services/submission.service');
 var backendTest = () => {
   console.log('--------- Backend Test Start ----------');
-  let svr = new testService();
-  let names = require('mongoose').modelNames();
-  console.log(names);
+  // let svr = new testService(submissions);
+  // let recSvr = new ReceiverService();
 
-  svr._reference_check('585bf5be491a3614a4f90537')
-    .then(ret => {
-      console.log(ret);
-    })
-    .catch(err => {
-      console.log(err);
-    });
+  // svr.edb_get({_submissionid: '586699c418c57512d4377ddb'})
+  //   .then(ret => {
+  //     console.log(JSON.stringify(submissions[0]));
+  //     return recSvr.edb_get({_id: '586699c418c57512d4377eaa'});
+  //   })
+  //   .then(ret => {
+  //     console.log(ret.data);
+  //     let obj = JSON.parse(ret.data)[0];
+  //     obj._subUrl = obj._url + '/' + obj._id.toString();
+  //     return svr.edb_put(obj);
+  //   })
+  //   .then(ret => {
+  //     console.log(ret);
+  //   })
+  //   .catch(err => {
+  //     console.log(err);
+  //   });
+
+
+
+
+  // svr.edb_get({url:'ghsts/5863d99720883016c849b88d/legalentity'})
+  // .then(ret => {
+  //   console.log(ret);
+  // })
+  // .catch(err =>{
+  //   console.log(err);
+  // });
+  // let names = require('mongoose').modelNames();
+  // console.log(names);
+
+  // svr._reference_check('585bf5be491a3614a4f90537')
+  //   .then(ret => {
+  //     console.log(ret);
+  //   })
+  //   .catch(err => {
+  //     console.log(err);
+  //   });
 
   // svr.initDbfromTestData();
   //const Fiber = require('fibers');

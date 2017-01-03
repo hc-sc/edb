@@ -17,7 +17,7 @@ module.exports = class ProductService extends BaseService {
       let self = this;
       let tdPath = path.resolve('./', BACKEND_CONST.BASE_DIR1, BACKEND_CONST.BASE_DIR2, 'test', 'product.json');
       let td = require(tdPath)['product'];
-      let submissions = [], dossiers = [], products = [], qAry = [];
+      let submissions = [], dossiers = [], products = [], qAry = [], subHasGhsts = {};
 
       td.map(item => {
         submissions.push(item.product.dossier.submission);
@@ -76,6 +76,8 @@ module.exports = class ProductService extends BaseService {
         Q.all(qAry)
         .bind(index)
         .then(rets => {
+          if (rets.length === 1)
+            subHasGhsts = JSON.parse(rets[0].data);
           dossiers[index].submission = [];
           rets.map(items => {
             dossiers[index].submission.push(JSON.parse(items.data)._id.toString());
@@ -100,12 +102,14 @@ module.exports = class ProductService extends BaseService {
           if (submissions[index].length === 1) {
             ghstsSvr._create({
               _submissionid: dossiers[index].submission[0],
-              _submissionnumber: submissions[index][0].submissionnumber,
+              _submissionnumber: parseInt(submissions[index][0].submissionnumber),
               _product: products[index]._id,
               _foldername: products[index].genericproductname + BACKEND_CONST.PRODUCT_DOSSIER_FOLDER_CONTACT_SYMBOL + dossiers[index].dossierdescriptiontitle
             })
+            .bind(index)
             .then(ret => {
-              res(ret);
+              subHasGhsts._ghsts = JSON.parse(ret.data)._id.toString();
+              res(subSvr._update(subHasGhsts));
             })
             .catch(err => {
               rej(err);
