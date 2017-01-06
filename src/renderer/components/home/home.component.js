@@ -145,7 +145,7 @@ export default angular.module('home', [
     }
 
     selectSubmission(id, index) {
-      this.$state.go('submission.receivers', {
+      this.$state.go('submission.sub', {
         dossierid: this.dossier._id,
         submissionid: this.submissions[index]._id,
         dossiertitle: this.dossier.dossierdescriptiontitle

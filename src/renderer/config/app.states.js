@@ -25,6 +25,10 @@ export default function ($stateProvider, $urlRouterProvider) {
         }
       }
     })
+    .state('submission.sub', {
+      url: '/sub',
+      component: 'sub'
+    })
     .state('submission.toc', {
       url: '/toc',
       component: 'toc',

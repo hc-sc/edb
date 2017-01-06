@@ -21,6 +21,7 @@ import Description from './components/description/description.component';
 import Receivers from './components/receivers/receivers.component';
 import Documents from './components/documents/documents.component';
 import TOC from './components/toc/toc.component';
+import Sub from './components/sub/sub.component';
 
 import Services from './services';
 
@@ -52,7 +53,8 @@ angular.module('app', [
   Description,
   Receivers,
   Documents,
-  TOC
+  TOC,
+  Sub
 ])
 .config(states)
 .config(theme)
