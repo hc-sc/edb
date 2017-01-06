@@ -152,6 +152,17 @@ export default angular.module('home', [
       });
     }
 
+    newSubmission() {
+      // get new ghsts ids
+      this.GhstsService.edb_get()
+      .then(newSubmission => {
+        console.log(newSubmission);
+      });
+
+      // this.$state.go('submission.sub', {
+      // })
+    }
+
     update(prop, value) {
       this[prop] = value;
     }

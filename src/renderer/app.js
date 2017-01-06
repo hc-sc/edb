@@ -22,6 +22,7 @@ import Receivers from './components/receivers/receivers.component';
 import Documents from './components/documents/documents.component';
 import TOC from './components/toc/toc.component';
 import Sub from './components/sub/sub.component';
+import Picklists from './components/picklists/picklists.component';
 
 import Services from './services';
 
@@ -49,7 +50,7 @@ angular.module('app', [
   Substances,
   Products,
   Files,
-  // Picklists,
+  Picklists,
   Description,
   Receivers,
   Documents,

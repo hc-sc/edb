@@ -73,6 +73,7 @@ export default class BaseCtrl {
         this[arr].push(item);
 
         // need to allow the select component to update BEFORE assigning a new selected
+        // this solution is not good
         // in the future, have the select component use lifecycle methods to return when it is finished
         setTimeout(() => {
           this.selected[prop] = item._id;
