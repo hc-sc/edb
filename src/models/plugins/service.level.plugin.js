@@ -15,6 +15,11 @@ module.exports = exports = function ServiceLevelPlugin(schema, options) {
     next();
   });
 
+  schema.pre('update', function (next) {
+    this.update({}, {$set: {_lastMod: new Date()}});
+    next();
+  });
+
   schema.statics.referenceCheck = function (refNameAndId, callback) {
     let refModel = require('mongoose').model(refNameAndId.refName.toUpperCase());
     let query = {};
