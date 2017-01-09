@@ -1,7 +1,9 @@
+import {picklistTypes} from '../view-models/picklist.model';
+
 export default function ($stateProvider, $urlRouterProvider) {
   $stateProvider
     .state('splash', {
-      url: '/',
+      url: '/splash',
       component: 'splash'
     })
     .state('home', {
@@ -25,9 +27,9 @@ export default function ($stateProvider, $urlRouterProvider) {
         }
       }
     })
-    .state('submission.sub', {
-      url: '/sub',
-      component: 'sub'
+    .state('submission.submissionNode', {
+      url: '/submission-node',
+      component: 'submissionNode'
     })
     .state('submission.toc', {
       url: '/toc',
@@ -138,6 +140,21 @@ export default function ($stateProvider, $urlRouterProvider) {
         documentNumberType: PicklistService => {
           return PicklistService.getService().edb_get({ 'TYPE_NAME': 'EXTENSION_TYPE_DOCUMENT_NUMBER_TYPE' });
         },
+      }
+    })
+    .state('globals.picklists', {
+      url: '/picklists',
+      component: 'picklists',
+      resolve: {
+        picklists: PicklistService => {
+          const picklistService = PicklistService.getService();
+          return Promise.all(picklistTypes.map(picklist => {
+            return picklistService.edb_get(picklist).then(items => {
+              return {type: picklist, items: JSON.parse(items.data)};
+            });
+          }))
+          .catch(err => console.error(err));
+        }
       }
     })
     .state('settings', {
