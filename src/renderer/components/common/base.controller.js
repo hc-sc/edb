@@ -21,8 +21,9 @@ export default class BaseCtrl {
   init() {
     return this.getAppData()
       .then(records => {
+        console.log('records: ', records);
         this.records = JSON.parse(records.data);
-        if (this.records.length > 0) {
+        if (this.records && this.records.length > 0) {
           // there is some data in the db
           this.selected = this.records[0];
         }
@@ -111,6 +112,7 @@ export default class BaseCtrl {
     else {
       this.updateAppData(angular.copy(this.selected))
         .then(result => {
+          console.log(result);
           this.showMessage('Saved successfully');
         })
         .catch(err => {
@@ -122,7 +124,6 @@ export default class BaseCtrl {
   // update the field values, only works for first level deep items
   // overload it if you need additional ones
   update(prop, value) {
-    console.log(prop, value);
     this.selected[prop] = value;
   }
 
