@@ -328,26 +328,53 @@ const ReceiverService = require('./services/receiver.service');
 // const testService = require('./services/submission.service');
 var backendTest = () => {
   console.log('--------- Backend Test Start ----------');
-  // let svr = new testService(submissions);
-  // let recSvr = new ReceiverService();
+  let svr = new testService(submissions, validateInsts, marshallers);
+  let recSvr = new ReceiverService();
 
-  // svr.edb_get({_submissionid: '586699c418c57512d4377ddb'})
-  //   .then(ret => {
-  //     console.log(JSON.stringify(submissions[0]));
-  //     return recSvr.edb_get({_id: '586699c418c57512d4377eaa'});
-  //   })
-  //   .then(ret => {
-  //     console.log(ret.data);
-  //     let obj = JSON.parse(ret.data)[0];
-  //     obj._subUrl = obj._url + '/' + obj._id.toString();
-  //     return svr.edb_put(obj);
-  //   })
-  //   .then(ret => {
-  //     console.log(ret);
-  //   })
-  //   .catch(err => {
-  //     console.log(err);
-  //   });
+  svr.edb_get({_submissionid: '586fc8a1ac3cad13844bd1ec'})
+    .then(ret => {
+      console.log(JSON.stringify(submissions[0]));
+    //   return recSvr.edb_get({_id: '586fc8a2ac3cad13844bd2bc'});
+    // })
+    // .then(ret => {
+    //   console.log(ret.data);
+    //   let obj = JSON.parse(ret.data)[0];
+    //   obj._subUrl = obj._url + '/' + obj._id.toString();
+    //   return svr.edb_put(obj);
+    // })
+  // //   // .then(ret => {
+  // //     // let obj = {_id: '586699c418c57512d4377eaa', _url: 'receiver'};
+  // //     // obj._subUrl = obj._url + '/' + obj._id.toString();
+  // //     // return svr.edb_delete(obj);
+  // //   // // })
+  // //   // .then(ret => {
+  // //     let obj = {_id: '586699c418c57512d4377eab', _url: 'receiver'};
+  // //     obj._subUrl = obj._url + '/586699c418c57512d4377eaa';
+  // //     return svr.edb_post(obj);
+      // let obj = {};
+      // obj._subUrl = 'receiver/586fc8a2ac3cad13844bd2bc/sender/586699c418c57512d4377eaf';
+      // return svr.edb_put(obj);
+  //     // let obj = {_id: '586699c418c57512d4377eaf'};
+  //     // obj._subUrl = 'receiver/586699c418c57512d4377eab/sender/586699c418c57512d4377eae';
+  //     // return svr.edb_post(obj);
+      // let obj = {tocnodepid: 'urn:node:ID0003773613', docId: '586699c418c57512d4377e99'};
+      // obj._subUrl = 'toc';
+      // return svr.edb_put(obj);
+      // let obj = {tocnodepid: 'urn:node:ID0003773614', docId: '586699c418c57512d4377e99'};
+      // obj._subUrl = 'toc';
+      // return svr.edb_put(obj);
+
+      // let obj = {tocnodepid: 'urn:node:ID0003773613', docId: '586699c418c57512d4377e99'};
+      // obj._subUrl = 'toc';
+      // return svr.edb_delete(obj);
+      return svr._buildXmlJson();
+    })
+    .then(ret => {
+      console.log(JSON.stringify(ret));
+    })
+    .catch(err => {
+      console.log(err);
+    });
 
 
 

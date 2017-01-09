@@ -13,8 +13,8 @@ const metadataStatusdef = {
       substances: []
     },
     path: {
-      documents: ['documentra', 'documentgeneric'],
-      files: ['filera', 'filegeneric']
+      document: ['documentra', 'documentgeneric'],
+      file: ['filera', 'filegeneric']
     }
   }
 };
@@ -27,7 +27,26 @@ class MetaDataStatusNode {
   }
 }
 
+class MetaDataStatusNodeWithRA {
+  constructor(elementid, metadatastatusid, elementpath, receiverids, version) {
+    this.elementid = elementid;
+    let ver = version ? version : '01.00.00';
+    metadataStatusdef[ver].path[elementpath].map(item => {
+      if (item.endsWith('ra')) {
+        this[item] = [];
+        receiverids.map(rec => {
+          let mdRas = new MetaDataStatusNode(rec.receiver, metadatastatusid, elementpath + '.' + item);
+          this[item].push(mdRas);
+        });
+      } else {
+        this[item] = new MetaDataStatusNode(elementid, metadatastatusid, elementpath + '.' + item);
+      }
+    });
+  }
+}
+
 module.exports.MetaDataStatusNode = MetaDataStatusNode;
+module.exports.MetaDataStatusNodeWithRA = MetaDataStatusNodeWithRA;
 
 module.exports.MetaDataStatus = class MetaDataStatus {
   constructor(version) {

@@ -7,6 +7,7 @@ const _ = require('lodash');
 
 const RVHelper = require('../utils/return.value.helper').ReturnValueHelper;
 const ServiceLevelPlugin = require('../models/plugins/service.level.plugin');
+const PicklistFieldsConfig = require('../configs/picklist.fields');
 
 module.exports = class PickListService extends BaseService {
   constructor(version) {
@@ -74,4 +75,31 @@ module.exports = class PickListService extends BaseService {
   getOtherValue() {
     return SHARED_CONST.PICKLIST_OTHER_VALUE;
   }
+
+  static toJsonix(id) {
+    let retVal = {};
+    let dbValue = PickListService.edb_getSync({_id: id})[0];
+    delete retVal.id;
+    let pklDef = _.filter(PicklistFieldsConfig, {typename:dbValue.TYPE_NAME})[0];
+
+    retVal.TYPE_NAME = pklDef.fieldPath;
+    retVal.valuedecode = dbValue.valuedecode;
+
+    if (dbValue.isExt) {
+      retVal.value = {
+        TYPE_NAME: pklDef.jsonixName,
+        otherValue: dbValue.value,
+        value: SHARED_CONST.PICKLIST_OTHER_VALUE
+      };
+    } else if (pklDef.isExt) {
+      retVal.value = {
+        TYPE_NAME: pklDef.jsonixName,
+        value: dbValue.value
+      };
+    } else {
+      retVal.value = dbValue.value;
+    }
+    return retVal;
+  }
+
 };

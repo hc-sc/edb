@@ -44,7 +44,8 @@ const RETURN_VALUE_CONFIG = {
   EDB12013: { msg: 'Update sub element for one submission without sub url' },
   EDB12014: { msg: 'Link sub element for one submission without sub id' },
   EDB12015: { msg: 'Update sub element for one submission without sub id' },
-
+  EDB12016: { msg: 'De-link sub element for one submission without sub id' },
+  
   EDB13001: { msg: 'Mongoose model cannot be found' },
   
   EDB20001: { msg: 'picklst database is initialed' },
