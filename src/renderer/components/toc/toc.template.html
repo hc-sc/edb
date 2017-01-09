@@ -1,5 +1,6 @@
 <section class='node-page'>
-  <button ng-click='$ctrl.toggleShowTOCData()'>Show TOC Data</button>
+  <md-button class='md-raised md-primary' ng-click='$ctrl.toggleShowTOCData()'>Show TOC Data</md-button>
+  <!--<md-button class='md-raised md-primary'   ng-click='$ctrl.showTree()'>Show Tree</md-button>-->
   <div ng-show='$ctrl.showTOCData'>
     <text-input label='Short Name' text-value='$ctrl.toc.tocshortname' on-update='$ctrl.updateTOC("tocshortname", value)'></text-input>
     <select-input-extensible label='"Owner"' select-value='$ctrl.toc.tocowner' values='$ctrl.tocOwnerType' on-update='$ctrl.updateTOC("tocowner", value)' on-add='$ctrl.createPicklistItem("tocowner", "tocOwnerType", value)'></select-input-extensible>
@@ -14,7 +15,6 @@
   <section>
     <select-input label='Search' select-value='$ctrl.selectedNode' values='$ctrl.treeNodes' main='nodename' on-update='$ctrl.updateSelected(value)'></select-input>
     <tree node='$ctrl.selectedNode' items='$ctrl.docs'></tree>
-    <button ng-click='$ctrl.showTree()'>Show Tree</button>
   </section>
   <div class='float-bottom'>
     <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
