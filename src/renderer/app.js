@@ -21,7 +21,7 @@ import Description from './components/description/description.component';
 import Receivers from './components/receivers/receivers.component';
 import Documents from './components/documents/documents.component';
 import TOC from './components/toc/toc.component';
-import Sub from './components/sub/sub.component';
+import SubmissionNode from './components/submission-node/submission-node.component';
 import Picklists from './components/picklists/picklists.component';
 
 import Services from './services';
@@ -55,7 +55,7 @@ angular.module('app', [
   Receivers,
   Documents,
   TOC,
-  Sub
+  SubmissionNode
 ])
 .config(states)
 .config(theme)

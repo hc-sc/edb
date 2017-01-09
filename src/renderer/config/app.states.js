@@ -27,9 +27,9 @@ export default function ($stateProvider, $urlRouterProvider) {
         }
       }
     })
-    .state('submission.sub', {
-      url: '/sub',
-      component: 'sub'
+    .state('submission.submissionNode', {
+      url: '/submission-node',
+      component: 'submissionNode'
     })
     .state('submission.toc', {
       url: '/toc',

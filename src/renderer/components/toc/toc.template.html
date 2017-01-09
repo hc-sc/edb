@@ -1,6 +1,6 @@
 <section class='node-page'>
   <md-button class='md-raised md-primary' ng-click='$ctrl.toggleShowTOCData()'>Show TOC Data</md-button>
-  <!--<md-button class='md-raised md-primary'   ng-click='$ctrl.showTree()'>Show Tree</md-button>-->
+  <md-button class='md-raised md-primary'   ng-click='$ctrl.showTree()'>Show Tree</md-button>
   <div ng-show='$ctrl.showTOCData'>
     <text-input label='Short Name' text-value='$ctrl.toc.tocshortname' on-update='$ctrl.updateTOC("tocshortname", value)'></text-input>
     <select-input-extensible label='"Owner"' select-value='$ctrl.toc.tocowner' values='$ctrl.tocOwnerType' on-update='$ctrl.updateTOC("tocowner", value)' on-add='$ctrl.createPicklistItem("tocowner", "tocOwnerType", value)'></select-input-extensible>
