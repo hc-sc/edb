@@ -3,7 +3,7 @@ import {picklistTypes} from '../view-models/picklist.model';
 export default function ($stateProvider, $urlRouterProvider) {
   $stateProvider
     .state('splash', {
-      url: '/',
+      url: '/splash',
       component: 'splash'
     })
     .state('home', {

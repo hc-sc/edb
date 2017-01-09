@@ -108,7 +108,8 @@ export default angular.module('home', [
           confirm() {
             this.$mdDialog.hide({
               foldertitle: this.foldertitle,
-              product: this.product
+              product: this.product,
+              // tocid: ''
             });
           }
 
@@ -154,12 +155,14 @@ export default angular.module('home', [
 
     newSubmission() {
       // get new ghsts ids
-      this.GhstsService.edb_get()
+      this.GhstsService.edb_put({_url: 'ghsts', data: {dossierId: this.dossier._id}})
       .then(newSubmission => {
         console.log(newSubmission);
       });
 
       // this.$state.go('submission.sub', {
+        // dossierid: this.dossier._id,
+        // submissionid:
       // })
     }
 
