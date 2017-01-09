@@ -452,6 +452,49 @@ module.exports = class BaseService {
     }
   }
 
+  _get_xml_jsonix(obj) {
+    let retVal, self = this, picklistFieldsConfig, PickListService = require('./picklist.service');
+
+    if (Array.isArray(obj)) {
+      retVal = [];
+      obj.map(item => {
+        if (item) {
+          if (Array.isArray(item) || typeof item === 'object')
+            retVal.push(self._get_xml_jsonix(item));
+          else
+            retVal.push(item);
+        }
+      });
+    } else {
+      retVal = obj;
+      let keys = Object.keys(retVal);
+      keys.map(key => {
+        if (key.startsWith('_') || key === 'valuedecode')
+          delete retVal[key];
+        else {
+          picklistFieldsConfig = PicklistFieldsConfig[key];
+          if (picklistFieldsConfig && retVal[key]) { //this is picklist item
+            if (Array.isArray(retVal[key])) {
+              let subRet = [];
+              // self._get_xml_json(retVal[key]); 
+              retVal[key] = subRet;
+            } else {
+              retVal[key] = PickListService.toJsonix(retVal[key]);
+            }
+          } else if (retVal[key]) {
+            if (Array.isArray(retVal[key])) {
+              let subRet = self._get_xml_jsonix(retVal[key]); 
+              retVal[key] = subRet;
+            } else if (typeof retVal[key] === 'object') {
+              retVal[key] = self._get_xml_jsonix(retVal[key]);
+            }
+          }
+        }
+      });
+    }
+    return retVal;
+  }
+
   edb_delete(id) {
     return new Q((res, rej) => {
       let self = this;
@@ -584,7 +627,8 @@ module.exports = class BaseService {
           toObject: {
             getters: true,
             virtuals: true
-          }
+          },
+          id: (self.modelClassName.indexOf(['PRODUCT', 'DOSSIER']) >= 0)
         });
 
         let selfPlugin;
