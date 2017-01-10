@@ -23,6 +23,10 @@ export default angular.module('submissionNode', [
         this.$scope.$root.loading = false;
       });
     }
+
+    saveSubmission() {
+      this.appDataService.edb_post({}, 'submission')
+    }
   }
 })
 .name;

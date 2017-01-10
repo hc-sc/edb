@@ -23,8 +23,9 @@ export default angular.module('toc', [
     dossierData: '<',
   },
   controller: class TOCCtrl extends BaseCtrl {
-    constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope) {
+    constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope, GhstsService) {
       super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'toc', $scope);
+      this.ghstsService = GhstsService.getService();
       this.showTOCData = false;
       this.getAppData({}, 'toc')
       .then(toc => {
@@ -81,6 +82,10 @@ export default angular.module('toc', [
     showTree() {
       this.selectedNode = this.tree;
       console.log(this.tree);
+    }
+
+    saveTOC() {
+      this.ghstsService.edb_put({url: `/toc`, data: {tocnodepid: ''}})
     }
   }
 })
