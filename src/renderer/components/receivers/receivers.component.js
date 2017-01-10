@@ -36,8 +36,6 @@ export default angular.module('receiver', [
         }
       })
       .then(result => {
-        console.log(result);
-        console.log(JSON.parse(result.data));
         if (this.isSubmission) {
           this.ghsts = JSON.parse(result.data)[0];
         }
@@ -51,7 +49,6 @@ export default angular.module('receiver', [
         return this.ghstsService.edb_get({}, 'sender');
       })
       .then(senders => {
-        console.log(JSON.parse(senders.data));
         this.$scope.$root.loading = false;
       });
     }
