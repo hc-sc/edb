@@ -25,6 +25,6 @@
     "node-uuid": "^1.4.7",
     "tingodb": "file:..\\src\\tingodb-0.5.0.tgz",
     "tungus": "file:..\\src\\tungus-0.0.5.tgz",
-    "mongoose": "^4.6.6"
+    "mongoose": "^4.7.2"
   }
 }
