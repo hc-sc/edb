@@ -206,7 +206,7 @@ module.exports = class GhstsService extends BaseService {
 
                   if (subUrlObj.senderId) {  // put an new sender to receiver
                     curProp = _.filter(curProp, item => {
-                      return item.receiver = subUrlObj.subIds;
+                      return item.receiver === subUrlObj.subIds;
                     });
                     if (!curProp[0].sender)
                       curProp[0].sender = [];
@@ -216,10 +216,11 @@ module.exports = class GhstsService extends BaseService {
                     }
                   } else {
                     isExisting = _.filter(curProp, item => {
-                      return item.receiver = obj._id.toString();
+                      if (item.receiver === (obj._id ? obj._id.toString() : subUrlObj.subIds))
+                        return item;
                     });
                     if (isExisting.length === 0) {
-                      curEntity = { receiver: obj._id.toString(), sender: [] };
+                      curEntity = { receiver: obj._id ? obj._id.toString() : subUrlObj.subIds, sender: [] };
                       curProp.push(curEntity);
                       curMdsProp.push(new MetaDataStatusNode(
                         curEntity.receiver,
@@ -241,7 +242,8 @@ module.exports = class GhstsService extends BaseService {
                   if (!curDocProp)
                     curDocProp = [];
                   isExisting = _.filter(curProp, item => {
-                    return (item.tocnodepid === obj.tocnodepid) && (item.docId === obj.docId);
+                    if ((item.tocnodepid === obj.tocnodepid) && (item.docId === obj.docId))
+                      return item;
                   });
                   if (isExisting.length === 0) {
                     curProp.push(obj);
@@ -260,12 +262,18 @@ module.exports = class GhstsService extends BaseService {
                 default:
                   curProp = undefined;
               }
-              if (!obj._id && !subUrlObj.senderId && !(obj.tocnodepid && obj.docId))
+              if (!obj._id && !subUrlObj.subIds && !subUrlObj.senderId && !(obj.tocnodepid && obj.docId))
                 rej(new RVHelper('EDB12014'));
               else if (needUpdate) {
-                res(self.edb_post(self.ghsts[0]));
+                self.edb_post(self.ghsts[0])
+                  .then(ret =>{
+                    res(new RVHelper('EDB00000', self.ghsts[0]));
+                  })
+                  .catch(err => {
+                    rej(err);
+                  });
               } else {
-                res(new RVHelper('EDB00000'));
+                res(new RVHelper('EDB00000', self.ghsts[0]));
               }
             } else {
               rej(new RVHelper('EDB12012'));
@@ -341,10 +349,10 @@ module.exports = class GhstsService extends BaseService {
                     });
                   } else {
                     _.remove(curProp, item => {
-                      return item.receiver === obj._id;
+                      return item.receiver === obj._id ? obj._id.toString() : subUrlObj.subIds;
                     });
                     _.remove(curMdsProp, item => {
-                      return item.elementid === obj._id;
+                      return item.elementid === obj._id ? obj._id.toString() : subUrlObj.subIds;
                     });
                   }
                   break;
