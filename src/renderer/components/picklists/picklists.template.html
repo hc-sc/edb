@@ -1,6 +1,28 @@
-<accordion items='$ctrl.picklists'></accordion>
-<div class='float-bottom'>
-  <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
-    <md-icon md-svg-icon='save' class='light'></md-icon>
-  </md-button>
-</div>
+<!--<accordion items='$ctrl.picklists'></accordion>-->
+<section class='node-page'>
+  <div class='no-padding no-margin' ng-repeat='item in $ctrl.items'>
+    <md-toolbar>
+      <div class='md-toolbar-tools custom-toolbar accordion-title' ng-click='$ctrl.toggleShow(item)'>
+        <icon icon='$ctrl.expandIcon' ng-show='!item.showing'></icon>
+        <icon icon='$ctrl.collapseIcon' ng-show='item.showing'></icon>
+        <h2 class='md-title'>{{item.title}}</h2>
+        <div flex></div>
+      </div>
+    </md-toolbar>
+    <md-content layout-padding ng-show='item.showing'>
+      <md-list >
+        <md-list-item ng-repeat='subitem in item.items'>
+          <p>{{subitem.valuedecode}}</p>
+          <md-checkbox class='md-primary' ng-disabled='!subitem.isExt' ng-model='subitem.enabled'></md-checkbox>
+        </md-list-item>
+      </md-list>
+    </md-content>
+    <md-divider></md-divider>
+  </div>
+  <div class='float-bottom'>
+    <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
+      <md-icon md-svg-icon='save' class='light'></md-icon>
+    </md-button>
+  </div>
+</section>
+\
