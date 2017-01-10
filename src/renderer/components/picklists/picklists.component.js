@@ -28,7 +28,7 @@ export default angular.module('picklists', [
     promoteItems() {
       this.items = this.items.map(item => {
         item.items.map(subitem => {
-          return subitem.enabled = subitem.status === 'enabled' ? true : false
+          return subitem.enabled = subitem.status === 'enabled' ? true : false;
         });
 
         return Object.assign(
