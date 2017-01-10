@@ -196,7 +196,7 @@ ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL, function (event, arg) {
   }
   lastMessageTimestamp = timestamp;
 
-  let method = 'edb_' + arg.method, newData = arg.data ? _.merge({}, arg.data) : undefined;
+  let method = 'edb_' + arg.method, newData = _.merge({}, arg.data);
 
   if (newData && BACKEND_CONST.HTML5_METHODS.indexOf(arg.method) >= 0) {  /// may have sub-url
     if ((arg.url && arg.url !== 'ghsts') && (arg.data && arg.data._url && arg.data._url !== 'ghsts')) { ///has sub-url
