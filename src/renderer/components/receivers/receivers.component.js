@@ -79,7 +79,7 @@ export default angular.module('receiver', [
         })
         .then(item => {
           console.log(item.receiver);
-          this.ghstsService.edb_put({url: `/receiver/${item.receiver}`});
+          return this.ghstsService.edb_put({url: `/receiver/${item.receiver}`});
         })
         .then(response => {
           console.log(response);
