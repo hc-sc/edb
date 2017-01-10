@@ -188,11 +188,13 @@
             
               }
             ],
+            "relatedtosubstance" : [
+				        {"TYPE_NAME": "GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.RELATEDTOSUBSTANCE",
+                 "toSubstanceId": "IDS0000000112"}
+			      ],
             "documenttitle": "C 6313 - Document J - Confidential information",
             "documentauthor": "Anon.",
-            "documentissuedate": {
-              "date": "2004-11-05"
-            },
+            "documentissuedate":"2004-11-05",
             "documentowner": [
               "ECPA"
             ],
@@ -372,11 +374,13 @@
                 "identifier": "T-423579-01-1"
               }
             ],
+            "relatedtosubstance" : [
+				        {"TYPE_NAME": "GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.RELATEDTOSUBSTANCE",
+                 "toSubstanceId": "IDS0000000112"}
+			      ],
             "documenttitle": "Analytical method - CGA 24 705/C 6313 EC 300/200)",
             "documentauthor": "Anon.",
-            "documentissuedate": {
-              "date": "2004-11-05"
-            },
+            "documentissuedate": "2004-11-05",
             "documentowner": [
               "ECPA"
             ],
