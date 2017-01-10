@@ -22,7 +22,6 @@ export default angular.module('submissionNode', [
         this.selected = getSubmission(this.$state.params.submissionid, JSON.parse(sub.data));
         this.$scope.$root.loading = false;
       });
-      // this.init().then(() => {this.$scope.$root.loading = false;})
     }
   }
 })
@@ -30,7 +29,7 @@ export default angular.module('submissionNode', [
 
 function getSubmission(id, submissions) {
   for (let sub of submissions) {
-    if (sub.id == id) {
+    if (sub._id == id) {
       return sub;
     }
   }

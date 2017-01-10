@@ -30,12 +30,12 @@ export default angular.module('accordion', [
     promoteItems() {
       this.items = this.items.map(item => {
         item.items.map(subitem => {
-          return subitem.enabled = subitem.status === 'enabled' ? true : false
+          return subitem.enabled = subitem.status === 'enabled' ? true : false;
         });
 
         return Object.assign(
           item,
-          {title: item.type, showing: false}
+          {showing: false}
         );
       });
     }

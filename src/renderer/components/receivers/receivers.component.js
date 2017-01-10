@@ -7,6 +7,9 @@ import Tbl from '../common/tbl/tbl.component';
 import SelectInput from '../common/select-input/select-input.component';
 import BaseCtrl from '../common/base.controller';
 
+import receiverSelect from './receiver-select/receiver-select.template';
+import ReceiverSelectCtrl from './receiver-select/receiver-select.controller';
+
 export default angular.module('receiver', [
   ngMaterial,
   TextInput,
@@ -23,23 +26,32 @@ export default angular.module('receiver', [
     constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope, GhstsService) {
       super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'receiver', $scope);
       this.ghstsService = GhstsService.getService();
-      console.log(this.dossierData);
       this.init()
       .then(() => {
-        return this.ghstsService.edb_get({_submissionid: this.dossierData.submissionid});
+        if (this.isSubmission) {
+          return this.ghstsService.edb_get({_submissionid: this.dossierData.submissionid});
+        }
+        else {
+          return this.appDataService.edb_get({_url: 'receiver'});
+        }
       })
-      .then(ghsts => {
-        console.log(ghsts);
-        this.ghsts = JSON.parse(ghsts.data)[0];
-        return GhstsService.getService().edb_get({_url: 'receiver'});
+      .then(result => {
+        console.log(result);
+        console.log(JSON.parse(result.data));
+        if (this.isSubmission) {
+          this.ghsts = JSON.parse(result.data)[0];
+        }
+        else {
+          this.records = result.data ? JSON.parse(result.data) : [];
+        }
+        return this.getAppData({}, 'legalentity');
       })
-      .then(receivers => {
-        console.log(receivers);
-        this.records = receivers.data ? JSON.parse(receivers.data) : [];
-      //   return this.getAppData({}, 'legalentity');
-      // })
-      // .then(legalentities => {
-      //   this.legalEntities = JSON.parse(legalentities.data);
+      .then(legalentities => {
+        this.legalEntities = JSON.parse(legalentities.data);
+        return this.ghstsService.edb_get({}, 'sender');
+      })
+      .then(senders => {
+        console.log(JSON.parse(senders.data));
         this.$scope.$root.loading = false;
       });
     }
@@ -47,18 +59,41 @@ export default angular.module('receiver', [
     // need to override since the method depends on whether it is a submission or not
     save() {
       if (this.isSubmission) console.log('saving submission receivers to ghsts');
-      else console.log('saving to global receivers');
+      else super.save();
     }
 
     add() {
       if (this.isSubmission) {
-        console.log('adding new receiver');
+        // this.$mdDialog.show(this.buildModal('receiverSelect', this.selected.length, true))
+        // .then(item => {
+        //   console.log(item);
+        // });
+
         this.$mdDialog.show({
-        }).then(result => {
-          console.log(result);
-        });
+          template: receiverSelect,
+          controller: ReceiverSelectCtrl,
+          controllerAs: '$ctrl',
+          locals: {
+            appDataService: this.appDataService
+          }
+        })
+        .then(item => {
+          console.log(item.receiver);
+          this.ghstsService.edb_put({url: `/receiver/${item.receiver}`});
+        })
+        .then(response => {
+          console.log(response);
+        })
+        .catch(err => console.log(err));
       }
       else console.log('need to select a new receiver from the list of global receivers, and then add senders to it');
+    }
+
+    addTblItem(nodeName) {
+      this.$mdDialog.show(this.buildModal(nodeName, this.selected.length, true))
+      .then(item => {
+        console.log(item);
+      });
     }
 
     delete() {
