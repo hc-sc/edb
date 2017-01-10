@@ -260,6 +260,8 @@ import ingredientTemplate from '../products/ingredient/ingredient.template';
 import IngredientCtrl from '../products/ingredient/ingredient.controller';
 import productraTemplate from '../products/product-ra/product-ra.template';
 import ProductRACtrl from '../products/product-ra/product-ra.controller';
+import receiverSelect from '../receivers/receiver-select/receiver-select.template';
+import ReceiverSelectCtrl from '../receivers/receiver-select/receiver-select.controller';
 
 
 function getModalValues(nodeName) {
@@ -339,6 +341,12 @@ function getModalValues(nodeName) {
       return {
         template: senderTemplate,
         controller: SenderCtrl
+      };
+
+    case 'receiverSelect':
+      return {
+        template: receiverSelect,
+        controller: ReceiverSelectCtrl
       };
 
     default:

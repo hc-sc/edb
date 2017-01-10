@@ -7,6 +7,9 @@ import Tbl from '../common/tbl/tbl.component';
 import SelectInput from '../common/select-input/select-input.component';
 import BaseCtrl from '../common/base.controller';
 
+import receiverSelect from './receiver-select/receiver-select.template';
+import ReceiverSelectCtrl from './receiver-select/receiver-select.controller';
+
 export default angular.module('receiver', [
   ngMaterial,
   TextInput,
@@ -34,6 +37,7 @@ export default angular.module('receiver', [
       })
       .then(result => {
         console.log(result);
+        console.log(JSON.parse(result.data));
         if (this.isSubmission) {
           this.ghsts = JSON.parse(result.data)[0];
         }
@@ -44,7 +48,7 @@ export default angular.module('receiver', [
       })
       .then(legalentities => {
         this.legalEntities = JSON.parse(legalentities.data);
-        return this.getAppData({}, 'sender');
+        return this.ghstsService.edb_get({}, 'sender');
       })
       .then(senders => {
         console.log(JSON.parse(senders.data));
@@ -60,11 +64,27 @@ export default angular.module('receiver', [
 
     add() {
       if (this.isSubmission) {
-        console.log('adding new receiver');
+        // this.$mdDialog.show(this.buildModal('receiverSelect', this.selected.length, true))
+        // .then(item => {
+        //   console.log(item);
+        // });
+
         this.$mdDialog.show({
-        }).then(result => {
-          console.log(result);
-        });
+          template: receiverSelect,
+          controller: ReceiverSelectCtrl,
+          controllerAs: '$ctrl',
+          locals: {
+            appDataService: this.appDataService
+          }
+        })
+        .then(item => {
+          console.log(item.receiver);
+          this.ghstsService.edb_put({url: `/receiver/${item.receiver}`});
+        })
+        .then(response => {
+          console.log(response);
+        })
+        .catch(err => console.log(err));
       }
       else console.log('need to select a new receiver from the list of global receivers, and then add senders to it');
     }

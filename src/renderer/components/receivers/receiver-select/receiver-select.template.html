@@ -1,0 +1,26 @@
+<md-dialog aria-label='receiver select' flex='80'>
+  <form ng-cloak>
+    <md-toolbar>
+      <div class='md-toolbar-tools'>
+        <h2>Select Receiver</h2>
+        <span flex></span>
+        <md-button class='md-icon-button' ng-click='$ctrl.cancel()'>
+          <md-icon md-svg-icon='close' aria-label='close dialog' class='light'></md-icon>
+          <md-tooltip>Close</md-tooltip>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class='md-dialog-content'>
+        <select-input label='Receiver' select-value='$ctrl.receiver' values='$ctrl.receivers' on-update='$ctrl.update("receiver", value)'></select-input>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout='row'>
+      <span flex></span>
+      <md-button ng-click='$ctrl.confirm()'>Okay</md-button>
+      <md-button ng-click='$ctrl.cancel()'>Cancel</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>
