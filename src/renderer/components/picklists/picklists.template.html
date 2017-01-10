@@ -13,7 +13,7 @@
       <md-list >
         <md-list-item ng-repeat='subitem in item.items'>
           <p>{{subitem.valuedecode}}</p>
-          <md-checkbox class='md-primary' ng-disabled='!subitem.isExt' ng-model='subitem.enabled'></md-checkbox>
+          <md-checkbox class='md-primary' ng-show='subitem.isExt' ng-model='subitem.enabled'></md-checkbox>
         </md-list-item>
       </md-list>
     </md-content>

@@ -1,13 +1,11 @@
-const moment = require('moment');
-
 module.exports = class DateTimeProc {
   static dateToJsonixObj(dateString) {
     let date;
     let T00Index = dateString.indexOf('T00');
     if (T00Index > 0)
-      date = moment(dateString, 'YYYY-MM-DD').toObject();
+      date = Date(dateString, 'YYYY-MM-DD').toObject();
     else
-      date = moment(dateString).toObject();
+      date = Date(dateString).toObject();
     let dateObj = {
       year: date.years,
       month: date.months + 1,
