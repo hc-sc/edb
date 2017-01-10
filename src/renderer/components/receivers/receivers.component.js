@@ -26,6 +26,8 @@ export default angular.module('receiver', [
     constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope, GhstsService) {
       super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'receiver', $scope);
       this.ghstsService = GhstsService.getService();
+      this.senders = [];
+      this.records = [];
       this.init()
       .then(() => {
         if (this.isSubmission) {
@@ -60,41 +62,61 @@ export default angular.module('receiver', [
     }
 
     add() {
-      if (this.isSubmission) {
-        // this.$mdDialog.show(this.buildModal('receiverSelect', this.selected.length, true))
-        // .then(item => {
-        //   console.log(item);
-        // });
-
-        this.$mdDialog.show({
-          template: receiverSelect,
-          controller: ReceiverSelectCtrl,
-          controllerAs: '$ctrl',
-          locals: {
-            appDataService: this.appDataService
-          }
-        })
-        .then(item => {
-          console.log(item.receiver);
-          return this.ghstsService.edb_put({url: `/receiver/${item.receiver}`});
-        })
-        .then(response => {
-          console.log(response);
-        })
-        .catch(err => console.log(err));
-      }
-      else console.log('need to select a new receiver from the list of global receivers, and then add senders to it');
+      console.log('need to select a new receiver from the list of global receivers, and then add senders to it');
     }
 
-    addTblItem(nodeName) {
-      this.$mdDialog.show(this.buildModal(nodeName, this.selected.length, true))
+    addSender(nodeName) {
+      this.$mdDialog.show({
+        template: receiverSelect,
+        controller: ReceiverSelectCtrl,
+        controllerAs: '$ctrl',
+        locals: {
+          appDataService: this.appDataService
+        }
+      })
       .then(item => {
         console.log(item);
+        this.appDataService.edb_put({_url:'sender', data: item})
+        .then(ret => {
+          console.log(ret)
+          this.ghstsService.edb_put({url: `/receiver/${this.selected._id}/sender/${JSON.parse(ret.data)[0]._id}`})
+        });
       });
     }
 
     delete() {
       console.log('deleting this receiver, make sure it isn\'t the receiver from the product');
+    }
+
+    selectReceiver(id, index) {
+      this.selected = this.records[index];
+
+    }
+
+    newReceiver() {
+      // select receiver from globals
+      this.$mdDialog.show({
+        template: receiverSelect,
+        controller: ReceiverSelectCtrl,
+        controllerAs: '$ctrl',
+        locals: {
+          appDataService: this.appDataService
+        }
+      })
+      .then(item => {
+        // make sure it's not one already in the list
+
+        return this.ghstsService.edb_put({url: `/receiver/${item.receiver}`});
+      })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(err => console.log(err));
+    }
+
+    deleteReceiver(id) {
+      console.log('NEED TO CHECK IF WE ARE DELETING THE ONES FROM THE PRODUCT!');
+      console.log(id);
     }
   }
 })
