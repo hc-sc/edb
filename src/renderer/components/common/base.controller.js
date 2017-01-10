@@ -135,15 +135,13 @@ export default class BaseCtrl {
     let newArray = [];
     if (nodeName.indexOf('.') > 0) {
       let pathAry = nodeName.split('.');
-      let topEntity = {};
+      let topEntity = this.selected[pathAry[0]];
       newArray = this.getRef(nodeName).slice();
       newArray = newArray.slice(0, index).concat(newArray.slice(index + 1));
       topEntity[pathAry[1]] = newArray;
       this.selected[pathAry[0]] = topEntity;
-    } else {
-      console.log('here', nodeName);
-      console.log(this.selected);
-      console.log(index);
+    } 
+    else {
       this.selected[nodeName] =
         this.selected[nodeName].slice(0, index).concat(this.selected[nodeName].slice(index + 1));
     }
@@ -246,12 +244,21 @@ import ReferencedDossierCtrl from '../description/referenced-dossier/referenced-
 import referencedDossierTemplate from '../description/referenced-dossier/referenced-dossier.template';
 import FileRACtrl from '../files/file-ra/file-ra.controller';
 import fileRATemplate from '../files/file-ra/file-ra.template';
+
+// for documents
 import contentStatusHistoryTemplate from '../documents/content-status-history/content-status-history.template';
 import contentStatusHistoryCtrl from '../documents/content-status-history/content-status-history.controller';
 import referenceDocumentTemplate from '../documents/reference-document/reference-document.template';
 import referenceDocumentCtrl from '../documents/reference-document/reference-document.controller';
+import relatedtosubstanceTemplate from '../documents/related-tosubstance/related-tosubstance.template';
+import relatedtosubstanceCtrl from '../documents/related-tosubstance/related-tosubstance.controller';
+
+import referencedtofileTemplate from '../documents/referenced-tofile/referenced-tofile.template';
+import referencedtofileCtrl from '../documents/referenced-tofile/referenced-tofile.controller';
+
 import documentNumberTemplate from '../documents/document-number/document-number.template';
 import documentNumberCtrl from '../documents/document-number/document-number.controller';
+
 import senderTemplate from '../receivers/senders/senders.template';
 import SenderCtrl from '../receivers/senders/senders.controller';
 import ingredientTemplate from '../products/ingredient/ingredient.template';
@@ -313,12 +320,26 @@ function getModalValues(nodeName) {
         template: referenceDocumentTemplate,
         controller: referenceDocumentCtrl
       };
+    
+    case 'documentgeneric.relatedtosubstance':
+
+      return {
+        template: relatedtosubstanceTemplate,
+        controller: relatedtosubstanceCtrl
+    };
 
     case 'documentgeneric.documentnumber':
 
       return {
         template: documentNumberTemplate,
         controller: documentNumberCtrl
+      };
+
+    case 'documentgeneric.referencedtofile':
+
+      return {
+        template: referencedtofileTemplate,
+        controller: referencedtofileCtrl
       };
 
     case 'ingredients.ingredient':

@@ -17,9 +17,9 @@ import modelDocumentGeneric from '../view-models/gen/documentgeneric.json';
 import modelDocumentRA from '../view-models/gen/documentra.json';
 import modelDocumentNumber from '../view-models/gen/documentnumber.json';
 import modelDocumentContentStatus from '../view-models/gen/contentstatushistory.json';
-
 import modelReferencedDocument from '../view-models/gen/referenceddocument.json';
-
+import modelReLatedToSubstance from '../view-models/gen/relatedtosubstance.json';
+import modelReferencedToFile from '../view-models/gen/referencedtofile.json';
 
 import modelSender from '../view-models/gen/sender.json';
 import modelReceiver from '../view-models/gen/receiver.json';
@@ -82,11 +82,14 @@ export default class ModelService {
       case 'documentgeneric.contentstatushistory':
         return Object.assign(modelDocumentContentStatus.fields);
 
-
       case 'documentgeneric.referenceddocument':
-        model = Object.assign(modelReferencedDocument.fields);
-        //model.documentnumber = this.getModel('documentgeneric.documentnumber');
-        return model;
+        return  Object.assign(modelReferencedDocument.fields);
+
+      case 'documentgeneric.relatedtosubstance':
+        return Object.assign(modelReLatedToSubstance.fields);
+
+      case 'documentgeneric.referencedtofile':
+        return Object.assign(modelReferencedToFile.fields);
 
       case 'sender':
         return Object.assign(modelSender.fields);

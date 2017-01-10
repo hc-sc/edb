@@ -15,12 +15,13 @@ export default class DocumentCtrl extends BaseCtrl{
             documentNumberTypeOptions: this.documentNumberTypeOptions
       };
       // projection item name must match with name defined in propertyInfos of jsonschema definition
+      
+    
+
       this.contentStatusProjection = [
         {name: "contentstatus", url: "picklist"},
         'submissionnumber'
-      ];
-
-     
+      ]; 
 
       this.referencedDocumentProjection = [
         {name: "referencetype", url: "picklist"},
