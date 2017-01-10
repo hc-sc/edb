@@ -11,8 +11,14 @@
         <text-input label='Family PID' is-required='true' text-value='$ctrl.selected.documentgeneric.documentfamilypid'></text-input>
         <text-input label='Document Title' text-value='$ctrl.selected.documentgeneric.documenttitle'></text-input>
         <text-input label='Document Author' text-value='$ctrl.selected.documentgeneric.documentauthor'></text-input>
-        <text-input label='Document Issue Date' is-required='true' max-length='20' ></text-input>
-        <tbl title='Document Owner' items='[]' projection='[]'></tbl>
+        <text-input label='Document Issue Date'
+            text-value='$ctrl.selected.documentgeneric.documentissuedate' 
+            is-required='true' 
+            max-length='20' >
+        </text-input>
+      
+        <list label='Document Owner' items='$ctrl.selected.documentgeneric.documentowner' ></list>
+
         <text-input label='Published Indicator' text-value='$ctrl.selected.documentgeneric.publishedindicator'></text-input>
         <text-input label='Document Family' text-value='$ctrl.selected.documentgeneric.documentfamily'></text-input>
         
@@ -32,7 +38,14 @@
               on-delete='$ctrl.deleteTblItem("documentgeneric.referenceddocument",index)'>
         </tbl>
 
-        <tbl title='Related To Substance' items='[]' projection='[]'></tbl>
+
+        <tbl ng-if='!$ctrl.loading' title='Related To Substance' 
+              items='$ctrl.selected.documentgeneric.relatedtosubstance'  
+              projection='[{name: "toSubstanceId", url: "substance"}]' 
+              on-select='$ctrl.selectTblItem("documentgeneric.relatedtosubstance",index)' 
+              on-add='$ctrl.addTblItem("documentgeneric.relatedtosubstance")' 
+              on-delete='$ctrl.deleteTblItem("documentgeneric.relatedtosubstance",index)'>
+        </tbl>
 
         <tbl ng-if='!$ctrl.loading' title='Document Number' items='$ctrl.selected.documentgeneric.documentnumber'  
               projection='$ctrl.documentnumberProjection'
@@ -41,12 +54,24 @@
               on-delete='$ctrl.deleteTblItem("documentgeneric.documentnumber",index)'>
         </tbl>
 
-        <tbl title='Test Laboratory' items='[]' projection='[]'></tbl>
+
+         <list label='Test Laboratory' items='$ctrl.selected.documentgeneric.testlaboratory' ></list>
+
         <text-input label='GXP Indicator' text-value='$ctrl.selected.documentgeneric.gxpindicator'></text-input>
         <md-switch ng-model='$ctrl.submission.SUBMISSION[$ctrl.submission.SUBMISSION.length - 1].INCREMENTAL' aria-label='Incremental'
           class='md-primary' ng-change='$ctrl.printValue()'>Tested on vertebrates</md-switch>
-        <tbl title='Referenced To File' items='[]' projection='[]'></tbl>
+      
+
+        <tbl ng-if='!$ctrl.loading' title='Referenced To File' 
+              items='$ctrl.selected.documentgeneric.referencedtofile'  
+              projection='[{name: "toFileId", url: "file"}]' 
+              on-select='$ctrl.selectTblItem("documentgeneric.referencedtofile",index)' 
+              on-add='$ctrl.addTblItem("documentgeneric.referencedtofile")' 
+              on-delete='$ctrl.deleteTblItem("documentgeneric.referencedtofile",index)'>
+        </tbl>
+
         <tbl title='Document Regulatory Authority' items='[]' projection='[]'></tbl>
+        
         <div style='z-index:100' class='float-bottom'>
             <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
             <md-icon md-svg-icon='save' class='light'></md-icon>
