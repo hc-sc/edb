@@ -24,6 +24,16 @@ export default angular.module('sidenav', [
       this.listOpen = false;
     }
 
+    $onChanges(changes) {
+      // this shouldn't run on every change, it will consume a lot of resources with long lists
+      if (this.items) {
+        this.items.sort((a, b) => {
+          return this.getMain(a) >= this.getMain(b);
+        });
+        this.sorted = true;
+      }
+    }
+
     getMain(item) {
       let ref = item;
       let props = this.main.split('.');

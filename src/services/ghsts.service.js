@@ -4,10 +4,12 @@ const SHARED_CONST = require('../constants/shared');
 const RVHelper = require('../utils/return.value.helper').ReturnValueHelper;
 const MetaDataStatus = require('../models/metadatastatus.model').MetaDataStatus;
 const MetaDataStatusNode = require('../models/metadatastatus.model').MetaDataStatusNode;
+const MetaDataStatusNodeWithRA = require('../models/metadatastatus.model').MetaDataStatusNodeWithRA;
 const ServiceLevelPlugin = require('../models/plugins/service.level.plugin');
 
 const BaseService = require('./base.service');
 
+const ReceiverService = require('./receiver.service.js');
 const DossierService = require('./dossier.service.js');
 const SubmissionService = require('./submission.service.js');
 
@@ -18,6 +20,8 @@ const fs = require('fs');
 const path = require('path');
 const basePath = fs.realpathSync('./');
 const eDB_Urls = require('./').ServiceNeedInit;
+
+const DateTimeProc = require('../utils/datetime.process');
 
 // const templateDir = path.resolve(basePath, BACKEND_CONST.BASE_DIR1, BACKEND_CONST.BASE_DIR2, BACKEND_CONST.TEMPLATE_DIR_NAME);
 
@@ -36,262 +40,436 @@ module.exports = class GhstsService extends BaseService {
     this._unmarsh = unmarsh;
   }
 
-  ///Works for only one submission for now
-  _subUrlProcess4Get(obj) {
-    let self = this;
-    if (obj._subUrl) {
-      let subUrlObj = self._subUrlToObj(obj._subUrl);
-      delete obj._subUrl;
-      if (subUrlObj.subUrl) {
-        let svrClass = require('./' + subUrlObj.subUrl + '.service');
-        let svr = new svrClass();
-        let ids = [];
-        if (subUrlObj.subIds) {
-          return svr.edb_get({ _id: subUrlObj.subIds }, true);
-        } else {  ///get all sub-instances of the submission
-          switch (subUrlObj.subUrl) {
-            case 'receiver':
-              ids = self.ghsts[0]._receivers;  /// need refacting for loading new ghsts, only one submission for release 1
-              if (ids) {
-                ids = ids.map(item => {
-                  return item.receiver;
-                });
-              }
-              break;
-            default:
-              ids = undefined;
-          }
-          if (!ids)
-            return new Q((res, rej) => {
-              res(new RVHelper('EDB00000'));
-            });
-          else
-            return svr.edb_get({}, false, ids); /// need to return
-        }
-      } else if (subUrlObj.ghstsId) {
-        return super.edb_get({ _id: subUrlObj.ghstsId }, obj._pop, obj._where);
-      } else {
-        return new Q((res, rej) => {
-          rej(new RVHelper('EDB12008'));
-        });
-      }
-    } else {
-      return new Q((res, rej) => {
-        rej(new RVHelper('EDB12008'));
-      });
-    }
-  }
-
-
-  ///Works for only one submission for now
-  _subUrlProcess4Put(obj) {
+  _buildXmlJson() {
     return new Q((res, rej) => {
       let self = this;
-      if (obj._subUrl) {
-        let subUrlObj = self._subUrlToObj(obj._subUrl);
-        delete obj._subUrl;
-        if (subUrlObj.subUrl) {
-          let curProp, curEntity, curMdsProp;
-          switch (subUrlObj.subUrl) {
-            case 'receiver':
-              if (!self.ghsts[0]._receivers)
-                self.ghsts[0]._receivers = [];
-              if (!self.ghsts[0]._metadatastatus.receivers) 
-                self.ghsts[0]._metadatastatus.receivers = [];
-              curProp = self.ghsts[0]._receivers;
-              curMdsProp = self.ghsts[0]._metadatastatus.receivers;
-              curEntity = { receiver: '', sender: [] };
-              break;
-            default:
-              curProp = undefined;
-          }
-          if (!obj._id) 
-            rej(new new RVHelper('EDB12014'));
-          else {
-            curEntity[subUrlObj.subUrl] = obj._id.toString();
-            curProp.push(curEntity);
-            curMdsProp.push(new MetaDataStatusNode(
-              curEntity[subUrlObj.subUrl],
-              MetaDataStatus.getMetadataStatusIdbyValue('new'),
-              subUrlObj.subUrl
-            ));
-            res(self.edb_post(self.ghsts[0]));
-          }
-        } else {
-          rej(new RVHelper('EDB12012'));
+      let fullRet = {
+          name: {
+            namespaceURI: 'http://www.oecd.org/GHSTS',
+            localPart: 'GHSTS',
+            prefix: '',
+            key: '{http://www.oecd.org/GHSTS}GHSTS',
+            string: '{http://www.oecd.org/GHSTS}GHSTS'
+          },
+          value: {}
+        };
+      let retVal = {
+        TYPE_NAME: 'GHSTS.GHSTS',
+        specificationversion: self.ghsts[0].specificationversion,
+        // receivers: {
+        //   TYPE_NAME: 'GHSTS.GHSTS.RECEIVERS',
+        //   receiver: []
+        // },
+        product: '',
+        // documents: {
+        //   TYPE_NAME: 'GHSTS.GHSTS.DOCUMENTS',
+        //   document: []
+        // },
+        // files: {
+        //   TYPE_NAME: 'GHSTS.GHSTS.FILES',
+        //   file: []
+        // },
+        // toc: '',
+        // legalentities: {
+        //   TYPE_NAME: 'GHSTS.GHSTS.LEGALENTITIES',
+        //   legalentity: []
+        // },
+        // substances: {
+        //   TYPE_NAME: 'GHSTS.GHSTS.SUBSTANCES',
+        //   substance: []
+        // },
+        // usedtemplates: self.ghsts[0].usedtemplates,
+      }, svr = new ReceiverService();
+      let entityClass = require('mongoose').model(self.modelClassName);
+
+      let dbquery = entityClass.find({ _id: self.ghsts[0]._id });
+      let pops = [];
+      // pops.push({
+      //   path: '_receivers.receiver',
+      //   model: 'RECEIVER',
+      //   populate: {
+      //     path: 'sender',
+      //     model: 'SENDER'
+      //   }
+      // });
+      // pops.push({path: '_documents'});
+      pops.push({
+        path: '_product',
+        options: {id: false},
+        populate: [
+          {
+            path: 'dossier', 
+            populate: {
+              path: 'submission'
+            }
+          },  
+        //   // {path: 'ingredients.ingredient.toSubstanceId', model: 'SUBSTANCE'}
+        ]
+      }); //// working
+      dbquery.populate(pops);
+      dbquery.exec((err, rows) => {
+        if (err)
+          rej(err);
+        else {
+          let stringRet = JSON.stringify(rows[0]);
+          retVal.product = self._get_xml_jsonix(JSON.parse(stringRet)._product);    ////Working
+          // delete retVal.product.dossier;
+          delete retVal.product.dossier.product;
+          // let date = new Date(Date.parse(retVal.product.dossier.submission[0].submissionversiondate));
+          retVal.product.dossier.submission[0].submissionversiondate = 
+            DateTimeProc.dateToJsonixObj(retVal.product.dossier.submission[0].submissionversiondate);
+          // delete retVal.product.id;
+          // rows[0]._documents.map(item => {
+          //   retVal.documents.document.push(item);
+          //   retVal.files.file.push(item.documentgeneric.referencedtofile);
+          //   retVal.substances.substance.push(item.documentgeneric.relatedtosubstance);
+          // });
+          // rows[0]._receivers.map(item => {
+          //   retVal.receivers.receiver.push(item);
+          //   retVal.legalentities.legalentity.push(item.receiver.toLegalEntityId);
+          // });
+          fullRet.value = retVal;
+          let doc = self._marsh['01_00_00'].marshalString(fullRet);
+          console.log(doc);
+          res(retVal);
         }
-      } else {
-        rej(new RVHelper('EDB12012'));
-      }
+      });
     });
   }
 
   ///Works for only one submission for now
-  _subUrlProcess4Post(obj) {
-    let self = this;
-    if (obj._subUrl) {
-      let subUrlObj = self._subUrlToObj(obj._subUrl);
-      delete obj._subUrl;
-      if (subUrlObj.subUrl) {
-        let svrClass = require('./' + subUrlObj.subUrl + '.service');
-        let svr = new svrClass();
+  _subUrlProcess4Get(obj) {
+        let self = this;
+        if(obj._subUrl) {
+          let subUrlObj = self._subUrlToObj(obj._subUrl);
+          delete obj._subUrl;
+          if (subUrlObj.subUrl) {
+            let svrClass = require('./' + subUrlObj.subUrl + '.service');
+            let svr = new svrClass();
+            let ids = [];
+            if (subUrlObj.subIds) {
+              return svr.edb_get({ _id: subUrlObj.subIds }, true);
+            } else {  ///get all sub-instances of the submission
+              switch (subUrlObj.subUrl) {
+                case 'receiver':
+                  ids = self.ghsts[0]._receivers;  /// need refacting for loading new ghsts, only one submission for release 1
+                  if (ids) {
+                    ids = ids.map(item => {
+                      return item.receiver;
+                    });
+                  }
+                  break;
+                case 'document':
+                  ids = self.ghsts[0]._documents;
+                  break;
+                default:
+                  ids = undefined;
+              }
+              if (!ids)
+                return new Q((res, rej) => {
+                  res(new RVHelper('EDB00000'));
+                });
+              else
+                return svr.edb_get({}, false, ids); /// need to return
+            }
+          } else if (subUrlObj.ghstsId) {
+            return super.edb_get({ _id: subUrlObj.ghstsId }, obj._pop, obj._where);
+          } else {
+            return new Q((res, rej) => {
+              rej(new RVHelper('EDB12008'));
+            });
+          }
+        } else {
+          return new Q((res, rej) => {
+            rej(new RVHelper('EDB12008'));
+          });
+        }
+      }
+
+  ///Works for only one submission for now
+  _subUrlProcess4Put(obj) {
         return new Q((res, rej) => {
-          let method = subUrlObj.subIds ? 'edb_post' : 'edb_put';
-          svr[method](obj)
-            .then(ret => {
-              let curProp, curEntity, curMdsProp;
+          let self = this;
+          if (obj._subUrl) {
+            let subUrlObj = self._subUrlToObj(obj._subUrl);
+            delete obj._subUrl;
+            if (subUrlObj.subUrl) {
+              let curProp, curEntity, curMdsProp, curDocProp, needUpdate = false, isExisting;
               switch (subUrlObj.subUrl) {
                 case 'receiver':
                   curProp = self.ghsts[0]._receivers;
                   curMdsProp = self.ghsts[0]._metadatastatus.receivers;
-                  curEntity = { receiver: '', sender: [] };
+                  if (!curProp)
+                    curProp = [];
+                  if (!curMdsProp)
+                    curMdsProp = [];
+
+                  if (subUrlObj.senderId) {  // put an new sender to receiver
+                    curProp = _.filter(curProp, item => {
+                      return item.receiver === subUrlObj.subIds;
+                    });
+                    if (!curProp[0].sender)
+                      curProp[0].sender = [];
+                    if (curProp[0].sender.indexOf(subUrlObj.senderId) < 0) {
+                      curProp[0].sender.push(subUrlObj.senderId);
+                      needUpdate = true;
+                    }
+                  } else {
+                    isExisting = _.filter(curProp, item => {
+                      if (item.receiver === (obj._id ? obj._id.toString() : subUrlObj.subIds))
+                        return item;
+                    });
+                    if (isExisting.length === 0) {
+                      curEntity = { receiver: obj._id ? obj._id.toString() : subUrlObj.subIds, sender: [] };
+                      curProp.push(curEntity);
+                      curMdsProp.push(new MetaDataStatusNode(
+                        curEntity.receiver,
+                        MetaDataStatus.getMetadataStatusIdbyValue('new'),
+                        'receiver'
+                      ));
+                      needUpdate = true;
+                    }
+                  }
+                  break;
+                case 'toc':
+                  curProp = self.ghsts[0]._toc2docs;
+                  curDocProp = self.ghsts[0]._documents;
+                  curMdsProp = self.ghsts[0]._metadatastatus.documents;
+                  if (!curProp)
+                    curProp = [];
+                  if (!curMdsProp)
+                    curMdsProp = [];
+                  if (!curDocProp)
+                    curDocProp = [];
+                  isExisting = _.filter(curProp, item => {
+                    if ((item.tocnodepid === obj.tocnodepid) && (item.docId === obj.docId))
+                      return item;
+                  });
+                  if (isExisting.length === 0) {
+                    curProp.push(obj);
+                    if (curDocProp.indexOf(obj.docId.toString()) < 0) {
+                      curDocProp.push(obj.docId.toString());
+                      curMdsProp.push(new MetaDataStatusNodeWithRA(
+                        obj.docId.toString(),
+                        MetaDataStatus.getMetadataStatusIdbyValue('new'),
+                        'document',
+                        self.ghsts[0]._receivers
+                      ));
+                    }
+                    needUpdate = true;
+                  }
                   break;
                 default:
                   curProp = undefined;
               }
-              curEntity[subUrlObj.subUrl] = JSON.parse(ret.data)[0]._id ? JSON.parse(ret.data)[0]._id.toString() : subUrlObj.subIds;  ///Todo: modify for Post
-              curProp.push(curEntity);
-              curMdsProp.push(new MetaDataStatusNode(
-                curEntity[subUrlObj.subUrl],
-                MetaDataStatus.getMetadataStatusIdbyValue('modified'),
-                subUrlObj.subUrl
-              ));
-              return self.edb_post(self.ghsts[0]);
-            })
-            .then(ret => {
-              res(ret);
-            })
-            .catch(err => {
-              rej(err);
-            });
-        });
-      } else {
-        return new Q((res, rej) => {
-          rej(new RVHelper('EDB12013'));
+              if (!obj._id && !subUrlObj.subIds && !subUrlObj.senderId && !(obj.tocnodepid && obj.docId))
+                rej(new RVHelper('EDB12014'));
+              else if (needUpdate) {
+                self.edb_post(self.ghsts[0])
+                  .then(ret =>{
+                    res(new RVHelper('EDB00000', self.ghsts[0]));
+                  })
+                  .catch(err => {
+                    rej(err);
+                  });
+              } else {
+                res(new RVHelper('EDB00000', self.ghsts[0]));
+              }
+            } else {
+              rej(new RVHelper('EDB12012'));
+            }
+          } else {
+            rej(new RVHelper('EDB12012'));
+          }
         });
       }
-    } else {
-      return new Q((res, rej) => {
-        rej(new RVHelper('EDB12013'));
-      });
-    }
-  }
+
+  ///Works for only one submission for now
+  _subUrlProcess4Post(obj) {
+        return new Q((res, rej) => {
+          let self = this;
+          if (obj._subUrl) {
+            let subUrlObj = self._subUrlToObj(obj._subUrl);
+            delete obj._subUrl;
+            if (subUrlObj.subUrl) {
+              let curProp, curMdsProp, curMdsIndex, curEntityIndex;
+              switch (subUrlObj.subUrl) {
+                case 'receiver':
+                  curProp = self.ghsts[0]._receivers;
+                  curMdsProp = self.ghsts[0]._metadatastatus.receivers;
+                  break;
+                default:
+                  curProp = undefined;
+              }
+              curEntityIndex = _.findIndex(curProp, item => {
+                return item.receiver === subUrlObj.subIds;
+              });
+              if (subUrlObj.senderId) {
+                let curSenderIndex = _.findIndex(curProp[curEntityIndex].sender, item => {
+                  return item === subUrlObj.senderId;
+                });
+                if (curSenderIndex >= 0 && obj._id)
+                  curProp[curEntityIndex].sender[curSenderIndex] = obj._id.toString();
+              } else {
+                curMdsIndex = _.findIndex(curMdsProp, item => {
+                  return item.elementid === subUrlObj.subIds;
+                });
+                curProp[curEntityIndex][subUrlObj.subUrl] = obj._id.toString();
+                curMdsProp[curMdsIndex]['elementid'] = obj._id.toString();
+              }
+              res(self.edb_post(self.ghsts[0]));
+            } else {
+              rej(new RVHelper('EDB12013'));
+            }
+          } else {
+            rej(new RVHelper('EDB12013'));
+          }
+        });
+      }
 
   ///Works for only one submission for now
   _subUrlProcess4Del(obj) {
-    return new Q((res, rej) => {
-      let self = this;
-      if (obj._subUrl) {
-        let subUrlObj = self._subUrlToObj(obj._subUrl);
-        delete obj._subUrl;
-        if (subUrlObj.subUrl) {
-          let curProp, curEntity, curMdsProp;
-          switch (subUrlObj.subUrl) {
-            case 'receiver':
-              curProp = self.ghsts[0]._receivers;
-              curMdsProp = self.ghsts[0]._metadatastatus.receivers;
-              break;
-            default:
-              curProp = undefined;
+        return new Q((res, rej) => {
+          let self = this;
+          if (obj._subUrl) {
+            let subUrlObj = self._subUrlToObj(obj._subUrl);
+            delete obj._subUrl;
+            if (subUrlObj.subUrl) {
+              let curProp, curEntity, curMdsProp, curDocProp, needUpdate = true, isExisting;
+              switch (subUrlObj.subUrl) {
+                case 'receiver':
+                  curProp = self.ghsts[0]._receivers;
+                  curMdsProp = self.ghsts[0]._metadatastatus.receivers;
+                  if (subUrlObj.senderId) {
+                    curProp = _.filter(curProp, item => {
+                      return item.receiver = subUrlObj.subIds;
+                    });
+                    _.remove(curProp[0].sender, item => {
+                      return item === subUrlObj.senderId;
+                    });
+                  } else {
+                    _.remove(curProp, item => {
+                      return item.receiver === obj._id ? obj._id.toString() : subUrlObj.subIds;
+                    });
+                    _.remove(curMdsProp, item => {
+                      return item.elementid === obj._id ? obj._id.toString() : subUrlObj.subIds;
+                    });
+                  }
+                  break;
+                case 'toc':
+                  curProp = self.ghsts[0]._toc2docs;
+                  curDocProp = self.ghsts[0]._documents;
+                  curMdsProp = self.ghsts[0]._metadatastatus.documents;
+                  isExisting = _.filter(curProp, item => {
+                    return item.docId === obj.docId;
+                  });
+                  if (isExisting.length === 0)
+                    needUpdate = false;
+                  else {
+                    _.remove(curProp, item => {
+                      return (item.tocnodepid === obj.tocnodepid) && (item.docId === obj.docId);
+                    });
+                    if (isExisting.length === 1) {
+                      _.remove(curDocProp, item => {
+                        return item === obj.docId;
+                      });
+                      _.remove(curMdsProp, item => {
+                        return item.elementid === obj.docId;
+                      });
+                    }
+                  }
+                  break;
+                default:
+                  curProp = undefined;
+              }
+              if (needUpdate)
+                res(self.edb_post(self.ghsts[0]));
+              else
+                res(new RVHelper('EDB00000'));
+            } else {
+              rej(new RVHelper('EDB12016'));
+            }
+          } else {
+            rej(new RVHelper('EDB12016'));
           }
-          // curEntity[subUrlObj.subUrl] = JSON.parse(ret.data)[0]._id ? JSON.parse(ret.data)[0]._id.toString() : subUrlObj.subIds;  ///Todo: modify for Post
-          curProp.push(curEntity);
-          curMdsProp.push(new MetaDataStatusNode(
-            curEntity[subUrlObj.subUrl],
-            MetaDataStatus.getMetadataStatusIdbyValue('modified'),
-            subUrlObj.subUrl
-          ));
-          self.edb_post(self.ghsts[0])
-            .then(ret => {
-              res(ret);
-            })
-            .catch(err => {
-              rej(err);
-            });
-        } else {
-          rej(new RVHelper('EDB12013'));
-        }
-      } else {
-        rej(new RVHelper('EDB12013'));
+        });
       }
-    });
-  }
 
   initMongoose() {
-    return new Q((res, rej) => {
-      let self = this;
-      try {
-        let mongoose = require('mongoose');
-        let Schema = mongoose.Schema;
+        return new Q((res, rej) => {
+          let self = this;
+          try {
+            let mongoose = require('mongoose');
+            let Schema = mongoose.Schema;
 
-        let jschema = {
-          _foldername: { type: String, required: true },
-          _submissionid: { type: 'ObjectId', ref: 'SUBMISSION', required: true },
-          _submissionnumber: { type: Number, default: 1 },
-          _receivers: [{
-            receiver: { type: 'ObjectId', ref: 'RECEIVER' },
-            sender: [{ type: 'ObjectId', ref: 'SENDER' }]
-          }],
-          _product: { type: 'ObjectId', ref: 'PRODUCT' },
-          _documents: [{ type: 'ObjectId', ref: 'DOCUMENT' }],
-          _toc2docs: [{
-            tocnodepid: { type: String },
-            docId: { type: 'ObjectId', ref: 'DOCUMENT' }
-          }],
-          _tocdecription: {
-            tocstandardname: { type: String, required: true, default: 'OECD' },
-            tocversion: { type: String, required: true, default: '01.00.00' }
-          },
-          _metadatastatus: { type: Schema.Types.Mixed },
-          usedtemplates: [{ type: String }],
-          specificationversion: { type: String, default: self.version }
-        };
-        let mschema = new Schema(jschema, {
-          retainKeyOrder: true,
-          validateBeforeSave: false,
-          toJSON: { getters: true, virtuals: true },
-          toObject: { getters: true, virtuals: true }
-        });
-        mschema.plugin(ServiceLevelPlugin, { url: self.modelClassName.toLowerCase() });
-        let mmodule = mongoose.model(self.modelClassName, mschema);
-        if (self.inmem) {
-          mmodule.find({})
-            .exec((err, result) => {
-              if (err)
-                rej(err);
-              else {
-                if (self.inmem && result.length > 0)
-                  global.modulesInMemory[self.modelClassName.toLowerCase()] = self._format4InMem(result);
-                res(new RVHelper('EDB00000'));
-              }
+            let jschema = {
+              _foldername: { type: String, required: true },
+              _submissionid: { type: 'ObjectId', ref: 'SUBMISSION', required: true },
+              _submissionnumber: { type: Number, default: 1 },
+              _receivers: [{
+                receiver: { type: 'ObjectId', ref: 'RECEIVER' },
+                sender: [{ type: 'ObjectId', ref: 'SENDER' }]
+              }],
+              _product: { type: 'ObjectId', ref: 'PRODUCT' },
+              _documents: [{ type: 'ObjectId', ref: 'DOCUMENT' }],
+              _toc2docs: [{
+                tocnodepid: { type: String },
+                docId: { type: 'ObjectId', ref: 'DOCUMENT' }
+              }],
+              _tocdecription: {
+                tocstandardname: { type: String, required: true, default: 'OECD' },
+                tocversion: { type: String, required: true, default: '01.00.00' }
+              },
+              _metadatastatus: { type: Schema.Types.Mixed },
+              usedtemplates: [{ type: String }],
+              specificationversion: { type: String, default: self.version }
+            };
+            let mschema = new Schema(jschema, {
+              retainKeyOrder: true,
+              validateBeforeSave: false,
+              toJSON: { getters: true, virtuals: true },
+              toObject: { getters: true, virtuals: true }
             });
-        } else
-          res(new RVHelper('EDB00000'));
-      } catch (err) {
-        rej(err);
+            mschema.plugin(ServiceLevelPlugin, { url: self.modelClassName.toLowerCase() });
+            let mmodule = mongoose.model(self.modelClassName, mschema);
+            if (self.inmem) {
+              mmodule.find({})
+                .exec((err, result) => {
+                  if (err)
+                    rej(err);
+                  else {
+                    if (self.inmem && result.length > 0)
+                      global.modulesInMemory[self.modelClassName.toLowerCase()] = self._format4InMem(result);
+                    res(new RVHelper('EDB00000'));
+                  }
+                });
+            } else
+              res(new RVHelper('EDB00000'));
+          } catch (err) {
+            rej(err);
+          }
+        });
       }
-    });
-  }
 
   edb_package() {
-    return new Q((res, rej) => {
-      console.log('package');
-      //    return this._getGhstsObject().writeXML(absOutputFN);
-      res(new RVHelper('EDB00000'));
-    });
-  }
+        return new Q((res, rej) => {
+          console.log('package');
+          //    return this._getGhstsObject().writeXML(absOutputFN);
+          res(new RVHelper('EDB00000'));
+        });
+      }
 
   edb_validation() {
-    return new Q((res, rej) => {
-      console.log('validation');
-      // return this._getGhstsObject().validateXML(absOutputFN, this._validate);
-      res(new RVHelper('EDB00000'));
-    });
-  }
+        return new Q((res, rej) => {
+          console.log('validation');
+          // return this._getGhstsObject().validateXML(absOutputFN, this._validate);
+          res(new RVHelper('EDB00000'));
+        });
+      }
 
   edb_get(obj, pop, where) {
-    let self = this;
-    if (!obj) {
+        let self = this;
+        if(!obj) {
       let dosSvr = new DossierService();
       return dosSvr.edb_get({}, true);
     } else if (obj._subUrl) {
@@ -382,7 +560,6 @@ module.exports = class GhstsService extends BaseService {
         return;
       }
 
-      // let prodAndDossierName = obj.dossierShortName ? obj.productShortName + BACKEND_CONST.PRODUCT_DOSSIER_FOLDER_CONTACT_SYMBOL + obj.dossierShortName : obj.productShortName;
       let self = this;
       let mds = new MetaDataStatus(self.version);
       mds.init((obj._submissionnumber === 1), obj._product, obj._tocid);
@@ -391,22 +568,6 @@ module.exports = class GhstsService extends BaseService {
       entity._metadatastatus = mds;
 
       res(super._create(entity));
-      // try {
-      //   entityClass = require('mongoose').model(self.modelClassName);
-      //   if (!entityClass)
-      //     rej(new RVHelper('EDB13001', self.modelClassName));
-      //   else {
-      //     entityClass
-      //       .create(entity, (err, rows) => {
-      //         if (err)
-      //           rej(err);
-      //         else
-      //           res(new RVHelper('EDB00000', JSON.stringify(rows)));
-      //       });
-      //   }
-      // } catch (err) {
-      //   rej(err);
-      // }
     });
   }
 
@@ -451,22 +612,31 @@ module.exports = class GhstsService extends BaseService {
     let retVal = {};
     let inUrl = subUrl.replace('ghsts/', '');
     let urlAry = inUrl.split('/');
+    let curIndex = 0;
 
     if (eDB_Urls.indexOf(urlAry[0]) >= 0) {  ///It is sub-url 
       retVal.subUrl = urlAry[0];
-      if (urlAry[1]) { /// It is sub-id(s), 
-        retVal.subIds = urlAry[1];
+      curIndex++;
+      if (urlAry[curIndex]) { /// It is sub-id(s), 
+        retVal.subIds = urlAry[curIndex];
       }
+      curIndex++;
     } else {  ///ghstsIdOrUrl is ghsts id and subSvrUrlOrId is sub-url  
       retVal.ghstsId = urlAry[0];
-      if (urlAry[1]) {
-        if (eDB_Urls.indexOf(urlAry[1]) >= 0) { ///It is sub-url  
-          retVal.subUrl = urlAry[1];
-          if (urlAry[2]) { /// has subIds
-            retVal.subIds = urlAry[2];
+      curIndex++;
+      if (urlAry[curIndex]) {
+        if (eDB_Urls.indexOf(urlAry[curIndex]) >= 0) { ///It is sub-url  
+          retVal.subUrl = urlAry[curIndex];
+          curIndex++;
+          if (urlAry[curIndex]) { /// has subIds
+            retVal.subIds = urlAry[curIndex];
           }
+          curIndex++;
         }
       }
+    }
+    if (urlAry[curIndex] && urlAry[curIndex + 1]) { //change link for second level element, sender to receiver
+      retVal.senderId = urlAry[curIndex + 1];
     }
     return retVal;
   }

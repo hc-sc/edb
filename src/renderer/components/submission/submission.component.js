@@ -42,7 +42,7 @@ export default angular.module('submission', [
         });
 
         this.navbarItems = [
-          { title: 'Submission', state: '.sub' },
+          { title: 'Submission', state: '.submissionNode' },
           { title: 'Receivers', state: '.receivers' },
           { title: 'Dossier', state: '.dossier' },
           { title: 'TOC', state: '.toc' }

@@ -21,8 +21,9 @@ export default class BaseCtrl {
   init() {
     return this.getAppData()
       .then(records => {
+        console.log('records: ', records);
         this.records = JSON.parse(records.data);
-        if (this.records.length > 0) {
+        if (this.records && this.records.length > 0) {
           // there is some data in the db
           this.selected = this.records[0];
         }
@@ -73,6 +74,7 @@ export default class BaseCtrl {
         this[arr].push(item);
 
         // need to allow the select component to update BEFORE assigning a new selected
+        // this solution is not good
         // in the future, have the select component use lifecycle methods to return when it is finished
         setTimeout(() => {
           this.selected[prop] = item._id;
@@ -110,6 +112,7 @@ export default class BaseCtrl {
     else {
       this.updateAppData(angular.copy(this.selected))
         .then(result => {
+          console.log(result);
           this.showMessage('Saved successfully');
         })
         .catch(err => {
@@ -121,7 +124,6 @@ export default class BaseCtrl {
   // update the field values, only works for first level deep items
   // overload it if you need additional ones
   update(prop, value) {
-    console.log(prop, value);
     this.selected[prop] = value;
   }
 
@@ -265,6 +267,8 @@ import ingredientTemplate from '../products/ingredient/ingredient.template';
 import IngredientCtrl from '../products/ingredient/ingredient.controller';
 import productraTemplate from '../products/product-ra/product-ra.template';
 import ProductRACtrl from '../products/product-ra/product-ra.controller';
+import receiverSelect from '../receivers/receiver-select/receiver-select.template';
+import ReceiverSelectCtrl from '../receivers/receiver-select/receiver-select.controller';
 
 
 function getModalValues(nodeName) {
@@ -358,6 +362,12 @@ function getModalValues(nodeName) {
       return {
         template: senderTemplate,
         controller: SenderCtrl
+      };
+
+    case 'receiverSelect':
+      return {
+        template: receiverSelect,
+        controller: ReceiverSelectCtrl
       };
 
     default:

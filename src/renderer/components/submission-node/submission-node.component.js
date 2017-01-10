@@ -5,14 +5,14 @@ import ngMaterial from 'angular-material';
 import BaseCtrl from '../common/base.controller';
 import TextInput from '../common/text-input/text-input.component';
 
-import template from './sub.template';
+import template from './submission-node.template';
 
-export default angular.module('sub', [
+export default angular.module('submissionNode', [
   uiRouter,
   ngMaterial,
   TextInput,
 ])
-.component('sub', {
+.component('submissionNode', {
   template,
   controller: class SubCtrl extends BaseCtrl {
     constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope) {
@@ -22,7 +22,6 @@ export default angular.module('sub', [
         this.selected = getSubmission(this.$state.params.submissionid, JSON.parse(sub.data));
         this.$scope.$root.loading = false;
       });
-      // this.init().then(() => {this.$scope.$root.loading = false;})
     }
   }
 })
@@ -30,7 +29,7 @@ export default angular.module('sub', [
 
 function getSubmission(id, submissions) {
   for (let sub of submissions) {
-    if (sub.id == id) {
+    if (sub._id == id) {
       return sub;
     }
   }

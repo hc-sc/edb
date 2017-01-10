@@ -10,6 +10,13 @@ export default angular.module('list', [
   bindings: {
     label: '@',
     items: '<'
+  },
+  controller: function() {
+    return {
+      validateChip: function(chip) {
+        if (this.items.indexOf(chip) >= 0) return null;
+      }
+    };
   }
 })
 .name;
