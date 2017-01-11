@@ -43,11 +43,15 @@ export default angular.module('home', [
                           return dossier;
                         });
         this.results = this.dossiers.slice();
+        if (Array.isArray(this.dossiers) && this.dossiers.length > 0) {
+          this.selectDossier(this.dossiers[0]._id);
+        }
         return this.appDataService.edb_get({_url: 'product'});
       })
       .then(products => {
         this.products = JSON.parse(products.data);
       });
+
       this.toolbarItems = {
         navIcons: [
           { name: 'home', label: 'Home', state: 'splash' }
@@ -68,7 +72,6 @@ export default angular.module('home', [
         '_lastMod'
       ];
 
-      this.dossier;
       this.submissions = [];
       this.submissionProjection = [
         'submissiontitle',
@@ -82,16 +85,18 @@ export default angular.module('home', [
 
     }
 
-    selectDossier(id, index) {
-      // this.$state.go('dossier', { dossierPID: this.dossiers[index].DOSSIER_PID });
-      this.dossier = this.dossiers.filter(dossier => {
-        return dossier._id === id;
-      })[0];
-      this.submissions = this.dossier.submission.map(sub => {
-        sub.packagetype = sub.incremental ? 'Incremental' : 'Full';
-        sub.dossierdescriptiontitle = this.dossier.dossierdescriptiontitle;
-        return sub;
-      });
+    selectDossier(id) {
+      if (id) {
+        console.log(id);
+        this.dossier = this.dossiers.filter(dossier => {
+          return dossier._id === id;
+        })[0];
+        this.submissions = this.dossier.submission.map(sub => {
+          sub.packagetype = sub.incremental ? 'Incremental' : 'Full';
+          sub.dossierdescriptiontitle = this.dossier.dossierdescriptiontitle;
+          return sub;
+        });
+      }
     }
 
     newDossier() {
@@ -146,7 +151,7 @@ export default angular.module('home', [
     }
 
     selectSubmission(id, index) {
-      this.$state.go('submission.submissionNode', {
+      this.$state.go('submission.receivers', {
         dossierid: this.dossier._id,
         submissionid: this.submissions[index]._id,
         dossiertitle: this.dossier.dossierdescriptiontitle

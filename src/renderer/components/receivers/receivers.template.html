@@ -11,19 +11,17 @@
     <text-input label='Role' text-value='$ctrl.selected.role' on-update='$ctrl.update("role", value)'></text-input>
   </div>
   <div ng-show='$ctrl.isSubmission' class='no-padding no-margin'>
-    <tbl title='{{$ctrl.selected.shortname}} Senders' items='[]' projection='["companycontactregulatoryrole", "remark"]' on-select='$ctrl.selectTblItem("sender", index)' on-add='$ctrl.addTblItem("sender")' on-delete='$ctrl.deleteTblItem("sender", index)'></tbl>
+    <tbl ng-if='!this.$scope.$root.loading' title='Receivers' items='$ctrl.records' projection='["shortname", "role"]' default-sort='LAST_MODIFIED' default-reverse='true' on-select='$ctrl.selectReceiver(id, index)' on-add='$ctrl.newReceiver()' on-delete='$ctrl.deleteReceiver(id)'></tbl>
+    <tbl title='{{$ctrl.selected.shortname}} Senders' items='$ctrl.senders' projection='["companycontactregulatoryrole", "remark"]' on-select='$ctrl.selectTblItem("sender", index)' on-add='$ctrl.addTblItem("sender")' on-delete='$ctrl.deleteTblItem("sender", index)'></tbl>
   </div>
   <div class='float-bottom'>
     <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
       <md-icon md-svg-icon='save' class='light'></md-icon>
     </md-button>
-    <md-button ng-show='$ctrl.isSubmission' aria-label='Delete Item' class='md-fab md-primary' ng-click='$ctrl.delete()'>
-      <md-icon md-svg-icon='delete' class='light'></md-icon>
-    </md-button>
-    <md-button aria-label='Add New Item' class='md-fab md-primary' ng-click='$ctrl.add("receiver")'>
+    <md-button ng-if='!$ctrl.isSubmission' aria-label='Add New Item' class='md-fab md-primary' ng-click='$ctrl.newReceiver()'>
       <md-icon md-svg-icon='add' class='light'></md-icon>
     </md-button>
-    <md-button aria-label='Toggle List' class='md-fab md-primary' ng-click='$ctrl.toggleList()'>
+    <md-button ng-if='!$ctrl.isSubmission' aria-label='Toggle List' class='md-fab md-primary' ng-click='$ctrl.toggleList()'>
       <md-icon md-svg-icon='list' class='light'></md-icon>
     </md-button>
   </div>

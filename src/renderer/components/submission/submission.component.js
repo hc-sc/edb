@@ -29,7 +29,8 @@ export default angular.module('submission', [
       toc: '<'
     },
     controller: class SubmissionCtrl {
-      constructor($state, AppDataService, $transitions, $rootScope, GhstsService) {
+      constructor($state, AppDataService, $transitions, $rootScope, GhstsService, $scope) {
+        this.$scope = $scope;
         this.$state = $state;
         this.$rootScope = $rootScope;
         this.appDataService = AppDataService.getService();

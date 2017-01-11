@@ -19,6 +19,14 @@ export default angular.module('selectInput', [
     onUpdate: '&'
   },
   controller: class SelectInputCtrl {
+    $onChanges() {
+      if (this.values) {
+        this.values.sort((a, b) => {
+          return this.getMain(a) >= this.getMain(b);
+        })
+      }
+    }
+
     update(item) {
       this.onUpdate({ value: item._id });
     }
