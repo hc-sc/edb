@@ -52,6 +52,8 @@ module.exports = class BaseService {
   edb_get(obj, pop, where) {
     return new Q((res, rej) => {
       let self = this;
+      let queryWhere = where ? where : obj.where ? obj.where : undefined;
+      delete obj.where;
       let query = obj ? (obj ? obj : {}) : {};
       let entityClass;
 
@@ -74,8 +76,8 @@ module.exports = class BaseService {
         } else
           dbquery = entityClass.find(query);
 
-        if (where) {
-          dbquery.where(where.fieldname ? where.fieldname : '_id').in(where.ids ? where.ids : where);
+        if (queryWhere) {
+          dbquery.where(queryWhere.fieldname ? queryWhere.fieldname : '_id').in(queryWhere.ids ? queryWhere.ids : queryWhere);
         }
         dbquery
           .exec((err, rows) => {
