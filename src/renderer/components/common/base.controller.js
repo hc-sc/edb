@@ -1,5 +1,5 @@
 import angular from 'angular';
-import QueryCtrl from './query.controller';
+import {equals} from 'easy-equals';
 
 export default class BaseCtrl {
   constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, url, $scope) {
@@ -142,7 +142,7 @@ export default class BaseCtrl {
       newArray = newArray.slice(0, index).concat(newArray.slice(index + 1));
       topEntity[pathAry[1]] = newArray;
       this.selected[pathAry[0]] = topEntity;
-    } 
+    }
     else {
       this.selected[nodeName] =
         this.selected[nodeName].slice(0, index).concat(this.selected[nodeName].slice(index + 1));
@@ -152,24 +152,29 @@ export default class BaseCtrl {
   addTblItem(nodeName) {
     this.$mdDialog.show(this.buildModal(nodeName, this.selected.length, true))
       .then(item => {
-        // let newArray = this.selected[nodeName].slice();
-        // newArray.splice(this.selected.length, 0, item);
-        // this.selected[nodeName] = newArray;
-        let newArray = [];
-        if (nodeName.indexOf('.') > 0) {
-          newArray = this.getRef(nodeName).slice();
-          newArray.push(item);
-          let end = this.selected;
-          let path = nodeName.split('.');
-          for (let i = 0; i < path.length - 1; ++i) {
-            end = end[path[i]];
-          }
-          end[path[path.length - 1]] = newArray;
+        if (this.getRef(nodeName).filter(record => {
+          return equals(record, item);
+        }).length !== 0) {
+          this.showMessage('Duplicate item');
+        }
+        else {
+          let newArray = [];
+          if (nodeName.indexOf('.') > 0) {
+            newArray = this.getRef(nodeName).slice();
+            newArray.push(item);
+            let end = this.selected;
+            let path = nodeName.split('.');
+            for (let i = 0; i < path.length - 1; ++i) {
+              end = end[path[i]];
+            }
+            end[path[path.length - 1]] = newArray;
 
-        } else {
-          newArray = this.selected[nodeName].slice();
-          newArray.splice(this.selected.length, 0, item);
-          this.selected[nodeName] = newArray;
+          } else {
+            newArray = this.selected[nodeName].slice();
+            newArray.splice(this.selected.length, 0, item);
+            this.selected[nodeName] = newArray;
+          }
+          this.showMessage('Saved');
         }
       });
   }
@@ -178,10 +183,17 @@ export default class BaseCtrl {
   selectTblItem(nodeName, index) {
     this.$mdDialog.show(this.buildModal(nodeName, index, false))
       .then(item => {
-        this.getRef(nodeName)[index] = item;
-        this.selected = angular.copy(this.selected);
-        // console.log("selectTblItem" + this.selected);
-        this.showMessage('Updated');
+        console.log(item);
+        if (this.getRef(nodeName).filter(record => {
+          return equals(record, item);
+        }).length !== 0) {
+          this.showMessage('Duplicate item');
+        }
+        else {
+          this.getRef(nodeName)[index] = item;
+          this.selected = angular.copy(this.selected);
+          this.showMessage('Updated');
+        }
       });
   }
 
@@ -214,7 +226,7 @@ export default class BaseCtrl {
       controllerAs: '$ctrl',
       locals: {
         index,
-        node: isNew ? this.getModel(nodeName) : angular.copy(this.getRef(nodeName)[index]),
+        node: isNew ? angular.copy(this.getModel(nodeName)) : angular.copy(this.getRef(nodeName)[index]),
         picklists: this.picklists,
         picklistService: this.picklistService,
         $scope: this.$scope
@@ -324,7 +336,7 @@ function getModalValues(nodeName) {
         template: referenceDocumentTemplate,
         controller: referenceDocumentCtrl
       };
-    
+
     case 'documentgeneric.relatedtosubstance':
 
       return {

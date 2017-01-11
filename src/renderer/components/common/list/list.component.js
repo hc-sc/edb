@@ -11,12 +11,23 @@ export default angular.module('list', [
     label: '@',
     items: '<'
   },
-  controller: function() {
-    return {
-      validateChip: function(chip) {
-        if (this.items.indexOf(chip) >= 0) return null;
+  controller: class ListCtrl {
+    constructor() {
+    }
+
+    $onChanges() {
+      console.log();
+      if (this.items && Array.isArray(this.items)) {
+        this.items.sort();
       }
-    };
+    }
+
+    validateChip(chip) {
+      for (let item of this.items) {
+        if (item.toUpperCase() === chip.toUpperCase()) return null;
+      }
+      return chip;
+    }
   }
 })
 .name;

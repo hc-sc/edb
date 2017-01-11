@@ -14,18 +14,17 @@ export default angular.module('sidenav', [
   bindings: {
     items: '<',
     main: '@',
-    isOpen: '<',
+    isOpen: '=',
     onSelect: '&',
     onAdd: '&'
   },
   controller: class SidenavCtrl {
     constructor() {
       this.searchText = '';
-      this.listOpen = false;
     }
 
     $onChanges(changes) {
-      // this shouldn't run on every change, it will consume a lot of resources with long lists
+      // this shouldn't run on every change, it will consume a lot of resources with long lists and may thrash
       if (this.items) {
         this.items.sort((a, b) => {
           return this.getMain(a) >= this.getMain(b);
@@ -45,6 +44,10 @@ export default angular.module('sidenav', [
 
     select(item) {
       this.onSelect({ item });
+    }
+
+    toggleOpen() {
+      this.isOpen = !this.isOpen;
     }
   }
 })

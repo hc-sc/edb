@@ -34,3 +34,19 @@ div.table-container {
 table.md-table td.md-cell:last-child, table.md-table th.md-column:last-child {
   width: 30px;
 }
+
+.table-sort-icon {
+  position: relative;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.sort-ascending, .sort-descending {
+  opacity: 1;
+}
+
+.sort-descending {
+  transform: rotate(180deg);
+}
