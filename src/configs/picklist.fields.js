@@ -38,43 +38,69 @@ const PicklistFieldsConfig = {
   legalentitytype: {
     typename: 'EXTENSION_TYPE_LEGALENTITY_TYPE', 
     isExt: true, 
-    fieldPath: '', 
-    jsonixName: ''
+    fieldPath: 'GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.LEGALENTITYTYPE', 
+    jsonixName: 'GHSTS.EXTENSIONTYPELEGALENTITYTYPE'
   },
   country: {
     typename: 'EXTENSION_TYPE_COUNTRY', 
     isExt: true, 
-    fieldPath: '', 
-    jsonixName: ''
+    fieldPath: 'GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTADDRESS.COUNTRY', 
+    jsonixName: 'GHSTS.EXTENSIONTYPECOUNTRY'
   },
   substanceidentifiertype: {
     typename: 'EXTENSION_TYPE_SUBSTANCE_IDENTIFIER_TYPE', 
     isExt: true, 
-    fieldPath: '', 
-    jsonixName: ''
+    fieldPath: 'GHSTS.GHSTS.SUBSTANCES.SUBSTANCE.SUBSTANCEIDENTIFIER.SUBSTANCEIDENTIFIERTYPE', 
+    jsonixName: 'GHSTS.EXTENSIONTYPESUBSTANCEIDENTIFIERTYPE'
   },
   contentstatus: {
     typename: 'TYPE_CONTENT_STATUS', 
     isExt: false, 
     fieldPath: '', 
-    jsonixName: ''
+    jsonixName: 'GHSTS.TYPECONTENTSTATUSSTRUCT'
   },
   filetype: {
     typename: 'TYPE_FILE_TYPE', 
     isExt: false, 
     fieldPath: '', 
-    jsonixName: ''
+    jsonixName: 'GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE'
+  },
+  dataprotection: {
+    typename: 'TYPE_DATA_PROTECTION', 
+    isExt: false, 
+    fieldPath: '', 
+    jsonixName: 'GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.DATAPROTECTION'
+  },
+  datarequirement: {
+    typename: 'TYPE_DATA_REQUIREMENT', 
+    isExt: false, 
+    fieldPath: '', 
+    jsonixName: 'GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.DATAREQUIREMENT'
+  },
+  radocumentnumbertype: {
+    typename: 'EXTENSION_TYPE_RA_DOCUMENT_NUMBER_TYPE', 
+    isExt: true, 
+    fieldPath: 'GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.RADOCUMENTNUMBERTYPE', 
+    jsonixName: 'GHSTS.EXTENSIONTYPERADOCUMENTNUMBERTYPE'
   },
   documentnumbertype: {
     typename: 'EXTENSION_TYPE_DOCUMENT_NUMBER_TYPE', 
+    isExt: true, 
+    fieldPath: 'GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER.DOCUMENTNUMBERTYPE', 
+    jsonixName: 'GHSTS.EXTENSIONTYPEDOCUMENTNUMBERTYPE'
+  },
+  referencetype:{
+    typename: 'TYPE_REFERENCE_TYPE', 
     isExt: false, 
     fieldPath: '', 
-    jsonixName: ''
+    jsonixName: 'GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.REFERENCEDDOCUMENT.REFERENCETYPE'
   },
-
-  referencetype:{typename: 'TYPE_REFERENCE_TYPE', isExt: false, fieldPath: '', jsonixName: ''},
-
-  tocowner: {typename: 'EXTENSION_TYPE_TOC_OWNER', isExt: true, fieldPath: '', jsonixName: ''}
+  tocowner: {
+    typename: 'EXTENSION_TYPE_TOC_OWNER', 
+    isExt: true, 
+    fieldPath: 'GHSTS.GHSTS.TOC.TOCOWNER', 
+    jsonixName: 'GHSTS.EXTENSIONTYPETOCOWNER'
+  }
 
 
 };

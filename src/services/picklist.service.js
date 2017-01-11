@@ -82,7 +82,7 @@ module.exports = class PickListService extends BaseService {
     delete retVal.id;
     let pklDef = _.filter(PicklistFieldsConfig, {typename:dbValue.TYPE_NAME})[0];
 
-    retVal.TYPE_NAME = pklDef.fieldPath;
+    retVal.TYPE_NAME = pklDef.fieldPath ? pklDef.fieldPath : pklDef.jsonixName;
     retVal.valuedecode = dbValue.valuedecode;
 
     if (dbValue.isExt) {

@@ -49,7 +49,7 @@ export default angular.module('receiver', [
                 return item.receiver;
               });
               console.log(ids);
-              if (ids.length > 0) return this.appDataService.edb_get({_url: '/receiver', data: ids });
+              if (ids.length > 0) return this.appDataService.edb_get({_url: '/receiver', data: { where: ids} });
               else return Promise.resolve([]);
             })
             .then(receivers => {
@@ -177,7 +177,7 @@ export default angular.module('receiver', [
       });
       this.appDataService.edb_get({_url: 'sender', data: {where: receiver[0]['sender']}})
       .then(res => {
-        console.log(JSON.parse(res.data));
+        this.senders = JSON.parse(res.data);
       });
     }
 
