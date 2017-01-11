@@ -1,10 +1,10 @@
 <section class='node-page'>
-  <!--<sidenav items='$ctrl.records'
+  <sidenav items='$ctrl.records'
           main='shortname'
           is-open='$ctrl.sidenavOpen'
           on-select='$ctrl.updateSelected(item)'
           on-add='$ctrl.add(item)'>
-  </sidenav>-->
+  </sidenav>
   <div ng-show='!$ctrl.isSubmission' class='no-padding no-margin'>
     <select-input label='Legal Entity' select-value='$ctrl.selected.toLegalEntityId' main='legalentityname' values='$ctrl.legalEntities' on-update='$ctrl.update("toLegalEntityId", value)'></select-input>
     <text-input label='Short Name' is-required='true' text-value='$ctrl.selected.shortname' on-update='$ctrl.update("shortname", value)'></text-input>
@@ -17,6 +17,12 @@
   <div class='float-bottom'>
     <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
       <md-icon md-svg-icon='save' class='light'></md-icon>
+    </md-button>
+    <md-button ng-if='!$ctrl.isSubmission' aria-label='Add New Item' class='md-fab md-primary' ng-click='$ctrl.newReceiver()'>
+      <md-icon md-svg-icon='add' class='light'></md-icon>
+    </md-button>
+    <md-button ng-if='!$ctrl.isSubmission' aria-label='Toggle List' class='md-fab md-primary' ng-click='$ctrl.toggleList()'>
+      <md-icon md-svg-icon='list' class='light'></md-icon>
     </md-button>
   </div>
 </section>

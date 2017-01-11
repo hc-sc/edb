@@ -14,7 +14,6 @@ export default angular.module('settings', [
     constructor() {
       this.toolbarItems = {
         navIcons: [
-          { name: 'back', label: 'Back', state: 'home' },
           { name: 'home', label: 'Home', state: 'splash' }
         ],
         title: 'Settings',

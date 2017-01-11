@@ -13,3 +13,14 @@ md-icon.text-icon {
 md-sidenav.custom-sidenav {
   max-width: 80%;
 }
+
+.sidenav-close-button {
+  width: 24px;
+  position: absolute;
+  right: 0;
+  outline: none;
+
+  &:hover {
+    cursor: pointer;
+  }
+}

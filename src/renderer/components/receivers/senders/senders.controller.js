@@ -1,7 +1,24 @@
-import ModalBaseCtrl from '../../common/modal.base.controller';
+export default class ContactPersonCtrl {
+  constructor($mdDialog, node, AppDataService) {
+    this.$mdDialog = $mdDialog;
+    this.node = node;
+    this.appDataService = AppDataService.getService();
+    console.log(this);
+    this.appDataService.edb_get({url: 'legalentity', data: {}})
+    .then(response => {
+      this.legalentities = JSON.parse(response.data);
+    });
+  }
 
-export default class ContactPersonCtrl extends ModalBaseCtrl {
-  constructor($mdDialog, index, node, picklists, picklistService, $scope) {
-    super($mdDialog, index, node, picklists, picklistService, $scope);
+  confirm() {
+    this.$mdDialog.hide(this.node);
+  }
+
+  cancel() {
+    this.$mdDialog.cancel();
+  }
+
+  update(prop, value) {
+    this.node[prop] = value;
   }
 }

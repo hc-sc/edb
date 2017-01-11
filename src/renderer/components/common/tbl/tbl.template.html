@@ -20,8 +20,11 @@
           <tr md-row>
             <th ng-repeat='header in $ctrl.headers' md-column ng-click='$ctrl.setSort(header)'>
               {{ header.name }}
-              <md-icon ng-if='$ctrl.sortField === header.paramName && !$ctrl.reverse' md-svg-icon='down'></md-icon>
-              <md-icon ng-if='$ctrl.sortField === header.paramName && $ctrl.reverse' md-svg-icon='up'></md-icon>
+              <md-icon class='table-sort-icon' ng-class='{
+                "sort-ascending": ($ctrl.sortField === header.paramName && $ctrl.reverse),
+                "sort-descending": ($ctrl.sortField === header.paramName && !$ctrl.reverse)
+              }' md-svg-icon='up'></md-icon>
+              <!--<md-icon class='table-sort-icon' ng-class='{"sort-descending": ($ctrl.sortField === header.paramName && !$ctrl.reverse)}' md-svg-icon='down'></md-icon>-->
             </th>
             <th ng-if='$ctrl.deletable' md-column></th>
           </tr>
@@ -29,13 +32,16 @@
         <tbody md-body>
           <tr ng-repeat='row in $ctrl.rows | index | filter:$ctrl.searchText | orderBy:$ctrl.sortField:$ctrl.reverse' md-row>
             <td ng-repeat='data in row track by $index' ng-if='!$last' md-cell ng-click='$ctrl.select(row[row.length - 1], row.index)'>{{$ctrl.getData(data, $index)}}</td>
-            <td ng-if='$ctrl.deletable' md-cell>
+            <td ng-show='$ctrl.deletable' md-cell>
               <icon icon='$ctrl.deleteIcon' ng-click='$ctrl.delete(row.index)'></icon>
             </td>
+            <!--<td ng-show='$ctrl.editable' md-cell>
+              <icon icon='$ctrl.editIcon' ng-click='$ctrl.edit(row.index)'></icon>
+            </td>-->
           </tr>
         </tbody>
       </table>
     </md-table-container>
   </md-card>
-  <p class='error-message' ng-if='!$ctrl.rows || $ctrl.rows.length < $ctrl.minItems'>Must have at least {{ $ctrl.minItems }} {{ $ctrl.title  | lowercase }}</p>
+  <p class='error-message' ng-if='!$ctrl.rows || $ctrl.rows.length < $ctrl.minItems'>Must have at least {{ $ctrl.minItems }} {{ $ctrl.title | lowercase }} items</p>
 </div>
