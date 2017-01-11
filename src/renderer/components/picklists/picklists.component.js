@@ -18,11 +18,13 @@ export default angular.module('picklists', [
     picklists: '<'
   },
   controller: class PicklistCtrl {
-    constructor() {
+    constructor($scope) {
       this.expandIcon = {name: 'right', label: 'Expand'};
       this.collapseIcon = {name: 'down', label: 'Collapse'};
       this.items = this.picklists;
       this.promoteItems();
+      this.$scope = $scope;
+      this.$scope.$root.loading = false;
     }
 
     promoteItems() {

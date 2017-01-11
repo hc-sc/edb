@@ -1,2 +1,48 @@
 Component API
 
+Icon  - an icon
+Bindings:
+	icon (object) - the object containing the info for the icon. To have functionality, use ng-click or ui-sref
+		label (string) - the aria-label
+		name (string) - the name of the icon to display (see config/app.icons)
+		color (string) - [light, dark], applies the color of the icon
+		
+
+Navbar - a tab panel
+Bindings:
+	items (array of objects) - the items to show up in the tabs
+		state (string) - the route you want to go to
+		title (string) - the title of the tab
+		
+
+Select-Input - a selectable dropdown (may need enhancement for nested structures)
+Bindings:
+	label (string) - aria-label and placeholder
+	isRequired (string of true/false) - required
+	showValue (string of true/false) - whether to display the 'value' property (i.e. for picklists)
+	selectValue (object) - the currently selected value
+	values (array of objects) - the items to display in the dropdown
+	main (string) - the property you want to display
+	on-update - the update function for the property
+	
+
+Select-Input-Extensible - selectable and extendible component for picklists
+Bindings:
+	label (double quoted string) - aria-label and placeholder
+	isRequired - same as select-input
+	showValue - same as select-input
+	selectValue - same as select-input
+	values - same as select-input
+	typeName - the constant used for the picklist
+	onUpdate - same as select-input
+	onAdd - use the base controllers 'createPicklistItem' function, with appropriate arguments
+
+
+Sidenav - the sidenav
+Bindings:
+	items (array of objects) - the items to show in the sidenav
+	selected (object) - the currently selected items
+	main (string) - the value you want to show up in the sidenav
+	isOpen (object) - use '$ctrl.sidenavOpen'
+	onSelect - 
+	onAdd - 

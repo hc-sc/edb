@@ -5,3 +5,12 @@ div.accordion-title {
 div.accordion-title:hover {
   cursor: pointer;
 }
+
+md-list.picklist {
+  min-height: 0;
+  padding: 0 10px;
+}
+
+md-list-item, md-list-item .md-list-item-inner {
+  min-height: 0;
+}

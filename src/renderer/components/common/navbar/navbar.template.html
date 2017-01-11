@@ -1,8 +1,3 @@
-<!--<nav>
-  <md-tabs md-stretch-tabs='always' md-no-ink-bar='true'>
-    <md-tab ng-repeat='tab in $ctrl.items' label='{{ tab.title }}' ui-sref='{{ tab.state }}' ui-sref-active='active'></md-tab>
-  </md-tabs>
-</nav>-->
 <nav class='node-nav'>
   <ul>
     <li ng-repeat='tab in $ctrl.items' ui-sref='{{ tab.state }}' ui-sref-active='active'>{{ tab.title | uppercase }}</li>

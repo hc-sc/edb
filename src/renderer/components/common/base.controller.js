@@ -15,7 +15,6 @@ export default class BaseCtrl {
     this.appDataService = AppDataService.getService();
     this.$scope = $scope;
     this.$scope.$root.loading = true;
-    console.log(this);
   }
 
   init() {
