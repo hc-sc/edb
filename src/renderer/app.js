@@ -1,5 +1,6 @@
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
+import ngTranslate from 'angular-translate';
 import ngMaterial from 'angular-material';
 import mdDataTable from 'angular-material-data-table';
 import 'angular-animate';
@@ -29,6 +30,7 @@ import Services from './services';
 import states from './config/app.states';
 import theme from './config/app.theme';
 import icons from './config/app.icons';
+import translations from './config/app.translations';
 
 import 'angular-material/angular-material.scss';
 import 'angular-material-data-table/dist/md-data-table.css';
@@ -36,6 +38,7 @@ import './scss//main.scss';
 
 angular.module('app', [
   uiRouter,
+  ngTranslate,
   ngMaterial,
   mdDataTable,
   Services,
@@ -58,5 +61,6 @@ angular.module('app', [
   SubmissionNode
 ])
 .config(states)
+.config(translations)
 .config(theme)
 .config(icons);

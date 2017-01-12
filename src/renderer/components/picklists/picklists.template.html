@@ -4,7 +4,7 @@
       <div class='md-toolbar-tools custom-toolbar accordion-title' ng-click='$ctrl.toggleShow(item)'>
         <icon icon='$ctrl.expandIcon' ng-show='!item.showing'></icon>
         <icon icon='$ctrl.collapseIcon' ng-show='item.showing'></icon>
-        <h2 class='md-title'>{{item.title}}</h2>
+        <h2 class='md-title'>{{item.title | translate}}</h2>
         <div flex></div>
       </div>
     </md-toolbar>
@@ -24,4 +24,3 @@
     </md-button>
   </div>
 </section>
-\
