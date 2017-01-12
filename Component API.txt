@@ -15,7 +15,6 @@ Bindings:
 		state (string) - the route you want to go to
 		title (string) - the title of the tab
 
-
 Select-Input - a selectable dropdown (may need enhancement for nested structures)
 Bindings:
 	label (string) - aria-label and placeholder
