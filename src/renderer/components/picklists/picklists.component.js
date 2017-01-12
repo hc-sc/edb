@@ -18,7 +18,8 @@ export default angular.module('picklists', [
     picklists: '<'
   },
   controller: class PicklistCtrl {
-    constructor($scope) {
+    constructor($scope, PicklistService) {
+      this.picklistService = PicklistService.getService();
       this.expandIcon = {name: 'right', label: 'Expand'};
       this.collapseIcon = {name: 'down', label: 'Collapse'};
       this.items = this.picklists;
@@ -47,6 +48,17 @@ export default angular.module('picklists', [
         }
         else i.showing = false;
       });
+    }
+
+    toggleItem(subitem) {
+      if (subitem.isExt) {
+        subitem._state = subitem._state === 'active' ? 'deactive' : 'active';
+        this.picklistService.edb_post(subitem)
+        .then(ret => {
+          console.log(ret);
+        })
+        .catch(err => console.error(err));
+      }
     }
   }
 })
