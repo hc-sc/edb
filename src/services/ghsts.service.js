@@ -9,10 +9,13 @@ const ServiceLevelPlugin = require('../models/plugins/service.level.plugin');
 
 const BaseService = require('./base.service');
 
-const SenderService = require('./sender.service.js');
-const ReceiverService = require('./receiver.service.js');
-const DossierService = require('./dossier.service.js');
-const SubmissionService = require('./submission.service.js');
+const ReceiverService = require('./receiver.service');
+const SenderService = require('./sender.service');
+const LegalEntityService = require('./legalentity.service');
+const DossierService = require('./dossier.service');
+const SubmissionService = require('./submission.service');
+const SubstanceService = require('./substance.service');
+const FileService = require('./file.service');
 
 const Q = require('bluebird');
 const _ = require('lodash');
@@ -66,20 +69,20 @@ module.exports = class GhstsService extends BaseService {
           TYPE_NAME: 'GHSTS.GHSTS.DOCUMENTS',
           document: []
         },
-        // files: {
-        //   TYPE_NAME: 'GHSTS.GHSTS.FILES',
-        //   file: []
-        // },
+        files: {
+          TYPE_NAME: 'GHSTS.GHSTS.FILES',
+          file: []
+        },
         // toc: '',
-        // legalentities: {
-        //   TYPE_NAME: 'GHSTS.GHSTS.LEGALENTITIES',
-        //   legalentity: []
-        // },
-        // substances: {
-        //   TYPE_NAME: 'GHSTS.GHSTS.SUBSTANCES',
-        //   substance: []
-        // },
-        usedtemplates: self.ghsts[0].usedtemplates ? self.ghsts[0].usedtemplates : ''
+        legalentities: {
+          TYPE_NAME: 'GHSTS.GHSTS.LEGALENTITIES',
+          legalentity: []
+        },
+        substances: {
+          TYPE_NAME: 'GHSTS.GHSTS.SUBSTANCES',
+          substance: []
+        },
+        usedtemplates: ''
       }, svr = new ReceiverService();
       let entityClass = require('mongoose').model(self.modelClassName);
 
@@ -109,22 +112,76 @@ module.exports = class GhstsService extends BaseService {
         if (err)
           rej(err);
         else {
-          let result = JSON.parse(JSON.stringify(rows[0]));
-          retVal.receivers.receiver = self._get_xml_jsonix(JSON.parse(result)._receivers).map(item => {
-            let retVal = item.receiver;
-            retVal.sender = self._get_xml_jsonix(SenderService.edb_getSync(item.sender));
-            return retVal;
+          let result = JSON.parse(JSON.stringify(rows[0]));  ///Mongoose BSON id process bug, may improve later
+
+          // For Receiver
+          retVal.receivers.receiver = result._receivers.map(item => {
+            retVal.legalentities.legalentity.push(item.receiver.toLegalEntityId);
+            item.receiver.id = item._id.toString();
+            return item;
           });
-          retVal.product = self._get_xml_jsonix(JSON.parse(result)._product);
+          retVal.receivers.receiver = self._get_xml_jsonix(retVal.receivers.receiver).map(item => {
+            let ret = item.receiver;
+            ret.sender = self._get_xml_jsonix(JSON.parse(JSON.stringify(SenderService.edb_getSync(item.sender))));
+            ret.sender.map(sender => {
+              retVal.legalentities.legalentity.push(sender.toLegalEntityId);
+            });
+            return ret;
+          });
+
+          // For Product, Dossier, Submission
+          retVal.product = self._get_xml_jsonix(result._product);
           delete retVal.product.dossier.product;
           retVal.product.dossier.submission[0].submissionversiondate =
             DateTimeProc.dateToJsonixObj(retVal.product.dossier.submission[0].submissionversiondate);
-          retVal.documents.document = self._get_xml_jsonix(JSON.parse(result)._documents);  ///Working with Plot Number bug
+
+          // For Document            
+          retVal.documents.document = self._get_xml_jsonix(result._documents);  ///Working with Plot Number bug
+
+          // Looking For Files and Substances in Document
+          result._documents.map(item => {
+            let substances = item.documentgeneric.relatedtosubstance;
+            let files = item.documentgeneric.referencedtofile;
+            if (substances) {
+              substances.map(subs => {
+                retVal.substances.substance.push(subs.toSubstanceId);
+              });
+            }
+            if (files) {
+              files.map(file => {
+                retVal.files.file.push(file.toFileId);
+              });
+            }
+          });
+          
+          // For Files
+          retVal.files.file =  _.uniq(_.compact(retVal.files.file));
+          retVal.files.file = JSON.parse(JSON.stringify(FileService.edb_getSync(retVal.files.file)));
+          retVal.files.file = self._get_xml_jsonix(retVal.files.file);
+
+          // For Legal Entities
+          retVal.legalentities.legalentity = _.uniq(_.compact(retVal.legalentities.legalentity));
+          retVal.legalentities.legalentity = JSON.parse(JSON.stringify(LegalEntityService.edb_getSync(retVal.legalentities.legalentity)));
+          retVal.legalentities.legalentity = self._get_xml_jsonix(retVal.legalentities.legalentity);
+
+          // For Substance
+          // Search Substances from Ingredients
+          result._product.ingredients.ingredient.map(item => {
+            retVal.substances.substance.push(item.toSubstanceId);
+          });
+          retVal.substances.substance = _.uniq(_.compact(retVal.substances.substance));
+          retVal.substances.substance = JSON.parse(JSON.stringify(SubstanceService.edb_getSync(retVal.substances.substance)));
+          retVal.substances.substance = self._get_xml_jsonix(retVal.substances.substance);
+
+          // For Usedtemplates
+          if (self.ghsts[0].usedtemplates.length > 0) 
+            retVal.usedtemplates = self.ghsts[0].usedtemplates;
+          else
+            delete retVal.usedtemplates;
 
           fullRet.value = retVal;
           let doc = self._marsh['01_00_00'].marshalString(fullRet);
-          console.log(doc);
-          res(retVal);
+          res(doc);
         }
       });
     });
