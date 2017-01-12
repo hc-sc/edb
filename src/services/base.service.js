@@ -630,7 +630,7 @@ module.exports = class BaseService {
             getters: true,
             virtuals: true
           },
-          id: (self.modelClassName.indexOf(['PRODUCT', 'DOSSIER']) >= 0)
+          id: (self.modelClassName.indexOf(['PRODUCT', 'DOSSIER', 'DOCUMENT']) >= 0)
         });
 
         let selfPlugin;

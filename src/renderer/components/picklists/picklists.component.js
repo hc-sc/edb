@@ -53,7 +53,7 @@ export default angular.module('picklists', [
     toggleItem(subitem) {
       if (subitem.isExt) {
         subitem._state = subitem._state === 'active' ? 'deactive' : 'active';
-        this.picklistService.edb_post(subitem)
+        this.picklistService.edb_post(angular.copy(subitem))
         .then(ret => {
           console.log(ret);
         })
