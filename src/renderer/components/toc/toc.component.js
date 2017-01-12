@@ -44,6 +44,7 @@ export default angular.module('toc', [
         this.treeNodes = [];
         this.tree.tocnode.forEach(node => this.getNodes(this.treeNodes, node));
         this.$scope.$root.loading = false;
+        this.associations = [];
       });
     }
 
@@ -81,12 +82,34 @@ export default angular.module('toc', [
 
     showTree() {
       this.selectedNode = this.tree;
-      console.log(this.tree);
+
+      // for testing
+      console.log(sanitizeTreeHelper(this.tree));
     }
 
     saveTOC() {
-      this.ghstsService.edb_put({url: `/toc`, data: {tocnodepid: ''}})
+      this.ghstsService.edb_put({url: `/toc`, data: {tocnodepid: ''}});
     }
   }
 })
 .name;
+
+function sanitizeTreeHelper(tree) {
+  const newTree = angular.copy(tree);
+  sanitizeTree(newTree);
+  return newTree;
+}
+
+function sanitizeTree(tree) {
+  if (tree) {
+    if (tree.toc2doc) {
+      tree.toc2doc = tree.toc2doc.map(doc => {
+        return doc.document._id;
+      });
+    }
+
+    if (tree.tocnode) {
+      tree.tocnode.forEach(node => sanitizeTree(node));
+    }
+  }
+}
