@@ -6,7 +6,7 @@ Bindings:
 		label (string) - the aria-label
 		name (string) - the name of the icon to display (see config/app.icons)
 		color (string) - [light, dark], applies the color of the icon
-		
+
 	NOTE: in the future, will attach these properties directly, so we don't have to have objects in the controller everywhere
 
 Navbar - a tab panel
@@ -14,7 +14,7 @@ Bindings:
 	items (array of objects) - the items to show up in the tabs
 		state (string) - the route you want to go to
 		title (string) - the title of the tab
-		
+
 
 Select-Input - a selectable dropdown (may need enhancement for nested structures)
 Bindings:
@@ -24,17 +24,17 @@ Bindings:
 	selectValue (object) - the currently selected value
 	values (array of objects) - the items to display in the dropdown
 	main (string) - the property you want to display
-	on-update - the update function for the property
-	
+	onUpdate - the update function for the property
+
 
 Select-Input-Extensible - selectable and extendible component for picklists
 Bindings:
-	label (double quoted string) - aria-label and placeholder
-	isRequired - same as select-input
-	showValue - same as select-input
-	selectValue - same as select-input
-	values - same as select-input
-	typeName - the constant used for the picklist
+	label (string) - aria-label and placeholder
+	isRequired (boolean) - same as select-input
+	showValue (boolean) - same as select-input
+	selectValue (object) - same as select-input
+	values (array) - same as select-input
+	typeName (string) - the constant used for picklist items
 	onUpdate - same as select-input
 	onAdd - use the base controllers 'createPicklistItem' function, with appropriate arguments
 
@@ -47,7 +47,7 @@ Bindings:
 	isOpen (object) - use '$ctrl.sidenavOpen'
 	onSelect - function that selects the item you want to be selected
 	onAdd - adds a new item to the sidenav
-	
+
 
 Spinner - used to indicate progress. Users expect to be notified that something happened within 100ms, use a spinner to indicate things are loading
 
@@ -64,10 +64,10 @@ Bindings:
 	onSelect - function for onSelect (base.controller uses selectTblItem)
 	onAdd - function for adding new item (base.controller uses addTblItem)
 	onDelete - function for deleting item (base.controller uses deleteTblItem)
-	
+
 	NOTES: This is a complex component, you may have to overwrite some of the functions to suite your needs
 	In future, thinking about adding 'editable' and 'viewable', similar to 'deletable'
-	
+
 	ISSUES: Currently works using setTimeout, which it shouldn't. Consider looking into emitters or other lifecycle methods to signal when update is complete
 
 
@@ -81,17 +81,17 @@ Bindings:
 	hasPattern (regex) - the pattern the text must match or error is displayed
 	message (string) - the message to appear when HASPATTERN is not met
 	onUpdate - the function used to update the field
-	
+
 
 Toolbar - the coloured bar that contains nav items, title, and function icons. $rootScope.title should be set in the onEnter method in config/app.states
 Bindings:
 	items (object)
 		navIcons (array of objects with ICON properties) - the icons to change state
 		functionIcons (array of objects with ICON properties) - icons to perform functions (i.e. help, setting, validate, etc.)
-		
+
 
 Tree - A recursive component used to build tree structures
 Bindings:
 	node (object) - the root of the tree to build
 	items (array) - the documents list, resolved once and passed down into components to speed up resolution
-	
+
