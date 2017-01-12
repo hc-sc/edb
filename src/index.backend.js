@@ -367,7 +367,7 @@ var backendTest = () => {
       // let obj = {tocnodepid: 'urn:node:ID0003773613', docId: '586fc8a1ac3cad13844bd2aa'};
       // obj._subUrl = 'toc';
       // return svr.edb_delete(obj);
-      // return svr._buildXmlJson();
+      return svr._buildXmlJson();
     })
     .then(ret => {
       console.log(JSON.stringify(ret));

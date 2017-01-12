@@ -54,6 +54,7 @@ export default angular.module('receiver', [
             })
             .then(receivers => {
               this.records = Array.isArray(receivers) ? receivers : JSON.parse(receivers.data);
+              console.log(this.records);
             });
           }
           else {
@@ -130,7 +131,7 @@ export default angular.module('receiver', [
       })
       .then(item => {
         sender = item;
-        return this.ghstsService.edb_post({url: `/receiver/${this.selected._id}/sender/${item._id}`, data: {item}});
+        return this.appDataService.edb_post({_url: 'sender', data: item});
       })
       .then(res => {
         this.senders[index] = sender;
