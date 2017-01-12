@@ -352,22 +352,22 @@ var backendTest = () => {
   // //     obj._subUrl = obj._url + '/586699c418c57512d4377eaa';
   // //     return svr.edb_post(obj);
       // let obj = {};
-      // obj._subUrl = 'receiver/586fc8a2ac3cad13844bd2bc/sender/586699c418c57512d4377eaf';
+      // obj._subUrl = 'receiver/586fc8a2ac3cad13844bd2bb/sender/586fc8a2ac3cad13844bd2c0';
       // return svr.edb_put(obj);
   //     // let obj = {_id: '586699c418c57512d4377eaf'};
   //     // obj._subUrl = 'receiver/586699c418c57512d4377eab/sender/586699c418c57512d4377eae';
   //     // return svr.edb_post(obj);
-      // let obj = {tocnodepid: 'urn:node:ID0003773613', docId: '586699c418c57512d4377e99'};
+      // let obj = {tocnodepid: 'urn:node:ID0003773613', docId: '586fc8a1ac3cad13844bd2aa'};
       // obj._subUrl = 'toc';
       // return svr.edb_put(obj);
-      // let obj = {tocnodepid: 'urn:node:ID0003773614', docId: '586699c418c57512d4377e99'};
+      // let obj = {tocnodepid: 'urn:node:ID0003773614', docId: '586fc8a1ac3cad13844bd2aa'};
       // obj._subUrl = 'toc';
       // return svr.edb_put(obj);
 
-      // let obj = {tocnodepid: 'urn:node:ID0003773613', docId: '586699c418c57512d4377e99'};
+      // let obj = {tocnodepid: 'urn:node:ID0003773613', docId: '586fc8a1ac3cad13844bd2aa'};
       // obj._subUrl = 'toc';
       // return svr.edb_delete(obj);
-      return svr._buildXmlJson();
+      // return svr._buildXmlJson();
     })
     .then(ret => {
       console.log(JSON.stringify(ret));
