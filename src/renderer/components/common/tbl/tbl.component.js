@@ -3,7 +3,6 @@ import uiRouter from 'angular-ui-router';
 import mdTable from 'angular-material-data-table';
 import template from './tbl.template';
 
-import QueryCtrl from '../query.controller';
 import Toolbar from '../toolbar/toolbar.component';
 import Icon from '../icon/icon.component';
 import IndexFilter from '../../../filters/index.filter';
