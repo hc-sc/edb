@@ -20,13 +20,16 @@ export const picklists_en = {
 };
 
 export const propNames_en = {
+  // Generic
+  'save': 'Save',
+
   // Legal Entities
   'legalentitypid': 'Legal Entity PID',
   'legalentityname': 'Legal Entity Name',
   'legalentitytype': 'Legal Entity Type',
   'othername': 'Other Name',
   'legalentityidentifier': 'Legal Entity Identifier',
-  'contactaddress': 'Contact Address',
+  'contactaddress': 'Address',
   'street1': 'Street 1',
   'street2': 'Street 2',
   'zipcode': 'Zip/Postal Code',
@@ -44,7 +47,23 @@ export const propNames_en = {
   'mobile': 'Mobile',
   'organisation': 'Organization',
   'department': 'Department',
-  'legalentityidentifiertype': 'Legal Entity Identifier Type',
+  'identifiers': 'Identifiers',
+  'legalentityidentifiertype': 'Identifier Type',
   'identifier': 'Identifier',
-  'contacts': 'Contacts'
+  'contacts': 'Contacts',
+
+  // Dossier
+  'dossierdescriptiontitle': 'Title',
+  'dossierpid': 'Dossier PID',
+  'productname': 'Product Name',
+  '_state': 'State',
+  '_created': 'Created',
+  '_lastMod': 'Last Modified',
+
+  // Submission
+  'submissiontitle': 'Submission Title',
+  'submissionnumber': 'Number',
+  'adminnumber': 'Admin Number',
+  'packagetype': 'Package Type',
+
 };

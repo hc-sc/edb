@@ -1,7 +1,7 @@
 <section class='node-page'>
   <spinner ng-if='$ctrl.loading'></spinner>
   <div class='no-margin no-padding' ng-if='!ctrl.loading'>
-    <sidenav items='$ctrl.records' main='filegeneric.filename' is-open='$ctrl.sidenavOpen' on-select='$ctrl.updateSelected(item)'
+    <sidenav items='$ctrl.records' selected='$ctrl.selected' main='filegeneric.filename' is-open='$ctrl.sidenavOpen' on-select='$ctrl.updateSelected(item)'
       on-add='$ctrl.add(item)'></sidenav>
 
     <div class='extension-wrapper'>
