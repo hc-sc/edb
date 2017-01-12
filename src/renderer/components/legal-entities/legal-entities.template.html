@@ -2,6 +2,7 @@
   <spinner ng-if='$ctrl.loading'></spinner>
   <div class='no-margin no-padding' ng-if='!ctrl.loading'>
     <sidenav items='$ctrl.records'
+          selected='$ctrl.selected'
           main='legalentityname'
           is-open='$ctrl.sidenavOpen'
           on-select='$ctrl.updateSelected(item)'

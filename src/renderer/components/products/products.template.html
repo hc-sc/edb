@@ -1,7 +1,7 @@
 <section class='node-page'>
   <spinner ng-if='$ctrl.loading'></spinner>
   <div class='no-margin no-padding' ng-if='!ctrl.loading'>
-    <sidenav items='$ctrl.records' main='genericproductname' is-open='$ctrl.sidenavOpen' on-select='$ctrl.updateSelected(item)'
+    <sidenav items='$ctrl.records' selected='$ctrl.selected' main='genericproductname' is-open='$ctrl.sidenavOpen' on-select='$ctrl.updateSelected(item)'
       on-add='$ctrl.add(item)'></sidenav>
     <text-input label='Product PID' is-required='true' text-value='$ctrl.selected.productpid' on-update='$ctrl.update("productpid", value)'></text-input>
     <text-input label='Generic Product Name' is-required='true' text-value='$ctrl.selected.genericproductname' on-update='$ctrl.update("genericproductname", value)'></text-input>
@@ -9,11 +9,11 @@
       values='$ctrl.formulationType' type-name='EXTENSION_TYPE_FORMULATION_TYPE' on-add='$ctrl.createPicklistItem("formulationtype", "formulationType", value)'>
     </select-input-extensible>
 
-    <tbl ng-if='!$ctrl.loading' title='Ingredients' 
-          items='$ctrl.selected.ingredients.ingredient' 
-          projection='[{name: "toSubstanceId", url: "substance"}, "quantity", {name: "unit", url: "picklist"}]' 
-          on-select='$ctrl.selectTblItem("ingredients.ingredient",index)' 
-          on-add='$ctrl.addTblItem("ingredients.ingredient")' 
+    <tbl ng-if='!$ctrl.loading' title='Ingredients'
+          items='$ctrl.selected.ingredients.ingredient'
+          projection='[{name: "toSubstanceId", url: "substance"}, "quantity", {name: "unit", url: "picklist"}]'
+          on-select='$ctrl.selectTblItem("ingredients.ingredient",index)'
+          on-add='$ctrl.addTblItem("ingredients.ingredient")'
           on-delete='$ctrl.deleteTblItem("ingredients.ingredient",index)'>
     </tbl>
     <tbl ng-if='!$ctrl.loading' title='Product Regulatory Authorities' items='$ctrl.selected.productra' projection='["productname", "toSpecificForRAId"]' on-select='$ctrl.selectTblItem("productra",index)' on-add='$ctrl.addTblItem("productra")' on-delete='$ctrl.deleteTblItem("productra",index)'></tbl>

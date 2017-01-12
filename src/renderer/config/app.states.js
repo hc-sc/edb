@@ -51,6 +51,9 @@ export default function ($stateProvider, $urlRouterProvider) {
       component: 'globals',
       onEnter: $rootScope => {
         $rootScope.title = 'Manage Application Data';
+      },
+      onStart: $rootScope => {
+        $rootScope.loading = true;
       }
     })
     .state('globals.receivers', {
@@ -73,9 +76,6 @@ export default function ($stateProvider, $urlRouterProvider) {
         contentStatus: PicklistService => {
           return PicklistService.getService().edb_get({ 'TYPE_NAME': 'TYPE_CONTENT_STATUS' });
         }
-      },
-      onExit: $rootScope => {
-        $rootScope.loading = true;
       }
     })
     .state('globals.substances', {
@@ -155,6 +155,9 @@ export default function ($stateProvider, $urlRouterProvider) {
           }))
           .catch(err => console.error(err));
         }
+      },
+      onEnter: $rootScope => {
+        $rootScope.loading = true;
       }
     })
     .state('settings', {

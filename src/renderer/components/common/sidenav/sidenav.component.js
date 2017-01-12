@@ -13,6 +13,7 @@ export default angular.module('sidenav', [
   template,
   bindings: {
     items: '<',
+    selected: '<',
     main: '@',
     isOpen: '=',
     onSelect: '&',
@@ -25,11 +26,12 @@ export default angular.module('sidenav', [
 
     $onChanges(changes) {
       // this shouldn't run on every change, it will consume a lot of resources with long lists and may thrash
+      console.log(this.items);
+      console.log(this.selected);
       if (this.items) {
         this.items.sort((a, b) => {
           return this.getMain(a) >= this.getMain(b);
         });
-        this.sorted = true;
       }
     }
 

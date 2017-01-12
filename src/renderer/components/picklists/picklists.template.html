@@ -9,7 +9,7 @@
       </div>
     </md-toolbar>
     <md-content layout-padding ng-show='item.showing'>
-      <md-list >
+      <md-list class='picklist'>
         <md-list-item ng-repeat='subitem in item.items'>
           <p>{{subitem.valuedecode}}</p>
           <md-checkbox class='md-primary' ng-show='subitem.isExt' ng-model='subitem.enabled'></md-checkbox>

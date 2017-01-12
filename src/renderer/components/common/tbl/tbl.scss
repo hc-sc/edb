@@ -45,8 +45,10 @@ table.md-table td.md-cell:last-child, table.md-table th.md-column:last-child {
 
 .sort-ascending, .sort-descending {
   opacity: 1;
+  transition: transform 0.2s;
 }
 
 .sort-descending {
   transform: rotate(180deg);
+  transition: transform 0.2s;
 }
