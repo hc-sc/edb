@@ -50,6 +50,10 @@ export default angular.module('home', [
       })
       .then(products => {
         this.products = JSON.parse(products.data);
+        return this.appDataService.edb_get({_url: 'toc'});
+      })
+      .then(toc => {
+        this.toc = JSON.parse(toc.data);
       });
 
       this.toolbarItems = {
@@ -103,11 +107,13 @@ export default angular.module('home', [
       let prompt = {
         template: newDossierTemplate,
         controller: class NewDossierCtrl {
-          constructor($mdDialog, products) {
+          constructor($mdDialog, products,toc) {
             this.$mdDialog = $mdDialog;
             this.foldertitle;
             this.products = products;
             this.product;
+            this.toc=toc;
+            this.tocId;
           }
 
           confirm() {
@@ -115,6 +121,7 @@ export default angular.module('home', [
               foldertitle: this.foldertitle,
               product: this.product,
               // tocid: ''
+              tocId:this.tocId
             });
           }
 
@@ -129,13 +136,16 @@ export default angular.module('home', [
         controllerAs: '$ctrl',
         locals: {
           $mdDialog: this.$mdDialog,
-          products: this.products
+          products: this.products,
+          toc:this.toc
         }
       };
 
       this.$mdDialog.show(prompt)
         .then(name => {
           let {foldertitle, product} = name;
+          console.log(name);
+          console.log(foldertitle+"---"+product);
           // let nameAry = name.split('/');
           // this.GhstsService.edb_put({ productShortName: nameAry[0], dossierShortName: nameAry[1] }).then(result => {
           //   console.log(result);
