@@ -2,7 +2,7 @@
   <form ng-cloak>
     <md-toolbar>
       <div class='md-toolbar-tools'>
-        <h2>Contact Person</h2>
+        <h2>{{"contactperson" | translate}}</h2>
         <span flex></span>
         <md-button class='md-icon-button' ng-click='$ctrl.cancel()'>
           <md-icon md-svg-icon='close' aria-label='close dialog' class='light'></md-icon>
@@ -13,15 +13,15 @@
 
     <md-dialog-content>
       <div class='md-dialog-content'>
-        <text-input label='Title' text-value='$ctrl.node.title' on-update='$ctrl.update("title", value)'></text-input>
-        <text-input label='First Name' text-value='$ctrl.node.firstname' on-update='$ctrl.update("firstname", value)'></text-input>
-        <text-input label='Last Name' text-value='$ctrl.node.lastname' on-update='$ctrl.update("lastname", value)'></text-input>
-        <text-input label='Phone' text-value='$ctrl.node.phone' on-update='$ctrl.update("phone", value)'></text-input>
-        <text-input label='Email' text-value='$ctrl.node.email' on-update='$ctrl.update("email", value)'></text-input>
-        <text-input label='Mobile' text-value='$ctrl.node.mobile' on-update='$ctrl.update("mobile", value)'></text-input>
-        <text-input label='Fax' text-value='$ctrl.node.fax' on-update='$ctrl.update("fax", value)'></text-input>
-        <text-input label='Organization' text-value='$ctrl.node.organisation' on-update='$ctrl.update("organisation", value)'></text-input>
-        <text-input label='Department' text-value='$ctrl.node.department' on-update='$ctrl.update("department", value)'></text-input>
+        <text-input label='{{"title" | translate}}' text-value='$ctrl.node.title' on-update='$ctrl.update("title", value)'></text-input>
+        <text-input label='{{"firstname" | translate}}' text-value='$ctrl.node.firstname' on-update='$ctrl.update("firstname", value)'></text-input>
+        <text-input label='{{"lastname" | translate}}' text-value='$ctrl.node.lastname' on-update='$ctrl.update("lastname", value)'></text-input>
+        <text-input label='{{"phone" | translate}}' text-value='$ctrl.node.phone' on-update='$ctrl.update("phone", value)'></text-input>
+        <text-input label='{{"email" | translate}}' text-value='$ctrl.node.email' on-update='$ctrl.update("email", value)'></text-input>
+        <text-input label='{{"mobile" | translate}}' text-value='$ctrl.node.mobile' on-update='$ctrl.update("mobile", value)'></text-input>
+        <text-input label='{{"fax" | translate}}' text-value='$ctrl.node.fax' on-update='$ctrl.update("fax", value)'></text-input>
+        <text-input label='{{"organisation" | translate}}' text-value='$ctrl.node.organisation' on-update='$ctrl.update("organisation", value)'></text-input>
+        <text-input label='{{"department" | translate}}' text-value='$ctrl.node.department' on-update='$ctrl.update("department", value)'></text-input>
       </div>
     </md-dialog-content>
 
