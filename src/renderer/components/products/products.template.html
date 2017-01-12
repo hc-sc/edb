@@ -5,7 +5,7 @@
       on-add='$ctrl.add(item)'></sidenav>
     <text-input label='Product PID' is-required='true' text-value='$ctrl.selected.productpid' on-update='$ctrl.update("productpid", value)'></text-input>
     <text-input label='Generic Product Name' is-required='true' text-value='$ctrl.selected.genericproductname' on-update='$ctrl.update("genericproductname", value)'></text-input>
-    <select-input-extensible label='"Formulation Type"' select-value='$ctrl.selected.formulationtype' on-update='$ctrl.update("formulationtype", value)'
+    <select-input-extensible label='Formulation Type' select-value='$ctrl.selected.formulationtype' on-update='$ctrl.update("formulationtype", value)'
       values='$ctrl.formulationType' type-name='EXTENSION_TYPE_FORMULATION_TYPE' on-add='$ctrl.createPicklistItem("formulationtype", "formulationType", value)'>
     </select-input-extensible>
 

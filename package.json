@@ -33,6 +33,7 @@
     "angular-material-data-table": "0.10.10",
     "angular-messages": "1.5.9",
     "angular-mocks": "1.6.0",
+    "angular-translate": "2.13.1",
     "angular-ui-layout": "^1.4.2",
     "angular-ui-router": "1.0.0-beta.3",
     "babel-core": "6.20.0",

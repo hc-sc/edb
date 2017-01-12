@@ -1,5 +1,6 @@
 <section class='node-page'>
-  <sidenav ng-if='!$ctrl.isSubmission' items='$ctrl.records'
+  <sidenav items='$ctrl.records'
+          selected='$ctrl.selected'
           main='shortname'
           is-open='$ctrl.sidenavOpen'
           on-select='$ctrl.updateSelected(item)'

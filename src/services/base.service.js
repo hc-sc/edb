@@ -440,7 +440,7 @@ module.exports = class BaseService {
       retVal = obj;
       let keys = Object.keys(retVal);
       keys.map(key => {
-        if (key.startsWith('_') || key === 'valuedecode' || key === 'id')
+        if ((key.startsWith('_') && key !== '_state') || key === 'valuedecode' || key === 'id')
           delete retVal[key];
         else if (retVal[key]) {
           if (Array.isArray(retVal[key])) {
@@ -478,14 +478,14 @@ module.exports = class BaseService {
           if (picklistFieldsConfig && retVal[key]) { //this is picklist item
             if (Array.isArray(retVal[key])) {
               let subRet = [];
-              // self._get_xml_json(retVal[key]); 
+              // self._get_xml_json(retVal[key]);
               retVal[key] = subRet;
             } else {
               retVal[key] = PickListService.toJsonix(retVal[key]);
             }
           } else if (retVal[key]) {
             if (Array.isArray(retVal[key])) {
-              let subRet = self._get_xml_jsonix(retVal[key]); 
+              let subRet = self._get_xml_jsonix(retVal[key]);
               retVal[key] = subRet;
             } else if (typeof retVal[key] === 'object') {
               retVal[key] = self._get_xml_jsonix(retVal[key]);
