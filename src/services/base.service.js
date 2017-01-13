@@ -402,8 +402,8 @@ module.exports = class BaseService {
           dbOutput = plkI.edb_getSync(query);
           retVal[key] = dbOutput[0]._id.toString();
         }
-      } else if (plEntity && plEntity.constructor === Array) {
-        if (plEntity[0].hasOwnProperty('TYPE_NAME')) {
+      } else if (plEntity && Array.isArray(plEntity)) {
+        if (plEntity[0] && plEntity[0].hasOwnProperty('TYPE_NAME')) {
           retVal[key] = [];
           plEntity.map(subEnt => {
             retVal[key].push(self._testDataPlkDecode(subEnt, plkI));
