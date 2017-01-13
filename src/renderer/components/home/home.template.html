@@ -2,6 +2,6 @@
 <toolbar items='$ctrl.toolbarItems'></toolbar>
 <section class='flex' layout-padding>
   <tbl title='Dossiers' items='$ctrl.dossiers' projection='$ctrl.dossierProjection' default-sort='LAST_MODIFIED' default-reverse='true' on-select='$ctrl.selectDossier(id, index)' on-add='$ctrl.newDossier()' on-delete='$ctrl.deleteDossier(id)'></tbl>
-  <tbl title='{{ $ctrl.dossier.dossierdescriptiontitle || "Submissions" }}' items='$ctrl.submissions' projection='$ctrl.submissionProjection' default-sort='submissionnumber' default-reverse='false' on-select='$ctrl.selectSubmission(id, index)' on-add='$ctrl.newSubmission()' on-delete='$ctrl.deleteSubmission(id)'></tbl>
+  <tbl title='{{$ctrl.dossier.dossierdescriptiontitle || "Submissions"}}' items='$ctrl.submissions' projection='$ctrl.submissionProjection' default-sort='submissionnumber' default-reverse='false' on-select='$ctrl.selectSubmission(id, index)' on-add='$ctrl.newSubmission()' on-delete='$ctrl.deleteSubmission(id)'></tbl>
 </section>
 </div>

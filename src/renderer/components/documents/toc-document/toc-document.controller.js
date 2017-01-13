@@ -4,7 +4,6 @@ export default class TocDocumentCtrl {
     this.items = items;
     this.$scope = $scope;
     this.document;
-    console.log(this);
   }
 
   update(prop, value) {
@@ -26,7 +25,6 @@ export default class TocDocumentCtrl {
         break;
       }
     }
-    console.log(document);
     this.$mdDialog.hide({document});
   }
 }

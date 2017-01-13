@@ -2,7 +2,7 @@
   <form ng-cloak>
     <md-toolbar>
       <div class='md-toolbar-tools'>
-        <h2>Identifier</h2>
+        <h2>{{"indentifier" | translate}}</h2>
         <span flex></span>
         <md-button class='md-icon-button' ng-click='$ctrl.cancel()'>
           <md-icon md-svg-icon='close' aria-label='close dialog' class='light'></md-icon>
@@ -13,13 +13,13 @@
 
     <md-dialog-content>
       <div class='md-dialog-content'>
-        <select-input-extensible label='"Identifier Type"' select-value='$ctrl.node.legalentityidentifiertype' 
-            on-update='$ctrl.update("legalentityidentifiertype", value)' 
-            values='$ctrl.picklists.legalEntityIdentifierTypes' 
-            type-name='EXTENSION_TYPE_LEGALENTITY_IDENTIFIER_TYPE' 
+        <select-input-extensible label='{{"legalentityidentifiertype" | translate}}' select-value='$ctrl.node.legalentityidentifiertype'
+            on-update='$ctrl.update("legalentityidentifiertype", value)'
+            values='$ctrl.picklists.legalEntityIdentifierTypes'
+            type-name='EXTENSION_TYPE_LEGALENTITY_IDENTIFIER_TYPE'
             on-add='$ctrl.createPicklistItem("legalentityidentifiertype", "legalEntityIdentifierTypes", value)'>
         </select-input-extensible>
-        <text-input label='Identifier' text-value='$ctrl.node.identifier' on-update='$ctrl.update("identifier", value)'></text-input>
+        <text-input label='{{"identifier" | translate}}' text-value='$ctrl.node.identifier' on-update='$ctrl.update("identifier", value)'></text-input>
       </div>
     </md-dialog-content>
 

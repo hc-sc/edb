@@ -210,6 +210,7 @@ export default class BaseCtrl {
     this.selected = this.records.filter(record => {
       return record._id === data._id;
     })[0];
+    console.log(this.selected);
   }
 
   // used to compare current node to a valid or old node (for validation and/or updating metadata status)
