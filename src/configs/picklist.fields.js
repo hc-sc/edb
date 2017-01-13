@@ -89,7 +89,7 @@ const PicklistFieldsConfig = {
     fieldPath: 'GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER.DOCUMENTNUMBERTYPE', 
     jsonixName: 'GHSTS.EXTENSIONTYPEDOCUMENTNUMBERTYPE'
   },
-  referencetype:{
+  referencetype: {
     typename: 'TYPE_REFERENCE_TYPE', 
     isExt: false, 
     fieldPath: '', 

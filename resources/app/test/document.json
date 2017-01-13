@@ -51,7 +51,6 @@
                   "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.RADOCUMENTNUMBERTYPE",
                   "value": {
                     "TYPE_NAME": "GHSTS.EXTENSIONTYPERADOCUMENTNUMBERTYPE",
-                    "otherValue": "",
                     "value": "MRID"
                   },
                   "valuedecode": "MRID"
@@ -84,7 +83,6 @@
                   "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.RADOCUMENTNUMBERTYPE",
                   "value": {
                     "TYPE_NAME": "GHSTS.EXTENSIONTYPERADOCUMENTNUMBERTYPE",
-                    "otherValue": "",
                     "value": "MRID"
                   },
                   "valuedecode": "MRID"
@@ -117,7 +115,6 @@
                   "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.RADOCUMENTNUMBERTYPE",
                   "value": {
                     "TYPE_NAME": "GHSTS.EXTENSIONTYPERADOCUMENTNUMBERTYPE",
-                    "otherValue": "",
                     "value": "MRID"
                   },
                   "valuedecode": "MRID"
@@ -263,7 +260,6 @@
                   "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.RADOCUMENTNUMBERTYPE",
                   "value": {
                     "TYPE_NAME": "GHSTS.EXTENSIONTYPERADOCUMENTNUMBERTYPE",
-                    "otherValue": "",
                     "value": "MRID"
                   },
                   "valuedecode": "MRID"
@@ -296,7 +292,6 @@
                   "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.RADOCUMENTNUMBERTYPE",
                   "value": {
                     "TYPE_NAME": "GHSTS.EXTENSIONTYPERADOCUMENTNUMBERTYPE",
-                    "otherValue": "",
                     "value": "MRID"
                   },
                   "valuedecode": "MRID"
@@ -329,7 +324,6 @@
                   "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.RADOCUMENTNUMBERTYPE",
                   "value": {
                     "TYPE_NAME": "GHSTS.EXTENSIONTYPERADOCUMENTNUMBERTYPE",
-                    "otherValue": "",
                     "value": "MRID"
                   },
                   "valuedecode": "MRID"

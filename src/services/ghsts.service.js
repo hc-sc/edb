@@ -16,6 +16,7 @@ const DossierService = require('./dossier.service');
 const SubmissionService = require('./submission.service');
 const SubstanceService = require('./substance.service');
 const FileService = require('./file.service');
+const TocService = require('./toc.service');
 
 const Q = require('bluebird');
 const _ = require('lodash');
@@ -42,6 +43,44 @@ module.exports = class GhstsService extends BaseService {
     this._validate = validateInstance;
     this._marsh = marsh;
     this._unmarsh = unmarsh;
+  }
+
+  _metadatastatus_process(entityName, id) {
+    let curMeta = this.ghsts[0]._metadatastatus[entityName];
+    let metanode;
+
+    if (this.ghsts[0]._submissionnumber === 1) {
+      if (!curMeta) 
+        curMeta = [];
+      metanode = new MetaDataStatusNode(
+                    id,
+                    MetaDataStatus.getMetadataStatusIdbyValue('new'),
+                    entityName
+                  ); 
+    } else {
+      metanode = new MetaDataStatusNode(
+                    id,
+                    MetaDataStatus.getMetadataStatusIdbyValue('modified'),
+                    entityName
+                  ); 
+    }
+
+    if (Array.isArray(curMeta)) {
+      let isExit = _.filter(curMeta, item => {
+        if (item.elementid === id)
+          return item;
+      });
+      if (isExit.length === 1)
+        return isExit[0].metadatastatusid;
+      else {
+        curMeta.push(metanode);
+        return metanode.metadatastatusid;
+      }
+    } else {
+      if (!curMeta) 
+        curMeta = metanode;
+      return metanode.metadatastatusid;
+    }
   }
 
   _buildXmlJson() {
@@ -118,6 +157,7 @@ module.exports = class GhstsService extends BaseService {
           retVal.receivers.receiver = result._receivers.map(item => {
             retVal.legalentities.legalentity.push(item.receiver.toLegalEntityId);
             item.receiver.id = item._id.toString();
+            item.receiver.metadatastatus = self._metadatastatus_process('receiver', item.receiver.id);
             return item;
           });
           retVal.receivers.receiver = self._get_xml_jsonix(retVal.receivers.receiver).map(item => {
@@ -130,13 +170,15 @@ module.exports = class GhstsService extends BaseService {
           });
 
           // For Product, Dossier, Submission
+          retVal.product = result._product;
+          retVal.product.metadatastatus = self._metadatastatus_process('product', result._product._id);
           retVal.product = self._get_xml_jsonix(result._product);
           delete retVal.product.dossier.product;
           retVal.product.dossier.submission[0].submissionversiondate =
             DateTimeProc.dateToJsonixObj(retVal.product.dossier.submission[0].submissionversiondate);
 
           // For Document            
-          retVal.documents.document = self._get_xml_jsonix(result._documents);  ///Working with Plot Number bug
+          retVal.documents.document = self._get_xml_jsonix(result._documents);  ///Working with Project Number bug
 
           // Looking For Files and Substances in Document
           result._documents.map(item => {
@@ -159,9 +201,19 @@ module.exports = class GhstsService extends BaseService {
           retVal.files.file = JSON.parse(JSON.stringify(FileService.edb_getSync(retVal.files.file)));
           retVal.files.file = self._get_xml_jsonix(retVal.files.file);
 
-          // For Legal Entities
+          // For TOC
+          // retVal.toc = JSON.parse(JSON.stringify(TocService.edb_getSync({_version: self.ghsts[0]._tocdecription.tocversion})))[0];
+          // // retVal.toc.structure.TYPE_NAME = retVal.toc.structure[0];
+          // retVal.toc = self._get_xml_jsonix(retVal.toc);
+          // retVal.toc.structure.TYPE_NAME = 'GHSTS.GHSTS.TOC.STRUCTURE';
+
+          // // For Legal Entities
           retVal.legalentities.legalentity = _.uniq(_.compact(retVal.legalentities.legalentity));
           retVal.legalentities.legalentity = JSON.parse(JSON.stringify(LegalEntityService.edb_getSync(retVal.legalentities.legalentity)));
+          retVal.legalentities.legalentity.map(les => {
+            let metaId = self._metadatastatus_process('legalentity', les._id);
+            les.metadatastatus = metaId;
+          });
           retVal.legalentities.legalentity = self._get_xml_jsonix(retVal.legalentities.legalentity);
 
           // For Substance
@@ -171,6 +223,10 @@ module.exports = class GhstsService extends BaseService {
           });
           retVal.substances.substance = _.uniq(_.compact(retVal.substances.substance));
           retVal.substances.substance = JSON.parse(JSON.stringify(SubstanceService.edb_getSync(retVal.substances.substance)));
+          retVal.substances.substance.map(subs => {
+            let metaId = self._metadatastatus_process('substance', subs._id);
+            subs.metadatastatus = metaId;
+          });
           retVal.substances.substance = self._get_xml_jsonix(retVal.substances.substance);
 
           // For Usedtemplates
@@ -180,6 +236,8 @@ module.exports = class GhstsService extends BaseService {
             delete retVal.usedtemplates;
 
           fullRet.value = retVal;
+          let isValid = self._validate['01_00_00'](fullRet);
+          let errors = !isValid ? self._validate['01_00_00'].errors : '';
           let doc = self._marsh['01_00_00'].marshalString(fullRet);
           res(doc);
         }
