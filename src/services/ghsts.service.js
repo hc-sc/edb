@@ -112,7 +112,7 @@ module.exports = class GhstsService extends BaseService {
           TYPE_NAME: 'GHSTS.GHSTS.FILES',
           file: []
         },
-        // toc: '',
+        toc: '',
         legalentities: {
           TYPE_NAME: 'GHSTS.GHSTS.LEGALENTITIES',
           legalentity: []
@@ -151,7 +151,7 @@ module.exports = class GhstsService extends BaseService {
         if (err)
           rej(err);
         else {
-          let result = JSON.parse(JSON.stringify(rows[0]));  ///Mongoose BSON id process bug, may improve later
+          let result = JSON.parse(JSON.stringify(rows[0]));  ///Mongoose or Tingo BSON id process has bug, may improve later
 
           // For Receiver
           retVal.receivers.receiver = result._receivers.map(item => {
@@ -202,10 +202,8 @@ module.exports = class GhstsService extends BaseService {
           retVal.files.file = self._get_xml_jsonix(retVal.files.file);
 
           // For TOC
-          // retVal.toc = JSON.parse(JSON.stringify(TocService.edb_getSync({_version: self.ghsts[0]._tocdecription.tocversion})))[0];
-          // // retVal.toc.structure.TYPE_NAME = retVal.toc.structure[0];
-          // retVal.toc = self._get_xml_jsonix(retVal.toc);
-          // retVal.toc.structure.TYPE_NAME = 'GHSTS.GHSTS.TOC.STRUCTURE';
+          retVal.toc = JSON.parse(JSON.stringify(TocService.edb_getSync({_version: self.ghsts[0]._tocdecription.tocversion})))[0];
+          retVal.toc = self._get_xml_jsonix(retVal.toc);
 
           // // For Legal Entities
           retVal.legalentities.legalentity = _.uniq(_.compact(retVal.legalentities.legalentity));
@@ -236,9 +234,9 @@ module.exports = class GhstsService extends BaseService {
             delete retVal.usedtemplates;
 
           fullRet.value = retVal;
-          let isValid = self._validate['01_00_00'](fullRet);
-          let errors = !isValid ? self._validate['01_00_00'].errors : '';
-          let doc = self._marsh['01_00_00'].marshalString(fullRet);
+          let isValid = self._validate['01_00_02'](fullRet);
+          let errors = !isValid ? self._validate['01_00_02'].errors : '';
+          let doc = self._marsh['01_00_02'].marshalString(fullRet);
           res(doc);
         }
       });
@@ -526,7 +524,7 @@ module.exports = class GhstsService extends BaseService {
           }],
           _tocdecription: {
             tocstandardname: { type: String, required: true, default: 'OECD' },
-            tocversion: { type: String, required: true, default: '01.00.00' }
+            tocversion: { type: String, required: true, default: '01.00.02' }
           },
           _metadatastatus: { type: Schema.Types.Mixed },
           usedtemplates: [{ type: String }],

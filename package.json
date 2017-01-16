@@ -10,7 +10,7 @@
     "dist": "webpack && build -p never",
     "run": "electron dist",
     "publish": "build",
-    "schema": "java -jar ./node_modules/jsonix/lib/jsonix-schema-compiler-full.jar -generateJsonSchema -d ./resources/app/standards/01_00_00 -p GHSTS ./resources/app/standards/ghsts_01-00-00.xsd"
+    "schema": "java -jar ./node_modules/jsonix/lib/jsonix-schema-compiler-full.jar -generateJsonSchema -d ./resources/app/standards/01_00_02 -p GHSTS ./resources/app/standards/ghsts_01-00-02.xsd"
   },
   "author": "Health Canada - Santé Canada",
   "contributers": [

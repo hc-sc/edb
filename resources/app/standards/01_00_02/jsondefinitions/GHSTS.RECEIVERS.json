@@ -1,0 +1,13 @@
+{
+	"localName": "GHSTS.RECEIVERS",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "receiver",
+			"required": true,
+			"collection": true,
+			"elementName": "RECEIVER",
+			"typeInfo": ".GHSTS.RECEIVERS.RECEIVER"
+		}
+	]
+}

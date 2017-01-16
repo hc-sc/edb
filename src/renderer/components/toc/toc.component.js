@@ -30,7 +30,7 @@ export default angular.module('toc', [
       this.getAppData({}, 'toc')
       .then(toc => {
         this.toc = JSON.parse(toc.data)[0];
-        this.tree = this.toc.structure[0];
+        this.tree = this.toc.structure;
         this.selectedNode = this.tree;
 
         // assign the top level node some data to show better

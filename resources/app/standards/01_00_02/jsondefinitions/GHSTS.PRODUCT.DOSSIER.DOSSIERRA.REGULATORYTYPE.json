@@ -1,0 +1,17 @@
+{
+	"localName": "GHSTS.PRODUCT.DOSSIER.DOSSIERRA.REGULATORYTYPE",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "value",
+			"required": true,
+			"elementName": "VALUE",
+			"typeInfo": ".EXTENSIONTYPEREGULATORYTYPE"
+		},
+		{
+			"name": "valuedecode",
+			"required": true,
+			"elementName": "VALUE_DECODE"
+		}
+	]
+}

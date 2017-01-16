@@ -1,0 +1,47 @@
+{
+	"localName": "GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTADDRESS",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "street1",
+			"elementName": "STREET1"
+		},
+		{
+			"name": "street2",
+			"elementName": "STREET2"
+		},
+		{
+			"name": "zipcode",
+			"elementName": "ZIPCODE"
+		},
+		{
+			"name": "city",
+			"elementName": "CITY"
+		},
+		{
+			"name": "state",
+			"elementName": "STATE"
+		},
+		{
+			"name": "country",
+			"elementName": "COUNTRY",
+			"typeInfo": ".GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTADDRESS.COUNTRY"
+		},
+		{
+			"name": "phone",
+			"elementName": "PHONE"
+		},
+		{
+			"name": "fax",
+			"elementName": "FAX"
+		},
+		{
+			"name": "email",
+			"elementName": "EMAIL"
+		},
+		{
+			"name": "website",
+			"elementName": "WEBSITE"
+		}
+	]
+}

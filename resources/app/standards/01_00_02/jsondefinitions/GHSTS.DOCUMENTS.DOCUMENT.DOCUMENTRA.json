@@ -1,0 +1,51 @@
+{
+	"localName": "GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "metadatastatus",
+			"required": true,
+			"elementName": "METADATA_STATUS",
+			"typeInfo": ".TYPEMETADATASTATUSSTRUCT"
+		},
+		{
+			"name": "dataprotection",
+			"required": true,
+			"elementName": "DATA_PROTECTION",
+			"typeInfo": ".GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.DATAPROTECTION"
+		},
+		{
+			"name": "datarequirement",
+			"required": true,
+			"elementName": "DATA_REQUIREMENT",
+			"typeInfo": ".GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.DATAREQUIREMENT"
+		},
+		{
+			"name": "documentcomment",
+			"minOccurs": 0,
+			"collection": true,
+			"elementName": "DOCUMENT_COMMENT"
+		},
+		{
+			"name": "othernationalguideline",
+			"minOccurs": 0,
+			"collection": true,
+			"elementName": "OTHER_NATIONAL_GUIDELINE",
+			"typeInfo": ".GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.OTHERNATIONALGUIDELINE"
+		},
+		{
+			"name": "radocumentnumber",
+			"elementName": "RA_DOCUMENT_NUMBER",
+			"typeInfo": ".GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER"
+		},
+		{
+			"name": "toSpecificForRAId",
+			"required": true,
+			"typeInfo": "IDREF",
+			"attributeName": {
+				"localPart": "To_Specific_for_RA_Id"
+			},
+			"type": "attribute"
+		}
+	]
+}

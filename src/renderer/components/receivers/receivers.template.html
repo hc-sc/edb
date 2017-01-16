@@ -12,7 +12,8 @@
     <text-input label='Role' text-value='$ctrl.selected.role' on-update='$ctrl.update("role", value)'></text-input>
   </div>
   <div ng-show='$ctrl.isSubmission' class='no-padding no-margin'>
-    <tbl ng-if='!this.$scope.$root.loading' title='Receivers' items='$ctrl.records' projection='["shortname", "role"]' default-sort='LAST_MODIFIED' default-reverse='true' on-select='$ctrl.selectReceiver(id, index)' on-add='$ctrl.newReceiver()' on-delete='$ctrl.deleteReceiver(id)'></tbl>
+    <!--<tbl ng-if='!this.$scope.$root.loading' title='Receivers' items='$ctrl.records' projection='["shortname", "role"]' default-sort='LAST_MODIFIED' default-reverse='true' on-select='$ctrl.selectReceiver(id, index)' on-add='$ctrl.newReceiver()' on-delete='$ctrl.deleteReceiver(id)'></tbl>-->
+    <tbl ng-if='!this.$scope.$root.loading' title='Receivers' items='$ctrl.records' projection='["shortname", "role"]' default-sort='LAST_MODIFIED' default-reverse='true' on-select='$ctrl.selectReceiver(id, index)' on-add='$ctrl.addReceiver()' on-delete='$ctrl.deleteReceiver(id)'></tbl>
     <tbl title='{{$ctrl.selected.shortname}} Senders' items='$ctrl.senders' projection='["companycontactregulatoryrole", "remark"]' on-select='$ctrl.selectSender(index)' on-add='$ctrl.addSender()' on-delete='$ctrl.deleteSender(index)'></tbl>
   </div>
   <div class='float-bottom'>

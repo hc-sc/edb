@@ -1,0 +1,17 @@
+{
+	"localName": "GHSTS.PRODUCT.PRODUCTRA.ADMINNUMBER",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "adminnumbertype",
+			"required": true,
+			"elementName": "ADMIN_NUMBER_TYPE",
+			"typeInfo": ".GHSTS.PRODUCT.PRODUCTRA.ADMINNUMBER.ADMINNUMBERTYPE"
+		},
+		{
+			"name": "identifier",
+			"required": true,
+			"elementName": "IDENTIFIER"
+		}
+	]
+}

@@ -1,0 +1,31 @@
+{
+	"localName": "GHSTS.FILES.FILE.FILERA",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "metadatastatus",
+			"required": true,
+			"elementName": "METADATA_STATUS",
+			"typeInfo": ".TYPEMETADATASTATUSSTRUCT"
+		},
+		{
+			"name": "cbidesignation",
+			"required": true,
+			"elementName": "CBI_DESIGNATION",
+			"typeInfo": "Boolean"
+		},
+		{
+			"name": "filecomment",
+			"elementName": "FILE_COMMENT"
+		},
+		{
+			"name": "toSpecificForRAId",
+			"required": true,
+			"typeInfo": "IDREF",
+			"attributeName": {
+				"localPart": "To_Specific_for_RA_Id"
+			},
+			"type": "attribute"
+		}
+	]
+}

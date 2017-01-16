@@ -1,0 +1,46 @@
+{
+	"localName": "GHSTS.PRODUCT",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "metadatastatus",
+			"required": true,
+			"elementName": "METADATA_STATUS",
+			"typeInfo": ".TYPEMETADATASTATUSSTRUCT"
+		},
+		{
+			"name": "productpid",
+			"required": true,
+			"elementName": "PRODUCT_PID"
+		},
+		{
+			"name": "genericproductname",
+			"required": true,
+			"elementName": "GENERIC_PRODUCT_NAME"
+		},
+		{
+			"name": "productra",
+			"minOccurs": 0,
+			"collection": true,
+			"elementName": "PRODUCT_RA",
+			"typeInfo": ".GHSTS.PRODUCT.PRODUCTRA"
+		},
+		{
+			"name": "formulationtype",
+			"elementName": "FORMULATION_TYPE",
+			"typeInfo": ".GHSTS.PRODUCT.FORMULATIONTYPE"
+		},
+		{
+			"name": "ingredients",
+			"required": true,
+			"elementName": "INGREDIENTS",
+			"typeInfo": ".GHSTS.PRODUCT.INGREDIENTS"
+		},
+		{
+			"name": "dossier",
+			"required": true,
+			"elementName": "DOSSIER",
+			"typeInfo": ".GHSTS.PRODUCT.DOSSIER"
+		}
+	]
+}

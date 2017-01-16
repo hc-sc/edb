@@ -4,7 +4,7 @@ copydir.sync('./node_modules/jsonix/jsonschemas', './resources/app/standards/jso
 
 //extraction of schema to .json file
 //var GHSTSJsonSchema = JSON.parse(fs.readFileSync('./resources/app/standards/01_00_00/GHSTS.jsonschema').toString());
-var GHSTS = require('./resources/app/standards/01_00_00/GHSTS').GHSTS;
+var GHSTS = require('./resources/app/standards/01_00_02/GHSTS').GHSTS;
 
 var count = 0;
 var defName_arr = [];
@@ -14,7 +14,7 @@ var transf2vm = function (doc) {
   let fields = {}, vrole = {};
   //  console.log(doc['propertyInfos']);
   doc.propertyInfos.map(prop => {
-    let roles = {empty: true};
+    let roles = { empty: true };
     if (prop.collection)
       fields[prop.name] = [];
     else if (prop['typeInfo'] && !prop['type']) {
@@ -40,7 +40,7 @@ var transf2vm = function (doc) {
       fields[prop.name] = '';
     if (!fields.hasOwnProperty('has'))
       fields.has = true;
-    
+
     if (prop.required) {
       roles.required = true;
       delete roles.empty;
@@ -49,7 +49,7 @@ var transf2vm = function (doc) {
     if (prop.minOccurs > 0) {
       roles.min = prop.minOccurs;
       delete roles.empty;
-    } 
+    }
 
     if (prop.maxOccurs > 0) {
       roles.max = prop.maxOccurs;
@@ -87,7 +87,14 @@ GHSTS.typeInfos.forEach(ghstsDefn => {
   count++;
   var defLocalName = ghstsDefn.localName;
   var jsondef = JSON.stringify(ghstsDefn, undefined, '\t');
-  var path = './resources/app/standards/01_00_00/jsondefinitions/' + defLocalName + '.json';
+  var curPath = './resources/app/standards/01_00_02/jsondefinitions';
+  try {
+    fs.mkdirSync(curPath);
+  } catch (err) {
+    if (err.code !== 'EEXIST')
+      throw err;
+  }
+  curPath = curPath + '/' + defLocalName + '.json';
   var vmfilename = defLocalName.slice(defLocalName.lastIndexOf('.') + 1).toLowerCase();
   var vmPath;
   if (vmfilename.startsWith('type') ||
@@ -100,8 +107,8 @@ GHSTS.typeInfos.forEach(ghstsDefn => {
     vmPath = './src/renderer/view-models/gen/' + vmfilename + '.json';
   }
   try {
-    fs.writeFileSync(path, jsondef);
-    console.log(path + ' was saved!');
+    fs.writeFileSync(curPath, jsondef);
+    console.log(curPath + ' was saved!');
     if (vmPath) {
       try {
         fs.mkdirSync('./src/renderer/view-models/gen');
@@ -113,12 +120,12 @@ GHSTS.typeInfos.forEach(ghstsDefn => {
       try {
         fs.writeFileSync(vmPath, transf2vm(ghstsDefn));
         console.log(vmPath + ' was saved!');
-      } catch(err) {
+      } catch (err) {
         if (err) console.log(vmPath + ' failed as ' + err);
       }
     }
   } catch (err) {
-    if (err) console.log(path + ' failed as ' + err);
+    if (err) console.log(curPath + ' failed as ' + err);
   }
 });
 

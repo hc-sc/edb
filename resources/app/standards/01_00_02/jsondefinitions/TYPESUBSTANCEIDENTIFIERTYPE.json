@@ -1,0 +1,10 @@
+{
+	"type": "enumInfo",
+	"localName": "TYPESUBSTANCEIDENTIFIERTYPE",
+	"values": [
+		"CASNO",
+		"ECNO",
+		"IUBMB",
+		"other"
+	]
+}

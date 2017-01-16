@@ -312,7 +312,7 @@ module.exports = class GHSTS extends BaseModel {
           'xmlns:xlink': 'http://www.w3.org/1999/xlink',
           'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
           'xsi:schemaLocation': 'http://www.oecd.org/GHSTS utils/ghsts_01-00-01.xsd',
-          'specificationversion': '01.00.00'
+          'specificationversion': '01.00.02'
         }
       },
       self = this;
