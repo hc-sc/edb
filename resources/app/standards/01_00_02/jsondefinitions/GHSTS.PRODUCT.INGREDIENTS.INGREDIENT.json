@@ -1,0 +1,25 @@
+{
+	"localName": "GHSTS.PRODUCT.INGREDIENTS.INGREDIENT",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "quantity",
+			"elementName": "QUANTITY",
+			"typeInfo": "Decimal"
+		},
+		{
+			"name": "unit",
+			"elementName": "UNIT",
+			"typeInfo": ".GHSTS.PRODUCT.INGREDIENTS.INGREDIENT.UNIT"
+		},
+		{
+			"name": "toSubstanceId",
+			"required": true,
+			"typeInfo": "IDREF",
+			"attributeName": {
+				"localPart": "To_Substance_Id"
+			},
+			"type": "attribute"
+		}
+	]
+}

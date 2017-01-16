@@ -836,9 +836,9 @@
 									</xs:sequence>
 								</xs:complexType>
 							</xs:element>
-							<xs:element name="STRUCTURE" maxOccurs="unbounded">
+							<xs:element name="STRUCTURE">
 								<xs:complexType>
-									<xs:sequence>
+									<xs:sequence maxOccurs="unbounded">
 										<xs:element name="TOC_NODE" type="TYPE_TOC_NODE"/>
 									</xs:sequence>
 								</xs:complexType>

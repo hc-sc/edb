@@ -1,0 +1,17 @@
+{
+	"localName": "GHSTS.LEGALENTITIES.LEGALENTITY.LEGALENTITYTYPE",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "value",
+			"required": true,
+			"elementName": "VALUE",
+			"typeInfo": ".EXTENSIONTYPELEGALENTITYTYPE"
+		},
+		{
+			"name": "valuedecode",
+			"required": true,
+			"elementName": "VALUE_DECODE"
+		}
+	]
+}

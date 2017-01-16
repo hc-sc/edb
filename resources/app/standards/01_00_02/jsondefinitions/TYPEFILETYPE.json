@@ -1,0 +1,10 @@
+{
+	"type": "enumInfo",
+	"localName": "TYPEFILETYPE",
+	"values": [
+		"Main",
+		"Source",
+		"Supplemental",
+		"XML Summary"
+	]
+}

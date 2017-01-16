@@ -1,0 +1,33 @@
+{
+	"localName": "GHSTS.PRODUCT.DOSSIER.DOSSIERRA",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "regulatorytype",
+			"required": true,
+			"elementName": "REGULATORY_TYPE",
+			"typeInfo": ".GHSTS.PRODUCT.DOSSIER.DOSSIERRA.REGULATORYTYPE"
+		},
+		{
+			"name": "applicationtype",
+			"required": true,
+			"elementName": "APPLICATION_TYPE",
+			"typeInfo": ".GHSTS.PRODUCT.DOSSIER.DOSSIERRA.APPLICATIONTYPE"
+		},
+		{
+			"name": "projectidnumber",
+			"minOccurs": 0,
+			"collection": true,
+			"elementName": "PROJECT_ID_NUMBER"
+		},
+		{
+			"name": "toSpecificForRAId",
+			"required": true,
+			"typeInfo": "IDREF",
+			"attributeName": {
+				"localPart": "To_Specific_for_RA_Id"
+			},
+			"type": "attribute"
+		}
+	]
+}

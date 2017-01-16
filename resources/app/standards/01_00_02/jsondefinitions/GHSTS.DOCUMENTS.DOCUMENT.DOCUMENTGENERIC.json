@@ -1,0 +1,135 @@
+{
+	"localName": "GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "metadatastatus",
+			"required": true,
+			"elementName": "METADATA_STATUS",
+			"typeInfo": ".TYPEMETADATASTATUSSTRUCT"
+		},
+		{
+			"name": "documentpid",
+			"required": true,
+			"elementName": "DOCUMENT_PID"
+		},
+		{
+			"name": "documentfamilypid",
+			"required": true,
+			"elementName": "DOCUMENT_FAMILY_PID"
+		},
+		{
+			"name": "documentfamily",
+			"required": true,
+			"elementName": "DOCUMENT_FAMILY"
+		},
+		{
+			"name": "contentstatushistory",
+			"required": true,
+			"collection": true,
+			"elementName": "CONTENT_STATUS_HISTORY",
+			"typeInfo": ".GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY"
+		},
+		{
+			"name": "referenceddocument",
+			"minOccurs": 0,
+			"collection": true,
+			"elementName": "REFERENCED_DOCUMENT",
+			"typeInfo": ".GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.REFERENCEDDOCUMENT"
+		},
+		{
+			"name": "relatedtosubstance",
+			"minOccurs": 0,
+			"collection": true,
+			"elementName": "RELATED_TO_SUBSTANCE",
+			"typeInfo": ".GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.RELATEDTOSUBSTANCE"
+		},
+		{
+			"name": "documentnumber",
+			"minOccurs": 0,
+			"collection": true,
+			"elementName": "DOCUMENT_NUMBER",
+			"typeInfo": ".GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER"
+		},
+		{
+			"name": "documenttitle",
+			"required": true,
+			"elementName": "DOCUMENT_TITLE"
+		},
+		{
+			"name": "documentauthor",
+			"required": true,
+			"elementName": "DOCUMENT_AUTHOR"
+		},
+		{
+			"name": "documentissuedate",
+			"required": true,
+			"elementName": "DOCUMENT_ISSUE_DATE",
+			"typeInfo": "Date"
+		},
+		{
+			"name": "documentowner",
+			"required": true,
+			"collection": true,
+			"elementName": "DOCUMENT_OWNER"
+		},
+		{
+			"name": "publishedindicator",
+			"required": true,
+			"elementName": "PUBLISHED_INDICATOR",
+			"typeInfo": "Boolean"
+		},
+		{
+			"name": "completedocumentsource",
+			"required": true,
+			"elementName": "COMPLETE_DOCUMENT_SOURCE"
+		},
+		{
+			"name": "documentsource",
+			"required": true,
+			"elementName": "DOCUMENT_SOURCE"
+		},
+		{
+			"name": "documentyear",
+			"elementName": "DOCUMENT_YEAR",
+			"typeInfo": "PositiveInteger"
+		},
+		{
+			"name": "documentissue",
+			"elementName": "DOCUMENT_ISSUE"
+		},
+		{
+			"name": "documentvolume",
+			"elementName": "DOCUMENT_VOLUME"
+		},
+		{
+			"name": "documentpages",
+			"elementName": "DOCUMENT_PAGES"
+		},
+		{
+			"name": "testlaboratory",
+			"minOccurs": 0,
+			"collection": true,
+			"elementName": "TEST_LABORATORY"
+		},
+		{
+			"name": "gxpindicator",
+			"required": true,
+			"elementName": "GXP_INDICATOR",
+			"typeInfo": "Boolean"
+		},
+		{
+			"name": "testedonvertebrate",
+			"required": true,
+			"elementName": "TESTED_ON_VERTEBRATE",
+			"typeInfo": "Boolean"
+		},
+		{
+			"name": "referencedtofile",
+			"required": true,
+			"collection": true,
+			"elementName": "REFERENCED_TO_FILE",
+			"typeInfo": ".GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.REFERENCEDTOFILE"
+		}
+	]
+}

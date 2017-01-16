@@ -1,0 +1,29 @@
+{
+	"localName": "GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.REFERENCEDDOCUMENT",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "referencetype",
+			"required": true,
+			"elementName": "REFERENCE_TYPE",
+			"typeInfo": ".GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.REFERENCEDDOCUMENT.REFERENCETYPE"
+		},
+		{
+			"name": "internal",
+			"required": true,
+			"elementName": "INTERNAL",
+			"typeInfo": "Boolean"
+		},
+		{
+			"name": "documentpid",
+			"required": true,
+			"elementName": "DOCUMENT_PID"
+		},
+		{
+			"name": "documentnumber",
+			"required": true,
+			"elementName": "DOCUMENT_NUMBER",
+			"typeInfo": ".GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.REFERENCEDDOCUMENT.DOCUMENTNUMBER"
+		}
+	]
+}

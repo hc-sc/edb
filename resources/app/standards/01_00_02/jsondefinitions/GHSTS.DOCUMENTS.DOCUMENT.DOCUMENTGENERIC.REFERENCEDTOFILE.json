@@ -1,0 +1,15 @@
+{
+	"localName": "GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.REFERENCEDTOFILE",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "toFileId",
+			"required": true,
+			"typeInfo": "IDREF",
+			"attributeName": {
+				"localPart": "To_File_Id"
+			},
+			"type": "attribute"
+		}
+	]
+}

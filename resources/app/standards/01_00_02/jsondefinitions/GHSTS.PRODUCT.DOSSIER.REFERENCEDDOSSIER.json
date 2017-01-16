@@ -1,0 +1,16 @@
+{
+	"localName": "GHSTS.PRODUCT.DOSSIER.REFERENCEDDOSSIER",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "referenceddossiernumber",
+			"required": true,
+			"elementName": "REFERENCED_DOSSIER_NUMBER"
+		},
+		{
+			"name": "referenceddossierreason",
+			"required": true,
+			"elementName": "REFERENCED_DOSSIER_REASON"
+		}
+	]
+}

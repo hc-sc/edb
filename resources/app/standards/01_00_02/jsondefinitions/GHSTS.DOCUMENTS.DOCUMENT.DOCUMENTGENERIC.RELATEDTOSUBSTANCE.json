@@ -1,0 +1,15 @@
+{
+	"localName": "GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.RELATEDTOSUBSTANCE",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "toSubstanceId",
+			"required": true,
+			"typeInfo": "IDREF",
+			"attributeName": {
+				"localPart": "To_Substance_Id"
+			},
+			"type": "attribute"
+		}
+	]
+}

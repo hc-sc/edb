@@ -1,0 +1,17 @@
+{
+	"localName": "EXTENSIONTYPEUNIT",
+	"typeName": "EXTENSION_TYPE_UNIT",
+	"propertyInfos": [
+		{
+			"name": "value",
+			"type": "value"
+		},
+		{
+			"name": "otherValue",
+			"attributeName": {
+				"localPart": "Other_Value"
+			},
+			"type": "attribute"
+		}
+	]
+}

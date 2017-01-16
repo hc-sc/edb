@@ -1,0 +1,9 @@
+{
+	"type": "enumInfo",
+	"localName": "TYPEDATAREQUIREMENT",
+	"values": [
+		"N",
+		"O",
+		"Y"
+	]
+}

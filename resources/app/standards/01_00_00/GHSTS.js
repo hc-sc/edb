@@ -3,107 +3,6 @@ var GHSTS_Module_Factory = function () {
     name: 'GHSTS',
     defaultElementNamespaceURI: 'http:\/\/www.oecd.org\/GHSTS',
     typeInfos: [{
-        localName: 'EXTENSIONTYPEAPPLICATIONTYPE',
-        typeName: 'EXTENSION_TYPE_APPLICATION_TYPE',
-        propertyInfos: [{
-            name: 'value',
-            type: 'value'
-          }, {
-            name: 'otherValue',
-            attributeName: {
-              localPart: 'Other_Value'
-            },
-            type: 'attribute'
-          }]
-      }, {
-        localName: 'GHSTS.PRODUCT.PRODUCTRA.ADMINNUMBER',
-        typeName: null,
-        propertyInfos: [{
-            name: 'adminnumbertype',
-            required: true,
-            elementName: 'ADMIN_NUMBER_TYPE',
-            typeInfo: '.GHSTS.PRODUCT.PRODUCTRA.ADMINNUMBER.ADMINNUMBERTYPE'
-          }, {
-            name: 'identifier',
-            required: true,
-            elementName: 'IDENTIFIER'
-          }]
-      }, {
-        localName: 'GHSTS',
-        typeName: null,
-        propertyInfos: [{
-            name: 'receivers',
-            required: true,
-            elementName: 'RECEIVERS',
-            typeInfo: '.GHSTS.RECEIVERS'
-          }, {
-            name: 'product',
-            required: true,
-            elementName: 'PRODUCT',
-            typeInfo: '.GHSTS.PRODUCT'
-          }, {
-            name: 'documents',
-            required: true,
-            elementName: 'DOCUMENTS',
-            typeInfo: '.GHSTS.DOCUMENTS'
-          }, {
-            name: 'files',
-            required: true,
-            elementName: 'FILES',
-            typeInfo: '.GHSTS.FILES'
-          }, {
-            name: 'toc',
-            required: true,
-            elementName: 'TOC',
-            typeInfo: '.GHSTS.TOC'
-          }, {
-            name: 'legalentities',
-            required: true,
-            elementName: 'LEGAL_ENTITIES',
-            typeInfo: '.GHSTS.LEGALENTITIES'
-          }, {
-            name: 'substances',
-            required: true,
-            elementName: 'SUBSTANCES',
-            typeInfo: '.GHSTS.SUBSTANCES'
-          }, {
-            name: 'usedtemplates',
-            elementName: 'USED_TEMPLATES',
-            typeInfo: 'AnyType'
-          }, {
-            name: 'specificationversion',
-            required: true,
-            attributeName: {
-              localPart: 'specificationversion'
-            },
-            type: 'attribute'
-          }]
-      }, {
-        localName: 'GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.REFERENCEDTOFILE',
-        typeName: null,
-        propertyInfos: [{
-            name: 'toFileId',
-            required: true,
-            typeInfo: 'IDREF',
-            attributeName: {
-              localPart: 'To_File_Id'
-            },
-            type: 'attribute'
-          }]
-      }, {
-        localName: 'GHSTS.SUBSTANCES.SUBSTANCE.SUBSTANCEIDENTIFIER.SUBSTANCEIDENTIFIERTYPE',
-        typeName: null,
-        propertyInfos: [{
-            name: 'value',
-            required: true,
-            elementName: 'VALUE',
-            typeInfo: '.EXTENSIONTYPESUBSTANCEIDENTIFIERTYPE'
-          }, {
-            name: 'valuedecode',
-            required: true,
-            elementName: 'VALUE_DECODE'
-          }]
-      }, {
         localName: 'GHSTS.PRODUCT',
         typeName: null,
         propertyInfos: [{
@@ -141,19 +40,6 @@ var GHSTS_Module_Factory = function () {
             typeInfo: '.GHSTS.PRODUCT.DOSSIER'
           }]
       }, {
-        localName: 'GHSTS.LEGALENTITIES.LEGALENTITY.LEGALENTITYIDENTIFIER.LEGALENTITYIDENTIFIERTYPE',
-        typeName: null,
-        propertyInfos: [{
-            name: 'value',
-            required: true,
-            elementName: 'VALUE',
-            typeInfo: '.EXTENSIONTYPELEGALENTITYIDENTIFIERTYPE'
-          }, {
-            name: 'valuedecode',
-            required: true,
-            elementName: 'VALUE_DECODE'
-          }]
-      }, {
         localName: 'EXTENSIONTYPELEGALENTITYIDENTIFIERTYPE',
         typeName: 'EXTENSION_TYPE_LEGALENTITY_IDENTIFIER_TYPE',
         propertyInfos: [{
@@ -167,16 +53,17 @@ var GHSTS_Module_Factory = function () {
             type: 'attribute'
           }]
       }, {
-        localName: 'TYPECONTENTSTATUSSTRUCT',
-        typeName: 'TYPE_CONTENT_STATUS_STRUCT',
+        localName: 'EXTENSIONTYPECOUNTRY',
+        typeName: 'EXTENSION_TYPE_COUNTRY',
         propertyInfos: [{
             name: 'value',
-            required: true,
-            elementName: 'VALUE'
+            type: 'value'
           }, {
-            name: 'valuedecode',
-            required: true,
-            elementName: 'VALUE_DECODE'
+            name: 'otherValue',
+            attributeName: {
+              localPart: 'Other_Value'
+            },
+            type: 'attribute'
           }]
       }, {
         localName: 'GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.DATAPROTECTION',
@@ -191,8 +78,8 @@ var GHSTS_Module_Factory = function () {
             elementName: 'VALUE_DECODE'
           }]
       }, {
-        localName: 'EXTENSIONTYPEFORMULATIONTYPE',
-        typeName: 'EXTENSION_TYPE_FORMULATION_TYPE',
+        localName: 'EXTENSIONTYPEUNIT',
+        typeName: 'EXTENSION_TYPE_UNIT',
         propertyInfos: [{
             name: 'value',
             type: 'value'
@@ -204,29 +91,128 @@ var GHSTS_Module_Factory = function () {
             type: 'attribute'
           }]
       }, {
-        localName: 'TYPETOCNODE.TOC2DOC',
+        localName: 'GHSTS.LEGALENTITIES',
         typeName: null,
         propertyInfos: [{
-            name: 'toDocumentId',
+            name: 'legalentity',
             required: true,
-            typeInfo: 'AnySimpleType',
-            attributeName: {
-              localPart: 'To_Document_Id'
-            },
-            type: 'attribute'
+            collection: true,
+            elementName: 'LEGAL_ENTITY',
+            typeInfo: '.GHSTS.LEGALENTITIES.LEGALENTITY'
           }]
       }, {
-        localName: 'GHSTS.TOC.TOCOWNER',
+        localName: 'GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER',
+        typeName: null,
+        propertyInfos: [{
+            name: 'radocumentnumbertype',
+            required: true,
+            elementName: 'RA_DOCUMENT_NUMBER_TYPE',
+            typeInfo: '.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.RADOCUMENTNUMBERTYPE'
+          }, {
+            name: 'identifier',
+            required: true,
+            elementName: 'IDENTIFIER'
+          }, {
+            name: 'alreadysubmitted',
+            required: true,
+            elementName: 'ALREADY_SUBMITTED',
+            typeInfo: 'Boolean'
+          }, {
+            name: 'submissioncontext',
+            minOccurs: 0,
+            collection: true,
+            elementName: 'SUBMISSION_CONTEXT',
+            typeInfo: '.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.SUBMISSIONCONTEXT'
+          }]
+      }, {
+        localName: 'GHSTS.PRODUCT.PRODUCTRA.ADMINNUMBER.ADMINNUMBERTYPE',
         typeName: null,
         propertyInfos: [{
             name: 'value',
             required: true,
             elementName: 'VALUE',
-            typeInfo: '.EXTENSIONTYPETOCOWNER'
+            typeInfo: '.EXTENSIONTYPEADMINNUMBERTYPE'
           }, {
             name: 'valuedecode',
             required: true,
             elementName: 'VALUE_DECODE'
+          }]
+      }, {
+        localName: 'GHSTS.PRODUCT.INGREDIENTS.INGREDIENT.UNIT',
+        typeName: null,
+        propertyInfos: [{
+            name: 'value',
+            required: true,
+            elementName: 'VALUE',
+            typeInfo: '.EXTENSIONTYPEUNIT'
+          }, {
+            name: 'valuedecode',
+            required: true,
+            elementName: 'VALUE_DECODE'
+          }]
+      }, {
+        localName: 'GHSTS.LEGALENTITIES.LEGALENTITY',
+        typeName: null,
+        propertyInfos: [{
+            name: 'metadatastatus',
+            required: true,
+            elementName: 'METADATA_STATUS',
+            typeInfo: '.TYPEMETADATASTATUSSTRUCT'
+          }, {
+            name: 'legalentitypid',
+            required: true,
+            elementName: 'LEGALENTITY_PID'
+          }, {
+            name: 'legalentityname',
+            required: true,
+            elementName: 'LEGALENTITY_NAME'
+          }, {
+            name: 'legalentitytype',
+            elementName: 'LEGALENTITY_TYPE',
+            typeInfo: '.GHSTS.LEGALENTITIES.LEGALENTITY.LEGALENTITYTYPE'
+          }, {
+            name: 'othername',
+            minOccurs: 0,
+            collection: true,
+            elementName: 'OTHER_NAME'
+          }, {
+            name: 'legalentityidentifier',
+            minOccurs: 0,
+            collection: true,
+            elementName: 'LEGALENTITY_IDENTIFIER',
+            typeInfo: '.GHSTS.LEGALENTITIES.LEGALENTITY.LEGALENTITYIDENTIFIER'
+          }, {
+            name: 'contactaddress',
+            required: true,
+            elementName: 'CONTACT_ADDRESS',
+            typeInfo: '.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTADDRESS'
+          }, {
+            name: 'contactperson',
+            minOccurs: 0,
+            collection: true,
+            elementName: 'CONTACT_PERSON',
+            typeInfo: '.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON'
+          }, {
+            name: 'id',
+            required: true,
+            typeInfo: 'ID',
+            attributeName: {
+              localPart: 'Id'
+            },
+            type: 'attribute'
+          }]
+      }, {
+        localName: 'EXTENSIONTYPEAPPLICATIONTYPE',
+        typeName: 'EXTENSION_TYPE_APPLICATION_TYPE',
+        propertyInfos: [{
+            name: 'value',
+            type: 'value'
+          }, {
+            name: 'otherValue',
+            attributeName: {
+              localPart: 'Other_Value'
+            },
+            type: 'attribute'
           }]
       }, {
         localName: 'GHSTS.PRODUCT.FORMULATIONTYPE',
@@ -242,19 +228,6 @@ var GHSTS_Module_Factory = function () {
             elementName: 'VALUE_DECODE'
           }]
       }, {
-        localName: 'GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER',
-        typeName: null,
-        propertyInfos: [{
-            name: 'documentnumbertype',
-            required: true,
-            elementName: 'DOCUMENT_NUMBER_TYPE',
-            typeInfo: '.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER.DOCUMENTNUMBERTYPE'
-          }, {
-            name: 'identifier',
-            required: true,
-            elementName: 'IDENTIFIER'
-          }]
-      }, {
         localName: 'GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.REFERENCEDDOCUMENT.DOCUMENTNUMBER.DOCUMENTNUMBERTYPE',
         typeName: null,
         propertyInfos: [{
@@ -262,6 +235,280 @@ var GHSTS_Module_Factory = function () {
             required: true,
             elementName: 'VALUE',
             typeInfo: '.EXTENSIONTYPEDOCUMENTNUMBERTYPE'
+          }, {
+            name: 'valuedecode',
+            required: true,
+            elementName: 'VALUE_DECODE'
+          }]
+      }, {
+        localName: 'GHSTS.SUBSTANCES.SUBSTANCE.SUBSTANCEIDENTIFIER.SUBSTANCEIDENTIFIERTYPE',
+        typeName: null,
+        propertyInfos: [{
+            name: 'value',
+            required: true,
+            elementName: 'VALUE',
+            typeInfo: '.EXTENSIONTYPESUBSTANCEIDENTIFIERTYPE'
+          }, {
+            name: 'valuedecode',
+            required: true,
+            elementName: 'VALUE_DECODE'
+          }]
+      }, {
+        localName: 'EXTENSIONTYPESUBSTANCEIDENTIFIERTYPE',
+        typeName: 'EXTENSION_TYPE_SUBSTANCE_IDENTIFIER_TYPE',
+        propertyInfos: [{
+            name: 'value',
+            type: 'value'
+          }, {
+            name: 'otherValue',
+            attributeName: {
+              localPart: 'Other_Value'
+            },
+            type: 'attribute'
+          }]
+      }, {
+        localName: 'GHSTS.FILES.FILE.FILERA',
+        typeName: null,
+        propertyInfos: [{
+            name: 'metadatastatus',
+            required: true,
+            elementName: 'METADATA_STATUS',
+            typeInfo: '.TYPEMETADATASTATUSSTRUCT'
+          }, {
+            name: 'cbidesignation',
+            required: true,
+            elementName: 'CBI_DESIGNATION',
+            typeInfo: 'Boolean'
+          }, {
+            name: 'filecomment',
+            elementName: 'FILE_COMMENT'
+          }, {
+            name: 'toSpecificForRAId',
+            required: true,
+            typeInfo: 'IDREF',
+            attributeName: {
+              localPart: 'To_Specific_for_RA_Id'
+            },
+            type: 'attribute'
+          }]
+      }, {
+        localName: 'GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA',
+        typeName: null,
+        propertyInfos: [{
+            name: 'metadatastatus',
+            required: true,
+            elementName: 'METADATA_STATUS',
+            typeInfo: '.TYPEMETADATASTATUSSTRUCT'
+          }, {
+            name: 'dataprotection',
+            required: true,
+            elementName: 'DATA_PROTECTION',
+            typeInfo: '.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.DATAPROTECTION'
+          }, {
+            name: 'datarequirement',
+            required: true,
+            elementName: 'DATA_REQUIREMENT',
+            typeInfo: '.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.DATAREQUIREMENT'
+          }, {
+            name: 'documentcomment',
+            minOccurs: 0,
+            collection: true,
+            elementName: 'DOCUMENT_COMMENT'
+          }, {
+            name: 'othernationalguideline',
+            minOccurs: 0,
+            collection: true,
+            elementName: 'OTHER_NATIONAL_GUIDELINE',
+            typeInfo: '.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.OTHERNATIONALGUIDELINE'
+          }, {
+            name: 'radocumentnumber',
+            elementName: 'RA_DOCUMENT_NUMBER',
+            typeInfo: '.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER'
+          }, {
+            name: 'toSpecificForRAId',
+            required: true,
+            typeInfo: 'IDREF',
+            attributeName: {
+              localPart: 'To_Specific_for_RA_Id'
+            },
+            type: 'attribute'
+          }]
+      }, {
+        localName: 'GHSTS.DOCUMENTS',
+        typeName: null,
+        propertyInfos: [{
+            name: 'document',
+            required: true,
+            collection: true,
+            elementName: 'DOCUMENT',
+            typeInfo: '.GHSTS.DOCUMENTS.DOCUMENT'
+          }]
+      }, {
+        localName: 'GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.SUBMISSIONCONTEXT',
+        typeName: null,
+        propertyInfos: [{
+            name: 'dossierpid',
+            required: true,
+            elementName: 'DOSSIER_PID'
+          }, {
+            name: 'dossiernumber',
+            required: true,
+            elementName: 'DOSSIER_NUMBER'
+          }]
+      }, {
+        localName: 'GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER.DOCUMENTNUMBERTYPE',
+        typeName: null,
+        propertyInfos: [{
+            name: 'value',
+            required: true,
+            elementName: 'VALUE',
+            typeInfo: '.EXTENSIONTYPEDOCUMENTNUMBERTYPE'
+          }, {
+            name: 'valuedecode',
+            required: true,
+            elementName: 'VALUE_DECODE'
+          }]
+      }, {
+        localName: 'GHSTS.SUBSTANCES.SUBSTANCE.SUBSTANCEIDENTIFIER',
+        typeName: null,
+        propertyInfos: [{
+            name: 'substanceidentifiertype',
+            required: true,
+            elementName: 'SUBSTANCE_IDENTIFIER_TYPE',
+            typeInfo: '.GHSTS.SUBSTANCES.SUBSTANCE.SUBSTANCEIDENTIFIER.SUBSTANCEIDENTIFIERTYPE'
+          }, {
+            name: 'identifier',
+            required: true,
+            elementName: 'IDENTIFIER'
+          }]
+      }, {
+        localName: 'EXTENSIONTYPERADOCUMENTNUMBERTYPE',
+        typeName: 'EXTENSION_TYPE_RA_DOCUMENT_NUMBER_TYPE',
+        propertyInfos: [{
+            name: 'value',
+            type: 'value'
+          }, {
+            name: 'otherValue',
+            attributeName: {
+              localPart: 'Other_Value'
+            },
+            type: 'attribute'
+          }]
+      }, {
+        localName: 'GHSTS.PRODUCT.DOSSIER.SUBMISSION',
+        typeName: null,
+        propertyInfos: [{
+            name: 'submissionnumber',
+            required: true,
+            elementName: 'SUBMISSION_NUMBER'
+          }, {
+            name: 'submissionversiondate',
+            required: true,
+            elementName: 'SUBMISSION_VERSION_DATE',
+            typeInfo: 'Date'
+          }, {
+            name: 'submissiontitle',
+            required: true,
+            elementName: 'SUBMISSION_TITLE'
+          }, {
+            name: 'incremental',
+            required: true,
+            elementName: 'INCREMENTAL',
+            typeInfo: 'Boolean'
+          }]
+      }, {
+        localName: 'GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.OTHERNATIONALGUIDELINE',
+        typeName: null,
+        propertyInfos: [{
+            name: 'guidelinesystem',
+            required: true,
+            elementName: 'GUIDELINE_SYSTEM'
+          }, {
+            name: 'guidelinenumber',
+            required: true,
+            elementName: 'GUIDELINE_NUMBER'
+          }]
+      }, {
+        localName: 'GHSTS.TOC',
+        typeName: null,
+        propertyInfos: [{
+            name: 'metadatastatus',
+            required: true,
+            elementName: 'METADATA_STATUS',
+            typeInfo: '.TYPEMETADATASTATUSSTRUCT'
+          }, {
+            name: 'tocshortname',
+            required: true,
+            elementName: 'TOC_SHORT_NAME'
+          }, {
+            name: 'tocowner',
+            required: true,
+            elementName: 'TOC_OWNER',
+            typeInfo: '.GHSTS.TOC.TOCOWNER'
+          }, {
+            name: 'tocfullname',
+            required: true,
+            elementName: 'TOC_FULL_NAME'
+          }, {
+            name: 'tocversion',
+            required: true,
+            elementName: 'TOC_VERSION'
+          }, {
+            name: 'standardtocreference',
+            elementName: 'STANDARD_TOC_REFERENCE',
+            typeInfo: '.GHSTS.TOC.STANDARDTOCREFERENCE'
+          }, {
+            name: 'structure',
+            required: true,
+            elementName: 'STRUCTURE',
+            typeInfo: '.GHSTS.TOC.STRUCTURE'
+          }]
+      }, {
+        localName: 'GHSTS.PRODUCT.DOSSIER.DOSSIERRA.REGULATORYTYPE',
+        typeName: null,
+        propertyInfos: [{
+            name: 'value',
+            required: true,
+            elementName: 'VALUE',
+            typeInfo: '.EXTENSIONTYPEREGULATORYTYPE'
+          }, {
+            name: 'valuedecode',
+            required: true,
+            elementName: 'VALUE_DECODE'
+          }]
+      }, {
+        localName: 'GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.DATAREQUIREMENT',
+        typeName: null,
+        propertyInfos: [{
+            name: 'value',
+            required: true,
+            elementName: 'VALUE'
+          }, {
+            name: 'valuedecode',
+            required: true,
+            elementName: 'VALUE_DECODE'
+          }]
+      }, {
+        localName: 'GHSTS.LEGALENTITIES.LEGALENTITY.LEGALENTITYIDENTIFIER',
+        typeName: null,
+        propertyInfos: [{
+            name: 'legalentityidentifiertype',
+            required: true,
+            elementName: 'LEGALENTITY_IDENTIFIER_TYPE',
+            typeInfo: '.GHSTS.LEGALENTITIES.LEGALENTITY.LEGALENTITYIDENTIFIER.LEGALENTITYIDENTIFIERTYPE'
+          }, {
+            name: 'identifier',
+            required: true,
+            elementName: 'IDENTIFIER'
+          }]
+      }, {
+        localName: 'GHSTS.PRODUCT.DOSSIER.DOSSIERRA.APPLICATIONTYPE',
+        typeName: null,
+        propertyInfos: [{
+            name: 'value',
+            required: true,
+            elementName: 'VALUE',
+            typeInfo: '.EXTENSIONTYPEAPPLICATIONTYPE'
           }, {
             name: 'valuedecode',
             required: true,
@@ -291,6 +538,57 @@ var GHSTS_Module_Factory = function () {
             type: 'attribute'
           }]
       }, {
+        localName: 'GHSTS.RECEIVERS.RECEIVER.SENDER',
+        typeName: null,
+        propertyInfos: [{
+            name: 'companycontactregulatoryrole',
+            elementName: 'COMPANY_CONTACT_REGULATORY_ROLE'
+          }, {
+            name: 'remark',
+            elementName: 'REMARK'
+          }, {
+            name: 'toLegalEntityId',
+            required: true,
+            typeInfo: 'IDREF',
+            attributeName: {
+              localPart: 'To_Legal_Entity_Id'
+            },
+            type: 'attribute'
+          }]
+      }, {
+        localName: 'GHSTS.PRODUCT.INGREDIENTS.INGREDIENT',
+        typeName: null,
+        propertyInfos: [{
+            name: 'quantity',
+            elementName: 'QUANTITY',
+            typeInfo: 'Decimal'
+          }, {
+            name: 'unit',
+            elementName: 'UNIT',
+            typeInfo: '.GHSTS.PRODUCT.INGREDIENTS.INGREDIENT.UNIT'
+          }, {
+            name: 'toSubstanceId',
+            required: true,
+            typeInfo: 'IDREF',
+            attributeName: {
+              localPart: 'To_Substance_Id'
+            },
+            type: 'attribute'
+          }]
+      }, {
+        localName: 'EXTENSIONTYPEFORMULATIONTYPE',
+        typeName: 'EXTENSION_TYPE_FORMULATION_TYPE',
+        propertyInfos: [{
+            name: 'value',
+            type: 'value'
+          }, {
+            name: 'otherValue',
+            attributeName: {
+              localPart: 'Other_Value'
+            },
+            type: 'attribute'
+          }]
+      }, {
         localName: 'GHSTS.FILES',
         typeName: null,
         propertyInfos: [{
@@ -299,6 +597,52 @@ var GHSTS_Module_Factory = function () {
             collection: true,
             elementName: 'FILE',
             typeInfo: '.GHSTS.FILES.FILE'
+          }]
+      }, {
+        localName: 'GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.REFERENCEDDOCUMENT.DOCUMENTNUMBER',
+        typeName: null,
+        propertyInfos: [{
+            name: 'documentnumbertype',
+            required: true,
+            elementName: 'DOCUMENT_NUMBER_TYPE',
+            typeInfo: '.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.REFERENCEDDOCUMENT.DOCUMENTNUMBER.DOCUMENTNUMBERTYPE'
+          }, {
+            name: 'identifier',
+            required: true,
+            elementName: 'IDENTIFIER'
+          }]
+      }, {
+        localName: 'GHSTS.PRODUCT.PRODUCTRA',
+        typeName: null,
+        propertyInfos: [{
+            name: 'productname',
+            elementName: 'PRODUCT_NAME'
+          }, {
+            name: 'adminnumber',
+            minOccurs: 0,
+            collection: true,
+            elementName: 'ADMIN_NUMBER',
+            typeInfo: '.GHSTS.PRODUCT.PRODUCTRA.ADMINNUMBER'
+          }, {
+            name: 'toSpecificForRAId',
+            required: true,
+            typeInfo: 'IDREF',
+            attributeName: {
+              localPart: 'To_Specific_for_RA_Id'
+            },
+            type: 'attribute'
+          }]
+      }, {
+        localName: 'GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.RELATEDTOSUBSTANCE',
+        typeName: null,
+        propertyInfos: [{
+            name: 'toSubstanceId',
+            required: true,
+            typeInfo: 'IDREF',
+            attributeName: {
+              localPart: 'To_Substance_Id'
+            },
+            type: 'attribute'
           }]
       }, {
         localName: 'GHSTS.SUBSTANCES.SUBSTANCE',
@@ -366,884 +710,6 @@ var GHSTS_Module_Factory = function () {
             collection: true,
             elementName: 'TOC_NODE',
             typeInfo: '.TYPETOCNODE'
-          }]
-      }, {
-        localName: 'GHSTS.DOCUMENTS.DOCUMENT',
-        typeName: null,
-        propertyInfos: [{
-            name: 'documentra',
-            required: true,
-            collection: true,
-            elementName: 'DOCUMENT_RA',
-            typeInfo: '.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA'
-          }, {
-            name: 'documentgeneric',
-            required: true,
-            elementName: 'DOCUMENT_GENERIC',
-            typeInfo: '.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC'
-          }, {
-            name: 'id',
-            required: true,
-            typeInfo: 'ID',
-            attributeName: {
-              localPart: 'Id'
-            },
-            type: 'attribute'
-          }]
-      }, {
-        localName: 'GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA',
-        typeName: null,
-        propertyInfos: [{
-            name: 'metadatastatus',
-            required: true,
-            elementName: 'METADATA_STATUS',
-            typeInfo: '.TYPEMETADATASTATUSSTRUCT'
-          }, {
-            name: 'dataprotection',
-            required: true,
-            elementName: 'DATA_PROTECTION',
-            typeInfo: '.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.DATAPROTECTION'
-          }, {
-            name: 'datarequirement',
-            required: true,
-            elementName: 'DATA_REQUIREMENT',
-            typeInfo: '.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.DATAREQUIREMENT'
-          }, {
-            name: 'documentcomment',
-            minOccurs: 0,
-            collection: true,
-            elementName: 'DOCUMENT_COMMENT'
-          }, {
-            name: 'othernationalguideline',
-            minOccurs: 0,
-            collection: true,
-            elementName: 'OTHER_NATIONAL_GUIDELINE',
-            typeInfo: '.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.OTHERNATIONALGUIDELINE'
-          }, {
-            name: 'radocumentnumber',
-            elementName: 'RA_DOCUMENT_NUMBER',
-            typeInfo: '.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER'
-          }, {
-            name: 'toSpecificForRAId',
-            required: true,
-            typeInfo: 'IDREF',
-            attributeName: {
-              localPart: 'To_Specific_for_RA_Id'
-            },
-            type: 'attribute'
-          }]
-      }, {
-        localName: 'GHSTS.LEGALENTITIES.LEGALENTITY',
-        typeName: null,
-        propertyInfos: [{
-            name: 'metadatastatus',
-            required: true,
-            elementName: 'METADATA_STATUS',
-            typeInfo: '.TYPEMETADATASTATUSSTRUCT'
-          }, {
-            name: 'legalentitypid',
-            required: true,
-            elementName: 'LEGALENTITY_PID'
-          }, {
-            name: 'legalentityname',
-            required: true,
-            elementName: 'LEGALENTITY_NAME'
-          }, {
-            name: 'legalentitytype',
-            elementName: 'LEGALENTITY_TYPE',
-            typeInfo: '.GHSTS.LEGALENTITIES.LEGALENTITY.LEGALENTITYTYPE'
-          }, {
-            name: 'othername',
-            minOccurs: 0,
-            collection: true,
-            elementName: 'OTHER_NAME'
-          }, {
-            name: 'legalentityidentifier',
-            minOccurs: 0,
-            collection: true,
-            elementName: 'LEGALENTITY_IDENTIFIER',
-            typeInfo: '.GHSTS.LEGALENTITIES.LEGALENTITY.LEGALENTITYIDENTIFIER'
-          }, {
-            name: 'contactaddress',
-            required: true,
-            elementName: 'CONTACT_ADDRESS',
-            typeInfo: '.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTADDRESS'
-          }, {
-            name: 'contactperson',
-            minOccurs: 0,
-            collection: true,
-            elementName: 'CONTACT_PERSON',
-            typeInfo: '.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON'
-          }, {
-            name: 'id',
-            required: true,
-            typeInfo: 'ID',
-            attributeName: {
-              localPart: 'Id'
-            },
-            type: 'attribute'
-          }]
-      }, {
-        localName: 'EXTENSIONTYPESUBSTANCEIDENTIFIERTYPE',
-        typeName: 'EXTENSION_TYPE_SUBSTANCE_IDENTIFIER_TYPE',
-        propertyInfos: [{
-            name: 'value',
-            type: 'value'
-          }, {
-            name: 'otherValue',
-            attributeName: {
-              localPart: 'Other_Value'
-            },
-            type: 'attribute'
-          }]
-      }, {
-        localName: 'GHSTS.FILES.FILE.FILEGENERIC.FILETYPE',
-        typeName: null,
-        propertyInfos: [{
-            name: 'value',
-            required: true,
-            elementName: 'VALUE'
-          }, {
-            name: 'valuedecode',
-            required: true,
-            elementName: 'VALUE_DECODE'
-          }]
-      }, {
-        localName: 'EXTENSIONTYPEADMINNUMBERTYPE',
-        typeName: 'EXTENSION_TYPE_ADMIN_NUMBER_TYPE',
-        propertyInfos: [{
-            name: 'value',
-            type: 'value'
-          }, {
-            name: 'otherValue',
-            attributeName: {
-              localPart: 'Other_Value'
-            },
-            type: 'attribute'
-          }]
-      }, {
-        localName: 'GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.REFERENCEDDOCUMENT.REFERENCETYPE',
-        typeName: null,
-        propertyInfos: [{
-            name: 'value',
-            required: true,
-            elementName: 'VALUE'
-          }, {
-            name: 'valuedecode',
-            required: true,
-            elementName: 'VALUE_DECODE'
-          }]
-      }, {
-        localName: 'GHSTS.FILES.FILE.FILEGENERIC',
-        typeName: null,
-        propertyInfos: [{
-            name: 'metadatastatus',
-            required: true,
-            elementName: 'METADATA_STATUS',
-            typeInfo: '.TYPEMETADATASTATUSSTRUCT'
-          }, {
-            name: 'filepid',
-            required: true,
-            elementName: 'FILE_PID'
-          }, {
-            name: 'filecompanyid',
-            elementName: 'FILE_COMPANY_ID'
-          }, {
-            name: 'contentstatus',
-            required: true,
-            elementName: 'CONTENT_STATUS',
-            typeInfo: '.TYPECONTENTSTATUSSTRUCT'
-          }, {
-            name: 'replacedfilepid',
-            elementName: 'REPLACED_FILE_PID'
-          }, {
-            name: 'filetype',
-            required: true,
-            elementName: 'FILE_TYPE',
-            typeInfo: '.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE'
-          }, {
-            name: 'formatcomment',
-            elementName: 'FORMAT_COMMENT'
-          }, {
-            name: 'md5CHECKSUM',
-            elementName: 'MD5CHECKSUM'
-          }, {
-            name: 'filename',
-            required: true,
-            elementName: 'FILENAME'
-          }]
-      }, {
-        localName: 'EXTENSIONTYPEUNIT',
-        typeName: 'EXTENSION_TYPE_UNIT',
-        propertyInfos: [{
-            name: 'value',
-            type: 'value'
-          }, {
-            name: 'otherValue',
-            attributeName: {
-              localPart: 'Other_Value'
-            },
-            type: 'attribute'
-          }]
-      }, {
-        localName: 'GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.REFERENCEDDOCUMENT.DOCUMENTNUMBER',
-        typeName: null,
-        propertyInfos: [{
-            name: 'documentnumbertype',
-            required: true,
-            elementName: 'DOCUMENT_NUMBER_TYPE',
-            typeInfo: '.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.REFERENCEDDOCUMENT.DOCUMENTNUMBER.DOCUMENTNUMBERTYPE'
-          }, {
-            name: 'identifier',
-            required: true,
-            elementName: 'IDENTIFIER'
-          }]
-      }, {
-        localName: 'GHSTS.PRODUCT.DOSSIER.SUBMISSION',
-        typeName: null,
-        propertyInfos: [{
-            name: 'submissionnumber',
-            required: true,
-            elementName: 'SUBMISSION_NUMBER'
-          }, {
-            name: 'submissionversiondate',
-            required: true,
-            elementName: 'SUBMISSION_VERSION_DATE',
-            typeInfo: 'Date'
-          }, {
-            name: 'submissiontitle',
-            required: true,
-            elementName: 'SUBMISSION_TITLE'
-          }, {
-            name: 'incremental',
-            required: true,
-            elementName: 'INCREMENTAL',
-            typeInfo: 'Boolean'
-          }]
-      }, {
-        localName: 'GHSTS.TOC.STANDARDTOCREFERENCE',
-        typeName: null,
-        propertyInfos: [{
-            name: 'standardtocpid',
-            required: true,
-            elementName: 'STANDARD_TOC_PID'
-          }, {
-            name: 'filename',
-            required: true,
-            elementName: 'FILENAME'
-          }]
-      }, {
-        localName: 'GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.SUBMISSIONCONTEXT',
-        typeName: null,
-        propertyInfos: [{
-            name: 'dossierpid',
-            required: true,
-            elementName: 'DOSSIER_PID'
-          }, {
-            name: 'dossiernumber',
-            required: true,
-            elementName: 'DOSSIER_NUMBER'
-          }]
-      }, {
-        localName: 'GHSTS.LEGALENTITIES.LEGALENTITY.LEGALENTITYIDENTIFIER',
-        typeName: null,
-        propertyInfos: [{
-            name: 'legalentityidentifiertype',
-            required: true,
-            elementName: 'LEGALENTITY_IDENTIFIER_TYPE',
-            typeInfo: '.GHSTS.LEGALENTITIES.LEGALENTITY.LEGALENTITYIDENTIFIER.LEGALENTITYIDENTIFIERTYPE'
-          }, {
-            name: 'identifier',
-            required: true,
-            elementName: 'IDENTIFIER'
-          }]
-      }, {
-        localName: 'GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTADDRESS.COUNTRY',
-        typeName: null,
-        propertyInfos: [{
-            name: 'value',
-            required: true,
-            elementName: 'VALUE',
-            typeInfo: '.EXTENSIONTYPECOUNTRY'
-          }, {
-            name: 'valuedecode',
-            required: true,
-            elementName: 'VALUE_DECODE'
-          }]
-      }, {
-        localName: 'GHSTS.PRODUCT.INGREDIENTS.INGREDIENT',
-        typeName: null,
-        propertyInfos: [{
-            name: 'quantity',
-            elementName: 'QUANTITY',
-            typeInfo: 'Decimal'
-          }, {
-            name: 'unit',
-            elementName: 'UNIT',
-            typeInfo: '.GHSTS.PRODUCT.INGREDIENTS.INGREDIENT.UNIT'
-          }, {
-            name: 'toSubstanceId',
-            required: true,
-            typeInfo: 'IDREF',
-            attributeName: {
-              localPart: 'To_Substance_Id'
-            },
-            type: 'attribute'
-          }]
-      }, {
-        localName: 'GHSTS.PRODUCT.DOSSIER.DOSSIERRA.APPLICATIONTYPE',
-        typeName: null,
-        propertyInfos: [{
-            name: 'value',
-            required: true,
-            elementName: 'VALUE',
-            typeInfo: '.EXTENSIONTYPEAPPLICATIONTYPE'
-          }, {
-            name: 'valuedecode',
-            required: true,
-            elementName: 'VALUE_DECODE'
-          }]
-      }, {
-        localName: 'EXTENSIONTYPEREGULATORYTYPE',
-        typeName: 'EXTENSION_TYPE_REGULATORY_TYPE',
-        propertyInfos: [{
-            name: 'value',
-            type: 'value'
-          }, {
-            name: 'otherValue',
-            attributeName: {
-              localPart: 'Other_Value'
-            },
-            type: 'attribute'
-          }]
-      }, {
-        localName: 'GHSTS.RECEIVERS',
-        typeName: null,
-        propertyInfos: [{
-            name: 'receiver',
-            required: true,
-            collection: true,
-            elementName: 'RECEIVER',
-            typeInfo: '.GHSTS.RECEIVERS.RECEIVER'
-          }]
-      }, {
-        localName: 'GHSTS.DOCUMENTS',
-        typeName: null,
-        propertyInfos: [{
-            name: 'document',
-            required: true,
-            collection: true,
-            elementName: 'DOCUMENT',
-            typeInfo: '.GHSTS.DOCUMENTS.DOCUMENT'
-          }]
-      }, {
-        localName: 'GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.DATAREQUIREMENT',
-        typeName: null,
-        propertyInfos: [{
-            name: 'value',
-            required: true,
-            elementName: 'VALUE'
-          }, {
-            name: 'valuedecode',
-            required: true,
-            elementName: 'VALUE_DECODE'
-          }]
-      }, {
-        localName: 'GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.REFERENCEDDOCUMENT',
-        typeName: null,
-        propertyInfos: [{
-            name: 'referencetype',
-            required: true,
-            elementName: 'REFERENCE_TYPE',
-            typeInfo: '.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.REFERENCEDDOCUMENT.REFERENCETYPE'
-          }, {
-            name: 'internal',
-            required: true,
-            elementName: 'INTERNAL',
-            typeInfo: 'Boolean'
-          }, {
-            name: 'documentpid',
-            required: true,
-            elementName: 'DOCUMENT_PID'
-          }, {
-            name: 'documentnumber',
-            required: true,
-            elementName: 'DOCUMENT_NUMBER',
-            typeInfo: '.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.REFERENCEDDOCUMENT.DOCUMENTNUMBER'
-          }]
-      }, {
-        localName: 'GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER.DOCUMENTNUMBERTYPE',
-        typeName: null,
-        propertyInfos: [{
-            name: 'value',
-            required: true,
-            elementName: 'VALUE',
-            typeInfo: '.EXTENSIONTYPEDOCUMENTNUMBERTYPE'
-          }, {
-            name: 'valuedecode',
-            required: true,
-            elementName: 'VALUE_DECODE'
-          }]
-      }, {
-        localName: 'GHSTS.PRODUCT.PRODUCTRA',
-        typeName: null,
-        propertyInfos: [{
-            name: 'productname',
-            elementName: 'PRODUCT_NAME'
-          }, {
-            name: 'adminnumber',
-            minOccurs: 0,
-            collection: true,
-            elementName: 'ADMIN_NUMBER',
-            typeInfo: '.GHSTS.PRODUCT.PRODUCTRA.ADMINNUMBER'
-          }, {
-            name: 'toSpecificForRAId',
-            required: true,
-            typeInfo: 'IDREF',
-            attributeName: {
-              localPart: 'To_Specific_for_RA_Id'
-            },
-            type: 'attribute'
-          }]
-      }, {
-        localName: 'GHSTS.PRODUCT.DOSSIER.DOSSIERRA',
-        typeName: null,
-        propertyInfos: [{
-            name: 'regulatorytype',
-            required: true,
-            elementName: 'REGULATORY_TYPE',
-            typeInfo: '.GHSTS.PRODUCT.DOSSIER.DOSSIERRA.REGULATORYTYPE'
-          }, {
-            name: 'applicationtype',
-            required: true,
-            elementName: 'APPLICATION_TYPE',
-            typeInfo: '.GHSTS.PRODUCT.DOSSIER.DOSSIERRA.APPLICATIONTYPE'
-          }, {
-            name: 'projectidnumber',
-            minOccurs: 0,
-            collection: true,
-            elementName: 'PROJECT_ID_NUMBER'
-          }, {
-            name: 'toSpecificForRAId',
-            required: true,
-            typeInfo: 'IDREF',
-            attributeName: {
-              localPart: 'To_Specific_for_RA_Id'
-            },
-            type: 'attribute'
-          }]
-      }, {
-        localName: 'GHSTS.TOC',
-        typeName: null,
-        propertyInfos: [{
-            name: 'metadatastatus',
-            required: true,
-            elementName: 'METADATA_STATUS',
-            typeInfo: '.TYPEMETADATASTATUSSTRUCT'
-          }, {
-            name: 'tocshortname',
-            required: true,
-            elementName: 'TOC_SHORT_NAME'
-          }, {
-            name: 'tocowner',
-            required: true,
-            elementName: 'TOC_OWNER',
-            typeInfo: '.GHSTS.TOC.TOCOWNER'
-          }, {
-            name: 'tocfullname',
-            required: true,
-            elementName: 'TOC_FULL_NAME'
-          }, {
-            name: 'tocversion',
-            required: true,
-            elementName: 'TOC_VERSION'
-          }, {
-            name: 'standardtocreference',
-            elementName: 'STANDARD_TOC_REFERENCE',
-            typeInfo: '.GHSTS.TOC.STANDARDTOCREFERENCE'
-          }, {
-            name: 'structure',
-            required: true,
-            collection: true,
-            elementName: 'STRUCTURE',
-            typeInfo: '.GHSTS.TOC.STRUCTURE'
-          }]
-      }, {
-        localName: 'GHSTS.LEGALENTITIES',
-        typeName: null,
-        propertyInfos: [{
-            name: 'legalentity',
-            required: true,
-            collection: true,
-            elementName: 'LEGAL_ENTITY',
-            typeInfo: '.GHSTS.LEGALENTITIES.LEGALENTITY'
-          }]
-      }, {
-        localName: 'GHSTS.SUBSTANCES.SUBSTANCE.SUBSTANCEIDENTIFIER',
-        typeName: null,
-        propertyInfos: [{
-            name: 'substanceidentifiertype',
-            required: true,
-            elementName: 'SUBSTANCE_IDENTIFIER_TYPE',
-            typeInfo: '.GHSTS.SUBSTANCES.SUBSTANCE.SUBSTANCEIDENTIFIER.SUBSTANCEIDENTIFIERTYPE'
-          }, {
-            name: 'identifier',
-            required: true,
-            elementName: 'IDENTIFIER'
-          }]
-      }, {
-        localName: 'GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.RELATEDTOSUBSTANCE',
-        typeName: null,
-        propertyInfos: [{
-            name: 'toSubstanceId',
-            required: true,
-            typeInfo: 'IDREF',
-            attributeName: {
-              localPart: 'To_Substance_Id'
-            },
-            type: 'attribute'
-          }]
-      }, {
-        localName: 'GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.RADOCUMENTNUMBERTYPE',
-        typeName: null,
-        propertyInfos: [{
-            name: 'value',
-            required: true,
-            elementName: 'VALUE',
-            typeInfo: '.EXTENSIONTYPERADOCUMENTNUMBERTYPE'
-          }, {
-            name: 'valuedecode',
-            required: true,
-            elementName: 'VALUE_DECODE'
-          }]
-      }, {
-        localName: 'EXTENSIONTYPEDOCUMENTNUMBERTYPE',
-        typeName: 'EXTENSION_TYPE_DOCUMENT_NUMBER_TYPE',
-        propertyInfos: [{
-            name: 'value',
-            type: 'value'
-          }, {
-            name: 'otherValue',
-            attributeName: {
-              localPart: 'Other_Value'
-            },
-            type: 'attribute'
-          }]
-      }, {
-        localName: 'EXTENSIONTYPERADOCUMENTNUMBERTYPE',
-        typeName: 'EXTENSION_TYPE_RA_DOCUMENT_NUMBER_TYPE',
-        propertyInfos: [{
-            name: 'value',
-            type: 'value'
-          }, {
-            name: 'otherValue',
-            attributeName: {
-              localPart: 'Other_Value'
-            },
-            type: 'attribute'
-          }]
-      }, {
-        localName: 'GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON',
-        typeName: null,
-        propertyInfos: [{
-            name: 'organisation',
-            elementName: 'ORGANISATION'
-          }, {
-            name: 'department',
-            elementName: 'DEPARTMENT'
-          }, {
-            name: 'title',
-            elementName: 'TITLE'
-          }, {
-            name: 'firstname',
-            elementName: 'FIRSTNAME'
-          }, {
-            name: 'lastname',
-            elementName: 'LASTNAME'
-          }, {
-            name: 'phone',
-            elementName: 'PHONE'
-          }, {
-            name: 'mobile',
-            elementName: 'MOBILE'
-          }, {
-            name: 'fax',
-            elementName: 'FAX'
-          }, {
-            name: 'email',
-            elementName: 'EMAIL'
-          }]
-      }, {
-        localName: 'GHSTS.PRODUCT.PRODUCTRA.ADMINNUMBER.ADMINNUMBERTYPE',
-        typeName: null,
-        propertyInfos: [{
-            name: 'value',
-            required: true,
-            elementName: 'VALUE',
-            typeInfo: '.EXTENSIONTYPEADMINNUMBERTYPE'
-          }, {
-            name: 'valuedecode',
-            required: true,
-            elementName: 'VALUE_DECODE'
-          }]
-      }, {
-        localName: 'GHSTS.PRODUCT.DOSSIER',
-        typeName: null,
-        propertyInfos: [{
-            name: 'dossierpid',
-            required: true,
-            elementName: 'DOSSIER_PID'
-          }, {
-            name: 'dossierdescriptiontitle',
-            required: true,
-            elementName: 'DOSSIER_DESCRIPTION_TITLE'
-          }, {
-            name: 'dossiercompid',
-            required: true,
-            elementName: 'DOSSIER_COMP_ID'
-          }, {
-            name: 'referenceddossier',
-            minOccurs: 0,
-            collection: true,
-            elementName: 'REFERENCED_DOSSIER',
-            typeInfo: '.GHSTS.PRODUCT.DOSSIER.REFERENCEDDOSSIER'
-          }, {
-            name: 'dossierra',
-            required: true,
-            collection: true,
-            elementName: 'DOSSIER_RA',
-            typeInfo: '.GHSTS.PRODUCT.DOSSIER.DOSSIERRA'
-          }, {
-            name: 'submission',
-            required: true,
-            collection: true,
-            elementName: 'SUBMISSION',
-            typeInfo: '.GHSTS.PRODUCT.DOSSIER.SUBMISSION'
-          }]
-      }, {
-        localName: 'GHSTS.RECEIVERS.RECEIVER.SENDER',
-        typeName: null,
-        propertyInfos: [{
-            name: 'companycontactregulatoryrole',
-            elementName: 'COMPANY_CONTACT_REGULATORY_ROLE'
-          }, {
-            name: 'remark',
-            elementName: 'REMARK'
-          }, {
-            name: 'toLegalEntityId',
-            required: true,
-            typeInfo: 'IDREF',
-            attributeName: {
-              localPart: 'To_Legal_Entity_Id'
-            },
-            type: 'attribute'
-          }]
-      }, {
-        localName: 'GHSTS.PRODUCT.DOSSIER.REFERENCEDDOSSIER',
-        typeName: null,
-        propertyInfos: [{
-            name: 'referenceddossiernumber',
-            required: true,
-            elementName: 'REFERENCED_DOSSIER_NUMBER'
-          }, {
-            name: 'referenceddossierreason',
-            required: true,
-            elementName: 'REFERENCED_DOSSIER_REASON'
-          }]
-      }, {
-        localName: 'GHSTS.PRODUCT.DOSSIER.DOSSIERRA.REGULATORYTYPE',
-        typeName: null,
-        propertyInfos: [{
-            name: 'value',
-            required: true,
-            elementName: 'VALUE',
-            typeInfo: '.EXTENSIONTYPEREGULATORYTYPE'
-          }, {
-            name: 'valuedecode',
-            required: true,
-            elementName: 'VALUE_DECODE'
-          }]
-      }, {
-        localName: 'GHSTS.RECEIVERS.RECEIVER',
-        typeName: null,
-        propertyInfos: [{
-            name: 'metadatastatus',
-            required: true,
-            elementName: 'METADATA_STATUS',
-            typeInfo: '.TYPEMETADATASTATUSSTRUCT'
-          }, {
-            name: 'shortname',
-            required: true,
-            elementName: 'SHORT_NAME'
-          }, {
-            name: 'role',
-            elementName: 'ROLE'
-          }, {
-            name: 'sender',
-            required: true,
-            collection: true,
-            elementName: 'SENDER',
-            typeInfo: '.GHSTS.RECEIVERS.RECEIVER.SENDER'
-          }, {
-            name: 'id',
-            required: true,
-            typeInfo: 'ID',
-            attributeName: {
-              localPart: 'Id'
-            },
-            type: 'attribute'
-          }, {
-            name: 'toLegalEntityId',
-            required: true,
-            typeInfo: 'IDREF',
-            attributeName: {
-              localPart: 'To_Legal_Entity_Id'
-            },
-            type: 'attribute'
-          }]
-      }, {
-        localName: 'TYPEMETADATASTATUSSTRUCT',
-        typeName: 'TYPE_METADATA_STATUS_STRUCT',
-        propertyInfos: [{
-            name: 'value',
-            required: true,
-            elementName: 'VALUE'
-          }, {
-            name: 'valuedecode',
-            required: true,
-            elementName: 'VALUE_DECODE'
-          }]
-      }, {
-        localName: 'GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY',
-        typeName: null,
-        propertyInfos: [{
-            name: 'contentstatus',
-            required: true,
-            elementName: 'CONTENT_STATUS',
-            typeInfo: '.TYPECONTENTSTATUSSTRUCT'
-          }, {
-            name: 'submissionnumber',
-            required: true,
-            elementName: 'SUBMISSION_NUMBER'
-          }]
-      }, {
-        localName: 'EXTENSIONTYPETOCOWNER',
-        typeName: 'EXTENSION_TYPE_TOC_OWNER',
-        propertyInfos: [{
-            name: 'value',
-            type: 'value'
-          }, {
-            name: 'otherValue',
-            attributeName: {
-              localPart: 'Other_Value'
-            },
-            type: 'attribute'
-          }]
-      }, {
-        localName: 'EXTENSIONTYPECOUNTRY',
-        typeName: 'EXTENSION_TYPE_COUNTRY',
-        propertyInfos: [{
-            name: 'value',
-            type: 'value'
-          }, {
-            name: 'otherValue',
-            attributeName: {
-              localPart: 'Other_Value'
-            },
-            type: 'attribute'
-          }]
-      }, {
-        localName: 'GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTADDRESS',
-        typeName: null,
-        propertyInfos: [{
-            name: 'street1',
-            elementName: 'STREET1'
-          }, {
-            name: 'street2',
-            elementName: 'STREET2'
-          }, {
-            name: 'zipcode',
-            elementName: 'ZIPCODE'
-          }, {
-            name: 'city',
-            elementName: 'CITY'
-          }, {
-            name: 'state',
-            elementName: 'STATE'
-          }, {
-            name: 'country',
-            elementName: 'COUNTRY',
-            typeInfo: '.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTADDRESS.COUNTRY'
-          }, {
-            name: 'phone',
-            elementName: 'PHONE'
-          }, {
-            name: 'fax',
-            elementName: 'FAX'
-          }, {
-            name: 'email',
-            elementName: 'EMAIL'
-          }, {
-            name: 'website',
-            elementName: 'WEBSITE'
-          }]
-      }, {
-        localName: 'GHSTS.PRODUCT.INGREDIENTS.INGREDIENT.UNIT',
-        typeName: null,
-        propertyInfos: [{
-            name: 'value',
-            required: true,
-            elementName: 'VALUE',
-            typeInfo: '.EXTENSIONTYPEUNIT'
-          }, {
-            name: 'valuedecode',
-            required: true,
-            elementName: 'VALUE_DECODE'
-          }]
-      }, {
-        localName: 'GHSTS.PRODUCT.INGREDIENTS',
-        typeName: null,
-        propertyInfos: [{
-            name: 'ingredient',
-            required: true,
-            collection: true,
-            elementName: 'INGREDIENT',
-            typeInfo: '.GHSTS.PRODUCT.INGREDIENTS.INGREDIENT'
-          }]
-      }, {
-        localName: 'GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.OTHERNATIONALGUIDELINE',
-        typeName: null,
-        propertyInfos: [{
-            name: 'guidelinesystem',
-            required: true,
-            elementName: 'GUIDELINE_SYSTEM'
-          }, {
-            name: 'guidelinenumber',
-            required: true,
-            elementName: 'GUIDELINE_NUMBER'
-          }]
-      }, {
-        localName: 'GHSTS.SUBSTANCES',
-        typeName: null,
-        propertyInfos: [{
-            name: 'substance',
-            required: true,
-            collection: true,
-            elementName: 'SUBSTANCE',
-            typeInfo: '.GHSTS.SUBSTANCES.SUBSTANCE'
-          }]
-      }, {
-        localName: 'EXTENSIONTYPELEGALENTITYTYPE',
-        typeName: 'EXTENSION_TYPE_LEGALENTITY_TYPE',
-        propertyInfos: [{
-            name: 'value',
-            type: 'value'
-          }, {
-            name: 'otherValue',
-            attributeName: {
-              localPart: 'Other_Value'
-            },
-            type: 'attribute'
           }]
       }, {
         localName: 'GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC',
@@ -1356,7 +822,79 @@ var GHSTS_Module_Factory = function () {
             typeInfo: '.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.REFERENCEDTOFILE'
           }]
       }, {
-        localName: 'GHSTS.FILES.FILE.FILERA',
+        localName: 'GHSTS.FILES.FILE.FILEGENERIC.FILETYPE',
+        typeName: null,
+        propertyInfos: [{
+            name: 'value',
+            required: true,
+            elementName: 'VALUE'
+          }, {
+            name: 'valuedecode',
+            required: true,
+            elementName: 'VALUE_DECODE'
+          }]
+      }, {
+        localName: 'GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTADDRESS.COUNTRY',
+        typeName: null,
+        propertyInfos: [{
+            name: 'value',
+            required: true,
+            elementName: 'VALUE',
+            typeInfo: '.EXTENSIONTYPECOUNTRY'
+          }, {
+            name: 'valuedecode',
+            required: true,
+            elementName: 'VALUE_DECODE'
+          }]
+      }, {
+        localName: 'GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.REFERENCEDDOCUMENT.REFERENCETYPE',
+        typeName: null,
+        propertyInfos: [{
+            name: 'value',
+            required: true,
+            elementName: 'VALUE'
+          }, {
+            name: 'valuedecode',
+            required: true,
+            elementName: 'VALUE_DECODE'
+          }]
+      }, {
+        localName: 'GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.RADOCUMENTNUMBERTYPE',
+        typeName: null,
+        propertyInfos: [{
+            name: 'value',
+            required: true,
+            elementName: 'VALUE',
+            typeInfo: '.EXTENSIONTYPERADOCUMENTNUMBERTYPE'
+          }, {
+            name: 'valuedecode',
+            required: true,
+            elementName: 'VALUE_DECODE'
+          }]
+      }, {
+        localName: 'GHSTS.SUBSTANCES',
+        typeName: null,
+        propertyInfos: [{
+            name: 'substance',
+            required: true,
+            collection: true,
+            elementName: 'SUBSTANCE',
+            typeInfo: '.GHSTS.SUBSTANCES.SUBSTANCE'
+          }]
+      }, {
+        localName: 'GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.REFERENCEDTOFILE',
+        typeName: null,
+        propertyInfos: [{
+            name: 'toFileId',
+            required: true,
+            typeInfo: 'IDREF',
+            attributeName: {
+              localPart: 'To_File_Id'
+            },
+            type: 'attribute'
+          }]
+      }, {
+        localName: 'GHSTS.FILES.FILE.FILEGENERIC',
         typeName: null,
         propertyInfos: [{
             name: 'metadatastatus',
@@ -1364,13 +902,162 @@ var GHSTS_Module_Factory = function () {
             elementName: 'METADATA_STATUS',
             typeInfo: '.TYPEMETADATASTATUSSTRUCT'
           }, {
-            name: 'cbidesignation',
+            name: 'filepid',
             required: true,
-            elementName: 'CBI_DESIGNATION',
-            typeInfo: 'Boolean'
+            elementName: 'FILE_PID'
           }, {
-            name: 'filecomment',
-            elementName: 'FILE_COMMENT'
+            name: 'filecompanyid',
+            elementName: 'FILE_COMPANY_ID'
+          }, {
+            name: 'contentstatus',
+            required: true,
+            elementName: 'CONTENT_STATUS',
+            typeInfo: '.TYPECONTENTSTATUSSTRUCT'
+          }, {
+            name: 'replacedfilepid',
+            elementName: 'REPLACED_FILE_PID'
+          }, {
+            name: 'filetype',
+            required: true,
+            elementName: 'FILE_TYPE',
+            typeInfo: '.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE'
+          }, {
+            name: 'formatcomment',
+            elementName: 'FORMAT_COMMENT'
+          }, {
+            name: 'md5CHECKSUM',
+            elementName: 'MD5CHECKSUM'
+          }, {
+            name: 'filename',
+            required: true,
+            elementName: 'FILENAME'
+          }]
+      }, {
+        localName: 'GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTADDRESS',
+        typeName: null,
+        propertyInfos: [{
+            name: 'street1',
+            elementName: 'STREET1'
+          }, {
+            name: 'street2',
+            elementName: 'STREET2'
+          }, {
+            name: 'zipcode',
+            elementName: 'ZIPCODE'
+          }, {
+            name: 'city',
+            elementName: 'CITY'
+          }, {
+            name: 'state',
+            elementName: 'STATE'
+          }, {
+            name: 'country',
+            elementName: 'COUNTRY',
+            typeInfo: '.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTADDRESS.COUNTRY'
+          }, {
+            name: 'phone',
+            elementName: 'PHONE'
+          }, {
+            name: 'fax',
+            elementName: 'FAX'
+          }, {
+            name: 'email',
+            elementName: 'EMAIL'
+          }, {
+            name: 'website',
+            elementName: 'WEBSITE'
+          }]
+      }, {
+        localName: 'GHSTS.PRODUCT.PRODUCTRA.ADMINNUMBER',
+        typeName: null,
+        propertyInfos: [{
+            name: 'adminnumbertype',
+            required: true,
+            elementName: 'ADMIN_NUMBER_TYPE',
+            typeInfo: '.GHSTS.PRODUCT.PRODUCTRA.ADMINNUMBER.ADMINNUMBERTYPE'
+          }, {
+            name: 'identifier',
+            required: true,
+            elementName: 'IDENTIFIER'
+          }]
+      }, {
+        localName: 'GHSTS.RECEIVERS',
+        typeName: null,
+        propertyInfos: [{
+            name: 'receiver',
+            required: true,
+            collection: true,
+            elementName: 'RECEIVER',
+            typeInfo: '.GHSTS.RECEIVERS.RECEIVER'
+          }]
+      }, {
+        localName: 'TYPEMETADATASTATUSSTRUCT',
+        typeName: 'TYPE_METADATA_STATUS_STRUCT',
+        propertyInfos: [{
+            name: 'value',
+            required: true,
+            elementName: 'VALUE'
+          }, {
+            name: 'valuedecode',
+            required: true,
+            elementName: 'VALUE_DECODE'
+          }]
+      }, {
+        localName: 'EXTENSIONTYPEREGULATORYTYPE',
+        typeName: 'EXTENSION_TYPE_REGULATORY_TYPE',
+        propertyInfos: [{
+            name: 'value',
+            type: 'value'
+          }, {
+            name: 'otherValue',
+            attributeName: {
+              localPart: 'Other_Value'
+            },
+            type: 'attribute'
+          }]
+      }, {
+        localName: 'EXTENSIONTYPEADMINNUMBERTYPE',
+        typeName: 'EXTENSION_TYPE_ADMIN_NUMBER_TYPE',
+        propertyInfos: [{
+            name: 'value',
+            type: 'value'
+          }, {
+            name: 'otherValue',
+            attributeName: {
+              localPart: 'Other_Value'
+            },
+            type: 'attribute'
+          }]
+      }, {
+        localName: 'GHSTS.TOC.STANDARDTOCREFERENCE',
+        typeName: null,
+        propertyInfos: [{
+            name: 'standardtocpid',
+            required: true,
+            elementName: 'STANDARD_TOC_PID'
+          }, {
+            name: 'filename',
+            required: true,
+            elementName: 'FILENAME'
+          }]
+      }, {
+        localName: 'GHSTS.PRODUCT.DOSSIER.DOSSIERRA',
+        typeName: null,
+        propertyInfos: [{
+            name: 'regulatorytype',
+            required: true,
+            elementName: 'REGULATORY_TYPE',
+            typeInfo: '.GHSTS.PRODUCT.DOSSIER.DOSSIERRA.REGULATORYTYPE'
+          }, {
+            name: 'applicationtype',
+            required: true,
+            elementName: 'APPLICATION_TYPE',
+            typeInfo: '.GHSTS.PRODUCT.DOSSIER.DOSSIERRA.APPLICATIONTYPE'
+          }, {
+            name: 'projectidnumber',
+            minOccurs: 0,
+            collection: true,
+            elementName: 'PROJECT_ID_NUMBER'
           }, {
             name: 'toSpecificForRAId',
             required: true,
@@ -1381,37 +1068,133 @@ var GHSTS_Module_Factory = function () {
             type: 'attribute'
           }]
       }, {
-        localName: 'GHSTS.TOC.STRUCTURE',
+        localName: 'GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON',
         typeName: null,
         propertyInfos: [{
-            name: 'tocnode',
-            required: true,
-            elementName: 'TOC_NODE',
-            typeInfo: '.TYPETOCNODE'
+            name: 'organisation',
+            elementName: 'ORGANISATION'
+          }, {
+            name: 'department',
+            elementName: 'DEPARTMENT'
+          }, {
+            name: 'title',
+            elementName: 'TITLE'
+          }, {
+            name: 'firstname',
+            elementName: 'FIRSTNAME'
+          }, {
+            name: 'lastname',
+            elementName: 'LASTNAME'
+          }, {
+            name: 'phone',
+            elementName: 'PHONE'
+          }, {
+            name: 'mobile',
+            elementName: 'MOBILE'
+          }, {
+            name: 'fax',
+            elementName: 'FAX'
+          }, {
+            name: 'email',
+            elementName: 'EMAIL'
           }]
       }, {
-        localName: 'GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER',
+        localName: 'GHSTS.PRODUCT.INGREDIENTS',
         typeName: null,
         propertyInfos: [{
-            name: 'radocumentnumbertype',
+            name: 'ingredient',
             required: true,
-            elementName: 'RA_DOCUMENT_NUMBER_TYPE',
-            typeInfo: '.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.RADOCUMENTNUMBERTYPE'
+            collection: true,
+            elementName: 'INGREDIENT',
+            typeInfo: '.GHSTS.PRODUCT.INGREDIENTS.INGREDIENT'
+          }]
+      }, {
+        localName: 'EXTENSIONTYPETOCOWNER',
+        typeName: 'EXTENSION_TYPE_TOC_OWNER',
+        propertyInfos: [{
+            name: 'value',
+            type: 'value'
           }, {
-            name: 'identifier',
-            required: true,
-            elementName: 'IDENTIFIER'
+            name: 'otherValue',
+            attributeName: {
+              localPart: 'Other_Value'
+            },
+            type: 'attribute'
+          }]
+      }, {
+        localName: 'EXTENSIONTYPELEGALENTITYTYPE',
+        typeName: 'EXTENSION_TYPE_LEGALENTITY_TYPE',
+        propertyInfos: [{
+            name: 'value',
+            type: 'value'
           }, {
-            name: 'alreadysubmitted',
+            name: 'otherValue',
+            attributeName: {
+              localPart: 'Other_Value'
+            },
+            type: 'attribute'
+          }]
+      }, {
+        localName: 'GHSTS.TOC.TOCOWNER',
+        typeName: null,
+        propertyInfos: [{
+            name: 'value',
             required: true,
-            elementName: 'ALREADY_SUBMITTED',
+            elementName: 'VALUE',
+            typeInfo: '.EXTENSIONTYPETOCOWNER'
+          }, {
+            name: 'valuedecode',
+            required: true,
+            elementName: 'VALUE_DECODE'
+          }]
+      }, {
+        localName: 'GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY',
+        typeName: null,
+        propertyInfos: [{
+            name: 'contentstatus',
+            required: true,
+            elementName: 'CONTENT_STATUS',
+            typeInfo: '.TYPECONTENTSTATUSSTRUCT'
+          }, {
+            name: 'submissionnumber',
+            required: true,
+            elementName: 'SUBMISSION_NUMBER'
+          }]
+      }, {
+        localName: 'GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.REFERENCEDDOCUMENT',
+        typeName: null,
+        propertyInfos: [{
+            name: 'referencetype',
+            required: true,
+            elementName: 'REFERENCE_TYPE',
+            typeInfo: '.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.REFERENCEDDOCUMENT.REFERENCETYPE'
+          }, {
+            name: 'internal',
+            required: true,
+            elementName: 'INTERNAL',
             typeInfo: 'Boolean'
           }, {
-            name: 'submissioncontext',
-            minOccurs: 0,
-            collection: true,
-            elementName: 'SUBMISSION_CONTEXT',
-            typeInfo: '.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.SUBMISSIONCONTEXT'
+            name: 'documentpid',
+            required: true,
+            elementName: 'DOCUMENT_PID'
+          }, {
+            name: 'documentnumber',
+            required: true,
+            elementName: 'DOCUMENT_NUMBER',
+            typeInfo: '.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.REFERENCEDDOCUMENT.DOCUMENTNUMBER'
+          }]
+      }, {
+        localName: 'EXTENSIONTYPEDOCUMENTNUMBERTYPE',
+        typeName: 'EXTENSION_TYPE_DOCUMENT_NUMBER_TYPE',
+        propertyInfos: [{
+            name: 'value',
+            type: 'value'
+          }, {
+            name: 'otherValue',
+            attributeName: {
+              localPart: 'Other_Value'
+            },
+            type: 'attribute'
           }]
       }, {
         localName: 'GHSTS.LEGALENTITIES.LEGALENTITY.LEGALENTITYTYPE',
@@ -1427,69 +1210,286 @@ var GHSTS_Module_Factory = function () {
             elementName: 'VALUE_DECODE'
           }]
       }, {
-        type: 'enumInfo',
-        localName: 'TYPESUBSTANCEIDENTIFIERTYPE',
-        values: ['CASNO', 'ECNO', 'IUBMB', 'other']
+        localName: 'TYPECONTENTSTATUSSTRUCT',
+        typeName: 'TYPE_CONTENT_STATUS_STRUCT',
+        propertyInfos: [{
+            name: 'value',
+            required: true,
+            elementName: 'VALUE'
+          }, {
+            name: 'valuedecode',
+            required: true,
+            elementName: 'VALUE_DECODE'
+          }]
       }, {
-        type: 'enumInfo',
-        localName: 'TYPELEGALENTITYIDENTIFIERTYPE',
-        values: ['DUNS-number', 'other', 'REACH', 'SAP', 'VAT-number']
+        localName: 'TYPETOCNODE.TOC2DOC',
+        typeName: null,
+        propertyInfos: [{
+            name: 'toDocumentId',
+            required: true,
+            typeInfo: 'AnySimpleType',
+            attributeName: {
+              localPart: 'To_Document_Id'
+            },
+            type: 'attribute'
+          }]
       }, {
-        type: 'enumInfo',
-        localName: 'TYPEADMINNUMBERTYPE',
-        values: ['Application Number', 'BVL Kenn-Nr.', 'EPA Decision No', 'Experimental Use Permit', 'Inert Ingredient clearance request', 'other', 'PMRA Decision No', 'PRIA Pre-application', 'Section 3 product', 'Tolerance Petition']
+        localName: 'GHSTS.TOC.STRUCTURE',
+        typeName: null,
+        propertyInfos: [{
+            name: 'tocnode',
+            required: true,
+            collection: true,
+            elementName: 'TOC_NODE',
+            typeInfo: '.TYPETOCNODE'
+          }]
       }, {
-        type: 'enumInfo',
-        localName: 'TYPEFORMULATIONTYPE',
-        values: ['AE', 'AL', 'BB', 'BR', 'CB', 'CG', 'CS', 'DC', 'DP', 'DS', 'EC', 'ED', 'EO', 'ES', 'EW', 'FD', 'FG', 'FK', 'FP', 'FR', 'FS', 'FT', 'FU', 'FW', 'GA', 'GB', 'GE', 'GG', 'GP', 'GR', 'GS', 'HN', 'KN', 'LA', 'LS', 'MG', 'OF', 'OL', 'OP', 'other', 'PA', 'PB', 'PC', 'PR', 'PS', 'RB', 'SB', 'SC', 'SE', 'SG', 'SL', 'SO', 'SP', 'SS', 'SU', 'TB', 'TP', 'UL', 'VP', 'WG', 'WP', 'WS']
+        localName: 'GHSTS.DOCUMENTS.DOCUMENT',
+        typeName: null,
+        propertyInfos: [{
+            name: 'documentra',
+            required: true,
+            collection: true,
+            elementName: 'DOCUMENT_RA',
+            typeInfo: '.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA'
+          }, {
+            name: 'documentgeneric',
+            required: true,
+            elementName: 'DOCUMENT_GENERIC',
+            typeInfo: '.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC'
+          }, {
+            name: 'id',
+            required: true,
+            typeInfo: 'ID',
+            attributeName: {
+              localPart: 'Id'
+            },
+            type: 'attribute'
+          }]
       }, {
-        type: 'enumInfo',
-        localName: 'TYPEDATAREQUIREMENT',
-        values: ['N', 'O', 'Y']
+        localName: 'GHSTS.RECEIVERS.RECEIVER',
+        typeName: null,
+        propertyInfos: [{
+            name: 'metadatastatus',
+            required: true,
+            elementName: 'METADATA_STATUS',
+            typeInfo: '.TYPEMETADATASTATUSSTRUCT'
+          }, {
+            name: 'shortname',
+            required: true,
+            elementName: 'SHORT_NAME'
+          }, {
+            name: 'role',
+            elementName: 'ROLE'
+          }, {
+            name: 'sender',
+            required: true,
+            collection: true,
+            elementName: 'SENDER',
+            typeInfo: '.GHSTS.RECEIVERS.RECEIVER.SENDER'
+          }, {
+            name: 'id',
+            required: true,
+            typeInfo: 'ID',
+            attributeName: {
+              localPart: 'Id'
+            },
+            type: 'attribute'
+          }, {
+            name: 'toLegalEntityId',
+            required: true,
+            typeInfo: 'IDREF',
+            attributeName: {
+              localPart: 'To_Legal_Entity_Id'
+            },
+            type: 'attribute'
+          }]
       }, {
-        type: 'enumInfo',
-        localName: 'TYPETOCOWNER',
-        values: ['BVL (Germany)', 'EPA (New Zealand)', 'EPA (US)', 'MAF (New Zealand)', 'OECD', 'other', 'PMRA (Canada)']
+        localName: 'GHSTS.LEGALENTITIES.LEGALENTITY.LEGALENTITYIDENTIFIER.LEGALENTITYIDENTIFIERTYPE',
+        typeName: null,
+        propertyInfos: [{
+            name: 'value',
+            required: true,
+            elementName: 'VALUE',
+            typeInfo: '.EXTENSIONTYPELEGALENTITYIDENTIFIERTYPE'
+          }, {
+            name: 'valuedecode',
+            required: true,
+            elementName: 'VALUE_DECODE'
+          }]
       }, {
-        type: 'enumInfo',
-        localName: 'TYPEUNIT',
-        values: ['%(v\/v)', '%(w\/w)', 'B cells\/ml', 'B CFU\/g', 'BTTU\/g', 'CFU\/kg', 'CFU\/L', 'DBMU\/mg', 'g\/kg', 'g\/kg (as CU)', 'g\/kg (as S)', 'g\/L', 'g\/L (as CU)', 'g\/L (as S)', 'granules\/L', 'IU\/mg', 'M cells\/g', 'M CFU\/g', 'M CFU\/ml', 'M Units\/dowel', 'mg\/kg', 'mg\/L', 'ml\/L', 'other', 'qs', 'spores\/kg', 'thou IU\/mg', 'thou IU\/ml', 'to pH', 'trace']
+        localName: 'GHSTS.PRODUCT.DOSSIER.REFERENCEDDOSSIER',
+        typeName: null,
+        propertyInfos: [{
+            name: 'referenceddossiernumber',
+            required: true,
+            elementName: 'REFERENCED_DOSSIER_NUMBER'
+          }, {
+            name: 'referenceddossierreason',
+            required: true,
+            elementName: 'REFERENCED_DOSSIER_REASON'
+          }]
+      }, {
+        localName: 'GHSTS.PRODUCT.DOSSIER',
+        typeName: null,
+        propertyInfos: [{
+            name: 'dossierpid',
+            required: true,
+            elementName: 'DOSSIER_PID'
+          }, {
+            name: 'dossierdescriptiontitle',
+            required: true,
+            elementName: 'DOSSIER_DESCRIPTION_TITLE'
+          }, {
+            name: 'dossiercompid',
+            required: true,
+            elementName: 'DOSSIER_COMP_ID'
+          }, {
+            name: 'referenceddossier',
+            minOccurs: 0,
+            collection: true,
+            elementName: 'REFERENCED_DOSSIER',
+            typeInfo: '.GHSTS.PRODUCT.DOSSIER.REFERENCEDDOSSIER'
+          }, {
+            name: 'dossierra',
+            required: true,
+            collection: true,
+            elementName: 'DOSSIER_RA',
+            typeInfo: '.GHSTS.PRODUCT.DOSSIER.DOSSIERRA'
+          }, {
+            name: 'submission',
+            required: true,
+            collection: true,
+            elementName: 'SUBMISSION',
+            typeInfo: '.GHSTS.PRODUCT.DOSSIER.SUBMISSION'
+          }]
+      }, {
+        localName: 'GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER',
+        typeName: null,
+        propertyInfos: [{
+            name: 'documentnumbertype',
+            required: true,
+            elementName: 'DOCUMENT_NUMBER_TYPE',
+            typeInfo: '.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER.DOCUMENTNUMBERTYPE'
+          }, {
+            name: 'identifier',
+            required: true,
+            elementName: 'IDENTIFIER'
+          }]
+      }, {
+        localName: 'GHSTS',
+        typeName: null,
+        propertyInfos: [{
+            name: 'receivers',
+            required: true,
+            elementName: 'RECEIVERS',
+            typeInfo: '.GHSTS.RECEIVERS'
+          }, {
+            name: 'product',
+            required: true,
+            elementName: 'PRODUCT',
+            typeInfo: '.GHSTS.PRODUCT'
+          }, {
+            name: 'documents',
+            required: true,
+            elementName: 'DOCUMENTS',
+            typeInfo: '.GHSTS.DOCUMENTS'
+          }, {
+            name: 'files',
+            required: true,
+            elementName: 'FILES',
+            typeInfo: '.GHSTS.FILES'
+          }, {
+            name: 'toc',
+            required: true,
+            elementName: 'TOC',
+            typeInfo: '.GHSTS.TOC'
+          }, {
+            name: 'legalentities',
+            required: true,
+            elementName: 'LEGAL_ENTITIES',
+            typeInfo: '.GHSTS.LEGALENTITIES'
+          }, {
+            name: 'substances',
+            required: true,
+            elementName: 'SUBSTANCES',
+            typeInfo: '.GHSTS.SUBSTANCES'
+          }, {
+            name: 'usedtemplates',
+            elementName: 'USED_TEMPLATES',
+            typeInfo: 'AnyType'
+          }, {
+            name: 'specificationversion',
+            required: true,
+            attributeName: {
+              localPart: 'specificationversion'
+            },
+            type: 'attribute'
+          }]
       }, {
         type: 'enumInfo',
         localName: 'TYPEMETADATASTATUS',
         values: ['Modified', 'New', 'No Change']
       }, {
         type: 'enumInfo',
-        localName: 'TYPEREFERENCETYPE',
-        values: ['document to replaced document', 'document to submitted document', 'document to unchanged predecessor document', 'translation to document']
-      }, {
-        type: 'enumInfo',
-        localName: 'TYPEDOCUMENTNUMBERTYPE',
-        values: ['Old Report Number', 'other', 'Plot Number', 'Project Number', 'Report Number', 'Study Number']
-      }, {
-        type: 'enumInfo',
-        localName: 'TYPEFILETYPE',
-        values: ['Main', 'Source', 'Supplemental', 'XML Summary']
+        localName: 'TYPECOUNTRY',
+        values: ['AD', 'AE', 'AF', 'AG', 'AI', 'AL', 'AM', 'AO', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AW', 'AX', 'AZ', 'BA', 'BB', 'BD', 'BE', 'BF', 'BG', 'BH', 'BI', 'BJ', 'BL', 'BM', 'BN', 'BO', 'BQ', 'BR', 'BS', 'BT', 'BV', 'BW', 'BY', 'BZ', 'CA', 'CC', 'CD', 'CF', 'CG', 'CH', 'CI', 'CK', 'CL', 'CM', 'CN', 'CO', 'CR', 'CU', 'CV', 'CW', 'CX', 'CY', 'CZ', 'DE', 'DJ', 'DK', 'DM', 'DO', 'DZ', 'EC', 'EE', 'EG', 'EH', 'ER', 'ES', 'ET', 'FI', 'FJ', 'FM', 'FO', 'FR', 'GA', 'GB', 'GD', 'GE', 'GF', 'GG', 'GH', 'GI', 'GL', 'GM', 'GN', 'GP', 'GQ', 'GR', 'GS', 'GT', 'GU', 'GW', 'GY', 'HK', 'HM', 'HN', 'HR', 'HT', 'HU', 'ID', 'IE', 'IL', 'IM', 'IN', 'IO', 'IQ', 'IR', 'IS', 'IT', 'JE', 'JM', 'JO', 'JP', 'KE', 'KG', 'KH', 'KI', 'KM', 'KN', 'KP', 'KR', 'KW', 'KY', 'KZ', 'LA', 'LB', 'LC', 'LI', 'LK', 'LR', 'LS', 'LT', 'LU', 'LV', 'LY', 'MA', 'MC', 'MD', 'ME', 'MF', 'MG', 'MH', 'MK', 'ML', 'MM', 'MN', 'MO', 'MP', 'MQ', 'MR', 'MS', 'MT', 'MU', 'MV', 'MW', 'MX', 'MY', 'MZ', 'NA', 'NC', 'NE', 'NF', 'NG', 'NI', 'NL', 'NO', 'NP', 'NR', 'NU', 'NZ', 'OM', 'other', 'PA', 'PE', 'PF', 'PG', 'PH', 'PK', 'PL', 'PM', 'PN', 'PR', 'PS', 'PT', 'PW', 'PY', 'QA', 'RE', 'RO', 'RS', 'RU', 'RW', 'SA', 'SB', 'SC', 'SD', 'SE', 'SG', 'SH', 'SI', 'SJ', 'SK', 'SL', 'SM', 'SN', 'SO', 'SR', 'SS', 'ST', 'SV', 'SX', 'SY', 'SZ', 'TC', 'TD', 'TF', 'TG', 'TH', 'TJ', 'TK', 'TL', 'TM', 'TN', 'TO', 'TR', 'TT', 'TV', 'TW', 'TZ', 'UA', 'UG', 'UM', 'US', 'UY', 'UZ', 'VA', 'VC', 'VE', 'VG', 'VI', 'VN', 'VU', 'WF', 'WS', 'YE', 'YT', 'ZA', 'ZM', 'ZW']
       }, {
         type: 'enumInfo',
         localName: 'TYPERADOCUMENTNUMBERTYPE',
         values: ['MRID', 'other', 'PRMA document number']
       }, {
         type: 'enumInfo',
-        localName: 'TYPECOUNTRY',
-        values: ['AD', 'AE', 'AF', 'AG', 'AI', 'AL', 'AM', 'AO', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AW', 'AX', 'AZ', 'BA', 'BB', 'BD', 'BE', 'BF', 'BG', 'BH', 'BI', 'BJ', 'BL', 'BM', 'BN', 'BO', 'BQ', 'BR', 'BS', 'BT', 'BV', 'BW', 'BY', 'BZ', 'CA', 'CC', 'CD', 'CF', 'CG', 'CH', 'CI', 'CK', 'CL', 'CM', 'CN', 'CO', 'CR', 'CU', 'CV', 'CW', 'CX', 'CY', 'CZ', 'DE', 'DJ', 'DK', 'DM', 'DO', 'DZ', 'EC', 'EE', 'EG', 'EH', 'ER', 'ES', 'ET', 'FI', 'FJ', 'FM', 'FO', 'FR', 'GA', 'GB', 'GD', 'GE', 'GF', 'GG', 'GH', 'GI', 'GL', 'GM', 'GN', 'GP', 'GQ', 'GR', 'GS', 'GT', 'GU', 'GW', 'GY', 'HK', 'HM', 'HN', 'HR', 'HT', 'HU', 'ID', 'IE', 'IL', 'IM', 'IN', 'IO', 'IQ', 'IR', 'IS', 'IT', 'JE', 'JM', 'JO', 'JP', 'KE', 'KG', 'KH', 'KI', 'KM', 'KN', 'KP', 'KR', 'KW', 'KY', 'KZ', 'LA', 'LB', 'LC', 'LI', 'LK', 'LR', 'LS', 'LT', 'LU', 'LV', 'LY', 'MA', 'MC', 'MD', 'ME', 'MF', 'MG', 'MH', 'MK', 'ML', 'MM', 'MN', 'MO', 'MP', 'MQ', 'MR', 'MS', 'MT', 'MU', 'MV', 'MW', 'MX', 'MY', 'MZ', 'NA', 'NC', 'NE', 'NF', 'NG', 'NI', 'NL', 'NO', 'NP', 'NR', 'NU', 'NZ', 'OM', 'other', 'PA', 'PE', 'PF', 'PG', 'PH', 'PK', 'PL', 'PM', 'PN', 'PR', 'PS', 'PT', 'PW', 'PY', 'QA', 'RE', 'RO', 'RS', 'RU', 'RW', 'SA', 'SB', 'SC', 'SD', 'SE', 'SG', 'SH', 'SI', 'SJ', 'SK', 'SL', 'SM', 'SN', 'SO', 'SR', 'SS', 'ST', 'SV', 'SX', 'SY', 'SZ', 'TC', 'TD', 'TF', 'TG', 'TH', 'TJ', 'TK', 'TL', 'TM', 'TN', 'TO', 'TR', 'TT', 'TV', 'TW', 'TZ', 'UA', 'UG', 'UM', 'US', 'UY', 'UZ', 'VA', 'VC', 'VE', 'VG', 'VI', 'VN', 'VU', 'WF', 'WS', 'YE', 'YT', 'ZA', 'ZM', 'ZW']
+        localName: 'TYPEDATAPROTECTION',
+        values: ['N', 'O', 'Y']
+      }, {
+        type: 'enumInfo',
+        localName: 'TYPEDATAREQUIREMENT',
+        values: ['N', 'O', 'Y']
       }, {
         type: 'enumInfo',
         localName: 'TYPECONTENTSTATUS',
         values: ['Modified', 'New', 'No Change', 'Replace', 'Retired']
       }, {
         type: 'enumInfo',
+        localName: 'TYPEFILETYPE',
+        values: ['Main', 'Source', 'Supplemental', 'XML Summary']
+      }, {
+        type: 'enumInfo',
+        localName: 'TYPESUBSTANCEIDENTIFIERTYPE',
+        values: ['CASNO', 'ECNO', 'IUBMB', 'other']
+      }, {
+        type: 'enumInfo',
+        localName: 'TYPEREFERENCETYPE',
+        values: ['document to replaced document', 'document to submitted document', 'document to unchanged predecessor document', 'translation to document']
+      }, {
+        type: 'enumInfo',
+        localName: 'TYPEFORMULATIONTYPE',
+        values: ['AE', 'AL', 'BB', 'BR', 'CB', 'CG', 'CS', 'DC', 'DP', 'DS', 'EC', 'ED', 'EO', 'ES', 'EW', 'FD', 'FG', 'FK', 'FP', 'FR', 'FS', 'FT', 'FU', 'FW', 'GA', 'GB', 'GE', 'GG', 'GP', 'GR', 'GS', 'HN', 'KN', 'LA', 'LS', 'MG', 'OF', 'OL', 'OP', 'other', 'PA', 'PB', 'PC', 'PR', 'PS', 'RB', 'SB', 'SC', 'SE', 'SG', 'SL', 'SO', 'SP', 'SS', 'SU', 'TB', 'TP', 'UL', 'VP', 'WG', 'WP', 'WS']
+      }, {
+        type: 'enumInfo',
+        localName: 'TYPELEGALENTITYIDENTIFIERTYPE',
+        values: ['DUNS-number', 'other', 'REACH', 'SAP', 'VAT-number']
+      }, {
+        type: 'enumInfo',
+        localName: 'TYPEUNIT',
+        values: ['%(v\/v)', '%(w\/w)', 'B cells\/ml', 'B CFU\/g', 'BTTU\/g', 'CFU\/kg', 'CFU\/L', 'DBMU\/mg', 'g\/kg', 'g\/kg (as CU)', 'g\/kg (as S)', 'g\/L', 'g\/L (as CU)', 'g\/L (as S)', 'granules\/L', 'IU\/mg', 'M cells\/g', 'M CFU\/g', 'M CFU\/ml', 'M Units\/dowel', 'mg\/kg', 'mg\/L', 'ml\/L', 'other', 'qs', 'spores\/kg', 'thou IU\/mg', 'thou IU\/ml', 'to pH', 'trace']
+      }, {
+        type: 'enumInfo',
+        localName: 'TYPEADMINNUMBERTYPE',
+        values: ['Application Number', 'BVL Kenn-Nr.', 'EPA Decision No', 'Experimental Use Permit', 'Inert Ingredient clearance request', 'other', 'PMRA Decision No', 'PRIA Pre-application', 'Section 3 product', 'Tolerance Petition']
+      }, {
+        type: 'enumInfo',
+        localName: 'TYPEDOCUMENTNUMBERTYPE',
+        values: ['Old Report Number', 'other', 'Plot Number', 'Project Number', 'Report Number', 'Study Number']
+      }, {
+        type: 'enumInfo',
         localName: 'TYPELEGALENTITYTYPE',
         values: ['Company', 'Consultant', 'other', 'Regulatory Authority', 'Test House', 'Third Party', 'University']
       }, {
         type: 'enumInfo',
-        localName: 'TYPEDATAPROTECTION',
-        values: ['N', 'O', 'Y']
+        localName: 'TYPETOCOWNER',
+        values: ['BVL (Germany)', 'EPA (New Zealand)', 'EPA (US)', 'MAF (New Zealand)', 'OECD', 'other', 'PMRA (Canada)']
       }],
     elementInfos: [{
         elementName: 'GHSTS',

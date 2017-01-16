@@ -37,7 +37,7 @@ var svrDisp;
 
 var XMLSchemaJsonSchema;
 var JsonixJsonSchema;
-var supprtVersions = ['01.00.00'], validateInsts = {}, marshallers = {}, unmarshallers = {};
+var supprtVersions = ['01.00.02'], validateInsts = {}, marshallers = {}, unmarshallers = {};
 var ajvInst;
 
 var init_mongoose = () => {
@@ -114,7 +114,7 @@ var init = () => {
 
 //For development only, should be removed when goes into production
 var initDB = () => {
-  //let ghstsSrv = new GhstsService(undefined, undefined, marshallers['01_00_00'], unmarshallers['01_00_00']);
+  //let ghstsSrv = new GhstsService(undefined, undefined, marshallers['01_00_02'], unmarshallers['01_00_02']);
   return new Q((res, rej) => {
     let plkClass = require('./services/picklist.service');
     let plkSvr = new plkClass();
@@ -127,28 +127,28 @@ var initDB = () => {
         let svr;
 
         svrClass = require('./services/product.service');
-        svr = new svrClass('01.00.00');
+        svr = new svrClass('01.00.02');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/legalentity.service');
-        svr = new svrClass('01.00.00');
+        svr = new svrClass('01.00.02');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/substance.service');
-        svr = new svrClass('01.00.00');
+        svr = new svrClass('01.00.02');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/file.service');
-        svr = new svrClass('01.00.00');
+        svr = new svrClass('01.00.02');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/document.service');
-        svr = new svrClass('01.00.00');
+        svr = new svrClass('01.00.02');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/receiver.service');
-        svr = new svrClass('01.00.00');
+        svr = new svrClass('01.00.02');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/sender.service');
-        svr = new svrClass('01.00.00');
+        svr = new svrClass('01.00.02');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/toc.service');
-        svr = new svrClass('01.00.00');
+        svr = new svrClass('01.00.02');
         qAry.push(svr.initDbfromTestData());
         res(Q.all(qAry));
       }
@@ -189,7 +189,7 @@ ipc.on(SHARED_CONST.PICKLIST_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, functi
 });
 
 ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL, function (event, arg) {
-  let svr = new GhstsService(submissions, validateInsts['01_00_00']);
+  let svr = new GhstsService(submissions, validateInsts['01_00_02']);
   let timestamp = arg.timestamp;
   if (lastMessageTimestamp === timestamp) {
     console.log('There are duplicatied message request');
@@ -200,7 +200,7 @@ ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL, function (event, arg) {
 
   if (newData && BACKEND_CONST.HTML5_METHODS.indexOf(arg.method) >= 0) {  /// may have sub-url
     if ((arg.url && arg.url !== 'ghsts') && (arg.data && arg.data._url && arg.data._url !== 'ghsts')) { ///has sub-url
-      if (arg.url === arg.data._url) 
+      if (arg.url === arg.data._url)
         newData._subUrl = arg.url.replace('/^ghsts\//', '');
       else
         newData._subUrl = arg.url.replace('/^ghsts\//', '').concat('/').concat(arg.data._url.replace('/^ghsts/', ''));
@@ -208,7 +208,7 @@ ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL, function (event, arg) {
       newData._subUrl = arg.url.replace('/^ghsts\//', '');
     } else if (arg.data && arg.data._url && arg.data._url !== 'ghsts') {
       newData._subUrl = arg.data._url.replace('/^ghsts/', '');
-    } 
+    }
   }
   svr[method](newData).then(result => {
     event.sender.send(SHARED_CONST.GHSTS_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, result);
@@ -219,7 +219,7 @@ ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL, function (event, arg) {
 });
 
 ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, function (event, arg) {
-  let svr = new GhstsService(submissions, validateInsts['01_00_00']);
+  let svr = new GhstsService(submissions, validateInsts['01_00_02']);
   if (arg.method !== 'get') {
     event.returnValue = new RVHelper('EDB10003');
   } else {
@@ -280,7 +280,13 @@ app.on('ready', function () {
     //    let GHSTS = require('../resources/app/standards/' + versionDir + '/GHSTS').GHSTS;
     let sfile = path.resolve(basePath, 'resources', 'app', 'standards', versionDir, 'GHSTS.js');
     let GHSTS = require(sfile).GHSTS;
-    let context = new Jsonix.Context([GHSTS]);
+    let context = new Jsonix.Context([GHSTS],
+      {
+        namespacePrefixes: {
+          'http://www.oecd.org/GHSTS': ''
+        }
+      }
+    );
     unmarshallers[versionDir] = context.createUnmarshaller();
     marshallers[versionDir] = context.createMarshaller();
   }
@@ -331,32 +337,32 @@ var backendTest = () => {
   let svr = new testService(submissions, validateInsts, marshallers);
   let recSvr = new ReceiverService();
 
-  svr.edb_get({_submissionid: '586fc8a1ac3cad13844bd1ec'})
+  svr.edb_get({ _submissionid: '587d372aaeeb5719c0a3e3d7' })
     .then(ret => {
       console.log(JSON.stringify(submissions[0]));
-    //   return recSvr.edb_get({_id: '586fc8a2ac3cad13844bd2bc'});
-    // })
-    // .then(ret => {
-    //   console.log(ret.data);
-    //   let obj = JSON.parse(ret.data)[0];
-    //   obj._subUrl = obj._url + '/' + obj._id.toString();
-    //   return svr.edb_put(obj);
-    // })
-  // //   // .then(ret => {
-  // //     // let obj = {_id: '586699c418c57512d4377eaa', _url: 'receiver'};
-  // //     // obj._subUrl = obj._url + '/' + obj._id.toString();
-  // //     // return svr.edb_delete(obj);
-  // //   // // })
-  // //   // .then(ret => {
-  // //     let obj = {_id: '586699c418c57512d4377eab', _url: 'receiver'};
-  // //     obj._subUrl = obj._url + '/586699c418c57512d4377eaa';
-  // //     return svr.edb_post(obj);
+      //   return recSvr.edb_get({_id: '586fc8a2ac3cad13844bd2bc'});
+      // })
+      // .then(ret => {
+      //   console.log(ret.data);
+      //   let obj = JSON.parse(ret.data)[0];
+      //   obj._subUrl = obj._url + '/' + obj._id.toString();
+      //   return svr.edb_put(obj);
+      // })
+      // //   // .then(ret => {
+      // //     // let obj = {_id: '586699c418c57512d4377eaa', _url: 'receiver'};
+      // //     // obj._subUrl = obj._url + '/' + obj._id.toString();
+      // //     // return svr.edb_delete(obj);
+      // //   // // })
+      // //   // .then(ret => {
+      // //     let obj = {_id: '586699c418c57512d4377eab', _url: 'receiver'};
+      // //     obj._subUrl = obj._url + '/586699c418c57512d4377eaa';
+      // //     return svr.edb_post(obj);
       // let obj = {};
       // obj._subUrl = 'receiver/586fc8a2ac3cad13844bd2bb/sender/586fc8a2ac3cad13844bd2c0';
       // return svr.edb_put(obj);
-  //     // let obj = {_id: '586699c418c57512d4377eaf'};
-  //     // obj._subUrl = 'receiver/586699c418c57512d4377eab/sender/586699c418c57512d4377eae';
-  //     // return svr.edb_post(obj);
+      //     // let obj = {_id: '586699c418c57512d4377eaf'};
+      //     // obj._subUrl = 'receiver/586699c418c57512d4377eab/sender/586699c418c57512d4377eae';
+      //     // return svr.edb_post(obj);
       // let obj = {tocnodepid: 'urn:node:ID0003773613', docId: '586fc8a1ac3cad13844bd2aa'};
       // obj._subUrl = 'toc';
       // return svr.edb_put(obj);
@@ -367,7 +373,7 @@ var backendTest = () => {
       // let obj = {tocnodepid: 'urn:node:ID0003773613', docId: '586fc8a1ac3cad13844bd2aa'};
       // obj._subUrl = 'toc';
       // return svr.edb_delete(obj);
-      // return svr._buildXmlJson();
+      return svr._buildXmlJson();
     })
     .then(ret => {
       console.log(JSON.stringify(ret));

@@ -1,0 +1,13 @@
+{
+	"localName": "GHSTS.LEGALENTITIES",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "legalentity",
+			"required": true,
+			"collection": true,
+			"elementName": "LEGAL_ENTITY",
+			"typeInfo": ".GHSTS.LEGALENTITIES.LEGALENTITY"
+		}
+	]
+}

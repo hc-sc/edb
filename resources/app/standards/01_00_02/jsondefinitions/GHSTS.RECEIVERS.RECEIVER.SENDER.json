@@ -1,0 +1,23 @@
+{
+	"localName": "GHSTS.RECEIVERS.RECEIVER.SENDER",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "companycontactregulatoryrole",
+			"elementName": "COMPANY_CONTACT_REGULATORY_ROLE"
+		},
+		{
+			"name": "remark",
+			"elementName": "REMARK"
+		},
+		{
+			"name": "toLegalEntityId",
+			"required": true,
+			"typeInfo": "IDREF",
+			"attributeName": {
+				"localPart": "To_Legal_Entity_Id"
+			},
+			"type": "attribute"
+		}
+	]
+}

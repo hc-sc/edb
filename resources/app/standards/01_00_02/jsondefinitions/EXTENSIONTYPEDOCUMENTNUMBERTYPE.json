@@ -1,0 +1,17 @@
+{
+	"localName": "EXTENSIONTYPEDOCUMENTNUMBERTYPE",
+	"typeName": "EXTENSION_TYPE_DOCUMENT_NUMBER_TYPE",
+	"propertyInfos": [
+		{
+			"name": "value",
+			"type": "value"
+		},
+		{
+			"name": "otherValue",
+			"attributeName": {
+				"localPart": "Other_Value"
+			},
+			"type": "attribute"
+		}
+	]
+}

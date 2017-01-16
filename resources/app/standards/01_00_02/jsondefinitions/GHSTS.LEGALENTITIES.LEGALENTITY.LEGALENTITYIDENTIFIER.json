@@ -1,0 +1,17 @@
+{
+	"localName": "GHSTS.LEGALENTITIES.LEGALENTITY.LEGALENTITYIDENTIFIER",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "legalentityidentifiertype",
+			"required": true,
+			"elementName": "LEGALENTITY_IDENTIFIER_TYPE",
+			"typeInfo": ".GHSTS.LEGALENTITIES.LEGALENTITY.LEGALENTITYIDENTIFIER.LEGALENTITYIDENTIFIERTYPE"
+		},
+		{
+			"name": "identifier",
+			"required": true,
+			"elementName": "IDENTIFIER"
+		}
+	]
+}
