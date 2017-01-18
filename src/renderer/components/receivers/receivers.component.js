@@ -150,7 +150,11 @@ export default angular.module('receiver', [
         }
       })
       .then(item => {
-        return this.appDataService.edb_put({_url: 'sender', data: item});
+        let isSenderExit = this.appDataService.edb_getSync({_url: 'sender', data: item});
+        if (isSenderExit.length > 0)
+          return Promise.resolve({data: JSON.stringify(isSenderExit[0])});
+        else
+          return this.appDataService.edb_put({_url: 'sender', data: item}); 
       })
       .then(ret => {
         sender = JSON.parse(ret.data);

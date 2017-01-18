@@ -275,12 +275,12 @@ module.exports = class BaseService {
     if (Array.isArray(data)) {
       retVal = data.map(ret => {
         let newRet = _.merge({}, ret.toObject());
-        newRet._id = ret._id.toString();
+        newRet = JSON.parse(JSON.stringify(newRet));
         return newRet;
       });
     } else {
       retVal = _.merge({}, data.toObject());
-      retVal._id = data._id.toString();
+      retVal = JSON.parse(JSON.stringify(retVal));
     }
     return retVal;
   }

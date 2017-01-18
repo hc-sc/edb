@@ -56,7 +56,8 @@ export default angular.module('tree', [
         template: tocDocumentTemplate,
         locals: {
           $mdDialog: this.$mdDialog,
-          items: this.items
+          items: this.items,
+          node: this.node
         },
         controllerAs: '$ctrl',
         controller: TocDocumentCtrl

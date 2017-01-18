@@ -175,7 +175,8 @@ ipc.on(SHARED_CONST.PICKLIST_MSG_CHANNEL, function (event, arg) {
     event.sender.send(SHARED_CONST.PICKLIST_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, result);
   })
     .catch(err => {
-      event.sender.send(SHARED_CONST.PICKLIST_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, err);
+      let retValue = {code: err.code, message: err.message, data: err.data };
+      event.sender.send(SHARED_CONST.PICKLIST_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, {err: retValue});
     });
 });
 
@@ -189,7 +190,7 @@ ipc.on(SHARED_CONST.PICKLIST_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, functi
 });
 
 ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL, function (event, arg) {
-  let svr = new GhstsService(submissions, validateInsts['01_00_02']);
+  let svr = new GhstsService(submissions, validateInsts);
   let timestamp = arg.timestamp;
   if (lastMessageTimestamp === timestamp) {
     console.log('There are duplicatied message request');
@@ -213,13 +214,14 @@ ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL, function (event, arg) {
   svr[method](newData).then(result => {
     event.sender.send(SHARED_CONST.GHSTS_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, result);
   })
-    .catch(err => {
-      event.sender.send(SHARED_CONST.GHSTS_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, err);
+    .catch(error => {
+      let retValue = {code: error.code, message: error.message, data: error.data };
+      event.sender.send(SHARED_CONST.GHSTS_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, {err: retValue});
     });
 });
 
 ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, function (event, arg) {
-  let svr = new GhstsService(submissions, validateInsts['01_00_02']);
+  let svr = new GhstsService(submissions, validateInsts);
   if (arg.method !== 'get') {
     event.returnValue = new RVHelper('EDB10003');
   } else {
@@ -242,7 +244,8 @@ ipc.on(SHARED_CONST.APP_DATA_MSG_CHANNEL, function (event, arg) {
     event.sender.send(SHARED_CONST.APP_DATA_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, result);
   })
     .catch(err => {
-      event.sender.send(SHARED_CONST.APP_DATA_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, err);
+      let retValue = {code: err.code, message: err.message, data: err.data };
+      event.sender.send(SHARED_CONST.APP_DATA_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, {err: retValue});
     });
 });
 
@@ -373,7 +376,7 @@ var backendTest = () => {
       // let obj = {tocnodepid: 'urn:node:ID0003773613', docId: '586fc8a1ac3cad13844bd2aa'};
       // obj._subUrl = 'toc';
       // return svr.edb_delete(obj);
-      return svr._buildXmlJson();
+      // return svr._buildXmlJson();
     })
     .then(ret => {
       console.log(JSON.stringify(ret));
