@@ -86,7 +86,6 @@ export default angular.module('home', [
           '_created',
           '_lastMod'
         ];
-
       }
 
       selectDossier(id) {
@@ -115,7 +114,7 @@ export default angular.module('home', [
                   return product;
               });
               this.product;
-              this.toc=toc;
+              this.toc = toc;
               this.tocId;
             }
 
@@ -123,7 +122,7 @@ export default angular.module('home', [
               this.$mdDialog.hide({
                 dossiertitle: this.dossiertitle,
                 product: this.product,
-                tocId:this.tocId
+                tocId: this.tocId
               });
             }
 
@@ -139,7 +138,7 @@ export default angular.module('home', [
           locals: {
             $mdDialog: this.$mdDialog,
             products: this.products,
-            toc:this.toc            
+            toc: this.toc
           }
         };
 
