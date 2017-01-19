@@ -35,6 +35,10 @@ export default angular.module('home', [
         this.appDataService = AppDataService.getService();
         this.dossiers = [];
         this.dossierTitle;
+        this.supportedversions = [{
+          _id: '01.00.02',
+          valuedecode: '01.00.02'
+        }];
 
         this.GhstsService.edb_get().then(result => {
           this.dossiers = JSON.parse(result.data)
