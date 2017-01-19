@@ -1,7 +1,7 @@
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import template from './settings.template';
-
+import SettingsCtrl from './settings.controller.js';
 import Toolbar from '../common/toolbar/toolbar.component.js';
 
 export default angular.module('settings', [
@@ -10,18 +10,6 @@ export default angular.module('settings', [
 ])
 .component('settings', {
   template,
-  controller: class SettingsCtrl {
-    constructor() {
-      this.toolbarItems = {
-        navIcons: [
-          { name: 'home', label: 'Home', state: 'splash' }
-        ],
-        title: 'Settings',
-        functionIcons: [
-          { name: 'help', label: 'Help' }
-        ]
-      };
-    }
-  }
+  controller: SettingsCtrl
 })
 .name;
