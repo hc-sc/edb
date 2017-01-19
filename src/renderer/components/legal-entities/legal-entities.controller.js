@@ -8,7 +8,7 @@ export default class LECtrl extends BaseCtrl {
     this.legalEntityTypes = JSON.parse(this.legalEntityType.data);
     this.legalEntityIdentifierTypes = JSON.parse(this.legalEntityIdentifierType.data);
     this.countries = JSON.parse(this.countries.data);
-
+this.addButton = { name: 'add', label: 'Generate PID', color: 'dark' };
     this.picklists = {
       legalEntityIdentifierTypes: this.legalEntityIdentifierTypes
     };
@@ -18,5 +18,8 @@ export default class LECtrl extends BaseCtrl {
 
   updateContactAddress(prop, value) {
     this.selected.contactaddress[prop] = value;
+  }
+    genPid() {
+    this.selected.legalentitypid = this.getPid();
   }
 }
