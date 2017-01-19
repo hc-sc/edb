@@ -37,7 +37,12 @@ export default angular.module('description', [
           };
           this.$scope.$root.loading = false;
         });
+        this.addButton = { name: 'add', label: 'Generate PID', color: 'dark' };
       }
+          genPid() {
+    this.selected.dossierpid = this.getPid();
+  }
     }
+    
   })
   .name;
