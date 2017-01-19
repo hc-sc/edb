@@ -2,8 +2,12 @@
   <spinner ng-show='$ctrl.$scope.$root.loading'></spinner>
   <div class='no-margin no-padding' ng-show='!$ctrl.$scope.$root.loading'>
     <div class='no-margin no-padding flex-container'>
-      <text-input label='Dossier PID' text-value='$ctrl.selected.dossierpid' message='Needs to be a valid PID' on-update='$ctrl.update("dossierpid", value)'></text-input>
-      <icon icon='$ctrl.addButton' ng-click='$ctrl.genPid()'></icon>
+
+      <div class='extension-wrapper'>
+        <text-input label='Dossier PID' text-value='$ctrl.selected.dossierpid' message='Needs to be a valid PID' on-update='$ctrl.update("dossierpid", value)'></text-input>
+        <icon icon='$ctrl.addButton' ng-click='$ctrl.genPid()'></icon>
+      </div>
+
       <text-input label='Company ID' is-required='true' text-value='$ctrl.selected.dossiercompid' has-pattern='^[A-Za-z0-9:]*$'
         message='Needs to be a valid PID' on-update='$ctrl.update("dossiercompid", value)' max-length='20'></text-input>
     </div>
