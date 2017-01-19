@@ -5,6 +5,7 @@ const MetaDataStatus = require('../models/metadatastatus.model').MetaDataStatus;
 const MetaDataStatusNode = require('../models/metadatastatus.model').MetaDataStatusNode;
 const MetaDataStatusNodeWithRA = require('../models/metadatastatus.model').MetaDataStatusNodeWithRA;
 const ServiceLevelPlugin = require('../models/plugins/service.level.plugin');
+const TocHelper = require('../utils/toc.helper');
 
 const BaseService = require('./base.service');
 
@@ -98,32 +99,32 @@ module.exports = class GhstsService extends BaseService {
         value: {}
       };
       let retVal = {
-          TYPE_NAME: 'GHSTS.GHSTS',
-          specificationversion: self.ghsts[0].specificationversion,
-          receivers: {
-            TYPE_NAME: 'GHSTS.GHSTS.RECEIVERS',
-            receiver: []
-          },
-          product: '',
-          documents: {
-            TYPE_NAME: 'GHSTS.GHSTS.DOCUMENTS',
-            document: []
-          },
-          files: {
-            TYPE_NAME: 'GHSTS.GHSTS.FILES',
-            file: []
-          },
-          toc: '',
-          legalentities: {
-            TYPE_NAME: 'GHSTS.GHSTS.LEGALENTITIES',
-            legalentity: []
-          },
-          substances: {
-            TYPE_NAME: 'GHSTS.GHSTS.SUBSTANCES',
-            substance: []
-          },
-          usedtemplates: ''
+        TYPE_NAME: 'GHSTS.GHSTS',
+        specificationversion: self.ghsts[0].specificationversion,
+        receivers: {
+          TYPE_NAME: 'GHSTS.GHSTS.RECEIVERS',
+          receiver: []
         },
+        product: '',
+        documents: {
+          TYPE_NAME: 'GHSTS.GHSTS.DOCUMENTS',
+          document: []
+        },
+        files: {
+          TYPE_NAME: 'GHSTS.GHSTS.FILES',
+          file: []
+        },
+        toc: '',
+        legalentities: {
+          TYPE_NAME: 'GHSTS.GHSTS.LEGALENTITIES',
+          legalentity: []
+        },
+        substances: {
+          TYPE_NAME: 'GHSTS.GHSTS.SUBSTANCES',
+          substance: []
+        },
+        usedtemplates: ''
+      },
         svr = new ReceiverService();
       let entityClass = require('mongoose').model(self.modelClassName);
 
@@ -149,6 +150,9 @@ module.exports = class GhstsService extends BaseService {
       }); //// working
       pops.push({
         path: '_documents'
+      });
+      pops.push({
+        path: '_tocid'
       });
       dbquery.populate(pops);
       dbquery.exec((err, rows) => {
@@ -206,8 +210,9 @@ module.exports = class GhstsService extends BaseService {
           retVal.files.file = self._get_xml_jsonix(retVal.files.file);
 
           // For TOC
-          retVal.toc = TocService.edb_getSync({_version: self.ghsts[0]._tocdecription.tocversion})[0];
-          retVal.toc.metadatastatus = self._metadatastatus_process('toc', retVal.toc._id);  ///Here has bug
+          retVal.toc = result._tocid;
+          TocHelper.assignToc2DocNodes(retVal.toc.structure, self.ghsts[0]._toc2docs);
+          retVal.toc.metadatastatus = self._metadatastatus_process('toc', retVal.toc._id);  
           retVal.toc = self._get_xml_jsonix(retVal.toc);
 
           // // For Legal Entities
@@ -355,21 +360,27 @@ module.exports = class GhstsService extends BaseService {
               }
               break;
             case 'toc':
-              curProp = self.ghsts[0]._toc2docs;
               curDocProp = self.ghsts[0]._documents;
               curMdsProp = self.ghsts[0]._metadatastatus.documents;
-              if (!curProp)
-                curProp = [];
+              if (!self.ghsts[0]._toc2docs) 
+                self.ghsts[0]._toc2docs = {};
+              curProp = self.ghsts[0]._toc2docs;
+
+              if (!curProp[obj.tocnodepid]) 
+                curProp[obj.tocnodepid] = [],
+
+              curProp = curProp[obj.tocnodepid];
+
               if (!curMdsProp)
                 curMdsProp = [];
               if (!curDocProp)
                 curDocProp = [];
               isExisting = _.filter(curProp, item => {
-                if ((item.tocnodepid === obj.tocnodepid) && (item.docId === obj.docid))
+                if (item === obj.docid)
                   return item;
               });
               if (isExisting.length === 0) {
-                curProp.push(obj);
+                curProp.push(obj.docid);
                 if (curDocProp.indexOf(obj.docid.toString()) < 0) {
                   curDocProp.push(obj.docid.toString());
                   curMdsProp.push(new MetaDataStatusNodeWithRA(
@@ -484,6 +495,7 @@ module.exports = class GhstsService extends BaseService {
               curProp = self.ghsts[0]._toc2docs;
               curDocProp = self.ghsts[0]._documents;
               curMdsProp = self.ghsts[0]._metadatastatus.documents;
+              keys = Object.keys(curProp);
               isExisting = _.filter(curProp, item => {
                 return item.docid === obj.docid;
               });
@@ -558,15 +570,8 @@ module.exports = class GhstsService extends BaseService {
             type: 'ObjectId',
             ref: 'DOCUMENT'
           }],
-          _toc2docs: [{
-            tocnodepid: {
-              type: String
-            },
-            docId: {
-              type: 'ObjectId',
-              ref: 'DOCUMENT'
-            }
-          }],
+          _tocid: { type: 'ObjectId', ref: 'TOC' },
+          _toc2docs: { type: Schema.Types.Mixed },
           _tocdecription: {
             tocstandardname: {
               type: String,
@@ -576,7 +581,7 @@ module.exports = class GhstsService extends BaseService {
             tocversion: {
               type: String,
               required: true,
-              default: '01.00.02'
+              default: '01.00.01'
             }
           },
           _metadatastatus: {
@@ -731,11 +736,11 @@ module.exports = class GhstsService extends BaseService {
               subObj = JSON.parse(subRet.data);
               dossObj.submission.push(subObj._id);
               ghstsObj._submissionid = subObj._id;
-              return dossSvr._create(dossObj); 
+              return dossSvr._create(dossObj);
             })
             .then(dossRet => {
               dossObj = JSON.parse(dossRet.data);
-              prodObj = ProductService.edb_getSync({_id: obj.product})[0];
+              prodObj = ProductService.edb_getSync({ _id: obj.product })[0];
               prodObj.dossier = dossObj._id;
               return prodSvr._update(prodObj);
             })

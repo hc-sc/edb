@@ -8,11 +8,16 @@
       <text-input label='File Full Location' is-disabled='true' is-required='true' text-value='$ctrl.selected._filereallocation'></text-input>
       <icon icon='$ctrl.listFileButton' ng-click='$ctrl.selectFile()'></icon>
     </div>
-    <text-input label='File PID' is-required='true' text-value='$ctrl.selected.filegeneric.filepid' on-update='$ctrl.update("filegeneric.filepid", value)'></text-input>
+    <div class='extension-wrapper'>
+      <text-input label='File PID' is-required='true' text-value='$ctrl.selected.filegeneric.filepid' on-update='$ctrl.update("filegeneric.filepid", value)'></text-input>
+      <icon icon='$ctrl.addButton' ng-click='$ctrl.genPid()'></icon>
+    </div>
     <text-input label='File Company ID' text-value='$ctrl.selected.filegeneric.filecompanyid' on-update='$ctrl.update("filegeneric.filecompanyid", value)'></text-input>
-    <select-input label='Content Status' is-required='true' select-value='$ctrl.selected.filegeneric.contentstatus' values='$ctrl.contentStatus' on-update='$ctrl.update("filegeneric.contentstatus", value)'></select-input>
+    <select-input label='Content Status' is-required='true' select-value='$ctrl.selected.filegeneric.contentstatus' values='$ctrl.contentStatus'
+      on-update='$ctrl.update("filegeneric.contentstatus", value)'></select-input>
     <text-input label='Replaced File PID' text-value='$ctrl.selected.filegeneric.replacedfilepid' on-update='$ctrl.update("filegeneric.replacedfilepid", value)'></text-input>
-    <select-input label='File Type' is-required='true' select-value='$ctrl.selected.filegeneric.filetype' values='$ctrl.fileType' on-update='$ctrl.update("filegeneric.filetype", value)'></select-input>
+    <select-input label='File Type' is-required='true' select-value='$ctrl.selected.filegeneric.filetype' values='$ctrl.fileType'
+      on-update='$ctrl.update("filegeneric.filetype", value)'></select-input>
     <text-input label='Format Comment' text-value='$ctrl.selected.filegeneric.formatcomment' on-update='$ctrl.update("filegeneric.formatcomment", value)'></text-input>
     <text-input label='MD5 Checksum' is-disabled='true' text-value='$ctrl.selected.filegeneric.md5CHECKSUM' on-update='$ctrl.update("filegeneric.md5CHECKSUM", value)'></text-input>
     <text-input label='File Name' is-required='true' text-value='$ctrl.selected.filegeneric.filename' on-update='$ctrl.update("filegeneric.filename", value)'></text-input>

@@ -39,10 +39,10 @@ export default angular.module('description', [
         });
         this.addButton = { name: 'add', label: 'Generate PID', color: 'dark' };
       }
-          genPid() {
-    this.selected.dossierpid = this.getPid();
-  }
+      genPid() {
+        this.selected.dossierpid = this.getPid();
+      }
     }
-    
+
   })
   .name;

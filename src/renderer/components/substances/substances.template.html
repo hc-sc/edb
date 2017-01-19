@@ -1,14 +1,16 @@
 <section class='node-page'>
   <spinner ng-if='$ctrl.loading'></spinner>
   <div class='no-margin no-padding' ng-if='!ctrl.loading'>
-    <sidenav items='$ctrl.records' selected='$ctrl.selected' main='substancename' is-open='$ctrl.sidenavOpen' on-select='$ctrl.updateSelected(item)' on-add='$ctrl.add(item)'></sidenav>
+    <sidenav items='$ctrl.records' selected='$ctrl.selected' main='substancename' is-open='$ctrl.sidenavOpen' on-select='$ctrl.updateSelected(item)'
+      on-add='$ctrl.add(item)'></sidenav>
     <div class='extension-wrapper'>
-    <text-input label='Substance PID' is-required='true' text-value='$ctrl.selected.substancepid' on-update='$ctrl.update("substancepid", value)'></text-input>
-    <icon icon='$ctrl.addButton' ng-click='$ctrl.genPid()'></icon>
+      <text-input label='Substance PID' is-required='true' text-value='$ctrl.selected.substancepid' on-update='$ctrl.update("substancepid", value)'></text-input>
+      <icon icon='$ctrl.addButton' ng-click='$ctrl.genPid()'></icon>
     </div>
     <text-input label='Substance Name' is-required='true' text-value='$ctrl.selected.substancename' on-update='$ctrl.update("substancename", value)'></text-input>
 
-    <tbl ng-if='!$ctrl.loading' title='Substance Identifiers' items='$ctrl.selected.substanceidentifier' projection='["identifier", {name: "Identifier Type", url: "picklist"}]' on-select='$ctrl.selectTblItem("substanceidentifier",index)' on-add='$ctrl.addTblItem("substanceidentifier")' on-delete='$ctrl.deleteTblItem("substanceidentifier",index)'></tbl>
+    <tbl ng-if='!$ctrl.loading' title='Substance Identifiers' items='$ctrl.selected.substanceidentifier' projection='["identifier", {name: "Identifier Type", url: "picklist"}]'
+      on-select='$ctrl.selectTblItem("substanceidentifier",index)' on-add='$ctrl.addTblItem("substanceidentifier")' on-delete='$ctrl.deleteTblItem("substanceidentifier",index)'></tbl>
 
     <div style='z-index:100' class='float-bottom'>
       <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
