@@ -13,6 +13,22 @@ module.exports = class FileService extends BaseService {
     this.pidField = 'filegeneric.filepid';
   }
 
+  edb_selectFolder() {
+    return new Q((res, rej) => {
+      let self = this;
+      let selFolder = dialog.showOpenDialog({
+        title: 'Choose a folder',
+        properties: ['openDirectory'],
+        defaultPath: self.productDir
+      });
+      if (selFolder.length === 1) {
+        res(new RVHelper('EDB00000', selFolder[0]));
+      } else {
+        res(new RVHelper('EDB00001'));
+      }
+    });    
+  }
+
   edb_selectFile(obj) {
     return new Q((res, rej) => {
       let self = this;
@@ -22,7 +38,6 @@ module.exports = class FileService extends BaseService {
         defaultPath: self.productDir
       });
       if (selFile.length === 1) {
-        // console.log(JSON.stringify(obj));
         try {
           let data = fs.readFileSync(selFile[0]);
           let md5 = crypto.createHash('md5').update(data).digest('hex');

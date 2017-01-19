@@ -35,7 +35,7 @@ module.exports = class BaseService {
           if (JSON.parse(ret).length > 0) {
             rej(new RVHelper('EDB10004', obj2db));
           } else {
-            res(self._create(obj2db));
+            return self._create(obj2db);
           }
         })
         .catch(err => {

@@ -56,6 +56,7 @@ export default class ModelService {
         return Object.assign(modelFileRA.fields);
       case 'product':
         model = Object.assign(modelProduct.fields);
+        delete model.dossier;
         model.ingredients = {ingredient: []};
         model._url = 'product';
         return model;
