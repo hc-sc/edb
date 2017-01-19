@@ -1,4 +1,6 @@
+import angular from 'angular';
 import AppDataService from '../../services/app.data.service';
+
 export default class SettingsCtrl {
   constructor(AppDataService) {
     this.appDataService = AppDataService.getService();
@@ -16,14 +18,18 @@ export default class SettingsCtrl {
     this.viewerlocation;
     this.packagelocation;
   }
+  
   save() {
 
   }
-  selectFile() {
-    this.appDataService.edb_get({ _url: 'file', method: 'selectFile', data: angular.copy(this.selected) })
+
+  selectFolder(item) {
+    this.appDataService.edb_get({ _url: 'file', method: 'selectFolder' })
       .then(ret => {
-        this.selected = JSON.parse(ret.data);
-        console.log(this.selected);
+        if (ret.code === 'EDB00000')
+          this[item] = ret.data;
+        else
+          this.showMessage('Canceled');
       })
       .catch(err => {
         console.log(err);
