@@ -35,18 +35,22 @@ export default angular.module('products', [
         this.adminNumberType = JSON.parse(this.adminNumberType.data);
         this.formulationType = JSON.parse(this.formulationType.data);
         this.unitType = JSON.parse(this.unitType.data);
+        this.addButton = { name: 'add', label: 'Generate PID', color: 'dark' };
 
         this.picklists = {
           adminNumberType: this.adminNumberType,
           formulationType: this.formulationType,
-          unitType: this.unitType 
+          unitType: this.unitType
         };
-        
-        this.init().then(() => {this.loading = false;});
+
+        this.init().then(() => { this.loading = false; });
       }
 
       add() {
         this.selected = angular.copy(this.getModel('product'));
+      }
+      genPid() {
+        this.selected.productpid = this.getPid();
       }
     }
   })
