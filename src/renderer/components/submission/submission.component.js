@@ -80,17 +80,6 @@ export default angular.module('submission', [
           console.log(results);
         })
         .catch(err => {
-          console.log(err);
-        });
-      }
-
-      package() {
-        this.ghstsService.edb_package()
-        .then(results => {
-          console.log(results);
-        })
-        .catch(err => {
-          console.log(err);
           let prompt = {
           template: XMLInvaliErrorTemplate,
           controller: class XMLInvalidCtrl {
@@ -109,7 +98,16 @@ export default angular.module('submission', [
           }
         };
 
-        this.$mdDialog.show(prompt);
+        this.$mdDialog.show(prompt);        });
+      }
+
+      package() {
+        this.ghstsService.edb_package()
+        .then(results => {
+          console.log(results);
+        })
+        .catch(err => {
+          console.log(err);
         });
       }
     }

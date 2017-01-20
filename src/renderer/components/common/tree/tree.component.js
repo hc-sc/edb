@@ -16,7 +16,7 @@ export default angular.module('tree', [
     items: '<'
   },
   controller: class TreeCtrl {
-    constructor($mdDialog) {
+    constructor($mdDialog, GhstsService) {
       // Tree Structure
       // nodename - name of node
       // nodeheading - annotation
@@ -31,6 +31,7 @@ export default angular.module('tree', [
       this.documentIcon = {name: 'description', color: 'dark'};
       this.deleteIcon = {name: 'delete', color: 'dark'};
       this.isHidden = true;
+      this.ghstsService = GhstsService.getService();
     }
 
     toggleHidden() {
@@ -70,7 +71,11 @@ export default angular.module('tree', [
     }
 
     deleteDocument(index) {
-      this.node.toc2doc = this.node.toc2doc.slice(0, index).concat(this.node.toc2doc.slice(index + 1));
+      let docid = this.node.toc2doc[index].document._id;
+      this.ghstsService.edb_delete({url: 'toc', data: {tocnodepid: this.node.tocnodepid, docid }})
+      .then(ret => {
+        this.node.toc2doc = this.node.toc2doc.slice(0, index).concat(this.node.toc2doc.slice(index + 1));
+      });
     }
 
     validate() {
