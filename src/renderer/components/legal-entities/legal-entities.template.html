@@ -8,8 +8,7 @@
       <text-input label='{{"legalentitypid" | translate}}' text-value='$ctrl.selected.legalentitypid' is-required='true' on-update='$ctrl.update("legalentitypid", value)'></text-input>
       <icon icon='$ctrl.addButton' ng-click='$ctrl.genPid()'></icon>
     </div>
-    <text-input label='{{"legalentityname" | translate}}' text-value='$ctrl.selected.legalentityname' is-required='true'
-      on-update='$ctrl.update("legalentityname", value)'></text-input>
+    <text-input label='{{"legalentityname" | translate}}' text-value='$ctrl.selected.legalentityname' is-required='true' on-update='$ctrl.update("legalentityname", value)'></text-input>
     <select-input-extensible label='{{"legalentitytype" | translate}}' values='$ctrl.legalEntityTypes' select-value='$ctrl.selected.legalentitytype'
       on-update='$ctrl.update("legalentitytype", value)' on-add='$ctrl.createPicklistItem("legalentitytype", "legalEntityTypes", value)'
       type-name='EXTENSION_TYPE_LEGALENTITY_TYPE'></select-input-extensible>
