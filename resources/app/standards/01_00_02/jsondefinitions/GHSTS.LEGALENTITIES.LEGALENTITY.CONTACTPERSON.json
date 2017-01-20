@@ -1,0 +1,42 @@
+{
+	"localName": "GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "organisation",
+			"elementName": "ORGANISATION"
+		},
+		{
+			"name": "department",
+			"elementName": "DEPARTMENT"
+		},
+		{
+			"name": "title",
+			"elementName": "TITLE"
+		},
+		{
+			"name": "firstname",
+			"elementName": "FIRSTNAME"
+		},
+		{
+			"name": "lastname",
+			"elementName": "LASTNAME"
+		},
+		{
+			"name": "phone",
+			"elementName": "PHONE"
+		},
+		{
+			"name": "mobile",
+			"elementName": "MOBILE"
+		},
+		{
+			"name": "fax",
+			"elementName": "FAX"
+		},
+		{
+			"name": "email",
+			"elementName": "EMAIL"
+		}
+	]
+}

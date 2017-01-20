@@ -1,0 +1,11 @@
+{
+	"type": "enumInfo",
+	"localName": "TYPECONTENTSTATUS",
+	"values": [
+		"Modified",
+		"New",
+		"No Change",
+		"Replace",
+		"Retired"
+	]
+}

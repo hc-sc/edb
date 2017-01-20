@@ -1,0 +1,17 @@
+{
+	"localName": "EXTENSIONTYPELEGALENTITYTYPE",
+	"typeName": "EXTENSION_TYPE_LEGALENTITY_TYPE",
+	"propertyInfos": [
+		{
+			"name": "value",
+			"type": "value"
+		},
+		{
+			"name": "otherValue",
+			"attributeName": {
+				"localPart": "Other_Value"
+			},
+			"type": "attribute"
+		}
+	]
+}

@@ -1,0 +1,17 @@
+{
+	"localName": "EXTENSIONTYPETOCOWNER",
+	"typeName": "EXTENSION_TYPE_TOC_OWNER",
+	"propertyInfos": [
+		{
+			"name": "value",
+			"type": "value"
+		},
+		{
+			"name": "otherValue",
+			"attributeName": {
+				"localPart": "Other_Value"
+			},
+			"type": "attribute"
+		}
+	]
+}

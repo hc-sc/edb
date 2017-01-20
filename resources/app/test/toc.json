@@ -14,7 +14,7 @@
         "standardtocpid": "urn:oecd:D7DC69AB-46E8-4812-97D2-9B9A934D1B69",
         "filename": "../01/utils/tocs/TOC_OECD_PPP_2005_01.00.01.xml"
       },
-      "structure": [{
+      "structure": {
         "TYPE_NAME": "GHSTS.GHSTS.TOC.STRUCTURE",
         "tocnode": [
           {
@@ -3193,7 +3193,7 @@
             ]
           }
         ]
-      }]
+      }
     }
     ]
 }

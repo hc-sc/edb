@@ -1,0 +1,17 @@
+{
+	"localName": "GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER.DOCUMENTNUMBERTYPE",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "value",
+			"required": true,
+			"elementName": "VALUE",
+			"typeInfo": ".EXTENSIONTYPEDOCUMENTNUMBERTYPE"
+		},
+		{
+			"name": "valuedecode",
+			"required": true,
+			"elementName": "VALUE_DECODE"
+		}
+	]
+}

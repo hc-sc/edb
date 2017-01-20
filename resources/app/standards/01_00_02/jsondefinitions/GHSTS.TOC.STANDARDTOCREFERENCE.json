@@ -1,0 +1,16 @@
+{
+	"localName": "GHSTS.TOC.STANDARDTOCREFERENCE",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "standardtocpid",
+			"required": true,
+			"elementName": "STANDARD_TOC_PID"
+		},
+		{
+			"name": "filename",
+			"required": true,
+			"elementName": "FILENAME"
+		}
+	]
+}

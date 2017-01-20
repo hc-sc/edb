@@ -20,38 +20,41 @@ export default angular.module('files', [
   PicklistService,
   AppDataService
 ])
-.component('files', {
-  template,
-  bindings: {
-    fileType: '<',
-    contentStatus: '<'
-  },
+  .component('files', {
+    template,
+    bindings: {
+      fileType: '<',
+      contentStatus: '<'
+    },
 
-  controller: class FileCtrl extends BaseCtrl {
-    constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope) {
-      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'file', $scope);
+    controller: class FileCtrl extends BaseCtrl {
+      constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope) {
+        super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'file', $scope);
 
-      this.fileType = JSON.parse(this.fileType.data);
-      this.contentStatus = JSON.parse(this.contentStatus.data);
-      this.listFileButton = { name: 'list', label: 'Select File', color: 'dark' };
+        this.fileType = JSON.parse(this.fileType.data);
+        this.contentStatus = JSON.parse(this.contentStatus.data);
+        this.listFileButton = { name: 'list', label: 'Select File', color: 'dark' };
+        this.addButton = { name: 'add', label: 'Generate PID', color: 'dark' };
+        this.init().then(() => { this.loading = false; });
+      }
 
-      this.init().then(() => {this.loading = false;});
+      add() {
+        this.selected = angular.copy(this.getModel('file'));
+      }
+
+      selectFile() {
+        this.appDataService.edb_get({ _url: 'file', method: 'selectFile', data: angular.copy(this.selected) })
+          .then(ret => {
+            this.selected = JSON.parse(ret.data);
+            console.log(this.selected);
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+      genPid() {
+        this.selected.filegeneric.filepid = this.getPid();
+      }
     }
-
-    add() {
-      this.selected = angular.copy(this.getModel('file'));
-    }
-    
-    selectFile() {
-      this.appDataService.edb_get({_url: 'file', method: 'selectFile', data: angular.copy(this.selected)})
-        .then(ret => {
-          this.selected = JSON.parse(ret.data);
-          console.log(this.selected);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
-  }
-})
-.name;
+  })
+  .name;

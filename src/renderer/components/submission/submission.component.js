@@ -1,6 +1,8 @@
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
+import ngMaterial from 'angular-material';
 import template from './submission.template';
+import XMLInvaliErrorTemplate from './xml-validation-error/xml-validation-error.html';
 import { equals } from 'easy-equals';
 
 import Toolbar from '../common/toolbar/toolbar.component';
@@ -15,6 +17,7 @@ import AppDataService from '../../services/app.data.service';
 
 export default angular.module('submission', [
   uiRouter,
+  ngMaterial,
   Toolbar,
   Navbar,
   Icon,
@@ -29,12 +32,13 @@ export default angular.module('submission', [
       toc: '<'
     },
     controller: class SubmissionCtrl {
-      constructor($state, AppDataService, $transitions, $rootScope, GhstsService, $scope) {
+      constructor($state, AppDataService, $transitions, $rootScope, GhstsService, $scope, $mdDialog) {
         this.$scope = $scope;
         this.$state = $state;
         this.$rootScope = $rootScope;
         this.appDataService = AppDataService.getService();
         this.ghstsService = GhstsService.getService();
+        this.$mdDialog = $mdDialog;
 
         //allows for interrupting state transition (for use with ensuring any modifications are saved)
         this.dereg = $transitions.onBefore({}, (event) => {
@@ -87,6 +91,25 @@ export default angular.module('submission', [
         })
         .catch(err => {
           console.log(err);
+          let prompt = {
+          template: XMLInvaliErrorTemplate,
+          controller: class XMLInvalidCtrl {
+            constructor($mdDialog, err) {
+              this.$mdDialog = $mdDialog;
+              this.err = err;
+            }
+            confirm() {
+              this.$mdDialog.cancel();
+            }
+          },
+          controllerAs: '$ctrl',
+          locals: {
+            $mdDialog: this.$mdDialog,
+            err: err
+          }
+        };
+
+        this.$mdDialog.show(prompt);
         });
       }
     }

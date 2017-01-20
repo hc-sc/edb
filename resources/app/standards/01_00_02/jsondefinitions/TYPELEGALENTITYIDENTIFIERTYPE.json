@@ -1,0 +1,11 @@
+{
+	"type": "enumInfo",
+	"localName": "TYPELEGALENTITYIDENTIFIERTYPE",
+	"values": [
+		"DUNS-number",
+		"other",
+		"REACH",
+		"SAP",
+		"VAT-number"
+	]
+}

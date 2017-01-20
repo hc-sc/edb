@@ -1,0 +1,12 @@
+{
+	"type": "enumInfo",
+	"localName": "TYPEDOCUMENTNUMBERTYPE",
+	"values": [
+		"Old Report Number",
+		"other",
+		"Plot Number",
+		"Project Number",
+		"Report Number",
+		"Study Number"
+	]
+}

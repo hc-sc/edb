@@ -8,7 +8,7 @@
   },
   "value": {
     "TYPE_NAME": "GHSTS.GHSTS",
-    "specificationversion": "01.00.00",
+    "specificationversion": "01.00.02",
     "receivers": {
       "TYPE_NAME": "GHSTS.GHSTS.RECEIVERS",
       "receiver": [

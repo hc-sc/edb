@@ -37,7 +37,7 @@ var svrDisp;
 
 var XMLSchemaJsonSchema;
 var JsonixJsonSchema;
-var supprtVersions = ['01.00.00'], validateInsts = {}, marshallers = {}, unmarshallers = {};
+var supprtVersions = ['01.00.02'], validateInsts = {}, marshallers = {}, unmarshallers = {};
 var ajvInst;
 
 var init_mongoose = () => {
@@ -114,7 +114,7 @@ var init = () => {
 
 //For development only, should be removed when goes into production
 var initDB = () => {
-  //let ghstsSrv = new GhstsService(undefined, undefined, marshallers['01_00_00'], unmarshallers['01_00_00']);
+  //let ghstsSrv = new GhstsService(undefined, undefined, marshallers['01_00_02'], unmarshallers['01_00_02']);
   return new Q((res, rej) => {
     let plkClass = require('./services/picklist.service');
     let plkSvr = new plkClass();
@@ -127,28 +127,28 @@ var initDB = () => {
         let svr;
 
         svrClass = require('./services/product.service');
-        svr = new svrClass('01.00.00');
+        svr = new svrClass('01.00.02');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/legalentity.service');
-        svr = new svrClass('01.00.00');
+        svr = new svrClass('01.00.02');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/substance.service');
-        svr = new svrClass('01.00.00');
+        svr = new svrClass('01.00.02');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/file.service');
-        svr = new svrClass('01.00.00');
+        svr = new svrClass('01.00.02');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/document.service');
-        svr = new svrClass('01.00.00');
+        svr = new svrClass('01.00.02');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/receiver.service');
-        svr = new svrClass('01.00.00');
+        svr = new svrClass('01.00.02');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/sender.service');
-        svr = new svrClass('01.00.00');
+        svr = new svrClass('01.00.02');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/toc.service');
-        svr = new svrClass('01.00.00');
+        svr = new svrClass('01.00.02');
         qAry.push(svr.initDbfromTestData());
         res(Q.all(qAry));
       }
@@ -175,7 +175,8 @@ ipc.on(SHARED_CONST.PICKLIST_MSG_CHANNEL, function (event, arg) {
     event.sender.send(SHARED_CONST.PICKLIST_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, result);
   })
     .catch(err => {
-      event.sender.send(SHARED_CONST.PICKLIST_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, err);
+      let retValue = {code: err.code, message: err.message, data: err.data };
+      event.sender.send(SHARED_CONST.PICKLIST_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, {err: retValue});
     });
 });
 
@@ -189,7 +190,7 @@ ipc.on(SHARED_CONST.PICKLIST_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, functi
 });
 
 ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL, function (event, arg) {
-  let svr = new GhstsService(submissions, validateInsts['01_00_00']);
+  let svr = new GhstsService(submissions, validateInsts);
   let timestamp = arg.timestamp;
   if (lastMessageTimestamp === timestamp) {
     console.log('There are duplicatied message request');
@@ -200,7 +201,7 @@ ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL, function (event, arg) {
 
   if (newData && BACKEND_CONST.HTML5_METHODS.indexOf(arg.method) >= 0) {  /// may have sub-url
     if ((arg.url && arg.url !== 'ghsts') && (arg.data && arg.data._url && arg.data._url !== 'ghsts')) { ///has sub-url
-      if (arg.url === arg.data._url) 
+      if (arg.url === arg.data._url)
         newData._subUrl = arg.url.replace('/^ghsts\//', '');
       else
         newData._subUrl = arg.url.replace('/^ghsts\//', '').concat('/').concat(arg.data._url.replace('/^ghsts/', ''));
@@ -208,18 +209,19 @@ ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL, function (event, arg) {
       newData._subUrl = arg.url.replace('/^ghsts\//', '');
     } else if (arg.data && arg.data._url && arg.data._url !== 'ghsts') {
       newData._subUrl = arg.data._url.replace('/^ghsts/', '');
-    } 
+    }
   }
   svr[method](newData).then(result => {
     event.sender.send(SHARED_CONST.GHSTS_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, result);
   })
-    .catch(err => {
-      event.sender.send(SHARED_CONST.GHSTS_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, err);
+    .catch(error => {
+      let retValue = {code: error.code, message: error.message, data: error.data };
+      event.sender.send(SHARED_CONST.GHSTS_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, {err: retValue});
     });
 });
 
 ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, function (event, arg) {
-  let svr = new GhstsService(submissions, validateInsts['01_00_00']);
+  let svr = new GhstsService(submissions, validateInsts);
   if (arg.method !== 'get') {
     event.returnValue = new RVHelper('EDB10003');
   } else {
@@ -242,7 +244,8 @@ ipc.on(SHARED_CONST.APP_DATA_MSG_CHANNEL, function (event, arg) {
     event.sender.send(SHARED_CONST.APP_DATA_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, result);
   })
     .catch(err => {
-      event.sender.send(SHARED_CONST.APP_DATA_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, err);
+      let retValue = {code: err.code, message: err.message, data: err.data };
+      event.sender.send(SHARED_CONST.APP_DATA_MSG_CHANNEL + SHARED_CONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, {err: retValue});
     });
 });
 
@@ -280,7 +283,13 @@ app.on('ready', function () {
     //    let GHSTS = require('../resources/app/standards/' + versionDir + '/GHSTS').GHSTS;
     let sfile = path.resolve(basePath, 'resources', 'app', 'standards', versionDir, 'GHSTS.js');
     let GHSTS = require(sfile).GHSTS;
-    let context = new Jsonix.Context([GHSTS]);
+    let context = new Jsonix.Context([GHSTS],
+      {
+        namespacePrefixes: {
+          'http://www.oecd.org/GHSTS': ''
+        }
+      }
+    );
     unmarshallers[versionDir] = context.createUnmarshaller();
     marshallers[versionDir] = context.createMarshaller();
   }

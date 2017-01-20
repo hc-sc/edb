@@ -12,14 +12,15 @@ export class GhstsService extends BaseService {
   edb_package() {
     let deffer = this.$q.defer();
     if (window.ipcRenderer) {
-      window.ipcRenderer.once(this.msgChannel + EDB_IPC_ASYNC_REPLAY_SUF, (event, arg) => {
+      let timestamp = performance.now().toString();
+      window.ipcRenderer.once(this.msgChannel + EDB_IPC_ASYNC_REPLAY_SUF + timestamp, (event, arg) => {
         if (arg.err) {
           deffer.reject(arg.err);
         } else {
           deffer.resolve(this.jsonClassfer(arg));
         }
       });
-      window.ipcRenderer.send(this.msgChannel, this._msg_envelope('package'));
+      window.ipcRenderer.send(this.msgChannel, this._msg_envelope('package', undefined, timestamp));
     } else {
       deffer.reject('Error: Please run application in electron!');
     }
@@ -29,14 +30,15 @@ export class GhstsService extends BaseService {
   edb_validation() {
     let deffer = this.$q.defer();
     if (window.ipcRenderer) {
-      window.ipcRenderer.once(this.msgChannel + EDB_IPC_ASYNC_REPLAY_SUF, (event, arg) => {
+      let timestamp = performance.now().toString();
+      window.ipcRenderer.once(this.msgChannel + EDB_IPC_ASYNC_REPLAY_SUF + timestamp, (event, arg) => {
         if (arg.err) {
           deffer.reject(arg.err);
         } else {
           deffer.resolve(this.jsonClassfer(arg));
         }
       });
-      window.ipcRenderer.send(this.msgChannel, this._msg_envelope('validation'));
+      window.ipcRenderer.send(this.msgChannel, this._msg_envelope('validation', undefined, timestamp));
     } else {
       deffer.reject('Error: Please run application in electron!');
     }

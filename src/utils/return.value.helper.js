@@ -30,21 +30,22 @@ const RETURN_VALUE_CONFIG = {
   EDB11007: { msg: 'tring to initial non-object entity from normal JSON object'},
   
   EDB12001: { msg: 'Cannot create product with empty'},
-  EDB12002: { msg: 'Cannot create product with empty short name' },
+  EDB12002: { msg: 'Cannot create dossier with empty dossier company id' },
   EDB12003: { msg: 'Selected wrong submission folder' },
   EDB12004: { msg: 'Cannot select product with empty' },
   EDB12005: { msg: 'Create product from template failed, cannot find template' },
   EDB12006: { msg: 'Packaged submission, reload it?' },
   EDB12007: { msg: 'Cannot create submisson with empty submission number.' },
   EDB12008: { msg: 'Retriving GHSTS without GHSTS id' },
-  EDB12009: { msg: 'Create submission without product id' },
+  EDB12009: { msg: 'Create dossier without product id' },
   EDB12010: { msg: 'Create submission without dossier id' },
-  EDB12011: { msg: 'Create submission without toc id' },
+  EDB12011: { msg: 'Create dossier without toc id' },
   EDB12012: { msg: 'Link sub element for one submission without sub url' },
   EDB12013: { msg: 'Update sub element for one submission without sub url' },
   EDB12014: { msg: 'Link sub element for one submission without sub id' },
   EDB12015: { msg: 'Update sub element for one submission without sub id' },
   EDB12016: { msg: 'De-link sub element for one submission without sub id' },
+  EDB12017: { msg: 'Wrong usage of ghsts service edb_put' },
   
   EDB13001: { msg: 'Mongoose model cannot be found' },
   
@@ -62,9 +63,10 @@ class ReturnValueHelper {
     this.code = code;
     if (code[3] > 0) {
       let msg = RETURN_VALUE_CONFIG[code].msg;
-      msg += obj ? ' -- for data: -- ' + JSON.stringify(obj) : '';
       let error = new Error(msg);
       error.code = code;
+      if(obj) 
+        error.data = obj;
       return error;
     } else {
       this.data = obj;

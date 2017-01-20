@@ -1,2 +1,23 @@
 <toolbar items='$ctrl.toolbarItems'></toolbar>
-<section>Settings</section>
+<section class='node-page'>
+    <spinner ng-if='$ctrl.loading'></spinner>
+    <div class='no-margin no-padding' ng-if='!ctrl.loading'>
+
+        <text-input label='PID PREFIX' is-required='true' is-disabled='true' text-value='$ctrl.pidprefix' ></text-input>
+        <div class='extension-wrapper'>
+            <text-input label='VIEWER LOCATION'  is-required='true' text-value='$ctrl.viewerlocation'></text-input>
+            <icon icon='$ctrl.listFileButton' ng-click='$ctrl.selectFolder("viewerlocation")'></icon>
+        </div>
+        <div class='extension-wrapper'>
+            <text-input label='PACKAGE LOCATION'  is-required='true' text-value='$ctrl.packagelocation'></text-input>
+            <icon icon='$ctrl.listFileButton' ng-click='$ctrl.selectFolder("packagelocation")'></icon>
+        </div>
+
+        <div style='z-index:100' class='float-bottom'>
+            <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
+                <md-icon md-svg-icon='save' class='light'></md-icon>
+            </md-button>
+
+        </div>
+    </div>
+</section>

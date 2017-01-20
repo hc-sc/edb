@@ -19,7 +19,7 @@ module.exports = class BaseService {
   constructor(modelClassName, inmem, version) {
     this.modelClassName = modelClassName;
     this.inmem = inmem;
-    this.version = version ? version : '01.00.00';
+    this.version = version ? version : '01.00.02';
     this.schemaDir = path.resolve('./', BACKEND_CONST.BASE_DIR1, BACKEND_CONST.BASE_DIR2, BACKEND_CONST.STANDARD_DIR_NAME);
     this.defDir = path.join(this.schemaDir, this.version.replace(/\./g, '_'), BACKEND_CONST.DEF_SUB_DIR_NAME);
     this.productDir = path.resolve('./', BACKEND_CONST.PRODUCTS_DIR);
@@ -35,7 +35,7 @@ module.exports = class BaseService {
           if (JSON.parse(ret).length > 0) {
             rej(new RVHelper('EDB10004', obj2db));
           } else {
-            res(self._create(obj2db));
+            return self._create(obj2db);
           }
         })
         .catch(err => {
@@ -275,12 +275,12 @@ module.exports = class BaseService {
     if (Array.isArray(data)) {
       retVal = data.map(ret => {
         let newRet = _.merge({}, ret.toObject());
-        newRet._id = ret._id.toString();
+        newRet = JSON.parse(JSON.stringify(newRet));
         return newRet;
       });
     } else {
       retVal = _.merge({}, data.toObject());
-      retVal._id = data._id.toString();
+      retVal = JSON.parse(JSON.stringify(retVal));
     }
     return retVal;
   }

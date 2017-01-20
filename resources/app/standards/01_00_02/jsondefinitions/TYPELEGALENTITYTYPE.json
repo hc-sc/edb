@@ -1,0 +1,13 @@
+{
+	"type": "enumInfo",
+	"localName": "TYPELEGALENTITYTYPE",
+	"values": [
+		"Company",
+		"Consultant",
+		"other",
+		"Regulatory Authority",
+		"Test House",
+		"Third Party",
+		"University"
+	]
+}

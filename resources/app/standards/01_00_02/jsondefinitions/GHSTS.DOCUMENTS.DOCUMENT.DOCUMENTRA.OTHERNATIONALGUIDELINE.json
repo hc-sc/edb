@@ -1,0 +1,16 @@
+{
+	"localName": "GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.OTHERNATIONALGUIDELINE",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "guidelinesystem",
+			"required": true,
+			"elementName": "GUIDELINE_SYSTEM"
+		},
+		{
+			"name": "guidelinenumber",
+			"required": true,
+			"elementName": "GUIDELINE_NUMBER"
+		}
+	]
+}

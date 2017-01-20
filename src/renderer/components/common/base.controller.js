@@ -1,6 +1,6 @@
 import angular from 'angular';
 import {equals} from 'easy-equals';
-
+import GhstsPid from '../../../utils/pid';
 export default class BaseCtrl {
   constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, url, $scope) {
     this.$mdDialog = $mdDialog;
@@ -241,6 +241,10 @@ export default class BaseCtrl {
       end = end[item];
     }
     return end;
+  }
+    getPid(prefix){
+    console.log("generate pid");
+   return GhstsPid.generatePid(prefix);
   }
 }
 
