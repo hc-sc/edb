@@ -9,7 +9,7 @@
     </div>
     <text-input label='Substance Name' is-required='true' text-value='$ctrl.selected.substancename' on-update='$ctrl.update("substancename", value)'></text-input>
 
-    <tbl ng-if='!$ctrl.loading' title='Substance Identifiers' items='$ctrl.selected.substanceidentifier' projection='["identifier", {name: "Identifier Type", url: "picklist"}]'
+    <tbl ng-if='!$ctrl.loading' title='Substance Identifiers' items='$ctrl.selected.substanceidentifier' projection='["identifier", {name: "substanceidentifiertype", url: "picklist"}]'
       on-select='$ctrl.selectTblItem("substanceidentifier",index)' on-add='$ctrl.addTblItem("substanceidentifier")' on-delete='$ctrl.deleteTblItem("substanceidentifier",index)'></tbl>
 
     <div style='z-index:100' class='float-bottom'>

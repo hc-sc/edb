@@ -161,7 +161,7 @@ export default angular.module('receiver', [
         return this.ghstsService.edb_put({url: `/receiver/${this.selected._id}/sender/${sender._id}`, data: {sender}});
       })
       .then(res => {
-        this.senders = this.senders.concat(sender);
+        this.ghsts = res.data;
       })
       .catch(err => console.error(err));
     }
@@ -171,6 +171,7 @@ export default angular.module('receiver', [
       this.ghstsService.edb_delete({url: `/receiver/${this.selected._id}/sender/${this.senders[index]._id}`})
       .then(ret => {
         console.log(ret);
+        this.ghsts = ret.data;
         this.senders = [...this.senders.slice(0, index), ...this.senders.slice(index +1)];
       });
     }
@@ -197,19 +198,33 @@ export default angular.module('receiver', [
         }
       })
       .then(item => {
-        // make sure it's not one already in the list
-
         return this.ghstsService.edb_put({url: `/receiver/${item.receiver}`});
       })
       .then(response => {
         console.log(response);
+        this.ghsts = response.data;
+        let ids = this.ghsts._receivers.map(item => {
+          return item.receiver;
+        });
+        console.log(ids);
+        return this.appDataService.edb_get({ _url: '/receiver', data: { where: ids } });
+      })
+      .then(result => {
+        console.log(result);
+        this.records = JSON.parse(result.data);
       })
       .catch(err => console.log(err));
     }
 
-    deleteReceiver(id) {
-      console.log('NEED TO CHECK IF WE ARE DELETING THE ONES FROM THE PRODUCT!');
-      console.log(id);
+    deleteReceiver(id, index) {
+      this.ghstsService.edb_delete({url: `/receiver/${id}`})
+      .then(ret => {
+        console.log(ret);
+        this.ghsts = ret.data;
+        this.records = [...this.records.slice(0, index), ...this.records.slice(index +1)];
+        this.selected = undefined;
+      }) 
+      .catch(err => console.log(err));
     }
   }
 })

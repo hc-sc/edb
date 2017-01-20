@@ -33,10 +33,6 @@ const DateTimeProc = require('../utils/datetime.process');
 // const templateDir = path.resolve(basePath, BACKEND_CONST.BASE_DIR1, BACKEND_CONST.BASE_DIR2, BACKEND_CONST.TEMPLATE_DIR_NAME);
 
 const prodsPath = path.resolve(basePath, BACKEND_CONST.PRODUCTS_DIR);
-// var curProdAndDossierDir = undefined,
-//   curSubDir = undefined;
-// var absOutputFN, absSubPath;
-
 
 module.exports = class GhstsService extends BaseService {
   constructor(submissions_ref, validateInstance, marsh, unmarsh, version) {
@@ -132,13 +128,11 @@ module.exports = class GhstsService extends BaseService {
         _id: self.ghsts[0]._id
       });
       let pops = [];
-      pops.push({
-        path: '_receivers.receiver',
-        populate: [{
-          path: '_receivers.receiver.sender',
-          model: 'SENDER'
-        }]
-      });
+      if (self.ghsts[0]._receivers && self.ghsts[0]._receivers.length > 0) {
+        pops.push({
+          path: '_receivers.receiver'
+        });
+      }
       pops.push({
         path: '_product',
         populate: [{
@@ -147,10 +141,14 @@ module.exports = class GhstsService extends BaseService {
             path: 'submission'
           }
         }]
-      }); //// working
-      pops.push({
-        path: '_documents'
       });
+
+      if (self.ghsts[0]._documents && self.ghsts[0]._documents.length > 0) {
+        pops.push({
+          path: '_documents'
+        });
+      }
+
       if (self.ghsts[0]._tocid)
         pops.push({ path: '_tocid' });
 
@@ -162,20 +160,27 @@ module.exports = class GhstsService extends BaseService {
           let result = JSON.parse(JSON.stringify(rows[0])); ///Mongoose or Tingo BSON id process has bug, may improve later
 
           // For Receiver
-          retVal.receivers.receiver = result._receivers.map(item => {
-            retVal.legalentities.legalentity.push(item.receiver.toLegalEntityId);
-            item.receiver.id = item._id.toString();
-            item.receiver.metadatastatus = self._metadatastatus_process('receiver', item.receiver.id);
-            return item;
-          });
-          retVal.receivers.receiver = self._get_xml_jsonix(retVal.receivers.receiver).map(item => {
-            let ret = item.receiver;
-            ret.sender = self._get_xml_jsonix(SenderService.edb_getSync(item.sender));
-            ret.sender.map(sender => {
-              retVal.legalentities.legalentity.push(sender.toLegalEntityId);
+          if (result._receivers) {
+            retVal.receivers.receiver = result._receivers.map(item => {
+              retVal.legalentities.legalentity.push(item.receiver.toLegalEntityId);
+              item.receiver.id = item._id.toString();
+              item.receiver.metadatastatus = self._metadatastatus_process('receiver', item.receiver.id);
+              return item;
             });
-            return ret;
-          });
+            retVal.receivers.receiver = self._get_xml_jsonix(retVal.receivers.receiver);
+            retVal.receivers.receiver = retVal.receivers.receiver.map(item => {
+              let ret = item.receiver;
+              ret.sender = item.sender.map(senderid => {
+                return _.merge({}, SenderService.edb_getSync({_id: senderid})[0]);
+              });
+              ret.sender = self._get_xml_jsonix(ret.sender);
+              ret.sender.map(sender => {
+                retVal.legalentities.legalentity.push(sender.toLegalEntityId);
+              });
+              return ret;
+            });
+          } else 
+            delete retVal.receivers;
 
           // For Product, Dossier, Submission
           retVal.product = result._product;
@@ -186,32 +191,41 @@ module.exports = class GhstsService extends BaseService {
             DateTimeProc.dateToJsonixObj(retVal.product.dossier.submission[0].submissionversiondate);
 
           // For Document            
+          if (result._documents && result._documents.length > 0) {
           // retVal.documents.document = self._get_xml_jsonix(result._documents); ///Working with Project Number bug
 
-          // Looking For Files and Substances in Document
-          result._documents.map(item => {
-            let substances = item.documentgeneric.relatedtosubstance;
-            let files = item.documentgeneric.referencedtofile;
-            if (substances) {
-              substances.map(subs => {
-                retVal.substances.substance.push(subs.toSubstanceId);
-              });
-            }
-            if (files) {
-              files.map(file => {
-                retVal.files.file.push(file.toFileId);
-              });
-            }
-          });
+            // Looking For Files and Substances in Document
+            result._documents.map(item => {
+              let substances = item.documentgeneric.relatedtosubstance;
+              let files = item.documentgeneric.referencedtofile;
+              if (substances) {
+                substances.map(subs => {
+                  retVal.substances.substance.push(subs.toSubstanceId);
+                });
+              }
+              if (files) {
+                files.map(file => {
+                  retVal.files.file.push(file.toFileId);
+                });
+              }
+            });
+          } else
+            delete retVal.documents;
+
 
           // For Files
-          retVal.files.file = _.uniq(_.compact(retVal.files.file));
-          retVal.files.file = FileService.edb_getSync(retVal.files.file);
-          retVal.files.file = self._get_xml_jsonix(retVal.files.file);
+          if (retVal.files.file && retVal.files.file.length > 0) {
+            retVal.files.file = _.uniq(_.compact(retVal.files.file));
+            retVal.files.file = retVal.files.file.map(item => {
+              return _.merge({}, FileService.edb_getSync({_id: item})[0]);
+            });
+            retVal.files.file = self._get_xml_jsonix(retVal.files.file);
+          } else 
+            delete retVal.files;
 
           // For TOC
           if (!result._tocid) {
-            retVal.toc = TocService.edb_getSync({ tocversion: '01.00.01' })[0];
+            retVal.toc = _.merge({}, TocService.edb_getSync({ tocversion: '01.00.01' })[0]);
             self.ghsts[0]._tocid = retVal.toc._id;
           } else
             retVal.toc = result._tocid;
@@ -220,27 +234,37 @@ module.exports = class GhstsService extends BaseService {
           retVal.toc.metadatastatus = self._metadatastatus_process('toc', retVal.toc._id);
           retVal.toc = self._get_xml_jsonix(retVal.toc);
 
-          // // For Legal Entities
-          retVal.legalentities.legalentity = _.uniq(_.compact(retVal.legalentities.legalentity));
-          retVal.legalentities.legalentity = LegalEntityService.edb_getSync(retVal.legalentities.legalentity);
-          retVal.legalentities.legalentity.map(les => {
-            let metaId = self._metadatastatus_process('legalentity', les._id);
-            les.metadatastatus = metaId;
-          });
-          retVal.legalentities.legalentity = self._get_xml_jsonix(retVal.legalentities.legalentity);
+          // For Legal Entities
+          if (retVal.legalentities.legalentity && retVal.legalentities.legalentity.length > 0) {
+            retVal.legalentities.legalentity = _.uniq(_.compact(retVal.legalentities.legalentity));
+            retVal.legalentities.legalentity = retVal.legalentities.legalentity.map(les => {
+              let ret = _.merge({}, LegalEntityService.edb_getSync({_id: les})[0]);
+              let metaId = self._metadatastatus_process('legalentity', les);
+              ret.metadatastatus = metaId;
+              return ret;
+            });
+            retVal.legalentities.legalentity = self._get_xml_jsonix(retVal.legalentities.legalentity);
+          } else 
+            delete retVal.legalentities;
 
           // For Substance
           // Search Substances from Ingredients
-          result._product.ingredients.ingredient.map(item => {
-            retVal.substances.substance.push(item.toSubstanceId);
-          });
-          retVal.substances.substance = _.uniq(_.compact(retVal.substances.substance));
-          retVal.substances.substance = SubstanceService.edb_getSync(retVal.substances.substance);
-          retVal.substances.substance.map(subs => {
-            let metaId = self._metadatastatus_process('substance', subs._id);
-            subs.metadatastatus = metaId;
-          });
-          retVal.substances.substance = self._get_xml_jsonix(retVal.substances.substance);
+          if (result._product.ingredients.ingredient && result._product.ingredients.ingredient.length > 0) {
+            result._product.ingredients.ingredient.map(item => {
+              retVal.substances.substance.push(item.toSubstanceId);
+            });
+          }
+          if (retVal.substances.substance && retVal.substances.substance.length > 0) {
+            retVal.substances.substance = _.uniq(_.compact(retVal.substances.substance));
+            retVal.substances.substance = retVal.substances.substance.map(item => {
+              let ret = _.merge({}, SubstanceService.edb_getSync({_id: item})[0]);
+              let metaId = self._metadatastatus_process('substance', item);
+              ret.metadatastatus = metaId;
+              return ret;
+            });
+            retVal.substances.substance = self._get_xml_jsonix(retVal.substances.substance);
+          } else
+            delete retVal.substances;
 
           // For Usedtemplates
           if (self.ghsts[0].usedtemplates.length > 0)

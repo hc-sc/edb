@@ -478,18 +478,20 @@ module.exports = class BaseService {
           if (picklistFieldsConfig && retVal[key]) { //this is picklist item
             if (Array.isArray(retVal[key])) {
               let subRet = [];
-              // self._get_xml_json(retVal[key]);
+              retVal[key].map(picklistId => {
+                subRet.push(PickListService.toJsonix(picklistId));
+              }); 
               retVal[key] = subRet;
             } else {
               retVal[key] = PickListService.toJsonix(retVal[key]);
             }
-          } else if (retVal[key]) {
+          } else if (retVal[key]) { //this is not picklist item
             if (Array.isArray(retVal[key])) {
               let subRet = self._get_xml_jsonix(retVal[key]);
               retVal[key] = subRet;
             } else if (typeof retVal[key] === 'object') {
               retVal[key] = self._get_xml_jsonix(retVal[key]);
-            }
+            } 
           }
         }
       });
