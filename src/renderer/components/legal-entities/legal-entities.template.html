@@ -18,9 +18,6 @@
         type-name='EXTENSION_TYPE_LEGALENTITY_TYPE'>
     </select-input-extensible>
 
-    <select-input-extensible label='{{"legalentitytype" | translate}}' values='$ctrl.legalEntityTypes' select-value='$ctrl.selected.legalentitytype'
-      on-update='$ctrl.update("legalentitytype", value)' on-add='$ctrl.createPicklistItem("legalentitytype", "legalEntityTypes", value)'
-      type-name='EXTENSION_TYPE_LEGALENTITY_TYPE'></select-input-extensible>
 
     <list label='{{"othername" | translate}}' items='$ctrl.selected.othername'></list>
     <tbl ng-if='!$ctrl.loading' title='{{"identifiers" | translate}}' items='$ctrl.selected.legalentityidentifier' projection='[{name: "legalentityidentifiertype", url: "picklist"}, "identifier"]'

@@ -147,7 +147,7 @@ export default function ($stateProvider, $urlRouterProvider) {
           return PicklistService.getService().edb_get({ 'TYPE_NAME': 'TYPE_DATA_REQUIREMENT' });
         },
         raDocumentNumberType: PicklistService => {
-          return PicklistService.getService().edb_get({ 'TYPE_NAME': 'TYPE_RA_DOCUMENT_NUMBER_TYPE' });
+          return PicklistService.getService().edb_get({ 'TYPE_NAME': 'EXTENSION_TYPE_RA_DOCUMENT_NUMBER_TYPE' });
         }
       }
     })

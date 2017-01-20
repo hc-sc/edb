@@ -22,7 +22,7 @@ export default class DocumentCtrl extends BaseCtrl{
       // projection item name must match with name defined in propertyInfos of jsonschema definition    
     // console.log("this.datarequirementTypeOptions +++" + JSON.stringify(this.datarequirementTypeOptions));
       
-    // console.log("this.raDocumentNumberTypeOptions +++" + JSON.stringify(this.raDocumentNumberTypeOptions));
+    console.log("this.raDocumentNumberTypeOptions +++" + JSON.stringify(this.raDocumentNumberTypeOptions));
 
       this.contentStatusProjection = [
         {name: "contentstatus", url: "picklist"},
