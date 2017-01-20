@@ -1,0 +1,147 @@
+<md-dialog aria-label='file regulatory authority' flex='80'>
+  <form ng-cloak>
+    <md-toolbar>
+      <div class='md-toolbar-tools'>
+        <h2>Document RA</h2>
+        <span flex></span>
+        <md-button class='md-icon-button' ng-click='$ctrl.cancel()'>
+          <md-icon md-svg-icon='close' aria-label='close dialog' class='light'></md-icon>
+          <md-tooltip>Close</md-tooltip>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+
+    <div class='no-margin no-padding'>  
+        <select-input label='Receiver' main='shortname' 
+            select-value='$ctrl.node.toSpecificForRAId' 
+            values='$ctrl.receivers' 
+            on-update='$ctrl.update("toSpecificForRAId", value)'>
+        </select-input>                
+        <select-input label='Data Protection' 
+            select-value='$ctrl.node.dataprotection' 
+            values='$ctrl.picklists.dataprotectionTypeOptions' 
+            on-update='$ctrl.update("dataprotection", value)'>
+        </select-input>   
+         <select-input label='Data Requirement' 
+            select-value='$ctrl.node.datarequirement' 
+            values='$ctrl.picklists.datarequirementTypeOptions' 
+            on-update='$ctrl.update("datarequirement", value)'>
+        </select-input>                    
+    </div>
+ 
+    <md-toolbar>
+      <div class='md-toolbar-tools'>
+        <h2>Document Comment</h2>
+        <span flex></span>
+        <md-button class='md-icon-button' ng-click='$ctrl.addComment()'>
+          <md-icon md-svg-icon='add' aria-label='add dialog' class='light'></md-icon>
+          <md-tooltip>Add Comment</md-tooltip>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-list>
+        <md-list-item ng-repeat="comment in $ctrl.node.documentcomment" class="noright">
+            <text-input label='Comment' text-value='comment' on-update='$ctrl.update("comment", value)'></text-input>
+            <md-button aria-label='Delete Item'  ng-click="$ctrl.deleteComment(comment, $event)">
+                <md-icon md-svg-icon='delete' class='dark'></md-icon>
+                <md-tooltip>Delete Comment</md-tooltip>
+            </md-button>
+        </md-list-item>
+    </md-list>
+
+    <md-toolbar>
+      <div class='md-toolbar-tools'>
+        <h2>Other National Guideline</h2>
+        <span flex></span>
+        <md-button class='md-icon-button' ng-click='$ctrl.addGuideline()'>
+          <md-icon md-svg-icon='add' aria-label='add dialog' class='light'></md-icon>
+          <md-tooltip>Add Guideline</md-tooltip>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-list>
+        <md-list-item ng-repeat= "oth in $ctrl.node.othernationalguideline"  class="noright">
+              <div layout-gt-sm="row">
+                  <md-input-container class="md-block" flex-gt-sm>
+                        <label>Guide Line Number</label>
+                        <input ng-model="oth.guidelinenumber" type="text">  
+                  </md-input-container>
+                  <md-input-container class="md-block" flex-gt-sm>
+                        <label>Guide Line System</label>
+                        <input ng-model="oth.guidelinesystem" type="text">
+                  </md-input-container>
+                  <md-button aria-label='Delete Item'  ng-click="$ctrl.deleteGuideLine(oth, $event)">
+                      <md-icon md-svg-icon='delete' class='dark'></md-icon>
+                      <md-tooltip>Delete Guideline</md-tooltip>
+                  </md-button>
+              </div>
+        </md-list-item>
+    </md-list>
+
+    <md-toolbar>
+      <div class='md-toolbar-tools'>
+        <h2>RA Document Number</h2>
+        <span flex></span>
+      </div>
+    </md-toolbar>
+   
+   <div class='no-margin no-padding'>  
+      <select-input 
+          label=' RA Document Number Type' 
+          select-value='$ctrl.node.radocumentnumbertype'  
+          values='$ctrl.picklists.raDocumentNumberTypeOptions' 
+          on-update='$ctrl.update("radocumentnumbertype", value)'>
+      </select-input> 
+   </div>
+
+   <div layout-gt-sm="row">   
+           
+        <md-input-container class="md-block" flex-gt-sm>
+              <label>Identifier</label>
+              <input ng-model="$ctrl.node.radocumentnumber.identifier" type="text">  
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm>
+              <label>Already Submitted</label>
+              <input ng-model="$ctrl.node.radocumentnumber.alreadysubmitted" type="text">
+        </md-input-container>  
+                     
+    </div>
+
+    <md-toolbar>
+      <div class='md-toolbar-tools'>
+        <h2>Submission Context</h2>
+        <span flex></span>
+        <md-button class='md-icon-button' ng-click='$ctrl.addSubContext()'>
+          <md-icon md-svg-icon='add' aria-label='add dialog' class='light'></md-icon>
+          <md-tooltip>Add submission context</md-tooltip>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-list>
+        <md-list-item ng-repeat= "sub in $ctrl.node.radocumentnumber.submissioncontext"  class="noright">  
+              <div layout-gt-sm="row">
+                  <md-input-container class="md-block" flex-gt-sm>
+                        <label>Dossier PID</label>
+                        <input ng-model="sub.dossierpid" type="text">  
+                  </md-input-container>
+                  <md-input-container class="md-block" flex-gt-sm>
+                        <label>Dossier Number</label>
+                        <input ng-model="sub.dossiernumber" type="text">
+                  </md-input-container>
+                  <md-button aria-label='Delete Item'  ng-click="$ctrl.deleteSubContext(sub, $event)">
+                      <md-icon md-svg-icon='delete' class='dark'></md-icon>
+                      <md-tooltip>Delete submission context</md-tooltip>
+                  </md-button>
+              </div>
+        </md-list-item>
+    </md-list>
+
+ 
+    <md-dialog-actions layout='row'>
+      <span flex></span>
+      <md-button ng-click='$ctrl.confirm()'>Okay</md-button>
+      <md-button ng-click='$ctrl.cancel()'>Cancel</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>
