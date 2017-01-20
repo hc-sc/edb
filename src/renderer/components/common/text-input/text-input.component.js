@@ -41,6 +41,7 @@ export default angular.module('textInput', [
     }
 
     update() {
+      console.log("This value: " + this.textValue);
       this.onUpdate({ value: this.textValue });
     }
 

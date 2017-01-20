@@ -27,7 +27,10 @@ export default angular.module('documents', [
     metadataStatusType: '<',
     contentStatusType: '<',
     referenceType: '<',
-    documentNumberType: '<'
+    documentNumberType: '<',
+    dataprotectionType: '<',
+    datarequirementType: '<',
+    raDocumentNumberType: '<'
   },
   controller: DocumentCtrl
 })

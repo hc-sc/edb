@@ -70,7 +70,14 @@
               on-delete='$ctrl.deleteTblItem("documentgeneric.referencedtofile",index)'>
         </tbl>
 
-        <tbl title='Document Regulatory Authority' items='[]' projection='[]'></tbl>
+       <tbl ng-if='!$ctrl.loading' 
+            title='Document Regulatory Authority' 
+            items='$ctrl.selected.documentra' 
+            projection='[{name: "toSpecificForRAId", url: "receiver"}]'
+            on-select='$ctrl.selectTblItem("documentra",index)' 
+            on-delete='$ctrl.deleteTblItem("documentra",index)' 
+            on-add='$ctrl.addTblItem("documentra")'>
+       </tbl>
         
         <div style='z-index:100' class='float-bottom'>
             <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
