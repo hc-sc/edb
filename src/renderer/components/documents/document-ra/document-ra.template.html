@@ -87,12 +87,15 @@
     </md-toolbar>
    
    <div class='no-margin no-padding'>  
-      <select-input 
-          label=' RA Document Number Type' 
-          select-value='$ctrl.node.radocumentnumbertype'  
-          values='$ctrl.picklists.raDocumentNumberTypeOptions' 
-          on-update='$ctrl.update("radocumentnumbertype", value)'>
-      </select-input> 
+       <select-input-extensible 
+                label=' RA Document Number Type'  
+                select-value='$ctrl.node.radocumentnumbertype'
+                on-update='$ctrl.update("radocumentnumbertype", value)'
+                values='$ctrl.picklists.raDocumentNumberTypeOptions' 
+                show-value='true' 
+                type-name='EXTENSION_TYPE_RA_DOCUMENT_NUMBER_TYPE' 
+                on-add='$ctrl.createPicklistItem("radocumentnumbertype", "raDocumentNumberTypeOptions", value)'>
+      </select-input-extensible>
    </div>
 
    <div layout-gt-sm="row">   
