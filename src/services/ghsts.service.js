@@ -99,32 +99,32 @@ module.exports = class GhstsService extends BaseService {
         value: {}
       };
       let retVal = {
-          TYPE_NAME: 'GHSTS.GHSTS',
-          specificationversion: self.ghsts[0].specificationversion,
-          receivers: {
-            TYPE_NAME: 'GHSTS.GHSTS.RECEIVERS',
-            receiver: []
-          },
-          product: '',
-          // documents: {
-          //     TYPE_NAME: 'GHSTS.GHSTS.DOCUMENTS',
-          //     document: []
-          // },
-          files: {
-            TYPE_NAME: 'GHSTS.GHSTS.FILES',
-            file: []
-          },
-          toc: '',
-          legalentities: {
-            TYPE_NAME: 'GHSTS.GHSTS.LEGALENTITIES',
-            legalentity: []
-          },
-          substances: {
-            TYPE_NAME: 'GHSTS.GHSTS.SUBSTANCES',
-            substance: []
-          },
-          usedtemplates: ''
+        TYPE_NAME: 'GHSTS.GHSTS',
+        specificationversion: self.ghsts[0].specificationversion,
+        receivers: {
+          TYPE_NAME: 'GHSTS.GHSTS.RECEIVERS',
+          receiver: []
         },
+        product: '',
+        // documents: {
+        //   TYPE_NAME: 'GHSTS.GHSTS.DOCUMENTS',
+        //   document: []
+        // },
+        files: {
+          TYPE_NAME: 'GHSTS.GHSTS.FILES',
+          file: []
+        },
+        toc: '',
+        legalentities: {
+          TYPE_NAME: 'GHSTS.GHSTS.LEGALENTITIES',
+          legalentity: []
+        },
+        substances: {
+          TYPE_NAME: 'GHSTS.GHSTS.SUBSTANCES',
+          substance: []
+        },
+        usedtemplates: ''
+      },
         svr = new ReceiverService();
       let entityClass = require('mongoose').model(self.modelClassName);
 
@@ -151,9 +151,9 @@ module.exports = class GhstsService extends BaseService {
       pops.push({
         path: '_documents'
       });
-      pops.push({
-        path: '_tocid'
-      });
+      if (self.ghsts[0]._tocid)
+        pops.push({ path: '_tocid' });
+
       dbquery.populate(pops);
       dbquery.exec((err, rows) => {
         if (err)
@@ -210,9 +210,12 @@ module.exports = class GhstsService extends BaseService {
           retVal.files.file = self._get_xml_jsonix(retVal.files.file);
 
           // For TOC
-          retVal.toc = result._tocid ? result._tocid : TocService.edb_getSync({
-            tocversion: '01.00.01'
-          })[0];
+          if (!result._tocid) {
+            retVal.toc = TocService.edb_getSync({ tocversion: '01.00.01' })[0];
+            self.ghsts[0]._tocid = retVal.toc._id;
+          } else
+            retVal.toc = result._tocid;
+
           TocHelper.assignToc2DocNodes(retVal.toc.structure, self.ghsts[0]._toc2docs);
           retVal.toc.metadatastatus = self._metadatastatus_process('toc', retVal.toc._id);
           retVal.toc = self._get_xml_jsonix(retVal.toc);
@@ -364,7 +367,7 @@ module.exports = class GhstsService extends BaseService {
               if (!curProp[obj.tocnodepid])
                 curProp[obj.tocnodepid] = [],
 
-                curProp = curProp[obj.tocnodepid];
+                  curProp = curProp[obj.tocnodepid];
 
               if (!curMdsProp)
                 curMdsProp = [];
