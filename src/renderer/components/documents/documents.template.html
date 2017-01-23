@@ -5,10 +5,21 @@
         <sidenav items='$ctrl.records' 
                   main='documentgeneric.documenttitle' 
                   is-open='$ctrl.sidenavOpen' 
-                  on-select='$ctrl.updateSelected(item)'>
+                  on-select='$ctrl.updateSelected(item)'
+                  on-add='$ctrl.add(item)'>
         </sidenav>
-        <text-input label='PID' is-required='true' is-disabled='true' text-value='$ctrl.selected.documentgeneric.documentpid '></text-input>
-        <text-input label='Family PID' is-required='true' text-value='$ctrl.selected.documentgeneric.documentfamilypid'></text-input>
+        
+        <div class='extension-wrapper'>
+            <text-input label='PID' is-required='true'  text-value='$ctrl.selected.documentgeneric.documentpid ' on-update='$ctrl.update("documentpid", value)'></text-input>
+            <icon icon='$ctrl.addButton' ng-click='$ctrl.genPid()'></icon>
+        </div>
+
+       
+        <div class='extension-wrapper'>
+            <text-input label='Family PID' is-required='true'  text-value='$ctrl.selected.documentgeneric.documentfamilypid ' on-update='$ctrl.update("documentfamilypid", value)'></text-input>
+            <icon icon='$ctrl.addButton' ng-click='$ctrl.genPid()'></icon>
+        </div>
+
         <text-input label='Document Title' text-value='$ctrl.selected.documentgeneric.documenttitle'></text-input>
         <text-input label='Document Author' text-value='$ctrl.selected.documentgeneric.documentauthor'></text-input>
         <text-input label='Document Issue Date'
@@ -57,7 +68,13 @@
 
          <list label='Test Laboratory' items='$ctrl.selected.documentgeneric.testlaboratory' ></list>
 
-        <text-input label='GXP Indicator' text-value='$ctrl.selected.documentgeneric.gxpindicator'></text-input>
+
+        <md-switch ng-model='$ctrl.selected.documentgeneric.gxpindicator' 
+            aria-label='GXP Indicator' 
+            class='md-primary' ng-change='$ctrl.printValue()'>
+            GXP Indicator
+        </md-switch>
+
         <md-switch ng-model='$ctrl.submission.SUBMISSION[$ctrl.submission.SUBMISSION.length - 1].INCREMENTAL' aria-label='Incremental'
           class='md-primary' ng-change='$ctrl.printValue()'>Tested on vertebrates</md-switch>
       

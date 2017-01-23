@@ -19,11 +19,9 @@ export default class DocumentCtrl extends BaseCtrl{
             datarequirementTypeOptions: this.datarequirementTypeOptions,
             raDocumentNumberTypeOptions: this.raDocumentNumberTypeOptions
       };
+      this.addButton = { name: 'add', label: 'Generate PID', color: 'dark' };
       // projection item name must match with name defined in propertyInfos of jsonschema definition    
-    // console.log("this.datarequirementTypeOptions +++" + JSON.stringify(this.datarequirementTypeOptions));
-      
-    console.log("this.raDocumentNumberTypeOptions +++" + JSON.stringify(this.raDocumentNumberTypeOptions));
-
+   
       this.contentStatusProjection = [
         {name: "contentstatus", url: "picklist"},
         'submissionnumber'
@@ -47,6 +45,10 @@ export default class DocumentCtrl extends BaseCtrl{
 
     add() {
             this.selected = angular.copy(this.getModel('document'));
+    }
+
+    genPid() {
+      this.selected.legalentitypid = this.getPid();
     }
     
 }

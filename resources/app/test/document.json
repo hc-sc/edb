@@ -317,7 +317,7 @@
             "testlaboratory": [
               "Syngenta"
             ],
-            "gxpindicator": false,
+            "gxpindicator": true,
             "testedonvertebrate": false,
             "referencedtofile": [
               {
