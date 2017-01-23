@@ -24,7 +24,7 @@ export default angular.module('description', [
     controller: class DescriptionCtrl extends BaseCtrl {
       constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope) {
         super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'dossier', $scope);
-        this.init().then(() => {
+        this.init(this.$state.params.dossierid).then(() => {
           return this.getPicklist('EXTENSION_TYPE_REGULATORY_TYPE');
         }).then(regulatorytype => {
           this.regulatoryTypes = JSON.parse(regulatorytype.data);
