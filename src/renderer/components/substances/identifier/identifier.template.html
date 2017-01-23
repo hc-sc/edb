@@ -13,8 +13,8 @@
 
     <md-dialog-content>
       <div class='md-dialog-content'>
-        <text-input label='Identifier' text-value='$ctrl.node.identifier' on-update='$ctrl.update("identifier", value)'></text-input>
-        <select-input-extensible label='"Identifier Type"' 
+        <text-input label='{{"identifier"|translate}}' text-value='$ctrl.node.identifier' on-update='$ctrl.update("identifier", value)'></text-input>
+        <select-input-extensible label='{{"identifiertype"|translate}}' 
             select-value='$ctrl.node.substanceidentifiertype' 
             on-update='$ctrl.update("substanceidentifiertype", value)'
             values='$ctrl.picklists.identifierTypes' 
