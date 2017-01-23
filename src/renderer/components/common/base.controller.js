@@ -17,14 +17,24 @@ export default class BaseCtrl {
     this.$scope.$root.loading = true;
   }
 
-  init() {
+  init(id) {
     return this.getAppData()
       .then(records => {
         console.log('records: ', records);
         this.records = JSON.parse(records.data);
         if (this.records && this.records.length > 0) {
           // there is some data in the db
-          this.selected = this.records[0];
+          if (id) {
+            for (var i = 0; i < this.records.length; i++) {
+              if (this.records[i]._id === id) {
+                this.selected = this.records[i];
+                break;
+              }
+            }
+          } 
+
+          if (!this.selected)
+            this.selected = this.records[0];
         }
         else {
           // empty table, need to prompt to create first

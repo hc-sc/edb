@@ -58,12 +58,7 @@ export default angular.module('receiver', [
             });
           }
           else {
-            return this.appDataService.edb_get({_url: 'receiver'})
-            .then(receivers => {
-              let recs = JSON.parse(receivers.data);
-              console.log(recs);
-              this.records = recs ? recs : [];
-            });
+            return this.init();
           }
         })
       ])
@@ -141,6 +136,7 @@ export default angular.module('receiver', [
 
     addSender() {
       let sender = {};
+      let isSenderExit = [], isExitInView = [];
       this.$mdDialog.show({
         template: senderSelect,
         controller: SenderSelectCtrl,
@@ -150,18 +146,39 @@ export default angular.module('receiver', [
         }
       })
       .then(item => {
-        let isSenderExit = this.appDataService.edb_getSync({_url: 'sender', data: item});
-        if (isSenderExit.length > 0)
-          return Promise.resolve({data: JSON.stringify(isSenderExit[0])});
-        else
-          return this.appDataService.edb_put({_url: 'sender', data: item}); 
+        for(var i = 0; i < this.senders.length; i++) {
+          if ((this.senders[i].toLegalEntityId === item.toLegalEntityId) &&
+              (this.senders[i].companycontactregulatoryrole === item.companycontactregulatoryrole) &&
+              (this.senders[i].remark === item.remark)) {
+                isExitInView.push(item);
+                break;
+              }
+        }
+        if (isExitInView.length > 0) {
+          return Promise.resolve({data: JSON.stringify(isExitInView[0])});
+        } else {
+          isSenderExit = this.appDataService.edb_getSync({_url: 'sender', data: item});
+          if (isSenderExit.length > 0)
+            return Promise.resolve({data: JSON.stringify(isSenderExit[0])});
+          else
+            return this.appDataService.edb_put({_url: 'sender', data: item}); 
+        }
       })
       .then(ret => {
-        sender = JSON.parse(ret.data);
-        return this.ghstsService.edb_put({url: `/receiver/${this.selected._id}/sender/${sender._id}`, data: {sender}});
+        if (isExitInView.length > 0) {
+          sender = ret;
+          return Promise.resolve(ret);
+        }
+        else {
+          sender = JSON.parse(ret.data);
+          return this.ghstsService.edb_put({url: `/receiver/${this.selected._id}/sender/${sender._id}`, data: {sender}});
+        }
       })
       .then(res => {
-        this.ghsts = res.data;
+        if (isExitInView.length === 0) {
+          this.ghsts = res.data;
+          this.senders = this.senders.concat(sender);
+        }
       })
       .catch(err => console.error(err));
     }
@@ -212,6 +229,7 @@ export default angular.module('receiver', [
       .then(result => {
         console.log(result);
         this.records = JSON.parse(result.data);
+        this.sender = [];
       })
       .catch(err => console.log(err));
     }
@@ -222,6 +240,7 @@ export default angular.module('receiver', [
         console.log(ret);
         this.ghsts = ret.data;
         this.records = [...this.records.slice(0, index), ...this.records.slice(index +1)];
+        this.sender = [];
         this.selected = undefined;
       }) 
       .catch(err => console.log(err));

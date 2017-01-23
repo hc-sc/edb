@@ -84,7 +84,6 @@ export default angular.module('home', [
         this.submissionProjection = [
           'submissiontitle',
           'submissionnumber',
-          'adminnumber',
           'packagetype',
           '_state',
           '_created',
