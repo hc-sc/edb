@@ -16,7 +16,7 @@ export default class DocumentRACtrl extends ModalBaseCtrl {
   //    console.log("Add new list here");
   //  }
 
-  //  deleteComment(comment, $event){
-  //    console.log("delete item here" + comment);
-  //  }
+   deleteGuideLine(node, $event){
+     console.log("delete item here" + JSON.stringify(node));
+   }
 }
