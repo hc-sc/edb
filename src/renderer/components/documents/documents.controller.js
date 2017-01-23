@@ -8,16 +8,20 @@ export default class DocumentCtrl extends BaseCtrl{
       this.contentStatusOptions = JSON.parse(this.contentStatusType.data);
       this.referenceTypeOptions = JSON.parse(this.referenceType.data);
       this.documentNumberTypeOptions = JSON.parse(this.documentNumberType.data);
-      //console.log(JSON.stringify(this.documentNumberTypeOptions));
+      this.dataprotectionTypeOptions = JSON.parse(this.dataprotectionType.data);
+      this.datarequirementTypeOptions = JSON.parse(this.datarequirementType.data);
+      this.raDocumentNumberTypeOptions = JSON.parse(this.raDocumentNumberType.data);
       this.picklists = {
             contentStatusOptions: this.contentStatusOptions,
             referenceTypeOptions: this.referenceTypeOptions,
-            documentNumberTypeOptions: this.documentNumberTypeOptions
+            documentNumberTypeOptions: this.documentNumberTypeOptions,
+            dataprotectionTypeOptions: this.dataprotectionTypeOptions,
+            datarequirementTypeOptions: this.datarequirementTypeOptions,
+            raDocumentNumberTypeOptions: this.raDocumentNumberTypeOptions
       };
-      // projection item name must match with name defined in propertyInfos of jsonschema definition
-      
-    
-
+      this.addButton = { name: 'add', label: 'Generate PID', color: 'dark' };
+      // projection item name must match with name defined in propertyInfos of jsonschema definition    
+   
       this.contentStatusProjection = [
         {name: "contentstatus", url: "picklist"},
         'submissionnumber'
@@ -39,5 +43,12 @@ export default class DocumentCtrl extends BaseCtrl{
       //this.getModels();
     }
 
+    add() {
+            this.selected = angular.copy(this.getModel('document'));
+    }
+
+    genPid() {
+      this.selected.legalentitypid = this.getPid();
+    }
     
 }

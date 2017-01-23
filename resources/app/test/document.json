@@ -6,7 +6,122 @@
           "documentra": [
             {
               "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA",
-              "toSpecificForRAId": "ID_RECEIVER_BVL",
+              "toSpecificForRAId": "BVL",
+              "metadatastatus": {
+                "TYPE_NAME": "GHSTS.TYPEMETADATASTATUSSTRUCT",
+                "value": "New",
+                "valuedecode": "New"
+              },
+                "dataprotection": {
+                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.DATAPROTECTION",
+                "value": "Y",
+                "valuedecode": "Yes"
+              },
+              "datarequirement": {
+                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.DATAREQUIREMENT",
+                "value": "Y",
+                "valuedecode": "Yes"
+              },
+              "documentcomment": [
+                "Document Comment 01_26",
+                "Document Comment 01_25"
+              ],
+              "othernationalguideline": [
+                {
+                  "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.OTHERNATIONALGUIDELINE",
+                  "guidelinesystem": "Guideline System",
+                  "guidelinenumber": "Guideline number"
+                },
+				        {
+                  "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.OTHERNATIONALGUIDELINE",
+                  "guidelinesystem": "Guideline System 2",
+                  "guidelinenumber": "Guideline number 2"
+                }
+              ],
+              "radocumentnumber": {
+                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER",
+                "radocumentnumbertype": {
+                  "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.RADOCUMENTNUMBERTYPE",
+                  "value": {
+                    "TYPE_NAME": "GHSTS.EXTENSIONTYPERADOCUMENTNUMBERTYPE",
+                    "value": "MRID"
+                  },
+                  "valuedecode": "MRID"
+                },
+                "identifier": "APVMA 3987-77-R23",
+                "alreadysubmitted": true,
+                "submissioncontext": [
+                  {
+                    "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.SUBMISSIONCONTEXT",
+                    "dossierpid": "urn:aa:a",
+                    "dossiernumber": "DOSSIER1234"
+                  },
+                  {
+                    "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.SUBMISSIONCONTEXT",
+                    "dossierpid": "urn:aa:a",
+                    "dossiernumber": "DOSSIER4567"
+                  }
+                ]
+              }
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA",
+              "toSpecificForRAId": "PMRA",
+              "metadatastatus": {
+                "TYPE_NAME": "GHSTS.TYPEMETADATASTATUSSTRUCT",
+                "value": "New",
+                "valuedecode": "New"
+              },
+              "dataprotection": {
+                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.DATAPROTECTION",
+                "value": "Y",
+                "valuedecode": "Yes"
+              },
+              "datarequirement": {
+                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.DATAREQUIREMENT",
+                "value": "Y",
+                "valuedecode": "Yes"
+              },
+               "documentcomment": [
+                "Document Comment 01_26",
+                "Document Comment 01_25"
+              ],
+              "othernationalguideline": [
+                {
+                  "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.OTHERNATIONALGUIDELINE",
+                  "guidelinesystem": "Guideline System",
+                  "guidelinenumber": "Guideline number"
+                }
+              ],
+              "radocumentnumber": {
+                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER",
+                "radocumentnumbertype": {
+                  "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.RADOCUMENTNUMBERTYPE",
+                  "value": {
+                    "TYPE_NAME": "GHSTS.EXTENSIONTYPERADOCUMENTNUMBERTYPE",
+                    "value": "MRID"
+                  },
+                  "valuedecode": "MRID"
+                },
+                "identifier": "PMRA 134987-2011-09-12",
+                "alreadysubmitted": true,
+                "submissioncontext": [
+                  {
+                    "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.SUBMISSIONCONTEXT",
+                    "dossierpid": "urn:aa:a",
+                    "dossiernumber": "DOSSIER1234"
+                  },
+                  {
+                    "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.SUBMISSIONCONTEXT",
+                    "dossierpid": "urn:aa:a",
+                    "dossiernumber": "DOSSIER4567"
+                  }
+                ]
+              }
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA",
+              "toSpecificForRAId": "APVMA",
               "metadatastatus": {
                 "TYPE_NAME": "GHSTS.TYPEMETADATASTATUSSTRUCT",
                 "value": "New",
@@ -25,58 +140,19 @@
               "documentcomment": [
                 "Document Comment 01_26",
                 "Document Comment 01_25"
-              ]
-            },
-            {
-              "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA",
-              "toSpecificForRAId": "ID_RECEIVER_PMRA",
-              "metadatastatus": {
-                "TYPE_NAME": "GHSTS.TYPEMETADATASTATUSSTRUCT",
-                "value": "New",
-                "valuedecode": "New"
-              },
-              "dataprotection": {
-                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.DATAPROTECTION",
-                "value": "Y",
-                "valuedecode": "Yes"
-              },
-              "datarequirement": {
-                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.DATAREQUIREMENT",
-                "value": "Y",
-                "valuedecode": "Yes"
-              },
-              "radocumentnumber": {
-                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER",
-                "radocumentnumbertype": {
-                  "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.RADOCUMENTNUMBERTYPE",
-                  "value": {
-                    "TYPE_NAME": "GHSTS.EXTENSIONTYPERADOCUMENTNUMBERTYPE",
-                    "value": "MRID"
-                  },
-                  "valuedecode": "MRID"
+              ],
+              "othernationalguideline": [
+                {
+                  "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.OTHERNATIONALGUIDELINE",
+                  "guidelinesystem": "Guideline System",
+                  "guidelinenumber": "Guideline number"
                 },
-                "identifier": "PMRA 134987-2011-09-12",
-                "alreadysubmitted": true
-              }
-            },
-            {
-              "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA",
-              "toSpecificForRAId": "ID_RECEIVER_APVMA",
-              "metadatastatus": {
-                "TYPE_NAME": "GHSTS.TYPEMETADATASTATUSSTRUCT",
-                "value": "New",
-                "valuedecode": "New"
-              },
-              "dataprotection": {
-                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.DATAPROTECTION",
-                "value": "Y",
-                "valuedecode": "Yes"
-              },
-              "datarequirement": {
-                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.DATAREQUIREMENT",
-                "value": "Y",
-                "valuedecode": "Yes"
-              },
+				        {
+                  "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.OTHERNATIONALGUIDELINE",
+                  "guidelinesystem": "Guideline System 2",
+                  "guidelinenumber": "Guideline number 2"
+                }
+              ],
               "radocumentnumber": {
                 "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER",
                 "radocumentnumbertype": {
@@ -88,18 +164,30 @@
                   "valuedecode": "MRID"
                 },
                 "identifier": "APVMA 3987-77-R23",
-                "alreadysubmitted": true
+                "alreadysubmitted": true,
+                "submissioncontext": [
+                  {
+                    "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.SUBMISSIONCONTEXT",
+                    "dossierpid": "urn:aa:a",
+                    "dossiernumber": "DOSSIER1234"
+                  },
+                  {
+                    "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.SUBMISSIONCONTEXT",
+                    "dossierpid": "urn:aa:a",
+                    "dossiernumber": "DOSSIER4567"
+                  }
+                ]
               }
             },
             {
               "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA",
-              "toSpecificForRAId": "ID_RECEIVER_IBAMA",
+              "toSpecificForRAId": "IBAMA",
               "metadatastatus": {
                 "TYPE_NAME": "GHSTS.TYPEMETADATASTATUSSTRUCT",
                 "value": "New",
                 "valuedecode": "New"
               },
-              "dataprotection": {
+                "dataprotection": {
                 "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.DATAPROTECTION",
                 "value": "Y",
                 "valuedecode": "Yes"
@@ -109,6 +197,22 @@
                 "value": "Y",
                 "valuedecode": "Yes"
               },
+              "documentcomment": [
+                "Document Comment 01_26",
+                "Document Comment 01_25"
+              ],
+              "othernationalguideline": [
+                {
+                  "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.OTHERNATIONALGUIDELINE",
+                  "guidelinesystem": "Guideline System",
+                  "guidelinenumber": "Guideline number"
+                },
+				        {
+                  "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.OTHERNATIONALGUIDELINE",
+                  "guidelinesystem": "Guideline System 2",
+                  "guidelinenumber": "Guideline number 2"
+                }
+              ],
               "radocumentnumber": {
                 "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER",
                 "radocumentnumbertype": {
@@ -119,9 +223,22 @@
                   },
                   "valuedecode": "MRID"
                 },
-                "identifier": "IBAMA C55-934",
-                "alreadysubmitted": true
+                "identifier": "APVMA 3987-77-R23",
+                "alreadysubmitted": true,
+                "submissioncontext": [
+                  {
+                    "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.SUBMISSIONCONTEXT",
+                    "dossierpid": "urn:aa:a",
+                    "dossiernumber": "DOSSIER1234"
+                  },
+                  {
+                    "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.SUBMISSIONCONTEXT",
+                    "dossierpid": "urn:aa:a",
+                    "dossiernumber": "DOSSIER4567"
+                  }
+                ]
               }
+              
             }
           ],
           "documentgeneric": {
@@ -200,7 +317,7 @@
             "testlaboratory": [
               "Syngenta"
             ],
-            "gxpindicator": false,
+            "gxpindicator": true,
             "testedonvertebrate": false,
             "referencedtofile": [
               {

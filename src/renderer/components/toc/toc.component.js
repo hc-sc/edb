@@ -88,7 +88,7 @@ export default angular.module('toc', [
     }
 
     saveTOC() {
-      this.ghstsService.edb_put({url: `/toc`, data: {tocnodepid: ''}});
+      // this.ghstsService.edb_put({url: `/toc`, data: {tocnodepid: ''}});
     }
   }
 })

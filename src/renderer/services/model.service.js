@@ -96,7 +96,9 @@ export default class ModelService {
         return Object.assign(modelSender.fields);
 
       case 'receiver':
-        return Object.assign(modelReceiver.fields);
+        model = Object.assign(modelReceiver.fields);
+        delete model.sender;
+        return 
 
     }
   }

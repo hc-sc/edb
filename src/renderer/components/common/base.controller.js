@@ -263,19 +263,21 @@ import referencedDossierTemplate from '../description/referenced-dossier/referen
 import FileRACtrl from '../files/file-ra/file-ra.controller';
 import fileRATemplate from '../files/file-ra/file-ra.template';
 
-// for documents
+// for document Generic
 import contentStatusHistoryTemplate from '../documents/content-status-history/content-status-history.template';
 import contentStatusHistoryCtrl from '../documents/content-status-history/content-status-history.controller';
 import referenceDocumentTemplate from '../documents/reference-document/reference-document.template';
 import referenceDocumentCtrl from '../documents/reference-document/reference-document.controller';
 import relatedtosubstanceTemplate from '../documents/related-tosubstance/related-tosubstance.template';
 import relatedtosubstanceCtrl from '../documents/related-tosubstance/related-tosubstance.controller';
-
 import referencedtofileTemplate from '../documents/referenced-tofile/referenced-tofile.template';
 import referencedtofileCtrl from '../documents/referenced-tofile/referenced-tofile.controller';
-
 import documentNumberTemplate from '../documents/document-number/document-number.template';
 import documentNumberCtrl from '../documents/document-number/document-number.controller';
+
+// for document RA
+import documentRATemplate from '../documents/document-ra/document-ra.template';
+import documentRACtrl from '../documents/document-ra/document-ra.controller';
 
 import senderTemplate from '../receivers/senders/senders.template';
 import SenderCtrl from '../receivers/senders/senders.controller';
@@ -360,6 +362,13 @@ function getModalValues(nodeName) {
       return {
         template: referencedtofileTemplate,
         controller: referencedtofileCtrl
+      };
+    
+    case 'documentra':
+
+      return {
+        template: documentRATemplate,
+        controller: documentRACtrl
       };
 
     case 'ingredients.ingredient':
