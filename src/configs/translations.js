@@ -70,7 +70,7 @@ export const propNames_en = {
   'substancename':'Substance Name',
   'substanceidentifier':'Substance Identifiers',
   'substanceidentifiertype':'Substance Identifier Type',
-  'identifier':'Identifier',
+  // 'identifier':'Identifier',
   'identifiertype':'Identifier Type'
 
 };
