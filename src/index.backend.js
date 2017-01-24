@@ -138,9 +138,9 @@ var initDB = () => {
         // svrClass = require('./services/file.service');
         // svr = new svrClass('01.00.02');
         // qAry.push(svr.initDbfromTestData());
-        svrClass = require('./services/document.service');
-        svr = new svrClass('01.00.02');
-        qAry.push(svr.initDbfromTestData());
+        // svrClass = require('./services/document.service');
+        // svr = new svrClass('01.00.02');
+        // qAry.push(svr.initDbfromTestData());
         // svrClass = require('./services/receiver.service');
         // svr = new svrClass('01.00.02');
         // qAry.push(svr.initDbfromTestData());
