@@ -4,8 +4,8 @@
     <sidenav items='$ctrl.records' selected='$ctrl.selected' main='substancename' is-open='$ctrl.sidenavOpen' on-select='$ctrl.updateSelected(item)'
       on-add='$ctrl.add(item)'></sidenav>
     <div class='extension-wrapper'>
-      <text-input label='{{"substancepid"|translate}}' is-required='true' text-value='$ctrl.selected.substancepid' on-update='$ctrl.update("substancepid", value)'></text-input>
-      <icon icon='$ctrl.addButton' ng-click='$ctrl.genPid()'></icon>
+      <text-input label='{{"substancepid"|translate}}'  is-required='true' text-value='$ctrl.selected.substancepid' on-update='$ctrl.update("substancepid", value)'></text-input>
+      <md-button class='md-raised md-primary' ng-click='$ctrl.genPid()'>Generate PID</md-button>
     </div>
     <text-input label='{{"substancename"|translate}}'  is-required='true' text-value='$ctrl.selected.substancename' on-update='$ctrl.update("substancename", value)'></text-input>
 
@@ -16,7 +16,7 @@
       <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
         <md-icon md-svg-icon='save' class='light'></md-icon>
       </md-button>
-      <md-button aria-label='Add New Item' class='md-fab md-primary' ng-click='$ctrl.add()'>
+      <md-button aria-label='Add New Item' class='md-fab md-primary' ng-click='$ctrl.add("substance")'>
         <md-icon md-svg-icon='add' class='light'></md-icon>
       </md-button>
       <md-button aria-label='Toggle List' class='md-fab md-primary' ng-click='$ctrl.toggleList()'>

@@ -10,7 +10,7 @@
     </div>
     <div class='extension-wrapper'>
       <text-input label='File PID' is-required='true' text-value='$ctrl.selected.filegeneric.filepid' on-update='$ctrl.update("filegeneric.filepid", value)'></text-input>
-      <icon icon='$ctrl.addButton' ng-click='$ctrl.genPid()'></icon>
+      <md-button class='md-raised md-primary' ng-click='$ctrl.genPid()'>Generate PID</md-button>
     </div>
     <text-input label='File Company ID' text-value='$ctrl.selected.filegeneric.filecompanyid' on-update='$ctrl.update("filegeneric.filecompanyid", value)'></text-input>
     <select-input label='Content Status' is-required='true' select-value='$ctrl.selected.filegeneric.contentstatus' values='$ctrl.contentStatus'
@@ -27,7 +27,7 @@
       <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
         <md-icon md-svg-icon='save' class='light'></md-icon>
       </md-button>
-      <md-button aria-label='Add New Item' class='md-fab md-primary' ng-click='$ctrl.add()'>
+      <md-button aria-label='Add New Item' class='md-fab md-primary' ng-click='$ctrl.add("file")'>
         <md-icon md-svg-icon='add' class='light'></md-icon>
       </md-button>
       <md-button aria-label='Toggle List' class='md-fab md-primary' ng-click='$ctrl.toggleList()'>
