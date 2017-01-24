@@ -6,7 +6,7 @@
     </sidenav>
     <div class='extension-wrapper'>
       <text-input label='{{"legalentitypid" | translate}}' text-value='$ctrl.selected.legalentitypid' is-required='true' on-update='$ctrl.update("legalentitypid", value)'></text-input>
-      <icon icon='$ctrl.addButton' ng-click='$ctrl.genPid()'></icon>
+      <md-button class='md-raised md-primary' ng-click='$ctrl.genPid()'>Generate PID</md-button>
     </div>
     <text-input label='{{"legalentityname" | translate}}' text-value='$ctrl.selected.legalentityname' is-required='true' on-update='$ctrl.update("legalentityname", value)'></text-input>
 

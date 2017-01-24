@@ -5,7 +5,7 @@
       on-add='$ctrl.add(item)'></sidenav>
     <div class='extension-wrapper'>
       <text-input label='{{"substancepid"|translate}}'  is-required='true' text-value='$ctrl.selected.substancepid' on-update='$ctrl.update("substancepid", value)'></text-input>
-      <icon icon='$ctrl.addButton' ng-click='$ctrl.genPid()'></icon>
+      <md-button class='md-raised md-primary' ng-click='$ctrl.genPid()'>Generate PID</md-button>
     </div>
     <text-input label='{{"substancename"|translate}}'  is-required='true' text-value='$ctrl.selected.substancename' on-update='$ctrl.update("substancename", value)'></text-input>
 
