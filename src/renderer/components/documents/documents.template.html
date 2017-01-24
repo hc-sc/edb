@@ -10,28 +10,51 @@
         </sidenav>
         
         <div class='extension-wrapper'>
-            <text-input label='PID' is-required='true'  text-value='$ctrl.selected.documentgeneric.documentpid ' on-update='$ctrl.update("documentpid", value)'></text-input>
+            <text-input label='PID' 
+                  is-required='true'  
+                  text-value='$ctrl.selected.documentgeneric.documentpid' 
+                  on-update='$ctrl.update("documentpid", value)'>
+            </text-input>
             <icon icon='$ctrl.addButton' ng-click='$ctrl.genPid()'></icon>
         </div>
 
        
         <div class='extension-wrapper'>
-            <text-input label='Family PID' is-required='true'  text-value='$ctrl.selected.documentgeneric.documentfamilypid ' on-update='$ctrl.update("documentfamilypid", value)'></text-input>
+            <text-input label='Family PID' is-required='true'  
+                  text-value='$ctrl.selected.documentgeneric.documentfamilypid' 
+                  on-update='$ctrl.update("documentfamilypid", value)'>
+            </text-input>
             <icon icon='$ctrl.addButton' ng-click='$ctrl.genPid()'></icon>
         </div>
 
-        <text-input label='Document Title' text-value='$ctrl.selected.documentgeneric.documenttitle'></text-input>
-        <text-input label='Document Author' text-value='$ctrl.selected.documentgeneric.documentauthor'></text-input>
+        <text-input label='Document Title' 
+            text-value='$ctrl.selected.documentgeneric.documenttitle'
+            on-update='$ctrl.update("documenttitle", value)'>
+        </text-input>
+
+        <text-input label='Document Author' 
+            text-value='$ctrl.selected.documentgeneric.documentauthor'
+            on-update='$ctrl.update("documentauthor", value)'>
+        </text-input>
+
         <text-input label='Document Issue Date'
             text-value='$ctrl.selected.documentgeneric.documentissuedate' 
             is-required='true' 
-            max-length='20' >
+            max-length='30' 
+            on-update='$ctrl.update("documentissuedate", value)'>
         </text-input>
       
         <list label='Document Owner' items='$ctrl.selected.documentgeneric.documentowner' ></list>
 
-        <text-input label='Published Indicator' text-value='$ctrl.selected.documentgeneric.publishedindicator'></text-input>
-        <text-input label='Document Family' text-value='$ctrl.selected.documentgeneric.documentfamily'></text-input>
+        <text-input label='Published Indicator' 
+            text-value='$ctrl.selected.documentgeneric.publishedindicator'
+            on-update='$ctrl.update("publishedindicator", value)'>
+        </text-input>
+
+        <text-input label='Document Family' 
+            text-value='$ctrl.selected.documentgeneric.documentfamily'
+            on-update='$ctrl.update("documentfamily", value)'>
+        </text-input>
         
         <tbl ng-if='!$ctrl.loading' title='Content Status History' 
               items='$ctrl.selected.documentgeneric.contentstatushistory' 

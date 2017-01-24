@@ -12,11 +12,12 @@ export default class DocumentRACtrl extends ModalBaseCtrl {
         console.log(err);
       });
   }
-  //  addComment(){
-  //    console.log("Add new list here");
+   
+  //  addGuideline(){
+  //    console.log("Add item here" + JSON.stringify(this.node));
   //  }
 
-   deleteGuideLine(node, $event){
-     console.log("delete item here" + JSON.stringify(node));
-   }
+  //  deleteGuideLine(node, $event){
+  //    console.log("delete item here" + JSON.stringify(node));
+  //  }
 }
