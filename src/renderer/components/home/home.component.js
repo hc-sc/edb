@@ -65,9 +65,9 @@ export default angular.module('home', [
             { name: 'home', label: 'Home', state: 'splash' }
           ],
           functionIcons: [
-            { name: 'globals', state: 'globals.legalEntities', label: 'Entities' },
-            { name: 'settings', state: 'settings', label: 'Settings' },
-            { name: 'help', label: 'Help', func: this.backend.bind(this) }
+          //  { name: 'globals', state: 'globals.legalEntities', label: 'Entities' },
+           // { name: 'settings', state: 'settings', label: 'Settings' },
+           // { name: 'help', label: 'Help', func: this.backend.bind(this) }
           ]
         };
 
