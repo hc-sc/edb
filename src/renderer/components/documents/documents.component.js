@@ -30,7 +30,9 @@ export default angular.module('documents', [
     documentNumberType: '<',
     dataprotectionType: '<',
     datarequirementType: '<',
-    raDocumentNumberType: '<'
+    raDocumentNumberType: '<',
+    dossierData: '<',
+    isSubmission: '<'
   },
   controller: DocumentCtrl
 })

@@ -22,10 +22,10 @@
       <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
         <md-icon md-svg-icon='save' class='light'></md-icon>
       </md-button>
-      <md-button aria-label='Add New Item' class='md-fab md-primary' ng-click='$ctrl.add("product")'>
+      <md-button ng-if='!$ctrl.isSubmission' aria-label='Add New Item' class='md-fab md-primary' ng-click='$ctrl.add("product")'>
         <md-icon md-svg-icon='add' class='light'></md-icon>
       </md-button>
-      <md-button aria-label='Toggle List' class='md-fab md-primary' ng-click='$ctrl.toggleList()'>
+      <md-button ng-if='!$ctrl.isSubmission' aria-label='Toggle List' class='md-fab md-primary' ng-click='$ctrl.toggleList()'>
         <md-icon md-svg-icon='list' class='light'></md-icon>
       </md-button>
     </div>

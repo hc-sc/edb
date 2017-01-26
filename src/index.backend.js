@@ -221,12 +221,11 @@ ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL, function (event, arg) {
 });
 
 ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, function (event, arg) {
-  let svr = new GhstsService(submissions, validateInsts, marshallers, unmarshallers);
   if (arg.method !== 'get') {
     event.returnValue = new RVHelper('EDB10003');
   } else {
     let method = 'edb_' + arg.method + 'Sync';
-    event.returnValue = svr[method](arg.data);
+    event.returnValue = GhstsService[method](arg.data);
   }
 });
 
