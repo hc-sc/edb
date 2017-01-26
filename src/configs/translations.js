@@ -68,8 +68,8 @@ export const propNames_en = {
   //Substance
   'substancepid':'Substance PID',
   'substancename':'Substance Name',
-  'substanceidentifier':'Substance Identifiers',
-  'substanceidentifiertype':'Substance Identifier Type',
+  'substanceidentifier':'Identifiers',
+  'substanceidentifiertype':'Identifier Type',
   'substanceidentifierinmodel':'Identifier In model',
   'identifiertype':'Identifier Type'
 
