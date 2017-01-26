@@ -43,7 +43,7 @@ module.exports = class GhstsService extends BaseService {
     this._unmarsh = unmarsh;
   }
 
-  _metadatastatus_process(entityName, id) {
+  _metadatastatus_process(entityName, id, recIds) {
     let curMeta = this.ghsts[0]._metadatastatus[entityName];
     let metanode;
 
@@ -63,21 +63,41 @@ module.exports = class GhstsService extends BaseService {
       );
     }
 
+    let isExist = [];
+
     if (Array.isArray(curMeta)) {
-      let isExit = _.filter(curMeta, item => {
+      isExist = _.filter(curMeta, item => {
         if (item.elementid === id)
           return item;
       });
-      if (isExit.length === 1)
-        return isExit[0].metadatastatusid;
-      else {
-        curMeta.push(metanode);
+    }
+
+    if (!recIds) { //not file and document
+      if (Array.isArray(curMeta)) {
+        if (isExist.length === 1)
+          return isExist[0].metadatastatusid;
+        else {
+          curMeta.push(metanode);
+          return metanode.metadatastatusid;
+        }
+      } else {
+        if (!curMeta)
+          curMeta = metanode;
         return metanode.metadatastatusid;
       }
-    } else {
-      if (!curMeta)
-        curMeta = metanode;
-      return metanode.metadatastatusid;
+    } else { // File or Document
+      if (isExist.length === 1)
+        return isExist[0];
+      else {
+        let retVal = new MetaDataStatusNodeWithRA(
+          id,
+          metanode.metadatastatusid,
+          entityName,
+          recIds
+        );
+        curMeta.push(retVal);
+        return retVal;
+      }
     }
   }
 
@@ -95,32 +115,34 @@ module.exports = class GhstsService extends BaseService {
         value: {}
       };
       let retVal = {
-        TYPE_NAME: 'GHSTS.GHSTS',
-        specificationversion: self.ghsts[0].specificationversion,
-        receivers: {
-          TYPE_NAME: 'GHSTS.GHSTS.RECEIVERS',
-          receiver: []
+          TYPE_NAME: 'GHSTS.GHSTS',
+          specificationversion: self.ghsts[0].specificationversion,
+          receivers: {
+            TYPE_NAME: 'GHSTS.GHSTS.RECEIVERS',
+            receiver: []
+          },
+          product: '',
+          documents: {
+            TYPE_NAME: 'GHSTS.GHSTS.DOCUMENTS',
+            document: []
+          },
+          files: {
+            TYPE_NAME: 'GHSTS.GHSTS.FILES',
+            file: []
+          },
+          toc: '',
+          legalentities: {
+            TYPE_NAME: 'GHSTS.GHSTS.LEGALENTITIES',
+            legalentity: []
+          },
+          substances: {
+            TYPE_NAME: 'GHSTS.GHSTS.SUBSTANCES',
+            substance: []
+          },
+          usedtemplates: {
+            TYPE_NAME: 'AnyType'
+          }
         },
-        product: '',
-        // documents: {
-        //   TYPE_NAME: 'GHSTS.GHSTS.DOCUMENTS',
-        //   document: []
-        // },
-        files: {
-          TYPE_NAME: 'GHSTS.GHSTS.FILES',
-          file: []
-        },
-        toc: '',
-        legalentities: {
-          TYPE_NAME: 'GHSTS.GHSTS.LEGALENTITIES',
-          legalentity: []
-        },
-        substances: {
-          TYPE_NAME: 'GHSTS.GHSTS.SUBSTANCES',
-          substance: []
-        },
-        usedtemplates: ''
-      },
         svr = new ReceiverService();
       let entityClass = require('mongoose').model(self.modelClassName);
 
@@ -150,7 +172,9 @@ module.exports = class GhstsService extends BaseService {
       }
 
       if (self.ghsts[0]._tocid)
-        pops.push({ path: '_tocid' });
+        pops.push({
+          path: '_tocid'
+        });
 
       dbquery.populate(pops);
       dbquery.exec((err, rows) => {
@@ -158,20 +182,24 @@ module.exports = class GhstsService extends BaseService {
           rej(err);
         else {
           let result = JSON.parse(JSON.stringify(rows[0])); ///Mongoose or Tingo BSON id process has bug, may improve later
+          let receiverIds = [];
 
           // For Receiver
           if (result._receivers) {
             retVal.receivers.receiver = result._receivers.map(item => {
               retVal.legalentities.legalentity.push(item.receiver.toLegalEntityId);
-              item.receiver.id = item._id.toString();
+              item.receiver.id = item.receiver._id.toString();
               item.receiver.metadatastatus = self._metadatastatus_process('receiver', item.receiver.id);
+              receiverIds.push(item.receiver.id);
               return item;
             });
             retVal.receivers.receiver = self._get_xml_jsonix(retVal.receivers.receiver);
             retVal.receivers.receiver = retVal.receivers.receiver.map(item => {
               let ret = item.receiver;
               ret.sender = item.sender.map(senderid => {
-                return _.merge({}, SenderService.edb_getSync({_id: senderid})[0]);
+                return _.merge({}, SenderService.edb_getSync({
+                  _id: senderid
+                })[0]);
               });
               ret.sender = self._get_xml_jsonix(ret.sender);
               ret.sender.map(sender => {
@@ -179,7 +207,7 @@ module.exports = class GhstsService extends BaseService {
               });
               return ret;
             });
-          } else 
+          } else
             delete retVal.receivers;
 
           // For Product, Dossier, Submission
@@ -187,12 +215,18 @@ module.exports = class GhstsService extends BaseService {
           retVal.product.metadatastatus = self._metadatastatus_process('product', result._product._id);
           retVal.product = self._get_xml_jsonix(result._product);
           delete retVal.product.dossier.product;
-          retVal.product.dossier.submission[0].submissionversiondate =
-            DateTimeProc.dateToJsonixObj(retVal.product.dossier.submission[0].submissionversiondate);
+          retVal.product.dossier.submission.map(sub => {
+            sub.submissionversiondate =
+              DateTimeProc.dateToJsonixObj(sub.submissionversiondate);
+          });
 
           // For Document            
           if (result._documents && result._documents.length > 0) {
-          // retVal.documents.document = self._get_xml_jsonix(result._documents); ///Working with Project Number bug
+            retVal.documents.document = self._get_xml_jsonix(result._documents); ///Working with Project Number bug
+            retVal.documents.document.map(doc => {
+              doc.documentgeneric.documentissuedate =
+                DateTimeProc.dateToJsonixObj(doc.documentgeneric.documentissuedate);
+            });
 
             // Looking For Files and Substances in Document
             result._documents.map(item => {
@@ -217,15 +251,37 @@ module.exports = class GhstsService extends BaseService {
           if (retVal.files.file && retVal.files.file.length > 0) {
             retVal.files.file = _.uniq(_.compact(retVal.files.file));
             retVal.files.file = retVal.files.file.map(item => {
-              return _.merge({}, FileService.edb_getSync({_id: item})[0]);
+              let retFile = _.merge({}, FileService.edb_getSync({
+                _id: item
+              })[0]);
+              let fileMeta = self._metadatastatus_process('files', item, receiverIds);
+              retFile.filegeneric.metadatastatus = fileMeta.filegeneric.metadatastatusid;
+              retFile.filera = _.filter(retFile.filera, filera => {
+                return receiverIds.indexOf(filera.toSpecificForRAId) >= 0;
+              });
+              if (retFile.filera && retFile.filera.length > 0) {
+                retFile.filera = retFile.filera.map(filera => {
+                  for (var i = 0; i < fileMeta.filera.length; i++) {
+                    if (fileMeta.filera[i].elementid === filera.toSpecificForRAId) {
+                      filera.metadatastatus = fileMeta.filera[i].metadatastatusid;
+                      break;
+                    }
+                  }
+                  return filera;
+                });
+              } else
+                delete retFile.filera;
+              return retFile;
             });
             retVal.files.file = self._get_xml_jsonix(retVal.files.file);
-          } else 
+          } else
             delete retVal.files;
 
           // For TOC
           if (!result._tocid) {
-            retVal.toc = _.merge({}, TocService.edb_getSync({ tocversion: '01.00.01' })[0]);
+            retVal.toc = _.merge({}, TocService.edb_getSync({
+              tocversion: '01.00.01'
+            })[0]);
             self.ghsts[0]._tocid = retVal.toc._id;
           } else
             retVal.toc = result._tocid;
@@ -239,13 +295,15 @@ module.exports = class GhstsService extends BaseService {
           if (retVal.legalentities.legalentity && retVal.legalentities.legalentity.length > 0) {
             retVal.legalentities.legalentity = _.uniq(_.compact(retVal.legalentities.legalentity));
             retVal.legalentities.legalentity = retVal.legalentities.legalentity.map(les => {
-              let ret = _.merge({}, LegalEntityService.edb_getSync({_id: les})[0]);
+              let ret = _.merge({}, LegalEntityService.edb_getSync({
+                _id: les
+              })[0]);
               let metaId = self._metadatastatus_process('legalentity', les);
               ret.metadatastatus = metaId;
               return ret;
             });
             retVal.legalentities.legalentity = self._get_xml_jsonix(retVal.legalentities.legalentity);
-          } else 
+          } else
             delete retVal.legalentities;
 
           // For Substance
@@ -258,7 +316,9 @@ module.exports = class GhstsService extends BaseService {
           if (retVal.substances.substance && retVal.substances.substance.length > 0) {
             retVal.substances.substance = _.uniq(_.compact(retVal.substances.substance));
             retVal.substances.substance = retVal.substances.substance.map(item => {
-              let ret = _.merge({}, SubstanceService.edb_getSync({_id: item})[0]);
+              let ret = _.merge({}, SubstanceService.edb_getSync({
+                _id: item
+              })[0]);
               let metaId = self._metadatastatus_process('substance', item);
               ret.metadatastatus = metaId;
               return ret;
@@ -268,10 +328,10 @@ module.exports = class GhstsService extends BaseService {
             delete retVal.substances;
 
           // For Usedtemplates
-          if (self.ghsts[0].usedtemplates.length > 0)
-            retVal.usedtemplates = self.ghsts[0].usedtemplates;
-          else
-            delete retVal.usedtemplates;
+          // if (self.ghsts[0].usedtemplates)
+          //   retVal.usedtemplates = self.ghsts[0].usedtemplates;
+          // else
+          //   delete retVal.usedtemplates;
 
           fullRet.value = retVal;
           res(fullRet);
@@ -392,7 +452,7 @@ module.exports = class GhstsService extends BaseService {
               if (!curProp[obj.tocnodepid])
                 curProp[obj.tocnodepid] = [],
 
-                  curProp = curProp[obj.tocnodepid];
+                curProp = curProp[obj.tocnodepid];
 
               if (!curMdsProp)
                 curMdsProp = [];
@@ -620,9 +680,7 @@ module.exports = class GhstsService extends BaseService {
           _metadatastatus: {
             type: Schema.Types.Mixed
           },
-          usedtemplates: [{
-            type: String
-          }],
+          usedtemplates: Schema.Types.Mixed,
           specificationversion: {
             type: String,
             default: self.version
@@ -665,7 +723,8 @@ module.exports = class GhstsService extends BaseService {
 
   edb_package() {
     return new Q((res, rej) => {
-      let self = this, packageLocation;
+      let self = this,
+        packageLocation;
       console.log('package');
       self._buildXmlJson()
         .then(ret => {
@@ -699,8 +758,15 @@ module.exports = class GhstsService extends BaseService {
         .then(ret => {
           let isValid = self._validate['01_00_02'](ret);
           let errors = !isValid ? self._validate['01_00_02'].errors : '';
-          if (errors)
+          if (errors) {
+            errors = _.filter(errors, error => {
+              if (error.keyword !== 'anyOf')
+                return error;
+            });
+          }
+          if (errors && errors.length >= 0) {
             rej(new RVHelper('EDB30002', errors));
+          }
           else
             res(new RVHelper('EDB00000'));
         })
