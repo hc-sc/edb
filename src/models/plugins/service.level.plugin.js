@@ -12,6 +12,8 @@ module.exports = exports = function ServiceLevelPlugin(schema, options) {
 
   schema.pre('save', function (next) {
     this._lastMod = new Date();
+    // if (this.id && this.id === '')
+    //   this.id = this._id.toString();
     next();
   });
 

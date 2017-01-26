@@ -13,8 +13,8 @@ const metadataStatusdef = {
       substances: []
     },
     path: {
-      document: ['documentra', 'documentgeneric'],
-      file: ['filera', 'filegeneric']
+      documents: ['documentra', 'documentgeneric'],
+      files: ['filera', 'filegeneric']
     }
   }
 };
@@ -35,7 +35,7 @@ class MetaDataStatusNodeWithRA {
       if (item.endsWith('ra')) {
         this[item] = [];
         receiverids.map(rec => {
-          let mdRas = new MetaDataStatusNode(rec.receiver, metadatastatusid, elementpath + '.' + item);
+          let mdRas = new MetaDataStatusNode(rec, metadatastatusid, elementpath + '.' + item);
           this[item].push(mdRas);
         });
       } else {

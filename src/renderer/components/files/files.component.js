@@ -38,7 +38,7 @@ export default angular.module('files', [
         this.init().then(() => { this.loading = false; });
       }
 
-      selectFile(index) {
+      selectFile() {
         this.appDataService.edb_get({ _url: 'file', method: 'selectFile', data: angular.copy(this.selected) })
           .then(ret => {
             let isExist = false;
