@@ -1,6 +1,7 @@
 import angular from 'angular';
 import {equals} from 'easy-equals';
 import GhstsPid from '../../../utils/pid';
+import NestedPropertyProc from '../../../utils/nested-property.process';
 export default class BaseCtrl {
   constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, url, $scope) {
     this.$mdDialog = $mdDialog;
@@ -21,7 +22,7 @@ export default class BaseCtrl {
     return this.getAppData()
       .then(records => {
         console.log('records: ', records);
-        this.records = JSON.parse(records.data);
+        this.records = [].concat(JSON.parse(records.data));
         if (this.records && this.records.length > 0) {
           // there is some data in the db
           if (id) {
@@ -113,6 +114,10 @@ export default class BaseCtrl {
       this.createAppData(angular.copy(this.selected))
         .then(result => {
           console.log(result);
+          this.selected = JSON.parse(result.data);
+          if (Array.isArray(this.selected))
+            this.selected = this.selected[0];
+          this.records.push(this.selected);
         })
         .catch(err => {
           this.showMessage(err);
@@ -133,7 +138,7 @@ export default class BaseCtrl {
   // update the field values, only works for first level deep items
   // overload it if you need additional ones
   update(prop, value) {
-    this.selected[prop] = value;
+    NestedPropertyProc.setValue(this.selected, prop, value);
   }
 
   // toggles whether the sidenav component is open or not for listable components

@@ -38,14 +38,20 @@ export default angular.module('files', [
         this.init().then(() => { this.loading = false; });
       }
 
-      add() {
-        this.selected = angular.copy(this.getModel('file'));
-      }
-
-      selectFile() {
+      selectFile(index) {
         this.appDataService.edb_get({ _url: 'file', method: 'selectFile', data: angular.copy(this.selected) })
           .then(ret => {
+            let isExist = false;
             this.selected = JSON.parse(ret.data);
+            for (var i = 0; i < this.records.length; i++) {
+              if (this.records[i]._id === this.selected._id) {
+                this.records[i] = this.selected;
+                isExist = true;
+                break;
+              }
+            }
+            if (!isExist)
+              this.records.push(this.selected);
             console.log(this.selected);
           })
           .catch(err => {

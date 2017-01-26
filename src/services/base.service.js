@@ -33,10 +33,16 @@ module.exports = class BaseService {
       self._exist_check(obj)
         .then(ret => {
           if (JSON.parse(ret).length > 0) {
-            rej(new RVHelper('EDB10004', obj2db));
+            return (new RVHelper('EDB10004', obj2db));
           } else {
             return self._create(obj2db);
           }
+        })
+        .then(result => {
+          if (result.code !== 'EDB00000')
+            rej(result);
+          else
+            res(result);
         })
         .catch(err => {
           rej(err);
