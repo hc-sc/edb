@@ -60,12 +60,12 @@ export default angular.module('submission', [
             { name: 'home', label: 'Home', state: 'splash' }
           ],
           functionIcons: [
-            { name: 'globals', label: 'App Data', state: 'globals.legalEntities' },
-            { name: 'compare', label: 'Compare' },
+           // { name: 'globals', label: 'App Data', state: 'globals.legalEntities' },
+           // { name: 'compare', label: 'Compare' },
             { name: 'check', label: 'Validate', func: this.validateXML.bind(this) },
             { name: 'archive', label: 'Package', func: this.package.bind(this) },
-            { name: 'settings', label: 'Settings', state: 'settings' },
-            { name: 'help', label: 'Help' }
+           // { name: 'settings', label: 'Settings', state: 'settings' },
+           // { name: 'help', label: 'Help' }
           ]
         };
       }

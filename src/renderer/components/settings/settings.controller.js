@@ -10,7 +10,7 @@ export default class SettingsCtrl {
       ],
       title: 'Settings',
       functionIcons: [
-        { name: 'help', label: 'Help' }
+      //  { name: 'help', label: 'Help' }
       ]
     };
     this.listFileButton = { name: 'list', label: 'Select File', color: 'dark' };

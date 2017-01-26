@@ -20,8 +20,8 @@ export default angular.module('globals', [
         ],
         title: 'Manage Application Data',
         functionIcons: [
-          { name: 'settings', state: 'settings', label: 'Settings' },
-          { name: 'help', label: 'Help' }
+         // { name: 'settings', state: 'settings', label: 'Settings' },
+         // { name: 'help', label: 'Help' }
         ]
       };
 
