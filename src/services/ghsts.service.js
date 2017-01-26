@@ -222,16 +222,32 @@ module.exports = class GhstsService extends BaseService {
 
           // For Document            
           if (result._documents && result._documents.length > 0) {
-            retVal.documents.document = self._get_xml_jsonix(result._documents); ///Working with Project Number bug
-            retVal.documents.document.map(doc => {
-              doc.documentgeneric.documentissuedate =
-                DateTimeProc.dateToJsonixObj(doc.documentgeneric.documentissuedate);
-            });
+            retVal.documents.document = result._documents.map(doc => {
+              let retDoc = _.merge({}, doc);
+              let docMeta = self._metadatastatus_process('documents', retDoc._id, receiverIds);
+              retDoc.documentgeneric.metadatastatus = docMeta.documentgeneric.metadatastatusid;
+              retDoc.documentra = _.filter(retDoc.documentra, documentra => {
+                return receiverIds.indexOf(documentra.toSpecificForRAId) >= 0;
+              });
+              if (retDoc.documentra && retDoc.documentra.length > 0) {
+                retDoc.documentra = retDoc.documentra.map(documentra => {
+                  for (var i = 0; i < docMeta.documentra.length; i++) {
+                    if (docMeta.filera[i].elementid === documentra.toSpecificForRAId) {
+                      documentra.metadatastatus = docMeta.documentra[i].metadatastatusid;
+                      break;
+                    }
+                  }
+                  return documentra;
+                });
+              } else
+                delete retDoc.documentra;
 
-            // Looking For Files and Substances in Document
-            result._documents.map(item => {
-              let substances = item.documentgeneric.relatedtosubstance;
-              let files = item.documentgeneric.referencedtofile;
+              retDoc.documentgeneric.documentissuedate =
+                DateTimeProc.dateToJsonixObj(retDoc.documentgeneric.documentissuedate);
+
+              // Looking For Files and Substances in Document
+              let substances = doc.documentgeneric.relatedtosubstance;
+              let files = doc.documentgeneric.referencedtofile;
               if (substances) {
                 substances.map(subs => {
                   retVal.substances.substance.push(subs.toSubstanceId);
@@ -242,7 +258,9 @@ module.exports = class GhstsService extends BaseService {
                   retVal.files.file.push(file.toFileId);
                 });
               }
+              return retDoc;
             });
+            retVal.documents.document = self._get_xml_jsonix(retVal.documents.document); ///Working with Project Number bug
           } else
             delete retVal.documents;
 
@@ -328,10 +346,10 @@ module.exports = class GhstsService extends BaseService {
             delete retVal.substances;
 
           // For Usedtemplates
-          // if (self.ghsts[0].usedtemplates)
-          //   retVal.usedtemplates = self.ghsts[0].usedtemplates;
-          // else
-          //   delete retVal.usedtemplates;
+          if (self.ghsts[0].usedtemplates)
+            retVal.usedtemplates = self.ghsts[0].usedtemplates;
+          else
+            delete retVal.usedtemplates;
 
           fullRet.value = retVal;
           res(fullRet);
@@ -764,7 +782,7 @@ module.exports = class GhstsService extends BaseService {
                 return error;
             });
           }
-          if (errors && errors.length >= 0) {
+          if (errors && errors.length > 0) {
             rej(new RVHelper('EDB30002', errors));
           }
           else

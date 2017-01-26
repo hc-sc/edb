@@ -24,12 +24,13 @@ export default angular.module('files', [
     template,
     bindings: {
       fileType: '<',
-      contentStatus: '<'
+      contentStatus: '<',
+      isSubmission: '<'
     },
 
     controller: class FileCtrl extends BaseCtrl {
-      constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope) {
-        super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'file', $scope);
+      constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope, GhstsService) {
+        super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'file', $scope, GhstsService);
 
         this.fileType = JSON.parse(this.fileType.data);
         this.contentStatus = JSON.parse(this.contentStatus.data);

@@ -26,8 +26,7 @@ export default angular.module('receiver', [
   },
   controller: class ReceiversCtrl extends BaseCtrl {
     constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope, GhstsService) {
-      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'receiver', $scope);
-      this.ghstsService = GhstsService.getService();
+      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'receiver', $scope, GhstsService);
       this.senders = [];
       this.records = [];
 

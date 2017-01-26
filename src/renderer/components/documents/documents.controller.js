@@ -2,8 +2,8 @@ import angular from 'angular';
 import BaseCtrl from '../common/base.controller';
 
 export default class DocumentCtrl extends BaseCtrl{
-   constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService,  $scope) {
-      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'document',  $scope);
+   constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService,  $scope, GhstsService) {
+      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'document',  $scope, GhstsService);
       this.metadataStatusOptions = JSON.parse(this.metadataStatusType.data);
       this.contentStatusOptions = JSON.parse(this.contentStatusType.data);
       this.referenceTypeOptions = JSON.parse(this.referenceType.data);
@@ -39,7 +39,11 @@ export default class DocumentCtrl extends BaseCtrl{
          'identifier'       
       ];
 
-      this.init().then(() => {this.loading = false;});
+      this.init().then(() => {
+        this.loading = false;
+        if (this.isSubmission)
+          this.$scope.$root.loading = false;
+      });
       //this.getModels();
     }
 

@@ -3,7 +3,7 @@ import {equals} from 'easy-equals';
 import GhstsPid from '../../../utils/pid';
 import NestedPropertyProc from '../../../utils/nested-property.process';
 export default class BaseCtrl {
-  constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, url, $scope) {
+  constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, url, $scope, GhstsService) {
     this.$mdDialog = $mdDialog;
     this.$mdToast = $mdToast;
     this.$state = $state;
@@ -14,6 +14,9 @@ export default class BaseCtrl {
 
     this.picklistService = PicklistService.getService();
     this.appDataService = AppDataService.getService();
+    this.ghstsService = GhstsService.getService();
+    this.receivers;
+    this.ghsts;
     this.$scope = $scope;
     this.$scope.$root.loading = true;
   }
@@ -47,7 +50,32 @@ export default class BaseCtrl {
 
   // return some global item(s)
   getAppData(data = {}, url = this.url) {
-    return this.appDataService.edb_get({ url, data });
+    if (this.isSubmission && url === this.url) {
+      console.log(this.isSubmission);
+      console.log(this.dossierData);
+      this.ghsts = this.ghstsService.edb_getSync({_submissionid: this.dossierData.submissionid})[0];
+      let ids = this.ghsts._receivers.map(item => {
+        return item.receiver;
+      });
+      console.log(ids);
+      if (ids.length > 0) {
+        this.receivers = this.appDataService.edb_getSync({_url: '/receiver', data: ids });
+        console.log(this.receivers);
+      }
+      let obj;
+      switch (this.url) {
+        case 'product':
+          obj = {_id: this.ghsts._product};
+          break;
+        case 'document':
+          obj = {where: this.ghsts._documents};
+          break;
+        default:
+          obj = {};
+      }
+      return this.appDataService.edb_get({ url, data: obj});
+    } else
+      return this.appDataService.edb_get({ url, data });
   }
 
   // create a new global item
