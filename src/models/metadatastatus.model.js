@@ -4,17 +4,17 @@ const _ = require('lodash');
 const metadataStatusdef = {
   '01.00.02': {
     fields: {
-      receivers: [],
+      receiver: [],
       product: {},
-      documents: [],
-      files: [],
+      document: [],
+      file: [],
       toc: {},
-      legalentities: [],
-      substances: []
+      legalentity: [],
+      substance: []
     },
     path: {
-      documents: ['documentra', 'documentgeneric'],
-      files: ['filera', 'filegeneric']
+      document: ['documentra', 'documentgeneric'],
+      file: ['filera', 'filegeneric']
     }
   }
 };
@@ -34,10 +34,12 @@ class MetaDataStatusNodeWithRA {
     metadataStatusdef[ver].path[elementpath].map(item => {
       if (item.endsWith('ra')) {
         this[item] = [];
-        receiverids.map(rec => {
-          let mdRas = new MetaDataStatusNode(rec, metadatastatusid, elementpath + '.' + item);
-          this[item].push(mdRas);
-        });
+        if (receiverids && receiverids.length > 0) {
+          receiverids.map(rec => {
+            let mdRas = new MetaDataStatusNode(rec, metadatastatusid, elementpath + '.' + item);
+            this[item].push(mdRas);
+          });
+        }
       } else {
         this[item] = new MetaDataStatusNode(elementid, metadatastatusid, elementpath + '.' + item);
       }

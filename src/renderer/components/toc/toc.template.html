@@ -16,9 +16,4 @@
     <select-input label='Search' select-value='$ctrl.selectedNode' values='$ctrl.treeNodes' main='nodename' on-update='$ctrl.updateSelected(value)'></select-input>
     <tree node='$ctrl.selectedNode' items='$ctrl.docs'></tree>
   </section>
-  <div class='float-bottom'>
-    <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
-      <md-icon md-svg-icon='save' class='light'></md-icon>
-    </md-button>
-  </div>
 </section>

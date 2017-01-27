@@ -9,7 +9,9 @@ import SelectInputExtensible from '../common/select-input-extensible/select-inpu
 
 import PicklistService from '../../services/picklist.service';
 import AppDataService from '../../services/app.data.service';
+import GhstsService from '../../services/ghsts.service';
 import BaseCtrl from '../common/base.controller';
+import _ from 'lodash';
 
 export default angular.module('files', [
   ngMaterial,
@@ -18,13 +20,15 @@ export default angular.module('files', [
   SelectInput,
   SelectInputExtensible,
   PicklistService,
-  AppDataService
+  AppDataService,
+  GhstsService
 ])
   .component('files', {
     template,
     bindings: {
       fileType: '<',
       contentStatus: '<',
+      dossierData: '<',
       isSubmission: '<'
     },
 
@@ -36,7 +40,11 @@ export default angular.module('files', [
         this.contentStatus = JSON.parse(this.contentStatus.data);
         this.listFileButton = { name: 'list', label: 'Select File', color: 'dark' };
         this.addButton = { name: 'add', label: 'Generate PID', color: 'dark' };
-        this.init().then(() => { this.loading = false; });
+        this.init().then(() => { 
+          this.loading = false; 
+          if (this.isSubmission) 
+            this.$scope.$root.loading = false;
+        });
       }
 
       selectFile() {

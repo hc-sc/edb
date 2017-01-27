@@ -2,6 +2,7 @@ import angular from 'angular';
 import {equals} from 'easy-equals';
 import GhstsPid from '../../../utils/pid';
 import NestedPropertyProc from '../../../utils/nested-property.process';
+
 export default class BaseCtrl {
   constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, url, $scope, GhstsService) {
     this.$mdDialog = $mdDialog;
@@ -51,10 +52,8 @@ export default class BaseCtrl {
   // return some global item(s)
   getAppData(data = {}, url = this.url) {
     if (this.isSubmission && url === this.url) {
-      console.log(this.isSubmission);
-      console.log(this.dossierData);
       this.ghsts = this.ghstsService.edb_getSync({_submissionid: this.dossierData.submissionid})[0];
-      let ids = this.ghsts._receivers.map(item => {
+      let ids = this.ghsts._receiver.map(item => {
         return item.receiver;
       });
       console.log(ids);
@@ -62,18 +61,10 @@ export default class BaseCtrl {
         this.receivers = this.appDataService.edb_getSync({_url: '/receiver', data: ids });
         console.log(this.receivers);
       }
-      let obj;
-      switch (this.url) {
-        case 'product':
-          obj = {_id: this.ghsts._product};
-          break;
-        case 'document':
-          obj = {where: this.ghsts._documents};
-          break;
-        default:
-          obj = {};
-      }
-      return this.appDataService.edb_get({ url, data: obj});
+      if (this.url === 'product') 
+        return this.appDataService.edb_get({ url, data: {_id: this.ghsts._product}});
+      else if (this.url === 'document' || this.url === 'file') 
+        return this.ghstsService.edb_get({url: this.url});
     } else
       return this.appDataService.edb_get({ url, data });
   }

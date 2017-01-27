@@ -90,6 +90,19 @@ export default function ($stateProvider, $urlRouterProvider) {
         isSubmission: ['$stateParams', () => true]
       }
     })
+    .state('submission.files', {
+      url: '/files',
+      component: 'files',
+      resolve: {
+        fileType: PicklistService => {
+          return PicklistService.getService().edb_get({ 'TYPE_NAME': 'TYPE_FILE_TYPE' });
+        },
+        contentStatus: PicklistService => {
+          return PicklistService.getService().edb_get({ 'TYPE_NAME': 'TYPE_CONTENT_STATUS' });
+        },
+        isSubmission: ['$stateParams', () => true]
+      },
+    })
     .state('globals', {
       url: '/globals',
       component: 'globals',
@@ -119,9 +132,9 @@ export default function ($stateProvider, $urlRouterProvider) {
         },
         contentStatus: PicklistService => {
           return PicklistService.getService().edb_get({ 'TYPE_NAME': 'TYPE_CONTENT_STATUS' });
-        }
-      },
-      isSubmission: ['$stateParams', () => false]
+        },
+        isSubmission: ['$stateParams', () => false]
+      }
     })
     .state('globals.substances', {
       url: '/substances',
