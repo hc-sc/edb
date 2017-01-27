@@ -1,3 +1,5 @@
+import NestedPropertyProc from '../../../utils/nested-property.process';
+
 export default class ModalBaseCtrl {
   constructor($mdDialog, index, node, picklists, picklistService, $scope) {
     this.$mdDialog = $mdDialog;
@@ -17,7 +19,15 @@ export default class ModalBaseCtrl {
   }
 
   update(prop, value) {
-    this.node[prop] = value;
+    NestedPropertyProc.setValue(this.node, prop, value);
+  }
+
+  updateArray(prop, index, value) {
+    this.node[prop][index] = value;
+  }
+
+  deleteArray(prop, index) {
+    this.node[prop] = this.node[prop].slice(0, index).concat(this.node[prop].slice(index + 1));
   }
 
   // generates a picklist item.
@@ -33,7 +43,8 @@ export default class ModalBaseCtrl {
       // need to allow the select component to update BEFORE assigning a new selected
       // in the future, have the select component use lifecycle methods to return when it is finished
       setTimeout(() => {
-        this.node[prop] = item._id;
+        NestedPropertyProc.setValue(this.node, prop, item._id);
+        // this.node[prop] = item._id;
         this.$scope.$apply();
       }, 200);
     })

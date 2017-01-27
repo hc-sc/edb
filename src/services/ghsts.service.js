@@ -14,6 +14,7 @@ const SenderService = require('./sender.service');
 const LegalEntityService = require('./legalentity.service');
 const ProductService = require('./product.service');
 const DossierService = require('./dossier.service');
+const DocumentService = require('./document.service');
 const SubmissionService = require('./submission.service');
 const SubstanceService = require('./substance.service');
 const FileService = require('./file.service');
@@ -142,17 +143,16 @@ module.exports = class GhstsService extends BaseService {
           usedtemplates: {
             TYPE_NAME: 'AnyType'
           }
-        },
-        svr = new ReceiverService();
+        };
       let entityClass = require('mongoose').model(self.modelClassName);
 
       let dbquery = entityClass.find({
         _id: self.ghsts[0]._id
       });
       let pops = [];
-      if (self.ghsts[0]._receivers && self.ghsts[0]._receivers.length > 0) {
+      if (self.ghsts[0]._receiver && self.ghsts[0]._receiver.length > 0) {
         pops.push({
-          path: '_receivers.receiver'
+          path: '_receiver.receiver'
         });
       }
       pops.push({
@@ -165,9 +165,9 @@ module.exports = class GhstsService extends BaseService {
         }]
       });
 
-      if (self.ghsts[0]._documents && self.ghsts[0]._documents.length > 0) {
+      if (self.ghsts[0]._document && self.ghsts[0]._document.length > 0) {
         pops.push({
-          path: '_documents'
+          path: '_document'
         });
       }
 
@@ -185,8 +185,8 @@ module.exports = class GhstsService extends BaseService {
           let receiverIds = [];
 
           // For Receiver
-          if (result._receivers) {
-            retVal.receivers.receiver = result._receivers.map(item => {
+          if (result._receiver) {
+            retVal.receivers.receiver = result._receiver.map(item => {
               retVal.legalentities.legalentity.push(item.receiver.toLegalEntityId);
               item.receiver.id = item.receiver._id.toString();
               item.receiver.metadatastatus = self._metadatastatus_process('receiver', item.receiver.id);
@@ -221,10 +221,10 @@ module.exports = class GhstsService extends BaseService {
           });
 
           // For Document            
-          if (result._documents && result._documents.length > 0) {
+          if (result._document && result._document.length > 0) {
             retVal.documents.document = result._documents.map(doc => {
               let retDoc = _.merge({}, doc);
-              let docMeta = self._metadatastatus_process('documents', retDoc._id, receiverIds);
+              let docMeta = self._metadatastatus_process('document', retDoc._id, receiverIds);
               retDoc.documentgeneric.metadatastatus = docMeta.documentgeneric.metadatastatusid;
               retDoc.documentra = _.filter(retDoc.documentra, documentra => {
                 return receiverIds.indexOf(documentra.toSpecificForRAId) >= 0;
@@ -272,7 +272,7 @@ module.exports = class GhstsService extends BaseService {
               let retFile = _.merge({}, FileService.edb_getSync({
                 _id: item
               })[0]);
-              let fileMeta = self._metadatastatus_process('files', item, receiverIds);
+              let fileMeta = self._metadatastatus_process('file', item, receiverIds);
               retFile.filegeneric.metadatastatus = fileMeta.filegeneric.metadatastatusid;
               retFile.filera = _.filter(retFile.filera, filera => {
                 return receiverIds.indexOf(filera.toSpecificForRAId) >= 0;
@@ -366,16 +366,45 @@ module.exports = class GhstsService extends BaseService {
       delete obj._subUrl;
       if (subUrlObj.subUrl) {
         let svrClass = require('./' + subUrlObj.subUrl + '.service');
-        let svr = new svrClass();
+        let svr = new svrClass(self._version);
         let ids = [];
         if (subUrlObj.subIds) {
           return svr.edb_get({
             _id: subUrlObj.subIds
           }, true);
+        } else if (subUrlObj.subUrl === 'file') {
+          return new Q((res, rej) => {
+            let docServ = new DocumentService(self._version);
+            docServ.edb_get({_id: self.ghsts[0]._document})
+              .then(ret => {
+                let fileids = [];
+                let docs = JSON.parse(ret.data);
+                if (docs && docs.length > 0) {
+                  docs.map(doc => {
+                    if (doc.documentgeneric.referencedtofile && doc.documentgeneric.referencedtofile.length > 0) {
+                      doc.documentgeneric.referencedtofile.map(file => {
+                        fileids.push(file.toFileId);
+                      }); 
+                    }
+                  });
+                  fileids = _.uniq(fileids);
+                }
+                if (fileids && fileids.length > 0) 
+                  return svr.edb_get({_id: fileids});
+                else 
+                  return new Q((resolve) => {resolve(ret);});
+              })
+              .then(files => {
+                res(files);
+              })
+              .catch(err => {
+                rej(err);
+              });
+          });
         } else { ///get all sub-instances of the submission
           switch (subUrlObj.subUrl) {
             case 'receiver':
-              ids = self.ghsts[0]._receivers; /// need refacting for loading new ghsts, only one submission for release 1
+              ids = self.ghsts[0]._receiver; /// need refacting for loading new ghsts, only one submission for release 1
               if (ids) {
                 ids = ids.map(item => {
                   return item.receiver;
@@ -383,7 +412,7 @@ module.exports = class GhstsService extends BaseService {
               }
               break;
             case 'document':
-              ids = self.ghsts[0]._documents;
+              ids = self.ghsts[0]._document;
               break;
             default:
               ids = undefined;
@@ -423,8 +452,8 @@ module.exports = class GhstsService extends BaseService {
             isExisting;
           switch (subUrlObj.subUrl) {
             case 'receiver':
-              curProp = self.ghsts[0]._receivers;
-              curMdsProp = self.ghsts[0]._metadatastatus.receivers;
+              curProp = self.ghsts[0]._receiver;
+              curMdsProp = self.ghsts[0]._metadatastatus.receiver;
               if (!curProp)
                 curProp = [];
               if (!curMdsProp)
@@ -461,8 +490,8 @@ module.exports = class GhstsService extends BaseService {
               }
               break;
             case 'toc':
-              curDocProp = self.ghsts[0]._documents;
-              curMdsProp = self.ghsts[0]._metadatastatus.documents;
+              curDocProp = self.ghsts[0]._document;
+              curMdsProp = self.ghsts[0]._metadatastatus.document;
               if (!self.ghsts[0]._toc2docs)
                 self.ghsts[0]._toc2docs = {};
               curProp = self.ghsts[0]._toc2docs;
@@ -488,7 +517,7 @@ module.exports = class GhstsService extends BaseService {
                     obj.docid.toString(),
                     MetaDataStatus.getMetadataStatusIdbyValue('new'),
                     'document',
-                    self.ghsts[0]._receivers
+                    self.ghsts[0]._receiver
                   ));
                 }
                 needUpdate = true;
@@ -530,8 +559,8 @@ module.exports = class GhstsService extends BaseService {
           let curProp, curMdsProp, curMdsIndex, curEntityIndex;
           switch (subUrlObj.subUrl) {
             case 'receiver':
-              curProp = self.ghsts[0]._receivers;
-              curMdsProp = self.ghsts[0]._metadatastatus.receivers;
+              curProp = self.ghsts[0]._receiver;
+              curMdsProp = self.ghsts[0]._metadatastatus.receiver;
               break;
             default:
               curProp = undefined;
@@ -575,8 +604,8 @@ module.exports = class GhstsService extends BaseService {
             isExisting;
           switch (subUrlObj.subUrl) {
             case 'receiver':
-              curProp = self.ghsts[0]._receivers;
-              curMdsProp = self.ghsts[0]._metadatastatus.receivers;
+              curProp = self.ghsts[0]._receiver;
+              curMdsProp = self.ghsts[0]._metadatastatus.receiver;
               if (subUrlObj.senderId) {
                 curProp = _.filter(curProp, item => {
                   return item.receiver = subUrlObj.subIds;
@@ -595,8 +624,8 @@ module.exports = class GhstsService extends BaseService {
               break;
             case 'toc':
               curProp = self.ghsts[0]._toc2docs;
-              curDocProp = self.ghsts[0]._documents;
-              curMdsProp = self.ghsts[0]._metadatastatus.documents;
+              curDocProp = self.ghsts[0]._document;
+              curMdsProp = self.ghsts[0]._metadatastatus.document;
               keys = Object.keys(curProp);
               isExisting = [];
               keys.map(key => {
@@ -658,7 +687,7 @@ module.exports = class GhstsService extends BaseService {
             type: Number,
             default: 1
           },
-          _receivers: [{
+          _receiver: [{
             receiver: {
               type: 'ObjectId',
               ref: 'RECEIVER'
@@ -672,7 +701,7 @@ module.exports = class GhstsService extends BaseService {
             type: 'ObjectId',
             ref: 'PRODUCT'
           },
-          _documents: [{
+          _document: [{
             type: 'ObjectId',
             ref: 'DOCUMENT'
           }],
