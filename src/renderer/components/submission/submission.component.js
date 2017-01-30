@@ -51,7 +51,10 @@ export default angular.module('submission', [
           { title: 'Receivers', state: '.receivers' },
           { title: 'Dossier', state: '.dossier' },
           { title: 'Submission', state: '.submissionNode' },
-          { title: 'TOC', state: '.toc' }
+          { title: 'TOC', state: '.toc' },
+          { title: 'Products', state: '.products' },
+          { title: 'Files', state: '.files' },
+          { title: 'Documents', state: '.documents' },
         ];
 
         this.toolbarItems = {

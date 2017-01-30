@@ -41,9 +41,9 @@
       </div>
     </md-toolbar>
     <md-list>
-        <md-list-item ng-repeat="comment in $ctrl.node.documentcomment" class="noright">
-            <text-input label='Comment' text-value='comment' on-update='$ctrl.update("comment", value)'></text-input>
-            <md-button aria-label='Delete Item'  ng-click="$ctrl.deleteComment(comment, $event)">
+        <md-list-item ng-repeat="comment in $ctrl.node.documentcomment track by $index" class="noright">
+            <text-input label='Comment' text-value='comment' on-update='$ctrl.updateArray("documentcomment", $index, value)'></text-input>
+            <md-button aria-label='Delete Item'  ng-click='$ctrl.deleteArray("documentcomment", $index)'>
                 <md-icon md-svg-icon='delete' class='dark'></md-icon>
                 <md-tooltip>Delete Comment</md-tooltip>
             </md-button>
