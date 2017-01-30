@@ -17,7 +17,7 @@
             label='Product Name' 
             is-required='true' 
             text-value='$ctrl.node.productname' 
-            on-update='$ctrl.update("productname", value)'>
+            on-update='$ctrl.update("productname", value)' max-Length='255'>
         </text-input>
         <select-input 
             label='Receiver' 
@@ -31,7 +31,7 @@
             <text-input 
                 label='Identifier' 
                 text-value='adminnumber.identifier' 
-                on-update='$ctrl.update("identifier", value)'>
+                on-update='$ctrl.update("identifier", value)' max-Length='255'>
             </text-input>
             <select-input-extensible 
                 label='"Admin Number Type"' 
