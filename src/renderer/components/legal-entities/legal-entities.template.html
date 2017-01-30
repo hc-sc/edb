@@ -24,6 +24,7 @@
       on-select='$ctrl.selectTblItem("legalentityidentifier", index)' on-add='$ctrl.addTblItem("legalentityidentifier")' on-delete='$ctrl.deleteTblItem("legalentityidentifier", index)'></tbl>
     <fieldset>
       <legend>{{"contactaddress" | translate}}</legend>
+
       <text-input label='{{"street1" | translate}}' text-value='$ctrl.selected.contactaddress.street1' is-required='true' on-update='$ctrl.updateContactAddress("street1", value)' max-Length='255'></text-input>
       <text-input label='{{"street2" | translate}}' text-value='$ctrl.selected.contactaddress.street2' on-update='$ctrl.updateContactAddress("street2", value)' max-Length='255'></text-input>
       <text-input label='{{"zipcode" | translate}}' text-value='$ctrl.selected.contactaddress.zipcode' on-update='$ctrl.updateContactAddress("zipcode", value)' max-Length='255'></text-input>
@@ -34,6 +35,7 @@
       <text-input label='{{"phone" | translate}}' text-value='$ctrl.selected.contactaddress.phone' on-update='$ctrl.updateContactAddress("phone", value)' max-Length='255'></text-input>
       <text-input label='{{"fax" | translate}}' text-value='$ctrl.selected.contactaddress.fax' on-update='$ctrl.updateContactAddress("fax", value)' max-Length='255'></text-input>
       <text-input label='{{"email" | translate}}' text-value='$ctrl.selected.contactaddress.email' on-update='$ctrl.updateContactAddress("email", value)' max-Length='255'></text-input>
+
       <text-input label='{{"website" | translate}}' text-value='$ctrl.selected.contactaddress.website' on-update='$ctrl.updateContactAddress("website", value)'></text-input>
     </fieldset>
     <tbl ng-if='!$ctrl.loading' title='{{"contacts" | translate}}' items='$ctrl.selected.contactperson' projection='["lastname", "firstname", "title", "email"]'
