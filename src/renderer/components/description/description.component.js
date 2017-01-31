@@ -20,7 +20,7 @@ export default angular.module('description', [
     template,
     bindings: {
       dossierData: '<',
-    isSubmission: '<'
+      isSubmission: '<'
     },
     controller: class DescriptionCtrl extends BaseCtrl {
       constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope, GhstsService) {

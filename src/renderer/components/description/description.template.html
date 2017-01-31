@@ -15,10 +15,10 @@
     <md-switch ng-if='!$ctrl.loading' ng-model='$ctrl.submission.incremental' aria-label='Incremental' class='md-primary' ng-change='$ctrl.printValue()'>Incremental</md-switch>
     <tbl ng-if='!$ctrl.$scope.$root.loading' title='Dossier Regulatory Authorities' items='$ctrl.selected.dossierra' projection='[{name: "regulatorytype", url: "picklist"}, {name: "applicationtype", url: "picklist"}, "projectidnumber"]'
       min-items='1' on-select='$ctrl.selectTblItem("dossierra", index)' on-delete='$ctrl.deleteTblItem("dossierra", index)'
-      deletable='true'></tbl>
+      deletable='true' on-add='$ctrl.addTblItem("dossierra")'></tbl>
     <tbl ng-if='!$ctrl.$scope.$root.loading' title='Referenced Dossiers' items='$ctrl.selected.referenceddossier' projection='["referenceddossierreason", "referenceddossiernumber"]'
       min-items='0' on-select='$ctrl.selectTblItem("referenceddossier", index)' on-delete='$ctrl.deleteTblItem("referenceddossier", index)'
-      deletable='false'></tbl>
+      deletable='false' on-add='$ctrl.addTblItem("referenceddossier")'></tbl>
   </div>
   <div class='float-bottom'>
     <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>

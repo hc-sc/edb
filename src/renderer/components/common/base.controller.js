@@ -56,10 +56,8 @@ export default class BaseCtrl {
       let ids = this.ghsts._receiver.map(item => {
         return item.receiver;
       });
-      console.log(ids);
       if (ids.length > 0) {
         this.receivers = this.appDataService.edb_getSync({_url: '/receiver', data: ids });
-        console.log(this.receivers);
       }
       if (this.url === 'product') 
         return this.appDataService.edb_get({ url, data: {_id: this.ghsts._product}});
@@ -71,7 +69,10 @@ export default class BaseCtrl {
 
   // create a new global item
   createAppData(data = {}, url = this.url) {
-    return this.appDataService.edb_put({ url, data });
+    if (this.isSubmission && url === this.url) {
+      return this.ghstsService.edb_put({url, data});
+    } else
+      return this.appDataService.edb_put({ url, data });
   }
 
   // update a global item
