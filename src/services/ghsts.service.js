@@ -222,7 +222,7 @@ module.exports = class GhstsService extends BaseService {
 
           // For Document            
           if (result._document && result._document.length > 0) {
-            retVal.documents.document = result._documents.map(doc => {
+            retVal.documents.document = result._document.map(doc => {
               let retDoc = _.merge({}, doc);
               let docMeta = self._metadatastatus_process('document', retDoc._id, receiverIds);
               retDoc.documentgeneric.metadatastatus = docMeta.documentgeneric.metadatastatusid;
@@ -367,40 +367,12 @@ module.exports = class GhstsService extends BaseService {
       if (subUrlObj.subUrl) {
         let svrClass = require('./' + subUrlObj.subUrl + '.service');
         let svr = new svrClass(self._version);
-        let ids = [];
+        let ids = undefined;
+
         if (subUrlObj.subIds) {
           return svr.edb_get({
             _id: subUrlObj.subIds
           }, true);
-        } else if (subUrlObj.subUrl === 'file') {
-          return new Q((res, rej) => {
-            let docServ = new DocumentService(self._version);
-            docServ.edb_get({_id: self.ghsts[0]._document})
-              .then(ret => {
-                let fileids = [];
-                let docs = JSON.parse(ret.data);
-                if (docs && docs.length > 0) {
-                  docs.map(doc => {
-                    if (doc.documentgeneric.referencedtofile && doc.documentgeneric.referencedtofile.length > 0) {
-                      doc.documentgeneric.referencedtofile.map(file => {
-                        fileids.push(file.toFileId);
-                      }); 
-                    }
-                  });
-                  fileids = _.uniq(fileids);
-                }
-                if (fileids && fileids.length > 0) 
-                  return svr.edb_get({_id: fileids});
-                else 
-                  return new Q((resolve) => {resolve(ret);});
-              })
-              .then(files => {
-                res(files);
-              })
-              .catch(err => {
-                rej(err);
-              });
-          });
         } else { ///get all sub-instances of the submission
           switch (subUrlObj.subUrl) {
             case 'receiver':
@@ -412,7 +384,8 @@ module.exports = class GhstsService extends BaseService {
               }
               break;
             case 'document':
-              ids = self.ghsts[0]._document;
+            case 'file':
+              ids = {fieldname: '_ghsts', ids: [self.ghsts[0]._id]};
               break;
             default:
               ids = undefined;
@@ -443,7 +416,7 @@ module.exports = class GhstsService extends BaseService {
   ///Works for only one submission for now
   _subUrlProcess4Put(obj) {
     return new Q((res, rej) => {
-      let self = this;
+      let self = this, svr = undefined;
       if (obj._subUrl) {
         let subUrlObj = self._subUrlToObj(obj._subUrl);
         delete obj._subUrl;
@@ -523,11 +496,27 @@ module.exports = class GhstsService extends BaseService {
                 needUpdate = true;
               }
               break;
+            case 'document':
+              svr = new DocumentService(self._version);
+              break;
+            case 'file': 
+              svr = new FileService(self._version);
+              break;
             default:
               curProp = undefined;
           }
-          if (!obj._id && !subUrlObj.subIds && !subUrlObj.senderId && !(obj.tocnodepid && obj.docid))
+          if (!obj._id && !subUrlObj.subIds && !subUrlObj.senderId && !(obj.tocnodepid && obj.docid) && !svr)
             rej(new RVHelper('EDB12014'));
+          else if (svr) {
+            obj._ghsts = self.ghsts[0]._id;
+            svr.edb_put(obj)
+              .then(ret => {
+                res(ret);
+              })
+              .catch(err => {
+                rej(err);
+              });
+          }
           else if (needUpdate) {
             self.edb_post(self.ghsts[0])
               .then(ret => {
@@ -551,37 +540,53 @@ module.exports = class GhstsService extends BaseService {
   ///Works for only one submission for now
   _subUrlProcess4Post(obj) {
     return new Q((res, rej) => {
-      let self = this;
+      let self = this, svr = undefined;
       if (obj._subUrl) {
         let subUrlObj = self._subUrlToObj(obj._subUrl);
         delete obj._subUrl;
         if (subUrlObj.subUrl) {
           let curProp, curMdsProp, curMdsIndex, curEntityIndex;
           switch (subUrlObj.subUrl) {
-            case 'receiver':
-              curProp = self.ghsts[0]._receiver;
-              curMdsProp = self.ghsts[0]._metadatastatus.receiver;
-              break;
-            default:
-              curProp = undefined;
+          case 'receiver':
+            curProp = self.ghsts[0]._receiver;
+            curMdsProp = self.ghsts[0]._metadatastatus.receiver;
+            break;
+          case 'document':
+            svr = new DocumentService(self._version);
+            break;
+          case 'file':
+            svr = new FileService(self._version);
+            break;
+          default:
+            curProp = undefined;
           }
           curEntityIndex = _.findIndex(curProp, item => {
             return item.receiver === subUrlObj.subIds;
           });
-          if (subUrlObj.senderId) {
-            let curSenderIndex = _.findIndex(curProp[curEntityIndex].sender, item => {
-              return item === subUrlObj.senderId;
-            });
-            if (curSenderIndex >= 0 && obj._id)
-              curProp[curEntityIndex].sender[curSenderIndex] = obj._id.toString();
-          } else {
-            curMdsIndex = _.findIndex(curMdsProp, item => {
-              return item.elementid === subUrlObj.subIds;
-            });
-            curProp[curEntityIndex][subUrlObj.subUrl] = obj._id.toString();
-            curMdsProp[curMdsIndex]['elementid'] = obj._id.toString();
+          if (svr) {
+            if (obj._ghsts === self.ghsts[0]._id)
+              res(svr.edb_post(obj));
+            else {
+              obj._ghsts = self.ghsts[0]._id;
+              delete obj._id;
+              res(svr.edb_put(obj));
+            }
+          } else {  
+            if (subUrlObj.senderId) {
+              let curSenderIndex = _.findIndex(curProp[curEntityIndex].sender, item => {
+                return item === subUrlObj.senderId;
+              });
+              if (curSenderIndex >= 0 && obj._id)
+                curProp[curEntityIndex].sender[curSenderIndex] = obj._id.toString();
+            } else {
+              curMdsIndex = _.findIndex(curMdsProp, item => {
+                return item.elementid === subUrlObj.subIds;
+              });
+              curProp[curEntityIndex][subUrlObj.subUrl] = obj._id.toString();
+              curMdsProp[curMdsIndex]['elementid'] = obj._id.toString();
+            }
+            res(self.edb_post(self.ghsts[0]));
           }
-          res(self.edb_post(self.ghsts[0]));
         } else {
           rej(new RVHelper('EDB12013'));
         }

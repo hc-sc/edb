@@ -365,7 +365,7 @@ module.exports = class BaseService {
       retVal = obj;
       let keys = Object.keys(retVal);
       keys.map(key => {
-        if ((key.startsWith('_') && key !== '_state') || key === 'valuedecode' || key === 'id')
+        if ((key.startsWith('_') && key !== '_state' && key !== '_ghsts') || key === 'valuedecode' || key === 'id')
           delete retVal[key];
         else if (retVal[key]) {
           if (Array.isArray(retVal[key])) {

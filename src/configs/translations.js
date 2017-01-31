@@ -65,12 +65,12 @@ export const propNames_en = {
   'submissionnumber': 'Number',
   'adminnumber': 'Admin Number',
   'packagetype': 'Package Type',
-  //Substance
+  //Substance;
   'substancepid':'Substance PID',
   'substancename':'Substance Name',
   'substanceidentifier':'Identifiers',
   'substanceidentifiertype':'Identifier Type',
-  'substanceidentifierinmodel':'Identifier In model',
+  'substanceidentifierinmodel':'Identifier',
   'identifiertype':'Identifier Type'
 
 };

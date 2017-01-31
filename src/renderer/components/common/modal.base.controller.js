@@ -1,13 +1,14 @@
 import NestedPropertyProc from '../../../utils/nested-property.process';
 
 export default class ModalBaseCtrl {
-  constructor($mdDialog, index, node, picklists, picklistService, $scope) {
+  constructor($mdDialog, index, node, picklists, picklistService, $scope, ModelService) {
     this.$mdDialog = $mdDialog;
     this.index = index;
     this.node = node;
     this.picklists = picklists;
     this.picklistService = picklistService;
     this.$scope = $scope;
+    this.modelService = ModelService;
   }
 
   cancel() {
@@ -18,12 +19,24 @@ export default class ModalBaseCtrl {
     this.$mdDialog.hide(this.node);
   }
 
+  getModel(prop) {
+    return this.modelService.getModel(prop);
+  }
+
+  add(prop, model) {
+    let modelName = model ? model : prop;
+    this.node[prop].push(this.getModel(modelName));
+  }
+
   update(prop, value) {
     NestedPropertyProc.setValue(this.node, prop, value);
   }
 
-  updateArray(prop, index, value) {
-    this.node[prop][index] = value;
+  updateArray(prop, index, value, parentArray) {
+    if (parentArray && Array.isArray(this.node[parentArray])) {
+      this.node[parentArray][index][prop] = value;
+    } else
+      this.node[prop][index] = value;
   }
 
   deleteArray(prop, index) {
@@ -34,7 +47,7 @@ export default class ModalBaseCtrl {
   // prop - the node your changing
   // arr - the array of picklist items used to population the select field
   // value - the new picklist value
-  createPicklistItem(prop, arr, value) {
+  createPicklistItem(prop, arr, value, index, parentArray) {
     return this.picklistService.edb_put(value)
     .then(result => {
       let item = JSON.parse(result.data);
@@ -43,7 +56,11 @@ export default class ModalBaseCtrl {
       // need to allow the select component to update BEFORE assigning a new selected
       // in the future, have the select component use lifecycle methods to return when it is finished
       setTimeout(() => {
-        NestedPropertyProc.setValue(this.node, prop, item._id);
+        if (parentArray && Array.isArray(this.node[parentArray]) && index >= 0) {
+          this.node[parentArray][index][prop] = item._id;
+        }
+        else
+          NestedPropertyProc.setValue(this.node, prop, item._id);
         // this.node[prop] = item._id;
         this.$scope.$apply();
       }, 200);
