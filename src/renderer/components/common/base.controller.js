@@ -43,7 +43,7 @@ export default class BaseCtrl {
         }
         else {
           // empty table, need to prompt to create first
-          console.error('EMPTY ON INIT');
+          console.log('EMPTY ON INIT');
         }
         // console.log("View Data: " + JSON.stringify(this.selected));
       });
