@@ -29,7 +29,7 @@ export const propNames_en = {
   'legalentitytype': 'Legal Entity Type',
   'othername': 'Other Name',
   'legalentityidentifier': 'Legal Entity Identifier',
-  'contactaddress': 'Address',
+  'contactaddress': 'Address*',
   'street1': 'Street 1',
   'street2': 'Street 2',
   'zipcode': 'Zip/Postal Code',
