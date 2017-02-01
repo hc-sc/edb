@@ -71,6 +71,23 @@ export const propNames_en = {
   'substanceidentifier':'Identifiers',
   'substanceidentifiertype':'Identifier Type',
   'substanceidentifierinmodel':'Identifier',
-  'identifiertype':'Identifier Type'
+  'identifiertype':'Identifier Type',
+  
+  //Product
+  'productid':'Product PID',
+  'genericproductname':'Generic Product Name',
+  'formulationtype':'Formulation Type',
+  'toSpecificForRAId': 'Regulatory Authorities',
+  'ingredients':'Ingredients',
+  'productregulartoryauthorities':'Product Regulatory Authorities',
+  //Product RA
+  'productname':'Product Name' ,
+  'receiver':'Receiver',
+  'adminnumbertype':'Admin Number Type',
+  //Ingredient
+  'substance':'Substance',
+  'toSubstanceId':'Substance ID',
+  'quantity':'Quantity',
+  'unit':'Unit',
 
 };
