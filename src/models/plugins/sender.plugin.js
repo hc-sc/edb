@@ -4,6 +4,6 @@ module.exports = exports = function SenderPlugin(schema, options) {
     toLegalEntityId: {type: 'ObjectId', ref: 'LEGALENTITY'},
   });
   schema.virtual('valuedecode').get(function () {
-    return this.companycontactregulatoryrole;
+    return this.remark;
   });
 };
