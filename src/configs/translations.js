@@ -110,6 +110,6 @@ export const propNames_en = {
   //receivers
   'legalentity':'Legal Entity',
   'shortname':'Short Name',
-  'role':'Rolde',
+  'role':'Role',
 
 };

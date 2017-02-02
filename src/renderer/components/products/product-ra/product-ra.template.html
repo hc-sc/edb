@@ -31,7 +31,7 @@
             <fieldset>
               <div layout-gt-sm="row">
                 <md-input-container class="md-block" flex-gt-sm>
-                  <label>'{{"identifier" | translate}}'</label>
+                  <label>{{"identifier" | translate}}</label>
                   <input ng-model='adminnumber.identifier' type='text' on-update='$ctrl.updateArray("identifier", $index, value)' max-Length='255'/>
                 </md-input-container>
                 <md-button aria-label='Delete Item' ng-click='$ctrl.deleteArray("adminnumber", $index, $event)'>

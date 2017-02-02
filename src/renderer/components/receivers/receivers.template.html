@@ -7,9 +7,9 @@
           on-add='$ctrl.add(item)'>
   </sidenav>
   <div ng-show='!$ctrl.isSubmission' class='no-padding no-margin'>
-    <select-input label='Legal Entity' select-value='$ctrl.selected.toLegalEntityId' main='legalentityname' values='$ctrl.legalEntities' on-update='$ctrl.update("toLegalEntityId", value)'></select-input>
-    <text-input label='Short Name' is-required='true' text-value='$ctrl.selected.shortname' on-update='$ctrl.update("shortname", value)' max-Length='20'></text-input>
-    <text-input label='Role' text-value='$ctrl.selected.role' on-update='$ctrl.update("role", value)' max-Length='255'></text-input>
+    <select-input label='{{"legalentity" | translate}}' select-value='$ctrl.selected.toLegalEntityId' main='legalentityname' values='$ctrl.legalEntities' on-update='$ctrl.update("toLegalEntityId", value)'></select-input>
+    <text-input label='{{"shortname" | translate}}' is-required='true' text-value='$ctrl.selected.shortname' on-update='$ctrl.update("shortname", value)' max-Length='20'></text-input>
+    <text-input label='{{"role" | translate}}' text-value='$ctrl.selected.role' on-update='$ctrl.update("role", value)' max-Length='255'></text-input>
   </div>
   <div ng-show='$ctrl.isSubmission' class='no-padding no-margin'>
     <!--<tbl ng-if='!this.$scope.$root.loading' title='Receivers' items='$ctrl.records' projection='["shortname", "role"]' default-sort='LAST_MODIFIED' default-reverse='true' on-select='$ctrl.selectReceiver(id, index)' on-add='$ctrl.newReceiver()' on-delete='$ctrl.deleteReceiver(id)'></tbl>-->
