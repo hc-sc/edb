@@ -86,8 +86,16 @@ export const propNames_en = {
   'adminnumbertype':'Admin Number Type',
   //Ingredient
   'substance':'Substance',
-  'toSubstanceId':'Substance ID',
+  'toSubstanceId':'Substance Name',
   'quantity':'Quantity',
   'unit':'Unit',
-
+  //File
+  'filefulllocation':'File Full Location',
+  'filecompanyid':'File Company ID',
+  'replacedfilepid':'Replaced File PID',
+  'formatcomment':'Format Comment',
+  'md5checksum':'MD5 Checksum',
+  'filename':'File Name',
+  //File RA
+  'filecomments':'File Comments',
 };
