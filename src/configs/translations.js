@@ -22,6 +22,8 @@ export const picklists_en = {
 export const propNames_en = {
   // Generic
   'save': 'Save',
+  'okey': 'Okey',
+  'cancel':'Cancel',
 
   // Legal Entities
   'legalentitypid': 'Legal Entity PID',
@@ -79,15 +81,37 @@ export const propNames_en = {
   'formulationtype':'Formulation Type',
   'toSpecificForRAId': 'Regulatory Authorities',
   'ingredients':'Ingredients',
+  'ingredient':'Ingredient*',
   'productregulartoryauthorities':'Product Regulatory Authorities',
   //Product RA
+  'productRA':'Product Regulatory Authorities',
   'productname':'Product Name' ,
   'receiver':'Receiver',
   'adminnumbertype':'Admin Number Type',
   //Ingredient
   'substance':'Substance',
-  'toSubstanceId':'Substance ID',
+  'toSubstanceId':'Substance Name',
   'quantity':'Quantity',
   'unit':'Unit',
+  //File
+  'filefulllocation':'File Full Location',
+  'filepid':'File PID',
+  'filecompanyid':'File Company ID',
+  'contentstatus':'Content Status',
+  'replacedfilepid':'Replaced File PID',
+  'filetype':'File Type',
+  'formatcomment':'Format Comment',
+  'md5checksum':'MD5 Checksum',
+  'filename':'File Name',
+
+  'fileRA':'File Regulatory Authorities',
+  //File RA
+  'filecomments':'File Comments',
+  //receivers
+  'receivers':'Receivers',
+  'legalentity':'Legal Entity',
+  'shortname':'Short Name',
+  'role':'Role',
+
 
 };
