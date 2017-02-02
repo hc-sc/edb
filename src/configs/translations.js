@@ -91,7 +91,9 @@ export const propNames_en = {
   'unit':'Unit',
   //File
   'filefulllocation':'File Full Location',
+  'filepid':'File PID',
   'filecompanyid':'File Company ID',
+  'contentstatus':'Content Status',
   'replacedfilepid':'Replaced File PID',
   'formatcomment':'Format Comment',
   'md5checksum':'MD5 Checksum',
