@@ -108,8 +108,10 @@ export const propNames_en = {
   //File RA
   'filecomments':'File Comments',
   //receivers
+  'receivers':'Receivers',
   'legalentity':'Legal Entity',
   'shortname':'Short Name',
-  'role':'Rolde',
+  'role':'Role',
+
 
 };
