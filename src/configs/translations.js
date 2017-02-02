@@ -99,7 +99,7 @@ export const propNames_en = {
   'filecompanyid':'File Company ID',
   'contentstatus':'Content Status',
   'replacedfilepid':'Replaced File PID',
-  'filetype':'File Type ooo',
+  'filetype':'File Type',
   'formatcomment':'Format Comment',
   'md5checksum':'MD5 Checksum',
   'filename':'File Name',
