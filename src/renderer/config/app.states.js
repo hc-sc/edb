@@ -34,6 +34,9 @@ export default function ($stateProvider, $urlRouterProvider) {
     .state('submission.toc', {
       url: '/toc',
       component: 'toc',
+      resolve: {
+        isSubmission: ['$stateParams', () => true]
+      }
     })
     .state('submission.receivers', {
       url: '/receiver',
