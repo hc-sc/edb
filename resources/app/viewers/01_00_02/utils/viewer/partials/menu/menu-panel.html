@@ -1,0 +1,62 @@
+<div id="menu-panel" ng-controller="MenuController as menuCtrl">
+    <div class="menu-row">
+        <div class="menu-field">
+            <a href="" ng-click="changeState('TOC')">
+                <i title="TOC" alt="TOC" class="fa fa-sitemap fa-2x fa-fw" ng-class="{'menu-selected': State.Viewer.StructureView == 'TOC'}"></i>
+            </a>
+        </div>
+        <!-- LIST-View isn't needed anymore as the TABLE-View has all the needed information
+        <div class="menu-field">
+            <a href="" ng-click="changeState('LIST')">
+                <i title="Document List" alt="Document List" class="fa fa-list fa-2x fa-fw" ng-class="{'menu-selected': State.Viewer.StructureView == 'LIST'}"></i>
+            </a>
+        </div>
+    -->
+        <div class="menu-field">
+            <a href="" ng-click="changeState('TABLE')">
+                <i title="Listview" alt="Listview" class="fa fa-table fa-2x fa-fw" ng-class="{'menu-selected': State.Viewer.StructureView == 'TABLE'}"></i>
+            </a>
+        </div>
+        <div class="menu-field">
+            <a href="" ng-click="changeState('FILES')">
+                <i title="Files" alt="Files" class="fa fa-copy fa-2x fa-fw" ng-class="{'menu-selected': State.Viewer.StructureView == 'FILES'}"></i>
+            </a>
+        </div>
+        <div class="menu-spacer"></div>
+        <div class="menu-field">
+            <a href="" ng-click="changeState('PARTNERS')">
+                <i title="Recipient / Sender" alt="Recipient / Sender" class="fa fa-envelope fa-2x fa-fw" ng-class="{'menu-selected': State.Viewer.DetailView == 'PARTNERS'}"></i>
+            </a>
+        </div>
+        <div class="menu-field">
+            <a href="" ng-click="changeState('DOSSIER')">
+                <i title="Dossier" alt="Dossier" class="fa fa-book fa-2x fa-fw" ng-class="{'menu-selected': State.Viewer.DetailView == 'DOSSIER'}"></i>
+            </a>
+        </div>
+        <div class="menu-field">
+            <a href="" ng-click="changeState('PRODUCT')">
+                <i title="Product" alt="Product" class="fa fa-flask fa-2x fa-fw" ng-class="{'menu-selected': State.Viewer.DetailView == 'PRODUCT'}"></i>
+            </a>
+        </div>
+        <div class="menu-field">
+            <a href="" ng-click="changeState('INFO')">
+                <i title="Info" alt="Info" class="fa fa-info fa-2x fa-fw" ng-class="{'menu-selected': State.Viewer.DetailView == 'INFO'}"></i>
+            </a>
+        </div>
+        
+        <div class="menu-field" style="width: 100%;"></div>
+        <div class="menu-field" style="color: white; font-family: Verdana; font-size: 1.25em; vertical-align: middle; text-align: right; white-space: nowrap;">
+            &Sigma; {{ treedata.tree[0].docCount >= 0 && treedata.tree[0].docCount !== fullDocCount ? treedata.tree[0].docCount + '/' : '' }}{{fullDocCount}}
+        </div>
+        <div class="menu-spacer-sm"></div>
+        <div class="menu-field">
+            <span class="filter-icon" ng-class="{ 'menu-hidden': !isFilterActive() }"><a href="" ng-click="clearFilter()"><i title="clear Filter" alt="clear Filter" class="fa fa-filter fa-2x fa-fw menu-selected"></i></a></span>
+        </div>        
+        <div class="menu-spacer-sm"></div>
+        <div class="menu-field" ng-show="State.Viewer.ToggleView"><a href="" ng-click="expandAll()"><i title="expand All" alt="expand All" class="fa fa-plus-circle fa-2x fa-fw"></i></a></div>
+        <div class="menu-field" ng-show="State.Viewer.ToggleView"><a href="" ng-click="collapseAll()"><i title="collapse All" alt="collpase All" class="fa fa-minus-circle fa-2x fa-fw"></i></a></div>
+        <div class="menu-spacer-sm"></div>
+        <div class="menu-field" ng-show="State.Viewer.NavigateView"><a href="" ng-click="showPrev()"><i title="Previous" alt="Previous" class="fa fa-chevron-circle-left fa-2x fa-fw"></i></a></div>
+        <div class="menu-field" ng-show="State.Viewer.NavigateView"><a href="" ng-click="showNext()"><i title="Next" alt="Next" class="fa fa-chevron-circle-right fa-2x fa-fw"></i></a></div>
+    </div>
+</div>
