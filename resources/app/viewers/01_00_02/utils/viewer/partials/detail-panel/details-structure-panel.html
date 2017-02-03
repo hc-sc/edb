@@ -1,0 +1,20 @@
+<div id="details-structure-panel" ng-controller="DetailController as detailCtrl" style="height: 100%;">
+    <div id="welcome-panel" ng-show="State.Viewer.DetailView == 'WELCOME'">
+        GHSTS Viewer v0.20
+    </div>
+    
+    <div id="partners-panel" class="details-panel" ng-if="State.Viewer.DetailView == 'PARTNERS'" ng-include="'partials/detail-panel/partners-panel.html'"></div>
+    
+    <div id="dossier-panel" class="details-panel" ng-if="State.Viewer.DetailView == 'DOSSIER'" ng-include="'partials/detail-panel/dossier-panel.html'"></div>
+    
+    <div id="product-panel" class="details-panel" ng-if="State.Viewer.DetailView == 'PRODUCT'" ng-include="'partials/detail-panel/product-panel.html'"></div>
+    
+    <div id="info-panel" class="details-panel" ng-if="State.Viewer.DetailView == 'INFO'" ng-include="'partials/detail-panel/info-panel.html'"></div>
+    
+    <div id="document-panel" ng-show="State.Viewer.DetailView == 'DOCUMENT'" ng-include="'partials/detail-panel/document-panel.html'"></div>
+    
+    <div id="node-panel" ng-show="State.Viewer.DetailView == 'NODE'" ng-include="'partials/detail-panel/node-panel.html'"></div>
+    
+    <div id="file-panel" ng-show="State.Viewer.DetailView == 'FILE'" ng-include="'partials/detail-panel/file-panel.html'"></div>
+    
+</div>

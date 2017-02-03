@@ -1,0 +1,15 @@
+<table class="table table table-striped">
+  <thead>
+    <tr>
+        <th>Filename</th>
+        <th>Path</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr bindonce="file" ng-repeat="file in filelist | setFilesVisibilityFilter" ng-class="{'selected': isFileSelected(file)}">
+        <td><a ng-class="{'doc-confidential': file.confidential}" href="" ng-click="showFile(file.Id)" bo-text="file.filename"></a></td>
+        <td bo-text="file.path"></td>
+        <td><open-folder-icon path="{{file.path}}" relative="true"></open-folder-icon></td>
+    </tr>
+  </tbody>
+</table>

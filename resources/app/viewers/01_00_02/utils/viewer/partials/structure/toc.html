@@ -1,0 +1,15 @@
+<div id="tree-pane" ng-controller="TocController as tocCtrl">
+  <treecontrol class="tree-classic-ghsts" tree-model="treedata.tree | setTOCVisibilityFilter" 
+               options="::treeopts" order-by="nodeIndex" filter-expression="showOnlyVisible" 
+               on-selection="showSelected(node)" selected-node="TreeState.selectedNode" expanded-nodes="TreeState.expandedNodes">
+      
+      <span bindonce="node" class="treenode" bo-title="node.name + ' - ' + node.title" bo-id="'TOC' + node.id">
+          <span class="badge light" ng-class="{null: (node.docCount == 0)}" ng-if="node.type != 'DOC'" style="font-family: monospace; width: 40px; text-align: right">
+            {{node.docCount}}
+          </span>
+          <status-icon-static style="background: none;" status-value="{{::node.currentStatus}}" ng-if="node.type == 'DOC'"></status-icon-static>
+          <a href="" ng-class="getTocDocClass(node)" ng-click="tocCtrl.showDocument(node.id, node.type)" bo-text="shortenString(node.name + ' - ' + node.title, 90)"></a>   
+      </span>
+      
+  </treecontrol>
+</div>
