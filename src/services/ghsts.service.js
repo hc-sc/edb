@@ -234,7 +234,7 @@ module.exports = class GhstsService extends BaseService {
               if (retDoc.documentra && retDoc.documentra.length > 0) {
                 retDoc.documentra = retDoc.documentra.map(documentra => {
                   for (var i = 0; i < docMeta.documentra.length; i++) {
-                    if (docMeta.documentra[i].elementid.receiver === documentra.toSpecificForRAId) {
+                    if (docMeta.documentra[i].elementid === documentra.toSpecificForRAId) {
                       documentra.metadatastatus = docMeta.documentra[i].metadatastatusid;
                       break;
                     }
@@ -510,12 +510,14 @@ module.exports = class GhstsService extends BaseService {
                 curProp.push(obj.docid);
                 if (curDocProp.indexOf(obj.docid.toString()) < 0) {
                   curDocProp.push(obj.docid.toString());
-                  // let receiverIds = self.ghsts[0]._receiver.map()
+                  let receiverIds = self.ghsts[0]._receiver.map(rec => {
+                    return rec.receiver;
+                  });
                   curMdsProp.push(new MetaDataStatusNodeWithRA(
                     obj.docid.toString(),
                     MetaDataStatus.getMetadataStatusIdbyValue('new'),
                     'document',
-                    self.ghsts[0]._receiver  ///Bug needs to be fixed to only ID
+                    receiverIds
                   ));
                 }
                 needUpdate = true;
@@ -925,7 +927,7 @@ module.exports = class GhstsService extends BaseService {
               _submissionid: '',
               _submissionnumber: 1,
               _product: obj.product,
-              _foldername: obj.dossiercompid,
+              _foldername: obj.dossiertitle,
               _tocid: obj.tocId
             };
           } else if (obj.dossierId) { //create submission other than 01
@@ -1100,7 +1102,7 @@ module.exports = class GhstsService extends BaseService {
   _createPackage(doc) {
     let curBasePath = path.resolve(fs.realpathSync('./'), BACKEND_CONST.PRODUCTS_DIR),
       curFolder, curViewerPath = path.resolve(resourceDir, BACKEND_CONST.VIEWER_UTIL_DIR_NAME, this.ghsts[0]._version.replace(/\./g, '_'));
-    let prod_dossier_name = this.ghsts[0]._foldername;
+    let prod_dossier_name = this.ghsts[0]._foldername.replace('_##_', '____');
     let sub_id = this.ghsts[0]._submissionnumber;
     if (!prod_dossier_name)
       throw new RVHelper('EDB12002');
