@@ -24,6 +24,7 @@ const TocService = require('./toc.service');
 const Q = require('bluebird');
 const _ = require('lodash');
 
+const copydir = require('copy-dir');
 const fs = require('fs');
 const path = require('path');
 const basePath = fs.realpathSync('./');
@@ -31,7 +32,7 @@ const eDB_Urls = require('./').ServiceNeedInit;
 
 const DateTimeProc = require('../utils/datetime.process');
 
-// const templateDir = path.resolve(basePath, BACKEND_CONST.BASE_DIR1, BACKEND_CONST.BASE_DIR2, BACKEND_CONST.TEMPLATE_DIR_NAME);
+const resourceDir = path.resolve(basePath, BACKEND_CONST.BASE_DIR1, BACKEND_CONST.BASE_DIR2);
 
 const prodsPath = path.resolve(basePath, BACKEND_CONST.PRODUCTS_DIR);
 
@@ -109,7 +110,6 @@ module.exports = class GhstsService extends BaseService {
         name: {
           namespaceURI: 'http://www.oecd.org/GHSTS',
           localPart: 'GHSTS',
-          prefix: '',
           key: '{http://www.oecd.org/GHSTS}GHSTS',
           string: '{http://www.oecd.org/GHSTS}GHSTS'
         },
@@ -225,6 +225,8 @@ module.exports = class GhstsService extends BaseService {
             retVal.documents.document = result._document.map(doc => {
               let retDoc = _.merge({}, doc);
               let docMeta = self._metadatastatus_process('document', retDoc._id, receiverIds);
+              if (!retDoc.id)
+                retDoc.id = retDoc._id;
               retDoc.documentgeneric.metadatastatus = docMeta.documentgeneric.metadatastatusid;
               retDoc.documentra = _.filter(retDoc.documentra, documentra => {
                 return receiverIds.indexOf(documentra.toSpecificForRAId) >= 0;
@@ -232,7 +234,7 @@ module.exports = class GhstsService extends BaseService {
               if (retDoc.documentra && retDoc.documentra.length > 0) {
                 retDoc.documentra = retDoc.documentra.map(documentra => {
                   for (var i = 0; i < docMeta.documentra.length; i++) {
-                    if (docMeta.filera[i].elementid === documentra.toSpecificForRAId) {
+                    if (docMeta.documentra[i].elementid === documentra.toSpecificForRAId) {
                       documentra.metadatastatus = docMeta.documentra[i].metadatastatusid;
                       break;
                     }
@@ -375,6 +377,8 @@ module.exports = class GhstsService extends BaseService {
           }, true);
         } else if ( subUrlObj.subUrl === 'toc') { ///get toc sub-instances of the submission toc2doc assigned
           return new Q((res, rej) => {
+            if (!self.ghsts[0]._tocid) 
+              self.ghsts[0]._tocid = TocService.edb_getSync({_version: self.version})[0]._id;
             let curToc = TocService.edb_getSync({_id: self.ghsts[0]._tocid})[0];
             let docSvr = new DocumentService(self.ghsts[0]._version);
             docSvr.edb_get({where: self.ghsts[0]._document})
@@ -506,11 +510,14 @@ module.exports = class GhstsService extends BaseService {
                 curProp.push(obj.docid);
                 if (curDocProp.indexOf(obj.docid.toString()) < 0) {
                   curDocProp.push(obj.docid.toString());
+                  let receiverIds = self.ghsts[0]._receiver.map(rec => {
+                    return rec.receiver;
+                  });
                   curMdsProp.push(new MetaDataStatusNodeWithRA(
                     obj.docid.toString(),
                     MetaDataStatus.getMetadataStatusIdbyValue('new'),
                     'document',
-                    self.ghsts[0]._receiver
+                    receiverIds
                   ));
                 }
                 needUpdate = true;
@@ -1094,8 +1101,8 @@ module.exports = class GhstsService extends BaseService {
 
   _createPackage(doc) {
     let curBasePath = path.resolve(fs.realpathSync('./'), BACKEND_CONST.PRODUCTS_DIR),
-      curFolder;
-    let prod_dossier_name = this.ghsts[0]._foldername;
+      curFolder, curViewerPath = path.resolve(resourceDir, BACKEND_CONST.VIEWER_UTIL_DIR_NAME, this.ghsts[0]._version.replace(/\./g, '_'));
+    let prod_dossier_name = this.ghsts[0]._foldername.replace('_##_', '____');
     let sub_id = this.ghsts[0]._submissionnumber;
     if (!prod_dossier_name)
       throw new RVHelper('EDB12002');
@@ -1113,15 +1120,11 @@ module.exports = class GhstsService extends BaseService {
       this._createFolder(curFolder);
       curBasePath = path.resolve(curFolder, sub_id);
       this._createFolder(curBasePath);
+      copydir.sync(curViewerPath, curBasePath);
       curFolder = path.resolve(curBasePath, 'content');
       this._createFolder(curFolder);
       curFolder = path.resolve(curBasePath, 'confidential');
       this._createFolder(curFolder);
-      curFolder = path.resolve(curBasePath, 'utils');
-      this._createFolder(curFolder);
-      this._createFolder(path.resolve(curFolder, 'viewer'));
-      this._createFolder(path.resolve(curFolder, 'toc'));
-      this._createFolder(path.resolve(curFolder, 'resources'));
 
       fs.writeFileSync(
         path.resolve(curBasePath, 'ghsts.xml'),

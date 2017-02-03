@@ -2,7 +2,6 @@
       "document": [
           {
           "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT",
-          "id": "D_Document_J_01_T-423579_0003052902",
           "documentra": [
             {
               "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA",
@@ -329,7 +328,6 @@
         },
         {
           "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT",
-          "id": "D_KIIA_4.1_01_T-423640_0003053002",
           "documentra": [
             {
               "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA",

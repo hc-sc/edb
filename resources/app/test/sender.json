@@ -2,25 +2,21 @@
   "sender": [
     {
       "TYPE_NAME": "GHSTS.GHSTS.RECEIVERS.RECEIVER.SENDER",
-      "toLegalEntityId": "LE_ID_PPPWW_DE",
       "companycontactregulatoryrole": "Sender",
       "remark": "no remark"
     },
     {
       "TYPE_NAME": "GHSTS.GHSTS.RECEIVERS.RECEIVER.SENDER",
-      "toLegalEntityId": "LE_ID_PPPWW_CA",
       "companycontactregulatoryrole": "Sender",
       "remark": "no remark"
     },
     {
       "TYPE_NAME": "GHSTS.GHSTS.RECEIVERS.RECEIVER.SENDER",
-      "toLegalEntityId": "LE_ID_PPPWW_AU",
       "companycontactregulatoryrole": "Sender",
       "remark": "no remark"
     },
     {
       "TYPE_NAME": "GHSTS.GHSTS.RECEIVERS.RECEIVER.SENDER",
-      "toLegalEntityId": "LE_ID_PPPWW_BR",
       "companycontactregulatoryrole": "Sender",
       "remark": "no remark"
     }

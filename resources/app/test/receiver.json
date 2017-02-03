@@ -2,25 +2,21 @@
   "receiver": [
     {
       "TYPE_NAME": "GHSTS.GHSTS.RECEIVERS.RECEIVER",
-      "toLegalEntityId": "LE_ID_BVL",
       "shortname": "BVL",
       "role": "Recipient"
     },
     {
       "TYPE_NAME": "GHSTS.GHSTS.RECEIVERS.RECEIVER",
-      "toLegalEntityId": "LE_ID_PMRA",
       "shortname": "PMRA",
       "role": "Recipient"
     },
     {
       "TYPE_NAME": "GHSTS.GHSTS.RECEIVERS.RECEIVER",
-      "toLegalEntityId": "LE_ID_APVMA",
       "shortname": "APVMA",
       "role": "Recipient"
     },
     {
       "TYPE_NAME": "GHSTS.GHSTS.RECEIVERS.RECEIVER",
-      "toLegalEntityId": "LE_ID_IBAMA",
       "shortname": "IBAMA",
       "role": "Recipient"
     }
