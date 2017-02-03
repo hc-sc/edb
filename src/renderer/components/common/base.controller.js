@@ -61,26 +61,32 @@ export default class BaseCtrl {
       }
       if (this.url === 'product') 
         return this.appDataService.edb_get({ url, data: {_id: this.ghsts._product}});
-      else if (this.url === 'document' || this.url === 'file') 
+      else if (this.url === 'document' || this.url === 'file' || this.url === 'toc') 
         return this.ghstsService.edb_get({url: this.url});
     } else
       return this.appDataService.edb_get({ url, data });
   }
 
-  // create a new global item
+  // create a new item
   createAppData(data = {}, url = this.url) {
     if (this.isSubmission && url === this.url) {
+      data._dossier = this.dossierData.dossierid;
+      data._ghsts = this.ghsts._id;
       return this.ghstsService.edb_put({url, data});
     } else
       return this.appDataService.edb_put({ url, data });
   }
 
-  // update a global item
+  // update a item
   updateAppData(data = {}, url = this.url) {
-    return this.appDataService.edb_post(data);
+    if (this.isSubmission && url === this.url) {
+      data._dossier = this.dossierData.dossierid;  //Do not set _ghsts to allow back-end create new item, if it is required.
+      return this.ghstsService.edb_post({url, data});
+    } else
+      return this.appDataService.edb_post(data);
   }
 
-  // delete a global item
+  // delete a item
   deleteAppData(id, url = this.url) { }
 
   // gets the specified list of picklist

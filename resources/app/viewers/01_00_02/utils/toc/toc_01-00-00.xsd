@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.oecd.org/TOCS" targetNamespace="http://www.oecd.org/TOCS" elementFormDefault="qualified" attributeFormDefault="unqualified" version="01.00.00">
+   <xs:element name="TOC">
+      <xs:annotation>
+         <xs:documentation>A dossier structure (Table of Content = TOC), which should be published</xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="TOC_SHORT_NAME" type="string20">
+               <xs:annotation>
+                  <xs:documentation>Wordwide unique short name to identify this TOC </xs:documentation>
+               </xs:annotation>
+            </xs:element>
+            <xs:element name="TOC_PID" type="PIDType">
+               <xs:annotation>
+                  <xs:documentation>Wordwide unique identifier of the Table of Contents</xs:documentation>
+               </xs:annotation>
+            </xs:element>
+            <xs:element name="TOC_OWNER">
+               <xs:annotation>
+                  <xs:documentation>The owner has the responsibility for this ToC</xs:documentation>
+               </xs:annotation>
+               <xs:complexType>
+                  <xs:sequence>
+                     <xs:element name="VALUE" type="EXTENSION_TYPE_TOC_OWNER">
+                        <xs:annotation>
+                           <xs:documentation>Code according restricted picklist TYPE_TOC_OWNER; other values are submitted via attribute 'Other_Value'</xs:documentation>
+                        </xs:annotation>
+                     </xs:element>
+                     <xs:element name="VALUE_DECODE" type="string255">
+                        <xs:annotation>
+                           <xs:documentation>Long text of 'Value' or 'Other_Value'</xs:documentation>
+                        </xs:annotation>
+                     </xs:element>
+                  </xs:sequence>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="TOC_FULL_NAME" type="string255">
+               <xs:annotation>
+                  <xs:documentation>Full Name for the TOC (Dossier-Structure)</xs:documentation>
+               </xs:annotation>
+            </xs:element>
+            <xs:element name="TOC_VERSION" type="versionnumberType">
+               <xs:annotation>
+                  <xs:documentation>TOC Version</xs:documentation>
+               </xs:annotation>
+            </xs:element>
+            <xs:element name="TO_USE_FROM" type="xs:date">
+               <xs:annotation>
+                  <xs:documentation>This TOC is valid from ...(default= publishing date)</xs:documentation>
+               </xs:annotation>
+            </xs:element>
+            <xs:element name="TO_USE_UNTIL" type="xs:date" minOccurs="0">
+               <xs:annotation>
+                  <xs:documentation>This TOC was valid until ...</xs:documentation>
+               </xs:annotation>
+            </xs:element>
+            <xs:element name="STRUCTURE">
+               <xs:complexType>
+                  <xs:sequence maxOccurs="unbounded">
+                     <xs:element name="TOC_NODE" type="TYPE_TOC_NODE"/>
+                  </xs:sequence>
+               </xs:complexType>
+            </xs:element>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+   <xs:element name="TOC_NODE" type="TYPE_TOC_NODE">
+      <xs:annotation>
+         <xs:documentation>TOC-Nodes (Annex Points) in sequence of their usage in the Dossier</xs:documentation>
+      </xs:annotation>
+      <xs:key name="TocNodePID">
+         <xs:selector xpath="."/>
+         <xs:field xpath="TOC_NODE_PID"/>
+      </xs:key>
+   </xs:element>
+   <xs:complexType name="TYPE_TOC_NODE">
+      <xs:annotation>
+         <xs:documentation>A ToC has a lot of TOC-Nodes, identified by unique TOC NODE NAME and PID</xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+         <xs:element name="NODE_NAME" type="string20" minOccurs="1" maxOccurs="1">
+            <xs:annotation>
+               <xs:documentation>Unique String inside of the ToC</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element name="NODE_HEADING" type="string255">
+            <xs:annotation>
+               <xs:documentation>Heading text </xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element name="DOCUMENT_REFERENCES" type="xs:boolean"/>
+         <xs:element name="LOGICAL_DELETED" type="xs:boolean"/>
+         <xs:element name="TOC_NODE_PID" type="PIDType">
+            <xs:annotation>
+               <xs:documentation>World wide unique identifier for TOC Nodes. This PID should be the basis for cross references between different TOC's </xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element name="TOC_NODE" type="TYPE_TOC_NODE" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:simpleType name="string20">
+      <xs:restriction base="xs:string">
+         <xs:minLength value="1"/>
+         <xs:maxLength value="20"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="string255">
+      <xs:restriction base="xs:string">
+         <xs:minLength value="1"/>
+         <xs:maxLength value="255"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="TYPE_TOC_OWNER">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="BVL (Germany)">
+            <xs:annotation>
+               <xs:appinfo>DECODE:Federal Office of Consumer Protection and Food Safety</xs:appinfo>
+               <xs:appinfo>STATUS:enabled</xs:appinfo>
+               <xs:appinfo>ORIGIN:BVL (Germany)</xs:appinfo>
+            </xs:annotation>
+         </xs:enumeration>
+         <xs:enumeration value="EPA (New Zealand)">
+            <xs:annotation>
+               <xs:appinfo>DECODE:New Zealand's Environmental Protection Authority</xs:appinfo>
+               <xs:appinfo>STATUS:enabled</xs:appinfo>
+               <xs:appinfo>ORIGIN:EPA (New Zealand)</xs:appinfo>
+            </xs:annotation>
+         </xs:enumeration>
+         <xs:enumeration value="EPA (US)">
+            <xs:annotation>
+               <xs:appinfo>DECODE:US Environmental Protection Agency</xs:appinfo>
+               <xs:appinfo>STATUS:enabled</xs:appinfo>
+               <xs:appinfo>ORIGIN:EPA (US)</xs:appinfo>
+            </xs:annotation>
+         </xs:enumeration>
+         <xs:enumeration value="MAF (New Zealand)">
+            <xs:annotation>
+               <xs:appinfo>DECODE:Ministry of Agriculture and Forestry</xs:appinfo>
+               <xs:appinfo>STATUS:enabled</xs:appinfo>
+               <xs:appinfo>ORIGIN:MAF (New Zealand)</xs:appinfo>
+            </xs:annotation>
+         </xs:enumeration>
+         <xs:enumeration value="OECD">
+            <xs:annotation>
+               <xs:appinfo>DECODE:OECD</xs:appinfo>
+               <xs:appinfo>STATUS:enabled</xs:appinfo>
+               <xs:appinfo>ORIGIN:</xs:appinfo>
+            </xs:annotation>
+         </xs:enumeration>
+         <xs:enumeration value="other">
+            <xs:annotation>
+               <xs:appinfo>DECODE:other</xs:appinfo>
+               <xs:appinfo>STATUS:enabled</xs:appinfo>
+               <xs:appinfo>ORIGIN:EGEEPD </xs:appinfo>
+            </xs:annotation>
+         </xs:enumeration>
+         <xs:enumeration value="PMRA (Canada)">
+            <xs:annotation>
+               <xs:appinfo>DECODE:PMRA (Canada)</xs:appinfo>
+               <xs:appinfo>STATUS:enabled</xs:appinfo>
+               <xs:appinfo>ORIGIN:PMRA (Canada)</xs:appinfo>
+            </xs:annotation>
+         </xs:enumeration>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:complexType name="EXTENSION_TYPE_TOC_OWNER">
+      <xs:simpleContent>
+         <xs:extension base="TYPE_TOC_OWNER">
+            <xs:attribute name="Other_Value" type="xs:string">
+               <xs:annotation>
+                  <xs:documentation>Other values can be submitted</xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+         </xs:extension>
+      </xs:simpleContent>
+   </xs:complexType>
+   <xs:simpleType name="PIDType">
+      <xs:annotation>
+         <xs:documentation>definition of Persistent Identifier (PID) according to URN pattern as defined in RFC 2141</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:anyURI">
+         <xs:pattern value="urn:[a-zA-Z0-9][a-zA-Z0-9-]{1,31}:([a-zA-Z0-9()+,.:=@;$_!*'-]|%[0-9A-Fa-f]{2})+"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="versionnumberType">
+      <xs:annotation>
+         <xs:documentation>Version number: six digits, e.g 01.00.00</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:pattern value="\d{2}\.\d{2}\.\d{2}"/>
+      </xs:restriction>
+   </xs:simpleType>
+</xs:schema>

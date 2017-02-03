@@ -1,0 +1,98 @@
+<div ng-controller="PartnersController as partnersCtrl">
+    <div class="panel panel-default content-panel" style="width: 100%; height: 40px; z-index: 100;">
+        <div class="panel-heading">
+            <i class="fa fa-envelope fa-2x fa-fw"></i> SENDER <i class="fa fa-angle-double-right"></i> RECIPIENT
+        </div>
+    </div>
+    <div class="panel panel-default content-panel" style="overflow-y: auto; margin-top: 40px;">
+    <div class="panel-body">        
+        <div class="panel panel-success">
+            <div class="panel-heading">Relations</div>
+            <table class="table">
+            <tr ng-repeat="receiver in PartnersViewModel | filterOnRA">
+                
+                <td width="30%" align="right">
+                    <div ng-repeat="sender in receiver.SENDER">
+                        <a href="" ng-click="showPartnerDetails(sender.REF_LE_Id)">{{sender.LEGAL_ENTITY.LEGALENTITY_NAME}}</a>
+                    </div>
+                </td>
+                
+                <td width="40%" align="center">
+                    <i class="fa fa-angle-double-right fa-2x"></i>
+                </td>
+                
+                <td width="30%" align="left">
+                    <a href="" ng-click="showPartnerDetails(receiver.REF_LE_Id)">{{receiver.SHORT_NAME}}<span ng-if="receiver.ROLE"> ({{receiver.ROLE}})</span></a>
+                </td>
+                
+            </tr>
+        </table>
+        </div>
+        
+        <div class="panel panel-info" ng-show="legalEntity">
+            <div class="panel-heading">
+                {{legalEntity.LEGALENTITY_NAME}}
+                <span class="pull-right">
+                    <metadata-icon></metadata-icon><status-icon status-value="{{legalEntity.METADATA_STATUS}}"></status-icon>
+                </span>
+            </div>
+            <table class="table table-striped data-table">
+                <tr>
+                    <th>Name</th>
+                    <td>
+                        {{legalEntity.LEGALENTITY_NAME}}
+                        <br />
+                        <span class="pid pull-right">{{legalEntity.LEGALENTITY_PID}}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Other Name</th>
+                    <td><p ng-repeat="othername in legalEntity.OTHER_NAME">{{othername}}</p></td>
+                </tr>
+                <tr>
+                    <th>Type</th>
+                    <td>{{legalEntity.LEGALENTITY_TYPE}}</td>
+                </tr>
+                <tr>
+                    <th>Address</th>
+                    <td>
+                        {{legalEntity.CONTACT_ADDRESS.STREET1}}<br />
+                        {{legalEntity.CONTACT_ADDRESS.STREET2}}<br />
+                        {{legalEntity.CONTACT_ADDRESS.ZIPCODE}} {{legalEntity.CONTACT_ADDRESS.CITY}}<br />
+                        {{legalEntity.CONTACT_ADDRESS.COUNTRY}}<br />
+                        Phone: {{legalEntity.CONTACT_ADDRESS.PHONE}}<br />
+                        E-Mail: {{legalEntity.CONTACT_ADDRESS.EMAIL}}<br />
+                        Web: {{legalEntity.CONTACT_ADDRESS.WEBSITE}}
+                    </td>
+                </tr>
+                <tr ng-repeat="lid in legalEntity.LEGALENTITY_IDENTIFIER">
+                    <th>{{lid.LEGALENTITY_IDENTIFIER_TYPE}}</th>  
+                    <td>{{lid.IDENTIFIER}}</td>
+                </tr>
+                <tr>
+                    <th>Contact Person</th>
+                    <td>
+                        <address ng-repeat="cp in legalEntity.CONTACT_PERSON" class="highlight">
+                            <i class="fa fa-user fa-fw"></i><strong>{{cp.TITLE}} {{cp.FIRSTNAME}} {{cp.LASTNAME}}</strong><br />
+                            <i class="fa fa-building-o fa-fw"></i>{{cp.ORGANISATION}}<br />
+                            <i class="fa fa-users fa-fw"></i>{{cp.DEPARTMENT}}<br />
+                            <i class="fa fa-phone fa-fw"></i>{{cp.PHONE}}<br />
+                            <i class="fa fa-mobile fa-fw"></i>{{cp.MOBILE}}<br />
+                            <i class="fa fa-fax fa-fw"></i>{{cp.FAX}}<br />
+                            <i class="fa fa-at fa-fw"></i>{{cp.EMAIL}}
+                        </address>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="panel panel-info" ng-hide="legalEntity">
+            <div class="panel-heading">Information in Legal Entity</div>
+            <table class="table">
+                <tr><td>select a Legal Entity from above to show its details...</td></tr>
+            </table>
+        </div>
+        
+    </div>
+</div>
+</div>

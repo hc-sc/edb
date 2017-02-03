@@ -1,0 +1,149 @@
+<div ng-controller='smartTableCtrl'>
+  <table st-table="doclist" id="doc-table-table" st-listener="tableChanged" class="table">
+    <thead class="head-element">
+      <tr>
+        <th style="width: 41px;" rowspan="3" st-sort="currentStatus" title="Content Status" class="st-sort">
+          <content-icon></content-icon>
+        </th>
+        <th style="width: 10.6%;" rowspan="3" st-sort="toc_refs[0].name" class="st-sort moving-th">
+          TOC
+        </th>
+        <th style="width: 15.4%;" rowspan="3" st-sort="DOCUMENT_NUMBER[0].IDENTIFIER" class="st-sort moving-th">
+          Doc No.
+        </th>
+        <th style="width: 48.9%;" rowspan="2" st-sort="name" class="st-sort moving-th">
+          Title
+        </th>
+        <th style="width: 41px;" class="st-sort" rowspan="3" st-sort="DOCUMENT_ISSUE_DATE" title="Issue Date">
+          <i class="fa fa-fw fa-calendar"></i>
+        </th>
+        <th style="width: 25.1%;" class="no-wrap st-sort moving-th" st-sort="TEST_LABORATORY" title="Test Facility">
+          Test Facility
+        </th>
+        <th style="width: 59px;" st-sort="PUBLISHED_INDICATOR" title="Published" class="st-sort">
+          <i class="fa fa-fw fa-newspaper-o"></i>
+        </th>
+      </tr>
+      <tr>
+        <!--
+        <th style="width: 41px;" rowspan="2" st-sort="lastChange.Submission" title="Last Change" class="st-sort">
+          <i class="fa fa-fw fa-clock-o"></i>
+        </th>
+      -->
+        <th style="width: 25.1%;" st-sort="COMPLETE_DOCUMENT_SOURCE" class="st-sort moving-th">
+          Source
+        </th>
+        <th style="width: 59px;" st-sort="GXP_INDICATOR" title="GLP" class="st-sort">
+          <i class="fa fa-fw fa-certificate"></i>
+        </th>
+      </tr>
+      <tr>
+        <th style="width: 48.9%;" st-sort="DOCUMENT_AUTHOR" class="st-sort moving-th">
+          Author
+        </th>
+        <th style="width: 25.1%;" st-sort="DOCUMENT_OWNER" class="st-sort moving-th">
+          Owner
+        </th>
+        <th style="width: 59px;" st-sort="TESTED_ON_VERTEBRATE" title="Tested on Vertebrates" class="st-sort">
+          <i class="fa fa-fw fa-paw"></i>
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr id="TABLE{{doc.Id}}" bindonce="doc" ng-repeat-start="doc in doclist | setListVisibilityFilter" ng-class="{'st-selected': doc.Id === currentlySelectedItem._Id }" style="border-color:black;" ng-click="showDocumentAndTable(doc.Id)" >
+        <td rowspan="3">
+          <div style="width: 34px" class="text-center">
+            <status-icon-static status-value="{{::doc.currentStatus}}"></status-icon-static>
+          </div>
+        </td>
+        <td style="width: 10%;" rowspan="3">
+            <div bindonce="tocRef" ng-repeat="tocRef in ::doc.toc_refs">
+                <a href="" bo-title="tocRef.name" bo-html="shortenString(tocRef.name, 20)" ng-click="showDocumentInToc(tocRef, doc.Id); $event.stopPropagation();"></a>
+            </div>
+        </td>
+        <td style="width: 15%;" rowspan="3">
+            <span bindonce="docNo" ng-repeat="docNo in ::doc.DOCUMENT_NUMBER">
+                <span bo-title="docNo.DOCUMENT_NUMBER_TYPE + ': ' + docNo.IDENTIFIER" 
+                      bo-html="shortenString(docNo.IDENTIFIER, 30)"></span><br/>
+            </span>
+        </td>
+        <td style="width: 50%;" rowspan="2" >
+          <a href="" ng-class="getDocClass(doc)" bo-title="doc.DOCUMENT_TITLE" bo-text="shortenString(doc.DOCUMENT_TITLE, 90)">
+          </a>
+        </td>
+        <td rowspan="3" class="text-right">
+          <div style="width: 34px;" bo-text="doc.DOCUMENT_ISSUE_DATE | tableDateFilter"></div>
+        </td>
+        <td style="width: 25%;" >
+          <span bindonce="doc.TEST_LABORATORY" bo-title="doc.TEST_LABORATORY" bo-html="shortenString(concatFullString(doc.TEST_LABORATORY), 30)"></span>
+        </td>
+        <td class="no-wrap">
+          <div stlye="width: 38px;">
+            <i class="fa fa-fw fa-newspaper-o" title="Published"></i>&nbsp;<bool-icon-static bool-value="{{::doc.PUBLISHED_INDICATOR}}"></bool-icon-static>
+          </div>
+        </td>
+      </tr>
+      <tr bindonce="doc" ng-class="{'st-selected': doc.Id === currentlySelectedItem._Id }" style="border-color:black;" ng-click="showDocumentAndTable(doc.Id)" >
+        <!--
+        <td class="inner-td">
+          <div style="width: 34px" class="text-center">
+            <span bo-show="doc.lastChange.Status.length > 0">
+                <status-icon-static status-value="{{::doc.lastChange.Status}}"></status-icon-static>
+            </span>
+          </div>
+        </td>
+      -->
+        <td style="width: 25%;" class="inner-td">
+            <span bo-hide="doc.COMPLETE_DOCUMENT_SOURCE == ''" bo-title="doc.COMPLETE_DOCUMENT_SOURCE" bo-text="shortenString(doc.COMPLETE_DOCUMENT_SOURCE, 30)"></span>
+            <span bo-show="doc.COMPLETE_DOCUMENT_SOURCE == ''" 
+                  bo-title="doc.DOCUMENT_SOURCE +
+                            ', Year: ' + doc.DOCUMENT_YEAR +
+                            ', Issue: ' + doc.DOCUMENT_ISSUE + 
+                            ', Volume: ' + doc.DOCUMENT_VOLUME + 
+                            ', Pages: ' + doc.DOCUMENT_PAGES" 
+                  bo-text="shortenString(doc.DOCUMENT_SOURCE + 
+                            ', Year: ' + doc.DOCUMENT_YEAR +
+                            ', Issue: ' + doc.DOCUMENT_ISSUE + 
+                            ', Volume: ' + doc.DOCUMENT_VOLUME + 
+                            ', Pages: ' + doc.DOCUMENT_PAGES, 30)" >
+            </span>
+        </td>
+        <td class="inner-td no-wrap">
+          <div stlye="width: 38px;">
+            <i class="fa fa-fw fa-certificate" title="GLP"></i>&nbsp;<bool-icon-static bool-value="{{::doc.GXP_INDICATOR}}"></bool-icon-static>
+          </div>
+        </td>
+      </tr>
+      <tr bindonce="doc" ng-repeat-end ng-class="{'st-selected': doc.Id === currentlySelectedItem._Id }" style="border-color:black;" ng-click="showDocumentAndTable(doc.Id)" >
+        <!--
+        <td style="border-top: none;" class="inner-td">
+          <div style="width: 34px" class="text-center">
+            <span bo-show="doc.lastChange.Status.length > 0">
+                <span bo-text="doc.lastChange.Submission"></span>
+            </span>
+          </div>
+        </td>
+      -->
+        <td style="width: 50%;" class="inner-td" bo-title="doc.DOCUMENT_AUTHOR" bo-text="shortenString(doc.DOCUMENT_AUTHOR, 70)"></td>
+        <td style="width: 25%;" class="inner-td">
+          <span bindonce="doc.DOCUMENT_OWNER" bo-title="doc.DOCUMENT_OWNER" bo-html="shortenString(concatFullString(doc.DOCUMENT_OWNER), 30)"></span> 
+        </td>
+        <td class="inner-td no-wrap">
+          <div stlye="width: 38px;">
+            <i class="fa fa-fw fa-paw" title="Tested on Vertebrates"></i>&nbsp;<bool-icon-static bool-value="{{::doc.TESTED_ON_VERTEBRATE}}"></bool-icon-static>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+    <!--
+    <tfoot>
+    <tr>
+      <td colspan="13" class="text-center">
+         <div st-items-by-page="10" st-pagination="" st-template="partials/smart-table/pagination.custom.html"></div>
+      </td>
+    </tr>
+    </tfoot>
+  -->
+  </table>
+</div>

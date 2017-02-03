@@ -1,0 +1,98 @@
+<div ng-controller="InfoController as infoCtrl">
+    <div class="panel panel-default content-panel" style="width: 100%; height: 40px; z-index: 100;">
+        <div class="panel-heading">
+            <i class="fa fa-info fa-2x fa-fw"></i>INFORMATION
+            <img src="img/GHSTS_logo.png" alt="GHSTS-Logo" style="height: 28px;" class="pull-right"></img>
+        </div>
+    </div>
+    <div class="panel panel-default content-panel" style="overflow-y: auto; margin-top: 40px;">
+        <div class="panel-body">
+            
+            <div class="panel panel-success">
+                <div class="panel-heading">Submission
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped data-table">
+                        <tr>
+                            <th>Submission #</th><td>{{::model.submission}}</td>
+                        </tr>
+                        <tr>
+                            <th>Path</th>
+                            <td title="{{model.currentpath}}">
+                                {{shortenPath(model.currentpath, 70)}}
+                                <open-folder-icon path="{{model.currentpath}}"></open-folder-icon>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>GHSTS Version</th><td>{{::model.specversion}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    Table of Contents<span class="pull-right"><metadata-icon></metadata-icon><status-icon status-value="{{::model.tocstatus}}"></status-icon> {{::model.tocstatus}}</span>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped data-table">
+                        <tr>
+                            <th>Short Name</th><td>{{::model.shortname}}</td>
+                        </tr>
+                        <tr>
+                            <th>Version</th><td>{{::model.tocversion}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="panel panel-success">
+                <div class="panel-heading">Application
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped data-table">
+                        <tr>
+                            <th>HTML Viewer</th><td>{{::config.VIEWER_VERSION}}</td>
+                        </tr>
+                        <!-- This is commented because of same origin violations of manifest access of desktop-viewer parent -->
+                        <!--
+                        <tr>
+                            <th>Desktop Viewer</th><td>{{::model.viewerversion}}</td>
+                        </tr>
+                        <tr>
+                            <th>Node-Webkit</th><td>{{::model.nwversion}}</td>
+                        </tr>
+                        -->
+                        <tr>
+                            <th>AngularJS</th><td>{{::model.angularversion.full}}</td>
+                        </tr>
+                        <tr>
+                            <th>jQuery</th><td>{{::model.jqueryversion}}</td>
+                        </tr>
+                        <tr>
+                            <th>pdf.js</th><td>{{::config.PDFJS_VERSION}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="panel panel-success">
+                <div class="panel-heading">Copyright
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped data-table">
+                        <tr>
+                            <th>Copyright</th><td>European Crop Protection Agency (<a href="http://www.ecpa.eu" target="_blank">http://www.ecpa.eu</a>) 2015</td>
+                        </tr>
+                        <tr>
+                            <th>Solution</th><td>Hewlett Packard GmbH, Germany</td>
+                        </tr>
+                        <tr>
+                            <th>SW Helpdesk</th><td><a href="mailto:ghsts_support@ecpa.eu">ghsts_support@ecpa.eu</a></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

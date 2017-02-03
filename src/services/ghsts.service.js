@@ -373,7 +373,27 @@ module.exports = class GhstsService extends BaseService {
           return svr.edb_get({
             _id: subUrlObj.subIds
           }, true);
-        } else { ///get all sub-instances of the submission
+        } else if ( subUrlObj.subUrl === 'toc') { ///get toc sub-instances of the submission toc2doc assigned
+          return new Q((res, rej) => {
+            let curToc = TocService.edb_getSync({_id: self.ghsts[0]._tocid})[0];
+            let docSvr = new DocumentService(self.ghsts[0]._version);
+            docSvr.edb_get({where: self.ghsts[0]._document})
+              .then(docRet => {
+                let documents = JSON.parse(docRet.data), docTitles = {};
+                if (documents && documents.length > 0) {
+                  documents.map(doc => {
+                    docTitles[doc._id] = doc.documentgeneric.documenttitle; 
+                  });
+                  TocHelper.assignToc2DocNodes(curToc.structure, self.ghsts[0]._toc2docs, docTitles);
+                }
+                res(new RVHelper('EDB00000', JSON.stringify([curToc])));
+              })
+              .catch(err => {
+                rej(err);
+                console.log(err);
+              });
+          });
+        } else { ///get all other sub-instances of the submission
           switch (subUrlObj.subUrl) {
             case 'receiver':
               ids = self.ghsts[0]._receiver; /// need refacting for loading new ghsts, only one submission for release 1
@@ -391,7 +411,7 @@ module.exports = class GhstsService extends BaseService {
               ids = undefined;
           }
           if (!ids)
-            return new Q((res, rej) => {
+            return new Q(res => {
               res(new RVHelper('EDB00000'));
             });
           else
@@ -470,9 +490,9 @@ module.exports = class GhstsService extends BaseService {
               curProp = self.ghsts[0]._toc2docs;
 
               if (!curProp[obj.tocnodepid])
-                curProp[obj.tocnodepid] = [],
+                curProp[obj.tocnodepid] = [];
 
-                curProp = curProp[obj.tocnodepid];
+              curProp = curProp[obj.tocnodepid];
 
               if (!curMdsProp)
                 curMdsProp = [];
@@ -518,7 +538,7 @@ module.exports = class GhstsService extends BaseService {
               });
           }
           else if (needUpdate) {
-            self.edb_post(self.ghsts[0])
+            super.edb_post(self.ghsts[0])
               .then(ret => {
                 res(new RVHelper('EDB00000', self.ghsts[0]));
               })
@@ -564,7 +584,7 @@ module.exports = class GhstsService extends BaseService {
             return item.receiver === subUrlObj.subIds;
           });
           if (svr) {
-            if (obj._ghsts === self.ghsts[0]._id)
+            if (obj._ghsts === self.ghsts[0]._id) 
               res(svr.edb_post(obj));
             else {
               obj._ghsts = self.ghsts[0]._id;
@@ -658,8 +678,8 @@ module.exports = class GhstsService extends BaseService {
             default:
               curProp = undefined;
           }
-          if (needUpdate)
-            res(self.edb_post(self.ghsts[0]));
+          if (needUpdate) 
+            res(super.edb_post(self.ghsts[0]));
           else
             res(new RVHelper('EDB00000'));
         } else {
@@ -948,9 +968,22 @@ module.exports = class GhstsService extends BaseService {
       let self = this;
       if (obj._subUrl)
         res(self._subUrlProcess4Post(obj));
-      else {
+      else if (obj._state !== self.ghsts[0]._state) { //Change submission state
+        let svr = new SubmissionService(self._version);
+        let curSub = SubmissionService.edb_getSync({_id: self.ghsts[0]._submissionid})[0];
+        curSub._state = obj._state;
+        svr._update(curSub)
+          .then(retSub => {
+            return super._update(obj);
+          })
+          .then(ret => {
+            res(ret);
+          })
+          .catch(err => {
+            rej(err);
+          });
+      } else
         res(super.edb_post(obj));
-      }
     });
   }
 

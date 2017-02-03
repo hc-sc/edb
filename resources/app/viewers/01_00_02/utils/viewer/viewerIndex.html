@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="de" ng-app="GhstsViewer">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <!-- bower dependencies -->
+        <link rel="stylesheet" href="styles/vendor/vendor.css">
+        <link rel="stylesheet" href="styles/app.css">
+        <title>GHSTS-Viewer</title>
+    </head>
+    <body ng-click="console.log('test')">
+        <div id="main-container" ui-layout="{flow : 'column', dividerSize: '10'}">
+            <div id="main-left" ui-layout-container size="60%" min-size="830px">
+                <div id='menu-container' ng-include="'partials/menu/menu-panel.html'"></div>
+                <div ng-include="'partials/filter/filter-panel.html'"></div>
+                <div id='structure-container'>
+                    <div ng-include="'partials/structure/structure.html'"></div>
+                </div>
+            </div>
+            <div id="main-right" ui-layout-container="" min-size="750px">
+                <div id="content-container" ng-include="'partials/detail-panel/details-structure-panel.html'"></div>
+            </div>
+        </div>
+        
+        <!-- bower dependencies -->
+        <script src="scripts/vendor.js"></script>
+
+        <!-- app scripts  -->
+        <script src="scripts/app.js"></script>
+    </body>
+</html>

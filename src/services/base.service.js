@@ -14,7 +14,7 @@ const ServiceLevelPlugin = require('../models/plugins/service.level.plugin');
 const BACKEND_CONST = require('../constants/backend');
 const GhstsPid = require('../utils/pid');
 const NestedPropertyProc = require('../utils/nested-property.process');
-const NoNeedIdServiceNames = ['PRODUCT', 'DOSSIER', 'DOCUMENT']; 
+const NoNeedIdServiceNames = ['PRODUCT', 'DOSSIER']; 
 
 module.exports = class BaseService {
   constructor(modelClassName, inmem, version) {
