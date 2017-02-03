@@ -9,7 +9,9 @@ import SelectInputExtensible from '../common/select-input-extensible/select-inpu
 
 import PicklistService from '../../services/picklist.service';
 import AppDataService from '../../services/app.data.service';
+import GhstsService from '../../services/ghsts.service';
 import BaseCtrl from '../common/base.controller';
+import _ from 'lodash';
 
 export default angular.module('files', [
   ngMaterial,
@@ -18,27 +20,34 @@ export default angular.module('files', [
   SelectInput,
   SelectInputExtensible,
   PicklistService,
-  AppDataService
+  AppDataService,
+  GhstsService
 ])
   .component('files', {
     template,
     bindings: {
       fileType: '<',
-      contentStatus: '<'
+      contentStatus: '<',
+      dossierData: '<',
+      isSubmission: '<'
     },
 
     controller: class FileCtrl extends BaseCtrl {
-      constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope) {
-        super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'file', $scope);
+      constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope, GhstsService) {
+        super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'file', $scope, GhstsService);
 
         this.fileType = JSON.parse(this.fileType.data);
         this.contentStatus = JSON.parse(this.contentStatus.data);
         this.listFileButton = { name: 'list', label: 'Select File', color: 'dark' };
         this.addButton = { name: 'add', label: 'Generate PID', color: 'dark' };
-        this.init().then(() => { this.loading = false; });
+        this.init().then(() => { 
+          this.loading = false; 
+          if (this.isSubmission) 
+            this.$scope.$root.loading = false;
+        });
       }
 
-      selectFile(index) {
+      selectFile() {
         this.appDataService.edb_get({ _url: 'file', method: 'selectFile', data: angular.copy(this.selected) })
           .then(ret => {
             let isExist = false;

@@ -85,7 +85,7 @@ export default angular.module('tbl', [
           });
         }
 
-        if (this.items) {
+        if (this.items && this.items.length > 0) {
           this.rows = this.items.map(item => {
             let row = [];
             for (let header of this.projection) {

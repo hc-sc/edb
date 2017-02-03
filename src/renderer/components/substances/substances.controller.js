@@ -2,8 +2,8 @@ import angular from 'angular';
 import BaseCtrl from '../common/base.controller';
 
 export default class SubstancesCtrl extends BaseCtrl {
-  constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope) {
-    super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'substance', $scope);
+  constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope, GhstsService) {
+    super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'substance', $scope, GhstsService);
     this.substanceIdentifierTypes = JSON.parse(this.substanceIdentifierTypes.data);
     this.addButton = { name: 'add', label: 'Generate PID', color: 'dark' };
     this.picklists = {

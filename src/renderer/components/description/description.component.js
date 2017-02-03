@@ -19,11 +19,12 @@ export default angular.module('description', [
   .component('description', {
     template,
     bindings: {
-      dossierData: '<'
+      dossierData: '<',
+      isSubmission: '<'
     },
     controller: class DescriptionCtrl extends BaseCtrl {
-      constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope) {
-        super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'dossier', $scope);
+      constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope, GhstsService) {
+        super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'dossier', $scope, GhstsService);
         this.init(this.$state.params.dossierid).then(() => {
           return this.getPicklist('EXTENSION_TYPE_REGULATORY_TYPE');
         }).then(regulatorytype => {

@@ -51,7 +51,10 @@ export default angular.module('submission', [
           { title: 'Receivers', state: '.receivers' },
           { title: 'Dossier', state: '.dossier' },
           { title: 'Submission', state: '.submissionNode' },
-          { title: 'TOC', state: '.toc' }
+          { title: 'TOC', state: '.toc' },
+          { title: 'Products', state: '.products' },
+          { title: 'Documents', state: '.documents' },
+          { title: 'Files', state: '.files' }
         ];
 
         this.toolbarItems = {
@@ -60,12 +63,13 @@ export default angular.module('submission', [
             { name: 'home', label: 'Home', state: 'splash' }
           ],
           functionIcons: [
-            { name: 'globals', label: 'App Data', state: 'globals.legalEntities' },
-            { name: 'compare', label: 'Compare' },
+           // { name: 'globals', label: 'App Data', state: 'globals.legalEntities' },
+           // { name: 'compare', label: 'Compare' },
             { name: 'check', label: 'Validate', func: this.validateXML.bind(this) },
             { name: 'archive', label: 'Package', func: this.package.bind(this) },
-            { name: 'settings', label: 'Settings', state: 'settings' },
-            { name: 'help', label: 'Help' }
+            { name: 'email', label: 'Send', func: this.sendSubmission.bind(this) },
+           // { name: 'settings', label: 'Settings', state: 'settings' },
+           // { name: 'help', label: 'Help' }
           ]
         };
       }
@@ -113,6 +117,20 @@ export default angular.module('submission', [
           .catch(err => {
             console.log(err);
           });
+      }
+
+      sendSubmission() {
+        console.log(this);
+        let curGhsts = this.ghstsService.edb_getSync({_submissionid: this.dossierData.submissionid})[0];
+        curGhsts._state = 'sent';
+        console.log(curGhsts);
+        this.ghstsService.edb_post(curGhsts)
+          .then(ret => {
+            console.log(ret);
+            this.showMessage('Package sent.');
+            this.$state.go('home');
+          })
+          .catch(err => {console.log(err);});
       }
 
       // used to display notifications to the user

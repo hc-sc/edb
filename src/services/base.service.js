@@ -14,6 +14,7 @@ const ServiceLevelPlugin = require('../models/plugins/service.level.plugin');
 const BACKEND_CONST = require('../constants/backend');
 const GhstsPid = require('../utils/pid');
 const NestedPropertyProc = require('../utils/nested-property.process');
+const NoNeedIdServiceNames = ['PRODUCT', 'DOSSIER']; 
 
 module.exports = class BaseService {
   constructor(modelClassName, inmem, version) {
@@ -274,7 +275,7 @@ module.exports = class BaseService {
   }
 
   _format4InMem(data) {
-    let retVal;
+    let retVal, self = this;
     if (!data)
       return undefined;
 
@@ -282,100 +283,18 @@ module.exports = class BaseService {
       retVal = data.map(ret => {
         let newRet = _.merge({}, ret.toObject());
         newRet = JSON.parse(JSON.stringify(newRet));
+        if (!newRet.id && NoNeedIdServiceNames.indexOf(self.modelClassName) < 0)
+          newRet.id = newRet._id;
         return newRet;
       });
     } else {
       retVal = _.merge({}, data.toObject());
       retVal = JSON.parse(JSON.stringify(retVal));
+      if (!retVal.id && NoNeedIdServiceNames.indexOf(self.modelClassName) < 0)
+        retVal.id = retVal._id;
     }
     return retVal;
   }
-  // _initDbFromTemplate(version, obj, pklInst) {
-  //   return new Q((res, rej) => {
-  //     let self = this;
-  //     let entities = obj;
-  //     let retVal;
-  //     let picklistII = pklInst;
-  //     let rows;
-
-  //     if (entities && entities.constructor === Array) {
-  //       let processAry = [];
-  //       retVal = [];
-  //       for (var i = 0; i < entities.length; i++) {
-  //         processAry.push(self.edb_put(todb));
-  //       }
-  //       return Q.all(processAry);
-  //       // /*      for (var i = 0; i < entities.length; i++) {
-  //       //         let item = yield self._save(self._remove_status(entities[i], self.modelClassName, entityClass, picklistII));
-  //       //         if (item.code !== 'EDB00000') {
-  //       //           retVal = item;
-  //       //           return retVal;
-  //       //         } else if (item.data.length === 0) {
-  //       //           continue;
-  //       //         } else
-  //       //           retVal.push(item.data[0]);
-  //       //       }*/
-  //       // //      retVal = yield processAry;
-  //       // return retVal;
-  //     } else if (entities && typeof entities === 'object') {
-  //       // //      retVal = yield self._save(self._remove_status(entities, self.modelClassName, entityClass, picklistII));
-  //       // return retVal;
-
-  //     } else if (entities) {
-  //       // //      entities = yield self._save(entities);
-  //       // return entities;
-  //     } else {
-  //       rej(new RVHelper('EDB11007', obj));
-  //     }
-
-  //   });
-  // }
-
-  /*  _save(obj) {
-      let entity = obj,
-        db_entity, self = this;
-      db_entity = yield self.edb_get({
-        data: entity
-      });
-      if (db_entity.code === 'EDB00000' && db_entity.data.length === 1) {
-        return db_entity;
-      } else {
-        db_entity = yield super.edb_put(entity);
-        if (db_entity.code === 'EDB00000' && db_entity.data.length === 1) {
-          entity = yield self.edb_get({
-            data: db_entity.data[0]
-          });
-          return entity;
-        }
-      }
-    }
-  */
-  // _get_new_ext_plk(obj, pklInst) {
-  //   let self = this, retVal = [];
-  //   let keys = Object.keys(obj);
-  //   if (!obj) {
-  //     return retVal;
-  //   }
-
-  //   for (var i = 0; i < keys.length; i++) {
-  //     let key = keys[i], item = obj[key];
-  //     if (item.constructor === Array) {
-  //       for (var j = 0; j < item.length; j++) {
-  //         self._get_new_ext_plk(item[j]);
-  //       }
-  //     } else if (typeof item === 'object') {
-  //       let def = path.join(self.defDir, item.TYPE_NAME.replace('GHSTS.', '') + '.json');
-  //       let isPickList = require(def);
-  //       if (isPickList) {
-  //         console.log(item.TYPE_NAME + 'is plk');
-  //       } else {
-  //         console.log(item.TYPE_NAME + 'is not plk');
-  //       }
-  //     }
-  //   }
-
-  //   return retVal;
-  // }
 
   _testDataPlkDecode(obj, plkInst) {
     let self = this;
@@ -446,7 +365,7 @@ module.exports = class BaseService {
       retVal = obj;
       let keys = Object.keys(retVal);
       keys.map(key => {
-        if ((key.startsWith('_') && key !== '_state') || key === 'valuedecode' || key === 'id')
+        if ((key.startsWith('_') && key !== '_state' && key !== '_ghsts') || key === 'valuedecode' || key === 'id')
           delete retVal[key];
         else if (retVal[key]) {
           if (Array.isArray(retVal[key])) {
@@ -627,7 +546,7 @@ module.exports = class BaseService {
         let jschema = SchemaLoader.loadSchema(self.modelClassNamePre + '.' + self.modelClassName, self.version);
         let mongoose = require('mongoose');
         let Schema = mongoose.Schema;
-        let mschema = new Schema(jschema, {
+        let options = {
           retainKeyOrder: true,
           validateBeforeSave: false,
           toJSON: {
@@ -637,9 +556,12 @@ module.exports = class BaseService {
           toObject: {
             getters: true,
             virtuals: true
-          },
-          id: (self.modelClassName.indexOf(['PRODUCT', 'DOSSIER', 'DOCUMENT']) >= 0)
-        });
+          }
+        };
+
+        options.id = NoNeedIdServiceNames.indexOf(self.modelClassName) < 0;
+
+        let mschema = new Schema(jschema, options);
 
         let selfPlugin;
         mschema.plugin(ServiceLevelPlugin, {

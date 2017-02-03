@@ -42,9 +42,9 @@ module.exports = class FileService extends BaseService {
           let data = fs.readFileSync(selFile[0]);
           let md5 = crypto.createHash('md5').update(data).digest('hex');
           let entity = obj ? obj : {};
+          entity._filereallocation = selFile[0];
+          entity.filegeneric.md5CHECKSUM = md5;
           if (entity._id) {
-            entity._filereallocation = selFile[0];
-            entity.filegeneric.md5CHECKSUM = md5;
             self.edb_post(entity)
               .then(ret => {
                 res(ret);
@@ -53,9 +53,6 @@ module.exports = class FileService extends BaseService {
                 rej(err);
               });
           } else {
-            entity._filereallocation = selFile[0];
-            entity.filegeneric = {};
-            entity.filegeneric.md5CHECKSUM = md5;
             self.edb_put(entity)
               .then(ret => {
                 res(ret);

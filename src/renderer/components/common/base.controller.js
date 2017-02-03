@@ -2,8 +2,9 @@ import angular from 'angular';
 import {equals} from 'easy-equals';
 import GhstsPid from '../../../utils/pid';
 import NestedPropertyProc from '../../../utils/nested-property.process';
+
 export default class BaseCtrl {
-  constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, url, $scope) {
+  constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, url, $scope, GhstsService) {
     this.$mdDialog = $mdDialog;
     this.$mdToast = $mdToast;
     this.$state = $state;
@@ -14,6 +15,9 @@ export default class BaseCtrl {
 
     this.picklistService = PicklistService.getService();
     this.appDataService = AppDataService.getService();
+    this.ghstsService = GhstsService.getService();
+    this.receivers;
+    this.ghsts;
     this.$scope = $scope;
     this.$scope.$root.loading = true;
   }
@@ -39,7 +43,7 @@ export default class BaseCtrl {
         }
         else {
           // empty table, need to prompt to create first
-          console.error('EMPTY ON INIT');
+          console.log('EMPTY ON INIT');
         }
         // console.log("View Data: " + JSON.stringify(this.selected));
       });
@@ -47,20 +51,42 @@ export default class BaseCtrl {
 
   // return some global item(s)
   getAppData(data = {}, url = this.url) {
-    return this.appDataService.edb_get({ url, data });
+    if (this.isSubmission && url === this.url) {
+      this.ghsts = this.ghstsService.edb_getSync({_submissionid: this.dossierData.submissionid})[0];
+      let ids = this.ghsts._receiver.map(item => {
+        return item.receiver;
+      });
+      if (ids.length > 0) {
+        this.receivers = this.appDataService.edb_getSync({_url: '/receiver', data: ids });
+      }
+      if (this.url === 'product') 
+        return this.appDataService.edb_get({ url, data: {_id: this.ghsts._product}});
+      else if (this.url === 'document' || this.url === 'file' || this.url === 'toc') 
+        return this.ghstsService.edb_get({url: this.url});
+    } else
+      return this.appDataService.edb_get({ url, data });
   }
 
-  // create a new global item
+  // create a new item
   createAppData(data = {}, url = this.url) {
-    return this.appDataService.edb_put({ url, data });
+    if (this.isSubmission && url === this.url) {
+      data._dossier = this.dossierData.dossierid;
+      data._ghsts = this.ghsts._id;
+      return this.ghstsService.edb_put({url, data});
+    } else
+      return this.appDataService.edb_put({ url, data });
   }
 
-  // update a global item
+  // update a item
   updateAppData(data = {}, url = this.url) {
-    return this.appDataService.edb_post(data);
+    if (this.isSubmission && url === this.url) {
+      data._dossier = this.dossierData.dossierid;  //Do not set _ghsts to allow back-end create new item, if it is required.
+      return this.ghstsService.edb_post({url, data});
+    } else
+      return this.appDataService.edb_post(data);
   }
 
-  // delete a global item
+  // delete a item
   deleteAppData(id, url = this.url) { }
 
   // gets the specified list of picklist

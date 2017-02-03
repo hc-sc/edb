@@ -2,7 +2,7 @@
   <form ng-cloak>
     <md-toolbar>
       <div class='md-toolbar-tools'>
-        <h2>Product RA</h2>
+        <h2>{{"productRA" | translate}}</h2>
         <span flex></span>
         <md-button class='md-icon-button' ng-click='$ctrl.cancel()'>
           <md-icon md-svg-icon='close' aria-label='close dialog' class='light'></md-icon>
@@ -13,44 +13,47 @@
 
     <md-dialog-content>
       <div class='md-dialog-content'>
-        <text-input 
-            label='Product Name' 
-            is-required='true' 
-            text-value='$ctrl.node.productname' 
-            on-update='$ctrl.update("productname", value)'>
+        <text-input label='{{"productname" | translate}}' is-required='true' text-value='$ctrl.node.productname' on-update='$ctrl.update("productname", value)' max-Length='255'>
         </text-input>
-        <select-input 
-            label='Receiver' 
-            main='shortname' 
-            select-value='$ctrl.node.toSpecificForRAId' 
-            values='$ctrl.receivers' 
-            on-update='$ctrl.update("toSpecificForRAId", value)'></select-input>
-        <fieldset>
-          <legend>Admin Number</legend>
-          <div ng-repeat='adminnumber in $ctrl.node.adminnumber'>
-            <text-input 
-                label='Identifier' 
-                text-value='adminnumber.identifier' 
-                on-update='$ctrl.update("identifier", value)'>
-            </text-input>
-            <select-input-extensible 
-                label='"Admin Number Type"' 
-                select-value='adminnumber.adminnumbertype' 
-                on-update='$ctrl.update("adminnumber.adminnumbertype", value)'
-                values='$ctrl.picklists.adminNumberType' 
-                show-value='true' 
-                type-name='EXTENSION_TYPE_ADMIN_NUMBER_TYPE' 
-                on-add='$ctrl.createPicklistItem("adminnumbertype", "adminNumberType", value)'>
-            </select-input-extensible>
+        <select-input label='{{"receiver" | translate}}' main='shortname' select-value='$ctrl.node.toSpecificForRAId' values='$ctrl.receivers' on-update='$ctrl.update("toSpecificForRAId", value)'></select-input>
+        <md-toolbar>
+          <div class='md-toolbar-tools'>
+            <h2>Admin Number</h2>
+            <span flex></span>
+            <md-button class='md-icon-button' ng-click='$ctrl.add("adminnumber")'>
+              <md-icon md-svg-icon='add' aria-label='add dialog' class='light'></md-icon>
+              <md-tooltip>Add Admin Number</md-tooltip>
+            </md-button>
           </div>
-        </fieldset>
+        </md-toolbar>
+        <md-list>
+          <md-list-item ng-repeat='adminnumber in $ctrl.node.adminnumber track by $index' class="noright">
+            <fieldset>
+              <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                  <label>{{"identifier" | translate}}</label>
+                  <input ng-model='adminnumber.identifier' type='text' on-update='$ctrl.updateArray("identifier", $index, value)' max-Length='255'/>
+                </md-input-container>
+                <md-button aria-label='Delete Item' ng-click='$ctrl.deleteArray("adminnumber", $index, $event)'>
+                  <md-icon md-svg-icon='delete' class='dark'></md-icon>
+                  <md-tooltip>Delete Admin Number</md-tooltip>
+                </md-button>
+              </div>
+              <div>
+                <select-input-extensible label='{{"adminnumbertype" | translate}} select-value='adminnumber.adminnumbertype' on-update='$ctrl.updateArray("adminnumbertype", $index, value, "adminnumber")'
+                  values='$ctrl.picklists.adminNumberType' show-value='true' type-name='EXTENSION_TYPE_ADMIN_NUMBER_TYPE' on-add='$ctrl.createPicklistItem("adminnumbertype", "adminNumberType", value, $index, "adminnumber")'>
+                </select-input-extensible>
+              </div>
+            </fieldset>
+          </md-list-item>
+        </md-list>
       </div>
     </md-dialog-content>
 
     <md-dialog-actions layout='row'>
       <span flex></span>
-      <md-button ng-click='$ctrl.confirm()'>Okay</md-button>
-      <md-button ng-click='$ctrl.cancel()'>Cancel</md-button>
+      <md-button ng-click='$ctrl.confirm()'>{{"okey" | translate}}</md-button>
+      <md-button ng-click='$ctrl.cancel()'>{{"cancel" | translate}}</md-button>
     </md-dialog-actions>
   </form>
 </md-dialog>

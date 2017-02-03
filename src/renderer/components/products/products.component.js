@@ -26,11 +26,13 @@ export default angular.module('products', [
     bindings: {
       adminNumberType: '<',
       formulationType: '<',
-      unitType: '<'
+      unitType: '<',
+      dossierData: '<',
+      isSubmission: '<'
     },
     controller: class ProductsCtrl extends BaseCtrl {
-      constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope) {
-        super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'product', $scope);
+      constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope, GhstsService) {
+        super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'product', $scope, GhstsService);
 
         this.adminNumberType = JSON.parse(this.adminNumberType.data);
         this.formulationType = JSON.parse(this.formulationType.data);
@@ -43,7 +45,11 @@ export default angular.module('products', [
           unitType: this.unitType
         };
 
-        this.init().then(() => { this.loading = false; });
+        this.init().then(() => { 
+          this.loading = false; 
+          if (this.isSubmission) 
+            this.$scope.$root.loading = false;
+        });
       }
 
       add() {

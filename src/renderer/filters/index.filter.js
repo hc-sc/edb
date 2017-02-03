@@ -4,6 +4,7 @@ export default angular.module('utils', [])
 .filter('index', () => {
   return (array, index) => {
     if (!index) index = 'index';
+    if (!array) array = [];
     for (let i = 0; i < array.length; ++i) {
       array[i][index] = i;
     }

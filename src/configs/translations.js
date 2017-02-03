@@ -22,6 +22,8 @@ export const picklists_en = {
 export const propNames_en = {
   // Generic
   'save': 'Save',
+  'okey': 'Okey',
+  'cancel':'Cancel',
 
   // Legal Entities
   'legalentitypid': 'Legal Entity PID',
@@ -29,7 +31,7 @@ export const propNames_en = {
   'legalentitytype': 'Legal Entity Type',
   'othername': 'Other Name',
   'legalentityidentifier': 'Legal Entity Identifier',
-  'contactaddress': 'Address',
+  'contactaddress': 'Address*',
   'street1': 'Street 1',
   'street2': 'Street 2',
   'zipcode': 'Zip/Postal Code',
@@ -65,12 +67,51 @@ export const propNames_en = {
   'submissionnumber': 'Number',
   'adminnumber': 'Admin Number',
   'packagetype': 'Package Type',
-  //Substance
+  //Substance;
   'substancepid':'Substance PID',
   'substancename':'Substance Name',
-  'substanceidentifier':'Substance Identifiers',
-  'substanceidentifiertype':'Substance Identifier Type',
-  'substanceidentifierinmodel':'Identifier In model',
-  'identifiertype':'Identifier Type'
+  'substanceidentifier':'Identifiers',
+  'substanceidentifiertype':'Identifier Type',
+  'substanceidentifierinmodel':'Identifier',
+  'identifiertype':'Identifier Type',
+  
+  //Product
+  'productid':'Product PID',
+  'genericproductname':'Generic Product Name',
+  'formulationtype':'Formulation Type',
+  'toSpecificForRAId': 'Regulatory Authorities',
+  'ingredients':'Ingredients',
+  'ingredient':'Ingredient*',
+  'productregulartoryauthorities':'Product Regulatory Authorities',
+  //Product RA
+  'productRA':'Product Regulatory Authorities',
+  'productname':'Product Name' ,
+  'receiver':'Receiver',
+  'adminnumbertype':'Admin Number Type',
+  //Ingredient
+  'substance':'Substance',
+  'toSubstanceId':'Substance Name',
+  'quantity':'Quantity',
+  'unit':'Unit',
+  //File
+  'filefulllocation':'File Full Location',
+  'filepid':'File PID',
+  'filecompanyid':'File Company ID',
+  'contentstatus':'Content Status',
+  'replacedfilepid':'Replaced File PID',
+  'filetype':'File Type',
+  'formatcomment':'Format Comment',
+  'md5checksum':'MD5 Checksum',
+  'filename':'File Name',
+
+  'fileRA':'File Regulatory Authorities',
+  //File RA
+  'filecomments':'File Comments',
+  //receivers
+  'receivers':'Receivers',
+  'legalentity':'Legal Entity',
+  'shortname':'Short Name',
+  'role':'Role',
+
 
 };

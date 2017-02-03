@@ -26,8 +26,7 @@ export default angular.module('receiver', [
   },
   controller: class ReceiversCtrl extends BaseCtrl {
     constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope, GhstsService) {
-      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'receiver', $scope);
-      this.ghstsService = GhstsService.getService();
+      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'receiver', $scope, GhstsService);
       this.senders = [];
       this.records = [];
 
@@ -45,9 +44,12 @@ export default angular.module('receiver', [
             .then(ghsts => {
               console.log(ghsts);
               this.ghsts = JSON.parse(ghsts.data)[0];
-              let ids = this.ghsts._receivers.map(item => {
-                return item.receiver;
-              });
+              let ids = [];
+              if (this.ghsts._receiver && this.ghsts._receiver.length > 0) {
+                ids = this.ghsts._receiver.map(item => {
+                  return item.receiver;
+                });
+              }
               console.log(ids);
               if (ids.length > 0) return this.appDataService.edb_get({_url: '/receiver', data: { where: ids} });
               else return Promise.resolve([]);
@@ -195,7 +197,7 @@ export default angular.module('receiver', [
 
     selectReceiver(id, index) {
       this.selected = this.records[index];
-      let receiver = this.ghsts._receivers.filter(item => {
+      let receiver = this.ghsts._receiver.filter(item => {
         return item.receiver === this.selected._id;
       });
       this.appDataService.edb_get({_url: 'sender', data: {where: receiver[0]['sender']}})
@@ -220,7 +222,7 @@ export default angular.module('receiver', [
       .then(response => {
         console.log(response);
         this.ghsts = response.data;
-        let ids = this.ghsts._receivers.map(item => {
+        let ids = this.ghsts._receiver.map(item => {
           return item.receiver;
         });
         console.log(ids);

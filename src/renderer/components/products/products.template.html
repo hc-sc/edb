@@ -4,28 +4,28 @@
     <sidenav items='$ctrl.records' selected='$ctrl.selected' main='genericproductname' is-open='$ctrl.sidenavOpen' on-select='$ctrl.updateSelected(item)'
       on-add='$ctrl.add(item)'></sidenav>
     <div class='extension-wrapper'>
-      <text-input label='Product PID' is-required='true' text-value='$ctrl.selected.productpid' on-update='$ctrl.update("productpid", value)'></text-input>
+      <text-input label='{{"productid" | translate}}' is-required='true' text-value='$ctrl.selected.productpid' on-update='$ctrl.update("productpid", value)'></text-input>
       <md-button class='md-raised md-primary' ng-click='$ctrl.genPid()'>Generate PID</md-button>
     </div>
-    <text-input label='Generic Product Name' is-required='true' text-value='$ctrl.selected.genericproductname' on-update='$ctrl.update("genericproductname", value)'></text-input>
-    <select-input-extensible label='Formulation Type' select-value='$ctrl.selected.formulationtype' on-update='$ctrl.update("formulationtype", value)'
+    <text-input label='{{"genericproductname" | translate}}' is-required='true' text-value='$ctrl.selected.genericproductname' on-update='$ctrl.update("genericproductname", value)' max-Length='255'></text-input>
+    <select-input-extensible label='{{"formulationtype" | translate}}' select-value='$ctrl.selected.formulationtype' on-update='$ctrl.update("formulationtype", value)'
       values='$ctrl.formulationType' type-name='EXTENSION_TYPE_FORMULATION_TYPE' on-add='$ctrl.createPicklistItem("formulationtype", "formulationType", value)'>
     </select-input-extensible>
 
-    <tbl ng-if='!$ctrl.loading' title='Ingredients' items='$ctrl.selected.ingredients.ingredient' projection='[{name: "toSubstanceId", url: "substance"}, "quantity", {name: "unit", url: "picklist"}]'
+    <tbl ng-if='!$ctrl.loading' title='{{"ingredients" | translate}}' items='$ctrl.selected.ingredients.ingredient' projection='[{name: "toSubstanceId", url: "substance"}, "quantity", {name: "unit", url: "picklist"}]'
       on-select='$ctrl.selectTblItem("ingredients.ingredient",index)' on-add='$ctrl.addTblItem("ingredients.ingredient")' on-delete='$ctrl.deleteTblItem("ingredients.ingredient",index)'>
     </tbl>
-    <tbl ng-if='!$ctrl.loading' title='Product Regulatory Authorities' items='$ctrl.selected.productra' projection='["productname", {name: "toSpecificForRAId", url: "receiver"}]'
+    <tbl ng-if='!$ctrl.loading' title='{{"productregulartoryauthorities" | translate}}' items='$ctrl.selected.productra' projection='["productname", {name: "toSpecificForRAId", url: "receiver"}]'
       on-select='$ctrl.selectTblItem("productra",index)' on-add='$ctrl.addTblItem("productra")' on-delete='$ctrl.deleteTblItem("productra",index)'></tbl>
 
     <div style='z-index:100' class='float-bottom'>
       <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
         <md-icon md-svg-icon='save' class='light'></md-icon>
       </md-button>
-      <md-button aria-label='Add New Item' class='md-fab md-primary' ng-click='$ctrl.add("product")'>
+      <md-button ng-if='!$ctrl.isSubmission' aria-label='Add New Item' class='md-fab md-primary' ng-click='$ctrl.add("product")'>
         <md-icon md-svg-icon='add' class='light'></md-icon>
       </md-button>
-      <md-button aria-label='Toggle List' class='md-fab md-primary' ng-click='$ctrl.toggleList()'>
+      <md-button ng-if='!$ctrl.isSubmission' aria-label='Toggle List' class='md-fab md-primary' ng-click='$ctrl.toggleList()'>
         <md-icon md-svg-icon='list' class='light'></md-icon>
       </md-button>
     </div>

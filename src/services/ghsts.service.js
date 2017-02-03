@@ -14,6 +14,7 @@ const SenderService = require('./sender.service');
 const LegalEntityService = require('./legalentity.service');
 const ProductService = require('./product.service');
 const DossierService = require('./dossier.service');
+const DocumentService = require('./document.service');
 const SubmissionService = require('./submission.service');
 const SubstanceService = require('./substance.service');
 const FileService = require('./file.service');
@@ -43,7 +44,7 @@ module.exports = class GhstsService extends BaseService {
     this._unmarsh = unmarsh;
   }
 
-  _metadatastatus_process(entityName, id) {
+  _metadatastatus_process(entityName, id, recIds) {
     let curMeta = this.ghsts[0]._metadatastatus[entityName];
     let metanode;
 
@@ -63,21 +64,41 @@ module.exports = class GhstsService extends BaseService {
       );
     }
 
+    let isExist = [];
+
     if (Array.isArray(curMeta)) {
-      let isExit = _.filter(curMeta, item => {
+      isExist = _.filter(curMeta, item => {
         if (item.elementid === id)
           return item;
       });
-      if (isExit.length === 1)
-        return isExit[0].metadatastatusid;
-      else {
-        curMeta.push(metanode);
+    }
+
+    if (!recIds) { //not file and document
+      if (Array.isArray(curMeta)) {
+        if (isExist.length === 1)
+          return isExist[0].metadatastatusid;
+        else {
+          curMeta.push(metanode);
+          return metanode.metadatastatusid;
+        }
+      } else {
+        if (!curMeta)
+          curMeta = metanode;
         return metanode.metadatastatusid;
       }
-    } else {
-      if (!curMeta)
-        curMeta = metanode;
-      return metanode.metadatastatusid;
+    } else { // File or Document
+      if (isExist.length === 1)
+        return isExist[0];
+      else {
+        let retVal = new MetaDataStatusNodeWithRA(
+          id,
+          metanode.metadatastatusid,
+          entityName,
+          recIds
+        );
+        curMeta.push(retVal);
+        return retVal;
+      }
     }
   }
 
@@ -95,42 +116,43 @@ module.exports = class GhstsService extends BaseService {
         value: {}
       };
       let retVal = {
-        TYPE_NAME: 'GHSTS.GHSTS',
-        specificationversion: self.ghsts[0].specificationversion,
-        receivers: {
-          TYPE_NAME: 'GHSTS.GHSTS.RECEIVERS',
-          receiver: []
-        },
-        product: '',
-        // documents: {
-        //   TYPE_NAME: 'GHSTS.GHSTS.DOCUMENTS',
-        //   document: []
-        // },
-        files: {
-          TYPE_NAME: 'GHSTS.GHSTS.FILES',
-          file: []
-        },
-        toc: '',
-        legalentities: {
-          TYPE_NAME: 'GHSTS.GHSTS.LEGALENTITIES',
-          legalentity: []
-        },
-        substances: {
-          TYPE_NAME: 'GHSTS.GHSTS.SUBSTANCES',
-          substance: []
-        },
-        usedtemplates: ''
-      },
-        svr = new ReceiverService();
+          TYPE_NAME: 'GHSTS.GHSTS',
+          specificationversion: self.ghsts[0].specificationversion,
+          receivers: {
+            TYPE_NAME: 'GHSTS.GHSTS.RECEIVERS',
+            receiver: []
+          },
+          product: '',
+          documents: {
+            TYPE_NAME: 'GHSTS.GHSTS.DOCUMENTS',
+            document: []
+          },
+          files: {
+            TYPE_NAME: 'GHSTS.GHSTS.FILES',
+            file: []
+          },
+          toc: '',
+          legalentities: {
+            TYPE_NAME: 'GHSTS.GHSTS.LEGALENTITIES',
+            legalentity: []
+          },
+          substances: {
+            TYPE_NAME: 'GHSTS.GHSTS.SUBSTANCES',
+            substance: []
+          },
+          usedtemplates: {
+            TYPE_NAME: 'AnyType'
+          }
+        };
       let entityClass = require('mongoose').model(self.modelClassName);
 
       let dbquery = entityClass.find({
         _id: self.ghsts[0]._id
       });
       let pops = [];
-      if (self.ghsts[0]._receivers && self.ghsts[0]._receivers.length > 0) {
+      if (self.ghsts[0]._receiver && self.ghsts[0]._receiver.length > 0) {
         pops.push({
-          path: '_receivers.receiver'
+          path: '_receiver.receiver'
         });
       }
       pops.push({
@@ -143,14 +165,16 @@ module.exports = class GhstsService extends BaseService {
         }]
       });
 
-      if (self.ghsts[0]._documents && self.ghsts[0]._documents.length > 0) {
+      if (self.ghsts[0]._document && self.ghsts[0]._document.length > 0) {
         pops.push({
-          path: '_documents'
+          path: '_document'
         });
       }
 
       if (self.ghsts[0]._tocid)
-        pops.push({ path: '_tocid' });
+        pops.push({
+          path: '_tocid'
+        });
 
       dbquery.populate(pops);
       dbquery.exec((err, rows) => {
@@ -158,20 +182,24 @@ module.exports = class GhstsService extends BaseService {
           rej(err);
         else {
           let result = JSON.parse(JSON.stringify(rows[0])); ///Mongoose or Tingo BSON id process has bug, may improve later
+          let receiverIds = [];
 
           // For Receiver
-          if (result._receivers) {
-            retVal.receivers.receiver = result._receivers.map(item => {
+          if (result._receiver) {
+            retVal.receivers.receiver = result._receiver.map(item => {
               retVal.legalentities.legalentity.push(item.receiver.toLegalEntityId);
-              item.receiver.id = item._id.toString();
+              item.receiver.id = item.receiver._id.toString();
               item.receiver.metadatastatus = self._metadatastatus_process('receiver', item.receiver.id);
+              receiverIds.push(item.receiver.id);
               return item;
             });
             retVal.receivers.receiver = self._get_xml_jsonix(retVal.receivers.receiver);
             retVal.receivers.receiver = retVal.receivers.receiver.map(item => {
               let ret = item.receiver;
               ret.sender = item.sender.map(senderid => {
-                return _.merge({}, SenderService.edb_getSync({_id: senderid})[0]);
+                return _.merge({}, SenderService.edb_getSync({
+                  _id: senderid
+                })[0]);
               });
               ret.sender = self._get_xml_jsonix(ret.sender);
               ret.sender.map(sender => {
@@ -179,7 +207,7 @@ module.exports = class GhstsService extends BaseService {
               });
               return ret;
             });
-          } else 
+          } else
             delete retVal.receivers;
 
           // For Product, Dossier, Submission
@@ -187,17 +215,39 @@ module.exports = class GhstsService extends BaseService {
           retVal.product.metadatastatus = self._metadatastatus_process('product', result._product._id);
           retVal.product = self._get_xml_jsonix(result._product);
           delete retVal.product.dossier.product;
-          retVal.product.dossier.submission[0].submissionversiondate =
-            DateTimeProc.dateToJsonixObj(retVal.product.dossier.submission[0].submissionversiondate);
+          retVal.product.dossier.submission.map(sub => {
+            sub.submissionversiondate =
+              DateTimeProc.dateToJsonixObj(sub.submissionversiondate);
+          });
 
           // For Document            
-          if (result._documents && result._documents.length > 0) {
-          // retVal.documents.document = self._get_xml_jsonix(result._documents); ///Working with Project Number bug
+          if (result._document && result._document.length > 0) {
+            retVal.documents.document = result._document.map(doc => {
+              let retDoc = _.merge({}, doc);
+              let docMeta = self._metadatastatus_process('document', retDoc._id, receiverIds);
+              retDoc.documentgeneric.metadatastatus = docMeta.documentgeneric.metadatastatusid;
+              retDoc.documentra = _.filter(retDoc.documentra, documentra => {
+                return receiverIds.indexOf(documentra.toSpecificForRAId) >= 0;
+              });
+              if (retDoc.documentra && retDoc.documentra.length > 0) {
+                retDoc.documentra = retDoc.documentra.map(documentra => {
+                  for (var i = 0; i < docMeta.documentra.length; i++) {
+                    if (docMeta.filera[i].elementid === documentra.toSpecificForRAId) {
+                      documentra.metadatastatus = docMeta.documentra[i].metadatastatusid;
+                      break;
+                    }
+                  }
+                  return documentra;
+                });
+              } else
+                delete retDoc.documentra;
 
-            // Looking For Files and Substances in Document
-            result._documents.map(item => {
-              let substances = item.documentgeneric.relatedtosubstance;
-              let files = item.documentgeneric.referencedtofile;
+              retDoc.documentgeneric.documentissuedate =
+                DateTimeProc.dateToJsonixObj(retDoc.documentgeneric.documentissuedate);
+
+              // Looking For Files and Substances in Document
+              let substances = doc.documentgeneric.relatedtosubstance;
+              let files = doc.documentgeneric.referencedtofile;
               if (substances) {
                 substances.map(subs => {
                   retVal.substances.substance.push(subs.toSubstanceId);
@@ -208,7 +258,9 @@ module.exports = class GhstsService extends BaseService {
                   retVal.files.file.push(file.toFileId);
                 });
               }
+              return retDoc;
             });
+            retVal.documents.document = self._get_xml_jsonix(retVal.documents.document); ///Working with Project Number bug
           } else
             delete retVal.documents;
 
@@ -217,15 +269,37 @@ module.exports = class GhstsService extends BaseService {
           if (retVal.files.file && retVal.files.file.length > 0) {
             retVal.files.file = _.uniq(_.compact(retVal.files.file));
             retVal.files.file = retVal.files.file.map(item => {
-              return _.merge({}, FileService.edb_getSync({_id: item})[0]);
+              let retFile = _.merge({}, FileService.edb_getSync({
+                _id: item
+              })[0]);
+              let fileMeta = self._metadatastatus_process('file', item, receiverIds);
+              retFile.filegeneric.metadatastatus = fileMeta.filegeneric.metadatastatusid;
+              retFile.filera = _.filter(retFile.filera, filera => {
+                return receiverIds.indexOf(filera.toSpecificForRAId) >= 0;
+              });
+              if (retFile.filera && retFile.filera.length > 0) {
+                retFile.filera = retFile.filera.map(filera => {
+                  for (var i = 0; i < fileMeta.filera.length; i++) {
+                    if (fileMeta.filera[i].elementid === filera.toSpecificForRAId) {
+                      filera.metadatastatus = fileMeta.filera[i].metadatastatusid;
+                      break;
+                    }
+                  }
+                  return filera;
+                });
+              } else
+                delete retFile.filera;
+              return retFile;
             });
             retVal.files.file = self._get_xml_jsonix(retVal.files.file);
-          } else 
+          } else
             delete retVal.files;
 
           // For TOC
           if (!result._tocid) {
-            retVal.toc = _.merge({}, TocService.edb_getSync({ tocversion: '01.00.01' })[0]);
+            retVal.toc = _.merge({}, TocService.edb_getSync({
+              tocversion: '01.00.01'
+            })[0]);
             self.ghsts[0]._tocid = retVal.toc._id;
           } else
             retVal.toc = result._tocid;
@@ -239,13 +313,15 @@ module.exports = class GhstsService extends BaseService {
           if (retVal.legalentities.legalentity && retVal.legalentities.legalentity.length > 0) {
             retVal.legalentities.legalentity = _.uniq(_.compact(retVal.legalentities.legalentity));
             retVal.legalentities.legalentity = retVal.legalentities.legalentity.map(les => {
-              let ret = _.merge({}, LegalEntityService.edb_getSync({_id: les})[0]);
+              let ret = _.merge({}, LegalEntityService.edb_getSync({
+                _id: les
+              })[0]);
               let metaId = self._metadatastatus_process('legalentity', les);
               ret.metadatastatus = metaId;
               return ret;
             });
             retVal.legalentities.legalentity = self._get_xml_jsonix(retVal.legalentities.legalentity);
-          } else 
+          } else
             delete retVal.legalentities;
 
           // For Substance
@@ -258,7 +334,9 @@ module.exports = class GhstsService extends BaseService {
           if (retVal.substances.substance && retVal.substances.substance.length > 0) {
             retVal.substances.substance = _.uniq(_.compact(retVal.substances.substance));
             retVal.substances.substance = retVal.substances.substance.map(item => {
-              let ret = _.merge({}, SubstanceService.edb_getSync({_id: item})[0]);
+              let ret = _.merge({}, SubstanceService.edb_getSync({
+                _id: item
+              })[0]);
               let metaId = self._metadatastatus_process('substance', item);
               ret.metadatastatus = metaId;
               return ret;
@@ -268,7 +346,7 @@ module.exports = class GhstsService extends BaseService {
             delete retVal.substances;
 
           // For Usedtemplates
-          if (self.ghsts[0].usedtemplates.length > 0)
+          if (self.ghsts[0].usedtemplates)
             retVal.usedtemplates = self.ghsts[0].usedtemplates;
           else
             delete retVal.usedtemplates;
@@ -288,16 +366,37 @@ module.exports = class GhstsService extends BaseService {
       delete obj._subUrl;
       if (subUrlObj.subUrl) {
         let svrClass = require('./' + subUrlObj.subUrl + '.service');
-        let svr = new svrClass();
-        let ids = [];
+        let svr = new svrClass(self._version);
+        let ids = undefined;
+
         if (subUrlObj.subIds) {
           return svr.edb_get({
             _id: subUrlObj.subIds
           }, true);
-        } else { ///get all sub-instances of the submission
+        } else if ( subUrlObj.subUrl === 'toc') { ///get toc sub-instances of the submission toc2doc assigned
+          return new Q((res, rej) => {
+            let curToc = TocService.edb_getSync({_id: self.ghsts[0]._tocid})[0];
+            let docSvr = new DocumentService(self.ghsts[0]._version);
+            docSvr.edb_get({where: self.ghsts[0]._document})
+              .then(docRet => {
+                let documents = JSON.parse(docRet.data), docTitles = {};
+                if (documents && documents.length > 0) {
+                  documents.map(doc => {
+                    docTitles[doc._id] = doc.documentgeneric.documenttitle; 
+                  });
+                  TocHelper.assignToc2DocNodes(curToc.structure, self.ghsts[0]._toc2docs, docTitles);
+                }
+                res(new RVHelper('EDB00000', JSON.stringify([curToc])));
+              })
+              .catch(err => {
+                rej(err);
+                console.log(err);
+              });
+          });
+        } else { ///get all other sub-instances of the submission
           switch (subUrlObj.subUrl) {
             case 'receiver':
-              ids = self.ghsts[0]._receivers; /// need refacting for loading new ghsts, only one submission for release 1
+              ids = self.ghsts[0]._receiver; /// need refacting for loading new ghsts, only one submission for release 1
               if (ids) {
                 ids = ids.map(item => {
                   return item.receiver;
@@ -305,13 +404,14 @@ module.exports = class GhstsService extends BaseService {
               }
               break;
             case 'document':
-              ids = self.ghsts[0]._documents;
+            case 'file':
+              ids = {fieldname: '_ghsts', ids: [self.ghsts[0]._id]};
               break;
             default:
               ids = undefined;
           }
           if (!ids)
-            return new Q((res, rej) => {
+            return new Q(res => {
               res(new RVHelper('EDB00000'));
             });
           else
@@ -336,7 +436,7 @@ module.exports = class GhstsService extends BaseService {
   ///Works for only one submission for now
   _subUrlProcess4Put(obj) {
     return new Q((res, rej) => {
-      let self = this;
+      let self = this, svr = undefined;
       if (obj._subUrl) {
         let subUrlObj = self._subUrlToObj(obj._subUrl);
         delete obj._subUrl;
@@ -345,8 +445,8 @@ module.exports = class GhstsService extends BaseService {
             isExisting;
           switch (subUrlObj.subUrl) {
             case 'receiver':
-              curProp = self.ghsts[0]._receivers;
-              curMdsProp = self.ghsts[0]._metadatastatus.receivers;
+              curProp = self.ghsts[0]._receiver;
+              curMdsProp = self.ghsts[0]._metadatastatus.receiver;
               if (!curProp)
                 curProp = [];
               if (!curMdsProp)
@@ -383,16 +483,16 @@ module.exports = class GhstsService extends BaseService {
               }
               break;
             case 'toc':
-              curDocProp = self.ghsts[0]._documents;
-              curMdsProp = self.ghsts[0]._metadatastatus.documents;
+              curDocProp = self.ghsts[0]._document;
+              curMdsProp = self.ghsts[0]._metadatastatus.document;
               if (!self.ghsts[0]._toc2docs)
                 self.ghsts[0]._toc2docs = {};
               curProp = self.ghsts[0]._toc2docs;
 
               if (!curProp[obj.tocnodepid])
-                curProp[obj.tocnodepid] = [],
+                curProp[obj.tocnodepid] = [];
 
-                  curProp = curProp[obj.tocnodepid];
+              curProp = curProp[obj.tocnodepid];
 
               if (!curMdsProp)
                 curMdsProp = [];
@@ -410,19 +510,35 @@ module.exports = class GhstsService extends BaseService {
                     obj.docid.toString(),
                     MetaDataStatus.getMetadataStatusIdbyValue('new'),
                     'document',
-                    self.ghsts[0]._receivers
+                    self.ghsts[0]._receiver
                   ));
                 }
                 needUpdate = true;
               }
               break;
+            case 'document':
+              svr = new DocumentService(self._version);
+              break;
+            case 'file': 
+              svr = new FileService(self._version);
+              break;
             default:
               curProp = undefined;
           }
-          if (!obj._id && !subUrlObj.subIds && !subUrlObj.senderId && !(obj.tocnodepid && obj.docid))
+          if (!obj._id && !subUrlObj.subIds && !subUrlObj.senderId && !(obj.tocnodepid && obj.docid) && !svr)
             rej(new RVHelper('EDB12014'));
+          else if (svr) {
+            obj._ghsts = self.ghsts[0]._id;
+            svr.edb_put(obj)
+              .then(ret => {
+                res(ret);
+              })
+              .catch(err => {
+                rej(err);
+              });
+          }
           else if (needUpdate) {
-            self.edb_post(self.ghsts[0])
+            super.edb_post(self.ghsts[0])
               .then(ret => {
                 res(new RVHelper('EDB00000', self.ghsts[0]));
               })
@@ -444,37 +560,53 @@ module.exports = class GhstsService extends BaseService {
   ///Works for only one submission for now
   _subUrlProcess4Post(obj) {
     return new Q((res, rej) => {
-      let self = this;
+      let self = this, svr = undefined;
       if (obj._subUrl) {
         let subUrlObj = self._subUrlToObj(obj._subUrl);
         delete obj._subUrl;
         if (subUrlObj.subUrl) {
           let curProp, curMdsProp, curMdsIndex, curEntityIndex;
           switch (subUrlObj.subUrl) {
-            case 'receiver':
-              curProp = self.ghsts[0]._receivers;
-              curMdsProp = self.ghsts[0]._metadatastatus.receivers;
-              break;
-            default:
-              curProp = undefined;
+          case 'receiver':
+            curProp = self.ghsts[0]._receiver;
+            curMdsProp = self.ghsts[0]._metadatastatus.receiver;
+            break;
+          case 'document':
+            svr = new DocumentService(self._version);
+            break;
+          case 'file':
+            svr = new FileService(self._version);
+            break;
+          default:
+            curProp = undefined;
           }
           curEntityIndex = _.findIndex(curProp, item => {
             return item.receiver === subUrlObj.subIds;
           });
-          if (subUrlObj.senderId) {
-            let curSenderIndex = _.findIndex(curProp[curEntityIndex].sender, item => {
-              return item === subUrlObj.senderId;
-            });
-            if (curSenderIndex >= 0 && obj._id)
-              curProp[curEntityIndex].sender[curSenderIndex] = obj._id.toString();
-          } else {
-            curMdsIndex = _.findIndex(curMdsProp, item => {
-              return item.elementid === subUrlObj.subIds;
-            });
-            curProp[curEntityIndex][subUrlObj.subUrl] = obj._id.toString();
-            curMdsProp[curMdsIndex]['elementid'] = obj._id.toString();
+          if (svr) {
+            if (obj._ghsts === self.ghsts[0]._id) 
+              res(svr.edb_post(obj));
+            else {
+              obj._ghsts = self.ghsts[0]._id;
+              delete obj._id;
+              res(svr.edb_put(obj));
+            }
+          } else {  
+            if (subUrlObj.senderId) {
+              let curSenderIndex = _.findIndex(curProp[curEntityIndex].sender, item => {
+                return item === subUrlObj.senderId;
+              });
+              if (curSenderIndex >= 0 && obj._id)
+                curProp[curEntityIndex].sender[curSenderIndex] = obj._id.toString();
+            } else {
+              curMdsIndex = _.findIndex(curMdsProp, item => {
+                return item.elementid === subUrlObj.subIds;
+              });
+              curProp[curEntityIndex][subUrlObj.subUrl] = obj._id.toString();
+              curMdsProp[curMdsIndex]['elementid'] = obj._id.toString();
+            }
+            res(self.edb_post(self.ghsts[0]));
           }
-          res(self.edb_post(self.ghsts[0]));
         } else {
           rej(new RVHelper('EDB12013'));
         }
@@ -497,8 +629,8 @@ module.exports = class GhstsService extends BaseService {
             isExisting;
           switch (subUrlObj.subUrl) {
             case 'receiver':
-              curProp = self.ghsts[0]._receivers;
-              curMdsProp = self.ghsts[0]._metadatastatus.receivers;
+              curProp = self.ghsts[0]._receiver;
+              curMdsProp = self.ghsts[0]._metadatastatus.receiver;
               if (subUrlObj.senderId) {
                 curProp = _.filter(curProp, item => {
                   return item.receiver = subUrlObj.subIds;
@@ -517,8 +649,8 @@ module.exports = class GhstsService extends BaseService {
               break;
             case 'toc':
               curProp = self.ghsts[0]._toc2docs;
-              curDocProp = self.ghsts[0]._documents;
-              curMdsProp = self.ghsts[0]._metadatastatus.documents;
+              curDocProp = self.ghsts[0]._document;
+              curMdsProp = self.ghsts[0]._metadatastatus.document;
               keys = Object.keys(curProp);
               isExisting = [];
               keys.map(key => {
@@ -546,8 +678,8 @@ module.exports = class GhstsService extends BaseService {
             default:
               curProp = undefined;
           }
-          if (needUpdate)
-            res(self.edb_post(self.ghsts[0]));
+          if (needUpdate) 
+            res(super.edb_post(self.ghsts[0]));
           else
             res(new RVHelper('EDB00000'));
         } else {
@@ -580,7 +712,7 @@ module.exports = class GhstsService extends BaseService {
             type: Number,
             default: 1
           },
-          _receivers: [{
+          _receiver: [{
             receiver: {
               type: 'ObjectId',
               ref: 'RECEIVER'
@@ -594,7 +726,7 @@ module.exports = class GhstsService extends BaseService {
             type: 'ObjectId',
             ref: 'PRODUCT'
           },
-          _documents: [{
+          _document: [{
             type: 'ObjectId',
             ref: 'DOCUMENT'
           }],
@@ -620,9 +752,7 @@ module.exports = class GhstsService extends BaseService {
           _metadatastatus: {
             type: Schema.Types.Mixed
           },
-          usedtemplates: [{
-            type: String
-          }],
+          usedtemplates: Schema.Types.Mixed,
           specificationversion: {
             type: String,
             default: self.version
@@ -665,7 +795,8 @@ module.exports = class GhstsService extends BaseService {
 
   edb_package() {
     return new Q((res, rej) => {
-      let self = this, packageLocation;
+      let self = this,
+        packageLocation;
       console.log('package');
       self._buildXmlJson()
         .then(ret => {
@@ -699,8 +830,15 @@ module.exports = class GhstsService extends BaseService {
         .then(ret => {
           let isValid = self._validate['01_00_02'](ret);
           let errors = !isValid ? self._validate['01_00_02'].errors : '';
-          if (errors)
+          if (errors) {
+            errors = _.filter(errors, error => {
+              if (error.keyword !== 'anyOf')
+                return error;
+            });
+          }
+          if (errors && errors.length > 0) {
             rej(new RVHelper('EDB30002', errors));
+          }
           else
             res(new RVHelper('EDB00000'));
         })
@@ -830,9 +968,22 @@ module.exports = class GhstsService extends BaseService {
       let self = this;
       if (obj._subUrl)
         res(self._subUrlProcess4Post(obj));
-      else {
+      else if (obj._state !== self.ghsts[0]._state) { //Change submission state
+        let svr = new SubmissionService(self._version);
+        let curSub = SubmissionService.edb_getSync({_id: self.ghsts[0]._submissionid})[0];
+        curSub._state = obj._state;
+        svr._update(curSub)
+          .then(retSub => {
+            return super._update(obj);
+          })
+          .then(ret => {
+            res(ret);
+          })
+          .catch(err => {
+            rej(err);
+          });
+      } else
         res(super.edb_post(obj));
-      }
     });
   }
 

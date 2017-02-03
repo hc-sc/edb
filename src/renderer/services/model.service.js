@@ -11,6 +11,10 @@ import modelFileRA from '../view-models/gen/filera.json';
 import modelProduct from '../view-models/gen/product.json';
 import modelProductRA from '../view-models/gen/productra.json';
 import modelIngredient from '../view-models/gen/ingredient.json';
+import modelAdminnumber from '../view-models/gen/adminnumber.json';
+
+import modelDossierRA from '../view-models/gen/dossierra.json';
+import modelReferencedDossier from '../view-models/gen/referenceddossier.json';
 
 import modelDocument from '../view-models/gen/document.json';
 import modelDocumentGeneric from '../view-models/gen/documentgeneric.json';
@@ -64,7 +68,14 @@ export default class ModelService {
         return Object.assign(modelProductRA.fields);
       case 'ingredients.ingredient':
         return Object.assign(modelIngredient.fields);
+      case 'adminnumber':
+        return Object.assign(modelAdminnumber.fields);
 
+      case 'dossierra':
+        return Object.assign(modelDossierRA.fields);
+      case 'referenceddossier':
+        return Object.assign(modelReferencedDossier.fields);
+        
       case 'document':
         model = Object.assign(modelDocument.fields);
         model.documentgeneric = this.getModel('documentgeneric');

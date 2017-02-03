@@ -21,11 +21,11 @@ export default angular.module('toc', [
   template,
   bindings: {
     dossierData: '<',
+    isSubmission: '<'
   },
   controller: class TOCCtrl extends BaseCtrl {
     constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope, GhstsService) {
-      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'toc', $scope);
-      this.ghstsService = GhstsService.getService();
+      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'toc', $scope, GhstsService);
       this.showTOCData = false;
       this.getAppData({}, 'toc')
       .then(toc => {
@@ -84,7 +84,7 @@ export default angular.module('toc', [
       this.selectedNode = this.tree;
 
       // for testing
-      console.log(sanitizeTreeHelper(this.tree));
+      // console.log(sanitizeTreeHelper(this.tree));
     }
 
     saveTOC() {

@@ -13,9 +13,10 @@
 
     <md-dialog-content>
       <div class='md-dialog-content'>
-        <text-input label='{{"substanceidentifierinmodel"|translate}}' text-value='$ctrl.node.identifier' on-update='$ctrl.update("identifier", value)'></text-input>
+        <text-input label='{{"substanceidentifierinmodel"|translate}}' text-value='$ctrl.node.identifier' is-required='true' on-update='$ctrl.update("identifier", value)' max-Length='255'></text-input>
         <select-input-extensible label='{{"identifiertype"|translate}}' 
             select-value='$ctrl.node.substanceidentifiertype' 
+            is-required='true'
             on-update='$ctrl.update("substanceidentifiertype", value)'
             values='$ctrl.picklists.identifierTypes' 
             type-name='EXTENSION_TYPE_SUBSTANCE_IDENTIFIER_TYPE' 

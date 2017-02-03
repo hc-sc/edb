@@ -11,6 +11,7 @@ export default function($mdIconProvider) {
   .icon('left', `${IMG_DIR}chevron_left${SUF}`)
   .icon('right', `${IMG_DIR}chevron_right${SUF}`)
   .icon('add', `${IMG_DIR}add${SUF}`)
+  .icon('email', `${IMG_DIR}email${SUF}`)
   .icon('delete', `${IMG_DIR}delete${SUF}`)
   .icon('list', `${IMG_DIR}list${SUF}`)
   .icon('filter', `${IMG_DIR}filter_list${SUF}`)
