@@ -3,7 +3,6 @@
 
         {
           "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
-          "id": "D_Document_J_01_T-423579_0003052902R",
           "filera": [
             {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
@@ -48,7 +47,6 @@
         },
         {
           "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
-          "id": "D_KIIA_4.1_01_T-423640_0003053002R",
           "filera": [
             {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
@@ -93,7 +91,6 @@
         },
         {
           "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
-          "id": "D_KIIA_5.2.1_01_T-423586_0003053028R",
           "filera": [
             {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
@@ -138,7 +135,6 @@
         },
         {
           "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
-          "id": "D_KIIA_5.2.1_02_T-423584_0003053028R",
           "filera": [
             {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
@@ -183,7 +179,6 @@
         },
         {
           "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
-          "id": "D_KIIA_5.2.3_01_T-423615_0003053030R",
           "filera": [
             {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
@@ -228,7 +223,6 @@
         },
         {
           "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
-          "id": "D_KIIA_5.2.4_01_T-423612_0003053031R",
           "filera": [
             {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
@@ -278,7 +272,6 @@
         },
         {
           "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
-          "id": "D_KIIA_5.3.7_01_T-423618_0003053042R",
           "filera": [
             {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
@@ -323,7 +316,6 @@
         },
         {
           "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
-          "id": "D_KIIA_5.6.10_01_T-423604_0003053066R",
           "filera": [
             {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
@@ -368,7 +360,6 @@
         },
         {
           "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
-          "id": "D_KIIA_7.1.1_01_T-423613_0003053138R",
           "filera": [
             {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
@@ -413,7 +404,6 @@
         },
         {
           "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
-          "id": "D_KIIA_8.1.1_01_T-423605_0003053175R",
           "filera": [
             {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
@@ -458,7 +448,6 @@
         },
         {
           "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
-          "id": "D_KIIA_8.1.1_02_T-423616_0003053175R",
           "filera": [
             {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
@@ -503,7 +492,6 @@
         },
         {
           "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
-          "id": "D_KIIA_8.1.2_02_T-423616_0003053176R",
           "filera": [
             {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
@@ -548,7 +536,6 @@
         },
         {
           "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
-          "id": "D_KIIA_8.2.1.1_01_T-423601_0003053181R",
           "filera": [
             {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
@@ -593,7 +580,6 @@
         },
         {
           "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
-          "id": "D_KIIA_8.9.2_01_T-423656_0003053227R",
           "filera": [
             {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
@@ -638,7 +624,6 @@
         },
         {
           "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
-          "id": "D_Document_LIIA_01_M-508647_0003053246R",
           "filera": [
             {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
@@ -683,7 +668,6 @@
         },
         {
           "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
-          "id": "D_MIIA_Sec_1_01_T-423658_0003053254R",
           "filera": [
             {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
@@ -728,7 +712,6 @@
         },
         {
           "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
-          "id": "D_MIIA_Sec_1_02_T-423596_0003053254R",
           "filera": [
             {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
@@ -773,7 +756,6 @@
         },
         {
           "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
-          "id": "D_MIIA_Sec_2_01_T-423659_0003053255R",
           "filera": [
             {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
@@ -818,7 +800,6 @@
         },
         {
           "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
-          "id": "D_MIIA_Sec_3_01_T-423662_0003053256R",
           "filera": [
             {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
@@ -863,7 +844,6 @@
         },
         {
           "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
-          "id": "D_MIIA_Sec_3_02_T-423592_0003053256R",
           "filera": [
             {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
@@ -908,7 +888,6 @@
         },
         {
           "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
-          "id": "D_MIIA_Sec_4_01_T-423663_0003053257R",
           "filera": [
             {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
@@ -953,7 +932,6 @@
         },
         {
           "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
-          "id": "D_MIIA_Sec_5_01_T-423664_0003053258R",
           "filera": [
             {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
@@ -998,7 +976,6 @@
         },
         {
           "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
-          "id": "D_MIIA_Sec_6_01_T-423591_0003053259R",
           "filera": [
             {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
@@ -1043,7 +1020,6 @@
         },
         {
           "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
-          "id": "D_OL-M_01_T-423583_0003053263R",
           "filera": [
             {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
@@ -1088,7 +1064,6 @@
         },
         {
           "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
-          "id": "D_OIIA_01_T-423585_0003053264R",
           "filera": [
             {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
@@ -1133,7 +1108,6 @@
         },
         {
           "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
-          "id": "D_OIIA_02_T-423581_0003053264R",
           "filera": [
             {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
@@ -1178,7 +1152,6 @@
         },
         {
           "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
-          "id": "D_OIIA_03_T-423578_0003053264R",
           "filera": [
             {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
@@ -1223,7 +1196,6 @@
         },
         {
           "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
-          "id": "IDA0003053028T423584011_0003779989",
           "filera": [
             {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
@@ -1268,7 +1240,6 @@
         },
         {
           "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
-          "id": "IDA0003053031T423612011_0003780024",
           "filera": [
             {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
@@ -1313,7 +1284,6 @@
         },
         {
           "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
-          "id": "IDA0003053181T423601011_0003779984",
           "filera": [
             {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
@@ -1358,7 +1328,6 @@
         },
         {
           "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
-          "id": "IDA0003053227T423656011_0003780058",
           "filera": [
             {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
@@ -1403,7 +1372,6 @@
         },
         {
           "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE",
-          "id": "IDA0003053246M508647011_0003779837",
           "filera": [
             {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILERA",
