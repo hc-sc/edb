@@ -40,7 +40,7 @@
                 </md-button>
               </div>
               <div>
-                <select-input-extensible label='{{"adminnumbertype" | translate}} select-value='adminnumber.adminnumbertype' on-update='$ctrl.updateArray("adminnumbertype", $index, value, "adminnumber")'
+                <select-input-extensible label='{{"adminnumbertype" | translate}}' select-value='adminnumber.adminnumbertype' on-update='$ctrl.updateArray("adminnumbertype", $index, value, "adminnumber")'
                   values='$ctrl.picklists.adminNumberType' show-value='true' type-name='EXTENSION_TYPE_ADMIN_NUMBER_TYPE' on-add='$ctrl.createPicklistItem("adminnumbertype", "adminNumberType", value, $index, "adminnumber")'>
                 </select-input-extensible>
               </div>

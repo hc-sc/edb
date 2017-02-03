@@ -1,0 +1,41 @@
+<div id="filter-panel" ng-controller="FilterController as filterCtrl">
+
+    <form class="form-inline" role="form">
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon">RA</div>
+                <select id="filterOnRA" class="form-control" ng-model="Filter.filterOnRA">
+                    <option value="ALL" class="base-color">ALL</option>
+                    <option ng-repeat="ra in FilterData.RAs" value="{{ra.Id}}">{{ra.Name}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon" title="last change at or after"><i class="fa fa-exchange"></i>&#xA0;&#xA0;from</div>
+                <select id="changedSince" class="form-control" ng-model="Filter.changedSince">
+                    <option value="all" class="base-color">all</option>
+                    <option ng-repeat="submission in FilterData.Submissions" value="{{submission}}">{{submission}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon">Filter</div>
+                <input type="search" class="form-control" id="searchText" placeholder="filter for..." ng-model="Filter.searchText" ng-model-onblur="" ng-model-onreturn="" />
+                <!--
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">Go!</button>
+                </span>
+            -->
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon">Hide Empty Nodes</span>
+                <span class="input-group-addon"><input type="checkbox" id="hideEmptyNodes" ng-model="Filter.hideEmptyNodes" /></span>
+            </div>
+        </div>
+    </form>
+
+</div>

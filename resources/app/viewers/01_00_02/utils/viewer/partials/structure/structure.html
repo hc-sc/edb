@@ -1,0 +1,25 @@
+<div id="structure-panel" ng-controller="StructureController as structureCtrl">
+    
+    <div id="toc-panel" ng-show="State.Viewer.StructureView == 'TOC'">
+        <ghsts-toc ng-model="toclist"></ghsts-toc>
+    </div>
+    
+    <div id="list-panel" ng-show="State.Viewer.StructureView == 'LIST'">
+        <div id="doc-list-pane">
+            <ghsts-doc-list ng-model="doclist"></ghsts-doc-list>
+        </div>
+    </div>
+    
+	<div id="table-panel" ng-show="State.Viewer.StructureView == 'TABLE'">
+        <div id="doc-table-pane">
+            <ghsts-doc-table ng-model="doclist"></ghsts-doc-table>
+        </div>
+    </div>
+    
+    <div id="files-panel" ng-show="State.Viewer.StructureView == 'FILES'">
+        <div id="file-list-pane">
+            <ghsts-file-list ng-model="filelist"></ghsts-file-list>
+        </div>
+    </div>
+    
+</div>
