@@ -7,14 +7,14 @@
           on-add='$ctrl.add(item)'>
   </sidenav>
   <div ng-show='!$ctrl.isSubmission' class='no-padding no-margin'>
-    <select-input label='{{"legalentity" | translate}}' select-value='$ctrl.selected.toLegalEntityId' main='legalentityname' values='$ctrl.legalEntities' on-update='$ctrl.update("toLegalEntityId", value)'></select-input>
+    <select-input label='{{"legalentity" | translate}}' is-required='true' select-value='$ctrl.selected.toLegalEntityId' main='legalentityname' values='$ctrl.legalEntities' on-update='$ctrl.update("toLegalEntityId", value)'></select-input>
     <text-input label='{{"shortname" | translate}}' is-required='true' text-value='$ctrl.selected.shortname' on-update='$ctrl.update("shortname", value)' max-Length='20'></text-input>
     <text-input label='{{"role" | translate}}' text-value='$ctrl.selected.role' on-update='$ctrl.update("role", value)' max-Length='255'></text-input>
   </div>
   <div ng-show='$ctrl.isSubmission' class='no-padding no-margin'>
     <!--<tbl ng-if='!this.$scope.$root.loading' title='Receivers' items='$ctrl.records' projection='["shortname", "role"]' default-sort='LAST_MODIFIED' default-reverse='true' on-select='$ctrl.selectReceiver(id, index)' on-add='$ctrl.newReceiver()' on-delete='$ctrl.deleteReceiver(id)'></tbl>-->
-    <tbl ng-if='!this.$scope.$root.loading' title='{{"receivers" | translate}}' items='$ctrl.records' projection='["shortname", "role"]' default-sort='LAST_MODIFIED' default-reverse='true' on-select='$ctrl.selectReceiver(id, index)' on-add='$ctrl.addReceiver()' on-delete='$ctrl.deleteReceiver(id, index)'></tbl>
-    <tbl title='{{$ctrl.selected.shortname}} Senders' items='$ctrl.senders' projection='["companycontactregulatoryrole", "remark"]' on-select='$ctrl.selectSender(index)' on-add='$ctrl.addSender()' on-delete='$ctrl.deleteSender(index)'></tbl>
+    <tbl ng-if='!this.$scope.$root.loading' title='{{"receivers" | translate}}' items='$ctrl.records' projection='[{name: "toLegalEntityId", url: "legalentity"}, "shortname", "role"]' default-sort='LAST_MODIFIED' default-reverse='true' on-select='$ctrl.selectReceiver(id, index)' on-add='$ctrl.addReceiver()' on-delete='$ctrl.deleteReceiver(id, index)'></tbl>
+    <tbl title='{{$ctrl.selected.shortname}} Senders' items='$ctrl.senders' projection='[{name: "toLegalEntityId", url: "legalentity"}, "companycontactregulatoryrole", "remark"]' on-select='$ctrl.selectSender(index)' on-add='$ctrl.addSender()' on-delete='$ctrl.deleteSender(index)'></tbl>
   </div>
   <div class='float-bottom'>
     <md-button aria-label='Save' ng-if='!$ctrl.isSubmission' class='md-fab md-primary' ng-click='$ctrl.save()'>
