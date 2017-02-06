@@ -2,7 +2,6 @@
   "legalentity": [
     {
       "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY",
-      "id": "LE_ID_BVL",
       "metadatastatus": {
         "TYPE_NAME": "GHSTS.TYPEMETADATASTATUSSTRUCT",
         "value": "New",
@@ -59,7 +58,6 @@
     },
     {
       "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY",
-      "id": "LE_ID_PMRA",
       "metadatastatus": {
         "TYPE_NAME": "GHSTS.TYPEMETADATASTATUSSTRUCT",
         "value": "New",
@@ -115,7 +113,6 @@
     },
     {
       "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY",
-      "id": "LE_ID_APVMA",
       "metadatastatus": {
         "TYPE_NAME": "GHSTS.TYPEMETADATASTATUSSTRUCT",
         "value": "New",
@@ -169,7 +166,6 @@
     },
     {
       "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY",
-      "id": "LE_ID_IBAMA",
       "metadatastatus": {
         "TYPE_NAME": "GHSTS.TYPEMETADATASTATUSSTRUCT",
         "value": "New",
@@ -222,7 +218,6 @@
     },
     {
       "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY",
-      "id": "LE_ID_PPPWW_DE",
       "metadatastatus": {
         "TYPE_NAME": "GHSTS.TYPEMETADATASTATUSSTRUCT",
         "value": "New",
@@ -289,7 +284,6 @@
     },
     {
       "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY",
-      "id": "LE_ID_PPPWW_CA",
       "metadatastatus": {
         "TYPE_NAME": "GHSTS.TYPEMETADATASTATUSSTRUCT",
         "value": "New",
@@ -344,7 +338,6 @@
     },
     {
       "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY",
-      "id": "LE_ID_PPPWW_BR",
       "metadatastatus": {
         "TYPE_NAME": "GHSTS.TYPEMETADATASTATUSSTRUCT",
         "value": "New",
@@ -398,7 +391,6 @@
     },
     {
       "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY",
-      "id": "LE_ID_PPPWW_AU",
       "metadatastatus": {
         "TYPE_NAME": "GHSTS.TYPEMETADATASTATUSSTRUCT",
         "value": "New",

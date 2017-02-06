@@ -85,7 +85,6 @@ export const propNames_en = {
   'productregulartoryauthorities':'Product Regulatory Authorities',
   //Product RA
   'productRA':'Product Regulatory Authorities',
-  'productname':'Product Name' ,
   'receiver':'Receiver',
   'adminnumbertype':'Admin Number Type',
   //Ingredient

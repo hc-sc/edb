@@ -24,26 +24,26 @@ module.exports = class TocTreeHelper {
 
   static assignToc2DocNodes(tree, toc2doc, documents) {
     let keys = Object.keys(toc2doc);
-    let nodeKey = documents ? 'toc2doc' : 'toc2TOC';
+    let nodeKey = documents ? 'toc2doc' : 'toc2DOC';
 
     if (tree) {
       if (tree.tocnodepid) {
         if (keys.indexOf(tree.tocnodepid) >= 0) {
           if (!tree[nodeKey])
             tree[nodeKey] = [];
-          tree[nodeKey] = toc2doc[tree.tocnodepid].map(docId => {
+          toc2doc[tree.tocnodepid].map(docId => {
             if (!documents) { /// For generate Jsonix Obj
-              return {
-                TYPE_NAME: 'TYPETOCNODE.TOC2DOC',
+              tree[nodeKey].push({
+                TYPE_NAME: 'GHSTS.TYPETOCNODE.TOC2DOC',
                 toDocumentId: docId
-              };
+              });
             } else {  ///For front-end display
-              return {
+              tree[nodeKey].push({
                 document: {
                   _id: docId,
                   documenttitle: documents[docId]
                 }
-              };
+              });
             }
           });
         }
