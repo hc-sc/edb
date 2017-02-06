@@ -2,7 +2,6 @@
     "substance": [
         {
           "TYPE_NAME": "GHSTS.GHSTS.SUBSTANCES.SUBSTANCE",
-          "id": "IDS0000000112",
           "metadatastatus": {
             "TYPE_NAME": "GHSTS.TYPEMETADATASTATUSSTRUCT",
             "value": "New",
@@ -27,7 +26,6 @@
         },
         {
           "TYPE_NAME": "GHSTS.GHSTS.SUBSTANCES.SUBSTANCE",
-          "id": "IDS0000002222",
           "metadatastatus": {
             "TYPE_NAME": "GHSTS.TYPEMETADATASTATUSSTRUCT",
             "value": "New",
@@ -64,7 +62,6 @@
         },
         {
           "TYPE_NAME": "GHSTS.GHSTS.SUBSTANCES.SUBSTANCE",
-          "id": "IDS0000003333",
           "metadatastatus": {
             "TYPE_NAME": "GHSTS.TYPEMETADATASTATUSSTRUCT",
             "value": "New",
