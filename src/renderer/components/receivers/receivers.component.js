@@ -35,8 +35,9 @@ export default angular.module('receiver', [
           this.getAppData({}, 'legalentity')
             .then(legalEntities => {
               this.legalEntities = JSON.parse(legalEntities.data);
+              let raId=this.picklistService.edb_getSync({value:'Regulatory Authority'})[0]._id;
               this.legalEntities=this.legalEntities.filter((el) =>
-                  el.legalentitytype.toLowerCase()==='5890b78f68cc2010e0a7f48a'
+                  el.legalentitytype.toLowerCase()===raId
                 )
             }),
 
