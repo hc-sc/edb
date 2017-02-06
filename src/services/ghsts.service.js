@@ -1121,10 +1121,6 @@ module.exports = class GhstsService extends BaseService {
       curBasePath = path.resolve(curFolder, sub_id);
       this._createFolder(curBasePath);
       copydir.sync(curViewerPath, curBasePath);
-      curFolder = path.resolve(curBasePath, 'content');
-      this._createFolder(curFolder);
-      curFolder = path.resolve(curBasePath, 'confidential');
-      this._createFolder(curFolder);
 
       fs.writeFileSync(
         path.resolve(curBasePath, 'ghsts.xml'),
