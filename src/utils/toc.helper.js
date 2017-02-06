@@ -38,12 +38,14 @@ module.exports = class TocTreeHelper {
                 toDocumentId: docId
               });
             } else {  ///For front-end display
-              tree[nodeKey].push({
-                document: {
-                  _id: docId,
-                  documenttitle: documents[docId]
-                }
-              });
+              if (_.findIndex(tree[nodeKey], doc => { return doc.document._id = docId;}) < 0) {
+                tree[nodeKey].push({
+                  document: {
+                    _id: docId,
+                    documenttitle: documents[docId]
+                  }
+                });
+              }
             }
           });
         }
