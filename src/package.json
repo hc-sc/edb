@@ -26,6 +26,7 @@
     "tingodb": "file:..\\src\\tingodb-0.5.0.tgz",
     "tungus": "file:..\\src\\tungus-0.0.5.tgz",
     "mongoose": "^4.7.2",
-    "moment": "^2.17.1"
+    "moment": "^2.17.1",
+    "copy-dir": "^0.3.0"
   }
 }
