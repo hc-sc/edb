@@ -13,9 +13,6 @@ export default class SubstancesCtrl extends BaseCtrl {
     this.init().then(() => { this.loading = false; });
   }
 
-  add() {
-    this.selected = angular.copy(this.getModel('substance'));
-  }
   genPid() {
     this.selected.substancepid = this.getPid();
   }

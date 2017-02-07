@@ -1102,7 +1102,7 @@ module.exports = class GhstsService extends BaseService {
   _createPackage(doc) {
     let curBasePath = path.resolve(fs.realpathSync('./'), BACKEND_CONST.PRODUCTS_DIR),
       curFolder, curViewerPath = path.resolve(resourceDir, BACKEND_CONST.VIEWER_UTIL_DIR_NAME, this.ghsts[0]._version.replace(/\./g, '_'));
-    let prod_dossier_name = this.ghsts[0]._foldername.replace('_##_', '____');
+    let prod_dossier_name = this.ghsts[0]._foldername = this.ghsts[0]._foldername.replace('_##_', BACKEND_CONST.PRODUCT_DOSSIER_FOLDER_CONTACT_SYMBOL);
     let sub_id = this.ghsts[0]._submissionnumber;
     if (!prod_dossier_name)
       throw new RVHelper('EDB12002');
@@ -1121,6 +1121,14 @@ module.exports = class GhstsService extends BaseService {
       curBasePath = path.resolve(curFolder, sub_id);
       this._createFolder(curBasePath);
       copydir.sync(curViewerPath, curBasePath);
+      curFolder = path.resolve(curBasePath, 'content');
+      this._createFolder(curFolder);
+      this._createFolder(path.resolve(curFolder, 'main'));
+      this._createFolder(path.resolve(curFolder, 'attachments'));
+      curFolder = path.resolve(curBasePath, 'confidential');
+      this._createFolder(curFolder);
+      this._createFolder(path.resolve(curFolder, 'main'));
+      this._createFolder(path.resolve(curFolder, 'attachments'));
 
       fs.writeFileSync(
         path.resolve(curBasePath, 'ghsts.xml'),
