@@ -137,7 +137,7 @@ export default class BaseCtrl {
   // creates a new blank object to create a new item
   add(prop) {
     this.selected = angular.copy(this.getModel(prop));
-    this.showMessage('Adding a new record.');
+    this.showMessage('Adding an new record.');
   }
 
   // update an item in the database
@@ -160,6 +160,9 @@ export default class BaseCtrl {
       this.updateAppData(angular.copy(this.selected))
         .then(result => {
           console.log(result);
+          this.selected = JSON.parse(result.data);
+          if (Array.isArray(this.selected))
+            this.selected = this.selected[0];
           this.showMessage('Saved successfully');
         })
         .catch(err => {

@@ -285,7 +285,7 @@
                 },
                 "internal": true,
 				        "documentpid": "123Hai",
-                "documentnumber": 
+                "documentnumber": [
                       {
                           "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.REFERENCEDDOCUMENT.DOCUMENTNUMBER",
                           "documentnumbertype": {
@@ -298,6 +298,7 @@
                         },
                         "identifier": "THITHI"
                       }
+                ]
             
               }
             ],

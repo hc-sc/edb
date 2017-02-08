@@ -15,12 +15,13 @@
     <text-input label='{{"filecompanyid" | translate}}' text-value='$ctrl.selected.filegeneric.filecompanyid' on-update='$ctrl.update("filegeneric.filecompanyid", value)' max-Length='255'></text-input>
     <select-input label='{{"contentstatus" | translate}}' is-required='true' select-value='$ctrl.selected.filegeneric.contentstatus' values='$ctrl.contentStatus'
       on-update='$ctrl.update("filegeneric.contentstatus", value)'></select-input>
-    <text-input label='{{"replacedfilepid" | translate}}' text-value='$ctrl.selected.filegeneric.replacedfilepid' on-update='$ctrl.update("filegeneric.replacedfilepid", value)'></text-input>
+    <select-input label='{{"replacedfilepid" | translate}}' select-value='$ctrl.selected.filegeneric.replacedfilepid' values='$ctrl.records' main='filegeneric.filepid'
+      on-update='$ctrl.update("filegeneric.replacedfilepid", value)'></select-input>
     <select-input label='{{"filetype" | translate}}' is-required='true' select-value='$ctrl.selected.filegeneric.filetype' values='$ctrl.fileType'
       on-update='$ctrl.update("filegeneric.filetype", value)'></select-input>
     <text-input label='{{"formatcomment" | translate}}' text-value='$ctrl.selected.filegeneric.formatcomment' on-update='$ctrl.update("filegeneric.formatcomment", value)' max-Length='255'></text-input>
     <text-input label='{{"md5checksum" | translate}}' is-disabled='true' text-value='$ctrl.selected.filegeneric.md5CHECKSUM' on-update='$ctrl.update("filegeneric.md5CHECKSUM", value)'></text-input>
-    <text-input label='{{"filename" | translate}}' is-required='true' text-value='$ctrl.selected.filegeneric.filename' on-update='$ctrl.update("filegeneric.filename", value)'></text-input>
+    <text-input label='{{"filename" | translate}}' is-required='true' is-disabled='true' text-value='$ctrl.selected.filegeneric.filename' on-update='$ctrl.update("filegeneric.filename", value)'></text-input>
 
     <tbl ng-if='!$ctrl.loading' title='{{"fileRA" | translate}}' items='$ctrl.selected.filera' projection='[{name: "toSpecificForRAId", url: "receiver"}, "cbidesignation", "filecomment"]'
 

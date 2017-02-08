@@ -113,7 +113,8 @@ module.exports = class GhstsService extends BaseService {
           key: '{http://www.oecd.org/GHSTS}GHSTS',
           string: '{http://www.oecd.org/GHSTS}GHSTS'
         },
-        value: {}
+        value: {},
+        _filesNeedCopy: []
       };
       let retVal = {
           TYPE_NAME: 'GHSTS.GHSTS',
@@ -181,180 +182,185 @@ module.exports = class GhstsService extends BaseService {
         if (err)
           rej(err);
         else {
-          let result = JSON.parse(JSON.stringify(rows[0])); ///Mongoose or Tingo BSON id process has bug, may improve later
-          let receiverIds = [];
+          try {
+            let result = JSON.parse(JSON.stringify(rows[0])); ///Mongoose or Tingo BSON id process has bug, may improve later
+            let receiverIds = [];
 
-          // For Receiver
-          if (result._receiver) {
-            retVal.receivers.receiver = result._receiver.map(item => {
-              retVal.legalentities.legalentity.push(item.receiver.toLegalEntityId);
-              item.receiver.id = item.receiver._id.toString();
-              item.receiver.metadatastatus = self._metadatastatus_process('receiver', item.receiver.id);
-              receiverIds.push(item.receiver.id);
-              return item;
+            // For Receiver
+            if (result._receiver) {
+              retVal.receivers.receiver = result._receiver.map(item => {
+                retVal.legalentities.legalentity.push(item.receiver.toLegalEntityId);
+                item.receiver.id = item.receiver._id.toString();
+                item.receiver.metadatastatus = self._metadatastatus_process('receiver', item.receiver.id);
+                receiverIds.push(item.receiver.id);
+                return item;
+              });
+              retVal.receivers.receiver = self._get_xml_jsonix(retVal.receivers.receiver);
+              retVal.receivers.receiver = retVal.receivers.receiver.map(item => {
+                let ret = item.receiver;
+                ret.sender = item.sender.map(senderid => {
+                  return _.merge({}, SenderService.edb_getSync({
+                    _id: senderid
+                  })[0]);
+                });
+                ret.sender = self._get_xml_jsonix(ret.sender);
+                ret.sender.map(sender => {
+                  retVal.legalentities.legalentity.push(sender.toLegalEntityId);
+                });
+                return ret;
+              });
+            } else
+              delete retVal.receivers;
+
+            // For Product, Dossier, Submission
+            retVal.product = result._product;
+            retVal.product.metadatastatus = self._metadatastatus_process('product', result._product._id);
+            retVal.product = self._get_xml_jsonix(result._product);
+            delete retVal.product.dossier.product;
+            retVal.product.dossier.submission.map(sub => {
+              sub.submissionversiondate =
+                DateTimeProc.dateToJsonixObj(sub.submissionversiondate);
             });
-            retVal.receivers.receiver = self._get_xml_jsonix(retVal.receivers.receiver);
-            retVal.receivers.receiver = retVal.receivers.receiver.map(item => {
-              let ret = item.receiver;
-              ret.sender = item.sender.map(senderid => {
-                return _.merge({}, SenderService.edb_getSync({
-                  _id: senderid
+
+            // For Document            
+            if (result._document && result._document.length > 0) {
+              retVal.documents.document = result._document.map(doc => {
+                let retDoc = _.merge({}, doc);
+                let docMeta = self._metadatastatus_process('document', retDoc._id, receiverIds);
+                if (!retDoc.id)
+                  retDoc.id = retDoc._id;
+                retDoc.documentgeneric.metadatastatus = docMeta.documentgeneric.metadatastatusid;
+                retDoc.documentra = _.filter(retDoc.documentra, documentra => {
+                  return receiverIds.indexOf(documentra.toSpecificForRAId) >= 0;
+                });
+                if (retDoc.documentra && retDoc.documentra.length > 0) {
+                  retDoc.documentra = retDoc.documentra.map(documentra => {
+                    for (var i = 0; i < docMeta.documentra.length; i++) {
+                      if (docMeta.documentra[i].elementid === documentra.toSpecificForRAId) {
+                        documentra.metadatastatus = docMeta.documentra[i].metadatastatusid;
+                        break;
+                      }
+                    }
+                    return documentra;
+                  });
+                } else
+                  delete retDoc.documentra;
+
+                retDoc.documentgeneric.documentissuedate =
+                  DateTimeProc.dateToJsonixObj(retDoc.documentgeneric.documentissuedate);
+
+                // Looking For Files and Substances in Document
+                let substances = doc.documentgeneric.relatedtosubstance;
+                let files = doc.documentgeneric.referencedtofile;
+                if (substances) {
+                  substances.map(subs => {
+                    retVal.substances.substance.push(subs.toSubstanceId);
+                  });
+                }
+                if (files) {
+                  files.map(file => {
+                    retVal.files.file.push(file.toFileId);
+                  });
+                }
+                return retDoc;
+              });
+              retVal.documents.document = self._get_xml_jsonix(retVal.documents.document); ///Working with Project Number bug
+            } else
+              delete retVal.documents;
+
+
+            // For Files
+            if (retVal.files.file && retVal.files.file.length > 0) {
+              retVal.files.file = _.uniq(_.compact(retVal.files.file));
+              retVal.files.file = retVal.files.file.map(item => {
+                let retFile = _.merge({}, FileService.edb_getSync({
+                  _id: item
                 })[0]);
-              });
-              ret.sender = self._get_xml_jsonix(ret.sender);
-              ret.sender.map(sender => {
-                retVal.legalentities.legalentity.push(sender.toLegalEntityId);
-              });
-              return ret;
-            });
-          } else
-            delete retVal.receivers;
-
-          // For Product, Dossier, Submission
-          retVal.product = result._product;
-          retVal.product.metadatastatus = self._metadatastatus_process('product', result._product._id);
-          retVal.product = self._get_xml_jsonix(result._product);
-          delete retVal.product.dossier.product;
-          retVal.product.dossier.submission.map(sub => {
-            sub.submissionversiondate =
-              DateTimeProc.dateToJsonixObj(sub.submissionversiondate);
-          });
-
-          // For Document            
-          if (result._document && result._document.length > 0) {
-            retVal.documents.document = result._document.map(doc => {
-              let retDoc = _.merge({}, doc);
-              let docMeta = self._metadatastatus_process('document', retDoc._id, receiverIds);
-              if (!retDoc.id)
-                retDoc.id = retDoc._id;
-              retDoc.documentgeneric.metadatastatus = docMeta.documentgeneric.metadatastatusid;
-              retDoc.documentra = _.filter(retDoc.documentra, documentra => {
-                return receiverIds.indexOf(documentra.toSpecificForRAId) >= 0;
-              });
-              if (retDoc.documentra && retDoc.documentra.length > 0) {
-                retDoc.documentra = retDoc.documentra.map(documentra => {
-                  for (var i = 0; i < docMeta.documentra.length; i++) {
-                    if (docMeta.documentra[i].elementid === documentra.toSpecificForRAId) {
-                      documentra.metadatastatus = docMeta.documentra[i].metadatastatusid;
-                      break;
+                fullRet._filesNeedCopy.push({source: retFile._filereallocation, dest: retFile.filegeneric.filename});
+                let fileMeta = self._metadatastatus_process('file', item, receiverIds);
+                retFile.filegeneric.metadatastatus = fileMeta.filegeneric.metadatastatusid;
+                retFile.filera = _.filter(retFile.filera, filera => {
+                  return receiverIds.indexOf(filera.toSpecificForRAId) >= 0;
+                });
+                if (retFile.filera && retFile.filera.length > 0) {
+                  retFile.filera = retFile.filera.map(filera => {
+                    for (var i = 0; i < fileMeta.filera.length; i++) {
+                      if (fileMeta.filera[i].elementid === filera.toSpecificForRAId) {
+                        filera.metadatastatus = fileMeta.filera[i].metadatastatusid;
+                        break;
+                      }
                     }
-                  }
-                  return documentra;
-                });
-              } else
-                delete retDoc.documentra;
-
-              retDoc.documentgeneric.documentissuedate =
-                DateTimeProc.dateToJsonixObj(retDoc.documentgeneric.documentissuedate);
-
-              // Looking For Files and Substances in Document
-              let substances = doc.documentgeneric.relatedtosubstance;
-              let files = doc.documentgeneric.referencedtofile;
-              if (substances) {
-                substances.map(subs => {
-                  retVal.substances.substance.push(subs.toSubstanceId);
-                });
-              }
-              if (files) {
-                files.map(file => {
-                  retVal.files.file.push(file.toFileId);
-                });
-              }
-              return retDoc;
-            });
-            retVal.documents.document = self._get_xml_jsonix(retVal.documents.document); ///Working with Project Number bug
-          } else
-            delete retVal.documents;
-
-
-          // For Files
-          if (retVal.files.file && retVal.files.file.length > 0) {
-            retVal.files.file = _.uniq(_.compact(retVal.files.file));
-            retVal.files.file = retVal.files.file.map(item => {
-              let retFile = _.merge({}, FileService.edb_getSync({
-                _id: item
-              })[0]);
-              let fileMeta = self._metadatastatus_process('file', item, receiverIds);
-              retFile.filegeneric.metadatastatus = fileMeta.filegeneric.metadatastatusid;
-              retFile.filera = _.filter(retFile.filera, filera => {
-                return receiverIds.indexOf(filera.toSpecificForRAId) >= 0;
+                    return filera;
+                  });
+                } else
+                  delete retFile.filera;
+                return retFile;
               });
-              if (retFile.filera && retFile.filera.length > 0) {
-                retFile.filera = retFile.filera.map(filera => {
-                  for (var i = 0; i < fileMeta.filera.length; i++) {
-                    if (fileMeta.filera[i].elementid === filera.toSpecificForRAId) {
-                      filera.metadatastatus = fileMeta.filera[i].metadatastatusid;
-                      break;
-                    }
-                  }
-                  return filera;
-                });
-              } else
-                delete retFile.filera;
-              return retFile;
-            });
-            retVal.files.file = self._get_xml_jsonix(retVal.files.file);
-          } else
-            delete retVal.files;
+              retVal.files.file = self._get_xml_jsonix(retVal.files.file);
+            } else
+              delete retVal.files;
 
-          // For TOC
-          if (!result._tocid) {
-            retVal.toc = _.merge({}, TocService.edb_getSync({
-              tocversion: '01.00.01'
-            })[0]);
-            self.ghsts[0]._tocid = retVal.toc._id;
-          } else
-            retVal.toc = result._tocid;
-
-          if (self.ghsts[0]._toc2docs)
-            TocHelper.assignToc2DocNodes(retVal.toc.structure, self.ghsts[0]._toc2docs);
-          retVal.toc.metadatastatus = self._metadatastatus_process('toc', retVal.toc._id);
-          retVal.toc = self._get_xml_jsonix(retVal.toc);
-
-          // For Legal Entities
-          if (retVal.legalentities.legalentity && retVal.legalentities.legalentity.length > 0) {
-            retVal.legalentities.legalentity = _.uniq(_.compact(retVal.legalentities.legalentity));
-            retVal.legalentities.legalentity = retVal.legalentities.legalentity.map(les => {
-              let ret = _.merge({}, LegalEntityService.edb_getSync({
-                _id: les
+            // For TOC
+            if (!result._tocid) {
+              retVal.toc = _.merge({}, TocService.edb_getSync({
+                tocversion: '01.00.01'
               })[0]);
-              let metaId = self._metadatastatus_process('legalentity', les);
-              ret.metadatastatus = metaId;
-              return ret;
-            });
-            retVal.legalentities.legalentity = self._get_xml_jsonix(retVal.legalentities.legalentity);
-          } else
-            delete retVal.legalentities;
+              self.ghsts[0]._tocid = retVal.toc._id;
+            } else
+              retVal.toc = result._tocid;
 
-          // For Substance
-          // Search Substances from Ingredients
-          if (result._product.ingredients.ingredient && result._product.ingredients.ingredient.length > 0) {
-            result._product.ingredients.ingredient.map(item => {
-              retVal.substances.substance.push(item.toSubstanceId);
-            });
+            if (self.ghsts[0]._toc2docs)
+              TocHelper.assignToc2DocNodes(retVal.toc.structure, self.ghsts[0]._toc2docs);
+            retVal.toc.metadatastatus = self._metadatastatus_process('toc', retVal.toc._id);
+            retVal.toc = self._get_xml_jsonix(retVal.toc);
+
+            // For Legal Entities
+            if (retVal.legalentities.legalentity && retVal.legalentities.legalentity.length > 0) {
+              retVal.legalentities.legalentity = _.uniq(_.compact(retVal.legalentities.legalentity));
+              retVal.legalentities.legalentity = retVal.legalentities.legalentity.map(les => {
+                let ret = _.merge({}, LegalEntityService.edb_getSync({
+                  _id: les
+                })[0]);
+                let metaId = self._metadatastatus_process('legalentity', les);
+                ret.metadatastatus = metaId;
+                return ret;
+              });
+              retVal.legalentities.legalentity = self._get_xml_jsonix(retVal.legalentities.legalentity);
+            } else
+              delete retVal.legalentities;
+
+            // For Substance
+            // Search Substances from Ingredients
+            if (result._product.ingredients.ingredient && result._product.ingredients.ingredient.length > 0) {
+              result._product.ingredients.ingredient.map(item => {
+                retVal.substances.substance.push(item.toSubstanceId);
+              });
+            }
+            if (retVal.substances.substance && retVal.substances.substance.length > 0) {
+              retVal.substances.substance = _.uniq(_.compact(retVal.substances.substance));
+              retVal.substances.substance = retVal.substances.substance.map(item => {
+                let ret = _.merge({}, SubstanceService.edb_getSync({
+                  _id: item
+                })[0]);
+                let metaId = self._metadatastatus_process('substance', item);
+                ret.metadatastatus = metaId;
+                return ret;
+              });
+              retVal.substances.substance = self._get_xml_jsonix(retVal.substances.substance);
+            } else
+              delete retVal.substances;
+
+            // For Usedtemplates
+            if (self.ghsts[0].usedtemplates)
+              retVal.usedtemplates = self.ghsts[0].usedtemplates;
+            else
+              delete retVal.usedtemplates;
+
+            fullRet.value = retVal;
+            res(fullRet);
+          } catch (err) {
+            rej(err);
           }
-          if (retVal.substances.substance && retVal.substances.substance.length > 0) {
-            retVal.substances.substance = _.uniq(_.compact(retVal.substances.substance));
-            retVal.substances.substance = retVal.substances.substance.map(item => {
-              let ret = _.merge({}, SubstanceService.edb_getSync({
-                _id: item
-              })[0]);
-              let metaId = self._metadatastatus_process('substance', item);
-              ret.metadatastatus = metaId;
-              return ret;
-            });
-            retVal.substances.substance = self._get_xml_jsonix(retVal.substances.substance);
-          } else
-            delete retVal.substances;
-
-          // For Usedtemplates
-          if (self.ghsts[0].usedtemplates)
-            retVal.usedtemplates = self.ghsts[0].usedtemplates;
-          else
-            delete retVal.usedtemplates;
-
-          fullRet.value = retVal;
-          res(fullRet);
         }
       });
     });
@@ -807,8 +813,10 @@ module.exports = class GhstsService extends BaseService {
       console.log('package');
       self._buildXmlJson()
         .then(ret => {
+          let filesNeedCopy = _.concat([], ret._filesNeedCopy);
+          delete ret._filesNeedCopy;
           let doc = self._marsh['01_00_02'].marshalString(ret);
-          packageLocation = self._createPackage(doc);
+          packageLocation = self._createPackage(doc, filesNeedCopy);
           let subSvr = new SubmissionService(self._version);
           let subObj = SubmissionService.edb_getSync({
             _id: self.ghsts[0]._submissionid
@@ -835,7 +843,9 @@ module.exports = class GhstsService extends BaseService {
       let self = this;
       self._buildXmlJson()
         .then(ret => {
-          let isValid = self._validate['01_00_02'](ret);
+          let xmlJsonix = _.merge({}, ret);
+          delete xmlJsonix._filesNeedCopy;
+          let isValid = self._validate['01_00_02'](xmlJsonix);
           let errors = !isValid ? self._validate['01_00_02'].errors : '';
           if (errors) {
             errors = _.filter(errors, error => {
@@ -1099,9 +1109,9 @@ module.exports = class GhstsService extends BaseService {
     return retVal;
   }
 
-  _createPackage(doc) {
+  _createPackage(doc, filesNeedCopy) {
     let curBasePath = path.resolve(fs.realpathSync('./'), BACKEND_CONST.PRODUCTS_DIR),
-      curFolder, curViewerPath = path.resolve(resourceDir, BACKEND_CONST.VIEWER_UTIL_DIR_NAME, this.ghsts[0]._version.replace(/\./g, '_'));
+      curSubFolder, curFolder, curViewerPath = path.resolve(resourceDir, BACKEND_CONST.VIEWER_UTIL_DIR_NAME, this.ghsts[0]._version.replace(/\./g, '_'));
     let prod_dossier_name = this.ghsts[0]._foldername = this.ghsts[0]._foldername.replace('_##_', BACKEND_CONST.PRODUCT_DOSSIER_FOLDER_CONTACT_SYMBOL);
     let sub_id = this.ghsts[0]._submissionnumber;
     if (!prod_dossier_name)
@@ -1116,25 +1126,26 @@ module.exports = class GhstsService extends BaseService {
 
     try {
       this._createFolder(curBasePath);
-      curFolder = path.resolve(curBasePath, prod_dossier_name);
+      curBasePath = curFolder = path.resolve(curBasePath, prod_dossier_name);
       this._createFolder(curFolder);
-      curBasePath = path.resolve(curFolder, sub_id);
-      this._createFolder(curBasePath);
-      copydir.sync(curViewerPath, curBasePath);
-      curFolder = path.resolve(curBasePath, 'content');
+      curSubFolder = path.resolve(curFolder, sub_id);
+      this._createFolder(curSubFolder);
+      copydir.sync(curViewerPath, curSubFolder);
+      curFolder = path.resolve(curSubFolder, BACKEND_CONST.FILE_CONT_DIR_NAME);
       this._createFolder(curFolder);
-      this._createFolder(path.resolve(curFolder, 'main'));
-      this._createFolder(path.resolve(curFolder, 'attachments'));
-      curFolder = path.resolve(curBasePath, 'confidential');
+      this._createFolder(path.resolve(curFolder, BACKEND_CONST.FILE_MAIN_DIR_NAME));
+      this._createFolder(path.resolve(curFolder, BACKEND_CONST.FILE_ATTAC_DIR_NAME));
+      curFolder = path.resolve(curSubFolder, BACKEND_CONST.FILE_CONF_DIR_NAME);
       this._createFolder(curFolder);
-      this._createFolder(path.resolve(curFolder, 'main'));
-      this._createFolder(path.resolve(curFolder, 'attachments'));
+      this._createFolder(path.resolve(curFolder, BACKEND_CONST.FILE_MAIN_DIR_NAME));
+      this._createFolder(path.resolve(curFolder, BACKEND_CONST.FILE_ATTAC_DIR_NAME));
+      let fileCopyRet = this._copyFiles(curBasePath, filesNeedCopy);
 
       fs.writeFileSync(
-        path.resolve(curBasePath, 'ghsts.xml'),
+        path.resolve(curSubFolder, 'ghsts.xml'),
         doc
       );
-      return curBasePath;
+      return curSubFolder;
     } catch (err) {
       throw err;
     }
@@ -1147,5 +1158,21 @@ module.exports = class GhstsService extends BaseService {
       if (err.code !== 'EEXIST')
         throw err;
     }
+  }
+
+  _copyFiles(subPath, filesNeedCopy) {
+    let retVal = [];
+    
+    filesNeedCopy.map(file => {
+      let realDest = path.join(subPath, file.dest.replace('../', '/'));
+      try {
+        let data = fs.readFileSync(file.source);
+        fs.writeFileSync(realDest, data);
+      } catch (err) {
+        retVal.push(err);
+      }
+    });
+
+    return retVal;
   }
 };
