@@ -37,8 +37,8 @@ export default angular.module('receiver', [
               this.legalEntities = JSON.parse(legalEntities.data);
               let raId=this.picklistService.edb_getSync({value:'Regulatory Authority'})[0]._id;
               this.legalEntities=this.legalEntities.filter((el) =>
-                  el.legalentitytype.toLowerCase()===raId
-                )
+                  el.legalentitytype && (el.legalentitytype.toLowerCase()===raId)
+                );
             }),
 
           // get app receivers OR submission receivers and senders

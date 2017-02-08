@@ -52,9 +52,6 @@ export default angular.module('products', [
         });
       }
 
-      add() {
-        this.selected = angular.copy(this.getModel('product'));
-      }
       genPid() {
         this.selected.productpid = this.getPid();
       }

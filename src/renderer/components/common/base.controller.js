@@ -70,9 +70,12 @@ export default class BaseCtrl {
   // create a new item
   createAppData(data = {}, url = this.url) {
     if (this.isSubmission && url === this.url) {
-      data._dossier = this.dossierData.dossierid;
-      data._ghsts = this.ghsts._id;
-      return this.ghstsService.edb_put({url, data});
+      if (url === 'document' || url === 'file') {
+        data._dossier = this.dossierData.dossierid;
+        data._ghsts = this.ghsts._id;
+        return this.ghstsService.edb_put({url, data});
+      } else
+        return this.appDataService.edb_put({ url, data });
     } else
       return this.appDataService.edb_put({ url, data });
   }
@@ -80,8 +83,11 @@ export default class BaseCtrl {
   // update a item
   updateAppData(data = {}, url = this.url) {
     if (this.isSubmission && url === this.url) {
-      data._dossier = this.dossierData.dossierid;  //Do not set _ghsts to allow back-end create new item, if it is required.
-      return this.ghstsService.edb_post({url, data});
+      if (url === 'document' || url === 'file') {
+        data._dossier = this.dossierData.dossierid;  //Do not set _ghsts to allow back-end create new item, if it is required.
+        return this.ghstsService.edb_post({url, data});
+      } else 
+        return this.appDataService.edb_post(data);
     } else
       return this.appDataService.edb_post(data);
   }
@@ -131,6 +137,7 @@ export default class BaseCtrl {
   // creates a new blank object to create a new item
   add(prop) {
     this.selected = angular.copy(this.getModel(prop));
+    this.showMessage('Adding an new record.');
   }
 
   // update an item in the database
@@ -153,6 +160,9 @@ export default class BaseCtrl {
       this.updateAppData(angular.copy(this.selected))
         .then(result => {
           console.log(result);
+          this.selected = JSON.parse(result.data);
+          if (Array.isArray(this.selected))
+            this.selected = this.selected[0];
           this.showMessage('Saved successfully');
         })
         .catch(err => {

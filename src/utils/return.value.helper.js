@@ -46,6 +46,7 @@ const RETURN_VALUE_CONFIG = {
   EDB12015: { msg: 'Update sub element for one submission without sub id' },
   EDB12016: { msg: 'De-link sub element for one submission without sub id' },
   EDB12017: { msg: 'Wrong usage of ghsts service edb_put' },
+  EDB12018: { msg: 'Create file without file location.' },
   
   EDB13001: { msg: 'Mongoose model cannot be found' },
   
