@@ -28,12 +28,15 @@
       on-select='$ctrl.selectTblItem("filera",index)' on-delete='$ctrl.deleteTblItem("filera",index)' on-add='$ctrl.addTblItem("filera")'></tbl>
     <div style='z-index:100' class='float-bottom'>
       <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
+        <md-tooltip>Save</md-tooltip>
         <md-icon md-svg-icon='save' class='light'></md-icon>
       </md-button>
       <md-button aria-label='Add New Item' class='md-fab md-primary' ng-click='$ctrl.add("file")'>
+        <md-tooltip>Add</md-tooltip>
         <md-icon md-svg-icon='add' class='light'></md-icon>
       </md-button>
       <md-button aria-label='Toggle List' class='md-fab md-primary' ng-click='$ctrl.toggleList()'>
+        <md-tooltip>View List</md-tooltip>
         <md-icon md-svg-icon='list' class='light'></md-icon>
       </md-button>
     </div>

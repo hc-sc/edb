@@ -29,7 +29,7 @@
       <text-input label='{{"street2" | translate}}' text-value='$ctrl.selected.contactaddress.street2' on-update='$ctrl.updateContactAddress("street2", value)' max-Length='255'></text-input>
       <text-input label='{{"zipcode" | translate}}' text-value='$ctrl.selected.contactaddress.zipcode' on-update='$ctrl.updateContactAddress("zipcode", value)' max-Length='255'></text-input>
       <text-input label='{{"city" | translate}}' text-value='$ctrl.selected.contactaddress.city' is-required='true' on-update='$ctrl.updateContactAddress("city", value)' max-Length='255'></text-input>
-      <text-input label='{{"state" | translate}}' text-value='$ctrl.selected.contactaddress.state' on-update='$ctrl.updateContactAddress("state", value)'></text-input>
+      <text-input label='{{"state" | translate}}' text-value='$ctrl.selected.contactaddress.state' on-update='$ctrl.updateContactAddress("state", value)' max-Length='255'></text-input>
       <select-input-extensible label='{{"country" | translate}}' show-value='true' select-value='$ctrl.selected.contactaddress.country'
         values='$ctrl.countries' is-required='true' on-update='$ctrl.updateContactAddress("country", value)'></select-input-extensible>
       <text-input label='{{"phone" | translate}}' text-value='$ctrl.selected.contactaddress.phone' on-update='$ctrl.updateContactAddress("phone", value)' max-Length='255'></text-input>
