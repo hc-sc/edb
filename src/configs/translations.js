@@ -22,7 +22,7 @@ export const picklists_en = {
 export const propNames_en = {
   // Generic
   'save': 'Save',
-  'okey': 'Okey',
+  'okey': 'Okay',
   'cancel':'Cancel',
 
   // Legal Entities
