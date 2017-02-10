@@ -17,7 +17,7 @@
     <tbl title='{{$ctrl.selected.shortname}} Senders' items='$ctrl.senders' projection='[{name: "toLegalEntityId", url: "legalentity"}, "companycontactregulatoryrole", "remark"]' on-select='$ctrl.selectSender(index)' on-add='$ctrl.addSender()' on-delete='$ctrl.deleteSender(index)'></tbl>
   </div>
   <div class='float-bottom'>
-    <md-button aria-label='Save' ng-if='!$ctrl.isSubmission' class='md-fab md-primary' ng-click='$ctrl.save()'>
+    <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
       <md-icon md-svg-icon='save' class='light'></md-icon>
     </md-button>
     <md-button ng-if='!$ctrl.isSubmission' aria-label='Add New Item' class='md-fab md-primary' ng-click='$ctrl.add("receiver")'>
