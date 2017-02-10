@@ -7,7 +7,7 @@
   </md-input-container>
   <md-divider></md-divider>
   <md-list ng-if='$ctrl.items'>
-    <md-list-item ng-repeat='item in $ctrl.items | filter:$ctrl.searchText | orderBy:item[$ctrl.getMain(item)]' ng-click='$ctrl.select(item)' ng-class='{"selected": item._id == $ctrl.selected._id}'>
+    <md-list-item ng-repeat='item in $ctrl.items | filter:$ctrl.searchText | orderBy:item[$ctrl.getMain(item)] track by $index' ng-click='$ctrl.select(item, $index)' ng-class='{"selected": item._id == $ctrl.selected._id}'>
       <p>{{ $ctrl.getMain(item) }}</p>
       <md-divider></md-divider>
     </md-list-item>

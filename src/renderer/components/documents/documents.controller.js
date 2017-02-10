@@ -2,8 +2,8 @@ import angular from 'angular';
 import BaseCtrl from '../common/base.controller';
 
 export default class DocumentCtrl extends BaseCtrl{
-   constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService,  $scope, GhstsService) {
-      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'document',  $scope, GhstsService);
+   constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService,  $scope, GhstsService, $transitions) {
+      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'document',  $scope, GhstsService, $transitions);
       this.metadataStatusOptions = JSON.parse(this.metadataStatusType.data);
       this.contentStatusOptions = JSON.parse(this.contentStatusType.data);
       this.referenceTypeOptions = JSON.parse(this.referenceType.data);
