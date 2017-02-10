@@ -347,7 +347,7 @@ export default class BaseCtrl {
 
   sortData() {
     this.records.sort((a, b) => {
-      return a.valuedecode >= b.valuedecode;
+      return (a.valuedecode > b.valuedecode) || (a.valuedecode === b.valuedecode && a._id > b._id);
     });
   }
 
