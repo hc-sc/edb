@@ -24,8 +24,8 @@ export default angular.module('toc', [
     isSubmission: '<'
   },
   controller: class TOCCtrl extends BaseCtrl {
-    constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope, GhstsService) {
-      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'toc', $scope, GhstsService);
+    constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope, GhstsService, $transitions) {
+      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'toc', $scope, GhstsService, $transitions);
       this.showTOCData = false;
       this.getAppData({}, 'toc')
       .then(toc => {

@@ -15,8 +15,8 @@ export default angular.module('submissionNode', [
 .component('submissionNode', {
   template,
   controller: class SubCtrl extends BaseCtrl {
-    constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope, GhstsService) {
-      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'submission', $scope, GhstsService);
+    constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope, GhstsService, $transitions) {
+      super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'submission', $scope, GhstsService, $transitions);
       this.init(this.$state.params.submissionid)
       .then(() => {
         this.$scope.$root.loading = false;

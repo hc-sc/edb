@@ -31,8 +31,8 @@ export default angular.module('products', [
       isSubmission: '<'
     },
     controller: class ProductsCtrl extends BaseCtrl {
-      constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope, GhstsService) {
-        super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'product', $scope, GhstsService);
+      constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope, GhstsService, $transitions) {
+        super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'product', $scope, GhstsService, $transitions);
 
         this.adminNumberType = JSON.parse(this.adminNumberType.data);
         this.formulationType = JSON.parse(this.formulationType.data);
