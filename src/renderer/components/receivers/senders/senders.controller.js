@@ -1,12 +1,12 @@
-export default class ContactPersonCtrl {
+export default class SenderSelectCtrl {
   constructor($mdDialog, node, AppDataService) {
     this.$mdDialog = $mdDialog;
     this.node = node;
     this.appDataService = AppDataService.getService();
     console.log(this);
-    this.appDataService.edb_get({url: 'legalentity', data: {}})
+    this.appDataService.edb_get({url: 'sender', data: {}})
     .then(response => {
-      this.legalentities = JSON.parse(response.data);
+      this.senders = JSON.parse(response.data);
     });
   }
 
