@@ -31,7 +31,7 @@ module.exports = class BaseService {
   edb_put(obj) {
     return new Q((res, rej) => {
       let self = this, obj2db = _.merge({}, obj);
-      self._removeEmptyPlkFields(obj);
+      self._removeEmptyRefFields(obj);
       self._exist_check(obj)
         .then(ret => {
           if (JSON.parse(ret).length > 0) {
@@ -54,7 +54,7 @@ module.exports = class BaseService {
 
   edb_post(obj) {
     let self = this;
-    self._removeEmptyPlkFields(obj);
+    self._removeEmptyRefFields(obj);
     return self._update(obj);
   }
 
@@ -347,7 +347,7 @@ module.exports = class BaseService {
     return retVal;
   }
 
-  _removeEmptyPlkFields(obj) {
+  _removeEmptyRefFields(obj) {
     let self = this;
     let picklistFieldsConfig, plEntity;
     let keys = Object.keys(obj);
@@ -356,14 +356,14 @@ module.exports = class BaseService {
       picklistFieldsConfig = PicklistFieldsConfig[key];
       plEntity = obj[key];
 
-      if (picklistFieldsConfig && (!plEntity || plEntity === '')) { //this is picklist item
+      if ((picklistFieldsConfig || key === 'toLegalEntityId') && (!plEntity || plEntity === '')) { //this is picklist item
         delete obj[key];
       } else if (plEntity && Array.isArray(plEntity)) {
         plEntity.map(subEnt => {
-          self._removeEmptyPlkFields(subEnt);
+          self._removeEmptyRefFields(subEnt);
         });
       } else if (plEntity && typeof plEntity === 'object') {
-        self._removeEmptyPlkFields(plEntity);
+        self._removeEmptyRefFields(plEntity);
       }
     });
   }
