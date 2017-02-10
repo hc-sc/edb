@@ -151,6 +151,7 @@ export default class BaseCtrl {
           if (Array.isArray(this.selected))
             this.selected = this.selected[0];
           this.records.push(this.selected);
+          this.showMessage('Saved successfully');
         })
         .catch(err => {
           this.showMessage(err);
