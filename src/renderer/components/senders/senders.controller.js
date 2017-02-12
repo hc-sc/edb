@@ -14,9 +14,24 @@ export default class SubstancesCtrl extends BaseCtrl {
           el.legalentitytype && (el.legalentitytype.toLowerCase() === raId)
         );
       });
-    this.init().then(() => {
-      this.loading = false;
-    });
+    this.init()
+      .then(
+        () => {
+          let le;
+          for (let item of this.records) {
+            le = this.appDataService.edb_getSync({
+              _url: 'legalentity',
+              data: {
+                _id: item.toLegalEntityId
+              }
+            })[0];
+            item.name = le.legalentityname;
+          }
+        }
+      )
+      .then(() => {
+        this.loading = false;
+      });
   }
 
 }
