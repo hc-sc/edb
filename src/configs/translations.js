@@ -55,10 +55,10 @@ export const propNames_en = {
   'contacts': 'Contacts',
 
   // Dossier
-  'dossierdescriptiontitle': 'Title',
+  'dossierdescriptiontitle': 'Dossier Title',
   'dossierpid': 'Dossier PID',
   'productname': 'Product Name',
-  '_state': 'State',
+  '_state': 'state',
   '_created': 'Created',
   '_lastMod': 'Last Modified',
 
@@ -111,6 +111,5 @@ export const propNames_en = {
   'legalentity':'Legal Entity',
   'shortname':'Short Name',
   'role':'Role',
-
 
 };
