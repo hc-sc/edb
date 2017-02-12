@@ -112,4 +112,8 @@ export const propNames_en = {
   'shortname':'Short Name',
   'role':'Role',
 
+  //sender
+  'companycontactregulatoryrole':'Company Contact Regulatory Role',
+  'remark':'Remark',
+
 };

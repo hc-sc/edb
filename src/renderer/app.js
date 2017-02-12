@@ -20,6 +20,7 @@ import Products from './components/products/products.component';
 import Files from './components/files/files.component';
 import Description from './components/description/description.component';
 import Receivers from './components/receivers/receivers.component';
+import Senders from './components/senders/senders.component';
 import Documents from './components/documents/documents.component';
 import TOC from './components/toc/toc.component';
 import SubmissionNode from './components/submission-node/submission-node.component';
@@ -56,6 +57,7 @@ angular.module('app', [
   Picklists,
   Description,
   Receivers,
+  Senders,
   Documents,
   TOC,
   SubmissionNode
