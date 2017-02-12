@@ -24,15 +24,6 @@ export default angular.module('sidenav', [
       this.searchText = '';
     }
 
-    $onChanges(changes) {
-      // this shouldn't run on every change, it will consume a lot of resources with long lists and may thrash
-      if (this.items) {
-        this.items.sort((a, b) => {
-          return this.getMain(a) >= this.getMain(b);
-        });
-      }
-    }
-
     getMain(item) {
       let ref = item;
       let props = this.main.split('.');

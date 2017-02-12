@@ -25,8 +25,8 @@ export default angular.module('receiver', [
       isSubmission: '<'
     },
     controller: class ReceiversCtrl extends BaseCtrl {
-      constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope, GhstsService) {
-        super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'receiver', $scope, GhstsService);
+      constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope, GhstsService, $transitions) {
+        super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'receiver', $scope, GhstsService, $transitions);
         this.senders = [];
         this.records = [];
 
