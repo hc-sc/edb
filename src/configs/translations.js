@@ -111,7 +111,9 @@ export const propNames_en = {
   'legalentity':'Legal Entity',
   'shortname':'Short Name',
   'role':'Role',
+
   //sender
   'companycontactregulatoryrole':'Company Contact Regulatory Role',
   'remark':'Remark',
+
 };
