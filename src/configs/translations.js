@@ -58,7 +58,7 @@ export const propNames_en = {
   'dossierdescriptiontitle': 'Dossier Title',
   'dossierpid': 'Dossier PID',
   'productname': 'Product Name',
-  '_state': 'state',
+  '_state': 'State',
   '_created': 'Created',
   '_lastMod': 'Last Modified',
 
