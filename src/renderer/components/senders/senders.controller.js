@@ -35,6 +35,7 @@ export default class SubstancesCtrl extends BaseCtrl {
       // .then(() => {
         this.loading = false;
       });
+
   }
 
 }
