@@ -20,12 +20,15 @@
 
     <div style='z-index:100' class='float-bottom'>
       <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
+        <md-tooltip>Save</md-tooltip>
         <md-icon md-svg-icon='save' class='light'></md-icon>
       </md-button>
       <md-button ng-if='!$ctrl.isSubmission' aria-label='Add New Item' class='md-fab md-primary' ng-click='$ctrl.add("product")'>
+        <md-tooltip>Add</md-tooltip>
         <md-icon md-svg-icon='add' class='light'></md-icon>
       </md-button>
       <md-button ng-if='!$ctrl.isSubmission' aria-label='Toggle List' class='md-fab md-primary' ng-click='$ctrl.toggleList()'>
+        <md-tooltip>View List</md-tooltip>
         <md-icon md-svg-icon='list' class='light'></md-icon>
       </md-button>
     </div>

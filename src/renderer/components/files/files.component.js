@@ -33,8 +33,8 @@ export default angular.module('files', [
     },
 
     controller: class FileCtrl extends BaseCtrl {
-      constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope, GhstsService) {
-        super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'file', $scope, GhstsService);
+      constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope, GhstsService, $transitions) {
+        super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'file', $scope, GhstsService, $transitions);
 
         this.fileType = JSON.parse(this.fileType.data);
         this.contentStatus = JSON.parse(this.contentStatus.data);

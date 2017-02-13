@@ -16,15 +16,18 @@
     <tbl ng-if='!this.$scope.$root.loading' title='{{"receivers" | translate}}' items='$ctrl.records' projection='[{name: "toLegalEntityId", url: "legalentity"}, "shortname", "role"]' default-sort='LAST_MODIFIED' default-reverse='true' on-select='$ctrl.selectReceiver(id, index)' on-add='$ctrl.addReceiver()' on-delete='$ctrl.deleteReceiver(id, index)'></tbl>
     <tbl title='{{$ctrl.selected.shortname}} Senders' items='$ctrl.senders' projection='[{name: "toLegalEntityId", url: "legalentity"}, "companycontactregulatoryrole", "remark"]' on-select='$ctrl.selectSender(index)' on-add='$ctrl.addSender()' on-delete='$ctrl.deleteSender(index)'></tbl>
   </div>
-  <div class='float-bottom'>
-    <md-button aria-label='Save' ng-if='!$ctrl.isSubmission' class='md-fab md-primary' ng-click='$ctrl.save()'>
-      <md-icon md-svg-icon='save' class='light'></md-icon>
-    </md-button>
-    <md-button ng-if='!$ctrl.isSubmission' aria-label='Add New Item' class='md-fab md-primary' ng-click='$ctrl.add("receiver")'>
-      <md-icon md-svg-icon='add' class='light'></md-icon>
-    </md-button>
-    <md-button ng-if='!$ctrl.isSubmission' aria-label='Toggle List' class='md-fab md-primary' ng-click='$ctrl.toggleList()'>
-      <md-icon md-svg-icon='list' class='light'></md-icon>
-    </md-button>
-  </div>
+    <div style='z-index:100' class='float-bottom'>
+      <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
+        <md-tooltip>Save</md-tooltip>
+        <md-icon md-svg-icon='save' class='light'></md-icon>
+      </md-button>
+      <md-button ng-if='!$ctrl.isSubmission' aria-label='Add New Item' class='md-fab md-primary' ng-click='$ctrl.add("receiver")'>
+        <md-tooltip>Add</md-tooltip>
+        <md-icon md-svg-icon='add' class='light'></md-icon>
+      </md-button>
+      <md-button ng-if='!$ctrl.isSubmission' aria-label='Toggle List' class='md-fab md-primary' ng-click='$ctrl.toggleList()'>
+        <md-tooltip>View List</md-tooltip>
+        <md-icon md-svg-icon='list' class='light'></md-icon>
+      </md-button>
+    </div>
 </section>

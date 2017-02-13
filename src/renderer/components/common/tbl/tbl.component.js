@@ -113,7 +113,8 @@ export default angular.module('tbl', [
             row.push(item['_id']);
             return row;
           });
-        }
+        } else 
+          this.rows = [];
       }
 
       update(prop, value) {

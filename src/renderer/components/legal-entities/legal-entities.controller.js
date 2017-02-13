@@ -2,8 +2,8 @@ import angular from 'angular';
 import BaseCtrl from '../common/base.controller';
 
 export default class LECtrl extends BaseCtrl {
-  constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope, GhstsService) {
-    super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'legalentity', $scope, GhstsService);
+  constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope, GhstsService, $transitions) {
+    super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'legalentity', $scope, GhstsService, $transitions);
     console.log(this);
     this.legalEntityTypes = JSON.parse(this.legalEntityType.data);
     this.legalEntityIdentifierTypes = JSON.parse(this.legalEntityIdentifierType.data);

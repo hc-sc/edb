@@ -126,6 +126,16 @@ export default function ($stateProvider, $urlRouterProvider) {
         isSubmission: ['$stateParams', () => false]
       },
     })
+    .state('globals.senders', {
+      url: '/sender',
+      component: 'sender',
+      resolve: {
+        legalEntities: AppDataService => {
+          return AppDataService.getService().edb_get({_url: 'legalentity'});
+        },
+        isSubmission: ['$stateParams', () => false]
+      }
+    })
     .state('globals.files', {
       url: '/files',
       component: 'files',

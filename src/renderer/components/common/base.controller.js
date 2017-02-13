@@ -2,9 +2,10 @@ import angular from 'angular';
 import {equals} from 'easy-equals';
 import GhstsPid from '../../../utils/pid';
 import NestedPropertyProc from '../../../utils/nested-property.process';
+import _ from 'lodash';
 
 export default class BaseCtrl {
-  constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, url, $scope, GhstsService) {
+  constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, url, $scope, GhstsService, $transitions) {
     this.$mdDialog = $mdDialog;
     this.$mdToast = $mdToast;
     this.$state = $state;
@@ -20,6 +21,12 @@ export default class BaseCtrl {
     this.ghsts;
     this.$scope = $scope;
     this.$scope.$root.loading = true;
+    this.oriSelected = {};
+    this.selectedIndex = 0;
+    this.isDirt = false;
+    this.dereg = $transitions.onBefore({}, (trans) => {
+      return this.dirtCheck();
+    });
   }
 
   init(id) {
@@ -29,17 +36,15 @@ export default class BaseCtrl {
         this.records = [].concat(JSON.parse(records.data));
         if (this.records && this.records.length > 0) {
           // there is some data in the db
+          this.sortData();
           if (id) {
-            for (var i = 0; i < this.records.length; i++) {
-              if (this.records[i]._id === id) {
-                this.selected = this.records[i];
-                break;
-              }
-            }
+            this.resetSelected(id);
           } 
 
-          if (!this.selected)
-            this.selected = this.records[0];
+          if (!this.selected) {
+            this.selected = this.records[this.selectedIndex];
+            this.oriSelected = _.merge({}, this.selected);
+          }
         }
         else {
           // empty table, need to prompt to create first
@@ -70,9 +75,12 @@ export default class BaseCtrl {
   // create a new item
   createAppData(data = {}, url = this.url) {
     if (this.isSubmission && url === this.url) {
-      data._dossier = this.dossierData.dossierid;
-      data._ghsts = this.ghsts._id;
-      return this.ghstsService.edb_put({url, data});
+      if (url === 'document' || url === 'file') {
+        data._dossier = this.dossierData.dossierid;
+        data._ghsts = this.ghsts._id;
+        return this.ghstsService.edb_put({url, data});
+      } else
+        return this.appDataService.edb_put({ url, data });
     } else
       return this.appDataService.edb_put({ url, data });
   }
@@ -80,8 +88,11 @@ export default class BaseCtrl {
   // update a item
   updateAppData(data = {}, url = this.url) {
     if (this.isSubmission && url === this.url) {
-      data._dossier = this.dossierData.dossierid;  //Do not set _ghsts to allow back-end create new item, if it is required.
-      return this.ghstsService.edb_post({url, data});
+      if (url === 'document' || url === 'file') {
+        data._dossier = this.dossierData.dossierid;  //Do not set _ghsts to allow back-end create new item, if it is required.
+        return this.ghstsService.edb_post({url, data});
+      } else 
+        return this.appDataService.edb_post(data);
     } else
       return this.appDataService.edb_post(data);
   }
@@ -130,7 +141,16 @@ export default class BaseCtrl {
 
   // creates a new blank object to create a new item
   add(prop) {
-    this.selected = angular.copy(this.getModel(prop));
+    this.dirtCheck()
+      .then(() => {
+        if (this.isDirt) {
+          this.records[this.selectedIndex] = _.merge({}, this.oriSelected);
+          this.isDirt = false;
+        }
+        this.selected = angular.copy(this.getModel(prop));
+        this.oriSelected = _.merge({}, this.selected);
+        this.showMessage('Adding an new record.');
+      });
   }
 
   // update an item in the database
@@ -144,6 +164,9 @@ export default class BaseCtrl {
           if (Array.isArray(this.selected))
             this.selected = this.selected[0];
           this.records.push(this.selected);
+          this.sortData();
+          this.resetSelected(this.selected._id);
+          this.showMessage('Saved successfully');
         })
         .catch(err => {
           this.showMessage(err);
@@ -153,6 +176,11 @@ export default class BaseCtrl {
       this.updateAppData(angular.copy(this.selected))
         .then(result => {
           console.log(result);
+          this.selected = JSON.parse(result.data);
+          if (Array.isArray(this.selected)) 
+            this.selected = this.selected[0];
+          this.sortData();
+          this.resetSelected(this.selected._id);
           this.showMessage('Saved successfully');
         })
         .catch(err => {
@@ -214,7 +242,7 @@ export default class BaseCtrl {
             newArray.splice(this.selected.length, 0, item);
             this.selected[nodeName] = newArray;
           }
-          this.showMessage('Saved');
+          // this.showMessage('Saved');
         }
       });
   }
@@ -248,10 +276,16 @@ export default class BaseCtrl {
 
   // updates which sidenav item is being modified
   updateSelected(data) {
-    this.selected = this.records.filter(record => {
-      return record._id === data._id;
-    })[0];
-    console.log(this.selected);
+    this.dirtCheck()
+      .then(() => {
+        if (this.isDirt)
+          this.records[this.selectedIndex] = _.merge({}, this.oriSelected);
+        this.sortData();
+        this.resetSelected(data._id);
+        if (!this.isDirt)
+          this.$scope.$apply();
+        this.isDirt = false;
+      });
   }
 
   // used to compare current node to a valid or old node (for validation and/or updating metadata status)
@@ -286,6 +320,46 @@ export default class BaseCtrl {
     getPid(prefix){
     console.log("generate pid");
    return GhstsPid.generatePid(prefix);
+  }
+
+  $onDestroy() {
+    // need to deregister the listener or else we end up with multiple calls
+    this.dereg();
+  }
+
+  dirtCheck() {
+    let oriStr = JSON.stringify(angular.copy(this.oriSelected));
+    let curStr = JSON.stringify(angular.copy(this.selected));
+    if (curStr && (oriStr !== curStr)) {
+      this.isDirt = true;
+      return this.$mdDialog.show(
+        this.$mdDialog.confirm()
+          .title('Attention, unsaved changes')
+          .content('You have unsaved chanegs!!!')
+          .ok('Discard')
+          .cancel('Return')
+      );
+    } else {
+      this.isDirt = false;
+      return Promise.resolve(true);
+    }
+  }
+
+  sortData() {
+    this.records.sort((a, b) => {
+      return (a.valuedecode > b.valuedecode) || (a.valuedecode === b.valuedecode && a._id > b._id);
+    });
+  }
+
+  resetSelected(id) {
+    for (var i = 0; i < this.records.length; i++) {
+      if (this.records[i]._id === id) {
+        this.selected = this.records[i];
+        this.selectedIndex = i;
+        this.oriSelected = _.merge({}, this.selected);
+        break;
+      }
+    }
   }
 }
 

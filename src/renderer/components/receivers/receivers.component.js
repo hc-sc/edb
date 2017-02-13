@@ -25,8 +25,8 @@ export default angular.module('receiver', [
       isSubmission: '<'
     },
     controller: class ReceiversCtrl extends BaseCtrl {
-      constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope, GhstsService) {
-        super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'receiver', $scope, GhstsService);
+      constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope, GhstsService, $transitions) {
+        super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'receiver', $scope, GhstsService, $transitions);
         this.senders = [];
         this.records = [];
 
@@ -35,10 +35,10 @@ export default angular.module('receiver', [
           this.getAppData({}, 'legalentity')
             .then(legalEntities => {
               this.legalEntities = JSON.parse(legalEntities.data);
-              let raId=this.picklistService.edb_getSync({value:'Regulatory Authority'})[0]._id;
-              this.legalEntities=this.legalEntities.filter((el) =>
-                  el.legalentitytype.toLowerCase()===raId
-                )
+              let raId = this.picklistService.edb_getSync({ value: 'Regulatory Authority' })[0]._id;
+              this.legalEntities = this.legalEntities.filter((el) =>
+                el.legalentitytype && (el.legalentitytype.toLowerCase() === raId)
+              );
             }),
 
           // get app receivers OR submission receivers and senders
@@ -112,7 +112,17 @@ export default angular.module('receiver', [
 
       // need to override since the method depends on whether it is a submission or not
       save() {
-        if (this.isSubmission) console.log('saving submission receivers to ghsts');
+        if (this.isSubmission) {
+          this.ghstsService.edb_post(angular.copy(this.ghsts))
+            .then(result => {
+              console.log(result);
+              this.ghsts = JSON.parse(result.data);
+              this.showMessage('Saved successfully');
+            })
+            .catch(err => {
+              this.showMessage(err);
+            });
+        }
         else super.save();
       }
 
@@ -132,17 +142,14 @@ export default angular.module('receiver', [
         })
           .then(item => {
             sender = item;
-            return this.appDataService.edb_post({ _url: 'sender', data: item });
-          })
-          .then(res => {
-            this.senders[index] = sender;
+            this.senders[index] = this.appDataService.edb_getSync({ _url: 'sender', data: { _id: item._id } })[0];
             this.senders = this.senders.slice();
           });
       }
 
       addSender() {
         let sender = {};
-        let isSenderExit = [], isExitInView = [];
+        let isExitInView = [];
         this.$mdDialog.show({
           template: senderSelect,
           controller: SenderSelectCtrl,
@@ -153,37 +160,15 @@ export default angular.module('receiver', [
         })
           .then(item => {
             for (var i = 0; i < this.senders.length; i++) {
-              if ((this.senders[i].toLegalEntityId === item.toLegalEntityId) &&
-                (this.senders[i].companycontactregulatoryrole === item.companycontactregulatoryrole) &&
-                (this.senders[i].remark === item.remark)) {
+              if (this.senders[i]._id === item._id) {
                 isExitInView.push(item);
                 break;
               }
             }
-            if (isExitInView.length > 0) {
-              return Promise.resolve({ data: JSON.stringify(isExitInView[0]) });
-            } else {
-              isSenderExit = this.appDataService.edb_getSync({ _url: 'sender', data: item });
-              if (isSenderExit.length > 0)
-                return Promise.resolve({ data: JSON.stringify(isSenderExit[0]) });
-              else
-                return this.appDataService.edb_put({ _url: 'sender', data: item });
-            }
-          })
-          .then(ret => {
-            if (isExitInView.length > 0) {
-              sender = ret;
-              return Promise.resolve(ret);
-            }
-            else {
-              sender = JSON.parse(ret.data);
-              return this.ghstsService.edb_put({ url: `/receiver/${this.selected._id}/sender/${sender._id}`, data: { sender } });
-            }
-          })
-          .then(res => {
             if (isExitInView.length === 0) {
-              this.ghsts = res.data;
+              sender = this.appDataService.edb_getSync({ _url: 'sender', data: { _id: item._id } })[0];
               this.senders = this.senders.concat(sender);
+              this.updateGhstsReceiver();
             }
           })
           .catch(err => console.error(err));
@@ -191,12 +176,8 @@ export default angular.module('receiver', [
 
       // MAKE SURE IT'S ACTUALLY DELETED IN THE DB
       deleteSender(index) {
-        this.ghstsService.edb_delete({ url: `/receiver/${this.selected._id}/sender/${this.senders[index]._id}` })
-          .then(ret => {
-            console.log(ret);
-            this.ghsts = ret.data;
-            this.senders = [...this.senders.slice(0, index), ...this.senders.slice(index + 1)];
-          });
+        this.senders = [...this.senders.slice(0, index), ...this.senders.slice(index + 1)];
+        this.updateGhstsReceiver();
       }
 
       selectReceiver(id, index) {
@@ -211,6 +192,8 @@ export default angular.module('receiver', [
       }
 
       addReceiver() {
+        let receiver = {};
+        let isExitInView = [];
         // select receiver from globals
         this.$mdDialog.show({
           template: receiverSelect,
@@ -221,35 +204,40 @@ export default angular.module('receiver', [
           }
         })
           .then(item => {
-            return this.ghstsService.edb_put({ url: `/receiver/${item.receiver}` });
-          })
-          .then(response => {
-            console.log(response);
-            this.ghsts = response.data;
-            let ids = this.ghsts._receiver.map(item => {
-              return item.receiver;
-            });
-            console.log(ids);
-            return this.appDataService.edb_get({ _url: '/receiver', data: { where: ids } });
-          })
-          .then(result => {
-            console.log(result);
-            this.records = JSON.parse(result.data);
-            this.sender = [];
+            for (var i = 0; i < this.records.length; i++) {
+              if (this.records[i]._id === item.receiver) {
+                isExitInView.push(item);
+                break;
+              }
+            }
+            if (isExitInView.length === 0) {
+              receiver = this.appDataService.edb_getSync({ _url: 'receiver', data: { _id: item.receiver } })[0];
+              this.ghsts._receiver.push({receiver: item.receiver, sender: []});
+              this.records = this.records.concat(receiver);
+              this.sender = [];
+            }
           })
           .catch(err => console.log(err));
       }
 
       deleteReceiver(id, index) {
-        this.ghstsService.edb_delete({ url: `/receiver/${id}` })
-          .then(ret => {
-            console.log(ret);
-            this.ghsts = ret.data;
-            this.records = [...this.records.slice(0, index), ...this.records.slice(index + 1)];
-            this.sender = [];
-            this.selected = undefined;
-          })
-          .catch(err => console.log(err));
+        this.ghsts._receiver = [...this.ghsts._receiver.slice(0, index), ...this.ghsts._receiver.slice(index + 1)];
+        this.records = [...this.records.slice(0, index), ...this.records.slice(index + 1)];
+        this.sender = [];
+        this.selected = undefined;
+      }
+
+      updateGhstsReceiver() {
+        let senderIds = this.senders.map(senderitem => {
+          return senderitem._id;
+        });
+        for (var i = 0; i < this.ghsts._receiver.length; i++) {
+          let item = this.ghsts._receiver[i];
+          if (item.receiver === this.selected._id) {
+            item.sender = senderIds;
+            break;
+          }
+        }
       }
     }
   })

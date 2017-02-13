@@ -22,7 +22,7 @@ export const picklists_en = {
 export const propNames_en = {
   // Generic
   'save': 'Save',
-  'okey': 'Okey',
+  'okey': 'Okay',
   'cancel':'Cancel',
 
   // Legal Entities
@@ -55,7 +55,7 @@ export const propNames_en = {
   'contacts': 'Contacts',
 
   // Dossier
-  'dossierdescriptiontitle': 'Title',
+  'dossierdescriptiontitle': 'Dossier Title',
   'dossierpid': 'Dossier PID',
   'productname': 'Product Name',
   '_state': 'State',
@@ -112,5 +112,8 @@ export const propNames_en = {
   'shortname':'Short Name',
   'role':'Role',
 
+  //sender
+  'companycontactregulatoryrole':'Company Contact Regulatory Role',
+  'remark':'Remark',
 
 };

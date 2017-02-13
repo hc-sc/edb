@@ -126,10 +126,25 @@ var initDB = () => {
         let svrClass;
         let svr;
 
+        svrClass = require('./services/product.service');
+        svr = new svrClass('01.00.02');
+        qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/legalentity.service');
         svr = new svrClass('01.00.02');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/substance.service');
+        svr = new svrClass('01.00.02');
+        qAry.push(svr.initDbfromTestData());
+        svrClass = require('./services/file.service');
+        svr = new svrClass('01.00.02');
+        qAry.push(svr.initDbfromTestData());
+        svrClass = require('./services/document.service');
+        svr = new svrClass('01.00.02');
+        qAry.push(svr.initDbfromTestData());
+        svrClass = require('./services/receiver.service');
+        svr = new svrClass('01.00.02');
+        qAry.push(svr.initDbfromTestData());
+        svrClass = require('./services/sender.service');
         svr = new svrClass('01.00.02');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/toc.service');
@@ -293,13 +308,196 @@ app.on('ready', function () {
   mainWindow.on('closed', function () {
     mainWindow = null;
   });
-  
-  mainWindow.loadURL('file://' + __dirname + '/renderer/index.html');
+
+  mainWindow.loadURL('file://' + __dirname + '/../build/renderer/index.html');
   mainWindow.webContents.on('did-finish-load', function () {
     // TODO: setTitle is being deprecated, find and use alternative
     mainWindow.setTitle("e-Dossier Builder (V1.7.0 DRAFT)");
     //if (configure.env.toString().toUpper() == 'DEV'){
     mainWindow.openDevTools();
+    backendTest();
+
+    //}
   });
   mainWindow.show();
 });
+
+//Test request
+// const testService = require('./services/legalentity.service');
+// const testService = require('./services/picklist.service');
+// const testService = require('./services/dossier.service');
+// const testService = require('./services/substance.service');
+const testService = require('./services/ghsts.service');
+const ReceiverService = require('./services/receiver.service');
+// const testService = require('./services/receiver.service');
+// const testService = require('./services/file.service');
+// const testService = require('./services/toc.service');
+// const testService = require('./services/document.service');
+// const testService = require('./services/submission.service');
+var backendTest = () => {
+  console.log('--------- Backend Test Start ----------');
+  let svr = new testService(submissions, validateInsts, marshallers);
+  let recSvr = new ReceiverService();
+
+  svr.edb_get({ _submissionid: '587d372aaeeb5719c0a3e3d7' })
+    .then(ret => {
+      console.log(JSON.stringify(submissions[0]));
+      //   return recSvr.edb_get({_id: '586fc8a2ac3cad13844bd2bc'});
+      // })
+      // .then(ret => {
+      //   console.log(ret.data);
+      //   let obj = JSON.parse(ret.data)[0];
+      //   obj._subUrl = obj._url + '/' + obj._id.toString();
+      //   return svr.edb_put(obj);
+      // })
+      // //   // .then(ret => {
+      // //     // let obj = {_id: '586699c418c57512d4377eaa', _url: 'receiver'};
+      // //     // obj._subUrl = obj._url + '/' + obj._id.toString();
+      // //     // return svr.edb_delete(obj);
+      // //   // // })
+      // //   // .then(ret => {
+      // //     let obj = {_id: '586699c418c57512d4377eab', _url: 'receiver'};
+      // //     obj._subUrl = obj._url + '/586699c418c57512d4377eaa';
+      // //     return svr.edb_post(obj);
+      // let obj = {};
+      // obj._subUrl = 'receiver/586fc8a2ac3cad13844bd2bb/sender/586fc8a2ac3cad13844bd2c0';
+      // return svr.edb_put(obj);
+      //     // let obj = {_id: '586699c418c57512d4377eaf'};
+      //     // obj._subUrl = 'receiver/586699c418c57512d4377eab/sender/586699c418c57512d4377eae';
+      //     // return svr.edb_post(obj);
+      // let obj = {tocnodepid: 'urn:node:ID0003773613', docId: '586fc8a1ac3cad13844bd2aa'};
+      // obj._subUrl = 'toc';
+      // return svr.edb_put(obj);
+      // let obj = {tocnodepid: 'urn:node:ID0003773614', docId: '586fc8a1ac3cad13844bd2aa'};
+      // obj._subUrl = 'toc';
+      // return svr.edb_put(obj);
+
+      // let obj = {tocnodepid: 'urn:node:ID0003773613', docId: '586fc8a1ac3cad13844bd2aa'};
+      // obj._subUrl = 'toc';
+      // return svr.edb_delete(obj);
+      // return svr._buildXmlJson();
+    })
+    .then(ret => {
+      console.log(JSON.stringify(ret));
+    })
+    .catch(err => {
+      console.log(err);
+    });
+
+
+
+
+  // svr.edb_get({url:'ghsts/5863d99720883016c849b88d/legalentity'})
+  // .then(ret => {
+  //   console.log(ret);
+  // })
+  // .catch(err =>{
+  //   console.log(err);
+  // });
+  // let names = require('mongoose').modelNames();
+  // console.log(names);
+
+  // svr._reference_check('585bf5be491a3614a4f90537')
+  //   .then(ret => {
+  //     console.log(ret);
+  //   })
+  //   .catch(err => {
+  //     console.log(err);
+  //   });
+
+  // svr.initDbfromTestData();
+  //const Fiber = require('fibers');
+  // console.log('here');
+  // sync(fs, 'readFile');
+
+  // let ret = sync.await(fs.readFile('./src/configs/picklist.fields.js'));
+  // console.log(ret);
+  //svr.edb_delete('58407a642f2d9a1f74416c17');
+
+  // svr.edb_put({productShortName: 'test', submissionid: '5845e6427f7372275481989e', productid: '5845e6437f73722754819a39'})
+  //   .then(ret => {
+  //     console.log(ret);
+  // //     return svr.edb_delete(JSON.parse(ret.data)._id);
+  // //  })
+  // //  .then(ret => {
+  // //    console.log(ret);
+  //  })
+  //  .catch(err => {
+  //    console.log(err);
+  //  });
+
+
+  // testService.edb_getSync({_id: '5849d9d3770cf21af410fc5f'})
+  //   .then(ret => {
+  //    console.log(ret);
+  //  }).catch(err => {
+  //    console.log(err);
+  //  });
+
+  // svr.edb_get({_id:'5852f9fd1f9fa11280ed20ad'})
+  //   .then(ret => {
+  //     let obj = JSON.parse(ret.data)[0];
+  //   svr.edb_put(obj).then(ret => {
+  //     console.log(ret);
+  //   }).catch(err => {
+  //     console.log(err);
+  //   });
+  //  }).catch(err => {
+  //    console.log(err);
+  //  });
+
+  // svr.edb_get({submissionid: '5845e6427f7372275481989e'})
+  //   .then(ret => {
+  //    console.log(ret);
+  //  }).catch(err => {
+  //    console.log(err);
+  //  });
+
+  //  svr.edb_put({
+  //           "TYPE_NAME": "GHSTS.GHSTS.SUBSTANCES.SUBSTANCE",
+  //           "id": "IDS0000003333",
+  //           "metadatastatus": 'aaa',
+  //           "substancename": "RGA1608-05",
+  //           "substancepid": "urn:ghsts:9A5C394B-872E-433B-A391-00899F06613E",
+  //           "substanceidentifier": [
+  //             {
+  //               "TYPE_NAME": "GHSTS.GHSTS.SUBSTANCES.SUBSTANCE.SUBSTANCEIDENTIFIER",
+  //               "substanceidentifiertype":'bbb',
+  //               "identifier": "616890-34-1"
+  //             },
+  //             {
+  //               "TYPE_NAME": "GHSTS.GHSTS.SUBSTANCES.SUBSTANCE.SUBSTANCEIDENTIFIER",
+  //               "substanceidentifiertype": {
+  //                 "TYPE_NAME": "GHSTS.GHSTS.SUBSTANCES.SUBSTANCE.SUBSTANCEIDENTIFIER.SUBSTANCEIDENTIFIERTYPE",
+  //                 "value": {
+  //                   "TYPE_NAME": "GHSTS.EXTENSIONTYPESUBSTANCEIDENTIFIERTYPE",
+  //                   "value": "IUBMB"
+  //                 },
+  //                 "valuedecode": "IUBMB"
+  //               },
+  //               "identifier": "4467"
+  //             }
+  //           ]
+  //  }).then(ret => {
+  //    console.log(ret);
+  //  }).catch(err => {
+  //    console.log(err);
+  //  });
+
+  // new testService().edb_get({}, true)
+  //   .then(result => {
+  //  console.log(result.data);
+  // });
+  // svr.edb_get({
+  //   TYPE_NAME: 'EXTENSION_TYPE_ADMIN_NUMBER_TYPE',
+  //   value: 'AAAAAAAAAAAAAAAAA',
+  //   valuedecode: 'AAAAAAAAAAAAAAAAA',
+  //   isExt: true})
+  //   .then(result => {
+  //     console.log(result);
+  //    svr.edb_delete(JSON. result);
+  //   });
+};
+
+//Test request end
+

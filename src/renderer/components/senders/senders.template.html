@@ -1,0 +1,29 @@
+<section class='node-page'>
+  <sidenav items='$ctrl.records'
+          selected='$ctrl.selected'
+          main='remark'
+          is-open='$ctrl.sidenavOpen'
+          on-select='$ctrl.updateSelected(item)'
+          on-add='$ctrl.add(item)'>
+  </sidenav>
+  <div ng-show='!$ctrl.isSubmission' class='no-padding no-margin'>
+    <select-input label='{{"legalentity" | translate}}' is-required='true' select-value='$ctrl.selected.toLegalEntityId' main='legalentityname' values='$ctrl.legalEntities' on-update='$ctrl.update("toLegalEntityId", value)'></select-input>
+    <text-input label='{{"companycontactregulatoryrole" | translate}}' is-required='true' text-value='$ctrl.selected.companycontactregulatoryrole' on-update='$ctrl.update("companycontactregulatoryrole", value)' max-Length='20'></text-input>
+    <text-input label='{{"remark" | translate}}' text-value='$ctrl.selected.remark' on-update='$ctrl.update("remark", value)' max-Length='255'></text-input>
+  </div>
+  </div>
+    <div style='z-index:100' class='float-bottom'>
+      <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
+        <md-tooltip>Save</md-tooltip>
+        <md-icon md-svg-icon='save' class='light'></md-icon>
+      </md-button>
+      <md-button aria-label='Add New Item' class='md-fab md-primary' ng-click='$ctrl.add("sender")'>
+        <md-tooltip>Add</md-tooltip>
+        <md-icon md-svg-icon='add' class='light'></md-icon>
+      </md-button>
+      <md-button aria-label='Toggle List' class='md-fab md-primary' ng-click='$ctrl.toggleList()'>
+        <md-tooltip>View List</md-tooltip>
+        <md-icon md-svg-icon='list' class='light'></md-icon>
+      </md-button>
+    </div>
+</section>

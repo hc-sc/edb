@@ -31,6 +31,7 @@ module.exports = class BaseService {
   edb_put(obj) {
     return new Q((res, rej) => {
       let self = this, obj2db = _.merge({}, obj);
+      self._removeEmptyRefFields(obj);
       self._exist_check(obj)
         .then(ret => {
           if (JSON.parse(ret).length > 0) {
@@ -53,6 +54,7 @@ module.exports = class BaseService {
 
   edb_post(obj) {
     let self = this;
+    self._removeEmptyRefFields(obj);
     return self._update(obj);
   }
 
@@ -345,6 +347,27 @@ module.exports = class BaseService {
     return retVal;
   }
 
+  _removeEmptyRefFields(obj) {
+    let self = this;
+    let picklistFieldsConfig, plEntity;
+    let keys = Object.keys(obj);
+
+    keys.map(key => {
+      picklistFieldsConfig = PicklistFieldsConfig[key];
+      plEntity = obj[key];
+
+      if ((picklistFieldsConfig || key === 'toLegalEntityId') && (!plEntity || plEntity === '')) { //this is picklist item
+        delete obj[key];
+      } else if (plEntity && Array.isArray(plEntity)) {
+        plEntity.map(subEnt => {
+          self._removeEmptyRefFields(subEnt);
+        });
+      } else if (plEntity && typeof plEntity === 'object') {
+        self._removeEmptyRefFields(plEntity);
+      }
+    });
+  }
+
   _getFieldNamebyTypeName(typeName) {
     let keys = Object.keys(PicklistFieldsConfig);
     let retVal = undefined;
@@ -365,7 +388,7 @@ module.exports = class BaseService {
       retVal = obj;
       let keys = Object.keys(retVal);
       keys.map(key => {
-        if ((key.startsWith('_') && key !== '_state' && key !== '_ghsts') || key === 'valuedecode' || key === 'id')
+        if ((key.startsWith('_') && key !== '_state' && key !== '_ghsts' && key !== '_dossier') || key === 'valuedecode' || key === 'id')
           delete retVal[key];
         else if (retVal[key]) {
           if (Array.isArray(retVal[key])) {
