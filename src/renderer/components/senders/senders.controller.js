@@ -1,7 +1,7 @@
 //import angular from 'angular';
 import BaseCtrl from '../common/base.controller';
 
-export default class SubstancesCtrl extends BaseCtrl {
+export default class SendersCtrl extends BaseCtrl {
   constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope, GhstsService, $transitions) {
     super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'sender', $scope, GhstsService, $transitions);
     // this.getAppData({}, 'legalentity')
