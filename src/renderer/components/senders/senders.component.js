@@ -25,7 +25,7 @@ export default angular.module('sender', [
     template,
     controller: SendersCtrl,
     bindings: {//assigned by state resolve
-      senders: '<'
+      legalEntities: '<'
     },
   })
   .name;

@@ -129,12 +129,12 @@ export default function ($stateProvider, $urlRouterProvider) {
     .state('globals.senders', {
       url: '/sender',
       component: 'sender',
-   /*   resolve: {
-        senders: AppDataService => {
-          return AppDataService.getService().edb_get({_url: 'sender'});
+      resolve: {
+        legalEntities: AppDataService => {
+          return AppDataService.getService().edb_get({_url: 'legalentity'});
         },
         isSubmission: ['$stateParams', () => false]
-      },*/
+      }
     })
     .state('globals.files', {
       url: '/files',
