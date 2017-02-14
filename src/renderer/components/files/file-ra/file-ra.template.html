@@ -13,9 +13,9 @@
 
     <md-dialog-content>
       <div class='md-dialog-content'>
-        <md-switch ng-model='$ctrl.node.cbidesignation' aria-label='CBI Designation' class='md-primary' ng-change='$ctrl.printValue()'>CBI Designation</md-switch>
-        <text-input label='{{"filecomments" | translate}}' text-value='$ctrl.node.filecomment' on-update='$ctrl.update("filecomment", value)' max-Length='2000'></text-input>
-        <select-input label='{{"receiver" | translate}}' main='shortname' select-value='$ctrl.node.toSpecificForRAId' values='$ctrl.receivers' on-update='$ctrl.update("toSpecificForRAId", value)'></select-input>        <!--<text-input label='Project Id' is-required='false' text-value='$ctrl.node.toSpecificForRAId' on-update='$ctrl.update("toSpecificForRAId", value)'></text-input>-->
+        <select-input label='{{"receiver" | translate}}' main='shortname' is-required='true' select-value='$ctrl.node.toSpecificForRAId' values='$ctrl.receivers' on-update='$ctrl.update("toSpecificForRAId", value)'></select-input>        
+        <md-switch ng-model='$ctrl.node.cbidesignation' aria-label='{{"cbidesignation" | translate}}' class='md-primary' ng-change='$ctrl.printValue()'>{{'cbidesignation' | translate}}</md-switch>
+        <text-input label='{{"filecomment" | translate}}' text-value='$ctrl.node.filecomment' on-update='$ctrl.update("filecomment", value)' max-Length='2000'></text-input>
       </div>
     </md-dialog-content>
 

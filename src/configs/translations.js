@@ -57,6 +57,14 @@ export const propNames_en = {
   // Dossier
   'dossierdescriptiontitle': 'Dossier Title',
   'dossierpid': 'Dossier PID',
+  'dossiercompid': 'Dossier Company ID',
+  'dossierregulartoryauthorities': 'Dossier Regulatory Authorities',
+  'referenceddossier' : 'Referenced Dossiers',
+  'referenceddossierreason': 'Reference Dossier Reason',
+  'referenceddossiernumber' : 'Referenced Dossier Number',
+  'regulatorytype': 'Regulatory Type',
+  'applicationtype': 'Application Type',
+  'projectidnumber': 'Project Number',
   'productname': 'Product Name',
   '_state': 'State',
   '_created': 'Created',
@@ -65,6 +73,8 @@ export const propNames_en = {
   // Submission
   'submissiontitle': 'Submission Title',
   'submissionnumber': 'Number',
+  'submissionversiondate': 'Submission Version Date',
+  'incremental': 'Incremental',
   'adminnumber': 'Admin Number',
   'packagetype': 'Package Type',
   //Substance;
@@ -105,7 +115,8 @@ export const propNames_en = {
 
   'fileRA':'File Regulatory Authorities',
   //File RA
-  'filecomments':'File Comments',
+  'filecomment':'File Comments',
+  'cbidesignation': 'CBI Designation',
   //receivers
   'receivers':'Receivers',
   'legalentity':'Legal Entity',
@@ -115,5 +126,8 @@ export const propNames_en = {
   //sender
   'companycontactregulatoryrole':'Company Contact Regulatory Role',
   'remark':'Remark',
+
+  //All RAs
+  'toLegalEntityId': 'Legal Entity Name'
 
 };
