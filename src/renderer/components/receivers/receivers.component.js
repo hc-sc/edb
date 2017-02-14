@@ -11,6 +11,7 @@ import receiverSelect from './receiver-select/receiver-select.template';
 import ReceiverSelectCtrl from './receiver-select/receiver-select.controller';
 import senderSelect from './senders/senders.template';
 import SenderSelectCtrl from './senders/senders.controller';
+import _ from 'lodash';
 
 export default angular.module('receiver', [
   ngMaterial,
@@ -46,7 +47,6 @@ export default angular.module('receiver', [
             if (this.isSubmission) {
               return this.ghstsService.edb_get({ _submissionid: this.dossierData.submissionid })
                 .then(ghsts => {
-                  console.log(ghsts);
                   this.ghsts = JSON.parse(ghsts.data)[0];
                   let ids = [];
                   if (this.ghsts._receiver && this.ghsts._receiver.length > 0) {
@@ -54,13 +54,18 @@ export default angular.module('receiver', [
                       return item.receiver;
                     });
                   }
-                  console.log(ids);
                   if (ids.length > 0) return this.appDataService.edb_get({ _url: '/receiver', data: { where: ids } });
                   else return Promise.resolve([]);
                 })
                 .then(receivers => {
                   this.records = Array.isArray(receivers) ? receivers : JSON.parse(receivers.data);
-                  console.log(this.records);
+                  if (this.records.length > 0) {
+                    this.sortData();
+                    this.resetSelected(this.records[0]._id);
+                    this.selectReceiver(this.records[0]._id, 0);
+                  } else {
+                    this.oriSelected = JSON.stringify(this.ghsts._receiver);
+                  }
                 });
             }
             else {
@@ -73,41 +78,6 @@ export default angular.module('receiver', [
             this.$scope.$root.loading = false;
             this.$scope.$apply();
           });
-
-
-        // this.init()
-        // .then(() => {
-        //   if (this.isSubmission) {
-        //     return this.ghstsService.edb_get({_submissionid: this.dossierData.submissionid});
-        //   }
-        //   else {
-        //     return this.appDataService.edb_get({_url: 'receiver'});
-        //   }
-        // })
-        // .then(result => {
-        //   if (this.isSubmission) {
-        //     this.ghsts = JSON.parse(result.data)[0];
-        //     let ids = this.ghsts._receivers.map(item => {
-        //       return item.receiver;
-        //     });
-        //     let aaa =  this.appDataService.edb_getSync({_url: '/receiver', data: ids}); // this.records = this.ghsts._receivers;
-        //     console.log(aaa);
-        //     return this.getAppData({}, 'legalentity');
-        //   }
-        //   else {
-        //     this.records = result.data ? JSON.parse(result.data) : [];
-        //     return this.getAppData({}, 'legalentity');
-        //   }
-        // })
-        // .then(legalentities => {
-        //   console.log(legalentities);
-
-        //   this.legalEntities = JSON.parse(legalentities.data);
-        //   return this.ghstsService.edb_get({}, 'sender');
-        // })
-        // .then(senders => {
-        //   this.$scope.$root.loading = false;
-        // });
       }
 
       // need to override since the method depends on whether it is a submission or not
@@ -117,6 +87,13 @@ export default angular.module('receiver', [
             .then(result => {
               console.log(result);
               this.ghsts = JSON.parse(result.data);
+              if (this.records.length > 0) {
+                this.sortData();
+                this.resetSelected(this.selected._id);
+                this.selectReceiver(this.selected._id, this.selectedIndex);
+              } else {
+                this.oriSelected = JSON.stringify(this.ghsts._receiver);
+              }
               this.showMessage('Saved successfully');
             })
             .catch(err => {
@@ -214,17 +191,27 @@ export default angular.module('receiver', [
               receiver = this.appDataService.edb_getSync({ _url: 'receiver', data: { _id: item.receiver } })[0];
               this.ghsts._receiver.push({receiver: item.receiver, sender: []});
               this.records = this.records.concat(receiver);
-              this.sender = [];
+              this.senders = [];
             }
           })
           .catch(err => console.log(err));
       }
 
       deleteReceiver(id, index) {
-        this.ghsts._receiver = [...this.ghsts._receiver.slice(0, index), ...this.ghsts._receiver.slice(index + 1)];
+        this.ghsts._receiver = this.ghsts._receiver.filter(item => {
+          return item.receiver !== this.records[index]._id;
+        });
         this.records = [...this.records.slice(0, index), ...this.records.slice(index + 1)];
-        this.sender = [];
-        this.selected = undefined;
+        if (this.records.length > 0) {
+          this.sortData();
+          this.resetSelected(this.records[0]._id);
+          this.selectReceiver(this.records[0]._id, 0);
+        } else {
+          this.selectedIndex = -1;
+          this.selected = undefined;
+          this.oriSelected = undefined;
+          this.senders = [];
+        }
       }
 
       updateGhstsReceiver() {
@@ -238,6 +225,15 @@ export default angular.module('receiver', [
             break;
           }
         }
+      }
+
+      dirtCheck() {
+        return super.dirtCheck(this.oriSelected, JSON.stringify(this.ghsts._receiver));
+      }
+
+      resetSelected(id) {
+        super.resetSelected(id);
+        this.oriSelected = JSON.stringify(this.ghsts._receiver);
       }
     }
   })

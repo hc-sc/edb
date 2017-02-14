@@ -13,9 +13,9 @@
     </select-input-extensible>
 
     <tbl ng-if='!$ctrl.loading' title='{{"ingredients" | translate}}' items='$ctrl.selected.ingredients.ingredient' projection='[{name: "toSubstanceId", url: "substance"}, "quantity", {name: "unit", url: "picklist"}]'
-      on-select='$ctrl.selectTblItem("ingredients.ingredient",index)' on-add='$ctrl.addTblItem("ingredients.ingredient")' on-delete='$ctrl.deleteTblItem("ingredients.ingredient",index)'>
+      on-select='$ctrl.selectTblItem("ingredients.ingredient",index)' on-add='$ctrl.addTblItem("ingredients.ingredient")' on-delete='$ctrl.deleteTblItem("ingredients.ingredient",index)' min-items='1'>
     </tbl>
-    <tbl ng-if='!$ctrl.loading' title='{{"productregulartoryauthorities" | translate}}' items='$ctrl.selected.productra' projection='["productname", {name: "toSpecificForRAId", url: "receiver"}]'
+    <tbl ng-if='!$ctrl.loading' title='{{"productregulartoryauthorities" | translate}}' items='$ctrl.selected.productra' projection='[{name: "toSpecificForRAId", url: "receiver"}, "productname"]'
       on-select='$ctrl.selectTblItem("productra",index)' on-add='$ctrl.addTblItem("productra")' on-delete='$ctrl.deleteTblItem("productra",index)'></tbl>
 
     <div style='z-index:100' class='float-bottom'>

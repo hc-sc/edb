@@ -4,20 +4,18 @@
     <div class='no-margin no-padding flex-container'>
 
       <div class='extension-wrapper'>
-        <text-input label='Dossier PID' text-value='$ctrl.selected.dossierpid' message='Needs to be a valid PID' on-update='$ctrl.update("dossierpid", value)'></text-input>
+        <text-input label='{{"dossierpid" | translate}}' text-value='$ctrl.selected.dossierpid' is-required='true' on-update='$ctrl.update("dossierpid", value)'></text-input>
         <md-button class='md-raised md-primary' ng-click='$ctrl.genPid()'>Generate PID</md-button>
       </div>
-
-      <text-input label='Company ID' is-required='true' text-value='$ctrl.selected.dossiercompid' has-pattern='^[A-Za-z0-9:]*$'
-        message='Needs to be a valid PID' on-update='$ctrl.update("dossiercompid", value)' max-length='20'></text-input>
+      <text-input label='{{"dossiercompid" | translate}}' is-required='true' text-value='$ctrl.selected.dossiercompid' on-update='$ctrl.update("dossiercompid", value)' max-length='20'></text-input>
     </div>
-    <text-input label='Title' is-required='true' text-value='$ctrl.selected.dossierdescriptiontitle' max-length='2000' on-update='$ctrl.update("dossierdescriptiontitle", value)'></text-input>
+    <text-input label='{{"dossierdescriptiontitle" | translate}}' is-required='true' text-value='$ctrl.selected.dossierdescriptiontitle' max-length='2000' on-update='$ctrl.update("dossierdescriptiontitle", value)'></text-input>
     <md-switch ng-if='!$ctrl.loading' ng-model='$ctrl.submission.incremental' aria-label='Incremental' class='md-primary' ng-change='$ctrl.printValue()'>Incremental</md-switch>
-    <tbl ng-if='!$ctrl.$scope.$root.loading' title='Dossier Regulatory Authorities' items='$ctrl.selected.dossierra' projection='[{name: "regulatorytype", url: "picklist"}, {name: "applicationtype", url: "picklist"}, "projectidnumber"]'
+    <tbl ng-if='!$ctrl.$scope.$root.loading' title='{{"dossierregulartoryauthorities" | translate}}' items='$ctrl.selected.dossierra' projection='[{name: "toSpecificForRAId", url: "receiver"}, {name: "regulatorytype", url: "picklist"}, {name: "applicationtype", url: "picklist"}, "projectidnumber"]'
       min-items='1' on-select='$ctrl.selectTblItem("dossierra", index)' on-delete='$ctrl.deleteTblItem("dossierra", index)'
       deletable='true' on-add='$ctrl.addTblItem("dossierra")'></tbl>
-    <tbl ng-if='!$ctrl.$scope.$root.loading' title='Referenced Dossiers' items='$ctrl.selected.referenceddossier' projection='["referenceddossierreason", "referenceddossiernumber"]'
-      min-items='0' on-select='$ctrl.selectTblItem("referenceddossier", index)' on-delete='$ctrl.deleteTblItem("referenceddossier", index)'
+    <tbl ng-if='!$ctrl.$scope.$root.loading' title='{{"referenceddossier" | translate}}' items='$ctrl.selected.referenceddossier' projection='["referenceddossierreason", "referenceddossiernumber"]'
+      on-select='$ctrl.selectTblItem("referenceddossier", index)' on-delete='$ctrl.deleteTblItem("referenceddossier", index)'
       deletable='false' on-add='$ctrl.addTblItem("referenceddossier")'></tbl>
   </div>
   <div class='float-bottom'>

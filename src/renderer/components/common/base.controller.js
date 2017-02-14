@@ -329,9 +329,9 @@ export default class BaseCtrl {
     this.dereg();
   }
 
-  dirtCheck() {
-    let oriStr = JSON.stringify(angular.copy(this.oriSelected));
-    let curStr = JSON.stringify(angular.copy(this.selected));
+  dirtCheck(oriString, curString) {
+    let oriStr = oriString ? oriString : JSON.stringify(angular.copy(this.oriSelected));
+    let curStr = curString ? curString : JSON.stringify(angular.copy(this.selected));
     if (curStr && (oriStr !== curStr)) {
       this.isDirt = true;
       return this.$mdDialog.show(

@@ -2,7 +2,7 @@
   <form ng-cloak>
     <md-toolbar>
       <div class='md-toolbar-tools'>
-        <h2>Dossier RA</h2>
+        <h2>{{'dossierregulartoryauthorities' | translate}}</h2>
         <span flex></span>
         <md-button class='md-icon-button' ng-click='$ctrl.cancel()'>
           <md-icon md-svg-icon='close' aria-label='close dialog' class='light'></md-icon>
@@ -13,25 +13,26 @@
 
     <md-dialog-content>
       <div class='md-dialog-content'>
-        <select-input-extensible label='Regulatory Type' 
+        <select-input label='{{"receiver" | translate}}' main='shortname' select-value='$ctrl.node.toSpecificForRAId' values='$ctrl.receivers' on-update='$ctrl.update("toSpecificForRAId", value)'></select-input>        
+        <select-input-extensible label='{{"regulatorytype" | translate}}' 
           select-value='$ctrl.node.regulatorytype' 
           values='$ctrl.picklists.regulatoryTypes' 
           on-update='$ctrl.update("regulatorytype", value)'
           >
         </select-input-extensible>
-        <select-input-extensible label='"Application Type"' 
+        <select-input-extensible label='{{"applicationtype" | translate}}' 
           select-value='$ctrl.node.applicationtype' 
           values='$ctrl.picklists.applicationTypes' 
           on-update='$ctrl.update("applicationtype", value)'>
         </select-input-extensible>
-        <text-input label='Project Id' is-required='false' text-value='$ctrl.node.projectidnumber' on-update='$ctrl.update("projectidnumber", value)'></text-input>
+        <text-input label='{{"projectidnumber" | translate}}' is-required='false' text-value='$ctrl.node.projectidnumber' on-update='$ctrl.update("projectidnumber", value)'></text-input>
       </div>
     </md-dialog-content>
 
     <md-dialog-actions layout='row'>
       <span flex></span>
-      <md-button ng-click='$ctrl.confirm()'>Okay</md-button>
-      <md-button ng-click='$ctrl.cancel()'>Cancel</md-button>
+      <md-button ng-click='$ctrl.confirm()'>{{"okey" | translate}}</md-button>
+      <md-button ng-click='$ctrl.cancel()'>{{"cancel" | translate}}</md-button>
     </md-dialog-actions>
   </form>
 </md-dialog>

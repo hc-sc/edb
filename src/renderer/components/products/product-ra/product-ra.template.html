@@ -13,9 +13,9 @@
 
     <md-dialog-content>
       <div class='md-dialog-content'>
+        <select-input label='{{"receiver" | translate}}' main='shortname' select-value='$ctrl.node.toSpecificForRAId' values='$ctrl.receivers' on-update='$ctrl.update("toSpecificForRAId", value)'></select-input>
         <text-input label='{{"productname" | translate}}' is-required='true' text-value='$ctrl.node.productname' on-update='$ctrl.update("productname", value)' max-Length='255'>
         </text-input>
-        <select-input label='{{"receiver" | translate}}' main='shortname' select-value='$ctrl.node.toSpecificForRAId' values='$ctrl.receivers' on-update='$ctrl.update("toSpecificForRAId", value)'></select-input>
         <md-toolbar>
           <div class='md-toolbar-tools'>
             <h2>Admin Number</h2>
