@@ -58,7 +58,7 @@ module.exports = class BaseService {
     return self._update(obj);
   }
 
-  edb_get(obj, pop, where) {
+  edb_get(obj, pop, where, sort) {
     return new Q((res, rej) => {
       let self = this;
       let queryWhere = where ? where : obj.where ? obj.where : undefined;
@@ -87,6 +87,12 @@ module.exports = class BaseService {
 
         if (queryWhere) {
           dbquery.where(queryWhere.fieldname ? queryWhere.fieldname : '_id').in(queryWhere.ids ? queryWhere.ids : queryWhere);
+        }
+
+        if (sort) {
+          dbquery.sort(sort);
+        } else {
+          dbquery.sort('valuedecode');
         }
         dbquery
           .exec((err, rows) => {

@@ -228,12 +228,16 @@ export default angular.module('receiver', [
       }
 
       dirtCheck() {
-        return super.dirtCheck(this.oriSelected, JSON.stringify(this.ghsts._receiver));
+        if (this.isSubmission)
+          return super.dirtCheck(this.oriSelected, JSON.stringify(this.ghsts._receiver));
+        else
+          return super.dirtCheck();
       }
 
       resetSelected(id) {
         super.resetSelected(id);
-        this.oriSelected = JSON.stringify(this.ghsts._receiver);
+        if (this.isSubmission)
+          this.oriSelected = JSON.stringify(this.ghsts._receiver);
       }
     }
   })

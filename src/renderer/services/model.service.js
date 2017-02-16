@@ -27,7 +27,7 @@ import modelReferencedToFile from '../view-models/gen/referencedtofile.json';
 
 import modelSender from '../view-models/gen/sender.json';
 import modelReceiver from '../view-models/gen/receiver.json';
-
+import _ from 'lodash';
 
 export default class ModelService {
   constructor() {}
@@ -36,81 +36,80 @@ export default class ModelService {
     let model = {};
     switch(prop) {
       case 'contactaddress':
-        return Object.assign(modelContactAddress.fields);
+        return _.merge({}, Object.assign(modelContactAddress.fields));
       case 'legalentityidentifier':
-        return Object.assign(modelLegalEntityIdentifier.fields);
+        return _.merge({}, Object.assign(modelLegalEntityIdentifier.fields));
       case 'contactperson':
-        return Object.assign(modelContactPerson.fields);
+        return _.merge({}, Object.assign(modelContactPerson.fields));
       case 'legalentity':
-        model = Object.assign(modelLegalEntity.fields);
+        model = _.merge({}, Object.assign(modelLegalEntity.fields));
         model.contactaddress = this.getModel('contactaddress');
         model._url = 'legalentity';
         return model;
       case 'substance':
-        model = Object.assign(modelSubstance.fields);
+        model = _.merge({}, Object.assign(modelSubstance.fields));
         model._url = prop;
         return model;
       case 'substanceidentifier':
-        return Object.assign(modelSubstanceIdentifier.fields);
+        return _.merge({}, Object.assign(modelSubstanceIdentifier.fields));
       case 'file':
-        model = Object.assign(modelFile.fields);
+        model = _.merge({}, Object.assign(modelFile.fields));
         model._url = prop;
         return model;
       case 'filera':
-        return Object.assign(modelFileRA.fields);
+        return _.merge({}, Object.assign(modelFileRA.fields));
       case 'product':
-        model = Object.assign(modelProduct.fields);
+        model = _.merge({}, Object.assign(modelProduct.fields));
         delete model.dossier;
         model.ingredients = {ingredient: []};
         model._url = 'product';
         return model;
       case 'productra':
-        return Object.assign(modelProductRA.fields);
+        return _.merge({}, Object.assign(modelProductRA.fields));
       case 'ingredients.ingredient':
-        return Object.assign(modelIngredient.fields);
+        return _.merge({}, Object.assign(modelIngredient.fields));
       case 'adminnumber':
-        return Object.assign(modelAdminnumber.fields);
+        return _.merge({}, Object.assign(modelAdminnumber.fields));
 
       case 'dossierra':
-        return Object.assign(modelDossierRA.fields);
+        return _.merge({}, Object.assign(modelDossierRA.fields));
       case 'referenceddossier':
-        return Object.assign(modelReferencedDossier.fields);
+        return _.merge({}, Object.assign(modelReferencedDossier.fields));
         
       case 'document':
-        model = Object.assign(modelDocument.fields);
+        model = _.merge({}, Object.assign(modelDocument.fields));
         model.documentgeneric = this.getModel('documentgeneric');
         model._url = 'document';
         return model;
 
       case 'documentgeneric':
-        return Object.assign(modelDocumentGeneric.fields);
+        return _.merge({}, Object.assign(modelDocumentGeneric.fields));
 
       case 'documentra':
-        return Object.assign(modelDocumentRA.fields);
+        return _.merge({}, Object.assign(modelDocumentRA.fields));
 
       case 'documentgeneric.documentnumber':
-        return Object.assign(modelDocumentNumber.fields);
+        return _.merge({}, Object.assign(modelDocumentNumber.fields));
 
       case 'documentgeneric.contentstatushistory':
-        return Object.assign(modelDocumentContentStatus.fields);
+        return _.merge({}, Object.assign(modelDocumentContentStatus.fields));
 
       case 'documentgeneric.referenceddocument':
-        return  Object.assign(modelReferencedDocument.fields);
+        return  _.merge({}, Object.assign(modelReferencedDocument.fields));
 
       case 'documentgeneric.relatedtosubstance':
-        return Object.assign(modelReLatedToSubstance.fields);
+        return _.merge({}, Object.assign(modelReLatedToSubstance.fields));
 
       case 'documentgeneric.referencedtofile':
-        return Object.assign(modelReferencedToFile.fields);
+        return _.merge({}, Object.assign(modelReferencedToFile.fields));
 
       case 'sender':
-        return Object.assign(modelSender.fields);
+        return _.merge({}, Object.assign(modelSender.fields));
 
       case 'receiver':
-        model = Object.assign(modelReceiver.fields);
+        model = _.merge({}, Object.assign(modelReceiver.fields));
         delete model.sender;
         return model;
-
     }
   }
 }

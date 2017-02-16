@@ -95,9 +95,13 @@ export default angular.module('tbl', [
                 let id = item[header.name];
                 let query = {_id: id};
                 // let value;
-                if (header.url === 'picklist')
-                  row.push(this.picklistService.edb_getSync({data: query})[0].valuedecode);
-                else {
+                if (header.url === 'picklist') {
+                  let queryRet = this.picklistService.edb_getSync(query)[0];
+                  if (queryRet && queryRet.hasOwnProperty('valuedecode'))
+                    row.push(queryRet.valuedecode);
+                  else
+                    row.push(item[header.name]);
+                } else {
                   query = {
                     url: header.url,
                     data: query

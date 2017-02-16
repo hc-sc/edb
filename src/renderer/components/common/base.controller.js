@@ -336,10 +336,10 @@ export default class BaseCtrl {
       this.isDirt = true;
       return this.$mdDialog.show(
         this.$mdDialog.confirm()
-          .title('Attention, unsaved changes')
-          .content('You have unsaved chanegs!!!')
-          .ok('Discard')
-          .cancel('Return')
+          .title('Warning, unsaved changes!')
+          .content('Leaving this screen will discard all changes!')
+          .ok('DISCARD CHANGES')
+          .cancel('RETURN')
       );
     } else {
       this.isDirt = false;
