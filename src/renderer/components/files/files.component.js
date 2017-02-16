@@ -48,19 +48,24 @@ export default angular.module('files', [
       }
 
       selectFile() {
-        this.appDataService.edb_get({ _url: 'file', method: 'selectFile', data: angular.copy(this.selected) })
+        let curData = angular.copy(this.selected);
+        if (this.isSubmission) {
+          curData._dossier = this.dossierData.dossierid;
+          curData._ghsts = this.ghsts._id;
+        }
+        this.appDataService.edb_get({ _url: 'file', method: 'selectFile', data: curData })
           .then(ret => {
-            let isExist = false;
-            this.selected = JSON.parse(ret.data);
-            for (var i = 0; i < this.records.length; i++) {
-              if (this.records[i]._id === this.selected._id) {
-                this.records[i] = this.selected;
-                isExist = true;
-                break;
-              }
+            let data = JSON.parse(ret.data);            
+            let isExist = this.selected._id === data._id;
+
+            if (!isExist) {
+              this.records.push(data);
+            } else {
+              this.records[this.selectedIndex] = data;
             }
-            if (!isExist)
-              this.records.push(this.selected);
+            this.sortData();
+            this.resetSelected(data._id);
+            this.showMessage('selected file');
             console.log(this.selected);
           })
           .catch(err => {
