@@ -19,7 +19,7 @@ export default class DocumentCtrl extends BaseCtrl{
             datarequirementTypeOptions: this.datarequirementTypeOptions,
             raDocumentNumberTypeOptions: this.raDocumentNumberTypeOptions
       };
-      this.addButton = { name: 'add', label: 'Generate PID', color: 'dark' };
+      
       // projection item name must match with name defined in propertyInfos of jsonschema definition    
    
       this.contentStatusProjection = [
