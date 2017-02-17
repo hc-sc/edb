@@ -23,35 +23,33 @@ export default class ModalBaseCtrl {
     return this.modelService.getModel(prop);
   }
 
-  initializeModel(modelName){
-    let modelObj = this.getModel(modelName);
-    let iterableObject = Object.keys(modelObj);
-    for (const modelProp of iterableObject) {
-        modelObj[modelProp] = "";
-    }
+  // initializeModel(modelName){
+  //   let modelObj = this.getModel(modelName);
+  //   let iterableObject = Object.keys(modelObj);
+  //   for (const modelProp of iterableObject) {
+  //       modelObj[modelProp] = "";
+  //   }
 
-    return modelObj;
-  }
+  //   return modelObj;
+  // }
 
   addSubMissionContext(prop, model) {
     let modelName = model ? model : prop;  
-    let modelObj = this.initializeModel(modelName);
-    this.node["radocumentnumber"][prop].push(modelObj);
+    let modelObj = this.getModel(modelName);
+    this.node['radocumentnumber'][prop].push(modelObj);
   }
 
   deleteSubArray(prop, index) {
-    this.node["radocumentnumber"][prop] = this.node["radocumentnumber"][prop].slice(0, index).concat(this.node["radocumentnumber"][prop].slice(index + 1));
+    this.node['radocumentnumber'][prop] = this.node['radocumentnumber'][prop].slice(0, index).concat(this.node['radocumentnumber'][prop].slice(index + 1));
   }
 
   addString(prop){
-    let modelObj = "";
-    this.node[prop].push(modelObj);
+    this.node[prop].push('');
   }
 
   add(prop, model) {
     let modelName = model ? model : prop;  
-    let modelObj = this.initializeModel(modelName);
-    this.node[prop].push(modelObj);
+    this.node[prop].push(this.getModel(modelName));
   }
 
   update(prop, value) {
@@ -94,5 +92,39 @@ export default class ModalBaseCtrl {
     .catch(err => {
       console.log('Error creating new picklist item');
     });
+  }
+
+  getReceivers() {
+    let receiverIds = [];
+    let isSubmission = this.isSubmission ? this.isSubmission : false;
+    if (isSubmission) {
+      this.ghsts._receiver.map(rec => {
+        receiverIds.push(rec.receiver);
+      });
+    }
+    if (isSubmission) {
+      if (receiverIds.length === 0) {
+        this.receivers = [];
+        return Promise.resolve(true);
+      } else {
+        return this.appDataService.edb_get({_url: 'receiver', data: {where: receiverIds}})
+          .then(ret => {
+            this.receivers = JSON.parse(ret.data);
+          })
+          .catch(err => {
+            console.log(err);
+            this.receivers = [];
+          });
+      }
+    } else {
+      return this.appDataService.edb_get({_url: 'receiver'})
+        .then(ret => {
+          this.receivers = JSON.parse(ret.data);
+        })
+        .catch(err => {
+          console.log(err);
+          this.receivers = [];
+        });
+    }
   }
 }

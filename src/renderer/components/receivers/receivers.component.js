@@ -146,7 +146,8 @@ export default angular.module('receiver', [
               sender = this.appDataService.edb_getSync({ _url: 'sender', data: { _id: item._id } })[0];
               this.senders = this.senders.concat(sender);
               this.updateGhstsReceiver();
-            }
+            } else 
+              this.showMessage('Duplicate item');
           })
           .catch(err => console.error(err));
       }
@@ -192,7 +193,8 @@ export default angular.module('receiver', [
               this.ghsts._receiver.push({receiver: item.receiver, sender: []});
               this.records = this.records.concat(receiver);
               this.senders = [];
-            }
+            } else 
+              this.showMessage('Duplicate item');
           })
           .catch(err => console.log(err));
       }

@@ -1,15 +1,11 @@
 import ModalBaseCtrl from '../../common/modal.base.controller';
 
 export default class DossierRACtrl extends ModalBaseCtrl {
-  constructor($mdDialog, index, node, picklists, picklistService, $scope, ModelService, AppDataService) {
+  constructor($mdDialog, index, node, picklists, picklistService, $scope, ModelService, AppDataService, isSubmission, curGhsts) {
     super($mdDialog, index, node, picklists, picklistService, $scope, ModelService);
     this.appDataService = AppDataService.getService();
-    this.appDataService.edb_get({_url: 'receiver'})
-      .then(ret => {
-        this.receivers = JSON.parse(ret.data); 
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    this.isSubmission = isSubmission;
+    this.ghsts = curGhsts;
+    this.getReceivers();
   }
 }
