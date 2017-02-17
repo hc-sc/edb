@@ -2,7 +2,7 @@
   <form ng-cloak>
     <md-toolbar>
       <div class='md-toolbar-tools'>
-        <h2>{{ $ctrl.title }}</h2>
+        <h2>{{'referenceddossier' | translate}}</h2>
         <span flex></span>
         <md-button class='md-icon-button' ng-click='$ctrl.cancel()'>
           <md-icon md-svg-icon='close' aria-label='close dialog' class='light'></md-icon>
@@ -12,14 +12,14 @@
     </md-toolbar>
     <md-dialog-content>
       <div class='md-dialog-content'>
-        <text-input label='Reason' text-value='$ctrl.node.referenceddossierreason' on-update='$ctrl.update("referenceddossierreason", value)'></text-input>
-        <text-input label='Dossier Number' text-value='$ctrl.node.referenceddossiernumber' on-update='$ctrl.update("referenceddossiernumber", value)'></text-input>
+        <text-input label='{{"referenceddossierreason" | translate}}' text-value='$ctrl.node.referenceddossierreason' on-update='$ctrl.update("referenceddossierreason", value)'></text-input>
+        <text-input label='{{"referenceddossiernumber" | translate}}' text-value='$ctrl.node.referenceddossiernumber' on-update='$ctrl.update("referenceddossiernumber", value)'></text-input>
       </div>
     </md-dialog-content>
     <md-dialog-actions layout='row'>
       <span flex></span>
-      <md-button ng-click='$ctrl.confirm()'>Okay</md-button>
-      <md-button ng-click='$ctrl.cancel()'>Cancel</md-button>
+      <md-button ng-click='$ctrl.confirm()'>{{"okey" | translate}}</md-button>
+      <md-button ng-click='$ctrl.cancel()'>{{"cancel" | translate}}</md-button>
     </md-dialog-actions>
   </form>
 </md-dialog>

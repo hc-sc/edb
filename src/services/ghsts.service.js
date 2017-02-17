@@ -276,25 +276,27 @@ module.exports = class GhstsService extends BaseService {
                 let retFile = _.merge({}, FileService.edb_getSync({
                   _id: item
                 })[0]);
-                fullRet._filesNeedCopy.push({source: retFile._filereallocation, dest: retFile.filegeneric.filename});
-                let fileMeta = self._metadatastatus_process('file', item, receiverIds);
-                retFile.filegeneric.metadatastatus = fileMeta.filegeneric.metadatastatusid;
-                retFile.filera = _.filter(retFile.filera, filera => {
-                  return receiverIds.indexOf(filera.toSpecificForRAId) >= 0;
-                });
-                if (retFile.filera && retFile.filera.length > 0) {
-                  retFile.filera = retFile.filera.map(filera => {
-                    for (var i = 0; i < fileMeta.filera.length; i++) {
-                      if (fileMeta.filera[i].elementid === filera.toSpecificForRAId) {
-                        filera.metadatastatus = fileMeta.filera[i].metadatastatusid;
-                        break;
-                      }
-                    }
-                    return filera;
+                if (retFile) {
+                  fullRet._filesNeedCopy.push({source: retFile._filereallocation, dest: retFile.filegeneric.filename});
+                  let fileMeta = self._metadatastatus_process('file', item, receiverIds);
+                  retFile.filegeneric.metadatastatus = fileMeta.filegeneric.metadatastatusid;
+                  retFile.filera = _.filter(retFile.filera, filera => {
+                    return receiverIds.indexOf(filera.toSpecificForRAId) >= 0;
                   });
-                } else
-                  delete retFile.filera;
-                return retFile;
+                  if (retFile.filera && retFile.filera.length > 0) {
+                    retFile.filera = retFile.filera.map(filera => {
+                      for (var i = 0; i < fileMeta.filera.length; i++) {
+                        if (fileMeta.filera[i].elementid === filera.toSpecificForRAId) {
+                          filera.metadatastatus = fileMeta.filera[i].metadatastatusid;
+                          break;
+                        }
+                      }
+                      return filera;
+                    });
+                  } else
+                    delete retFile.filera;
+                  return retFile;
+                }
               });
               retVal.files.file = self._get_xml_jsonix(retVal.files.file);
             } else

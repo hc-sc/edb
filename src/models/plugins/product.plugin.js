@@ -9,4 +9,8 @@ module.exports = exports = function ProductPlugin(schema, options) {
   schema.add({
     dossier: {type: 'ObjectId', ref: 'DOSSIER'}
   });
+  schema.virtual('valuedecode').get(function () {
+    return this.genericproductname;
+  });
+  
 };

@@ -224,7 +224,7 @@
         "valuedecode": "New"
       },
       "legalentitypid": "urn:ghsts:6440A2D4-2733-4E40-A632-81FC7681DC89",
-      "legalentityname": "Plant Protection Products Worlwide GmbH Germany",
+      "legalentityname": "Plant Protection Products WorldWide GmbH Germany",
       "legalentitytype": {
         "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.LEGALENTITYTYPE",
         "value": {
@@ -258,7 +258,7 @@
       "contactperson": [
         {
           "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON",
-          "organisation": "Plant Protection Products Worlwide GmbH Germany",
+          "organisation": "Plant Protection Products WorldWide GmbH Germany",
           "department": "Global Regulatory Affairs",
           "title": "Dr.",
           "firstname": "Franz",
@@ -270,7 +270,7 @@
         },
         {
           "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON",
-          "organisation": "Plant Protection Productsxxxxxxxxxxxxxxx Worlwide GmbH Germany",
+          "organisation": "Plant Protection Productsxxxxxxxxxxxxxxx WorldWide GmbH Germany",
           "department": "Global Regulatory Affairs",
           "title": "Dr.",
           "firstname": "Buntsen",
@@ -290,7 +290,7 @@
         "valuedecode": "New"
       },
       "legalentitypid": "urn:ghsts:60BF5221-9BC5-47C3-A6E6-EC2AD872172B",
-      "legalentityname": "Plant Protection Products Worlwide Canada",
+      "legalentityname": "Plant Protection Products WorldWide Canada",
       "legalentitytype": {
         "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.LEGALENTITYTYPE",
         "value": {
@@ -325,7 +325,7 @@
       "contactperson": [
         {
           "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON",
-          "organisation": "Plant Protection Products Worlwide Canada",
+          "organisation": "Plant Protection Products WorldWide Canada",
           "department": "Global Regulatory Affairs",
           "firstname": "Peter",
           "lastname": "Walshe",
@@ -344,7 +344,7 @@
         "valuedecode": "New"
       },
       "legalentitypid": "urn:ghsts:C9910E3B-8B6E-41ED-AADA-A4E516211866",
-      "legalentityname": "Plant Protection Products Worlwide Brasil",
+      "legalentityname": "Plant Protection Products WorldWide Brasil",
       "legalentitytype": {
         "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.LEGALENTITYTYPE",
         "value": {
@@ -378,7 +378,7 @@
       "contactperson": [
         {
           "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON",
-          "organisation": "Plant Protection Products Worlwide Brasil",
+          "organisation": "Plant Protection Products WorldWide Brasil",
           "department": "Regulatory Department",
           "firstname": "Ary",
           "lastname": "Barroso",
@@ -397,7 +397,7 @@
         "valuedecode": "New"
       },
       "legalentitypid": "urn:ghsts:54C8D6A7-30AC-46F0-BA9C-B4F63D51B132",
-      "legalentityname": "Plant Protection Products Worlwide Australia",
+      "legalentityname": "Plant Protection Products WorldWide Australia",
       "legalentitytype": {
         "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.LEGALENTITYTYPE",
         "value": {
@@ -432,7 +432,7 @@
       "contactperson": [
         {
           "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON",
-          "organisation": "Plant Protection Products Worlwide Australia",
+          "organisation": "Plant Protection Products WorldWide Australia",
           "department": "Global Regulatory Affairs",
           "title": "Dr.",
           "firstname": "Marc",

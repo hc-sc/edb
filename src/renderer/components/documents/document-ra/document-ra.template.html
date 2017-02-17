@@ -34,7 +34,7 @@
       <div class='md-toolbar-tools'>
         <h2>Document Comment</h2>
         <span flex></span>
-        <md-button class='md-icon-button' ng-click='$ctrl.addComment()'>
+        <md-button class='md-icon-button' ng-click='$ctrl.addString("documentcomment")'>
           <md-icon md-svg-icon='add' aria-label='add dialog' class='light'></md-icon>
           <md-tooltip>Add Comment</md-tooltip>
         </md-button>
@@ -54,24 +54,24 @@
       <div class='md-toolbar-tools'>
         <h2>Other National Guideline</h2>
         <span flex></span>
-        <md-button class='md-icon-button' ng-click='$ctrl.addGuideline()'>
+        <md-button class='md-icon-button' ng-click='$ctrl.add("othernationalguideline")'>
           <md-icon md-svg-icon='add' aria-label='add dialog' class='light'></md-icon>
           <md-tooltip>Add Guideline</md-tooltip>
         </md-button>
       </div>
     </md-toolbar>
     <md-list>
-        <md-list-item ng-repeat= "oth in $ctrl.node.othernationalguideline"  class="noright">
+        <md-list-item ng-repeat= "oth in $ctrl.node.othernationalguideline track by $index"  class="noright">
               <div layout-gt-sm="row">
                   <md-input-container class="md-block" flex-gt-sm>
                         <label>Guide Line Number</label>
-                        <input ng-model="oth.guidelinenumber" type="text">  
+                        <input ng-model="oth.guidelinenumber" type="text" on-update='$ctrl.updateArray("guidelinenumber", $index, value)'>  
                   </md-input-container>
                   <md-input-container class="md-block" flex-gt-sm>
                         <label>Guide Line System</label>
-                        <input ng-model="oth.guidelinesystem" type="text">
+                        <input ng-model="oth.guidelinesystem" type="text" on-update='$ctrl.updateArray("guidelinesystem", $index, value)'> 
                   </md-input-container>
-                  <md-button aria-label='Delete Item'  ng-click="$ctrl.deleteGuideLine(oth, $event)">
+                  <md-button aria-label='Delete Item'  ng-click='$ctrl.deleteArray("othernationalguideline", $index, $event)'>
                       <md-icon md-svg-icon='delete' class='dark'></md-icon>
                       <md-tooltip>Delete Guideline</md-tooltip>
                   </md-button>
@@ -110,12 +110,12 @@
         </md-input-container>  
                      
     </div>
-
-    <md-toolbar>
+    
+ <md-toolbar>
       <div class='md-toolbar-tools'>
         <h2>Submission Context</h2>
         <span flex></span>
-        <md-button class='md-icon-button' ng-click='$ctrl.addSubContext()'>
+        <md-button class='md-icon-button' ng-click='$ctrl.addSubMissionContext("submissioncontext")'>
           <md-icon md-svg-icon='add' aria-label='add dialog' class='light'></md-icon>
           <md-tooltip>Add submission context</md-tooltip>
         </md-button>
@@ -126,13 +126,13 @@
               <div layout-gt-sm="row">
                   <md-input-container class="md-block" flex-gt-sm>
                         <label>Dossier PID</label>
-                        <input ng-model="sub.dossierpid" type="text">  
+                        <input ng-model="sub.dossierpid" type="text" on-update='$ctrl.updateArray("dossierpid", $index, value)'>
                   </md-input-container>
                   <md-input-container class="md-block" flex-gt-sm>
                         <label>Dossier Number</label>
-                        <input ng-model="sub.dossiernumber" type="text">
+                        <input ng-model="sub.dossiernumber" type="text" on-update='$ctrl.updateArray("dossiernumber", $index, value)'>
                   </md-input-container>
-                  <md-button aria-label='Delete Item'  ng-click="$ctrl.deleteSubContext(sub, $event)">
+                  <md-button aria-label='Delete Item'  ng-click='$ctrl.deleteSubArray("submissioncontext", $index, $event)'>
                       <md-icon md-svg-icon='delete' class='dark'></md-icon>
                       <md-tooltip>Delete submission context</md-tooltip>
                   </md-button>

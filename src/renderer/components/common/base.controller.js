@@ -22,7 +22,7 @@ export default class BaseCtrl {
     this.$scope = $scope;
     this.$scope.$root.loading = true;
     this.oriSelected = {};
-    this.selectedIndex = 0;
+    this.selectedIndex = -1;
     this.isDirt = false;
     this.dereg = $transitions.onBefore({}, (trans) => {
       return this.dirtCheck();
@@ -37,11 +37,10 @@ export default class BaseCtrl {
         if (this.records && this.records.length > 0) {
           // there is some data in the db
           this.sortData();
-          if (id) {
+          if (id) 
             this.resetSelected(id);
-          } 
-
-          if (!this.selected) {
+          else {
+            this.selectedIndex = 0;
             this.selected = this.records[this.selectedIndex];
             this.oriSelected = _.merge({}, this.selected);
           }
@@ -66,6 +65,8 @@ export default class BaseCtrl {
       }
       if (this.url === 'product') 
         return this.appDataService.edb_get({ url, data: {_id: this.ghsts._product}});
+      else if (this.url === 'dossier')
+        return this.appDataService.edb_get({ url, data });
       else if (this.url === 'document' || this.url === 'file' || this.url === 'toc') 
         return this.ghstsService.edb_get({url: this.url});
     } else
@@ -144,9 +145,11 @@ export default class BaseCtrl {
     this.dirtCheck()
       .then(() => {
         if (this.isDirt) {
-          this.records[this.selectedIndex] = _.merge({}, this.oriSelected);
+          if (this.selectedIndex > -1) 
+            this.records[this.selectedIndex] = _.merge({}, this.oriSelected);
           this.isDirt = false;
         }
+        this.selectedIndex = -1;
         this.selected = angular.copy(this.getModel(prop));
         this.oriSelected = _.merge({}, this.selected);
         this.showMessage('Adding an new record.');
@@ -160,12 +163,12 @@ export default class BaseCtrl {
       this.createAppData(angular.copy(this.selected))
         .then(result => {
           console.log(result);
-          this.selected = JSON.parse(result.data);
-          if (Array.isArray(this.selected))
-            this.selected = this.selected[0];
-          this.records.push(this.selected);
+          let data = JSON.parse(result.data);
+          if (Array.isArray(data))
+            data = data[0];
+          this.records.push(data);
           this.sortData();
-          this.resetSelected(this.selected._id);
+          this.resetSelected(data._id);
           this.showMessage('Saved successfully');
         })
         .catch(err => {
@@ -176,11 +179,12 @@ export default class BaseCtrl {
       this.updateAppData(angular.copy(this.selected))
         .then(result => {
           console.log(result);
-          this.selected = JSON.parse(result.data);
-          if (Array.isArray(this.selected)) 
-            this.selected = this.selected[0];
+          let data = JSON.parse(result.data);
+          if (Array.isArray(data)) 
+            data = data[0];
+          this.records[this.selectedIndex] = _.merge({}, data);
           this.sortData();
-          this.resetSelected(this.selected._id);
+          this.resetSelected(data._id);
           this.showMessage('Saved successfully');
         })
         .catch(err => {
@@ -221,7 +225,10 @@ export default class BaseCtrl {
     this.$mdDialog.show(this.buildModal(nodeName, this.selected.length, true))
       .then(item => {
         if (this.getRef(nodeName).filter(record => {
-          return equals(record, item);
+          if (nodeName.toLowerCase().endsWith('ra'))
+            return record.toSpecificForRAId === item.toSpecificForRAId;
+          else
+            return equals(record, item);
         }).length !== 0) {
           this.showMessage('Duplicate item');
         }
@@ -252,9 +259,9 @@ export default class BaseCtrl {
     this.$mdDialog.show(this.buildModal(nodeName, index, false))
       .then(item => {
         console.log(item);
-        if (this.getRef(nodeName).filter(record => {
+        if (!nodeName.toLowerCase().endsWith('ra') && (this.getRef(nodeName).filter(record => {
           return equals(record, item);
-        }).length !== 0) {
+        }).length !== 0)) {
           this.showMessage('Duplicate item');
         }
         else {
@@ -278,7 +285,7 @@ export default class BaseCtrl {
   updateSelected(data) {
     this.dirtCheck()
       .then(() => {
-        if (this.isDirt)
+        if (this.isDirt && this.selectedIndex > -1)
           this.records[this.selectedIndex] = _.merge({}, this.oriSelected);
         this.sortData();
         this.resetSelected(data._id);
@@ -304,7 +311,9 @@ export default class BaseCtrl {
         node: isNew ? angular.copy(this.getModel(nodeName)) : angular.copy(this.getRef(nodeName)[index]),
         picklists: this.picklists,
         picklistService: this.picklistService,
-        $scope: this.$scope
+        $scope: this.$scope,
+        isSubmission: this.isSubmission,
+        curGhsts: this.ghsts
       }
     };
   }
@@ -327,17 +336,17 @@ export default class BaseCtrl {
     this.dereg();
   }
 
-  dirtCheck() {
-    let oriStr = JSON.stringify(angular.copy(this.oriSelected));
-    let curStr = JSON.stringify(angular.copy(this.selected));
+  dirtCheck(oriString, curString) {
+    let oriStr = oriString ? oriString : JSON.stringify(angular.copy(this.oriSelected));
+    let curStr = curString ? curString : JSON.stringify(angular.copy(this.selected));
     if (curStr && (oriStr !== curStr)) {
       this.isDirt = true;
       return this.$mdDialog.show(
         this.$mdDialog.confirm()
-          .title('Attention, unsaved changes')
-          .content('You have unsaved chanegs!!!')
-          .ok('Discard')
-          .cancel('Return')
+          .title('Warning, unsaved changes!')
+          .content('Leaving this screen will discard all changes!')
+          .ok('DISCARD CHANGES')
+          .cancel('RETURN')
       );
     } else {
       this.isDirt = false;
@@ -347,7 +356,9 @@ export default class BaseCtrl {
 
   sortData() {
     this.records.sort((a, b) => {
-      let avd = a.valuedecode.toLowerCase(), bvd = b.valuedecode.toLowerCase(), aid = a._id.toLowerCase(), bid = b._id.toLowerCase();
+      let avd = a.valuedecode ? a.valuedecode.toLowerCase() : '', 
+        bvd = b.valuedecode ? b.valuedecode.toLowerCase() : '', 
+        aid = a._id ? a._id.toLowerCase() : '', bid = b._id ? b._id.toLowerCase() : '';
       return avd < bvd ? -1 : avd > bvd ? 1 : aid > bid ? -1 : aid < bid ? 1 : 0;
     });
   }

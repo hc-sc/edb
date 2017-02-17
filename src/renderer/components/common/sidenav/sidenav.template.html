@@ -3,11 +3,11 @@
   <md-input-container class='md-icon-float md-block'>
     <label for='searchBar'>Search</label>
     <md-icon class='text-icon' md-svg-icon='search'></md-icon>
-    <input type='text' name='searchBar' ng-model='$ctrl.searchText'>
+    <input type='text' name='searchBar' ng-model='$ctrl.searchText' />
   </md-input-container>
   <md-divider></md-divider>
   <md-list ng-if='$ctrl.items'>
-    <md-list-item ng-repeat='item in $ctrl.items | filter:$ctrl.searchText | orderBy:item[$ctrl.getMain(item)]' ng-click='$ctrl.select(item)' ng-class='{"selected": item._id == $ctrl.selected._id}'>
+    <md-list-item ng-repeat='item in $ctrl.items | filter:$ctrl.searchText' ng-click='$ctrl.select(item)' ng-class='{"selected": item._id === $ctrl.selected._id}'>
       <p>{{ $ctrl.getMain(item) }}</p>
       <md-divider></md-divider>
     </md-list-item>

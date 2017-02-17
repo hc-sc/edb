@@ -6,7 +6,6 @@ const fs = require('fs');
 const path = require('path');
 const RVHelper = require('../utils/return.value.helper').ReturnValueHelper;
 const PicklistService = require('./picklist.service');
-const GhstsService = require('./ghsts.service');
 const crypto = require('crypto');
 
 module.exports = class FileService extends BaseService {
@@ -97,6 +96,7 @@ module.exports = class FileService extends BaseService {
   }
 
   _beforeSave(obj) {
+    let self = this;
     let defContentStatusId = PicklistService.edb_getSync({
       TYPE_NAME: 'TYPE_CONTENT_STATUS',
       value: 'New'
@@ -121,13 +121,15 @@ module.exports = class FileService extends BaseService {
       }
     }
     obj._firstLvlDir = confStatu ? BACKEND_CONST.FILE_CONF_DIR_NAME : BACKEND_CONST.FILE_CONT_DIR_NAME;
-    this._getInternalFileName(obj);
+    self._getInternalFileName(obj);
   }
 
   _getInternalFileName(obj) {
     let subNumber = '01';
     let retFileName = '../';
+
     if (obj._ghsts) {
+      let GhstsService = require('./ghsts.service');
       subNumber = GhstsService.edb_getSync({ _id: obj._ghsts })[0]._submissionnumber.toString();
       if (subNumber.length === 1)
         subNumber = '0' + subNumber;

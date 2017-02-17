@@ -58,7 +58,7 @@ module.exports = class BaseService {
     return self._update(obj);
   }
 
-  edb_get(obj, pop, where) {
+  edb_get(obj, pop, where, sort) {
     return new Q((res, rej) => {
       let self = this;
       let queryWhere = where ? where : obj.where ? obj.where : undefined;
@@ -87,6 +87,12 @@ module.exports = class BaseService {
 
         if (queryWhere) {
           dbquery.where(queryWhere.fieldname ? queryWhere.fieldname : '_id').in(queryWhere.ids ? queryWhere.ids : queryWhere);
+        }
+
+        if (sort) {
+          dbquery.sort(sort);
+        } else {
+          dbquery.sort('valuedecode');
         }
         dbquery
           .exec((err, rows) => {
@@ -216,10 +222,11 @@ module.exports = class BaseService {
         let secondLevel = _.merge({}, rawObj);
         let keys = Object.keys(firstLevel);
         keys.map(key => {
-          if (typeof firstLevel[key] === 'object')
+          if (typeof firstLevel[key] === 'object' || !firstLevel[key])
             delete firstLevel[key];
           else
             delete secondLevel[key];
+          
         });
 
         let entityClass = require('mongoose').model(self.modelClassName);
@@ -229,7 +236,8 @@ module.exports = class BaseService {
         keys.map(key => {
           let subKeys = Object.keys(secondLevel[key]);
           subKeys.map(subkey => {
-            query.where(key + '.' + subkey).equals(secondLevel[key][subkey]);
+            if (secondLevel[key][subkey])
+              query.where(key + '.' + subkey).equals(secondLevel[key][subkey]);
           });
         });
         query.exec((err, rets) => {

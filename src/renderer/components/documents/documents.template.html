@@ -3,6 +3,7 @@
   <spinner ng-if='$ctrl.loading'></spinner>
   <div class='no-margin no-padding' ng-if='!ctrl.loading'>
         <sidenav items='$ctrl.records' 
+                  selected='$ctrl.selected'
                   main='documentgeneric.documenttitle' 
                   is-open='$ctrl.sidenavOpen' 
                   on-select='$ctrl.updateSelected(item)'
@@ -15,7 +16,7 @@
                   text-value='$ctrl.selected.documentgeneric.documentpid' 
                   on-update='$ctrl.update("documentgeneric.documentpid", value)'>
             </text-input>
-            <icon icon='$ctrl.addButton' ng-click='$ctrl.genPid()'></icon>
+             <md-button class='md-raised md-primary' ng-click='$ctrl.genPid()'>Generate PID</md-button>
         </div>
 
        
@@ -24,7 +25,7 @@
                   text-value='$ctrl.selected.documentgeneric.documentfamilypid' 
                   on-update='$ctrl.update("documentgeneric.documentfamilypid", value)'>
             </text-input>
-            <icon icon='$ctrl.addButton' ng-click='$ctrl.genPid()'></icon>
+             <md-button class='md-raised md-primary' ng-click='$ctrl.genPid()'>Generate PID</md-button>
         </div>
 
         <text-input label='Document Title' 
