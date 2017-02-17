@@ -23,35 +23,33 @@ export default class ModalBaseCtrl {
     return this.modelService.getModel(prop);
   }
 
-  initializeModel(modelName){
-    let modelObj = this.getModel(modelName);
-    let iterableObject = Object.keys(modelObj);
-    for (const modelProp of iterableObject) {
-        modelObj[modelProp] = "";
-    }
+  // initializeModel(modelName){
+  //   let modelObj = this.getModel(modelName);
+  //   let iterableObject = Object.keys(modelObj);
+  //   for (const modelProp of iterableObject) {
+  //       modelObj[modelProp] = "";
+  //   }
 
-    return modelObj;
-  }
+  //   return modelObj;
+  // }
 
   addSubMissionContext(prop, model) {
     let modelName = model ? model : prop;  
-    let modelObj = this.initializeModel(modelName);
-    this.node["radocumentnumber"][prop].push(modelObj);
+    let modelObj = this.getModel(modelName);
+    this.node['radocumentnumber'][prop].push(modelObj);
   }
 
   deleteSubArray(prop, index) {
-    this.node["radocumentnumber"][prop] = this.node["radocumentnumber"][prop].slice(0, index).concat(this.node["radocumentnumber"][prop].slice(index + 1));
+    this.node['radocumentnumber'][prop] = this.node['radocumentnumber'][prop].slice(0, index).concat(this.node['radocumentnumber'][prop].slice(index + 1));
   }
 
   addString(prop){
-    let modelObj = "";
-    this.node[prop].push(modelObj);
+    this.node[prop].push('');
   }
 
   add(prop, model) {
     let modelName = model ? model : prop;  
-    let modelObj = this.initializeModel(modelName);
-    this.node[prop].push(modelObj);
+    this.node[prop].push(this.getModel(modelName));
   }
 
   update(prop, value) {

@@ -91,10 +91,10 @@ export default class ModelService {
         return _.merge({}, Object.assign(modelDocumentRA.fields));
 
       case 'othernationalguideline':
-        return Object.assign(modelOtherNationalGuideLine.fields); 
+        return _.merge({}, Object.assign(modelOtherNationalGuideLine.fields)); 
       
       case 'submissioncontext':
-        return Object.assign(modelSubmissionContext.fields);
+        return _.merge({}, Object.assign(modelSubmissionContext.fields));
 
       case 'documentgeneric.documentnumber':
         return _.merge({}, Object.assign(modelDocumentNumber.fields));
