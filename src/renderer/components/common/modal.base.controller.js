@@ -69,4 +69,38 @@ export default class ModalBaseCtrl {
       console.log('Error creating new picklist item');
     });
   }
+
+  getReceivers() {
+    let receiverIds = [];
+    let isSubmission = this.isSubmission ? this.isSubmission : false;
+    if (isSubmission) {
+      this.ghsts._receiver.map(rec => {
+        receiverIds.push(rec.receiver);
+      });
+    }
+    if (isSubmission) {
+      if (receiverIds.length === 0) {
+        this.receivers = [];
+        return Promise.resolve(true);
+      } else {
+        return this.appDataService.edb_get({_url: 'receiver', data: {where: receiverIds}})
+          .then(ret => {
+            this.receivers = JSON.parse(ret.data);
+          })
+          .catch(err => {
+            console.log(err);
+            this.receivers = [];
+          });
+      }
+    } else {
+      return this.appDataService.edb_get({_url: 'receiver'})
+        .then(ret => {
+          this.receivers = JSON.parse(ret.data);
+        })
+        .catch(err => {
+          console.log(err);
+          this.receivers = [];
+        });
+    }
+  }
 }

@@ -65,6 +65,8 @@ export default class BaseCtrl {
       }
       if (this.url === 'product') 
         return this.appDataService.edb_get({ url, data: {_id: this.ghsts._product}});
+      else if (this.url === 'dossier')
+        return this.appDataService.edb_get({ url, data });
       else if (this.url === 'document' || this.url === 'file' || this.url === 'toc') 
         return this.ghstsService.edb_get({url: this.url});
     } else
@@ -223,7 +225,10 @@ export default class BaseCtrl {
     this.$mdDialog.show(this.buildModal(nodeName, this.selected.length, true))
       .then(item => {
         if (this.getRef(nodeName).filter(record => {
-          return equals(record, item);
+          if (nodeName.toLowerCase().endsWith('ra'))
+            return record.toSpecificForRAId === item.toSpecificForRAId;
+          else
+            return equals(record, item);
         }).length !== 0) {
           this.showMessage('Duplicate item');
         }
@@ -254,9 +259,9 @@ export default class BaseCtrl {
     this.$mdDialog.show(this.buildModal(nodeName, index, false))
       .then(item => {
         console.log(item);
-        if (this.getRef(nodeName).filter(record => {
+        if (!nodeName.toLowerCase().endsWith('ra') && (this.getRef(nodeName).filter(record => {
           return equals(record, item);
-        }).length !== 0) {
+        }).length !== 0)) {
           this.showMessage('Duplicate item');
         }
         else {
@@ -306,7 +311,9 @@ export default class BaseCtrl {
         node: isNew ? angular.copy(this.getModel(nodeName)) : angular.copy(this.getRef(nodeName)[index]),
         picklists: this.picklists,
         picklistService: this.picklistService,
-        $scope: this.$scope
+        $scope: this.$scope,
+        isSubmission: this.isSubmission,
+        curGhsts: this.ghsts
       }
     };
   }

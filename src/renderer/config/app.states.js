@@ -47,7 +47,10 @@ export default function ($stateProvider, $urlRouterProvider) {
     })
     .state('submission.dossier', {
       url: '/dossier',
-      component: 'description'
+      component: 'description',
+      resolve: {
+        isSubmission: ['$stateParams', () => true]
+      }
     })
     .state('submission.products', {
       url: '/products',
