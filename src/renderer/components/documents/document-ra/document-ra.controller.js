@@ -1,8 +1,8 @@
 import ModalBaseCtrl from '../../common/modal.base.controller';
 
 export default class DocumentRACtrl extends ModalBaseCtrl {
-  constructor($mdDialog, index, node, picklists, picklistService, $scope, AppDataService) {
-    super($mdDialog, index, node, picklists, picklistService, $scope);
+   constructor($mdDialog, index, node, picklists, picklistService, $scope,ModelService, AppDataService) {
+    super($mdDialog, index, node, picklists, picklistService, $scope, ModelService);
     this.appDataService = AppDataService.getService();
     this.appDataService.edb_get({_url: 'receiver'})
       .then(ret => {
@@ -12,12 +12,5 @@ export default class DocumentRACtrl extends ModalBaseCtrl {
         console.log(err);
       });
   }
-   
-  //  addGuideline(){
-  //    console.log("Add item here" + JSON.stringify(this.node));
-  //  }
-
-  //  deleteGuideLine(node, $event){
-  //    console.log("delete item here" + JSON.stringify(node));
-  //  }
+ 
 }
