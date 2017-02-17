@@ -24,6 +24,8 @@ import modelDocumentContentStatus from '../view-models/gen/contentstatushistory.
 import modelReferencedDocument from '../view-models/gen/referenceddocument.json';
 import modelReLatedToSubstance from '../view-models/gen/relatedtosubstance.json';
 import modelReferencedToFile from '../view-models/gen/referencedtofile.json';
+import modelOtherNationalGuideLine from '../view-models/gen/othernationalguideline.json';
+import modelSubmissionContext from '../view-models/gen/submissioncontext.json';
 
 import modelSender from '../view-models/gen/sender.json';
 import modelReceiver from '../view-models/gen/receiver.json';
@@ -32,7 +34,7 @@ import _ from 'lodash';
 export default class ModelService {
   constructor() {}
   getModel(prop) {
-    console.log('in model service', prop);
+    //console.log('in model service', prop);
     let model = {};
     switch(prop) {
       case 'contactaddress':
@@ -87,6 +89,12 @@ export default class ModelService {
 
       case 'documentra':
         return _.merge({}, Object.assign(modelDocumentRA.fields));
+
+      case 'othernationalguideline':
+        return Object.assign(modelOtherNationalGuideLine.fields); 
+      
+      case 'submissioncontext':
+        return Object.assign(modelSubmissionContext.fields);
 
       case 'documentgeneric.documentnumber':
         return _.merge({}, Object.assign(modelDocumentNumber.fields));
