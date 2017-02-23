@@ -41,7 +41,7 @@ export const propNames_en = {
   'phone': 'Phone',
   'fax': 'Fax',
   'email': 'Email',
-  'website': 'Website',
+  'website': 'Website (must include prefix “http://” or “https://”.  Example: “http://www.test.com)',
   'contactperson': 'Contact Person',
   'title': 'Title',
   'firstname': 'First Name',
