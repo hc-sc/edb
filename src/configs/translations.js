@@ -126,7 +126,7 @@ export const propNames_en = {
   //sender
   'companycontactregulatoryrole':'Company Contact Regulatory Role',
   'remark':'Remark',
-
+  '_shortname':'Short Name',
   //All RAs
   'toLegalEntityId': 'Legal Entity Name'
 
