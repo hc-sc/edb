@@ -8,7 +8,7 @@
   </sidenav>
   <div ng-show='!$ctrl.isSubmission' class='no-padding no-margin'>
     <select-input label='{{"legalentity" | translate}}' is-required='true' select-value='$ctrl.selected.toLegalEntityId' main='legalentityname' values='$ctrl.legalEntities' on-update='$ctrl.update("toLegalEntityId", value)'></select-input>
-    <text-input label='{{"shortname" | translate}}' is-required='true' text-value='$ctrl.selected._shortname' on-update='$ctrl.update("shortname", value)' max-Length='20'></text-input>
+    <text-input label='{{"shortname" | translate}}' is-required='true' text-value='$ctrl.selected._shortname' on-update='$ctrl.update("_shortname", value)' max-Length='20'></text-input>
     <text-input label='{{"companycontactregulatoryrole" | translate}}' text-value='$ctrl.selected.companycontactregulatoryrole' on-update='$ctrl.update("companycontactregulatoryrole", value)' max-Length='255'></text-input>
     <text-input label='{{"remark" | translate}}' text-value='$ctrl.selected.remark' on-update='$ctrl.update("remark", value)' max-Length='2000'></text-input>
   </div>
