@@ -152,7 +152,7 @@ export default class BaseCtrl {
         this.selectedIndex = -1;
         this.selected = angular.copy(this.getModel(prop));
         this.oriSelected = _.merge({}, this.selected);
-        this.showMessage('Adding an new record.');
+        this.showMessage('Adding a new record.');
       });
   }
 
@@ -262,12 +262,12 @@ export default class BaseCtrl {
         if (!nodeName.toLowerCase().endsWith('ra') && (this.getRef(nodeName).filter(record => {
           return equals(record, item);
         }).length !== 0)) {
-          this.showMessage('Duplicate item');
+         // this.showMessage('Duplicate item');
         }
         else {
           this.getRef(nodeName)[index] = item;
           this.selected = angular.copy(this.selected);
-          this.showMessage('Updated');
+         // this.showMessage('Updated');
         }
       });
   }
