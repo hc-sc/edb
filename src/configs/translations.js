@@ -1,5 +1,5 @@
 export const picklists_en = {
-  'EXTENSION_TYPE_ADMIN_NUMBER_TYPE': 'Admin Number',
+  'EXTENSION_TYPE_ADMIN_NUMBER_TYPE': 'Admin Number Type',
   'EXTENSION_TYPE_APPLICATION_TYPE': 'Application Type',
   'TYPE_CONTENT_STATUS': 'Content Status',
   'EXTENSION_TYPE_COUNTRY': 'Country',
@@ -8,13 +8,13 @@ export const picklists_en = {
   'EXTENSION_TYPE_DOCUMENT_NUMBER_TYPE': 'Document Number',
   'TYPE_FILE_TYPE': 'File Type',
   'EXTENSION_TYPE_FORMULATION_TYPE': 'Formulation Type',
-  'EXTENSION_TYPE_LEGALENTITY_IDENTIFIER_TYPE': 'Legal Entity Identifier',
+  'EXTENSION_TYPE_LEGALENTITY_IDENTIFIER_TYPE': 'Legal Entity Identifier Type',
   'EXTENSION_TYPE_LEGALENTITY_TYPE': 'Legal Entity Type',
   'TYPE_METADATA_STATUS': 'Metadata Status',
   'EXTENSION_TYPE_RA_DOCUMENT_NUMBER_TYPE': 'Regulatory Authority Document Number',
   'TYPE_REFERENCE_TYPE': 'Reference Type',
   'EXTENSION_TYPE_REGULATORY_TYPE': 'Regulatory Type',
-  'EXTENSION_TYPE_SUBSTANCE_IDENTIFIER_TYPE': 'Substance Identifier',
+  'EXTENSION_TYPE_SUBSTANCE_IDENTIFIER_TYPE': 'Substance Identifier Type',
   'EXTENSION_TYPE_TOC_OWNER': 'TOC Owner',
   'EXTENSION_TYPE_UNIT': 'Unit'
 };
