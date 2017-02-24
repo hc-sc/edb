@@ -2,7 +2,7 @@
   <form ng-cloak>
     <md-toolbar>
       <div class='md-toolbar-tools'>
-        <h2>Ingredient</h2>
+        <h2>{{"substance" | translate}}</h2>
         <span flex></span>
         <md-button class='md-icon-button' ng-click='$ctrl.cancel()'>
           <md-icon md-svg-icon='close' aria-label='close dialog' class='light'></md-icon>
@@ -13,8 +13,13 @@
 
     <md-dialog-content>
       <div class='md-dialog-content'>
-        <select-input label='Substance' main='substancename' select-value='$ctrl.node.toSubstanceId' values='$ctrl.substances' on-update='$ctrl.update("toSubstanceId", value)'></select-input>
-      </div>
+        <select-input 
+            label='{{"substance" | translate}}' 
+            main='substancename' 
+            select-value='$ctrl.node.toSubstanceId' 
+            values='$ctrl.substances' 
+            on-update='$ctrl.update("toSubstanceId", value)'></select-input>
+          </div>
     </md-dialog-content>
 
     <md-dialog-actions layout='row'>

@@ -52,7 +52,11 @@ export default class DocumentCtrl extends BaseCtrl{
     }
 
     genPid() {
-      this.selected.legalentitypid = this.getPid();
+      this.selected.documentgeneric.documentpid = this.getPid();
+    }
+
+    genFamilyPid() {
+      this.selected.documentgeneric.documentfamilypid = this.getPid();
     }
     
 }

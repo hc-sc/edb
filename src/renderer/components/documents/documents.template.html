@@ -11,7 +11,7 @@
         </sidenav>
         
         <div class='extension-wrapper'>
-            <text-input label='PID' 
+            <text-input label='{{"documentpid" | translate}}' 
                   is-required='true'  
                   text-value='$ctrl.selected.documentgeneric.documentpid' 
                   on-update='$ctrl.update("documentgeneric.documentpid", value)'>
@@ -21,43 +21,22 @@
 
        
         <div class='extension-wrapper'>
-            <text-input label='Family PID' is-required='true'  
+            <text-input label='{{"documentfamilypid" | translate}}' 
+                  is-required='true'  
                   text-value='$ctrl.selected.documentgeneric.documentfamilypid' 
                   on-update='$ctrl.update("documentgeneric.documentfamilypid", value)'>
             </text-input>
-             <md-button class='md-raised md-primary' ng-click='$ctrl.genPid()'>Generate PID</md-button>
+             <md-button class='md-raised md-primary' ng-click='$ctrl.genFamilyPid()'>Generate PID</md-button>
         </div>
-
-        <text-input label='Document Title' 
-            text-value='$ctrl.selected.documentgeneric.documenttitle'
-            on-update='$ctrl.update("documentgeneric.documenttitle", value)'>
-        </text-input>
-
-        <text-input label='Document Author' 
-            text-value='$ctrl.selected.documentgeneric.documentauthor'
-            on-update='$ctrl.update("documentgeneric.documentauthor", value)'>
-        </text-input>
-
-        <text-input label='Document Issue Date'
-            text-value='$ctrl.selected.documentgeneric.documentissuedate' 
-            is-required='true' 
-            max-length='30' 
-            on-update='$ctrl.update("documentgeneric.documentissuedate", value)'>
-        </text-input>
-      
-        <list label='Document Owner' items='$ctrl.selected.documentgeneric.documentowner' ></list>
-
-        <text-input label='Published Indicator' 
-            text-value='$ctrl.selected.documentgeneric.publishedindicator'
-            on-update='$ctrl.update("documentgeneric.publishedindicator", value)'>
-        </text-input>
-
-        <text-input label='Document Family' 
+        
+         <text-input label='{{"documentfamily" | translate}}'
+            is-required='true'
             text-value='$ctrl.selected.documentgeneric.documentfamily'
             on-update='$ctrl.update("documentgeneric.documentfamily", value)'>
         </text-input>
         
-        <tbl ng-if='!$ctrl.loading' title='Content Status History' 
+        <tbl ng-if='!$ctrl.loading' title ='{{"contentstatushistory" | translate}}' 
+                
               items='$ctrl.selected.documentgeneric.contentstatushistory' 
               projection='$ctrl.contentStatusProjection' 
               on-select='$ctrl.selectTblItem("documentgeneric.contentstatushistory",index)' 
@@ -65,7 +44,8 @@
               on-delete='$ctrl.deleteTblItem("documentgeneric.contentstatushistory",index)'>
         </tbl>
       
-       <tbl ng-if='!$ctrl.loading' title='Referenced Document' 
+       <tbl ng-if='!$ctrl.loading' title ='{{"referenceddocument" | translate}}'
+ 
               items='$ctrl.selected.documentgeneric.referenceddocument'  
               projection='$ctrl.referencedDocumentProjection'
               on-select='$ctrl.selectTblItem("documentgeneric.referenceddocument",index)' 
@@ -74,7 +54,8 @@
         </tbl>
 
 
-        <tbl ng-if='!$ctrl.loading' title='Related To Substance' 
+        <tbl ng-if='!$ctrl.loading' title ='{{"relatedtosubstance" | translate}}'
+ 
               items='$ctrl.selected.documentgeneric.relatedtosubstance'  
               projection='[{name: "toSubstanceId", url: "substance"}]' 
               on-select='$ctrl.selectTblItem("documentgeneric.relatedtosubstance",index)' 
@@ -82,28 +63,70 @@
               on-delete='$ctrl.deleteTblItem("documentgeneric.relatedtosubstance",index)'>
         </tbl>
 
-        <tbl ng-if='!$ctrl.loading' title='Document Number' items='$ctrl.selected.documentgeneric.documentnumber'  
+        <tbl ng-if='!$ctrl.loading' title ='{{"documentnumber" | translate}}'
+              items='$ctrl.selected.documentgeneric.documentnumber'  
               projection='$ctrl.documentnumberProjection'
               on-select='$ctrl.selectTblItem("documentgeneric.documentnumber",index)' 
               on-add='$ctrl.addTblItem("documentgeneric.documentnumber")' 
               on-delete='$ctrl.deleteTblItem("documentgeneric.documentnumber",index)'>
         </tbl>
 
+        <text-input label='{{"documenttitle" | translate}}' 
+            is-required='true'
+            text-value='$ctrl.selected.documentgeneric.documenttitle'
+            on-update='$ctrl.update("documentgeneric.documenttitle", value)'>
+        </text-input>
 
-         <list label='Test Laboratory' items='$ctrl.selected.documentgeneric.testlaboratory' ></list>
+        <text-input label='{{"documentauthor" | translate}}' 
+            is-required='true'
+            text-value='$ctrl.selected.documentgeneric.documentauthor'
+            on-update='$ctrl.update("documentgeneric.documentauthor", value)'>
+        </text-input>
+
+        <text-input label='{{"documentissuedate" | translate}}'
+            is-required='true'
+            text-value='$ctrl.selected.documentgeneric.documentissuedate' 
+            is-required='true' 
+            max-length='30' 
+            on-update='$ctrl.update("documentgeneric.documentissuedate", value)'>
+        </text-input>
+      
+        <list label='{{"documentowner" | translate}}' items='$ctrl.selected.documentgeneric.documentowner' ></list>
+
+        <text-input label='{{"publishedindicator" | translate}}'
+            is-required='true'
+            text-value='$ctrl.selected.documentgeneric.publishedindicator'
+            on-update='$ctrl.update("documentgeneric.publishedindicator", value)'>
+        </text-input>
+
+         <text-input label='{{"completedocumentsource" | translate}}' 
+            is-required='true'
+            text-value='$ctrl.selected.documentgeneric.completedocumentsource'
+            on-update='$ctrl.update("documentgeneric.completedocumentsource", value)'>
+        </text-input>
+
+         <list label='{{"testlaboratory" | translate}}'
+                 items='$ctrl.selected.documentgeneric.testlaboratory' >
+        </list>
 
 
         <md-switch ng-model='$ctrl.selected.documentgeneric.gxpindicator' 
-            aria-label='GXP Indicator' 
-            class='md-primary' ng-change='$ctrl.printValue()'>
-            GXP Indicator
+                    aria-label='{{"gxpindicator" | translate}}' 
+                    class='md-primary' 
+                    ng-change='$ctrl.printValue()'>
+            {{"gxpindicator" | translate}}
         </md-switch>
 
-        <md-switch ng-model='$ctrl.submission.SUBMISSION[$ctrl.submission.SUBMISSION.length - 1].INCREMENTAL' aria-label='Incremental'
-          class='md-primary' ng-change='$ctrl.printValue()'>Tested on vertebrates</md-switch>
+        <md-switch ng-model='$ctrl.submission.SUBMISSION[$ctrl.submission.SUBMISSION.length - 1].INCREMENTAL' 
+                    aria-label='{{"testedonvertebrate" | translate}}'
+                    class='md-primary' 
+                    ng-change='$ctrl.printValue()'>
+                    {{"testedonvertebrate" | translate}}
+        </md-switch>
       
 
-        <tbl ng-if='!$ctrl.loading' title='Referenced To File' 
+        <tbl ng-if='!$ctrl.loading' title ='{{"referencedtofile" | translate}}'
+ 
               items='$ctrl.selected.documentgeneric.referencedtofile'  
               projection='[{name: "toFileId", url: "file"}]' 
               on-select='$ctrl.selectTblItem("documentgeneric.referencedtofile",index)' 
@@ -112,7 +135,7 @@
         </tbl>
 
        <tbl ng-if='!$ctrl.loading' 
-            title='Document Regulatory Authority' 
+            title ='{{"documentra" | translate}}' 
             items='$ctrl.selected.documentra' 
             projection='[{name: "toSpecificForRAId", url: "receiver"}]'
             on-select='$ctrl.selectTblItem("documentra",index)' 

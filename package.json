@@ -1,7 +1,7 @@
 {
-  "name": "electronic_dossier_builder",
-  "version": "1.8.0",
-  "description": "eDossierBuilder",
+  "name": "edossier_builder",
+  "version": "1.9.0",
+  "description": "eDossier Builder",
   "main": "src/index.js",
   "scripts": {
     "postinstall": "node copyjsonixschema.js && npm i src/tingodb-0.5.0.tgz && npm i src/tungus-0.0.5.tgz",
@@ -97,7 +97,7 @@
     "nsis": {
       "oneClick": false,
       "installerHeaderIcon": "resources/windows/setup-icon.ico",
-      "installerHeader": "resources/windows/pmralogo.bmp"
+      "installerHeader": "resources/windows/pmra-edoss-install-header.bmp"
     },
     "mac": {
       "icon": "resources/osx/icon.icns"
