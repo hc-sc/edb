@@ -128,6 +128,61 @@ export const propNames_en = {
   'remark':'Remark',
 
   //All RAs
-  'toLegalEntityId': 'Legal Entity Name'
+  'toLegalEntityId': 'Legal Entity Name',
+
+  // Document Generics
+  'documentpid': 			        'Document PID',
+  'documentfamilypid': 		    'Document Family PID',
+  'documentfamily': 		      'Document Family',
+  'contentstatushistory': 	  'Content Status History',
+  'contentstatus': 		        'Content Status',
+  'submissionnumber': 		    'Submission Number',
+  'referenceddocument': 		  'Referenced Document',
+  'referencetype': 		        'Reference Type',
+  'internal': 			          'Internal',
+  'documentpid': 			        'Document PID',
+  'documentnumber': 		      'Document Number',
+  'documentnumbertype': 		  'Document Number Type',
+  'identifier': 			        'Identifier',
+  'relatedtosubstance': 		  'Related To Substance',
+  'substance':                'Substance',
+  'toSubstanceId': 		        'To Substance Id',
+  'documenttitle': 		        'Document Title',
+  'documentauthor': 		      'Document Author',
+  'documentissuedate': 		    'Document Issue Date',
+  'documentowner': 		        'Document Owner',
+  'publishedindicator': 		  'Published Indicator',
+  'completedocumentsource':   'Complete Document Source',
+  'documentsource': 		      'Document Source',
+  'documentyear': 		        'Document Year',
+  'documentissue': 		        'Document Issue',
+  'documentvolume': 		      'Document Volume',
+  'documentpages': 		        'Document Pages',
+  'testlaboratory': 		      'Test Laboratory',
+  'gxpindicator': 		        'Gxp Indicator',
+  'testedonvertebrate': 		  'Tested on Vertebrate',
+  'referencedtofile': 		    'Referenced to File',
+  'toFileId': 			          'To File Id',
+  'files':                    'Files',
+  'documentra':               'Document Regulatory Authority',
+
+  // Document RA
+  'dataprotection':		        'Data protection',
+  'datarequirement': 		      'Data Requirement',
+  'documentcomment': 		      'Document Comment',
+  'othernationalguideline': 	'Othernational Guideline',
+  'guidelinesystem': 		      'Guideline System',
+  'guidelinenumber': 		      'Guideline Number',
+  'radocumentnumber': 		    'Radocument Number',
+  'radocumentnumbertype': 	  'Radocument Number Type',
+  'identifier': 			        'Identifier',
+  'alreadysubmitted': 		    'Already Submitted',
+  'submissioncontext': 		    'Submission Context',
+  'dossierpid': 		          'Dossier PID',
+  'dossiernumber': 		        'Dossier Number',
+  'toSpecificForRAId': 		    'To Specific For RA Id'
+
+
+
 
 };
