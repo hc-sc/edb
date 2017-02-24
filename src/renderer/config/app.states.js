@@ -100,12 +100,12 @@ export default function ($stateProvider, $urlRouterProvider) {
       url: '/files',
       component: 'files',
       resolve: {
-        fileType: PicklistService => {
-          return PicklistService.getService().edb_get({ 'TYPE_NAME': 'TYPE_FILE_TYPE' });
-        },
-        contentStatus: PicklistService => {
-          return PicklistService.getService().edb_get({ 'TYPE_NAME': 'TYPE_CONTENT_STATUS' });
-        },
+        // fileType: PicklistService => {
+        //   return PicklistService.getService().edb_get({ 'TYPE_NAME': 'TYPE_FILE_TYPE' });
+        // },
+        // contentStatus: PicklistService => {
+        //   return PicklistService.getService().edb_get({ 'TYPE_NAME': 'TYPE_CONTENT_STATUS' });
+        // },
         isSubmission: ['$stateParams', () => true]
       },
     })
@@ -143,12 +143,12 @@ export default function ($stateProvider, $urlRouterProvider) {
       url: '/files',
       component: 'files',
       resolve: {
-        fileType: PicklistService => {
-          return PicklistService.getService().edb_get({ 'TYPE_NAME': 'TYPE_FILE_TYPE' });
-        },
-        contentStatus: PicklistService => {
-          return PicklistService.getService().edb_get({ 'TYPE_NAME': 'TYPE_CONTENT_STATUS' });
-        },
+        // fileType: PicklistService => {
+        //   return PicklistService.getService().edb_get({ 'TYPE_NAME': 'TYPE_FILE_TYPE' });
+        // },
+        // contentStatus: PicklistService => {
+        //   return PicklistService.getService().edb_get({ 'TYPE_NAME': 'TYPE_CONTENT_STATUS' });
+        // },
         isSubmission: ['$stateParams', () => false]
       }
     })

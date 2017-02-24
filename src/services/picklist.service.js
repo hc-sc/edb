@@ -24,7 +24,7 @@ module.exports = class PickListService extends BaseService {
         query.data.STATUS = 'enabled';
       }
     }
-    return super.edb_get(query);
+    return super.edb_get(query, undefined, undefined, 'lowvaluedecode');
   }
 
   initMongoose() {
@@ -47,6 +47,9 @@ module.exports = class PickListService extends BaseService {
           toObject: { getters: true, virtuals: true }
         });
         mschema.plugin(ServiceLevelPlugin, { url: self.modelClassName.toLowerCase() });
+        mschema.virtual('lowvaluedecode').get(function () {
+          return this.valuedecode.toLowerCase();
+        });
         let mmodule = mongoose.model(self.modelClassName, mschema);
         mmodule
           .find({})

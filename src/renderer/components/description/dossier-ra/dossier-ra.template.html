@@ -16,13 +16,17 @@
         <select-input label='{{"receiver" | translate}}' main='shortname' select-value='$ctrl.node.toSpecificForRAId' values='$ctrl.receivers' on-update='$ctrl.update("toSpecificForRAId", value)'></select-input>        
         <select-input-extensible label='{{"regulatorytype" | translate}}' 
           select-value='$ctrl.node.regulatorytype' 
-          values='$ctrl.picklists.regulatoryTypes' 
+          values='$ctrl.picklists.regulatoryTypes'
+          type-name='EXTENSION_TYPE_REGULATORY_TYPE' 
           on-update='$ctrl.update("regulatorytype", value)'
+          on-add='$ctrl.createPicklistItem("regulatorytype", "regulatoryTypes", value)'
           >
         </select-input-extensible>
         <select-input-extensible label='{{"applicationtype" | translate}}' 
           select-value='$ctrl.node.applicationtype' 
           values='$ctrl.picklists.applicationTypes' 
+          type-name='EXTENSION_TYPE_APPLICATION_TYPE' 
+          on-add='$ctrl.createPicklistItem("applicationtype", "applicationTypes", value)'
           on-update='$ctrl.update("applicationtype", value)'>
         </select-input-extensible>
         <text-input label='{{"projectidnumber" | translate}}' is-required='false' text-value='$ctrl.node.projectidnumber' on-update='$ctrl.update("projectidnumber", value)'></text-input>

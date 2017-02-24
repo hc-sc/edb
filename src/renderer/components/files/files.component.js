@@ -35,11 +35,16 @@ export default angular.module('files', [
     controller: class FileCtrl extends BaseCtrl {
       constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope, GhstsService, $transitions) {
         super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'file', $scope, GhstsService, $transitions);
-
-        this.fileType = JSON.parse(this.fileType.data);
-        this.contentStatus = JSON.parse(this.contentStatus.data);
         this.listFileButton = { name: 'list', label: 'Select File', color: 'dark' };
         this.addButton = { name: 'add', label: 'Generate PID', color: 'dark' };
+        this.appDataService().edb_get({ 'TYPE_NAME': 'TYPE_FILE_TYPE' })
+          .then(ft => {
+            this.fileType = JSON.parse(ft.data);
+          });
+        this.appDataService().edb_get({ 'TYPE_NAME': 'TYPE_CONTENT_STATUS' })
+          .then(cs => {
+            this.contentStatus = JSON.parse(cs.data);
+          });
         this.init().then(() => { 
           this.loading = false; 
           if (this.isSubmission) 

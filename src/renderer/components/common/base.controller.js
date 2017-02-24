@@ -125,7 +125,8 @@ export default class BaseCtrl {
         // this solution is not good
         // in the future, have the select component use lifecycle methods to return when it is finished
         setTimeout(() => {
-          this.selected[prop] = item._id;
+          NestedPropertyProc.setValue(this.selected, prop, item._id);
+          // this.selected[prop] = item._id;
         }, 200);
 
         this.showMessage(value.valuedecode + ' added successfully!');
