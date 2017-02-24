@@ -37,15 +37,19 @@ export default angular.module('files', [
         super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'file', $scope, GhstsService, $transitions);
         this.listFileButton = { name: 'list', label: 'Select File', color: 'dark' };
         this.addButton = { name: 'add', label: 'Generate PID', color: 'dark' };
-        this.appDataService().edb_get({ 'TYPE_NAME': 'TYPE_FILE_TYPE' })
-          .then(ft => {
-            this.fileType = JSON.parse(ft.data);
-          });
-        this.appDataService().edb_get({ 'TYPE_NAME': 'TYPE_CONTENT_STATUS' })
-          .then(cs => {
-            this.contentStatus = JSON.parse(cs.data);
-          });
         this.init().then(() => { 
+          return this.getPicklist('TYPE_FILE_TYPE');
+        })
+        .then(ft => {
+          this.fileType = JSON.parse(ft.data);
+          return this.getPicklist('TYPE_CONTENT_STATUS');
+        })
+        .then(cs => {
+          this.contentStatus = JSON.parse(cs.data);
+          this.picklists = {
+            fileType: this.fileType,
+            contentStatus: this.contentStatus
+          };
           this.loading = false; 
           if (this.isSubmission) 
             this.$scope.$root.loading = false;
