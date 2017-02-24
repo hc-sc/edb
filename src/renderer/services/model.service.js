@@ -34,7 +34,7 @@ import _ from 'lodash';
 export default class ModelService {
   constructor() {}
   getModel(prop) {
-    //console.log('in model service', prop);
+    console.log('in model service', prop);
     let model = {};
     switch(prop) {
       case 'contactaddress':
