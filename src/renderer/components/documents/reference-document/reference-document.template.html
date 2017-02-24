@@ -2,7 +2,7 @@
   <form ng-cloak>
     <md-toolbar>
       <div class='md-toolbar-tools'>
-        <h2>Referenced Document</h2>
+        <h2>{{"referenceddocument" | translate}}</h2>
         <span flex></span>
         <md-button class='md-icon-button' ng-click='$ctrl.cancel()'>
           <md-icon md-svg-icon='close' aria-label='close dialog' class='light'></md-icon>
@@ -13,20 +13,25 @@
 
     <md-dialog-content>
       <div class='md-dialog-content'>
-        <select-input label='Reference Type' 
+        <select-input 
+            label='{{"referencetype" | translate}}' 
             select-value='$ctrl.node.referencetype' 
             values='$ctrl.picklists.referenceTypeOptions' 
             on-update='$ctrl.update("referencetype", value)'>
          </select-input>
-        <text-input label='Internal' 
+        <text-input 
+            label='{{"internal" | translate}}' 
             text-value='$ctrl.node.internal' 
             on-update='$ctrl.update("internal", value)'>
         </text-input>
-        <text-input label='Document PID' 
+        <text-input 
+            label='{{"documentpid" | translate}}'
             text-value='$ctrl.node.documentpid' 
             on-update='$ctrl.update("documentpid", value)'>
         </text-input>
-        <select-input-extensible label='"Document Number Type"' select-value='$ctrl.node.documentnumber.documentnumbertype'         
+        <select-input-extensible 
+                label='{{"documentnumbertype" | translate}}' 
+                select-value='$ctrl.node.documentnumber.documentnumbertype'         
                 on-update='$ctrl. update("documentnumbertype", value)'
                 values='$ctrl.picklists.documentNumberTypeOptions' 
                 type-name='EXTENSION_TYPE_DOCUMENT_NUMBER_TYPE' 
