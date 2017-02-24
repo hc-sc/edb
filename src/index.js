@@ -1,10 +1,22 @@
 
 'use strict';
+require('./utils/file.logger');
+const { dialog } = require('electron');
+process.on('uncaughtException', (err) => {
+  ghstsLogger.error(err);
+  dialog.showErrorBox('Uncaught Exception', 'Uncaught exception, application will close. Please check log file');
+  process.exit(1);
+});
+
+process.on('unhandledRejection', (err, p) => {
+  ghstsLogger.log(err, p);
+});
+
 global.modulesInMemory = {};
 
 global.TUNGUS_DB_OPTIONS = { nativeObjectID: true, searchInArray: true };
 
-const tungus = require('tungus');
+require('tungus');
 
 const path = require('path');
 const fs = require('fs');
@@ -126,27 +138,27 @@ var initDB = () => {
         let svrClass;
         let svr;
 
-        svrClass = require('./services/product.service');
-        svr = new svrClass('01.00.02');
-        qAry.push(svr.initDbfromTestData());
+        // svrClass = require('./services/product.service');
+        // svr = new svrClass('01.00.02');
+        // qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/legalentity.service');
         svr = new svrClass('01.00.02');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/substance.service');
         svr = new svrClass('01.00.02');
         qAry.push(svr.initDbfromTestData());
-        svrClass = require('./services/file.service');
-        svr = new svrClass('01.00.02');
-        qAry.push(svr.initDbfromTestData());
-        svrClass = require('./services/document.service');
-        svr = new svrClass('01.00.02');
-        qAry.push(svr.initDbfromTestData());
-        svrClass = require('./services/receiver.service');
-        svr = new svrClass('01.00.02');
-        qAry.push(svr.initDbfromTestData());
-        svrClass = require('./services/sender.service');
-        svr = new svrClass('01.00.02');
-        qAry.push(svr.initDbfromTestData());
+        // svrClass = require('./services/file.service');
+        // svr = new svrClass('01.00.02');
+        // qAry.push(svr.initDbfromTestData());
+        // svrClass = require('./services/document.service');
+        // svr = new svrClass('01.00.02');
+        // qAry.push(svr.initDbfromTestData());
+        // svrClass = require('./services/receiver.service');
+        // svr = new svrClass('01.00.02');
+        // qAry.push(svr.initDbfromTestData());
+        // svrClass = require('./services/sender.service');
+        // svr = new svrClass('01.00.02');
+        // qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/toc.service');
         svr = new svrClass('01.00.02');
         qAry.push(svr.initDbfromTestData());
@@ -260,12 +272,16 @@ ipc.on(SHARED_CONST.APP_DATA_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, functi
   }
 });
 
+app.on('before-quit', function () {
+  ghstsLogger.info('Application ended.');
+});
+
 app.on('window-all-closed', function () {
   app.quit();
 });
 
 app.on('ready', function () {
-
+  ghstsLogger.info('Application started');
   XMLSchemaJsonSchema = JSON.parse(fs.readFileSync('./resources/app/standards/jsonschemas/w3c/2001/XMLSchema.jsonschema').toString());
   JsonixJsonSchema = JSON.parse(fs.readFileSync('./resources/app/standards/jsonschemas/jsonix/Jsonix.jsonschema').toString());
 
@@ -312,7 +328,7 @@ app.on('ready', function () {
   mainWindow.loadURL('file://' + __dirname + '/renderer/index.html');
   mainWindow.webContents.on('did-finish-load', function () {
     // TODO: setTitle is being deprecated, find and use alternative
-    mainWindow.setTitle("e-Dossier Builder (V1.9.0 DRAFT)");
+    mainWindow.setTitle("eDossier Builder (V1.9.0 DRAFT)");
     //if (configure.env.toString().toUpper() == 'DEV'){
     mainWindow.openDevTools();
   });
