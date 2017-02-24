@@ -28,10 +28,10 @@ class GhstsLogger {
 
   log(args) {
     if (arguments.length === 1) // string 
-      this.logger.log(util.format('%s - %s : %s', (new Date()).toISOString(), 'INFO', args));
+      this.logger.log(util.format('%s - %s : %s', (new Date()).toLocaleString(), 'INFO', args));
     else if (arguments.length === 2 && args.stack) { //for unhandledRejection
       let argsArray = Array.from(arguments);
-      this.logger.warn(util.format('%s - %s [Promise: %s ]', (new Date()).toISOString(), 'Unhandled Rejection', argsArray[1].toString()));
+      this.logger.warn(util.format('%s - %s [Promise: %s ]', (new Date()).toLocaleString(), 'Unhandled Rejection', argsArray[1].toString()));
       this.logger.warn(args.stack.toString());
     } else
       this.logger.log(args);
@@ -43,7 +43,7 @@ class GhstsLogger {
 
   warn(args) {
     if (arguments.length === 1) {
-      this.logger.warn(util.format('%s - %s', (new Date()).toISOString(), args.toString()));
+      this.logger.warn(util.format('%s - %s', (new Date()).toLocaleString(), args.toString()));
       this.logger.warn(args.stack.toString());
     } else 
       this.logger.warn(args);
