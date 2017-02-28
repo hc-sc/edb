@@ -5,7 +5,10 @@ module.exports = exports = function TocPlugin(schema, options) {
   schema.add({
     structure: { type: Schema.Types.Mixed, required: true }
   });
-  schema.virtual('valuedecode').get(function () {
-    return this.tocshortname + ' Version: ' + this.tocversion;
+  schema.post('find', ret => {
+    let retVal = ret.map(item => {
+      item._doc.valuedecode = item._doc.tocshortname + ' Version: ' + item._doc.tocversion;
+    });
+    return retVal;
   });
 };

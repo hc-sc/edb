@@ -339,11 +339,6 @@ app.on('ready', function () {
 });
 
 var backendTest = () => {
-  console.log('--------- Backend Test Start ----------');
-  ghstsLogger.log('--------- Backend Test Start ----------');
-  // this.loaded = Promise.reject(new Error('Resource not yet loaded!'));
-  // require('aaa');
 };
-
 //Test request end
 

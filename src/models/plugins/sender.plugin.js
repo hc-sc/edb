@@ -4,7 +4,10 @@ module.exports = exports = function SenderPlugin(schema, options) {
     toLegalEntityId: {type: 'ObjectId', ref: 'LEGALENTITY'},
     _shortname: {type: String}
   });
-  schema.virtual('valuedecode').get(function () {
-    return this._shortname;
+  schema.post('find', ret => {
+    let retVal = ret.map(item => {
+      item._doc.valuedecode = item._doc._shortname;
+    });
+    return retVal;
   });
 };

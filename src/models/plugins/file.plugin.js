@@ -5,7 +5,11 @@ module.exports = exports = function FilePlugin(schema, options) {
     _dossier: {type: 'ObjectId', ref: 'DOSSIER'}
   });
 
-  schema.virtual('valuedecode').get(function () {
-    return this.filegeneric.filename;
+  schema.post('find', ret => {
+    let retVal = ret.map(item => {
+      item._doc.valuedecode = item._doc.filegeneric.filename;
+    });
+    return retVal;
   });
+
 };
