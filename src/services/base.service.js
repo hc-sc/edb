@@ -587,13 +587,11 @@ module.exports = class BaseService {
           toObject: {
             getters: true,
             virtuals: true
-          }
+          },
+          id: false
         };
 
-        options.id = NoNeedIdServiceNames.indexOf(self.modelClassName) < 0;
-
         let mschema = new Schema(jschema, options);
-
         let selfPlugin;
         mschema.plugin(ServiceLevelPlugin, {
           url: self.modelClassName.toLowerCase()
@@ -607,6 +605,9 @@ module.exports = class BaseService {
         if (selfPlugin)
           mschema.plugin(selfPlugin);
         let mmodule = mongoose.model(self.modelClassName, mschema);
+        if (mmodule.schema._indexes.length > 0 && mmodule.schema._indexes[0].length > 1)
+          mmodule.ensureIndexes();
+
         if (self.inmem) {
           mmodule.find({})
             .exec((err, result) => {

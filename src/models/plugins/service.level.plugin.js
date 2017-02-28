@@ -12,14 +12,19 @@ module.exports = exports = function ServiceLevelPlugin(schema, options) {
 
   schema.pre('save', function (next) {
     this._lastMod = new Date();
-    // if (this.id && this.id === '')
-    //   this.id = this._id.toString();
     next();
   });
 
   schema.pre('update', function (next) {
     this.update({}, {$set: {_lastMod: new Date()}});
     next();
+  });
+
+  schema.post('find', ret => {
+    let retVal = ret.map(item => {
+      item._doc.id = item._doc._id;
+    });
+    return retVal;
   });
 
   schema.statics.referenceCheck = function (refNameAndId, callback) {
