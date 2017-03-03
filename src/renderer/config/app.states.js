@@ -249,6 +249,13 @@ export default function ($stateProvider, $urlRouterProvider) {
       onEnter: $rootScope => {
         $rootScope.title = 'Settings';
       }
+    })
+    .state('help', {
+      url: '/help',
+      component: 'help',
+      onEnter: $rootScope => {
+        $rootScope.title = 'Help';
+      }
     });
 
   $urlRouterProvider.otherwise('/splash');

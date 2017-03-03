@@ -8,7 +8,10 @@ module.exports = exports = function SubmissionPlugin(schema, options) {
   schema.add({
     _ghsts: {type: 'ObjectId', ref: 'GHSTS'}
   });
-  schema.virtual('valuedecode').get(function () {
-    return this.submissiontitle;
+  schema.post('find', ret => {
+    let retVal = ret.map(item => {
+      item._doc.valuedecode = item._doc.submissiontitle;
+    });
+    return retVal;
   });
 };

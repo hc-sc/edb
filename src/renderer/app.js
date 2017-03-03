@@ -25,7 +25,7 @@ import Documents from './components/documents/documents.component';
 import TOC from './components/toc/toc.component';
 import SubmissionNode from './components/submission-node/submission-node.component';
 import Picklists from './components/picklists/picklists.component';
-
+import Help from './components/help/help.component';
 import Services from './services';
 
 import states from './config/app.states';
@@ -60,7 +60,8 @@ angular.module('app', [
   Senders,
   Documents,
   TOC,
-  SubmissionNode
+  SubmissionNode,
+  Help
 ])
 .config(states)
 .config(translations)
