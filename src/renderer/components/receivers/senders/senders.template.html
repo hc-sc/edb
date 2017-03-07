@@ -13,7 +13,7 @@
 
     <md-dialog-content>
       <div class='md-dialog-content'>
-        <select-input label='Sender' select-value='$ctrl.node._id' values='$ctrl.senders' on-update='$ctrl.update("_id", value)'></select-input>
+        <select-input label='Sender' select-value='$ctrl.node._id' values='$ctrl.senders' is-required='true' on-update='$ctrl.update("_id", value)'></select-input>
         <!--<text-input label='Company Contact Regulatory Role' text-value='$ctrl.node.companycontactregulatoryrole' on-update='$ctrl.update("companycontactregulatoryrole", value)' max-Length='255'></text-input>
         <text-input label='Remark' text-value='$ctrl.node.remark' on-update='$ctrl.update("remark", value)' max-Length='2000'></text-input>-->
       </div>
