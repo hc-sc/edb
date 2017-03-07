@@ -66,7 +66,7 @@ export const propNames_en = {
   'applicationtype': 'Application Type',
   'projectidnumber': 'Project Number',
   'productname': 'Product Name',
-  '_state': 'State',
+  '_state': 'Status',
   '_created': 'Created',
   '_lastMod': 'Last Modified',
 
@@ -122,7 +122,7 @@ export const propNames_en = {
   'legalentity': 'Legal Entity',
   'shortname': 'Short Name',
   'role': 'Role',
-
+  
   //sender
   'companycontactregulatoryrole': 'Company Contact Regulatory Role',
   'remark': 'Remark',

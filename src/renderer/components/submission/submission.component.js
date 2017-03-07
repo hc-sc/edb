@@ -48,7 +48,7 @@ export default angular.module('submission', [
         });
 
         this.navbarItems = [
-          { title: 'Receivers', state: '.receivers' },
+          { title: 'Senders/Receivers', state: '.receivers' },
           { title: 'Dossier', state: '.dossier' },
           { title: 'Submission', state: '.submissionNode' },
           { title: 'TOC', state: '.toc' },
@@ -127,7 +127,7 @@ export default angular.module('submission', [
         this.ghstsService.edb_post(curGhsts)
           .then(ret => {
             console.log(ret);
-            this.showMessage('Package sent.');
+            this.showMessage('Submission Status set to sent.');
             this.$state.go('home');
           })
           .catch(err => {console.log(err);});
