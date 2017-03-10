@@ -317,7 +317,7 @@ app.on('ready', function () {
     // TODO: setTitle is being deprecated, find and use alternative
     mainWindow.setTitle('eDossier Builder (V1.11.0 DRAFT)');
     //if (configure.env.toString().toUpper() == 'DEV'){
-    mainWindow.openDevTools();
+    // mainWindow.openDevTools();
   });
   mainWindow.show();
 });
