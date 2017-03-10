@@ -3,6 +3,9 @@
 const _ = require('lodash');
 const fs = require('fs');
 const path = require('path');
+const basePath = fs.realpathSync('./');
+const asarPath = path.resolve(basePath, 'resources', 'app.asar');
+
 
 var ignoreEmpty = (val) => {
   if ('' === val) {
@@ -15,8 +18,8 @@ var ignoreEmpty = (val) => {
 module.exports = class SchemaLoader {
   static loadSchema(name, version) {
 //    console.log(name);
-    let basePath = path.resolve(fs.realpathSync('./resources/app/standards/'), version.replace(/\./g, '_'), 'jsondefinitions');
-    let fileName = path.join(basePath, name + '.json');
+    let defPath = path.resolve(asarPath, 'standards', version.replace(/\./g, '_'), 'jsondefinitions');
+    let fileName = path.join(defPath, name + '.json');
     let jsonixSchema = require(fileName);
     let coveredSchema = { TYPE_NAME: { type: 'String', default: jsonixSchema.localName } };
     let cover;

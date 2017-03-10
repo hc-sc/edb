@@ -1,11 +1,15 @@
 
 'use strict';
+const path = require('path');
+const fs = require('fs');
+const basePath = fs.realpathSync('./');
+const asarPath = path.resolve(basePath, 'resources', 'app.asar');
 require('./utils/file.logger');
-const { dialog } = require('electron');
+
 process.on('uncaughtException', (err) => {
   ghstsLogger.error(err);
   dialog.showErrorBox('Uncaught Exception', 'Uncaught exception, application will close. Please check log file');
-  process.exit(1);
+  process.nextTick(() => {process.exit(1);});
 });
 
 process.on('unhandledRejection', (err, p) => {
@@ -18,11 +22,10 @@ global.TUNGUS_DB_OPTIONS = { nativeObjectID: true, searchInArray: true };
 
 require('tungus');
 
-const path = require('path');
-const fs = require('fs');
 const app = require('electron').app;
 const ipc = require('electron').ipcMain;
 const BrowserWindow = require('electron').BrowserWindow;
+const { dialog } = require('electron');
 
 const _ = require('lodash');
 
@@ -37,7 +40,6 @@ const Q = require('bluebird');
 
 const AJV = require('ajv');
 const Jsonix = require('jsonix').Jsonix;
-const basePath = fs.realpathSync('./');
 
 var lastMessageTimestamp;  //For debug track if there are duplicatied message request from front-end
 
@@ -180,7 +182,7 @@ ipc.on(SHARED_CONST.PICKLIST_MSG_CHANNEL, function (event, arg) {
   let method = 'edb_' + arg.method;
   let timestamp = arg.timestamp;
   if (lastMessageTimestamp === timestamp) {
-    console.log('There are duplicatied message request');
+    ghstsLogger.error('There are duplicatied message request');
   }
   lastMessageTimestamp = timestamp;
   svr[method](arg.data).then(result => {
@@ -205,7 +207,7 @@ ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL, function (event, arg) {
   let svr = new GhstsService(submissions, validateInsts, marshallers, unmarshallers);
   let timestamp = arg.timestamp;
   if (lastMessageTimestamp === timestamp) {
-    console.log('There are duplicatied message request');
+    ghstsLogger.error('There are duplicatied message request');
   }
   lastMessageTimestamp = timestamp;
 
@@ -248,7 +250,7 @@ ipc.on(SHARED_CONST.APP_DATA_MSG_CHANNEL, function (event, arg) {
   let method = 'edb_' + arg.method;
   let timestamp = arg.timestamp;
   if (lastMessageTimestamp === timestamp) {
-    console.log('There are duplicatied message request');
+    ghstsLogger.error('There are duplicatied message request');
   }
   lastMessageTimestamp = timestamp;
   svr[method](arg.data).then(result => {
@@ -281,9 +283,9 @@ app.on('window-all-closed', function () {
 });
 
 app.on('ready', function () {
-  ghstsLogger.info('Application started');
-  XMLSchemaJsonSchema = JSON.parse(fs.readFileSync('./resources/app/standards/jsonschemas/w3c/2001/XMLSchema.jsonschema').toString());
-  JsonixJsonSchema = JSON.parse(fs.readFileSync('./resources/app/standards/jsonschemas/jsonix/Jsonix.jsonschema').toString());
+  ghstsLogger.info('Application started, ENV: ' + process.env.NODE_ENV);
+  XMLSchemaJsonSchema = JSON.parse(fs.readFileSync(path.resolve(asarPath, 'standards', 'jsonschemas', 'w3c', '2001', 'XMLSchema.jsonschema')).toString());
+  JsonixJsonSchema = JSON.parse(fs.readFileSync(path.resolve(asarPath, 'standards', 'jsonschemas', 'jsonix', 'Jsonix.jsonschema')).toString());
 
   ajvInst = new AJV({ allErrors: true });
   ajvInst.addSchema(XMLSchemaJsonSchema, 'http://www.jsonix.org/jsonschemas/w3c/2001/XMLSchema.jsonschema');
@@ -293,10 +295,10 @@ app.on('ready', function () {
 
   for (let i = 0; i < supprtVersions.length; i++) {
     let versionDir = supprtVersions[i].replace(/\./g, '_');
-    let GHSTSJsonSchema = JSON.parse(fs.readFileSync('./resources/app/standards/' + versionDir + '/GHSTS.jsonschema').toString());
+    let GHSTSJsonSchema = JSON.parse(fs.readFileSync(path.resolve(asarPath, 'standards', versionDir, 'GHSTS.jsonschema')).toString());
     validateInsts[versionDir] = ajvInst.compile(GHSTSJsonSchema);
     //    let GHSTS = require('../resources/app/standards/' + versionDir + '/GHSTS').GHSTS;
-    let sfile = path.resolve(basePath, 'resources', 'app', 'standards', versionDir, 'GHSTS.js');
+    let sfile = path.resolve(asarPath, 'standards', versionDir, 'GHSTS.js');
     let GHSTS = require(sfile).GHSTS;
     let context = new Jsonix.Context([GHSTS],
       {
@@ -328,7 +330,7 @@ app.on('ready', function () {
   mainWindow.loadURL('file://' + __dirname + '/renderer/index.html');
   mainWindow.webContents.on('did-finish-load', function () {
     // TODO: setTitle is being deprecated, find and use alternative
-    mainWindow.setTitle("eDossier Builder (V1.11.0 DRAFT)");
+    mainWindow.setTitle('eDossier Builder (V1.11.0 DRAFT)');
     //if (configure.env.toString().toUpper() == 'DEV'){
     mainWindow.openDevTools();
   });

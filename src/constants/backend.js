@@ -9,6 +9,7 @@ const BACKEND_CONSTANTS = {
   GHSTS_XML_FILENAME: 'ghsts.xml',
   BASE_DIR1: 'resources',
   BASE_DIR2: 'app',
+  BASE_DIR2_PROD: 'app.asar',
   TEMPLATE_DIR_NAME: 'templates',
   STANDARD_DIR_NAME: 'standards',
   VIEWER_UTIL_DIR_NAME: 'viewers',

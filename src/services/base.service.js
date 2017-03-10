@@ -21,7 +21,7 @@ module.exports = class BaseService {
     this.modelClassName = modelClassName;
     this.inmem = inmem;
     this.version = version ? version : '01.00.02';
-    this.schemaDir = path.resolve('./', BACKEND_CONST.BASE_DIR1, BACKEND_CONST.BASE_DIR2, BACKEND_CONST.STANDARD_DIR_NAME);
+    this.schemaDir = path.resolve('./', BACKEND_CONST.BASE_DIR1, BACKEND_CONST.BASE_DIR2_PROD, BACKEND_CONST.STANDARD_DIR_NAME);
     this.defDir = path.join(this.schemaDir, this.version.replace(/\./g, '_'), BACKEND_CONST.DEF_SUB_DIR_NAME);
     this.productDir = path.resolve('./', BACKEND_CONST.PRODUCTS_DIR);
     this.referencedBy = undefined;
@@ -255,7 +255,7 @@ module.exports = class BaseService {
   initDbfromTestData() {
     return new Q((res, rej) => {
       let self = this;
-      let tdPath = path.resolve('./', BACKEND_CONST.BASE_DIR1, BACKEND_CONST.BASE_DIR2, 'test', self.modelClassName.toLowerCase() + '.json');
+      let tdPath = path.resolve('./', BACKEND_CONST.BASE_DIR1, BACKEND_CONST.BASE_DIR2_PROD, 'test', self.modelClassName.toLowerCase() + '.json');
       let td = require(tdPath)[self.modelClassName.toLowerCase()];
 
       td = td.map(items => {
