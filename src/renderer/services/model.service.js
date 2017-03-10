@@ -26,6 +26,7 @@ import modelReLatedToSubstance from '../view-models/gen/relatedtosubstance.json'
 import modelReferencedToFile from '../view-models/gen/referencedtofile.json';
 import modelOtherNationalGuideLine from '../view-models/gen/othernationalguideline.json';
 import modelSubmissionContext from '../view-models/gen/submissioncontext.json';
+import modelRaDocumentNumber from '../view-models/gen/radocumentnumber.json';
 
 import modelSender from '../view-models/gen/sender.json';
 import modelReceiver from '../view-models/gen/receiver.json';
@@ -68,8 +69,10 @@ export default class ModelService {
         return model;
       case 'productra':
         return _.merge({}, Object.assign(modelProductRA.fields));
+
       case 'ingredients.ingredient':
         return _.merge({}, Object.assign(modelIngredient.fields));
+
       case 'adminnumber':
         return _.merge({}, Object.assign(modelAdminnumber.fields));
 
@@ -86,13 +89,20 @@ export default class ModelService {
 
       case 'documentgeneric':
         return _.merge({}, Object.assign(modelDocumentGeneric.fields));
-
+ 
       case 'documentra':
-        return _.merge({}, Object.assign(modelDocumentRA.fields));
+         model = _.merge({}, Object.assign(modelDocumentRA.fields));
+         model.radocumentnumber = this.getModel('radocumentnumber');
+         return model;
 
       case 'othernationalguideline':
         return _.merge({}, Object.assign(modelOtherNationalGuideLine.fields)); 
-      
+
+      case 'radocumentnumber':
+           model = _.merge({}, Object.assign(modelRaDocumentNumber.fields));
+           model.submissioncontext = [];   
+           return model;
+     
       case 'submissioncontext':
         return _.merge({}, Object.assign(modelSubmissionContext.fields));
 

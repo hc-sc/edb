@@ -8,11 +8,11 @@
       <md-button class='md-raised md-primary' ng-click='$ctrl.genPid()'>Generate PID</md-button>
     </div>
     <text-input label='{{"genericproductname" | translate}}' is-required='true' text-value='$ctrl.selected.genericproductname' on-update='$ctrl.update("genericproductname", value)' max-Length='255'></text-input>
-    <select-input-extensible label='{{"formulationtype" | translate}}' select-value='$ctrl.selected.formulationtype' on-update='$ctrl.update("formulationtype", value)'
+    <select-input-extensible label='{{"formulationtype" | translate}}' is-required='true' select-value='$ctrl.selected.formulationtype' on-update='$ctrl.update("formulationtype", value)'
       values='$ctrl.formulationType' type-name='EXTENSION_TYPE_FORMULATION_TYPE' on-add='$ctrl.createPicklistItem("formulationtype", "formulationType", value)'>
     </select-input-extensible>
 
-    <tbl ng-if='!$ctrl.loading' title='{{"ingredients" | translate}}' items='$ctrl.selected.ingredients.ingredient' projection='[{name: "toSubstanceId", url: "substance"}, "quantity", {name: "unit", url: "picklist"}]'
+    <tbl ng-if='!$ctrl.loading' title='{{"ingredients" | translate}}*' items='$ctrl.selected.ingredients.ingredient' projection='[{name: "toSubstanceId", url: "substance"}, "quantity", {name: "unit", url: "picklist"}]'
       on-select='$ctrl.selectTblItem("ingredients.ingredient",index)' on-add='$ctrl.addTblItem("ingredients.ingredient")' on-delete='$ctrl.deleteTblItem("ingredients.ingredient",index)' min-items='1'>
     </tbl>
     <tbl ng-if='!$ctrl.loading  && $ctrl.isSubmission' title='{{"productregulartoryauthorities" | translate}}' items='$ctrl.selected.productra' projection='[{name: "toSpecificForRAId", url: "receiver"}, "productname"]'

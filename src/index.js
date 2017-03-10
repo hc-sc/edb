@@ -5,7 +5,7 @@ const { dialog } = require('electron');
 process.on('uncaughtException', (err) => {
   ghstsLogger.error(err);
   dialog.showErrorBox('Uncaught Exception', 'Uncaught exception, application will close. Please check log file');
-  process.exit(1);
+  process.nextTick(() => {process.exit(1);});
 });
 
 process.on('unhandledRejection', (err, p) => {
@@ -313,7 +313,7 @@ app.on('ready', function () {
   mainWindow.loadURL('file://' + __dirname + '/renderer/index.html');
   mainWindow.webContents.on('did-finish-load', function () {
     // TODO: setTitle is being deprecated, find and use alternative
-    mainWindow.setTitle("eDossier Builder (V1.10.0 DRAFT)");
+    mainWindow.setTitle('eDossier Builder (V1.11.0 DRAFT)');
     //if (configure.env.toString().toUpper() == 'DEV'){
     mainWindow.openDevTools();
   });
