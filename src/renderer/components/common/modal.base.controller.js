@@ -33,14 +33,14 @@ export default class ModalBaseCtrl {
   //   return modelObj;
   // }
 
-  addSubMissionContext(prop, model) {
+  addSubArray(prop, model) {
     let modelName = model ? model : prop;  
-    let modelObj = this.getModel(modelName);
-    this.node['radocumentnumber'][prop].push(modelObj);
+    let modelObj = this.getModel(modelName); 
+    this.node[model][prop].push(modelObj);
   }
 
-  deleteSubArray(prop, index) {
-    this.node['radocumentnumber'][prop] = this.node['radocumentnumber'][prop].slice(0, index).concat(this.node['radocumentnumber'][prop].slice(index + 1));
+  deleteSubArray(prop, index, model) {
+    this.node[model][prop] = this.node[model][prop].slice(0, index).concat(this.node[model][prop].slice(index + 1));
   }
 
   addString(prop){
@@ -48,7 +48,7 @@ export default class ModalBaseCtrl {
   }
 
   add(prop, model) {
-    let modelName = model ? model : prop;  
+    let modelName = model ? model : prop; 
     this.node[prop].push(this.getModel(modelName));
   }
 

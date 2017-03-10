@@ -10,10 +10,7 @@ module.exports = exports = function ProductPlugin(schema, options) {
     dossier: {type: 'ObjectId', ref: 'DOSSIER'}
   });
 
-  schema.post('find', ret => {
-    let retVal = ret.map(item => {
-      item._doc.valuedecode = item._doc.genericproductname;
-    });
-    return retVal;
+  schema.virtual('valuedecode').get(function () {
+    return this.genericproductname;
   });
 };
