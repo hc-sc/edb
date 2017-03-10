@@ -91,7 +91,7 @@
             on-update='$ctrl.update("documentgeneric.documentissuedate", value)'>
         </text-input>
       
-        <list label='{{"documentowner" | translate}}' items='$ctrl.selected.documentgeneric.documentowner' ></list>
+        <list label='{{"documentowner" | translate}} *' items='$ctrl.selected.documentgeneric.documentowner' min-items='1' ></list>
 
         <text-input label='{{"publishedindicator" | translate}}'
             is-required='true'
@@ -125,22 +125,24 @@
         </md-switch>
       
 
-        <tbl ng-if='!$ctrl.loading' title ='{{"referencedtofile" | translate}}'
+        <tbl ng-if='!$ctrl.loading' title ='{{"referencedtofile" | translate}} *'
  
               items='$ctrl.selected.documentgeneric.referencedtofile'  
               projection='[{name: "toFileId", url: "file"}]' 
               on-select='$ctrl.selectTblItem("documentgeneric.referencedtofile",index)' 
               on-add='$ctrl.addTblItem("documentgeneric.referencedtofile")' 
-              on-delete='$ctrl.deleteTblItem("documentgeneric.referencedtofile",index)'>
+              on-delete='$ctrl.deleteTblItem("documentgeneric.referencedtofile",index)'
+              min-items='1'>
         </tbl>
 
        <tbl ng-if='!$ctrl.loading' 
-            title ='{{"documentra" | translate}}' 
+            title ='{{"documentra" | translate}} *' 
             items='$ctrl.selected.documentra' 
             projection='[{name: "toSpecificForRAId", url: "receiver"}]'
             on-select='$ctrl.selectTblItem("documentra",index)' 
             on-delete='$ctrl.deleteTblItem("documentra",index)' 
-            on-add='$ctrl.addTblItem("documentra")'>
+            on-add='$ctrl.addTblItem("documentra")'
+            min-items='1'>
        </tbl>
         
         <div style='z-index:100' class='float-bottom'>

@@ -104,26 +104,27 @@
                 type-name='EXTENSION_TYPE_RA_DOCUMENT_NUMBER_TYPE' 
                 on-add='$ctrl.createPicklistItem("radocumentnumbertype", "raDocumentNumberTypeOptions", value)'>
       </select-input-extensible>
+
+      <div layout-gt-sm="row">             
+            <md-input-container class="md-block" flex-gt-sm>
+                  <label>{{"identifier" | translate}}</label>
+                  <input ng-model="$ctrl.node.radocumentnumber.identifier" type="text">  
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm>
+                  <label>{{"alreadysubmitted" | translate}}</label>
+                  <input ng-model="$ctrl.node.radocumentnumber.alreadysubmitted" type="text">
+            </md-input-container>                      
+      </div>
+
    </div>
 
-   <div layout-gt-sm="row">   
-           
-        <md-input-container class="md-block" flex-gt-sm>
-              <label>{{"identifier" | translate}}</label>
-              <input ng-model="$ctrl.node.radocumentnumber.identifier" type="text">  
-        </md-input-container>
-        <md-input-container class="md-block" flex-gt-sm>
-              <label>{{"alreadysubmitted" | translate}}</label>
-              <input ng-model="$ctrl.node.radocumentnumber.alreadysubmitted" type="text">
-        </md-input-container>  
-                     
-    </div>
+   
     
  <md-toolbar>
       <div class='md-toolbar-tools'>
         <h2>{{"submissioncontext" | translate}}</h2>
         <span flex></span>
-        <md-button class='md-icon-button' ng-click='$ctrl.addSubMissionContext("submissioncontext")'>
+        <md-button class='md-icon-button' ng-click='$ctrl.addSubArray("submissioncontext","radocumentnumber")'>
           <md-icon md-svg-icon='add' aria-label='add dialog' class='light'></md-icon>
           <md-tooltip>Add submission context</md-tooltip>
         </md-button>
@@ -140,7 +141,7 @@
                         <label>{{"dossiernumber" | translate}}</label>
                         <input ng-model="sub.dossiernumber" type="text" on-update='$ctrl.updateArray("dossiernumber", $index, value)'>
                   </md-input-container>
-                  <md-button aria-label='Delete Item'  ng-click='$ctrl.deleteSubArray("submissioncontext", $index, $event)'>
+                  <md-button aria-label='Delete Item'  ng-click='$ctrl.deleteSubArray("submissioncontext",$index,"radocumentnumber", $event)'>
                       <md-icon md-svg-icon='delete' class='dark'></md-icon>
                       <md-tooltip>Delete submission context</md-tooltip>
                   </md-button>
