@@ -33,7 +33,7 @@ export default class ModalBaseCtrl {
   //   return modelObj;
   // }
 
-  addSubMissionContext(prop, model) {
+  addSubArray(prop, model) {
     let modelName = model ? model : prop;  
     let modelObj = this.getModel(modelName); 
     this.node[model][prop].push(modelObj);
