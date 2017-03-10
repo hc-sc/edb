@@ -6,10 +6,7 @@ module.exports = exports = function DocumentPlugin(schema, options) {
 
   schema.index({'documentgeneric.documenttitle' : 1});
 
-  schema.post('find', ret => {
-    let retVal = ret.map(item => {
-      item._doc.valuedecode = item._doc.documentgeneric.documenttitle;
-    });
-    return retVal;
+  schema.virtual('valuedecode').get(function () {
+    return this.documentgeneric.documenttitle;
   });
 };
