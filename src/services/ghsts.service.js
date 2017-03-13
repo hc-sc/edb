@@ -32,7 +32,7 @@ const eDB_Urls = require('./').ServiceNeedInit;
 
 const DateTimeProc = require('../utils/datetime.process');
 
-const resourceDir = path.resolve(basePath, BACKEND_CONST.BASE_DIR1, BACKEND_CONST.BASE_DIR2);
+const resourceDir = path.resolve(basePath, BACKEND_CONST.BASE_DIR1, BACKEND_CONST.BASE_DIR2_PROD);
 
 const prodsPath = path.resolve(basePath, BACKEND_CONST.PRODUCTS_DIR);
 
