@@ -22,8 +22,10 @@ export default angular.module('selectInput', [
     $onChanges() {
       if (this.values) {
         this.values.sort((a, b) => {
-          return this.getMain(a) >= this.getMain(b);
-        })
+          let av = this.main ? this.getMain(a) : a.valuedecode ? a.valuedecode : '';
+          let bv = this.main ? this.getMain(b) : b.valuedecode ? b.valuedecode : '';
+          return av < bv ? -1 : av > bv ? 1 : 0; 
+        });
       }
     }
 
@@ -32,13 +34,12 @@ export default angular.module('selectInput', [
     }
 
     getMain(item) {
-      return item[this.main];
-      // let refs = this.main.split('.');
-      // let path = this.item;
-      // for (let ref of refs) {
-      //   path = path[ref];
-      // }
-      // return path;
+      let refs = this.main.split('.');
+      let path = this.item;
+      for (let ref of refs) {
+        path = path[ref];
+      }
+      return path;
     }
   }
 })

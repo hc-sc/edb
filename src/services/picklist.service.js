@@ -24,7 +24,19 @@ module.exports = class PickListService extends BaseService {
         query.data.STATUS = 'enabled';
       }
     }
-    return super.edb_get(query, undefined, undefined, 'lowvaluedecode');
+    return new Q((res, rej) => {
+      super.edb_get(query, undefined, undefined, 'lowvaluedecode')
+        .then(rets => {
+          let data = JSON.parse(rets.data);
+          data.sort((a, b) => {
+            return a.lowvaluedecode < b.lowvaluedecode ? -1 : a.lowvaluedecode > b.lowvaluedecode ? 1 : 0;
+          });
+          res(new RVHelper('EDB00000', JSON.stringify(data)));
+        })
+        .catch(err =>{
+          rej(err);
+        });
+    });
   }
 
   initMongoose() {
