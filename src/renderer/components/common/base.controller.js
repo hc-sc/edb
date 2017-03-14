@@ -12,6 +12,7 @@ export default class BaseCtrl {
     this.url = url;
     this.modelService = ModelService;
     this.sidenavOpen = false;
+    this.dialogOpen = false;
     this.loading = true;
 
     this.picklistService = PicklistService.getService();
@@ -143,54 +144,58 @@ export default class BaseCtrl {
 
   // creates a new blank object to create a new item
   add(prop) {
-    this.dirtCheck()
-      .then(() => {
-        if (this.isDirt) {
-          if (this.selectedIndex > -1) 
-            this.records[this.selectedIndex] = _.merge({}, this.oriSelected);
-          this.isDirt = false;
-        }
-        this.selectedIndex = -1;
-        this.selected = angular.copy(this.getModel(prop));
-        this.oriSelected = _.merge({}, this.selected);
-        this.showMessage('Adding a new record.');
-      });
+    if (!this.dialogOpen) {
+      this.dirtCheck()
+        .then(() => {
+          if (this.isDirt) {
+            if (this.selectedIndex > -1) 
+              this.records[this.selectedIndex] = _.merge({}, this.oriSelected);
+            this.isDirt = false;
+          }
+          this.selectedIndex = -1;
+          this.selected = angular.copy(this.getModel(prop));
+          this.oriSelected = _.merge({}, this.selected);
+          this.showMessage('Adding a new record.');
+        });
+    }
   }
 
   // update an item in the database
   save() {
-    // if it doesn't have an id, it's a new item that has been in the database yet
-    if (!this.selected.hasOwnProperty('_id')) {
-      this.createAppData(angular.copy(this.selected))
-        .then(result => {
-          console.log(result);
-          let data = JSON.parse(result.data);
-          if (Array.isArray(data))
-            data = data[0];
-          this.records.push(data);
-          this.sortData();
-          this.resetSelected(data._id);
-          this.showMessage('Saved successfully');
-        })
-        .catch(err => {
-          this.showMessage(err);
-        });
-    }
-    else {
-      this.updateAppData(angular.copy(this.selected))
-        .then(result => {
-          console.log(result);
-          let data = JSON.parse(result.data);
-          if (Array.isArray(data)) 
-            data = data[0];
-          this.records[this.selectedIndex] = _.merge({}, data);
-          this.sortData();
-          this.resetSelected(data._id);
-          this.showMessage('Saved successfully');
-        })
-        .catch(err => {
-          this.showMessage(err);
-        });
+    if (!this.dialogOpen) {
+      // if it doesn't have an id, it's a new item that has been in the database yet
+      if (!this.selected.hasOwnProperty('_id')) {
+        this.createAppData(angular.copy(this.selected))
+          .then(result => {
+            console.log(result);
+            let data = JSON.parse(result.data);
+            if (Array.isArray(data))
+              data = data[0];
+            this.records.push(data);
+            this.sortData();
+            this.resetSelected(data._id);
+            this.showMessage('Saved successfully');
+          })
+          .catch(err => {
+            this.showMessage(err);
+          });
+      }
+      else {
+        this.updateAppData(angular.copy(this.selected))
+          .then(result => {
+            console.log(result);
+            let data = JSON.parse(result.data);
+            if (Array.isArray(data)) 
+              data = data[0];
+            this.records[this.selectedIndex] = _.merge({}, data);
+            this.sortData();
+            this.resetSelected(data._id);
+            this.showMessage('Saved successfully');
+          })
+          .catch(err => {
+            this.showMessage(err);
+          });
+      }
     }
   }
 
@@ -202,7 +207,8 @@ export default class BaseCtrl {
 
   // toggles whether the sidenav component is open or not for listable components
   toggleList() {
-    this.sidenavOpen = !this.sidenavOpen;
+    if (!this.dialogOpen)
+      this.sidenavOpen = !this.sidenavOpen;
   }
 
   deleteTblItem(nodeName, index) {
@@ -223,6 +229,7 @@ export default class BaseCtrl {
   }
 
   addTblItem(nodeName) {
+    this.dialogOpen = true;
     this.$mdDialog.show(this.buildModal(nodeName, this.selected.length, true))
       .then(item => {
         if (this.getRef(nodeName).filter(record => {
@@ -252,11 +259,16 @@ export default class BaseCtrl {
           }
           // this.showMessage('Saved');
         }
+        this.dialogOpen = false;
+      })
+      .catch(() => {
+        this.dialogOpen = false;
       });
   }
 
   // enables selection from tables
   selectTblItem(nodeName, index) {
+    this.dialogOpen = true;
     this.$mdDialog.show(this.buildModal(nodeName, index, false))
       .then(item => {
         console.log(item);
@@ -270,6 +282,10 @@ export default class BaseCtrl {
           this.selected = angular.copy(this.selected);
          // this.showMessage('Updated');
         }
+        this.dialogOpen = false;
+      })
+      .catch(() => {
+        this.dialogOpen = false;
       });
   }
 
@@ -284,16 +300,18 @@ export default class BaseCtrl {
 
   // updates which sidenav item is being modified
   updateSelected(data) {
-    this.dirtCheck()
-      .then(() => {
-        if (this.isDirt && this.selectedIndex > -1)
-          this.records[this.selectedIndex] = _.merge({}, this.oriSelected);
-        this.sortData();
-        this.resetSelected(data._id);
-        if (!this.isDirt)
-          this.$scope.$apply();
-        this.isDirt = false;
-      });
+    if (!this.dialogOpen) {
+      this.dirtCheck()
+        .then(() => {
+          if (this.isDirt && this.selectedIndex > -1)
+            this.records[this.selectedIndex] = _.merge({}, this.oriSelected);
+          this.sortData();
+          this.resetSelected(data._id);
+          if (!this.isDirt)
+            this.$scope.$apply();
+          this.isDirt = false;
+        });
+    }
   }
 
   // used to compare current node to a valid or old node (for validation and/or updating metadata status)
