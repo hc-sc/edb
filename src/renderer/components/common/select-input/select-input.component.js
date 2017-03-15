@@ -35,7 +35,7 @@ export default angular.module('selectInput', [
 
     getMain(item) {
       let refs = this.main.split('.');
-      let path = this.item;
+      let path = item;
       for (let ref of refs) {
         path = path[ref];
       }
