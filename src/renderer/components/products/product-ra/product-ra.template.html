@@ -28,7 +28,7 @@
         </md-toolbar>
         <md-list>
           <md-list-item ng-repeat='adminnumber in $ctrl.node.adminnumber track by $index' class="noright">
-            <fieldset layout='row' flex>
+            <div layout='column' flex class='group-container'>
               <div layout='row'>
                 <md-input-container class="md-block" flex>
                   <label>{{"identifier" | translate}}</label>
@@ -39,12 +39,10 @@
                   <md-tooltip>Delete Admin Number</md-tooltip>
                 </md-button>
               </div>
-              <div>
-                <select-input-extensible label='{{"adminnumbertype" | translate}}' select-value='adminnumber.adminnumbertype' on-update='$ctrl.updateArray("adminnumbertype", $index, value, "adminnumber")'
-                  values='$ctrl.picklists.adminNumberType' show-value='true' type-name='EXTENSION_TYPE_ADMIN_NUMBER_TYPE' on-add='$ctrl.createPicklistItem("adminnumbertype", "adminNumberType", value, $index, "adminnumber")'>
-                </select-input-extensible>
-              </div>
-            </fieldset>
+              <select-input-extensible label='{{"adminnumbertype" | translate}}' select-value='adminnumber.adminnumbertype' on-update='$ctrl.updateArray("adminnumbertype", $index, value, "adminnumber")'
+                values='$ctrl.picklists.adminNumberType' show-value='false' type-name='EXTENSION_TYPE_ADMIN_NUMBER_TYPE' on-add='$ctrl.createPicklistItem("adminnumbertype", "adminNumberType", value, $index, "adminnumber")'>
+              </select-input-extensible>
+            </div>
           </md-list-item>
         </md-list>
       </div>
