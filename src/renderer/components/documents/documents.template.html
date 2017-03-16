@@ -32,7 +32,8 @@
          <text-input label='{{"documentfamily" | translate}}'
             is-required='true'
             text-value='$ctrl.selected.documentgeneric.documentfamily'
-            on-update='$ctrl.update("documentgeneric.documentfamily", value)'>
+            on-update='$ctrl.update("documentgeneric.documentfamily", value)'
+            max-Length='255'>
         </text-input>
         
         <tbl ng-if='!$ctrl.loading' title ='{{"contentstatushistory" | translate}}' 
@@ -74,35 +75,41 @@
         <text-input label='{{"documenttitle" | translate}}' 
             is-required='true'
             text-value='$ctrl.selected.documentgeneric.documenttitle'
-            on-update='$ctrl.update("documentgeneric.documenttitle", value)'>
+            on-update='$ctrl.update("documentgeneric.documenttitle", value)'
+            max-Length='2000'>
         </text-input>
 
         <text-input label='{{"documentauthor" | translate}}' 
             is-required='true'
             text-value='$ctrl.selected.documentgeneric.documentauthor'
-            on-update='$ctrl.update("documentgeneric.documentauthor", value)'>
+            on-update='$ctrl.update("documentgeneric.documentauthor", value)'
+            max-Length='255'>
         </text-input>
 
-        <text-input label='{{"documentissuedate" | translate}}'
+        <text-input label='{{"documentissuedate" | translate}} YYYY-MM-DD' 
             is-required='true'
             text-value='$ctrl.selected.documentgeneric.documentissuedate' 
             is-required='true' 
-            max-length='30' 
+            max-length='30'
             on-update='$ctrl.update("documentgeneric.documentissuedate", value)'>
         </text-input>
       
         <list label='{{"documentowner" | translate}} *' items='$ctrl.selected.documentgeneric.documentowner' min-items='1' ></list>
 
-        <text-input label='{{"publishedindicator" | translate}}'
-            is-required='true'
-            text-value='$ctrl.selected.documentgeneric.publishedindicator'
-            on-update='$ctrl.update("documentgeneric.publishedindicator", value)'>
-        </text-input>
+        <md-switch ng-model='$ctrl.selected.documentgeneric.publishedindicator' 
+                        aria-label='{{"publishedindicator" | translate}}' 
+                        class='md-primary' 
+                        ng-change='$ctrl.printValue()'>
+                {{"publishedindicator" | translate}} : {{$ctrl.selected.documentgeneric.publishedindicator}}
+                <md-tooltip>True or False</md-tooltip>
+        </md-switch>
+     
 
          <text-input label='{{"completedocumentsource" | translate}}' 
             is-required='true'
             text-value='$ctrl.selected.documentgeneric.completedocumentsource'
-            on-update='$ctrl.update("documentgeneric.completedocumentsource", value)'>
+            on-update='$ctrl.update("documentgeneric.completedocumentsource", value)'
+            max-Length='2000'>
         </text-input>
 
          <list label='{{"testlaboratory" | translate}}'
@@ -114,14 +121,16 @@
                     aria-label='{{"gxpindicator" | translate}}' 
                     class='md-primary' 
                     ng-change='$ctrl.printValue()'>
-            {{"gxpindicator" | translate}}
+            {{"gxpindicator" | translate}} : {{$ctrl.selected.documentgeneric.gxpindicator}}
+            <md-tooltip>True or False</md-tooltip>
         </md-switch>
 
-        <md-switch ng-model='$ctrl.submission.SUBMISSION[$ctrl.submission.SUBMISSION.length - 1].INCREMENTAL' 
+        <md-switch ng-model='$ctrl.selected.documentgeneric.testedonvertebrate' 
                     aria-label='{{"testedonvertebrate" | translate}}'
                     class='md-primary' 
                     ng-change='$ctrl.printValue()'>
-                    {{"testedonvertebrate" | translate}}
+            {{"testedonvertebrate" | translate}} : {{$ctrl.selected.documentgeneric.testedonvertebrate}}
+            <md-tooltip>True or False</md-tooltip>
         </md-switch>
       
 
@@ -147,13 +156,15 @@
         
         <div style='z-index:100' class='float-bottom'>
             <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
-            <md-icon md-svg-icon='save' class='light'></md-icon>
+                <md-icon md-svg-icon='save' class='light'></md-icon>
             </md-button>
             <md-button aria-label='Add New Item' class='md-fab md-primary' ng-click='$ctrl.add("document")'>
-            <md-icon md-svg-icon='add' class='light'></md-icon>
+                <md-tooltip>Add</md-tooltip>
+                <md-icon md-svg-icon='add' class='light'></md-icon>
             </md-button>
             <md-button aria-label='Toggle List' class='md-fab md-primary' ng-click='$ctrl.toggleList()'>
-            <md-icon md-svg-icon='list' class='light'></md-icon>
+                <md-tooltip>View List</md-tooltip>
+                <md-icon md-svg-icon='list' class='light'></md-icon>
             </md-button>
         </div>
   </div>
