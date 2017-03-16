@@ -72,7 +72,7 @@ export const propNames_en = {
 
   // Submission
   'submissiontitle': 'Submission Title',
-  'submissionnumber': 'Number',
+  'submissionnumber': ' Submission Number',
   'submissionversiondate': 'Submission Version Date',
   'incremental': 'Incremental',
   'adminnumber': 'Admin Number',
@@ -154,23 +154,24 @@ export const propNames_en = {
   'testlaboratory': 'Test Laboratory',
   'gxpindicator': 'Gxp Indicator',
   'testedonvertebrate': 'Tested on Vertebrate',
-  'referencedtofile': 'Referenced to File',
+  'referencedtofile': 'Associated Files',
   'toFileId': 'To File Id',
   'files': 'Files',
-  'documentra': 'Document Regulatory Authority',
+  'documentra': 'Regulatory Authority Document Information',
 
   // Document RA
   'dataprotection': 'Data protection',
   'datarequirement': 'Data Requirement',
   'documentcomment': 'Document Comment',
-  'othernationalguideline': 'Othernational Guideline',
+  'othernationalguideline': 'Other National Guideline',
   'guidelinesystem': 'Guideline System',
   'guidelinenumber': 'Guideline Number',
-  'radocumentnumber': 'Radocument Number',
-  'radocumentnumbertype': 'Radocument Number Type',
+  'radocumentnumber': 'RA Document Number',
+  'radocumentnumbertype': 'RA Document Number Type',
   'alreadysubmitted': 'Already Submitted',
   'submissioncontext': 'Submission Context',
   'dossiernumber': 'Dossier Number',
+  'receiver': 'Receiver'
   // 'toSpecificForRAId': 		    'To Specific For RA Id'
 
 
