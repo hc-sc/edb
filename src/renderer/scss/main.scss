@@ -81,6 +81,15 @@ div.error-block {
   margin-top: 35px;
 }
 
+div.group-container {
+    overflow: hidden;
+    border-style: solid;
+    border-color: darkgray;
+    border-width: 2px;
+    margin-bottom: 3px;
+    padding-bottom: 5px;  
+}
+
 p.error-message {
   color: #dd2c00;
   font-size: 0.8em;
