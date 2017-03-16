@@ -9,6 +9,11 @@ tbody > tr:hover {
   cursor: pointer;
 }
 
+.md-title {
+  overflow: hidden;
+  text-overflow: ellipsis
+}
+
 th:hover {
   cursor: pointer;
 }
