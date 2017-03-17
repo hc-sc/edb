@@ -82,12 +82,19 @@ div.error-block {
 }
 
 div.group-container {
+    display: block;
     overflow: hidden;
-    border-style: solid;
-    border-color: darkgray;
+    text-overflow: ellipsis;
+    -webkit-margin-start: 2px;
+    -webkit-margin-end: 2px;
+    -webkit-padding-before: 0.35em;
+    -webkit-padding-start: 0.75em;
+    -webkit-padding-end: 0.75em;
+    -webkit-padding-after: 0.625em;
     border-width: 2px;
-    margin-bottom: 3px;
-    padding-bottom: 5px;  
+    border-style: groove;
+    border-color: threedface;
+    border-image: initial
 }
 
 p.error-message {

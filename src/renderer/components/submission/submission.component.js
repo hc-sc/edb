@@ -83,7 +83,7 @@ export default angular.module('submission', [
         this.ghstsService.edb_validation()
           .then(results => {
             console.log(results);
-            this.showMessage('Passed XML validation');
+            this.showMessage('Passed XML validation.');
           })
           .catch(err => {
             let prompt = {

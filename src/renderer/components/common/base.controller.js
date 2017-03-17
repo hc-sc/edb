@@ -133,7 +133,7 @@ export default class BaseCtrl {
         this.showMessage(value.valuedecode + ' added successfully!');
       })
       .catch(err => {
-        this.showMessage('Error creating new picklist item');
+        this.showMessage('Error creating new picklist item.');
       });
   }
 
@@ -155,7 +155,7 @@ export default class BaseCtrl {
           this.selectedIndex = -1;
           this.selected = angular.copy(this.getModel(prop));
           this.oriSelected = _.merge({}, this.selected);
-          this.showMessage('Adding a new record.');
+          this.showMessage('Adding an new record.');
         });
     }
   }
@@ -174,7 +174,7 @@ export default class BaseCtrl {
             this.records.push(data);
             this.sortData();
             this.resetSelected(data._id);
-            this.showMessage('Saved successfully');
+            this.showMessage('Saved successfully.');
           })
           .catch(err => {
             this.showMessage(err);
@@ -190,7 +190,7 @@ export default class BaseCtrl {
             this.records[this.selectedIndex] = _.merge({}, data);
             this.sortData();
             this.resetSelected(data._id);
-            this.showMessage('Saved successfully');
+            this.showMessage('Saved successfully.');
           })
           .catch(err => {
             this.showMessage(err);
@@ -238,7 +238,7 @@ export default class BaseCtrl {
           else
             return equals(record, item);
         }).length !== 0) {
-          this.showMessage('Duplicate item');
+          this.showMessage('Duplicate item.');
         }
         else {
           let newArray = [];

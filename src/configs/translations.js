@@ -73,7 +73,7 @@ export const propNames_en = {
   // Submission
   'submissiontitle': 'Submission Title',
   'submissionnumber': ' Submission Number',
-  'submissionversiondate': 'Submission Version Date',
+  'submissionversiondate': 'Submission Version Date (YYYY-MM-DD)',
   'incremental': 'Incremental',
   'adminnumber': 'Admin Number',
   'packagetype': 'Package Type',
@@ -142,7 +142,7 @@ export const propNames_en = {
   'relatedtosubstance': 'Related To Substance',
   'documenttitle': 'Document Title',
   'documentauthor': 'Document Author',
-  'documentissuedate': 'Document Issue Date',
+  'documentissuedate': 'Document Issue Date (YYYY-MM-DD)',
   'documentowner': 'Document Owner',
   'publishedindicator': 'Published Indicator',
   'completedocumentsource': 'Complete Document Source',
@@ -170,8 +170,7 @@ export const propNames_en = {
   'radocumentnumbertype': 'RA Document Number Type',
   'alreadysubmitted': 'Already Submitted',
   'submissioncontext': 'Submission Context',
-  'dossiernumber': 'Dossier Number',
-  'receiver': 'Receiver'
+  'dossiernumber': 'Dossier Number'
   // 'toSpecificForRAId': 		    'To Specific For RA Id'
 
 

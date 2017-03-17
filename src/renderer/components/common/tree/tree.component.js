@@ -16,7 +16,7 @@ export default angular.module('tree', [
     items: '<'
   },
   controller: class TreeCtrl {
-    constructor($mdDialog, GhstsService) {
+    constructor($mdDialog, $mdToast, GhstsService) {
       // Tree Structure
       // nodename - name of node
       // nodeheading - annotation
@@ -25,6 +25,7 @@ export default angular.module('tree', [
       // toc2doc - the documents related to this node
       // tocnode - subnodes for this node
       this.$mdDialog = $mdDialog;
+      this.$mdToast = $mdToast;
       this.expandIcon = {name: 'down', color: 'dark'};
       this.collapseIcon = {name: 'right', color: 'dark'};
       this.addIcon = {name: 'add', color: 'dark'};
@@ -64,8 +65,25 @@ export default angular.module('tree', [
         controller: TocDocumentCtrl
       })
       .then(result => {
-        if (!this.node.toc2doc) this.node.toc2doc = [result];
-        else this.node.toc2doc.unshift(result);
+        if (!this.node.toc2doc) 
+          this.node.toc2doc = [result];
+        else {
+          let isExisting = false;
+          for (let i = 0; i < this.node.toc2doc.length; i++) {
+            if (this.node.toc2doc[i].document._id === result.document._id) {
+              isExisting = true;
+              break;
+            }
+          }
+          if (isExisting) {
+            this.$mdToast.show(
+              this.$mdToast.simple()
+                .textContent('Duplicated document for this TOC node.')
+                .hideDelay(1200)
+            );
+          } else
+            this.node.toc2doc.unshift(result);
+        }
         this.isHidden = false;
       });
     }
@@ -81,6 +99,7 @@ export default angular.module('tree', [
     validate() {
       // set flags if needed
     }
+    
   }
 })
 .name;
