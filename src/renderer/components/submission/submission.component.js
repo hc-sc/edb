@@ -48,13 +48,13 @@ export default angular.module('submission', [
         });
 
         this.navbarItems = [
+          { title: 'Submission', state: '.submissionNode' },
           { title: 'Senders/Receivers', state: '.receivers' },
           { title: 'Dossier', state: '.dossier' },
-          { title: 'Submission', state: '.submissionNode' },
-          { title: 'TOC', state: '.toc' },
           { title: 'Products', state: '.products' },
+          { title: 'Files', state: '.files' },          
           { title: 'Documents', state: '.documents' },
-          { title: 'Files', state: '.files' }
+          { title: 'TOC', state: '.toc' }
         ];
 
         this.toolbarItems = {
