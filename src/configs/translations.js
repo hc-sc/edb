@@ -92,7 +92,7 @@ export const propNames_en = {
   'toSpecificForRAId': 'Regulatory Authority',
   'ingredients': 'Ingredients',
   'ingredient': 'Ingredient*',
-  'productregulartoryauthorities': 'Product Regulatory Authorities',
+  'productregulartoryauthorities': 'Regulatory Authority Production Information',
   //Product RA
   'productRA': 'Product Regulatory Authorities',
   'receiver': 'Receiver',
