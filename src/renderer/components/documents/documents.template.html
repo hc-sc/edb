@@ -35,42 +35,6 @@
             on-update='$ctrl.update("documentgeneric.documentfamily", value)'
             max-Length='255'>
         </text-input>
-        
-        <tbl ng-if='!$ctrl.loading' title ='{{"contentstatushistory" | translate}}' 
-                
-              items='$ctrl.selected.documentgeneric.contentstatushistory' 
-              projection='$ctrl.contentStatusProjection' 
-              on-select='$ctrl.selectTblItem("documentgeneric.contentstatushistory",index)' 
-              on-add='$ctrl.addTblItem("documentgeneric.contentstatushistory")' 
-              on-delete='$ctrl.deleteTblItem("documentgeneric.contentstatushistory",index)'>
-        </tbl>
-      
-       <tbl ng-if='!$ctrl.loading' title ='{{"referenceddocument" | translate}}'
- 
-              items='$ctrl.selected.documentgeneric.referenceddocument'  
-              projection='$ctrl.referencedDocumentProjection'
-              on-select='$ctrl.selectTblItem("documentgeneric.referenceddocument",index)' 
-              on-add='$ctrl.addTblItem("documentgeneric.referenceddocument")' 
-              on-delete='$ctrl.deleteTblItem("documentgeneric.referenceddocument",index)'>
-        </tbl>
-
-
-        <tbl ng-if='!$ctrl.loading' title ='{{"relatedtosubstance" | translate}}'
- 
-              items='$ctrl.selected.documentgeneric.relatedtosubstance'  
-              projection='[{name: "toSubstanceId", url: "substance"}]' 
-              on-select='$ctrl.selectTblItem("documentgeneric.relatedtosubstance",index)' 
-              on-add='$ctrl.addTblItem("documentgeneric.relatedtosubstance")' 
-              on-delete='$ctrl.deleteTblItem("documentgeneric.relatedtosubstance",index)'>
-        </tbl>
-
-        <tbl ng-if='!$ctrl.loading' title ='{{"documentnumber" | translate}}'
-              items='$ctrl.selected.documentgeneric.documentnumber'  
-              projection='$ctrl.documentnumberProjection'
-              on-select='$ctrl.selectTblItem("documentgeneric.documentnumber",index)' 
-              on-add='$ctrl.addTblItem("documentgeneric.documentnumber")' 
-              on-delete='$ctrl.deleteTblItem("documentgeneric.documentnumber",index)'>
-        </tbl>
 
         <text-input label='{{"documenttitle" | translate}}' 
             is-required='true'
@@ -133,6 +97,44 @@
             <md-tooltip>True or False</md-tooltip>
         </md-switch>
       
+        
+        <tbl ng-if='!$ctrl.loading' title ='{{"contentstatushistory" | translate}}' 
+                
+              items='$ctrl.selected.documentgeneric.contentstatushistory' 
+              projection='$ctrl.contentStatusProjection' 
+              on-select='$ctrl.selectTblItem("documentgeneric.contentstatushistory",index)' 
+              on-add='$ctrl.addTblItem("documentgeneric.contentstatushistory")' 
+              on-delete='$ctrl.deleteTblItem("documentgeneric.contentstatushistory",index)'>
+        </tbl>
+      
+       <tbl ng-if='!$ctrl.loading' title ='{{"referenceddocument" | translate}}'
+ 
+              items='$ctrl.selected.documentgeneric.referenceddocument'  
+              projection='$ctrl.referencedDocumentProjection'
+              on-select='$ctrl.selectTblItem("documentgeneric.referenceddocument",index)' 
+              on-add='$ctrl.addTblItem("documentgeneric.referenceddocument")' 
+              on-delete='$ctrl.deleteTblItem("documentgeneric.referenceddocument",index)'>
+        </tbl>
+
+
+        <tbl ng-if='!$ctrl.loading' title ='{{"relatedtosubstance" | translate}}'
+ 
+              items='$ctrl.selected.documentgeneric.relatedtosubstance'  
+              projection='[{name: "toSubstanceId", url: "substance"}]' 
+              on-select='$ctrl.selectTblItem("documentgeneric.relatedtosubstance",index)' 
+              on-add='$ctrl.addTblItem("documentgeneric.relatedtosubstance")' 
+              on-delete='$ctrl.deleteTblItem("documentgeneric.relatedtosubstance",index)'>
+        </tbl>
+
+        <tbl ng-if='!$ctrl.loading' title ='{{"documentnumber" | translate}}'
+              items='$ctrl.selected.documentgeneric.documentnumber'  
+              projection='$ctrl.documentnumberProjection'
+              on-select='$ctrl.selectTblItem("documentgeneric.documentnumber",index)' 
+              on-add='$ctrl.addTblItem("documentgeneric.documentnumber")' 
+              on-delete='$ctrl.deleteTblItem("documentgeneric.documentnumber",index)'>
+        </tbl>
+
+       
 
         <tbl ng-if='!$ctrl.loading' title ='{{"referencedtofile" | translate}} *'
  
