@@ -10,7 +10,7 @@ export default class BaseService {
   edb_get(obj) {
     let deffer = this.$q.defer();
     if (window.ipcRenderer) {
-      let timestamp = performance.now().toString();
+      let timestamp = this._getTimeStamp();
       window.ipcRenderer.once(this.msgChannel + EDB_IPC_ASYNC_REPLAY_SUF + timestamp, (event, arg) => {
         if (arg.err) {
           deffer.reject(arg.err);
@@ -39,7 +39,7 @@ export default class BaseService {
   edb_put(obj) {
     let deffer = this.$q.defer();
     if (window.ipcRenderer) {
-      let timestamp = performance.now().toString();
+      let timestamp = this._getTimeStamp();
       window.ipcRenderer.once(this.msgChannel + EDB_IPC_ASYNC_REPLAY_SUF + timestamp, (event, arg) => {
         if (arg.err) {
           deffer.reject(arg.err);
@@ -66,7 +66,7 @@ export default class BaseService {
   edb_post(obj) {
     let deffer = this.$q.defer();
     if (window.ipcRenderer) {
-      let timestamp = performance.now().toString();
+      let timestamp = this._getTimeStamp();
       window.ipcRenderer.once(this.msgChannel + EDB_IPC_ASYNC_REPLAY_SUF + timestamp, (event, arg) => {
         if (arg.err) {
           deffer.reject(arg.err);
@@ -93,7 +93,7 @@ export default class BaseService {
   edb_delete(obj) {
     let deffer = this.$q.defer();
     if (window.ipcRenderer) {
-      let timestamp = performance.now().toString();
+      let timestamp = this._getTimeStamp();
       window.ipcRenderer.once(this.msgChannel + EDB_IPC_ASYNC_REPLAY_SUF + timestamp, (event, arg) => {
         if (arg.err) {
           deffer.reject(arg.err);
@@ -120,6 +120,21 @@ export default class BaseService {
   jsonClassfer(obj) {
     return obj;
   }
+
+//Bug fix for some machine cannot provide a time value accurate to 5 microseconds
+  _getTimeStamp() {
+    let retVal = performance.now().toString();
+    let exiTimeStamp = window.curTimeStamp;
+    if (!exiTimeStamp || (exiTimeStamp !== retVal)) {
+      window.curTimeStamp = exiTimeStamp = retVal;
+      window.curTick = 0;
+    } else {
+      window.curTick++;
+      retVal = retVal + window.curTick.toString();
+    }  
+    return retVal;
+  }
+
 //call back handles returned object
 //the returned object structure {url:null,method:null,data:object}
   _msg_envelope(method, obj, timestamp) {

@@ -23,9 +23,12 @@
     <list label='{{"othername" | translate}}' items='$ctrl.selected.othername'></list>
     <tbl ng-if='!$ctrl.loading' title='{{"otheridentifiers" | translate}}' items='$ctrl.selected.legalentityidentifier' projection='[{name: "legalentityidentifiertype", url: "picklist"},"identifier"]'
       on-select='$ctrl.selectTblItem("legalentityidentifier", index)' on-add='$ctrl.addTblItem("legalentityidentifier")' on-delete='$ctrl.deleteTblItem("legalentityidentifier", index)'></tbl>
-    <fieldset>
-      <legend>{{"contactaddress" | translate}}</legend>
-
+    <md-toolbar>
+      <div class='md-toolbar-tools custom-toolbar'>
+        <h2 class='md-title'>{{"contactaddress" | translate}}</h2>
+      </div>
+    </md-toolbar>
+    <div class='group-container'>
       <text-input label='{{"street1" | translate}}' text-value='$ctrl.selected.contactaddress.street1' is-required='true' on-update='$ctrl.update("contactaddress.street1", value)' max-Length='255'></text-input>
       <text-input label='{{"street2" | translate}}' text-value='$ctrl.selected.contactaddress.street2' on-update='$ctrl.update("contactaddress.street2", value)' max-Length='255'></text-input>
       <text-input label='{{"zipcode" | translate}}' text-value='$ctrl.selected.contactaddress.zipcode' on-update='$ctrl.update("contactaddress.zipcode", value)' max-Length='255'></text-input>
@@ -40,7 +43,7 @@
       <text-input label='{{"email" | translate}}' text-value='$ctrl.selected.contactaddress.email' on-update='$ctrl.update("contactaddress.email", value)' max-Length='255'></text-input>
 
       <text-input label='{{"website" | translate}}' text-value='$ctrl.selected.contactaddress.website' on-update='$ctrl.update("contactaddress.website", value)'></text-input>
-    </fieldset>
+    </div>
     <tbl ng-if='!$ctrl.loading' title='{{"contacts" | translate}}' items='$ctrl.selected.contactperson' projection='["lastname", "firstname", "title", "email"]'
       on-select='$ctrl.selectTblItem("contactperson", index)' on-add='$ctrl.addTblItem("contactperson")' on-delete='$ctrl.deleteTblItem("contactperson", index)'></tbl>
     <div style='z-index:100' class='float-bottom'>

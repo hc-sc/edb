@@ -47,9 +47,6 @@ export default class DocumentCtrl extends BaseCtrl{
       //this.getModels();
     }
 
-    add() {
-            this.selected = angular.copy(this.getModel('document'));
-    }
 
     genPid() {
       this.selected.documentgeneric.documentpid = this.getPid();

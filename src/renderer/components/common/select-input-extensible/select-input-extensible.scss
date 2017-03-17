@@ -10,6 +10,14 @@
 
 select-input-extensible select-input {
   margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;  
+}
+
+select-input-extensible {
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;  
 }
 
 .extension-fields {

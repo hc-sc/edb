@@ -94,7 +94,7 @@ export default angular.module('receiver', [
               } else {
                 this.oriSelected = JSON.stringify(this.ghsts._receiver);
               }
-              this.showMessage('Saved successfully');
+              this.showMessage('Saved successfully.');
             })
             .catch(err => {
               this.showMessage(err);
@@ -147,7 +147,7 @@ export default angular.module('receiver', [
               this.senders = this.senders.concat(sender);
               this.updateGhstsReceiver();
             } else 
-              this.showMessage('Duplicate item');
+              this.showMessage('Duplicate item.');
           })
           .catch(err => console.error(err));
       }
@@ -194,7 +194,7 @@ export default angular.module('receiver', [
               this.records = this.records.concat(receiver);
               this.senders = [];
             } else 
-              this.showMessage('Duplicate item');
+              this.showMessage('Duplicate item.');
           })
           .catch(err => console.log(err));
       }

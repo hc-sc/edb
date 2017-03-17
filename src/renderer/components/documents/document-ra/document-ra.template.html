@@ -14,24 +14,30 @@
 
     <div class='no-margin no-padding'>  
         <select-input 
-            label='{{"receivers" | translate}}'
+            label='{{"receiver" | translate}}'
             main='shortname' 
             select-value='$ctrl.node.toSpecificForRAId' 
             values='$ctrl.receivers' 
             on-update='$ctrl.update("toSpecificForRAId", value)'>
         </select-input>                
-        <select-input 
-            label='{{"dataprotection" | translate}}' 
-            select-value='$ctrl.node.dataprotection' 
-            values='$ctrl.picklists.dataprotectionTypeOptions' 
-            on-update='$ctrl.update("dataprotection", value)'>
-        </select-input>   
-        <select-input 
-            label='{{"datarequirement" | translate}}'
-            select-value='$ctrl.node.datarequirement' 
-            values='$ctrl.picklists.datarequirementTypeOptions' 
-            on-update='$ctrl.update("datarequirement", value)'>
-        </select-input>                    
+       <div layout="row" layout-wrap>  
+              <div flex="50">             
+                <select-input 
+                    label='{{"dataprotection" | translate}}' 
+                    select-value='$ctrl.node.dataprotection' 
+                    values='$ctrl.picklists.dataprotectionTypeOptions' 
+                    on-update='$ctrl.update("dataprotection", value)'>
+                </select-input> 
+              </div>
+              <div flex="50">   
+                <select-input 
+                    label='{{"datarequirement" | translate}}'
+                    select-value='$ctrl.node.datarequirement' 
+                    values='$ctrl.picklists.datarequirementTypeOptions' 
+                    on-update='$ctrl.update("datarequirement", value)'>
+                </select-input>
+              </div>                   
+        </div>            
     </div>
  
     <md-toolbar>
@@ -49,7 +55,8 @@
             <text-input 
                 label='{{"documentcomment" | translate}}' 
                 text-value='comment' 
-                on-update='$ctrl.updateArray("documentcomment", $index, value)'>
+                on-update='$ctrl.updateArray("documentcomment", $index, value)'
+                max-Length='2000'>
             </text-input>
             <md-button aria-label='Delete Item'  ng-click='$ctrl.deleteArray("documentcomment", $index)'>
                 <md-icon md-svg-icon='delete' class='dark'></md-icon>
@@ -71,14 +78,18 @@
     <md-list>
         <md-list-item ng-repeat= "oth in $ctrl.node.othernationalguideline track by $index"  class="noright">
               <div layout-gt-xs="row">
-                  <md-input-container class="md-block" flex-gt-xs="">
-                        <label>{{"guidelinenumber" | translate}}</label>
-                        <input ng-model="oth.guidelinenumber" type="text" on-update='$ctrl.updateArray("guidelinenumber", $index, value)'>  
-                  </md-input-container>
-                  <md-input-container >
-                        <label>{{"guidelinesystem" | translate}}</label>
-                        <input ng-model="oth.guidelinesystem" type="text" on-update='$ctrl.updateArray("guidelinesystem", $index, value)'> 
-                  </md-input-container>
+                   <text-input 
+                        label='{{"guidelinenumber" | translate}}' 
+                        text-value='oth.guidelinenumber' 
+                        on-update='$ctrl.updateArray("guidelinenumber", $index, value,"othernationalguideline")'
+                        max-Length='20'>
+                   </text-input>
+                   <text-input 
+                        label='{{"guidelinesystem" | translate}}' 
+                        text-value='oth.guidelinesystem' 
+                        on-update='$ctrl.updateArray("guidelinesystem", $index, value,"othernationalguideline")'
+                        max-Length='20'>
+                   </text-input>
                   <md-button aria-label='Delete Item'  ng-click='$ctrl.deleteArray("othernationalguideline", $index, $event)'>
                       <md-icon md-svg-icon='delete' class='dark'></md-icon>
                       <md-tooltip>Delete Guideline</md-tooltip>
@@ -105,20 +116,22 @@
                 on-add='$ctrl.createPicklistItem("radocumentnumbertype", "raDocumentNumberTypeOptions", value)'>
       </select-input-extensible>
 
-      <div layout-gt-xs="row">             
+      <div layout-gt-xs="row" >             
             <md-input-container class="md-block" flex-gt-xs="">
                   <label>{{"identifier" | translate}}</label>
-                  <input ng-model="$ctrl.node.radocumentnumber.identifier" type="text">  
+                  <input ng-model="$ctrl.node.radocumentnumber.identifier" type="text" max-Length='255'>  
             </md-input-container>
-            <md-input-container >
-                  <label>{{"alreadysubmitted" | translate}}</label>
-                  <input ng-model="$ctrl.node.radocumentnumber.alreadysubmitted" type="text">
-            </md-input-container>                      
+
+            <md-switch ng-model='$ctrl.node.radocumentnumber.alreadysubmitted' 
+                    aria-label='{{"alreadysubmitted" | translate}}'
+                    class='md-primary' 
+                    ng-change='$ctrl.printValue()'>
+            {{"alreadysubmitted" | translate}} : {{$ctrl.node.radocumentnumber.alreadysubmitted}}
+            <md-tooltip>True or False</md-tooltip>
+        </md-switch>                     
       </div>
 
-   </div>
-
-   
+   </div>  
     
     <md-toolbar>
       <div class='md-toolbar-tools'>
@@ -139,7 +152,7 @@
                   </md-input-container>
                   <md-input-container>
                         <label>{{"dossiernumber" | translate}}</label>
-                        <input ng-model="sub.dossiernumber" type="text" on-update='$ctrl.updateArray("dossiernumber", $index, value)'>
+                        <input ng-model="sub.dossiernumber" type="text" on-update='$ctrl.updateArray("dossiernumber", $index, value)' max-Length='255'>
                   </md-input-container>           
                   <md-button aria-label='Delete Item'  ng-click='$ctrl.deleteSubArray("submissioncontext",$index,"radocumentnumber", $event)'>
                       <md-icon md-svg-icon='delete' class='dark'></md-icon>
