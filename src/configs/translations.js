@@ -57,9 +57,9 @@ export const propNames_en = {
   // Dossier
   'dossierdescriptiontitle': 'Dossier Title',
   'dossierpid': 'Dossier PID',
-  'dossiercompid': 'Dossier Company ID',
-  'dossierregulartoryauthorities': 'Dossier Regulatory Authorities',
-  'referenceddossier': 'Referenced Dossiers',
+  'dossiercompid': 'Company Dossier ID',
+  'dossierregulartoryauthorities': 'Regulatory Authorities Dossier Type',
+  'referenceddossier': 'Referenced Dossier',
   'referenceddossierreason': 'Reference Dossier Reason',
   'referenceddossiernumber': 'Referenced Dossier Number',
   'regulatorytype': 'Regulatory Type',
@@ -72,8 +72,8 @@ export const propNames_en = {
 
   // Submission
   'submissiontitle': 'Submission Title',
-  'submissionnumber': 'Number',
-  'submissionversiondate': 'Submission Version Date',
+  'submissionnumber': ' Submission Number',
+  'submissionversiondate': 'Submission Version Date (YYYY-MM-DD)',
   'incremental': 'Incremental',
   'adminnumber': 'Admin Number',
   'packagetype': 'Package Type',
@@ -92,7 +92,7 @@ export const propNames_en = {
   'toSpecificForRAId': 'Regulatory Authority',
   'ingredients': 'Ingredients',
   'ingredient': 'Ingredient*',
-  'productregulartoryauthorities': 'Product Regulatory Authorities',
+  'productregulartoryauthorities': 'Regulatory Authority Production Information',
   //Product RA
   'productRA': 'Product Regulatory Authorities',
   'receiver': 'Receiver',
@@ -142,7 +142,7 @@ export const propNames_en = {
   'relatedtosubstance': 'Related To Substance',
   'documenttitle': 'Document Title',
   'documentauthor': 'Document Author',
-  'documentissuedate': 'Document Issue Date',
+  'documentissuedate': 'Document Issue Date (YYYY-MM-DD)',
   'documentowner': 'Document Owner',
   'publishedindicator': 'Published Indicator',
   'completedocumentsource': 'Complete Document Source',
@@ -154,23 +154,23 @@ export const propNames_en = {
   'testlaboratory': 'Test Laboratory',
   'gxpindicator': 'Gxp Indicator',
   'testedonvertebrate': 'Tested on Vertebrate',
-  'referencedtofile': 'Referenced to File',
+  'referencedtofile': 'Associated Files',
   'toFileId': 'To File Id',
   'files': 'Files',
-  'documentra': 'Document Regulatory Authority',
+  'documentra': 'Regulatory Authority Document Information',
 
   // Document RA
   'dataprotection': 'Data protection',
   'datarequirement': 'Data Requirement',
   'documentcomment': 'Document Comment',
-  'othernationalguideline': 'Othernational Guideline',
+  'othernationalguideline': 'Other National Guideline',
   'guidelinesystem': 'Guideline System',
   'guidelinenumber': 'Guideline Number',
-  'radocumentnumber': 'Radocument Number',
-  'radocumentnumbertype': 'Radocument Number Type',
+  'radocumentnumber': 'RA Document Number',
+  'radocumentnumbertype': 'RA Document Number Type',
   'alreadysubmitted': 'Already Submitted',
   'submissioncontext': 'Submission Context',
-  'dossiernumber': 'Dossier Number',
+  'dossiernumber': 'Dossier Number'
   // 'toSpecificForRAId': 		    'To Specific For RA Id'
 
 };

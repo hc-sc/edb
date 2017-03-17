@@ -1,11 +1,20 @@
 module.exports = exports = function SubmissionPlugin(schema, options) {
   schema.remove(['submissionversiondate', 'incremental']);
   schema.add({
-    submissionversiondate: {type: Date, required: true, default: '2015-04-21T00:00:00.000Z'},
+    submissionversiondate: {type: Date, required: true},
     incremental: {type: 'Boolean', required: true, default: false}
   });
   schema.add({
     _ghsts: {type: 'ObjectId', ref: 'GHSTS'}
+  });
+
+  schema.pre('save', function (next) {
+    if (!this.submissionversiondate) {
+      let dateStr = (new Date()).toISOString();
+      dateStr = dateStr.substr(0, dateStr.indexOf('T'));
+      this.submissionversiondate = dateStr;
+    }
+    next();
   });
   schema.virtual('valuedecode').get(function () {
     return this.submissiontitle;

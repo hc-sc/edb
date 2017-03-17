@@ -48,13 +48,13 @@ export default angular.module('submission', [
         });
 
         this.navbarItems = [
+          { title: 'Submission', state: '.submissionNode' },
           { title: 'Senders/Receivers', state: '.receivers' },
           { title: 'Dossier', state: '.dossier' },
-          { title: 'Submission', state: '.submissionNode' },
-          { title: 'TOC', state: '.toc' },
           { title: 'Products', state: '.products' },
+          { title: 'Files', state: '.files' },          
           { title: 'Documents', state: '.documents' },
-          { title: 'Files', state: '.files' }
+          { title: 'TOC', state: '.toc' }
         ];
 
         this.toolbarItems = {
@@ -83,7 +83,7 @@ export default angular.module('submission', [
         this.ghstsService.edb_validation()
           .then(results => {
             console.log(results);
-            this.showMessage('Passed XML validation');
+            this.showMessage('Passed XML validation.');
           })
           .catch(err => {
             let prompt = {

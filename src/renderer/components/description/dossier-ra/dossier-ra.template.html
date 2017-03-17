@@ -13,7 +13,7 @@
 
     <md-dialog-content>
       <div class='md-dialog-content'>
-        <select-input label='{{"receiver" | translate}}' main='shortname' select-value='$ctrl.node.toSpecificForRAId' values='$ctrl.receivers' on-update='$ctrl.update("toSpecificForRAId", value)'></select-input>        
+        <select-input label='{{"toSpecificForRAId" | translate}}' main='shortname' select-value='$ctrl.node.toSpecificForRAId' values='$ctrl.receivers' on-update='$ctrl.update("toSpecificForRAId", value)'></select-input>        
         <select-input-extensible label='{{"regulatorytype" | translate}}' 
           select-value='$ctrl.node.regulatorytype' 
           values='$ctrl.picklists.regulatoryTypes'
