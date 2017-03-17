@@ -57,9 +57,9 @@ export const propNames_en = {
   // Dossier
   'dossierdescriptiontitle': 'Dossier Title',
   'dossierpid': 'Dossier PID',
-  'dossiercompid': 'Dossier Company ID',
-  'dossierregulartoryauthorities': 'Dossier Regulatory Authorities',
-  'referenceddossier': 'Referenced Dossiers',
+  'dossiercompid': 'Company Dossier ID',
+  'dossierregulartoryauthorities': 'Regulatory Authorities Dossier Type',
+  'referenceddossier': 'Referenced Dossier',
   'referenceddossierreason': 'Reference Dossier Reason',
   'referenceddossiernumber': 'Referenced Dossier Number',
   'regulatorytype': 'Regulatory Type',
