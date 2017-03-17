@@ -2,14 +2,14 @@
   <md-button class='md-raised md-primary' ng-click='$ctrl.toggleShowTOCData()'>Show TOC Data</md-button>
   <!--<md-button class='md-raised md-primary'   ng-click='$ctrl.showTree()'>Show Tree</md-button>-->
   <div ng-show='$ctrl.showTOCData'>
-    <text-input label='Short Name' text-value='$ctrl.toc.tocshortname' on-update='$ctrl.updateTOC("tocshortname", value)'></text-input>
-    <select-input-extensible label='"Owner"' select-value='$ctrl.toc.tocowner' values='$ctrl.tocOwnerType' on-update='$ctrl.updateTOC("tocowner", value)' on-add='$ctrl.createPicklistItem("tocowner", "tocOwnerType", value)'></select-input-extensible>
-    <text-input label='Full Name' text-value='$ctrl.toc.tocfullname' on-update='$ctrl.updateTOC("tocfullname", value)'></text-input>
-    <text-input label='Versions' is-disabled='true' text-value='$ctrl.toc.tocversion'></text-input>
+    <text-input label='Short Name' text-value='$ctrl.toc.tocshortname' on-update='$ctrl.updateTOC("tocshortname", value)' is-disabled='true'></text-input>
+    <select-input-extensible label='"Owner"' is-disabled='true' select-value='$ctrl.toc.tocowner' values='$ctrl.tocOwnerType' on-update='$ctrl.updateTOC("tocowner", value)' on-add='$ctrl.createPicklistItem("tocowner", "tocOwnerType", value)'></select-input-extensible>
+    <text-input label='Full Name' text-value='$ctrl.toc.tocfullname' on-update='$ctrl.updateTOC("tocfullname", value)' is-disabled='true'></text-input>
+    <text-input label='Versions' is-disabled='true' text-value='$ctrl.toc.tocversion' is-disabled='true'></text-input>
     <fieldset style='margin-top: 20px'>
       <legend>Standard Reference</legend>
       <text-input label='Standard PID' text-value='$ctrl.toc.standardreference.standardtocpid' on-update='$ctrl.updateStandardReference("standardtocpid", value)' is-disabled='true'></text-input>
-      <text-input label='Filename' text-value='$ctrl.toc.standardreference.filename' on-update='$ctrl.updateStandardReference("filename", value)'></text-input>
+      <text-input label='Filename' text-value='$ctrl.toc.standardreference.filename' on-update='$ctrl.updateStandardReference("filename", value)' is-disabled='true'></text-input>
     </fieldset>
   </div>
   <section>

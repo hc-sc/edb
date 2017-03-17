@@ -122,7 +122,9 @@ export default class ModelService {
         return _.merge({}, Object.assign(modelReferencedToFile.fields));
 
       case 'sender':
-        return _.merge({}, Object.assign(modelSender.fields));
+        model = _.merge({}, Object.assign(modelSender.fields));
+        model._shortname = '';
+        return model;
 
       case 'receiver':
         model = _.merge({}, Object.assign(modelReceiver.fields));

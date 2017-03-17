@@ -29,7 +29,7 @@ export default class SettingsCtrl {
         if (ret.code === 'EDB00000')
           this[item] = ret.data;
         else
-          this.showMessage('Canceled');
+          this.showMessage('Canceled.');
       })
       .catch(err => {
         console.log(err);
