@@ -10,18 +10,17 @@ export default class DocumentCtrl extends BaseCtrl{
       this.documentNumberTypeOptions = JSON.parse(this.documentNumberType.data);
       this.dataprotectionTypeOptions = JSON.parse(this.dataprotectionType.data);
       this.datarequirementTypeOptions = JSON.parse(this.datarequirementType.data);
-      this.raDocumentNumberTypeOptions = JSON.parse(this.raDocumentNumberType.data);
+      this.raDocumentNumberType = JSON.parse(this.raDocumentNumberType.data);
       this.picklists = {
             contentStatusOptions: this.contentStatusOptions,
             referenceTypeOptions: this.referenceTypeOptions,
             documentNumberTypeOptions: this.documentNumberTypeOptions,
             dataprotectionTypeOptions: this.dataprotectionTypeOptions,
             datarequirementTypeOptions: this.datarequirementTypeOptions,
-            raDocumentNumberTypeOptions: this.raDocumentNumberTypeOptions
+            raDocumentNumberTypeOptions: this.raDocumentNumberType
       };
       
-      // projection item name must match with name defined in propertyInfos of jsonschema definition    
-   
+    
       this.contentStatusProjection = [
         {name: "contentstatus", url: "picklist"},
         'submissionnumber'
