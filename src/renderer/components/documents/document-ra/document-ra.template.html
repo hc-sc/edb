@@ -108,8 +108,8 @@
    <div class='no-margin no-padding'>  
        <select-input-extensible 
                 label='{{"radocumentnumbertype" | translate}}' 
-                select-value='$ctrl.node.radocumentnumbertype'
-                on-update='$ctrl.update("radocumentnumbertype", value)'
+                select-value='$ctrl.node.radocumentnumber.radocumentnumbertype'
+                on-update='$ctrl.updateSubArray("radocumentnumbertype", value, "radocumentnumber")'
                 values='$ctrl.picklists.raDocumentNumberTypeOptions' 
                 type-name='EXTENSION_TYPE_RA_DOCUMENT_NUMBER_TYPE' 
                 on-add='$ctrl.createPicklistItem("radocumentnumbertype", "raDocumentNumberTypeOptions", value)'>

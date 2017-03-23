@@ -29,8 +29,7 @@ export default class DocumentCtrl extends BaseCtrl{
       this.referencedDocumentProjection = [
         {name: "referencetype", url: "picklist"},
         'internal',
-        'documentpid',
-        {name: "documentnumbertype", url: "picklist"}
+        'documentpid'
       ];
 
        this.documentnumberProjection = [
