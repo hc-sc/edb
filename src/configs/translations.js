@@ -155,8 +155,11 @@ export const propNames_en = {
   'gxpindicator': 'Gxp Indicator',
   'testedonvertebrate': 'Tested on Vertebrate',
   'referencedtofile': 'Associated Files',
-  'toFileId': 'To File Id',
-  'files': 'Files',
+  'toFileId': 'File Name',
+  'filesToSelect': 'Files',
+  'file': 'File',
+  'fileName': 'File Name',
+  'selectFile': 'Select File',
   'documentra': 'Regulatory Authority Document Information',
 
   // Document RA

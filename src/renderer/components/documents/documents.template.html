@@ -51,15 +51,12 @@
         </text-input>
 
         <text-input label='{{"documentissuedate" | translate}}' 
-            is-required='true'
             text-value='$ctrl.selected.documentgeneric.documentissuedate' 
             is-required='true' 
             max-length='30'
             on-update='$ctrl.update("documentgeneric.documentissuedate", value)'>
-        </text-input>
-      
-        <list label='{{"documentowner" | translate}} *' items='$ctrl.selected.documentgeneric.documentowner' min-items='1' ></list>
-
+        </text-input>    
+        
         <md-switch ng-model='$ctrl.selected.documentgeneric.publishedindicator' 
                         aria-label='{{"publishedindicator" | translate}}' 
                         class='md-primary' 
@@ -75,12 +72,7 @@
             on-update='$ctrl.update("documentgeneric.completedocumentsource", value)'
             max-Length='2000'>
         </text-input>
-
-         <list label='{{"testlaboratory" | translate}}'
-                 items='$ctrl.selected.documentgeneric.testlaboratory' >
-        </list>
-
-
+        
         <md-switch ng-model='$ctrl.selected.documentgeneric.gxpindicator' 
                     aria-label='{{"gxpindicator" | translate}}' 
                     class='md-primary' 
@@ -96,8 +88,13 @@
             {{"testedonvertebrate" | translate}} : {{$ctrl.selected.documentgeneric.testedonvertebrate}}
             <md-tooltip>True or False</md-tooltip>
         </md-switch>
+
+        <list label='{{"documentowner" | translate}} *' items='$ctrl.selected.documentgeneric.documentowner' min-items='1' ></list>
       
-        
+         <list label='{{"testlaboratory" | translate}}'
+                 items='$ctrl.selected.documentgeneric.testlaboratory' >
+        </list>
+          
         <tbl ng-if='!$ctrl.loading' title ='{{"contentstatushistory" | translate}}' 
                 
               items='$ctrl.selected.documentgeneric.contentstatushistory' 
