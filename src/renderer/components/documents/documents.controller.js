@@ -53,5 +53,21 @@ export default class DocumentCtrl extends BaseCtrl{
     genFamilyPid() {
       this.selected.documentgeneric.documentfamilypid = this.getPid();
     }
+
+    getModel(prop) {
+      return this.modelService.getModel(prop);
+    }
+
+    add(prop, model) {
+        this.selected.documentgeneric[prop].push(this.getModel(prop));
+    }
+
+    updateArray(prop, index, value, parentArray) {     
+          this.selected.documentgeneric[prop][index] = value;
+    }
+
+    deleteArray(prop, index) {
+        this.selected.documentgeneric[prop] = this.selected.documentgeneric[prop].slice(0, index).concat(this.selected.documentgeneric[prop].slice(index + 1));
+    }
     
 }
