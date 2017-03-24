@@ -89,11 +89,65 @@
             <md-tooltip>True or False</md-tooltip>
         </md-switch>
 
-        <list label='{{"documentowner" | translate}} *' items='$ctrl.selected.documentgeneric.documentowner' min-items='1' ></list>
+        <!--<list label='{{"documentowner" | translate}} *' items='$ctrl.selected.documentgeneric.documentowner' min-items='1' ></list>-->
+
+        <md-toolbar>
+            <div class='md-toolbar-tools custom-toolbar'>
+                <h2 class='md-title'>{{"documentowner" | translate}}</h2>       
+                <span flex></span>
+                <md-button class='md-icon-button' ng-click='$ctrl.add("documentowner")'>
+                    <md-icon md-svg-icon='add' aria-label='add dialog' class='light'></md-icon>
+                    <md-tooltip>Add Owner</md-tooltip>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-list>
+            <md-list-item ng-repeat= "owner in $ctrl.selected.documentgeneric.documentowner track by $index"  class="noright">
+                <div layout-gt-xs="row">
+                    <text-input 
+                            label='{{"documentowner" | translate}}' 
+                            text-value='owner' 
+                            on-update='$ctrl.updateArray("documentowner", $index, value)'
+                            max-Length='2000'>
+                    </text-input>
+                   
+                    <md-button aria-label='Delete Item'  ng-click='$ctrl.deleteArray("documentowner", $index)'>
+                        <md-icon md-svg-icon='delete' class='dark'></md-icon>
+                        <md-tooltip>Delete Owner</md-tooltip>
+                    </md-button>
+                </div>
+            </md-list-item>
+        </md-list>
       
-         <list label='{{"testlaboratory" | translate}}'
-                 items='$ctrl.selected.documentgeneric.testlaboratory' >
-        </list>
+        <!--<list label='{{"testlaboratory" | translate}}' items='$ctrl.selected.documentgeneric.testlaboratory' ></list>-->
+
+        <md-toolbar>
+            <div class='md-toolbar-tools custom-toolbar'>
+                <h2 class='md-title'>{{"testlaboratory" | translate}}</h2>
+                <span flex></span>
+                <md-button class='md-icon-button' ng-click='$ctrl.add("testlaboratory")'>
+                    <md-icon md-svg-icon='add' aria-label='add dialog' class='light'></md-icon>
+                    <md-tooltip>Add Test Laboratory</md-tooltip>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-list>
+            <md-list-item ng-repeat= "lab in $ctrl.selected.documentgeneric.testlaboratory track by $index"  class="noright">
+                <div layout-gt-xs="row">
+                    <text-input 
+                            label='{{"testlaboratory" | translate}}' 
+                            text-value='lab' 
+                            on-update='$ctrl.updateArray("testlaboratory", $index, value)'
+                            max-Length='2000'>
+                    </text-input>
+                   
+                    <md-button aria-label='Delete Item'  ng-click='$ctrl.deleteArray("testlaboratory", $index)'>
+                        <md-icon md-svg-icon='delete' class='dark'></md-icon>
+                        <md-tooltip>Delete Test Lab</md-tooltip>
+                    </md-button>
+                </div>
+            </md-list-item>
+        </md-list>
           
         <tbl ng-if='!$ctrl.loading' title ='{{"contentstatushistory" | translate}}' 
                 

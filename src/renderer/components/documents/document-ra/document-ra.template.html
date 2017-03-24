@@ -14,7 +14,7 @@
 
     <div class='no-margin no-padding'>  
         <select-input 
-            label='{{"receiver" | translate}}'
+            label='{{"toSpecificForRAId" | translate}}'
             main='shortname' 
             select-value='$ctrl.node.toSpecificForRAId' 
             values='$ctrl.receivers' 
@@ -134,39 +134,41 @@
 
    </div>  
     
-    <md-toolbar>
-      <div class='md-toolbar-tools'>
-        <h2>{{"submissioncontext" | translate}}</h2>
-        <span flex></span>
-        <md-button class='md-icon-button' ng-click='$ctrl.addSubArray("submissioncontext","radocumentnumber")'>
-          <md-icon md-svg-icon='add' aria-label='add dialog' class='light'></md-icon>
-          <md-tooltip>Add submission context</md-tooltip>
-        </md-button>
-      </div>
-    </md-toolbar>
-    <md-list>
-        <md-list-item ng-repeat= "sub in $ctrl.node.radocumentnumber.submissioncontext"  class="noright">        
-              <div layout-gt-xs="row">
-                  <text-input 
-                        label='{{"dossierpid" | translate}}' 
-                        text-value='sub.dossierpid' 
-                        on-update='$ctrl.updateSubArray("submissioncontext", value, "radocumentnumber", $index, "dossierpid")'
-                        max-Length='255'>
-                  </text-input>
-                  <text-input 
-                        label='{{"dossiernumber" | translate}}' 
-                        text-value='sub.dossiernumber' 
-                        on-update='$ctrl.updateSubArray("submissioncontext", value, "radocumentnumber", $index, "dossiernumber")'
-                        max-Length='255'>
-                  </text-input>
-                  <md-button aria-label='Delete Item'  ng-click='$ctrl.deleteSubArray("submissioncontext",$index,"radocumentnumber", $event)'>
-                      <md-icon md-svg-icon='delete' class='dark'></md-icon>
-                      <md-tooltip>Delete submission context</md-tooltip>
-                  </md-button>
+  
+    <div flex="66" flex-offset="5">
+            <md-toolbar>
+              <div class='md-toolbar-tools'>
+                <h2>{{"submissioncontext" | translate}}</h2>
+                <span flex></span>
+                <md-button class='md-icon-button' ng-click='$ctrl.addSubArray("submissioncontext","radocumentnumber")'>
+                  <md-icon md-svg-icon='add' aria-label='add dialog' class='light'></md-icon>
+                  <md-tooltip>Add submission context</md-tooltip>
+                </md-button>
               </div>
-        </md-list-item>
-    </md-list>
-
+            </md-toolbar>
+            <md-list>
+                <md-list-item ng-repeat= "sub in $ctrl.node.radocumentnumber.submissioncontext"  class="noright">                    
+                      <div layout-gt-xs="row">
+                          <text-input 
+                                label='{{"dossierpid" | translate}}' 
+                                text-value='sub.dossierpid' 
+                                on-update='$ctrl.updateSubArray("submissioncontext", value, "radocumentnumber", $index, "dossierpid")'
+                                max-Length='255'>
+                          </text-input>
+                          <text-input 
+                                label='{{"dossiernumber" | translate}}' 
+                                text-value='sub.dossiernumber' 
+                                on-update='$ctrl.updateSubArray("submissioncontext", value, "radocumentnumber", $index, "dossiernumber")'
+                                max-Length='255'>
+                          </text-input>
+                          <md-button aria-label='Delete Item'  ng-click='$ctrl.deleteSubArray("submissioncontext",$index,"radocumentnumber", $event)'>
+                              <md-icon md-svg-icon='delete' class='dark'></md-icon>
+                              <md-tooltip>Delete submission context</md-tooltip>
+                          </md-button>
+                      </div>     
+                </md-list-item>
+            </md-list>
+    </div>
  
     <md-dialog-actions layout='row'>
       <span flex></span>
