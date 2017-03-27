@@ -155,7 +155,7 @@ export default class BaseCtrl {
           this.selectedIndex = -1;
           this.selected = angular.copy(this.getModel(prop));
           this.oriSelected = _.merge({}, this.selected);
-          this.showMessage('Adding an new record.');
+          this.showMessage('Adding a new record.');
         });
     }
   }

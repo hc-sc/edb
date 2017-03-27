@@ -36,11 +36,15 @@
         <select-input-extensible 
                 label='{{"documentnumbertype" | translate}}' 
                 select-value='$ctrl.node.documentnumber.documentnumbertype'         
-                on-update='$ctrl. update("documentnumbertype", value)'
+                on-update='$ctrl.updateSubArray("documentnumbertype", value, "documentnumber")'
                 values='$ctrl.picklists.documentNumberTypeOptions' 
                 type-name='EXTENSION_TYPE_DOCUMENT_NUMBER_TYPE' 
                 on-add='$ctrl.createPicklistItem("documentnumbertype", "documentNumberTypeOptions", value)'>
         </select-input-extensible>
+        <text-input label='{{"identifier" | translate}}' 
+            text-value='$ctrl.node.documentnumber.identifier' 
+            on-update='$ctrl.updateSubArray("identifier", value, "documentnumber")' max-Length='25'>
+        </text-input>
       </div>
     </md-dialog-content>
 
