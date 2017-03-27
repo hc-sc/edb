@@ -11,6 +11,7 @@ export default angular.module('selectInput', [
   template,
   bindings: {
     label: '@',
+    isDisabled: '<',
     isRequired: '<',
     showValue: '<',
     selectValue: '<',
