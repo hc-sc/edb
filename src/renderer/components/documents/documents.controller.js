@@ -10,18 +10,17 @@ export default class DocumentCtrl extends BaseCtrl{
       this.documentNumberTypeOptions = JSON.parse(this.documentNumberType.data);
       this.dataprotectionTypeOptions = JSON.parse(this.dataprotectionType.data);
       this.datarequirementTypeOptions = JSON.parse(this.datarequirementType.data);
-      this.raDocumentNumberTypeOptions = JSON.parse(this.raDocumentNumberType.data);
+      this.raDocumentNumberType = JSON.parse(this.raDocumentNumberType.data);
       this.picklists = {
             contentStatusOptions: this.contentStatusOptions,
             referenceTypeOptions: this.referenceTypeOptions,
             documentNumberTypeOptions: this.documentNumberTypeOptions,
             dataprotectionTypeOptions: this.dataprotectionTypeOptions,
             datarequirementTypeOptions: this.datarequirementTypeOptions,
-            raDocumentNumberTypeOptions: this.raDocumentNumberTypeOptions
+            raDocumentNumberTypeOptions: this.raDocumentNumberType
       };
       
-      // projection item name must match with name defined in propertyInfos of jsonschema definition    
-   
+    
       this.contentStatusProjection = [
         {name: "contentstatus", url: "picklist"},
         'submissionnumber'
@@ -30,8 +29,7 @@ export default class DocumentCtrl extends BaseCtrl{
       this.referencedDocumentProjection = [
         {name: "referencetype", url: "picklist"},
         'internal',
-        'documentpid',
-        {name: "documentnumbertype", url: "picklist"}
+        'documentpid'
       ];
 
        this.documentnumberProjection = [
@@ -54,6 +52,22 @@ export default class DocumentCtrl extends BaseCtrl{
 
     genFamilyPid() {
       this.selected.documentgeneric.documentfamilypid = this.getPid();
+    }
+
+    getModel(prop) {
+      return this.modelService.getModel(prop);
+    }
+
+    add(prop, model) {
+        this.selected.documentgeneric[prop].push(this.getModel(prop));
+    }
+
+    updateArray(prop, index, value, parentArray) {     
+          this.selected.documentgeneric[prop][index] = value;
+    }
+
+    deleteArray(prop, index) {
+        this.selected.documentgeneric[prop] = this.selected.documentgeneric[prop].slice(0, index).concat(this.selected.documentgeneric[prop].slice(index + 1));
     }
     
 }

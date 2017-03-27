@@ -12,7 +12,7 @@ module.exports = exports = function SubmissionPlugin(schema, options) {
     if (!this.submissionversiondate) {
       let dateStr = (new Date()).toISOString();
       dateStr = dateStr.substr(0, dateStr.indexOf('T'));
-      this.submissionversiondate = dateStr;
+      this.submissionversiondate = dateStr + 'T00-00-00Z';
     }
     next();
   });

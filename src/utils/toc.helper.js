@@ -38,7 +38,7 @@ module.exports = class TocTreeHelper {
                 toDocumentId: docId
               });
             } else {  ///For front-end display
-              if (_.findIndex(tree[nodeKey], doc => { return doc.document._id = docId;}) < 0) {
+              if (_.findIndex(tree[nodeKey], doc => { return doc.document._id === docId;}) < 0) {
                 tree[nodeKey].push({
                   document: {
                     _id: docId,
