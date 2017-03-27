@@ -12,8 +12,8 @@
     </md-toolbar>
     <md-dialog-content>
       <div class='md-dialog-content'>
-        <text-input label='{{"referenceddossierreason" | translate}}' text-value='$ctrl.node.referenceddossierreason' on-update='$ctrl.update("referenceddossierreason", value)' max-length='2000'></text-input>
-        <text-input label='{{"referenceddossiernumber" | translate}}' text-value='$ctrl.node.referenceddossiernumber' on-update='$ctrl.update("referenceddossiernumber", value)' max-length='255'></text-input>
+        <text-input label='{{"referenceddossiernumber" | translate}}' is-required='true' text-value='$ctrl.node.referenceddossiernumber' on-update='$ctrl.update("referenceddossiernumber", value)' max-length='255'></text-input>
+        <text-input label='{{"referenceddossierreason" | translate}}' is-required='true' text-value='$ctrl.node.referenceddossierreason' on-update='$ctrl.update("referenceddossierreason", value)' max-length='2000'></text-input>
       </div>
     </md-dialog-content>
     <md-dialog-actions layout='row'>

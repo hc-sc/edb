@@ -6,6 +6,7 @@ export default class TocDocumentCtrl {
     this.node = node;
     this.ghstsService = GhstsService.getService();
     this.document;
+    this.title = 'Select Document';
   }
 
   update(prop, value) {

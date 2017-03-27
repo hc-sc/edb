@@ -14,7 +14,7 @@
     <tbl ng-if='!$ctrl.$scope.$root.loading' title='{{"dossierregulartoryauthorities" | translate}}' items='$ctrl.selected.dossierra' projection='[{name: "toSpecificForRAId", url: "receiver"}, {name: "regulatorytype", url: "picklist"}, {name: "applicationtype", url: "picklist"}, "projectidnumber"]'
       min-items='1' on-select='$ctrl.selectTblItem("dossierra", index)' on-delete='$ctrl.deleteTblItem("dossierra", index)'
       deletable='true' on-add='$ctrl.addTblItem("dossierra")'></tbl>
-    <tbl ng-if='!$ctrl.$scope.$root.loading' title='{{"referenceddossier" | translate}}' items='$ctrl.selected.referenceddossier' projection='["referenceddossiernumber","referenceddossierreason" ]'
+    <tbl ng-if='!$ctrl.$scope.$root.loading' title='{{"referenceddossiers" | translate}}' items='$ctrl.selected.referenceddossier' projection='["referenceddossiernumber","referenceddossierreason" ]'
       on-select='$ctrl.selectTblItem("referenceddossier", index)' on-delete='$ctrl.deleteTblItem("referenceddossier", index)'
       deletable='false' on-add='$ctrl.addTblItem("referenceddossier")'></tbl>
   </div>

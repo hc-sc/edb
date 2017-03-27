@@ -23,19 +23,17 @@ export default class ModalBaseCtrl {
     return this.modelService.getModel(prop);
   }
 
-  // initializeModel(modelName){
-  //   let modelObj = this.getModel(modelName);
-  //   let iterableObject = Object.keys(modelObj);
-  //   for (const modelProp of iterableObject) {
-  //       modelObj[modelProp] = "";
-  //   }
-
-  //   return modelObj;
-  // }
+  updateSubArray(prop, value, model,index, prop2){
+    if (Array.isArray(this.node[model][prop])) { 
+        this.node[model][prop][index][prop2] = value;
+    } else{
+        this.node[model][prop] = value;
+    }
+      
+  }
 
   addSubArray(prop, model) {
-    let modelName = model ? model : prop;  
-    let modelObj = this.getModel(modelName); 
+    let modelObj = this.getModel(prop); 
     this.node[model][prop].push(modelObj);
   }
 
