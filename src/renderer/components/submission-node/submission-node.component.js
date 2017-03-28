@@ -19,7 +19,7 @@ export default angular.module('submissionNode', [
       super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'submission', $scope, GhstsService, $transitions);
       this.init(this.$state.params.submissionid)
       .then(() => {
-        this.$scope.$root.loading = false;
+        $scope.$apply(this.$scope.$root.loading = false);
       });
     }
   }
