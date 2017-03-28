@@ -1,0 +1,13 @@
+{
+	"localName": "GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTCONTENTSTATUSHISTORY",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "documentcontentstatus",
+			"required": true,
+			"collection": true,
+			"elementName": "DOCUMENT_CONTENT_STATUS",
+			"typeInfo": ".GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTCONTENTSTATUSHISTORY.DOCUMENTCONTENTSTATUS"
+		}
+	]
+}

@@ -1,0 +1,10 @@
+<div id="menu-panel" ng-controller="HistoryController as historyCtrl" >
+    <div class="menu-row">
+        <div class="menu-field">
+            <a href="" ng-click="historyCtrl.showPrevious()"><i title="Previous" alt="Previous" class="fa fa-chevron-circle-left fa-2x fa-fw" ng-class="{ 'menu-disabled': !historyCtrl.navigateState.hasPrevious }"></i></a>
+        </div>
+        <div class="menu-field">
+            <a href="" ng-click="historyCtrl.showNext()"><i title="Next" alt="Next" class="fa fa-chevron-circle-right fa-2x fa-fw" ng-class="{ 'menu-disabled': !historyCtrl.navigateState.hasNext }"></i></a>
+        </div>
+    </div>
+</div>

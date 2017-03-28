@@ -1,0 +1,13 @@
+<div id="structure-panel" ng-controller="StructureController as structCtrl" >
+    
+  <div id="toc-panel" ng-show="structCtrl.State.Viewer.StructureView == 'TOC'">
+    <ghsts-toc ng-model="structCtrl.toclist"></ghsts-toc>
+  </div>
+    
+	<div id="table-panel" ng-show="structCtrl.State.Viewer.StructureView == 'TABLE'">
+    <div id="doc-table-pane">
+      <ghsts-doc-table ng-model="structCtrl.doclist"></ghsts-doc-table>
+    </div>
+  </div>
+
+</div>

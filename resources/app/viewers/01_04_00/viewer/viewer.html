@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="de" ng-app="GhstsViewer">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <!-- bower dependencies -->
+    <link rel="stylesheet" href="styles/vendor/vendor.css">
+    <link rel="stylesheet" href="styles/app.css">
+    <title>GHSTS-Viewer</title>
+</head>
+<body>
+<div ng-controller="MainController as mainCtrl" main-loaded>
+    <div id="loading-container" ng-hide="mainCtrl.tocLoaded">
+        <h4>
+          Loading data, please wait...&nbsp;
+          <i class="fa fa-spinner fa-spin"></i>
+        </h4>
+    </div>
+    <div ng-include="'partials/main/main.tpl.html'"></div>
+</div>
+
+<!-- bower dependencies -->
+<script src="scripts/vendor.js"></script>
+
+<!-- app scripts  -->
+<script src="scripts/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+{
+	"localName": "TYPETOCNODE",
+	"typeName": "TYPE_TOC_NODE",
+	"propertyInfos": [
+		{
+			"name": "nodename",
+			"required": true,
+			"elementName": "NODE_NAME"
+		},
+		{
+			"name": "nodeheading",
+			"required": true,
+			"elementName": "NODE_HEADING"
+		},
+		{
+			"name": "tocnodepid",
+			"elementName": "TOC_NODE_PID"
+		},
+		{
+			"name": "emptynode",
+			"required": true,
+			"elementName": "EMPTY_NODE",
+			"typeInfo": "Boolean"
+		},
+		{
+			"name": "toc2DOC",
+			"minOccurs": 0,
+			"collection": true,
+			"elementName": "TOC2DOC",
+			"typeInfo": ".TYPETOCNODE.TOC2DOC"
+		},
+		{
+			"name": "tocnode",
+			"minOccurs": 0,
+			"collection": true,
+			"elementName": "TOC_NODE",
+			"typeInfo": ".TYPETOCNODE"
+		}
+	]
+}

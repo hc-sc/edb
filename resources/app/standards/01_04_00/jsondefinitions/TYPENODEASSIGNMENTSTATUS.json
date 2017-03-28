@@ -1,0 +1,10 @@
+{
+	"type": "enumInfo",
+	"localName": "TYPENODEASSIGNMENTSTATUS",
+	"values": [
+		"New",
+		"No Change",
+		"Replace",
+		"Retired"
+	]
+}

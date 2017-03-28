@@ -1,0 +1,16 @@
+<div class="file-display content-panel" ng-if="vm.fileSource && vm.fileLoaded">
+    <iframe class="file-frame" embed-file-src="{{vm.fileViewerSource}}" pdf-annotation/>
+</div>    
+<div class="file-display content-panel" style="background-color: transparent;" ng-if="vm.fileSource && !vm.fileLoaded">
+  <div class="panel panel-danger">
+    <div class="panel-heading">
+      <b>Could not load file</b>
+    </div>
+    <div class="panel-body" style="padding: 10px;" ng-if="vm.fullFileSource === ''">
+      {{vm.fileSource}}
+    </div>
+    <div class="panel-body" style="padding: 10px;" ng-if="vm.fullFileSource !== ''">
+      {{vm.fullFileSource}}
+    </div>
+  </div>
+</div>
