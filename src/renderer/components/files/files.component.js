@@ -52,7 +52,7 @@ export default angular.module('files', [
           };
           this.loading = false; 
           if (this.isSubmission) 
-            this.$scope.$root.loading = false;
+            $scope.$apply(this.$scope.$root.loading = false);
         });
       }
 
@@ -74,7 +74,7 @@ export default angular.module('files', [
             }
             this.sortData();
             this.resetSelected(data._id);
-            this.showMessage('selected file');
+            this.showMessage('Selected file.');
             console.log(this.selected);
           })
           .catch(err => {

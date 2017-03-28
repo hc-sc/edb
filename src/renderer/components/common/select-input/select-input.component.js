@@ -11,6 +11,7 @@ export default angular.module('selectInput', [
   template,
   bindings: {
     label: '@',
+    isDisabled: '<',
     isRequired: '<',
     showValue: '<',
     selectValue: '<',
@@ -22,8 +23,8 @@ export default angular.module('selectInput', [
     $onChanges() {
       if (this.values) {
         this.values.sort((a, b) => {
-          let av = this.main ? this.getMain(a) : a.valuedecode ? a.valuedecode : '';
-          let bv = this.main ? this.getMain(b) : b.valuedecode ? b.valuedecode : '';
+          let av = this.main ? this.getMain(a).toLowerCase() : a.lowvaluedecode ? a.lowvaluedecode : a.valuedecode ? a.valuedecode.toLowerCase() : '';
+          let bv = this.main ? this.getMain(b).toLowerCase() : b.lowvaluedecode ? b.lowvaluedecode : b.valuedecode ? b.valuedecode.toLowerCase() : '';
           return av < bv ? -1 : av > bv ? 1 : 0; 
         });
       }

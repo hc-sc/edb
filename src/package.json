@@ -1,6 +1,6 @@
 {
   "name": "edossier_builder",
-  "version": "1.12.0",
+  "version": "1.14.0",
   "description": "eDossier Builder",
   "author": "Health Canada - Santé Canada",
   "main": "index.js",

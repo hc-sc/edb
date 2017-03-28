@@ -4,10 +4,12 @@
     <div class='no-margin no-padding' ng-if='!ctrl.loading'>
 
         <text-input label='PID PREFIX' is-required='true' is-disabled='true' text-value='$ctrl.pidprefix' ></text-input>
+        <!--
         <div class='extension-wrapper'>
             <text-input label='VIEWER LOCATION'  is-required='true' text-value='$ctrl.viewerlocation'></text-input>
             <icon icon='$ctrl.listFileButton' ng-click='$ctrl.selectFolder("viewerlocation")'></icon>
         </div>
+        -->
         <div class='extension-wrapper'>
             <text-input label='PACKAGE LOCATION'  is-required='true' text-value='$ctrl.packagelocation'></text-input>
             <icon icon='$ctrl.listFileButton' ng-click='$ctrl.selectFolder("packagelocation")'></icon>

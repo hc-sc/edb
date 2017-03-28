@@ -2,7 +2,7 @@
   <form ng-cloak>
     <md-toolbar>
       <div class='md-toolbar-tools'>
-        <h2>{{"files" | translate}}</h2>
+        <h2>{{"filesToSelect" | translate}}</h2>
         <span flex></span>
         <md-button class='md-icon-button' ng-click='$ctrl.cancel()'>
           <md-icon md-svg-icon='close' aria-label='close dialog' class='light'></md-icon>
@@ -14,7 +14,7 @@
     <md-dialog-content>
       <div class='md-dialog-content'>
         <select-input 
-            label='{{"files" | translate}}' 
+            label='{{"selectFile" | translate}}' 
             main='filename' 
             select-value='$ctrl.node.toFileId' 
             values='$ctrl.files' 

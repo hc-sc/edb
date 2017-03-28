@@ -19,11 +19,15 @@
             values='$ctrl.picklists.referenceTypeOptions' 
             on-update='$ctrl.update("referencetype", value)'>
          </select-input>
-        <text-input 
-            label='{{"internal" | translate}}' 
-            text-value='$ctrl.node.internal' 
-            on-update='$ctrl.update("internal", value)'>
-        </text-input>
+
+        <md-switch ng-model='$ctrl.node.internal'
+                    aria-label='{{"internal" | translate}}' 
+                    class='md-primary' 
+                    ng-change='$ctrl.printValue()'>
+            {{"internal" | translate}} : {{$ctrl.node.internal}}
+            <md-tooltip>True or False</md-tooltip>
+        </md-switch>
+
         <text-input 
             label='{{"documentpid" | translate}}'
             text-value='$ctrl.node.documentpid' 
@@ -32,11 +36,15 @@
         <select-input-extensible 
                 label='{{"documentnumbertype" | translate}}' 
                 select-value='$ctrl.node.documentnumber.documentnumbertype'         
-                on-update='$ctrl. update("documentnumbertype", value)'
+                on-update='$ctrl.updateSubArray("documentnumbertype", value, "documentnumber")'
                 values='$ctrl.picklists.documentNumberTypeOptions' 
                 type-name='EXTENSION_TYPE_DOCUMENT_NUMBER_TYPE' 
                 on-add='$ctrl.createPicklistItem("documentnumbertype", "documentNumberTypeOptions", value)'>
         </select-input-extensible>
+        <text-input label='{{"identifier" | translate}}' 
+            text-value='$ctrl.node.documentnumber.identifier' 
+            on-update='$ctrl.updateSubArray("identifier", value, "documentnumber")' max-Length='25'>
+        </text-input>
       </div>
     </md-dialog-content>
 

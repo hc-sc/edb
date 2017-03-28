@@ -109,11 +109,16 @@ export default class ModelService {
       case 'documentgeneric.documentnumber':
         return _.merge({}, Object.assign(modelDocumentNumber.fields));
 
+      case 'documentnumber':
+        return _.merge({}, Object.assign(modelDocumentNumber.fields));
+
       case 'documentgeneric.contentstatushistory':
         return _.merge({}, Object.assign(modelDocumentContentStatus.fields));
 
       case 'documentgeneric.referenceddocument':
-        return  _.merge({}, Object.assign(modelReferencedDocument.fields));
+          model =  _.merge({}, Object.assign(modelReferencedDocument.fields));
+          model.documentnumber = this.getModel('documentnumber');
+        return model;
 
       case 'documentgeneric.relatedtosubstance':
         return _.merge({}, Object.assign(modelReLatedToSubstance.fields));
@@ -122,7 +127,9 @@ export default class ModelService {
         return _.merge({}, Object.assign(modelReferencedToFile.fields));
 
       case 'sender':
-        return _.merge({}, Object.assign(modelSender.fields));
+        model = _.merge({}, Object.assign(modelSender.fields));
+        model._shortname = '';
+        return model;
 
       case 'receiver':
         model = _.merge({}, Object.assign(modelReceiver.fields));
