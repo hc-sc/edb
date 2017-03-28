@@ -95,7 +95,7 @@
             <div class='md-toolbar-tools custom-toolbar'>
                 <h2 class='md-title'>{{"documentowner" | translate}}</h2>       
                 <span flex></span>
-                <md-button class='md-icon-button' ng-click='$ctrl.add("documentowner")'>
+                <md-button class='md-icon-button' ng-click='$ctrl.addArrayGen("documentowner")'>
                     <md-icon md-svg-icon='add' aria-label='add dialog' class='light'></md-icon>
                     <md-tooltip>Add Owner</md-tooltip>
                 </md-button>
@@ -107,11 +107,11 @@
                     <text-input 
                             label='{{"documentowner" | translate}}' 
                             text-value='owner' 
-                            on-update='$ctrl.updateArray("documentowner", $index, value)'
+                            on-update='$ctrl.updateArrayGen("documentowner", $index, value)'
                             max-Length='2000'>
                     </text-input>
                    
-                    <md-button aria-label='Delete Item'  ng-click='$ctrl.deleteArray("documentowner", $index)'>
+                    <md-button aria-label='Delete Item'  ng-click='$ctrl.deleteArrayGen("documentowner", $index)'>
                         <md-icon md-svg-icon='delete' class='dark'></md-icon>
                         <md-tooltip>Delete Owner</md-tooltip>
                     </md-button>
@@ -125,7 +125,7 @@
             <div class='md-toolbar-tools custom-toolbar'>
                 <h2 class='md-title'>{{"testlaboratory" | translate}}</h2>
                 <span flex></span>
-                <md-button class='md-icon-button' ng-click='$ctrl.add("testlaboratory")'>
+                <md-button class='md-icon-button' ng-click='$ctrl.addArrayGen("testlaboratory")'>
                     <md-icon md-svg-icon='add' aria-label='add dialog' class='light'></md-icon>
                     <md-tooltip>Add Test Laboratory</md-tooltip>
                 </md-button>
@@ -137,11 +137,11 @@
                     <text-input 
                             label='{{"testlaboratory" | translate}}' 
                             text-value='lab' 
-                            on-update='$ctrl.updateArray("testlaboratory", $index, value)'
+                            on-update='$ctrl.updateArrayGen("testlaboratory", $index, value)'
                             max-Length='2000'>
                     </text-input>
                    
-                    <md-button aria-label='Delete Item'  ng-click='$ctrl.deleteArray("testlaboratory", $index)'>
+                    <md-button aria-label='Delete Item'  ng-click='$ctrl.deleteArrayGen("testlaboratory", $index)'>
                         <md-icon md-svg-icon='delete' class='dark'></md-icon>
                         <md-tooltip>Delete Test Lab</md-tooltip>
                     </md-button>
