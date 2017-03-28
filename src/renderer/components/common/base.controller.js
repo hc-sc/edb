@@ -57,19 +57,25 @@ export default class BaseCtrl {
   // return some global item(s)
   getAppData(data = {}, url = this.url) {
     if (this.isSubmission && url === this.url) {
-      this.ghsts = this.ghstsService.edb_getSync({_submissionid: this.dossierData.submissionid})[0];
-      let ids = this.ghsts._receiver.map(item => {
-        return item.receiver;
-      });
-      if (ids.length > 0) {
-        this.receivers = this.appDataService.edb_getSync({_url: '/receiver', data: ids });
-      }
-      if (this.url === 'product') 
-        return this.appDataService.edb_get({ url, data: {_id: this.ghsts._product}});
-      else if (this.url === 'dossier')
-        return this.appDataService.edb_get({ url, data });
-      else if (this.url === 'document' || this.url === 'file' || this.url === 'toc') 
-        return this.ghstsService.edb_get({url: this.url});
+      return Promise.resolve(this.ghstsService.edb_get({ _submissionid: this.dossierData.submissionid }))
+          .then(ghsts => {
+            this.ghsts = JSON.parse(ghsts.data)[0];
+            let ids = this.ghsts._receiver.map(item => {
+              return item.receiver;
+            });
+            if (ids.length > 0) {
+              this.receivers = this.appDataService.edb_getSync({_url: '/receiver', data: ids });
+            }
+            if (this.url === 'product') 
+              return this.appDataService.edb_get({ url, data: {_id: this.ghsts._product}});
+            else if (this.url === 'dossier')
+              return this.appDataService.edb_get({ url, data });
+            else if (this.url === 'document' || this.url === 'file' || this.url === 'toc') 
+              return this.ghstsService.edb_get({url: this.url});
+          })
+          .catch(err => {
+            this.showMessage(err.message);
+          });
     } else
       return this.appDataService.edb_get({ url, data });
   }

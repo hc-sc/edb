@@ -40,7 +40,7 @@ export default class DocumentCtrl extends BaseCtrl{
       this.init().then(() => {
         this.loading = false;
         if (this.isSubmission)
-          this.$scope.$root.loading = false;
+          $scope.$apply(this.$scope.$root.loading = false);
       });
       //this.getModels();
     }

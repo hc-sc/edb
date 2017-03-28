@@ -47,8 +47,9 @@ export default angular.module('products', [
 
         this.init().then(() => { 
           this.loading = false; 
-          if (this.isSubmission) 
-            this.$scope.$root.loading = false;
+          if (this.isSubmission) {
+            $scope.$apply(this.$scope.$root.loading = false);
+          }
         });
       }
 
