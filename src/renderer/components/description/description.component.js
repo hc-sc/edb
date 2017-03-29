@@ -36,7 +36,7 @@ export default angular.module('description', [
             regulatoryTypes: this.regulatoryTypes,
             applicationTypes: this.applicationTypes
           };
-          this.$scope.$root.loading = false;
+          $scope.$apply(this.$scope.$root.loading = false);
         });
         this.addButton = { name: 'add', label: 'Generate PID', color: 'dark' };
         

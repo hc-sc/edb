@@ -43,7 +43,7 @@ export default angular.module('toc', [
         this.tocOwnerType = JSON.parse(ret.data);
         this.treeNodes = [];
         this.tree.tocnode.forEach(node => this.getNodes(this.treeNodes, node));
-        this.$scope.$root.loading = false;
+        $scope.$apply(this.$scope.$root.loading = false);
         this.associations = [];
       });
     }
