@@ -104,7 +104,8 @@ module.exports = class ProductService extends BaseService {
               _submissionid: dossiers[index].submission[0],
               _submissionnumber: parseInt(submissions[index][0].submissionnumber),
               _product: products[index]._id,
-              _foldername: products[index].genericproductname + BACKEND_CONST.PRODUCT_DOSSIER_FOLDER_CONTACT_SYMBOL + dossiers[index].dossierdescriptiontitle
+              _foldername: products[index].genericproductname + BACKEND_CONST.PRODUCT_DOSSIER_FOLDER_CONTACT_SYMBOL + dossiers[index].dossierdescriptiontitle,
+              _version: '01.04.00'
             })
             .bind(index)
             .then(ret => {

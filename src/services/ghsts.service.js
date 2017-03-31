@@ -817,7 +817,7 @@ module.exports = class GhstsService extends BaseService {
         .then(ret => {
           let filesNeedCopy = _.concat([], ret._filesNeedCopy);
           delete ret._filesNeedCopy;
-          let doc = self._marsh['01_00_02'].marshalString(ret);
+          let doc = self._marsh['01_04_00'].marshalString(ret);
           packageLocation = self._createPackage(doc, filesNeedCopy);
           let subSvr = new SubmissionService(self._version);
           let subObj = SubmissionService.edb_getSync({
@@ -847,8 +847,8 @@ module.exports = class GhstsService extends BaseService {
         .then(ret => {
           let xmlJsonix = _.merge({}, ret);
           delete xmlJsonix._filesNeedCopy;
-          let isValid = self._validate['01_00_02'](xmlJsonix);
-          let errors = !isValid ? self._validate['01_00_02'].errors : '';
+          let isValid = self._validate['01_04_00'](xmlJsonix);
+          let errors = !isValid ? self._validate['01_04_00'].errors : '';
           if (errors) {
             errors = _.filter(errors, error => {
               if (error.keyword !== 'anyOf')
