@@ -49,7 +49,7 @@ var svrDisp;
 
 var XMLSchemaJsonSchema;
 var JsonixJsonSchema;
-var supprtVersions = ['01.00.02'], validateInsts = {}, marshallers = {}, unmarshallers = {};
+var supprtVersions = [''], validateInsts = {}, marshallers = {}, unmarshallers = {};
 var ajvInst;
 
 var init_mongoose = () => {
@@ -139,28 +139,28 @@ var initDB = () => {
         let svr;
 
         svrClass = require('./services/product.service');
-        svr = new svrClass('01.00.02');
+        svr = new svrClass('');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/legalentity.service');
-        svr = new svrClass('01.00.02');
+        svr = new svrClass('');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/substance.service');
-        svr = new svrClass('01.00.02');
+        svr = new svrClass('');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/file.service');
-        svr = new svrClass('01.00.02');
+        svr = new svrClass('');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/document.service');
-        svr = new svrClass('01.00.02');
+        svr = new svrClass('');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/receiver.service');
-        svr = new svrClass('01.00.02');
+        svr = new svrClass('');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/sender.service');
-        svr = new svrClass('01.00.02');
+        svr = new svrClass('');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/toc.service');
-        svr = new svrClass('01.00.02');
+        svr = new svrClass('');
         qAry.push(svr.initDbfromTestData());
         res(Q.all(qAry));
       }
@@ -328,7 +328,7 @@ app.on('ready', function () {
   mainWindow.loadURL('file://' + __dirname + '/renderer/index.html');
   mainWindow.webContents.on('did-finish-load', function () {
     // TODO: setTitle is being deprecated, find and use alternative
-    mainWindow.setTitle('eDossier Builder (V1.14.0)');
+    mainWindow.setTitle('eDossier Builder (V1.4.0)');
     //if (configure.env.toString().toUpper() == 'DEV'){
     mainWindow.openDevTools();
   });

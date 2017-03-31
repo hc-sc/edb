@@ -36,8 +36,8 @@ export default angular.module('home', [
         this.dossiers = [];
         this.dossierTitle;
         this.supportedversions = [{
-          _id: '01.00.02',
-          valuedecode: '01.00.02'
+          _id: '',
+          valuedecode: ''
         }];
 
         this.GhstsService.edb_get().then(result => {

@@ -59,11 +59,11 @@ const PicklistFieldsConfig = {
     fieldPath: 'GHSTS.GHSTS.SUBSTANCES.SUBSTANCE.SUBSTANCEIDENTIFIER.SUBSTANCEIDENTIFIERTYPE', 
     jsonixName: 'GHSTS.EXTENSIONTYPESUBSTANCEIDENTIFIERTYPE'
   },
-  contentstatus: {
-    typename: 'TYPE_CONTENT_STATUS', 
+  documentcontentstatus: {
+    typename: 'TYPE_DOCUMENT_CONTENT_STATUS', 
     isExt: false, 
     fieldPath: '', 
-    jsonixName: 'GHSTS.TYPECONTENTSTATUSSTRUCT'
+    jsonixName: 'GHSTS.TYPEDOCUMENTCONTENTSTATUSSTRUCT'
   },
   filetype: {
     typename: 'TYPE_FILE_TYPE', 
@@ -106,6 +106,12 @@ const PicklistFieldsConfig = {
     isExt: true, 
     fieldPath: 'GHSTS.GHSTS.TOC.TOCOWNER', 
     jsonixName: 'GHSTS.EXTENSIONTYPETOCOWNER'
+  },
+  nodeassignmentstatus: {
+    typename: 'TYPE_NODE_ASSIGNMENT_STATUS',
+    isExt: false,
+    fieldPath: 'GHSTS.GHSTS.TOC.STRUCTURE.TOCNODE.TOC2DOC.NODEASSIGNMENTSTATUS', 
+    jsonixName: 'GHSTS.TYPENODEASSIGNMENTSTATUS'
   }
 
 

@@ -2,7 +2,7 @@ const PicklistService = require('../services/picklist.service');
 const _ = require('lodash');
 
 const metadataStatusdef = {
-  '01.00.02': {
+  '': {
     fields: {
       receiver: [],
       product: {},
@@ -30,7 +30,7 @@ class MetaDataStatusNode {
 class MetaDataStatusNodeWithRA {
   constructor(elementid, metadatastatusid, elementpath, receiverids, version) {
     this.elementid = elementid;
-    let ver = version ? version : '01.00.02';
+    let ver = version ? version : '';
     metadataStatusdef[ver].path[elementpath].map(item => {
       if (item.endsWith('ra')) {
         this[item] = [];

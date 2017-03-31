@@ -1,0 +1,501 @@
+{
+  "product": [
+    {
+      "product": {
+        "TYPE_NAME": "GHSTS.GHSTS.PRODUCT",
+        "productpid": "urn:pppww:E3568230-87E3-4693-8F44-F7B1ACCB0EDB",
+        "genericproductname": "Famous Product EC 250 Test 1",
+        "productra": [
+          {
+            "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.PRODUCTRA",
+            "toSpecificForRAId": "ID_RECEIVER_BVL",
+            "productname": "Besonders Schädlingsfrei Supra EC250",
+            "adminnumber": [
+              {
+                "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.PRODUCTRA.ADMINNUMBER",
+                "adminnumbertype": {
+                  "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.PRODUCTRA.ADMINNUMBER.ADMINNUMBERTYPE",
+                  "value": {
+                    "TYPE_NAME": "GHSTS.EXTENSIONTYPEADMINNUMBERTYPE",
+                    "value": "Application Number"
+                  },
+                  "valuedecode": "Application Number"
+                },
+                "identifier": "BVL-R01-123"
+              },
+              {
+                "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.PRODUCTRA.ADMINNUMBER",
+                "adminnumbertype": {
+                  "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.PRODUCTRA.ADMINNUMBER.ADMINNUMBERTYPE",
+                  "value": {
+                    "TYPE_NAME": "GHSTS.EXTENSIONTYPEADMINNUMBERTYPE",
+                    "value": "Application Number"
+                  },
+                  "valuedecode": "Application Number"
+                },
+                "identifier": "BVL-R02-123"
+              }
+            ]
+          },
+          {
+            "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.PRODUCTRA",
+            "toSpecificForRAId": "ID_RECEIVER_PMRA",
+            "productname": "Great Canadian Beetle Controller GCBC",
+            "adminnumber": [
+              {
+                "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.PRODUCTRA.ADMINNUMBER",
+                "adminnumbertype": {
+                  "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.PRODUCTRA.ADMINNUMBER.ADMINNUMBERTYPE",
+                  "value": {
+                    "TYPE_NAME": "GHSTS.EXTENSIONTYPEADMINNUMBERTYPE",
+                    "value": "Application Number"
+                  },
+                  "valuedecode": "Application Number"
+                },
+                "identifier": "APP-R02-123"
+              }
+            ]
+          }
+        ],
+        "formulationtype": {
+          "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.FORMULATIONTYPE",
+          "value": {
+            "TYPE_NAME": "GHSTS.EXTENSIONTYPEFORMULATIONTYPE",
+            "value": "BR"
+          },
+          "valuedecode": "BR"
+        },
+        "ingredients": {
+          "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.INGREDIENTS",
+          "ingredient": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.INGREDIENTS.INGREDIENT",
+              "toSubstanceId": "IDS0000000112",
+              "quantity": 100,
+              "unit": {
+                "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.INGREDIENTS.INGREDIENT.UNIT",
+                "value": {
+                  "TYPE_NAME": "GHSTS.EXTENSIONTYPEUNIT",
+                  "value": "g/L"
+                },
+                "valuedecode": "g/L"
+              }
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.INGREDIENTS.INGREDIENT",
+              "toSubstanceId": "IDS0000002222",
+              "quantity": 100,
+              "unit": {
+                "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.INGREDIENTS.INGREDIENT.UNIT",
+                "value": {
+                  "TYPE_NAME": "GHSTS.EXTENSIONTYPEUNIT",
+                  "value": "g/L"
+                },
+                "valuedecode": "g/L"
+              }
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.INGREDIENTS.INGREDIENT",
+              "toSubstanceId": "IDS0000003333",
+              "quantity": 50,
+              "unit": {
+                "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.INGREDIENTS.INGREDIENT.UNIT",
+                "value": {
+                  "TYPE_NAME": "GHSTS.EXTENSIONTYPEUNIT",
+                  "value": "g/L"
+                },
+                "valuedecode": "g/L"
+              }
+            }
+          ]
+        },
+        "dossier": {
+          "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER",
+          "dossierpid": "urn:pppww:05C6DD14-04B0-4BC4-8749-1FC06E9F00B1",
+          "dossierdescriptiontitle": "Famous Product EC 250 Test 1",
+          "dossiercompid": "PPPWW4711",
+          "referenceddossier": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER.REFERENCEDDOSSIER",
+              "referenceddossiernumber": "PPPWW4706",
+              "referenceddossierreason": "Dossier with same active ingredient"
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER.REFERENCEDDOSSIER",
+              "referenceddossiernumber": "PPPWW4466",
+              "referenceddossierreason": "Dossier with different formulation"
+            }
+          ],
+          "dossierra": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER.DOSSIERRA",
+              "toSpecificForRAId": "ID_RECEIVER_BVL",
+              "regulatorytype": {
+                "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER.DOSSIERRA.REGULATORYTYPE",
+                "value": {
+                  "TYPE_NAME": "GHSTS.EXTENSIONTYPEREGULATORYTYPE",
+                  "value": "1107/2009/EG"
+                },
+                "valuedecode": "1107/2009/EG"
+              },
+              "applicationtype": {
+                "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER.DOSSIERRA.APPLICATIONTYPE",
+                "value": {
+                  "TYPE_NAME": "GHSTS.EXTENSIONTYPEAPPLICATIONTYPE",
+                  "value": "A2 - Known active"
+                },
+                "valuedecode": "A2 - Known active"
+              },
+              "projectidnumber": [
+                "099999-00"
+              ]
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER.DOSSIERRA",
+              "toSpecificForRAId": "ID_RECEIVER_PMRA",
+              "regulatorytype": {
+                "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER.DOSSIERRA.REGULATORYTYPE",
+                "value": {
+                  "TYPE_NAME": "GHSTS.EXTENSIONTYPEREGULATORYTYPE",
+                  "value": "21 CFR Part 11"
+                },
+                "valuedecode": "21 CFR Part 11"
+              },
+              "applicationtype": {
+                "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER.DOSSIERRA.APPLICATIONTYPE",
+                "value": {
+                  "TYPE_NAME": "GHSTS.EXTENSIONTYPEAPPLICATIONTYPE",
+                  "value": "A1 - New active"
+                },
+                "valuedecode": "A1 - New active"
+              },
+              "projectidnumber": [
+                "1995-9999",
+                "1997-6666",
+                "1999-3333"
+              ]
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER.DOSSIERRA",
+              "toSpecificForRAId": "ID_RECEIVER_APVMA",
+              "regulatorytype": {
+                "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER.DOSSIERRA.REGULATORYTYPE",
+                "value": {
+                  "TYPE_NAME": "GHSTS.EXTENSIONTYPEREGULATORYTYPE",
+                  "value": "21 CFR Part 11"
+                },
+                "valuedecode": "21 CFR Part 11"
+              },
+              "applicationtype": {
+                "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER.DOSSIERRA.APPLICATIONTYPE",
+                "value": {
+                  "TYPE_NAME": "GHSTS.EXTENSIONTYPEAPPLICATIONTYPE",
+                  "value": "A1 - New active"
+                },
+                "valuedecode": "A1 - New active"
+              },
+              "projectidnumber": [
+                "DC6-31170255"
+              ]
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER.DOSSIERRA",
+              "toSpecificForRAId": "ID_RECEIVER_IBAMA",
+              "regulatorytype": {
+                "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER.DOSSIERRA.REGULATORYTYPE",
+                "value": {
+                  "TYPE_NAME": "GHSTS.EXTENSIONTYPEREGULATORYTYPE",
+                  "value": "21 CFR Part 11"
+                },
+                "valuedecode": "21 CFR Part 11"
+              },
+              "applicationtype": {
+                "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER.DOSSIERRA.APPLICATIONTYPE",
+                "value": {
+                  "TYPE_NAME": "GHSTS.EXTENSIONTYPEAPPLICATIONTYPE",
+                  "value": "A1 - New active"
+                },
+                "valuedecode": "A1 - New active"
+              },
+              "projectidnumber": [
+                "IBAMA n 02001.009999/1995-77"
+              ]
+            }
+          ],
+          "submission": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER.SUBMISSION",
+              "submissionnumber": "01",
+              "submissionversiondate": "2015-04-21T00:00:00.000Z",
+              "submissiontitle": "Submission 01",
+              "incremental": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "product": {
+        "TYPE_NAME": "GHSTS.GHSTS.PRODUCT",
+        "metadatastatus": {
+          "TYPE_NAME": "GHSTS.TYPEMETADATASTATUSSTRUCT",
+          "value": "New",
+          "valuedecode": "New"
+        },
+        "productpid": "urn:pppww:E3568230-87E3-4693-8F44-F7B1ACCB0EDB",
+        "genericproductname": "Other Product",
+        "productra": [
+          {
+            "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.PRODUCTRA",
+            "toSpecificForRAId": "ID_RECEIVER_BVL",
+            "productname": "Test Product Name for BVL",
+            "adminnumber": [
+              {
+                "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.PRODUCTRA.ADMINNUMBER",
+                "adminnumbertype": {
+                  "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.PRODUCTRA.ADMINNUMBER.ADMINNUMBERTYPE",
+                  "value": {
+                    "TYPE_NAME": "GHSTS.EXTENSIONTYPEADMINNUMBERTYPE",
+                    "value": "Application Number"
+                  },
+                  "valuedecode": "Application Number"
+                },
+                "identifier": "BVL-R01-123"
+              },
+              {
+                "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.PRODUCTRA.ADMINNUMBER",
+                "adminnumbertype": {
+                  "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.PRODUCTRA.ADMINNUMBER.ADMINNUMBERTYPE",
+                  "value": {
+                    "TYPE_NAME": "GHSTS.EXTENSIONTYPEADMINNUMBERTYPE",
+                    "value": "Application Number"
+                  },
+                  "valuedecode": "Application Number"
+                },
+                "identifier": "BVL-R02-123"
+              }
+            ]
+          },
+          {
+            "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.PRODUCTRA",
+            "toSpecificForRAId": "ID_RECEIVER_PMRA",
+            "productname": "Test Product Name for PMRA",
+            "adminnumber": [
+              {
+                "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.PRODUCTRA.ADMINNUMBER",
+                "adminnumbertype": {
+                  "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.PRODUCTRA.ADMINNUMBER.ADMINNUMBERTYPE",
+                  "value": {
+                    "TYPE_NAME": "GHSTS.EXTENSIONTYPEADMINNUMBERTYPE",
+                    "value": "Application Number"
+                  },
+                  "valuedecode": "Application Number"
+                },
+                "identifier": "APP-R02-123"
+              }
+            ]
+          }
+        ],
+        "formulationtype": {
+          "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.FORMULATIONTYPE",
+          "value": {
+            "TYPE_NAME": "GHSTS.EXTENSIONTYPEFORMULATIONTYPE",
+            "value": "BR"
+          },
+          "valuedecode": "BR"
+        },
+        "ingredients": {
+          "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.INGREDIENTS",
+          "ingredient": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.INGREDIENTS.INGREDIENT",
+              "toSubstanceId": "IDS0000000112",
+              "quantity": 100,
+              "unit": {
+                "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.INGREDIENTS.INGREDIENT.UNIT",
+                "value": {
+                  "TYPE_NAME": "GHSTS.EXTENSIONTYPEUNIT",
+                  "value": "g/L"
+                },
+                "valuedecode": "g/L"
+              }
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.INGREDIENTS.INGREDIENT",
+              "toSubstanceId": "IDS0000002222",
+              "quantity": 100,
+              "unit": {
+                "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.INGREDIENTS.INGREDIENT.UNIT",
+                "value": {
+                  "TYPE_NAME": "GHSTS.EXTENSIONTYPEUNIT",
+                  "value": "g/L"
+                },
+                "valuedecode": "g/L"
+              }
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.INGREDIENTS.INGREDIENT",
+              "toSubstanceId": "IDS0000003333",
+              "quantity": 50,
+              "unit": {
+                "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.INGREDIENTS.INGREDIENT.UNIT",
+                "value": {
+                  "TYPE_NAME": "GHSTS.EXTENSIONTYPEUNIT",
+                  "value": "g/L"
+                },
+                "valuedecode": "g/L"
+              }
+            }
+          ]
+        },
+        "dossier": {
+          "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER",
+          "dossierpid": "urn:pppww:05C6DD14-04B0-4BC4-8749-1FC06E9F48B8",
+          "dossierdescriptiontitle": "Other Product",
+          "dossiercompid": "PPPWW4711",
+          "referenceddossier": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER.REFERENCEDDOSSIER",
+              "referenceddossiernumber": "PPPWW4706",
+              "referenceddossierreason": "Dossier with same active ingredient"
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER.REFERENCEDDOSSIER",
+              "referenceddossiernumber": "PPPWW4466",
+              "referenceddossierreason": "Dossier with different formulation"
+            }
+          ],
+          "dossierra": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER.DOSSIERRA",
+              "toSpecificForRAId": "ID_RECEIVER_BVL",
+              "regulatorytype": {
+                "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER.DOSSIERRA.REGULATORYTYPE",
+                "value": {
+                  "TYPE_NAME": "GHSTS.EXTENSIONTYPEREGULATORYTYPE",
+                  "value": "1107/2009/EG"
+                },
+                "valuedecode": "1107/2009/EG"
+              },
+              "applicationtype": {
+                "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER.DOSSIERRA.APPLICATIONTYPE",
+                "value": {
+                  "TYPE_NAME": "GHSTS.EXTENSIONTYPEAPPLICATIONTYPE",
+                  "value": "A2 - Known active"
+                },
+                "valuedecode": "A2 - Known active"
+              },
+              "projectidnumber": [
+                "099999-00"
+              ]
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER.DOSSIERRA",
+              "toSpecificForRAId": "ID_RECEIVER_PMRA",
+              "regulatorytype": {
+                "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER.DOSSIERRA.REGULATORYTYPE",
+                "value": {
+                  "TYPE_NAME": "GHSTS.EXTENSIONTYPEREGULATORYTYPE",
+                  "value": "21 CFR Part 11"
+                },
+                "valuedecode": "21 CFR Part 11"
+              },
+              "applicationtype": {
+                "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER.DOSSIERRA.APPLICATIONTYPE",
+                "value": {
+                  "TYPE_NAME": "GHSTS.EXTENSIONTYPEAPPLICATIONTYPE",
+                  "value": "A1 - New active"
+                },
+                "valuedecode": "A1 - New active"
+              },
+              "projectidnumber": [
+                "1995-9999",
+                "1997-6666",
+                "1999-3333"
+              ]
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER.DOSSIERRA",
+              "toSpecificForRAId": "ID_RECEIVER_APVMA",
+              "regulatorytype": {
+                "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER.DOSSIERRA.REGULATORYTYPE",
+                "value": {
+                  "TYPE_NAME": "GHSTS.EXTENSIONTYPEREGULATORYTYPE",
+                  "value": "21 CFR Part 11"
+                },
+                "valuedecode": "21 CFR Part 11"
+              },
+              "applicationtype": {
+                "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER.DOSSIERRA.APPLICATIONTYPE",
+                "value": {
+                  "TYPE_NAME": "GHSTS.EXTENSIONTYPEAPPLICATIONTYPE",
+                  "value": "A1 - New active"
+                },
+                "valuedecode": "A1 - New active"
+              },
+              "projectidnumber": [
+                "DC6-31170255"
+              ]
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER.DOSSIERRA",
+              "toSpecificForRAId": "ID_RECEIVER_IBAMA",
+              "regulatorytype": {
+                "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER.DOSSIERRA.REGULATORYTYPE",
+                "value": {
+                  "TYPE_NAME": "GHSTS.EXTENSIONTYPEREGULATORYTYPE",
+                  "value": "21 CFR Part 11"
+                },
+                "valuedecode": "21 CFR Part 11"
+              },
+              "applicationtype": {
+                "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER.DOSSIERRA.APPLICATIONTYPE",
+                "value": {
+                  "TYPE_NAME": "GHSTS.EXTENSIONTYPEAPPLICATIONTYPE",
+                  "value": "A1 - New active"
+                },
+                "valuedecode": "A1 - New active"
+              },
+              "projectidnumber": [
+                "IBAMA n 02001.009999/1995-77"
+              ]
+            }
+          ],
+          "submission": [
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER.SUBMISSION",
+              "submissionnumber": "01",
+              "_state": "Sent",
+              "submissionversiondate": "2015-04-21T00:00:00.000Z",
+              "submissiontitle": "Submission 01",
+              "incremental": false
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER.SUBMISSION",
+              "_state": "Sent",
+              "submissionnumber": "02",
+              "submissionversiondate": "2015-04-21T00:00:00.000Z",
+              "submissiontitle": "Submission 02",
+              "incremental": false
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER.SUBMISSION",
+              "_state": "Sent",
+              "submissionnumber": "03",
+              "submissionversiondate": "2015-04-21T00:00:00.000Z",
+              "submissiontitle": "Submission 03",
+              "incremental": false
+            },
+            {
+              "TYPE_NAME": "GHSTS.GHSTS.PRODUCT.DOSSIER.SUBMISSION",
+              "submissionnumber": "04",
+              "submissionversiondate": "2015-04-21T00:00:00.000Z",
+              "submissiontitle": "Submission 04",
+              "incremental": false
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

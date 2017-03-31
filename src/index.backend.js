@@ -49,7 +49,7 @@ var svrDisp;
 
 var XMLSchemaJsonSchema;
 var JsonixJsonSchema;
-var supprtVersions = ['01.00.02'], validateInsts = {}, marshallers = {}, unmarshallers = {};
+var supprtVersions = ['01.04.00'], validateInsts = {}, marshallers = {}, unmarshallers = {};
 var ajvInst;
 
 var init_mongoose = () => {
@@ -64,7 +64,7 @@ var init_mongoose = () => {
 
     for (var i = 0; i < srvs.length; i++) {
       let svrmod = require('./services/' + srvs[i] + '.service');
-      let svrInst = new svrmod();
+      let svrInst = new svrmod(supprtVersions[0]);
       qs.push(svrInst.initMongoose());
     }
     return Q.all(qs);
@@ -139,28 +139,28 @@ var initDB = () => {
         let svr;
 
         svrClass = require('./services/product.service');
-        svr = new svrClass('01.00.02');
+        svr = new svrClass('01.04.00');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/legalentity.service');
-        svr = new svrClass('01.00.02');
+        svr = new svrClass('01.04.00');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/substance.service');
-        svr = new svrClass('01.00.02');
+        svr = new svrClass('01.04.00');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/file.service');
-        svr = new svrClass('01.00.02');
+        svr = new svrClass('');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/document.service');
-        svr = new svrClass('01.00.02');
+        svr = new svrClass('');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/receiver.service');
-        svr = new svrClass('01.00.02');
+        svr = new svrClass('');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/sender.service');
-        svr = new svrClass('01.00.02');
+        svr = new svrClass('');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/toc.service');
-        svr = new svrClass('01.00.02');
+        svr = new svrClass('');
         qAry.push(svr.initDbfromTestData());
         res(Q.all(qAry));
       }
@@ -328,7 +328,7 @@ app.on('ready', function () {
   mainWindow.loadURL('file://' + __dirname + '/../build/renderer/index.html');
   mainWindow.webContents.on('did-finish-load', function () {
     // TODO: setTitle is being deprecated, find and use alternative
-    mainWindow.setTitle('eDossier Builder (V1.14.0)');
+    mainWindow.setTitle('eDossier Builder (V1.4.0)');
     //if (configure.env.toString().toUpper() == 'DEV'){
     mainWindow.openDevTools();
     backendTest();

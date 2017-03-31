@@ -13,7 +13,7 @@ const BACKEND_CONSTANTS = {
   STANDARD_DIR_NAME: 'standards',
   VIEWER_UTIL_DIR_NAME: 'viewers',
   DEF_SUB_DIR_NAME: 'jsondefinitions',
-  DEFAULT_GHSTS_VERSION: '01.00.02',
+  DEFAULT_GHSTS_VERSION: '',
   HTML5_METHODS: ['get', 'put', 'post', 'delete'],
   FILE_CONF_DIR_NAME: 'confidential',
   FILE_CONT_DIR_NAME: 'content',
