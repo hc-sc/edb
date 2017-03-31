@@ -88,7 +88,9 @@ export default class ModelService {
         return model;
 
       case 'documentgeneric':
-        return _.merge({}, Object.assign(modelDocumentGeneric.fields));
+        model = _.merge({}, Object.assign(modelDocumentGeneric.fields));
+        model.documentissuedate = "";
+        return model;
  
       case 'documentra':
          model = _.merge({}, Object.assign(modelDocumentRA.fields));
