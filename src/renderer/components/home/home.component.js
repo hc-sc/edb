@@ -168,11 +168,25 @@ export default angular.module('home', [
       }
 
       selectSubmission(id, index) {
-        this.$state.go('submission.submissionNode', {
-          dossierid: this.dossier._id,
-          submissionid: this.submissions[index]._id,
-          dossiertitle: this.dossier.dossierdescriptiontitle
-        });
+        let status = this.submissions[index]._state;
+        if (status === 'active') {
+          this.$state.go('submission.submissionNode', {
+            dossierid: this.dossier._id,
+            submissionid: this.submissions[index]._id,
+            dossiertitle: this.dossier.dossierdescriptiontitle
+          });
+        } else {
+          let confirm = 
+            this.$mdDialog.confirm()
+              .title('Open packaged submission in Viewer')
+              .textContent('Please close opened Viewer application, and then click "CLOSED" button to continue; or click "RETURN" button to cancel.')
+              .ok('CLOSED')
+              .cancel('RETURN');
+          this.$mdDialog.show(confirm)
+            .then(() => {
+              this.GhstsService.edb_openViewer({submissionid: this.submissions[index]._id});
+            });
+        }
       }
 
       newSubmission() {

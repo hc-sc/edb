@@ -45,6 +45,41 @@ module.exports = class GhstsService extends BaseService {
     this._unmarsh = unmarsh;
   }
 
+  edb_openViewer(obj) {
+    return new Q((res, rej) => {
+      console.log(obj.submissionid);
+      let viewerConf = JSON.parse(fs.readFileSync('C:\\desktop-viewer\\config\\app.data'));
+      if (!viewerConf) 
+        rej(new RVHelper('EDB10005'));
+      else {
+        let newTabArray = [];
+        newTabArray.push(viewerConf.appData.tabArray[0]);
+        let dossierPath = GhstsService.edb_getSync({_submissionid: obj.submissionid})[0];
+        let subPath = dossierPath._submissionnumber;
+        dossierPath = dossierPath._foldername;
+        subPath = subPath.toString();
+        if (subPath.length === 1)
+          subPath = '0' + subPath;
+        let subFullPath = path.resolve(prodsPath, dossierPath, subPath, 'utils', 'viewer', 'viewer.html');
+        newTabArray.push({
+          id: 1,
+          src: subFullPath,
+          active: true
+        });
+        viewerConf.appData.tabArray = newTabArray;
+        fs.writeFileSync('C:\\desktop-viewer\\config\\app.data', JSON.stringify(viewerConf));
+        let child = require('child_process').execFile;
+        let executablePath = path.resolve('C:\\desktop-viewer\\Desktop-Viewer.exe');
+        child(executablePath, (err, data) => {
+          if (err)
+            rej(err);
+          else
+            res(new RVHelper('EDB00000'));
+        });
+      }
+    });
+  }
+
   _metadatastatus_process(entityName, id, recIds) {
     let curMeta = this.ghsts[0]._metadatastatus[entityName];
     let metanode;

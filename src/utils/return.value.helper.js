@@ -20,6 +20,7 @@ const RETURN_VALUE_CONFIG = {
   EDB10002: { msg: 'not implement yet' },
   EDB10003: { msg: 'only getSync is implemented' },
   EDB10004: { msg: 'Existing record, new record save failure'},
+  EDB10005: { msg: 'Viewer cannot be found'},
 
   EDB11001: { msg: 'Calling service with empty url' },
   EDB11002: { msg: 'Service not found'},
