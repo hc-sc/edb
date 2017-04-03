@@ -77,7 +77,7 @@
                     aria-label='{{"gxpindicator" | translate}}' 
                     class='md-primary' 
                     ng-change='$ctrl.printValue()'>
-            {{"gxpindicator" | translate}} : {{$ctrl.selected.documentgeneric.gxpindicator}}
+            {{"gxpindicator" | translate}}
             <md-tooltip>True or False</md-tooltip>
         </md-switch>
 
@@ -85,11 +85,9 @@
                     aria-label='{{"testedonvertebrate" | translate}}'
                     class='md-primary' 
                     ng-change='$ctrl.printValue()'>
-            {{"testedonvertebrate" | translate}} : {{$ctrl.selected.documentgeneric.testedonvertebrate}}
+            {{"testedonvertebrate" | translate}}
             <md-tooltip>True or False</md-tooltip>
         </md-switch>
-
-        <!--<list label='{{"documentowner" | translate}} *' items='$ctrl.selected.documentgeneric.documentowner' min-items='1' ></list>-->
 
         <md-toolbar>
             <div class='md-toolbar-tools custom-toolbar'>
@@ -103,7 +101,7 @@
         </md-toolbar>
         <md-list>
             <md-list-item ng-repeat= "owner in $ctrl.selected.documentgeneric.documentowner track by $index"  class="noright">
-                <div layout-gt-xs="row">
+              
                     <text-input 
                             label='{{"documentowner" | translate}}' 
                             text-value='owner' 
@@ -115,11 +113,10 @@
                         <md-icon md-svg-icon='delete' class='dark'></md-icon>
                         <md-tooltip>Delete Owner</md-tooltip>
                     </md-button>
-                </div>
+              
             </md-list-item>
         </md-list>
       
-        <!--<list label='{{"testlaboratory" | translate}}' items='$ctrl.selected.documentgeneric.testlaboratory' ></list>-->
 
         <md-toolbar>
             <div class='md-toolbar-tools custom-toolbar'>
@@ -133,7 +130,7 @@
         </md-toolbar>
         <md-list>
             <md-list-item ng-repeat= "lab in $ctrl.selected.documentgeneric.testlaboratory track by $index"  class="noright">
-                <div layout-gt-xs="row">
+              
                     <text-input 
                             label='{{"testlaboratory" | translate}}' 
                             text-value='lab' 
@@ -141,11 +138,11 @@
                             max-Length='2000'>
                     </text-input>
                    
-                    <md-button aria-label='Delete Item'  ng-click='$ctrl.deleteArrayGen("testlaboratory", $index)'>
+                    <md-button  aria-label='Delete Item'  ng-click='$ctrl.deleteArrayGen("testlaboratory", $index)'>
                         <md-icon md-svg-icon='delete' class='dark'></md-icon>
                         <md-tooltip>Delete Test Lab</md-tooltip>
                     </md-button>
-                </div>
+               
             </md-list-item>
         </md-list>
           
@@ -156,6 +153,16 @@
               on-select='$ctrl.selectTblItem("documentgeneric.contentstatushistory",index)' 
               on-add='$ctrl.addTblItem("documentgeneric.contentstatushistory")' 
               on-delete='$ctrl.deleteTblItem("documentgeneric.contentstatushistory",index)'>
+        </tbl>
+               
+        <tbl ng-if='!$ctrl.loading' title ='{{"referencedtofile" | translate}} *'
+ 
+              items='$ctrl.selected.documentgeneric.referencedtofile'  
+              projection='[{name: "toFileId", url: "file"}]' 
+              on-select='$ctrl.selectTblItem("documentgeneric.referencedtofile",index)' 
+              on-add='$ctrl.addTblItem("documentgeneric.referencedtofile")' 
+              on-delete='$ctrl.deleteTblItem("documentgeneric.referencedtofile",index)'
+              min-items='1'>
         </tbl>
       
        <tbl ng-if='!$ctrl.loading' title ='{{"referenceddocument" | translate}}'
@@ -185,17 +192,6 @@
               on-delete='$ctrl.deleteTblItem("documentgeneric.documentnumber",index)'>
         </tbl>
 
-       
-
-        <tbl ng-if='!$ctrl.loading' title ='{{"referencedtofile" | translate}} *'
- 
-              items='$ctrl.selected.documentgeneric.referencedtofile'  
-              projection='[{name: "toFileId", url: "file"}]' 
-              on-select='$ctrl.selectTblItem("documentgeneric.referencedtofile",index)' 
-              on-add='$ctrl.addTblItem("documentgeneric.referencedtofile")' 
-              on-delete='$ctrl.deleteTblItem("documentgeneric.referencedtofile",index)'
-              min-items='1'>
-        </tbl>
 
        <tbl ng-if='!$ctrl.loading' 
             title ='{{"documentra" | translate}} *' 

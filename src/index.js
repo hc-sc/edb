@@ -45,6 +45,14 @@ var lastMessageTimestamp;  //For debug track if there are duplicatied message re
 
 var mainWindow = null;
 
+var shouldQuit = app.makeSingleInstance(function(commandLine, workingDirectory) {
+  // Someone tried to run a second instance, we should focus our window.
+  if (mainWindow) {
+    if (mainWindow.isMinimized()) mainWindow.restore();
+    mainWindow.focus();
+  }
+});
+
 var submissions = [];
 
 var svrDisp;
@@ -268,10 +276,15 @@ app.on('window-all-closed', function () {
 });
 
 app.on('ready', function () {
+  if (shouldQuit) {
+    app.quit();
+    return;
+  }
+  
   ghstsLogger.info('Application started, ENV: ' + process.env.NODE_ENV);
   XMLSchemaJsonSchema = JSON.parse(fs.readFileSync(path.resolve(asarPath, 'standards', 'jsonschemas', 'w3c', '2001', 'XMLSchema.jsonschema')).toString());
   JsonixJsonSchema = JSON.parse(fs.readFileSync(path.resolve(asarPath, 'standards', 'jsonschemas', 'jsonix', 'Jsonix.jsonschema')).toString());
-
+  
   ajvInst = new AJV({ allErrors: true });
   ajvInst.addSchema(XMLSchemaJsonSchema, 'http://www.jsonix.org/jsonschemas/w3c/2001/XMLSchema.jsonschema');
   ajvInst.addSchema(JsonixJsonSchema, 'http://www.jsonix.org/jsonschemas/jsonix/Jsonix.jsonschema');
