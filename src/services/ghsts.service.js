@@ -49,11 +49,10 @@ module.exports = class GhstsService extends BaseService {
     return new Q((res, rej) => {
       console.log(obj.submissionid);
       let viewerConf = JSON.parse(fs.readFileSync('C:\\desktop-viewer\\config\\app.data'));
+      let isActive = false;
       if (!viewerConf) 
         rej(new RVHelper('EDB10005'));
       else {
-        let newTabArray = [];
-        newTabArray.push(viewerConf.appData.tabArray[0]);
         let dossierPath = GhstsService.edb_getSync({_submissionid: obj.submissionid})[0];
         let subPath = dossierPath._submissionnumber;
         dossierPath = dossierPath._foldername;
@@ -61,12 +60,23 @@ module.exports = class GhstsService extends BaseService {
         if (subPath.length === 1)
           subPath = '0' + subPath;
         let subFullPath = path.resolve(prodsPath, dossierPath, subPath, 'utils', 'viewer', 'viewer.html');
-        newTabArray.push({
-          id: 1,
-          src: subFullPath,
-          active: true
-        });
-        viewerConf.appData.tabArray = newTabArray;
+        for (let i = 0; i < viewerConf.appData.tabArray.length; i++) {
+          if (viewerConf.appData.tabArray[i].active && viewerConf.appData.tabArray[i].src === subFullPath) {
+            isActive = true;
+            break;
+          } else if (viewerConf.appData.tabArray[i].src === subFullPath) {
+            viewerConf.appData.tabArray[i].active = true;
+            isActive = true;
+          } else 
+            viewerConf.appData.tabArray[i].active = false;
+        }
+        if (!isActive) {
+          viewerConf.appData.tabArray.push({
+            id: viewerConf.appData.tabArray.length,
+            src: subFullPath,
+            active: true
+          });
+        }
         fs.writeFileSync('C:\\desktop-viewer\\config\\app.data', JSON.stringify(viewerConf));
         let child = require('child_process').execFile;
         let executablePath = path.resolve('C:\\desktop-viewer\\Desktop-Viewer.exe');
@@ -963,7 +973,8 @@ module.exports = class GhstsService extends BaseService {
               return;
             }
             subObj = {
-              submissionnumber: '01'
+              submissionnumber: '01',
+              _version: self._version ? self._version : '01.04.00'
             };
             dossObj = {
               dossierdescriptiontitle: obj.dossiertitle,
@@ -978,26 +989,49 @@ module.exports = class GhstsService extends BaseService {
               _tocid: obj.tocId
             };
           } else if (obj.dossierId) { //create submission other than 01
+            dossObj = DossierService.edb_getSync({_id: obj.dossierId})[0];
+            ghstsObj = GhstsService.edb_getSync({_submissionid: obj.submissionid})[0];
+            delete ghstsObj.__v;
+            delete ghstsObj._created;
+            delete ghstsObj._id;
+            delete ghstsObj._lastMod;
+            delete ghstsObj.id;
+            delete ghstsObj._state;
 
+            let prevSubObj = SubmissionService.edb_getSync({_id: obj.submissionid})[0];
+            subObj = {
+              _version: self._version ? self._version : '01.04.00'
+            };
+            ghstsObj._submissionnumber++;
+            subObj.submissionnumber = ghstsObj._submissionnumber.toString();
+            if (subObj.submissionnumber.length === 1) subObj.submissionnumber = '0' + subObj.submissionnumber;
+            subObj.submissiontitle = prevSubObj.submissiontitle.replace(prevSubObj.submissionnumber, '') + subObj.submissionnumber;
+            ghstsObj._metadatastatus = MetaDataStatus.updateMetadataStatus4NewSub(ghstsObj._metadatastatus);
           }
           subSvr._create(subObj)
             .then(subRet => {
               subObj = JSON.parse(subRet.data);
               dossObj.submission.push(subObj._id);
               ghstsObj._submissionid = subObj._id;
-              return dossSvr._create(dossObj);
+              if (dossObj._id)
+                return dossSvr._update(dossObj);
+              else
+                return dossSvr._create(dossObj);
             })
             .then(dossRet => {
               dossObj = JSON.parse(dossRet.data);
-              prodObj = ProductService.edb_getSync({
-                _id: obj.product
-              })[0];
-              prodObj.dossier = dossObj._id;
+              if (obj.product) {
+                prodObj = ProductService.edb_getSync({_id: obj.product})[0];
+                prodObj.dossier = dossObj._id;
+              } else {
+                prodObj = ProductService.edb_getSync({_id: ghstsObj._product})[0];
+              }
               return prodSvr._update(prodObj);
             })
             .then(prodRet => {
               prodObj = JSON.parse(prodRet.data);
-              ghstsObj._foldername = prodObj.genericproductname + BACKEND_CONST.PRODUCT_DOSSIER_FOLDER_CONTACT_SYMBOL + ghstsObj._foldername;
+              if (obj.product) 
+                ghstsObj._foldername = prodObj.genericproductname + BACKEND_CONST.PRODUCT_DOSSIER_FOLDER_CONTACT_SYMBOL + ghstsObj._foldername;
               return self._create(ghstsObj);
             })
             .then(ghstsRet => {

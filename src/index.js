@@ -57,7 +57,7 @@ var svrDisp;
 
 var XMLSchemaJsonSchema;
 var JsonixJsonSchema;
-var supprtVersions = [''], validateInsts = {}, marshallers = {}, unmarshallers = {};
+var supprtVersions = ['01.04.00'], validateInsts = {}, marshallers = {}, unmarshallers = {};
 var ajvInst;
 
 var init_mongoose = () => {
@@ -72,7 +72,7 @@ var init_mongoose = () => {
 
     for (var i = 0; i < srvs.length; i++) {
       let svrmod = require('./services/' + srvs[i] + '.service');
-      let svrInst = new svrmod();
+      let svrInst = new svrmod(supprtVersions[0]);
       qs.push(svrInst.initMongoose());
     }
     return Q.all(qs);
@@ -147,28 +147,28 @@ var initDB = () => {
         let svr;
 
         svrClass = require('./services/product.service');
-        svr = new svrClass('');
+        svr = new svrClass('01.04.00');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/legalentity.service');
-        svr = new svrClass('');
+        svr = new svrClass('01.04.00');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/substance.service');
-        svr = new svrClass('');
+        svr = new svrClass('01.04.00');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/file.service');
-        svr = new svrClass('');
+        svr = new svrClass('01.04.00');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/document.service');
-        svr = new svrClass('');
+        svr = new svrClass('01.04.00');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/receiver.service');
-        svr = new svrClass('');
+        svr = new svrClass('01.04.00');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/sender.service');
-        svr = new svrClass('');
+        svr = new svrClass('01.04.00');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/toc.service');
-        svr = new svrClass('');
+        svr = new svrClass('01.04.00');
         qAry.push(svr.initDbfromTestData());
         res(Q.all(qAry));
       }
@@ -210,7 +210,7 @@ ipc.on(SHARED_CONST.PICKLIST_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, functi
 });
 
 ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL, function (event, arg) {
-  let svr = new GhstsService(submissions, validateInsts, marshallers, unmarshallers);
+  let svr = new GhstsService(submissions, validateInsts, marshallers, unmarshallers, '01.04.00');
   let timestamp = arg.timestamp;
   if (lastMessageTimestamp === timestamp) {
     console.log('There are duplicatied message request');
@@ -252,7 +252,7 @@ ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, function 
 ipc.on(SHARED_CONST.APP_DATA_MSG_CHANNEL, function (event, arg) {
   if (!svrDisp)
     svrDisp = new ServiceDispatcher();
-  let svr = svrDisp.getService(arg.url);
+  let svr = svrDisp.getService(arg.url, '01.04.00');
   let method = 'edb_' + arg.method;
   let timestamp = arg.timestamp;
   if (lastMessageTimestamp === timestamp) {
@@ -274,7 +274,7 @@ ipc.on(SHARED_CONST.APP_DATA_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, functi
   } else {
     if (!svrDisp)
       svrDisp = new ServiceDispatcher();
-    let svr = svrDisp.getServiceClass(arg.url);
+    let svr = svrDisp.getServiceClass(arg.url, '01.04.00');
     let method = 'edb_' + arg.method + 'Sync';
     event.returnValue = svr[method](arg.data);
   }
@@ -294,7 +294,7 @@ app.on('ready', function () {
     return;
   }
   
-  ghstsLogger.info('Application started');
+  ghstsLogger.info('Application started, ENV: ' + process.env.NODE_ENV);
   XMLSchemaJsonSchema = JSON.parse(fs.readFileSync('./resources/app/standards/jsonschemas/w3c/2001/XMLSchema.jsonschema').toString());
   JsonixJsonSchema = JSON.parse(fs.readFileSync('./resources/app/standards/jsonschemas/jsonix/Jsonix.jsonschema').toString());
 

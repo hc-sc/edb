@@ -102,6 +102,9 @@ export default angular.module('home', [
             sub.dossierdescriptiontitle = this.dossier.dossierdescriptiontitle;
             return sub;
           });
+          this.submissions.sort((a, b) => {
+            return a.submissionnumber >= b.submissionnumber;
+          });
         }
       }
 
@@ -179,8 +182,8 @@ export default angular.module('home', [
           let confirm = 
             this.$mdDialog.confirm()
               .title('Open packaged submission in Viewer')
-              .textContent('Please close opened Viewer application, and then click "CLOSED" button to continue; or click "RETURN" button to cancel.')
-              .ok('CLOSED')
+              .textContent('Please close opened Viewer application, and then click "VIEWER CLOSED" button to continue; or click "RETURN" button to cancel.')
+              .ok('VIEWER CLOSED')
               .cancel('RETURN');
           this.$mdDialog.show(confirm)
             .then(() => {
@@ -191,15 +194,16 @@ export default angular.module('home', [
 
       newSubmission() {
         // get new ghsts ids
-        this.GhstsService.edb_put({ _url: 'ghsts', data: { dossierId: this.dossier._id } })
-          .then(newSubmission => {
-            console.log(newSubmission);
+        console.log(this.submissions);
+        this.GhstsService.edb_put({ _url: 'ghsts', data: { dossierId: this.dossier._id, submissionid: this.submissions[0]._id } })
+          .then(result => {
+            console.log(result);
+            this.$state.go('submission.submissionNode', {
+              dossierid: result.data.dossierid,
+              submissionid: result.data.submissionid,
+              dossiertitle: result.data.dossiertitle
+            });
           });
-
-        // this.$state.go('submission.sub', {
-        // dossierid: this.dossier._id,
-        // submissionid:
-        // })
       }
 
       update(prop, value) {

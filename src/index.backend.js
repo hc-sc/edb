@@ -156,19 +156,19 @@ var initDB = () => {
         svr = new svrClass('01.04.00');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/file.service');
-        svr = new svrClass('');
+        svr = new svrClass('01.04.00');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/document.service');
-        svr = new svrClass('');
+        svr = new svrClass('01.04.00');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/receiver.service');
-        svr = new svrClass('');
+        svr = new svrClass('01.04.00');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/sender.service');
-        svr = new svrClass('');
+        svr = new svrClass('01.04.00');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/toc.service');
-        svr = new svrClass('');
+        svr = new svrClass('01.04.00');
         qAry.push(svr.initDbfromTestData());
         res(Q.all(qAry));
       }
@@ -210,7 +210,7 @@ ipc.on(SHARED_CONST.PICKLIST_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, functi
 });
 
 ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL, function (event, arg) {
-  let svr = new GhstsService(submissions, validateInsts, marshallers, unmarshallers);
+  let svr = new GhstsService(submissions, validateInsts, marshallers, unmarshallers, '01.04.00');
   let timestamp = arg.timestamp;
   if (lastMessageTimestamp === timestamp) {
     console.log('There are duplicatied message request');
@@ -252,7 +252,7 @@ ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, function 
 ipc.on(SHARED_CONST.APP_DATA_MSG_CHANNEL, function (event, arg) {
   if (!svrDisp)
     svrDisp = new ServiceDispatcher();
-  let svr = svrDisp.getService(arg.url);
+  let svr = svrDisp.getService(arg.url, '01.04.00');
   let method = 'edb_' + arg.method;
   let timestamp = arg.timestamp;
   if (lastMessageTimestamp === timestamp) {
@@ -274,7 +274,7 @@ ipc.on(SHARED_CONST.APP_DATA_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, functi
   } else {
     if (!svrDisp)
       svrDisp = new ServiceDispatcher();
-    let svr = svrDisp.getServiceClass(arg.url);
+    let svr = svrDisp.getServiceClass(arg.url, '01.04.00');
     let method = 'edb_' + arg.method + 'Sync';
     event.returnValue = svr[method](arg.data);
   }
