@@ -197,7 +197,6 @@ export default angular.module('home', [
         console.log(this.submissions);
         this.GhstsService.edb_put({ _url: 'ghsts', data: { dossierId: this.dossier._id, submissionid: this.submissions[0]._id } })
           .then(result => {
-            console.log(result);
             this.$state.go('submission.submissionNode', {
               dossierid: result.data.dossierid,
               submissionid: result.data.submissionid,
