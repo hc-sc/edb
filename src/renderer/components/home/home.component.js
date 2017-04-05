@@ -103,7 +103,7 @@ export default angular.module('home', [
             return sub;
           });
           this.submissions.sort((a, b) => {
-            return a.submissionnumber >= b.submissionnumber;
+            return a.submissionnumber < b.submissionnumber ? 1 : a.submissionnumber > b.submissionnumber ? -1 : 0;
           });
         }
       }
@@ -194,15 +194,19 @@ export default angular.module('home', [
 
       newSubmission() {
         // get new ghsts ids
-        console.log(this.submissions);
-        this.GhstsService.edb_put({ _url: 'ghsts', data: { dossierId: this.dossier._id, submissionid: this.submissions[0]._id } })
-          .then(result => {
-            this.$state.go('submission.submissionNode', {
-              dossierid: result.data.dossierid,
-              submissionid: result.data.submissionid,
-              dossiertitle: result.data.dossiertitle
+        // console.log(this.submissions);
+        let state = this.submissions[0]._state.toLowerCase();
+        if (state === 'packaged' || state === 'sent') {
+          this.GhstsService.edb_put({ _url: 'ghsts', data: { dossierId: this.dossier._id, submissionid: this.submissions[0]._id } })
+            .then(result => {
+              this.$state.go('submission.submissionNode', {
+                dossierid: result.data.dossierid,
+                submissionid: result.data.submissionid,
+                dossiertitle: result.data.dossiertitle
+              });
             });
-          });
+        } else 
+          console.log(state);
       }
 
       update(prop, value) {
