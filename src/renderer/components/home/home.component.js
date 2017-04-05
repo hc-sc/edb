@@ -103,7 +103,7 @@ export default angular.module('home', [
             return sub;
           });
           this.submissions.sort((a, b) => {
-            return a.submissionnumber >= b.submissionnumber;
+            return a.submissionnumber < b.submissionnumber ? 1 : a.submissionnumber > b.submissionnumber ? -1 : 0;
           });
         }
       }
