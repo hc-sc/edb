@@ -10,3 +10,4 @@ data
 prepublish/win-unpacked
 prepublish/*.zip
 src/renderer/view-models/gen
+resources/app/standards/**/jsondefinitions/
