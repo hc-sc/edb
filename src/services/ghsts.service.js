@@ -1032,13 +1032,13 @@ module.exports = class GhstsService extends BaseService {
               prodObj = JSON.parse(prodRet.data);
               if (obj.product) 
                 ghstsObj._foldername = prodObj.genericproductname + BACKEND_CONST.PRODUCT_DOSSIER_FOLDER_CONTACT_SYMBOL + ghstsObj._foldername;
-              return self._create(ghstsObj);
+              return super._create(ghstsObj);
             })
             .then(ghstsRet => {
               self.ghsts[0] = JSON.parse(ghstsRet.data);
               res(new RVHelper('EDB00000', {
                 submissionid: subObj._id,
-                dossiertitle: obj.dossiertitle,
+                dossiertitle: dossObj.dossierdescriptiontitle,
                 dossierid: dossObj._id
               }));
             })
