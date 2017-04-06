@@ -97,10 +97,14 @@ module.exports = class FileService extends BaseService {
 
   _beforeSave(obj) {
     let self = this;
-    let defContentStatusId = PicklistService.edb_getSync({
-      TYPE_NAME: 'TYPE_CONTENT_STATUS',
-      value: 'New'
-    })[0]._id;
+
+    ///
+    /// Commented out as 01-04-00 removed CONTENTSTATUS from File element 
+    ///
+    // let defContentStatusId = PicklistService.edb_getSync({
+    //   TYPE_NAME: 'TYPE_CONTENT_STATUS',
+    //   value: 'New'
+    // })[0]._id;
 
     let mainFileTypeId = PicklistService.edb_getSync({
       TYPE_NAME: 'TYPE_FILE_TYPE',
@@ -109,7 +113,11 @@ module.exports = class FileService extends BaseService {
 
     let confStatu = false;
 
-    obj.filegeneric.contentstatus = obj.filegeneric.contentstatus ? obj.filegeneric.contentstatus : defContentStatusId;
+    ///
+    /// Commented out as 01-04-00 removed CONTENTSTATUS from File element 
+    ///
+    // obj.filegeneric.contentstatus = obj.filegeneric.contentstatus ? obj.filegeneric.contentstatus : defContentStatusId;
+    
     obj.filegeneric.filetype = obj.filegeneric.filetype ? obj.filegeneric.filetype : mainFileTypeId;
     obj._secondLvlDir = (obj.filegeneric.filetype === mainFileTypeId) ? BACKEND_CONST.FILE_MAIN_DIR_NAME : BACKEND_CONST.FILE_ATTAC_DIR_NAME;
     if (obj.filera && obj.filera.length > 0) {
