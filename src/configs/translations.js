@@ -108,7 +108,7 @@ export const propNames_en = {
   'filefulllocation': 'Select Source File',
   'filepid': 'File PID',
   'filecompanyid': 'Company File ID',
-  'contentstatus': 'Content Status',
+  'contentstatus': 'File Content Status',
   'replacedfilepid': 'Replaced File PID',
   'filetype': 'File Type',
   'formatcomment': 'Format Comment',
