@@ -13,9 +13,9 @@
       <md-button class='md-raised md-primary' ng-click='$ctrl.genPid()'>Generate PID</md-button>
     </div>
     <text-input label='{{"filecompanyid" | translate}}' text-value='$ctrl.selected.filegeneric.filecompanyid' on-update='$ctrl.update("filegeneric.filecompanyid", value)' max-Length='255'></text-input>
+    <!--
     <select-input label='{{"contentstatus" | translate}}' is-required='true' select-value='$ctrl.selected.filegeneric.contentstatus' values='$ctrl.contentStatus'
       on-update='$ctrl.update("filegeneric.contentstatus", value)'></select-input>
-    <!--
     <select-input label='{{"replacedfilepid" | translate}}' select-value='$ctrl.selected.filegeneric.replacedfilepid' values='$ctrl.records'
       on-update='$ctrl.update("filegeneric.replacedfilepid", value)'></select-input>
       -->
