@@ -171,8 +171,8 @@ export default angular.module('home', [
       }
 
       selectSubmission(id, index) {
-        let status = this.submissions[index]._state;
-        if (status === 'active') {
+        let status = this.submissions[index]._state.toLowerCase();
+        if (status === 'active' || status === 'reopen') {
           this.$state.go('submission.submissionNode', {
             dossierid: this.dossier._id,
             submissionid: this.submissions[index]._id,
