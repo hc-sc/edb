@@ -40,13 +40,21 @@ module.exports = class TocTreeHelper {
                 nodeassignmentstatus: docId.nodeassignmentstatusId
               });
             } else {  ///For front-end display
-              if (_.findIndex(tree[nodeKey], doc => { return doc.document._id === docId.docId;}) < 0) {
+              let isExsit = _.findIndex(tree[nodeKey], doc => { return doc.document._id === docId.docId;});
+              if ( isExsit < 0) {
                 tree[nodeKey].push({
                   document: {
-                    _id: docId,
+                    _id: docId.docId,
                     documenttitle: documents[docId.docId]
                   }
                 });
+              } else {
+                tree[nodeKey][isExsit] = {
+                  document: {
+                    _id: docId.docId,
+                    documenttitle: documents[docId.docId]
+                  }
+                };
               }
             }
           });

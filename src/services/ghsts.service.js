@@ -726,7 +726,7 @@ module.exports = class GhstsService extends BaseService {
                 needUpdate = false;
               else {
                 _.remove(curProp[obj.tocnodepid], item => {
-                  return item === obj.docid;
+                  return item.docId === obj.docid;
                 });
                 if (curProp[obj.tocnodepid].length === 0)
                   delete curProp[obj.tocnodepid];
@@ -1011,7 +1011,8 @@ module.exports = class GhstsService extends BaseService {
             subObj.submissionnumber = ghstsObj._submissionnumber.toString();
             if (subObj.submissionnumber.length === 1) subObj.submissionnumber = '0' + subObj.submissionnumber;
             subObj.submissiontitle = prevSubObj.submissiontitle.replace(prevSubObj.submissionnumber, '') + subObj.submissionnumber;
-            ghstsObj._metadatastatus = MetaDataStatus.updateMetadataStatus4NewSub(ghstsObj._metadatastatus);
+            ghstsObj._metadatastatus = MetaDataStatus.updateMetadataStatus4NewSub(ghstsObj._metadatastatus, 'TYPE_METADATA_STATUS', 'metadatastatusid', 'No Change'); 
+            ghstsObj._toc2docs = MetaDataStatus.updateMetadataStatus4NewSub(ghstsObj._toc2docs, 'TYPE_NODE_ASSIGNMENT_STATUS', 'nodeassignmentstatusId', 'No Change'); 
           }
           subSvr._create(subObj)
             .then(subRet => {
