@@ -25,7 +25,8 @@ export default angular.module('selectInput', [
         this.values.sort((a, b) => {
           let av = this.main ? this.getMain(a).toLowerCase() : a.lowvaluedecode ? a.lowvaluedecode : a.valuedecode ? a.valuedecode.toLowerCase() : '';
           let bv = this.main ? this.getMain(b).toLowerCase() : b.lowvaluedecode ? b.lowvaluedecode : b.valuedecode ? b.valuedecode.toLowerCase() : '';
-          return av < bv ? -1 : av > bv ? 1 : 0; 
+          // return av < bv ? -1 : av > bv ? 1 : 0;
+          return  av.localeCompare(bv);
         });
       }
     }

@@ -13,6 +13,8 @@ export default angular.module('list', [
   },
   controller: class ListCtrl {
     constructor() {
+      this.readonly = false;
+      this.removable = true;
     }
 
     $onChanges() {

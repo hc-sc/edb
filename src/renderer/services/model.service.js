@@ -20,12 +20,12 @@ import modelDocument from '../view-models/gen/document.json';
 import modelDocumentGeneric from '../view-models/gen/documentgeneric.json';
 import modelDocumentRA from '../view-models/gen/documentra.json';
 import modelDocumentNumber from '../view-models/gen/documentnumber.json';
-import modelDocumentContentStatus from '../view-models/gen/contentstatushistory.json';
+// import modelDocumentContentStatus from '../view-models/gen/contentstatushistory.json';
 import modelReferencedDocument from '../view-models/gen/referenceddocument.json';
 import modelReLatedToSubstance from '../view-models/gen/relatedtosubstance.json';
 import modelReferencedToFile from '../view-models/gen/referencedtofile.json';
 import modelOtherNationalGuideLine from '../view-models/gen/othernationalguideline.json';
-import modelSubmissionContext from '../view-models/gen/submissioncontext.json';
+// import modelSubmissionContext from '../view-models/gen/submissioncontext.json';
 import modelRaDocumentNumber from '../view-models/gen/radocumentnumber.json';
 
 import modelSender from '../view-models/gen/sender.json';
@@ -80,7 +80,7 @@ export default class ModelService {
         return _.merge({}, Object.assign(modelDossierRA.fields));
       case 'referenceddossier':
         return _.merge({}, Object.assign(modelReferencedDossier.fields));
-        
+
       case 'document':
         model = _.merge({}, Object.assign(modelDocument.fields));
         model.documentgeneric = this.getModel('documentgeneric');
@@ -91,22 +91,22 @@ export default class ModelService {
         model = _.merge({}, Object.assign(modelDocumentGeneric.fields));
         model.documentissuedate = "";
         return model;
- 
+
       case 'documentra':
          model = _.merge({}, Object.assign(modelDocumentRA.fields));
          model.radocumentnumber = this.getModel('radocumentnumber');
          return model;
 
       case 'othernationalguideline':
-        return _.merge({}, Object.assign(modelOtherNationalGuideLine.fields)); 
+        return _.merge({}, Object.assign(modelOtherNationalGuideLine.fields));
 
       case 'radocumentnumber':
            model = _.merge({}, Object.assign(modelRaDocumentNumber.fields));
-           model.submissioncontext = [];   
+           model.submissioncontext = [];
            return model;
-     
-      case 'submissioncontext':
-        return _.merge({}, Object.assign(modelSubmissionContext.fields));
+
+      // case 'submissioncontext':
+      //   return _.merge({}, Object.assign(modelSubmissionContext.fields));
 
       case 'documentgeneric.documentnumber':
         return _.merge({}, Object.assign(modelDocumentNumber.fields));
@@ -114,8 +114,8 @@ export default class ModelService {
       case 'documentnumber':
         return _.merge({}, Object.assign(modelDocumentNumber.fields));
 
-      case 'documentgeneric.contentstatushistory':
-        return _.merge({}, Object.assign(modelDocumentContentStatus.fields));
+      // case 'documentgeneric.contentstatushistory':
+      //   return _.merge({}, Object.assign(modelDocumentContentStatus.fields));
 
       case 'documentgeneric.referenceddocument':
           model =  _.merge({}, Object.assign(modelReferencedDocument.fields));
