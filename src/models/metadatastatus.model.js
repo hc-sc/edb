@@ -81,21 +81,21 @@ module.exports.MetaDataStatus = class MetaDataStatus {
     return retVal[0]._id.toString();
   }
 
-  static updateMetadataStatus4NewSub(metadataValue) {
+  static updateMetadataStatus4NewSub(metadataValue, typename, keyname, changeto) {
     let retVal = JSON.stringify(_.merge({}, metadataValue));
-    let mds = PicklistService.edb_getSync({TYPE_NAME: 'TYPE_METADATA_STATUS'});
+    let mds = PicklistService.edb_getSync({TYPE_NAME: typename});
     let newStr, searStr = []; 
     
     mds.map(md => {
-      if (md.value === 'No Change')
-        newStr = '"metadatastatusid":"' + md._id + '"';
+      if (md.value === changeto)
+        newStr = '"' + keyname + '":"' + md._id + '"';
       else {
-        searStr.push('"metadatastatusid":"' + md._id + '"');
+        searStr.push('"' + keyname + '":"' + md._id + '"');
       }
     });
     
     searStr.map(ss => {
-      retVal = retVal.replace(ss, newStr);
+      retVal = retVal.replace(new RegExp(ss, 'g'), newStr);
     });
 
     retVal = JSON.parse(retVal);

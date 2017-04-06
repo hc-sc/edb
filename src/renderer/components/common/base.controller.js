@@ -38,7 +38,7 @@ export default class BaseCtrl {
         if (this.records && this.records.length > 0) {
           // there is some data in the db
           this.sortData();
-          if (id) 
+          if (id)
             this.resetSelected(id);
           else {
             this.selectedIndex = 0;
@@ -66,11 +66,11 @@ export default class BaseCtrl {
             if (ids.length > 0) {
               this.receivers = this.appDataService.edb_getSync({_url: '/receiver', data: ids });
             }
-            if (this.url === 'product') 
+            if (this.url === 'product')
               return this.appDataService.edb_get({ url, data: {_id: this.ghsts._product}});
             else if (this.url === 'dossier')
               return this.appDataService.edb_get({ url, data });
-            else if (this.url === 'document' || this.url === 'file' || this.url === 'toc') 
+            else if (this.url === 'document' || this.url === 'file' || this.url === 'toc')
               return this.ghstsService.edb_get({url: this.url});
           })
           .catch(err => {
@@ -99,7 +99,7 @@ export default class BaseCtrl {
       if (url === 'document' || url === 'file') {
         data._dossier = this.dossierData.dossierid;  //Do not set _ghsts to allow back-end create new item, if it is required.
         return this.ghstsService.edb_post({url, data});
-      } else 
+      } else
         return this.appDataService.edb_post(data);
     } else
       return this.appDataService.edb_post(data);
@@ -154,7 +154,7 @@ export default class BaseCtrl {
       this.dirtCheck()
         .then(() => {
           if (this.isDirt) {
-            if (this.selectedIndex > -1) 
+            if (this.selectedIndex > -1)
               this.records[this.selectedIndex] = _.merge({}, this.oriSelected);
             this.isDirt = false;
           }
@@ -191,7 +191,7 @@ export default class BaseCtrl {
           .then(result => {
             console.log(result);
             let data = JSON.parse(result.data);
-            if (Array.isArray(data)) 
+            if (Array.isArray(data))
               data = data[0];
             this.records[this.selectedIndex] = _.merge({}, data);
             this.sortData();
@@ -239,6 +239,7 @@ export default class BaseCtrl {
     this.$mdDialog.show(this.buildModal(nodeName, this.selected.length, true))
       .then(item => {
         if (this.getRef(nodeName).filter(record => {
+          console.log(record, item);
           if (nodeName.toLowerCase().endsWith('ra'))
             return record.toSpecificForRAId === item.toSpecificForRAId;
           else
@@ -381,8 +382,8 @@ export default class BaseCtrl {
 
   sortData() {
     this.records.sort((a, b) => {
-      let avd = a.valuedecode ? a.valuedecode.toLowerCase() : '', 
-        bvd = b.valuedecode ? b.valuedecode.toLowerCase() : '', 
+      let avd = a.valuedecode ? a.valuedecode.toLowerCase() : '',
+        bvd = b.valuedecode ? b.valuedecode.toLowerCase() : '',
         aid = a._id ? a._id.toLowerCase() : '', bid = b._id ? b._id.toLowerCase() : '';
       return avd < bvd ? -1 : avd > bvd ? 1 : aid > bid ? -1 : aid < bid ? 1 : 0;
     });
@@ -515,7 +516,7 @@ function getModalValues(nodeName) {
         template: referencedtofileTemplate,
         controller: referencedtofileCtrl
       };
-    
+
     case 'documentra':
 
       return {

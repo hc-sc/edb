@@ -19,6 +19,7 @@ const SubmissionService = require('./submission.service');
 const SubstanceService = require('./substance.service');
 const FileService = require('./file.service');
 const TocService = require('./toc.service');
+const PickListService = require('./picklist.service');
 
 
 const Q = require('bluebird');
@@ -431,7 +432,7 @@ module.exports = class GhstsService extends BaseService {
         } else if ( subUrlObj.subUrl === 'toc') { ///get toc sub-instances of the submission toc2doc assigned
           return new Q((res, rej) => {
             if (!self.ghsts[0]._tocid) 
-              self.ghsts[0]._tocid = TocService.edb_getSync({_version: self.version})[0]._id;
+              self.ghsts[0]._tocid = TocService.edb_getSync({tocversion: '01.00.01'})[0]._id;
             let curToc = TocService.edb_getSync({_id: self.ghsts[0]._tocid})[0];
             let docSvr = new DocumentService(self.ghsts[0]._version);
             docSvr.edb_get({where: self.ghsts[0]._document})
@@ -556,11 +557,15 @@ module.exports = class GhstsService extends BaseService {
               if (!curDocProp)
                 curDocProp = [];
               isExisting = _.filter(curProp, item => {
-                if (item === obj.docid)
+                if (item.docId === obj.docid)
                   return item;
               });
               if (isExisting.length === 0) {
-                curProp.push(obj.docid);
+                let toc2doc = {
+                  docId: obj.docid,
+                  nodeassignmentstatusId: PickListService.edb_getSync({TYPE_NAME:'TYPE_NODE_ASSIGNMENT_STATUS', value: 'New'})[0]._id
+                }
+                curProp.push(toc2doc);
                 if (curDocProp.indexOf(obj.docid.toString()) < 0) {
                   curDocProp.push(obj.docid.toString());
                   let receiverIds = self.ghsts[0]._receiver.map(rec => {
@@ -721,7 +726,7 @@ module.exports = class GhstsService extends BaseService {
                 needUpdate = false;
               else {
                 _.remove(curProp[obj.tocnodepid], item => {
-                  return item === obj.docid;
+                  return item.docId === obj.docid;
                 });
                 if (curProp[obj.tocnodepid].length === 0)
                   delete curProp[obj.tocnodepid];
@@ -1006,7 +1011,8 @@ module.exports = class GhstsService extends BaseService {
             subObj.submissionnumber = ghstsObj._submissionnumber.toString();
             if (subObj.submissionnumber.length === 1) subObj.submissionnumber = '0' + subObj.submissionnumber;
             subObj.submissiontitle = prevSubObj.submissiontitle.replace(prevSubObj.submissionnumber, '') + subObj.submissionnumber;
-            ghstsObj._metadatastatus = MetaDataStatus.updateMetadataStatus4NewSub(ghstsObj._metadatastatus);
+            ghstsObj._metadatastatus = MetaDataStatus.updateMetadataStatus4NewSub(ghstsObj._metadatastatus, 'TYPE_METADATA_STATUS', 'metadatastatusid', 'No Change'); 
+            ghstsObj._toc2docs = MetaDataStatus.updateMetadataStatus4NewSub(ghstsObj._toc2docs, 'TYPE_NODE_ASSIGNMENT_STATUS', 'nodeassignmentstatusId', 'No Change'); 
           }
           subSvr._create(subObj)
             .then(subRet => {
