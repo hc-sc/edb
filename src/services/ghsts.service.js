@@ -106,7 +106,7 @@ module.exports = class GhstsService extends BaseService {
     } else {
       metanode = new MetaDataStatusNode(
         id,
-        MetaDataStatus.getMetadataStatusIdbyValue('nochange'),
+        MetaDataStatus.getMetadataStatusIdbyValue('modified'),
         entityName
       );
     }
@@ -994,8 +994,8 @@ module.exports = class GhstsService extends BaseService {
               _tocid: obj.tocId
             };
           } else if (obj.dossierId) { //create submission other than 01
-            dossObj = _.merge({}, DossierService.edb_getSync({_id: obj.dossierId})[0]);
-            ghstsObj = _.merge({}, GhstsService.edb_getSync({_submissionid: obj.submissionid})[0]);
+            dossObj = DossierService.edb_getSync({_id: obj.dossierId})[0];
+            ghstsObj = GhstsService.edb_getSync({_submissionid: obj.submissionid})[0];
             delete ghstsObj.__v;
             delete ghstsObj._created;
             delete ghstsObj._id;
