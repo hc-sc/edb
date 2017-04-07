@@ -65,6 +65,9 @@ export default angular.module('tree', [
         controller: TocDocumentCtrl
       })
       .then(result => {
+        // if no selection was made, don't add it
+        if (result.document == null) return;
+
         if (!this.node.toc2doc)
           this.node.toc2doc = [result];
         else {

@@ -1,6 +1,5 @@
 <section class='node-page'>
   <md-button class='md-raised md-primary' ng-click='$ctrl.toggleShowTOCData()'>Show TOC Data</md-button>
-  <md-button class='md-raised md-primary' ng-click='$ctrl.showTree()'>Show Full TOC</md-button>
   <div ng-show='$ctrl.showTOCData'>
     <text-input label='Short Name' text-value='$ctrl.toc.tocshortname' on-update='$ctrl.updateTOC("tocshortname", value)' is-disabled='true'></text-input>
     <select-input label='Owner' is-disabled='true' select-value='$ctrl.toc.tocowner' values='$ctrl.tocOwnerType'></select-input>
@@ -13,7 +12,10 @@
     </fieldset>
   </div>
   <section>
-    <select-input label='Search' select-value='$ctrl.selectedNode' values='$ctrl.treeNodes' main='nodename' on-update='$ctrl.updateSelected(value)'></select-input>
+    <div class='extension-wrapper'>
+      <select-input label='Search Nodes' select-value='$ctrl.selectedNode' values='$ctrl.treeNodes' main='nodename' on-update='$ctrl.updateSelected(value)'></select-input>
+      <md-button class='md-raised md-primary' ng-click='$ctrl.showTree()'>Show Full TOC</md-button>
+    </div>
     <tree node='$ctrl.selectedNode' items='$ctrl.docs'></tree>
   </section>
 </section>
