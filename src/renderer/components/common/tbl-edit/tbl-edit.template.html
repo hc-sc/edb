@@ -18,14 +18,15 @@
       <table md-table>
         <thead md-head>
           <tr md-row>
-            <th ng-if='$ctrl.deletable' md-column></th>
+            <th md-column ng-if='$ctrl.deletable'></th>
+            <th md-column ng-if='$ctrl.editable'></th>
+            <th md-column ng-if='$ctrl.viewable'></th>
             <th ng-repeat='header in $ctrl.headers' md-column ng-click='$ctrl.setSort(header)'>
               {{header.name | translate}}
               <md-icon class='table-sort-icon' ng-class='{
                 "sort-ascending": ($ctrl.sortField === header.paramName && $ctrl.reverse),
                 "sort-descending": ($ctrl.sortField === header.paramName && !$ctrl.reverse)
               }' md-svg-icon='up'></md-icon>
-              <!--<md-icon class='table-sort-icon' ng-class='{"sort-descending": ($ctrl.sortField === header.paramName && !$ctrl.reverse)}' md-svg-icon='down'></md-icon>-->
             </th>
           </tr>
         </thead>
@@ -34,11 +35,13 @@
             <td ng-show='$ctrl.deletable' md- class='icon-cell'>
               <icon icon='$ctrl.deleteIcon' ng-click='$ctrl.delete(row.index)'></icon>
             </td>
-            <td ng-repeat='data in row track by $index' ng-if='!$last' md-cell ng-click='$ctrl.select(row[row.length - 1], row.index)'>{{$ctrl.getData(data, $index)}}</td>
-
-            <!--<td ng-show='$ctrl.editable' md-cell>
+            <td ng-show='$ctrl.editable' md- class='icon-cell'>
               <icon icon='$ctrl.editIcon' ng-click='$ctrl.edit(row.index)'></icon>
-            </td>-->
+            </td>
+            <td ng-show='$ctrl.viewable' md- class='icon-cell'>
+              <icon icon='$ctrl.viewIcon' ng-click='$ctrl.view(row.index)'></icon>
+            </td>
+            <td ng-repeat='data in row track by $index' ng-if='!$last' md-cell ng-click='$ctrl.select(row[row.length - 1], row.index)'>{{$ctrl.getData(data, $index)}}</td>
           </tr>
         </tbody>
       </table>
