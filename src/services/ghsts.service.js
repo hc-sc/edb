@@ -49,45 +49,66 @@ module.exports = class GhstsService extends BaseService {
   edb_openViewer(obj) {
     return new Q((res, rej) => {
       console.log(obj.submissionid);
-      let viewerConf = JSON.parse(fs.readFileSync('C:\\desktop-viewer\\config\\app.data'));
+      let viewerExecPath = path.resolve(basePath, BACKEND_CONST.VIEWER_EXEC_DIR_NAME);
+      let viewerConfFileName = path.resolve(viewerExecPath, BACKEND_CONST.VIEWER_CONF_DIR_NAME, BACKEND_CONST.VIEWER_CONF_FILE_NAME);
+      let viewerConf;
+      try {
+        viewerConf = JSON.parse(fs.readFileSync(viewerConfFileName));
+      } catch (err) {
+        if (err.code === 'ENOENT') {
+          viewerConf = {
+            appData: {
+              tabArray: [
+                {
+                  id: 0,
+                  label: 'Startpage',
+                  title: 'Startpage',
+                  src: path.resolve(viewerExecPath, 'startpage', 'startpage.html'),
+                  active: false
+                }
+              ]
+            },
+            recentlyUsed: [],
+            userData: {}
+          };
+        } else {
+          throw err;
+        }
+      }
       let isActive = false;
-      if (!viewerConf) 
-        rej(new RVHelper('EDB10005'));
-      else {
-        let dossierPath = GhstsService.edb_getSync({_submissionid: obj.submissionid})[0];
-        let subPath = dossierPath._submissionnumber;
-        dossierPath = dossierPath._foldername;
-        subPath = subPath.toString();
-        if (subPath.length === 1)
-          subPath = '0' + subPath;
-        let subFullPath = path.resolve(prodsPath, dossierPath, subPath, 'utils', 'viewer', 'viewer.html');
-        for (let i = 0; i < viewerConf.appData.tabArray.length; i++) {
-          if (viewerConf.appData.tabArray[i].active && viewerConf.appData.tabArray[i].src === subFullPath) {
-            isActive = true;
-            break;
-          } else if (viewerConf.appData.tabArray[i].src === subFullPath) {
-            viewerConf.appData.tabArray[i].active = true;
-            isActive = true;
-          } else 
-            viewerConf.appData.tabArray[i].active = false;
-        }
-        if (!isActive) {
-          viewerConf.appData.tabArray.push({
-            id: viewerConf.appData.tabArray.length,
-            src: subFullPath,
-            active: true
-          });
-        }
-        fs.writeFileSync('C:\\desktop-viewer\\config\\app.data', JSON.stringify(viewerConf));
-        let child = require('child_process').execFile;
-        let executablePath = path.resolve('C:\\desktop-viewer\\Desktop-Viewer.exe');
-        child(executablePath, (err, data) => {
-          if (err)
-            rej(err);
-          else
-            res(new RVHelper('EDB00000'));
+      let dossierPath = GhstsService.edb_getSync({ _submissionid: obj.submissionid })[0];
+      let subPath = dossierPath._submissionnumber;
+      dossierPath = dossierPath._foldername;
+      subPath = subPath.toString();
+      if (subPath.length === 1)
+        subPath = '0' + subPath;
+      let subFullPath = path.resolve(prodsPath, dossierPath, subPath, 'utils', 'viewer', 'viewer.html');
+      for (let i = 0; i < viewerConf.appData.tabArray.length; i++) {
+        if (viewerConf.appData.tabArray[i].active && viewerConf.appData.tabArray[i].src === subFullPath) {
+          isActive = true;
+          break;
+        } else if (viewerConf.appData.tabArray[i].src === subFullPath) {
+          viewerConf.appData.tabArray[i].active = true;
+          isActive = true;
+        } else
+          viewerConf.appData.tabArray[i].active = false;
+      }
+      if (!isActive) {
+        viewerConf.appData.tabArray.push({
+          id: viewerConf.appData.tabArray.length,
+          src: subFullPath,
+          active: true
         });
       }
+      fs.writeFileSync(viewerConfFileName, JSON.stringify(viewerConf));
+      let child = require('child_process').execFile;
+      let executablePath = path.resolve(viewerExecPath, 'Desktop-Viewer.exe');
+      child(executablePath, (err, data) => {
+        if (err)
+          rej(err);
+        else
+          res(new RVHelper('EDB00000'));
+      });
     });
   }
 
