@@ -58,6 +58,7 @@ export default angular.module('tblEdit', [
       }
 
       $onChanges(changes) {
+        console.log(changes);
         this.mapProjection();
       }
 
@@ -101,7 +102,6 @@ export default angular.module('tblEdit', [
               } else {
                 let id = item[header.name];
                 let query = {_id: id};
-                // let value;
                 if (header.url === 'picklist') {
                   let queryRet = this.picklistService.edb_getSync(query)[0];
                   if (queryRet && queryRet.hasOwnProperty('valuedecode'))
@@ -121,7 +121,42 @@ export default angular.module('tblEdit', [
                 }
               }
             }
+
+            // need to append properties 'deletable', 'editable', 'viewable'
+            if (item._url === 'submission') {
+              if (item._state === 'Sent') {
+                row.deletable = false;
+                row.editable = false;
+                row.viewable = true;
+              }
+              else {
+                row.deletable = true;
+                row.editable = true;
+                row.viewable = false;
+              }
+            }
+
+            if (item._url === 'dossier') {
+              row.editable = true;
+              if (item._state === 'active') {
+                // check if it has no submissions first
+                row.deletable = true;
+              }
+            }
+
             row.push(item['_id']);
+
+            for (let col of row) {
+              try {
+                console.log(col);
+                let date = Date.parseDate(col);
+                console.log(date);
+                col = date.toUTCString();
+              }
+              catch(e) {
+                console.log('not a date');
+              }
+            }
             return row;
           });
         } else

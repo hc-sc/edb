@@ -69,11 +69,7 @@ export default angular.module('home', [
           navIcons: [
             { name: 'home', label: 'Home', state: 'splash' }
           ],
-          functionIcons: [
-          //  { name: 'globals', state: 'globals.legalEntities', label: 'Entities' },
-           // { name: 'settings', state: 'settings', label: 'Settings' },
-           // { name: 'help', label: 'Help', func: this.backend.bind(this) }
-          ]
+          functionIcons: []
         };
 
         this.dossierProjection = [
@@ -212,7 +208,7 @@ export default angular.module('home', [
         // .then(() => {
         //   this.dossiers = this.dossiers.slice(0, index).concat(this.dossiers.slice(index + 1));
         //
-        //    if the dossier was selected, change selection
+        //    if the dossier was selected, empty selection
         // }
         // .catch(() => {
         //   this.$mdToast.show(
