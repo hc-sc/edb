@@ -14,7 +14,7 @@
     <md-dialog-content>
       <div class='md-dialog-content'>
         <select-input label='{{"substance" | translate}}' main='substancename' select-value='$ctrl.node.toSubstanceId' values='$ctrl.substances' is-required='true' on-update='$ctrl.update("toSubstanceId", value)'></select-input>
-        <text-input label='{{"quantity" | translate}}' text-value='$ctrl.node.quantity' is-required='true' on-update='$ctrl.update("quantity", value)'></text-input>
+        <number-input label='{{"quantity" | translate}}' text-value='$ctrl.node.quantity' is-required='true' on-update='$ctrl.update("quantity", value)'></number-input>
         <select-input-extensible label='{{"unit" | translate}}' select-value='$ctrl.node.unit' is-required='true' on-update='$ctrl.update("unit", value)'
           values='$ctrl.picklists.unitType' type-name='EXTENSION_TYPE_UNIT' on-add='$ctrl.createPicklistItem("unit", "unitType", value)'>
         </select-input-extensible>
