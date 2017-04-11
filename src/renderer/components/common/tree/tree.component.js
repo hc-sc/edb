@@ -26,11 +26,11 @@ export default angular.module('tree', [
       // tocnode - subnodes for this node
       this.$mdDialog = $mdDialog;
       this.$mdToast = $mdToast;
-      this.expandIcon = {name: 'down', color: 'dark'};
-      this.collapseIcon = {name: 'right', color: 'dark'};
-      this.addIcon = {name: 'add', color: 'dark'};
-      this.documentIcon = {name: 'description', color: 'dark'};
-      this.deleteIcon = {name: 'delete', color: 'dark'};
+      this.expandIcon = {name: 'down', color: 'dark', label: 'Expand'};
+      this.collapseIcon = {name: 'right', color: 'dark', label: 'Collapse'};
+      this.addIcon = {name: 'add', color: 'dark', label: 'Add Document'};
+      this.documentIcon = {name: 'description', color: 'dark', label: 'Document'};
+      this.deleteIcon = {name: 'delete', color: 'dark', label: 'Delete Document'};
       this.isHidden = true;
       this.ghstsService = GhstsService.getService();
     }
@@ -65,7 +65,10 @@ export default angular.module('tree', [
         controller: TocDocumentCtrl
       })
       .then(result => {
-        if (!this.node.toc2doc) 
+        // if no selection was made, don't add it
+        if (result.document == null) return;
+
+        if (!this.node.toc2doc)
           this.node.toc2doc = [result];
         else {
           let isExisting = false;
@@ -99,7 +102,7 @@ export default angular.module('tree', [
     validate() {
       // set flags if needed
     }
-    
+
   }
 })
 .name;
