@@ -119,20 +119,6 @@ export default angular.module('submission', [
           });
       }
 
-      sendSubmission() {
-        console.log(this);
-        let curGhsts = this.ghstsService.edb_getSync({_submissionid: this.dossierData.submissionid})[0];
-        curGhsts._state = 'sent';
-        console.log(curGhsts);
-        this.ghstsService.edb_post(curGhsts)
-          .then(ret => {
-            console.log(ret);
-            this.showMessage('Submission Status set to sent.');
-            this.$state.go('home');
-          })
-          .catch(err => {console.log(err);});
-      }
-
       // used to display notifications to the user
       showMessage(message) {
         this.$mdToast.show(

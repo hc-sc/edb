@@ -221,7 +221,7 @@ export default angular.module('home', [
 
       viewSubmission(index) {
         const state = this.submissions[index]._state;
-        if (/sent/i.test(state) || /packaged/i.test(state)) {
+        if (/Sent/i.test(state) || /packaged/i.test(state)) {
           let confirm =
             this.$mdDialog.confirm()
               .title('Open packaged submission in Viewer')
@@ -236,7 +236,7 @@ export default angular.module('home', [
         else {
           this.$mdToast.show(
             this.$mdToast.simple()
-            .textContent('Cannot view a submission that hasn\'t been packaged or sent')
+            .textContent('Cannot view a submission that hasn\'t been packaged or Sent')
             .hideDelay(1200)
           );
         }
@@ -247,7 +247,7 @@ export default angular.module('home', [
         if (/sent/i.test(state)) {
           this.$mdToast.show(
             this.$mdToast.simple()
-              .textContent('Cannot delete a submission that has been sent')
+              .textContent('Cannot delete a submission that has been Sent')
               .hideDelay(1200)
           );
         }
@@ -309,7 +309,24 @@ export default angular.module('home', [
         .then(selection => {
           // send selection to update in backend
           console.log(selection);
-        });
+          if (selection.status === 'Sent') {
+            console.log(this);
+            let curGhsts = this.GhstsService.edb_getSync({_submissionid: this.submissions[0]._id})[0];
+            curGhsts._state = 'sent';
+            console.log(curGhsts);
+            return this.GhstsService.edb_post(curGhsts);
+          } else 
+            return Promise.resolve('nothing');
+        })
+        .then(ret => {
+          if (ret === 'nothing') 
+            console.log(ret);
+          else {
+            this.showMessage('Submission Status set to Sent.');
+            this.$state.go('home');
+          }
+        })
+        .catch(err => {console.log(err);});
       }
 
       selectSubmission(id, index) {
@@ -333,7 +350,7 @@ export default angular.module('home', [
       newSubmission() {
         // get new ghsts ids
         let state = this.submissions[0]._state.toLowerCase();
-        if (state === 'packaged' || state === 'sent') {
+        if (state === 'sent') {
           this.GhstsService.edb_put({ _url: 'ghsts', data: { dossierId: this.dossier._id, submissionid: this.submissions[0]._id } })
             .then(result => {
               this.$state.go('submission.submissionNode', {

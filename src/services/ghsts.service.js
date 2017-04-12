@@ -1139,13 +1139,15 @@ module.exports = class GhstsService extends BaseService {
   edb_post(obj) {
     return new Q((res, rej) => {
       let self = this;
+      if (!self.ghsts[0])
+        self.ghsts[0] = _.merge({}, GhstsService.edb_getSync({_id: obj._id})[0]);
+
       if (obj._subUrl)
         res(self._subUrlProcess4Post(obj));
       else if (obj._state !== self.ghsts[0]._state) { //Change submission state
         let svr = new SubmissionService(self._version);
-        let curSub = SubmissionService.edb_getSync({
-          _id: self.ghsts[0]._submissionid
-        })[0];
+        let searObj = {_id: self.ghsts[0]._submissionid};
+        let curSub = SubmissionService.edb_getSync(searObj)[0];
         curSub._state = obj._state;
         svr._update(curSub)
           .then(retSub => {
