@@ -1229,7 +1229,7 @@ module.exports = class GhstsService extends BaseService {
     if (retVal.length <= 1)
       return undefined;
     else {
-      if (retVal[0]._state === 'active')
+      if (retVal[0]._state === SHARED_CONST.SUBMISSION_STATUS_IN_PROGRESS)
         return retVal[1]._ghsts;
       else
         return retVal[0]._ghsts;

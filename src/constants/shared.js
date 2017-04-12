@@ -20,11 +20,13 @@ const SHARED_CONSTANTS = {
   APP_DATA_NG_MODULE_NAME: 'app.service.appdata',
   APP_DATA_NG_SERVICE_ID: 'AppDataService',
 
-  DOSSIER_STATUS_OPEN: 'active',
+  DOSSIER_STATUS_OPEN: 'open',
   DOSSIER_STATUS_CLOSED: 'closed',
-  SUBMISSION_STATUS_IN_PROGRESS: 'active',
+  SUBMISSION_STATUS_IN_PROGRESS: 'inprocess',
   SUBMISSION_STATUS_PACKAGED: 'packaged',
-  SUBMISSION_STATUS_SENT: 'sent'
+  SUBMISSION_STATUS_SENT: 'sent',
+  STATUS_ACTIVE: 'active',
+  STATUS_DEACTIVE: 'deactive'
 };
 
 (function (exports) {
