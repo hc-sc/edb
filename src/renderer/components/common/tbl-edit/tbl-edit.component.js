@@ -7,10 +7,6 @@ import Toolbar from '../toolbar/toolbar.component';
 import Icon from '../icon/icon.component';
 import IndexFilter from '../../../filters/index.filter';
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 0141f7a99e56d0a59e7fb7f375477b8137312293
 import {
   DOSSIER_STATUS_OPEN,
   DOSSIER_STATUS_CLOSED,
@@ -19,11 +15,6 @@ import {
   SUBMISSION_STATUS_SENT
 } from '../../../../constants/shared.js';
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 1b27233af97ecfdafce3537b720bedd252fefb92
->>>>>>> 0141f7a99e56d0a59e7fb7f375477b8137312293
 import './tbl-edit.scss';
 
 export default angular.module('tblEdit', [
@@ -75,13 +66,6 @@ export default angular.module('tblEdit', [
       }
 
       $onChanges(changes) {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-        console.log(changes);
->>>>>>> 1b27233af97ecfdafce3537b720bedd252fefb92
->>>>>>> 0141f7a99e56d0a59e7fb7f375477b8137312293
         this.mapProjection();
       }
 
@@ -147,7 +131,6 @@ export default angular.module('tblEdit', [
 
             // need to append properties 'deletable', 'editable', 'viewable'
             if (item._url === 'submission') {
-<<<<<<< HEAD
               row.deletable = this.canDeleteSubmission(item);
               row.editable = this.canEditSubmission(item);
               row.viewable = this.canViewSubmission(item);
@@ -156,69 +139,19 @@ export default angular.module('tblEdit', [
             if (item._url === 'dossier') {
               row.deletable = this.canDeleteDossier(item);
               row.editable = this.canEditDossier(item);
-=======
-<<<<<<< HEAD
-              row.deletable = this.canDeleteSubmission(item);
-              row.editable = this.canEditSubmission(item);
-              row.viewable = this.canViewSubmission(item);
-            }
-
-            if (item._url === 'dossier') {
-              row.deletable = this.canDeleteDossier(item);
-              row.editable = this.canEditDossier(item);
-=======
-              if (item._state === 'Sent') {
-                row.deletable = false;
-                row.editable = false;
-                row.viewable = true;
-              }
-              else {
-                row.deletable = true;
-                row.editable = true;
-                row.viewable = false;
-              }
-            }
-
-            if (item._url === 'dossier') {
-              row.editable = true;
-              if (item._state === 'active') {
-                // check if it has no submissions first
-                row.deletable = true;
-              }
->>>>>>> 1b27233af97ecfdafce3537b720bedd252fefb92
->>>>>>> 0141f7a99e56d0a59e7fb7f375477b8137312293
             }
 
             row.push(item['_id']);
 
-<<<<<<< HEAD
-            // convert times
-=======
-<<<<<<< HEAD
             // convert times
             for (let col of row) {
               try {
                 let date = Date.parseDate(col);
                 col = date.toUTCString();
               }
+
               /* eslint-disable no-empty */
               catch(e) {}
-=======
->>>>>>> 0141f7a99e56d0a59e7fb7f375477b8137312293
-            for (let col of row) {
-              try {
-                let date = Date.parseDate(col);
-                col = date.toUTCString();
-              }
-<<<<<<< HEAD
-              /* eslint-disable no-empty */
-              catch(e) {}
-=======
-              catch(e) {
-                console.log('not a date');
-              }
->>>>>>> 1b27233af97ecfdafce3537b720bedd252fefb92
->>>>>>> 0141f7a99e56d0a59e7fb7f375477b8137312293
             }
             return row;
           });
@@ -290,10 +223,6 @@ export default angular.module('tblEdit', [
         }
       }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 0141f7a99e56d0a59e7fb7f375477b8137312293
       // BUSINESS RULES FOR WORKFLOW
 
       // can delete if in-progress or packaged
@@ -330,11 +259,6 @@ export default angular.module('tblEdit', [
         const state = new RegExp(item._state, 'i');
         return (state.test(DOSSIER_STATUS_OPEN))
       }
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 1b27233af97ecfdafce3537b720bedd252fefb92
->>>>>>> 0141f7a99e56d0a59e7fb7f375477b8137312293
     }
   })
   .name;
