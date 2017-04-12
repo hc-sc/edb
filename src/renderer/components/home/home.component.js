@@ -94,7 +94,6 @@ export default angular.module('home', [
 
       selectDossier(id) {
         if (id) {
-          console.log(id);
           this.dossier = this.dossiers.filter(dossier => {
             return dossier._id === id;
           })[0];

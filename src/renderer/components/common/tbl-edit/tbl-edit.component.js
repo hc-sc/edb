@@ -7,6 +7,14 @@ import Toolbar from '../toolbar/toolbar.component';
 import Icon from '../icon/icon.component';
 import IndexFilter from '../../../filters/index.filter';
 
+import {
+  DOSSIER_STATUS_OPEN,
+  DOSSIER_STATUS_CLOSED,
+  SUBMISSION_STATUS_IN_PROGRESS,
+  SUBMISSION_STATUS_PACKAGED,
+  SUBMISSION_STATUS_SENT
+} from '../../../../constants/shared.js';
+
 import './tbl-edit.scss';
 
 export default angular.module('tblEdit', [
@@ -58,7 +66,6 @@ export default angular.module('tblEdit', [
       }
 
       $onChanges(changes) {
-        console.log(changes);
         this.mapProjection();
       }
 
@@ -124,38 +131,26 @@ export default angular.module('tblEdit', [
 
             // need to append properties 'deletable', 'editable', 'viewable'
             if (item._url === 'submission') {
-              if (item._state === 'Sent') {
-                row.deletable = false;
-                row.editable = false;
-                row.viewable = true;
-              }
-              else {
-                row.deletable = true;
-                row.editable = true;
-                row.viewable = false;
-              }
+              row.deletable = this.canDeleteSubmission(item);
+              row.editable = this.canEditSubmission(item);
+              row.viewable = this.canViewSubmission(item);
             }
 
             if (item._url === 'dossier') {
-              row.editable = true;
-              if (item._state === 'active') {
-                // check if it has no submissions first
-                row.deletable = true;
-              }
+              row.deletable = this.canDeleteDossier(item);
+              row.editable = this.canEditDossier(item);
             }
 
             row.push(item['_id']);
 
+            // convert times
             for (let col of row) {
               try {
-                console.log(col);
                 let date = Date.parseDate(col);
-                console.log(date);
                 col = date.toUTCString();
               }
-              catch(e) {
-                console.log('not a date');
-              }
+              /* eslint-disable no-empty */
+              catch(e) {}
             }
             return row;
           });
@@ -227,6 +222,42 @@ export default angular.module('tblEdit', [
         }
       }
 
+      // BUSINESS RULES FOR WORKFLOW
+
+      // can delete if in-progress or packaged
+      canDeleteSubmission(item) {
+        const state = new RegExp(item._state, 'i');
+        return (state.test(SUBMISSION_STATUS_IN_PROGRESS));
+      }
+
+      // if in-progress, will be set to packaged by packager
+      // if packaged, can set to sent or back to in-progress
+      // if sent, cannot change
+      canEditSubmission(item) {
+        const state = new RegExp(item._state, 'i');
+        return (state.test(SUBMISSION_STATUS_PACKAGED));
+      }
+
+      // can view submission if packaged or sent
+      canViewSubmission(item) {
+        const state = new RegExp(item._state, 'i');
+        return (state.test(SUBMISSION_STATUS_SENT) ||
+                state.test(SUBMISSION_STATUS_PACKAGED));
+      }
+
+      // can delete dossier if there are no sent submissions
+      canDeleteDossier(item) {
+        const state = new RegExp(item._state, 'i');
+        if (state.test(DOSSIER_STATUS_CLOSED)) return false;
+        return true;
+      }
+
+      // if dossier is open, can closed if all submissions are sent
+      // if dossier is closed, can open
+      canEditDossier(item) {
+        const state = new RegExp(item._state, 'i');
+        return (state.test(DOSSIER_STATUS_OPEN))
+      }
     }
   })
   .name;
