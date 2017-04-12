@@ -37,8 +37,8 @@ div.table-container {
 }
 
 table.md-table td.icon-cell {
-  padding: 1px;
   border-top: 1px solid rgba(0, 0, 0, 0.117647);
+  width: 30px;
 }
 
 .table-sort-icon {
@@ -58,3 +58,19 @@ table.md-table td.icon-cell {
   transform: rotate(180deg);
   transition: transform 0.2s;
 }
+
+table.md-table:not(.md-row-select) th.md-column,
+table.md-table:not(.md-row-select) td.md-cell {
+  padding: 0 5px 0 5px !important;
+}
+
+td.icon-cell .md-button {
+  width: 28px;
+}
+
+/* the last icon cell in the table */
+.icon-cell +  :not(.icon-cell) {
+  border-left: 1px solid rgba(0, 0, 0, 0.117647);
+  margin-left: 10px !important;
+}
+

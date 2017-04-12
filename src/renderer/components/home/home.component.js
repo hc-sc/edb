@@ -6,12 +6,15 @@ import template from './home.template';
 
 import Toolbar from '../common/toolbar/toolbar.component';
 import Tbl from '../common/tbl/tbl.component';
+import TblEdit from '../common/tbl-edit/tbl-edit.component';
 import Footer from '../common/footer/footer.component';
 import DossierService from '../../services/dossier.service';
 import { } from '../../services/ghsts.service';
 import { } from '../../services/app.data.service';
 import { GHSTS_NG_MODULE_NAME, APP_DATA_NG_MODULE_NAME, PICKLIST_NG_MODULE_NAME } from '../../../constants/shared';
 import newDossierTemplate from './new-dossier/new-dossier.template';
+import editSubmissionTemplate from'./edit-submission/edit-submission.template';
+import editDossierTemplate from './edit-dossier/edit-dossier.template';
 
 export default angular.module('home', [
   uiRouter,
@@ -22,13 +25,15 @@ export default angular.module('home', [
   PICKLIST_NG_MODULE_NAME,
   Toolbar,
   Tbl,
+  TblEdit,
   Footer
 ])
   .component('home', {
     template,
     controller: class HomeCtrl {
-      constructor($mdDialog, $state, GhstsService, PicklistService, AppDataService) {
+      constructor($mdDialog, $mdToast, $state, GhstsService, PicklistService, AppDataService) {
         this.$mdDialog = $mdDialog;
+        this.$mdToast = $mdToast;
         this.$state = $state;
         this.GhstsService = GhstsService.getService();
         this.picklistService = PicklistService.getService();
@@ -64,11 +69,7 @@ export default angular.module('home', [
           navIcons: [
             { name: 'home', label: 'Home', state: 'splash' }
           ],
-          functionIcons: [
-          //  { name: 'globals', state: 'globals.legalEntities', label: 'Entities' },
-           // { name: 'settings', state: 'settings', label: 'Settings' },
-           // { name: 'help', label: 'Help', func: this.backend.bind(this) }
-          ]
+          functionIcons: []
         };
 
         this.dossierProjection = [
@@ -166,8 +167,149 @@ export default angular.module('home', [
           });
       }
 
+      editDossier(index) {
+        const statuses = ['Open', 'Closed'];
+        const prompt = {
+          template: editDossierTemplate,
+          controller: class EditDossierCtrl {
+            constructor($mdDialog, statuses) {
+              this.$mdDialog = $mdDialog;
+              this.statuses = statuses;
+              this.status = '';
+            }
+
+            confirm() {
+              this.$mdDialog.hide({
+                status: this.status
+              });
+            }
+
+            cancel() {
+              this.$mdDialog.cancel();
+            }
+          },
+          controllerAs: '$ctrl',
+          locals: {
+            $mdDialog: this.$mdDialog,
+            statuses: statuses
+          }
+        };
+
+        this.$mdDialog.show(prompt)
+        .then(selection => {
+          // send selection to update in backend
+          console.log(selection);
+        });
+      }
+
       deleteDossier(index) {
-        this.dossiers = this.dossiers.slice(0, index).concat(this.dossiers.slice(index + 1, 0));
+        console.log(index);
+        // confirm backend deletes the item
+        // .then(() => {
+        //   this.dossiers = this.dossiers.slice(0, index).concat(this.dossiers.slice(index + 1));
+        //
+        //    if the dossier was selected, empty selection
+        // }
+        // .catch(() => {
+        //   this.$mdToast.show(
+        //     this.$mdToast.simple()
+        //     .textContent('Error in deleting')
+        //     .hideDelay(1200)
+        //   );
+        // });
+      }
+
+      viewSubmission(index) {
+        const state = this.submissions[index]._state;
+        if (/sent/i.test(state) || /packaged/i.test(state)) {
+          let confirm =
+            this.$mdDialog.confirm()
+              .title('Open packaged submission in Viewer')
+              .textContent('The viewer must be closed to load properly')
+              .ok('View')
+              .cancel('Cancel');
+          this.$mdDialog.show(confirm)
+            .then(() => {
+              this.GhstsService.edb_openViewer({submissionid: this.submissions[index]._id});
+            });
+        }
+        else {
+          this.$mdToast.show(
+            this.$mdToast.simple()
+            .textContent('Cannot view a submission that hasn\'t been packaged or sent')
+            .hideDelay(1200)
+          );
+        }
+      }
+
+      deleteSubmission(index) {
+        const state = this.submissions[index]._state;
+        if (/sent/i.test(state)) {
+          this.$mdToast.show(
+            this.$mdToast.simple()
+              .textContent('Cannot delete a submission that has been sent')
+              .hideDelay(1200)
+          );
+        }
+        else {
+          let confirm = this.$mdDialog.confirm()
+          .title('Confirm delete')
+          .textContent('Are you sure you want to delete this submission?')
+          .ok('Delete')
+          .cancel('Cancel');
+
+          this.$mdDialog.show(confirm)
+          .then(() => {
+            // delete on the backend first
+            //backend.delete
+            // .then(() => {
+              this.submissions = this.submissions.slice(0, index).concat(this.submissions.slice(index + 1));
+            // }
+            // .catch(e => {
+            //   this.$mdToast.show(
+            //     this.$mdToast.simple()
+            //     .textContent('Error in deleting')
+            //     .hideDelay(1200)
+            //   );
+            // }
+          });
+        }
+      }
+
+      editSubmission(index) {
+        console.log(index);
+        const statuses = ['In Progress', 'Packaged', 'Sent'];
+        const prompt = {
+          template: editSubmissionTemplate,
+          controller: class EditSubmissionCtrl {
+            constructor($mdDialog, statuses) {
+              this.$mdDialog = $mdDialog;
+              this.statuses = statuses;
+              this.status = '';
+            }
+
+            confirm() {
+              this.$mdDialog.hide({
+                status: this.status
+              });
+            }
+
+            cancel() {
+              this.$mdDialog.cancel();
+            }
+          },
+          controllerAs: '$ctrl',
+          locals: {
+            $mdDialog: this.$mdDialog,
+            statuses: statuses
+          }
+        };
+
+        this.$mdDialog.show(prompt)
+        .then(selection => {
+          // send selection to update in backend
+          console.log(selection);
+        });
       }
 
       selectSubmission(id, index) {
@@ -178,23 +320,18 @@ export default angular.module('home', [
             submissionid: this.submissions[index]._id,
             dossiertitle: this.dossier.dossierdescriptiontitle
           });
-        } else {
-          let confirm = 
-            this.$mdDialog.confirm()
-              .title('Open packaged submission in Viewer')
-              .textContent('Please close opened Viewer application, and then click "VIEWER CLOSED" button to continue; or click "RETURN" button to cancel.')
-              .ok('VIEWER CLOSED')
-              .cancel('RETURN');
-          this.$mdDialog.show(confirm)
-            .then(() => {
-              this.GhstsService.edb_openViewer({submissionid: this.submissions[index]._id});
-            });
+        }
+        else {
+          this.$mdToast.show(
+            this.$mdToast.simple()
+              .textContent('Cannot open a packaged or sent submission')
+              .hideDelay(1200)
+          );
         }
       }
 
       newSubmission() {
         // get new ghsts ids
-        // console.log(this.submissions);
         let state = this.submissions[0]._state.toLowerCase();
         if (state === 'packaged' || state === 'sent') {
           this.GhstsService.edb_put({ _url: 'ghsts', data: { dossierId: this.dossier._id, submissionid: this.submissions[0]._id } })
@@ -205,7 +342,7 @@ export default angular.module('home', [
                 dossiertitle: result.data.dossiertitle
               });
             });
-        } else 
+        } else
           console.log(state);
       }
 
