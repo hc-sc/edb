@@ -94,7 +94,6 @@ export default angular.module('home', [
 
       selectDossier(id) {
         if (id) {
-          console.log(id);
           this.dossier = this.dossiers.filter(dossier => {
             return dossier._id === id;
           })[0];
@@ -315,11 +314,11 @@ export default angular.module('home', [
             curGhsts._state = 'sent';
             console.log(curGhsts);
             return this.GhstsService.edb_post(curGhsts);
-          } else 
+          } else
             return Promise.resolve('nothing');
         })
         .then(ret => {
-          if (ret === 'nothing') 
+          if (ret === 'nothing')
             console.log(ret);
           else {
             this.showMessage('Submission Status set to Sent.');
