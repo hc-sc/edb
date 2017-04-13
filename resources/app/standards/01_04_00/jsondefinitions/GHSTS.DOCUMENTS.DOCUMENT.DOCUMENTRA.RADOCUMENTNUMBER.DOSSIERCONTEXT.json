@@ -1,0 +1,16 @@
+{
+	"localName": "GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.DOSSIERCONTEXT",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "dossierpid",
+			"required": true,
+			"elementName": "DOSSIER_PID"
+		},
+		{
+			"name": "dossiernumber",
+			"required": true,
+			"elementName": "DOSSIER_NUMBER"
+		}
+	]
+}

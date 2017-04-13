@@ -1,0 +1,7 @@
+.ghsts-link-container {
+  border-color: blue !important;
+}
+.annotationLayer .linkAnnotation > a.ghsts-link-unavailable {
+  background-color: orange;
+  opacity: 0.5;
+}

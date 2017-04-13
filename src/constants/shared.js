@@ -19,10 +19,18 @@ const SHARED_CONSTANTS = {
   APP_DATA_MSG_CHANNEL: 'appdata',
   APP_DATA_NG_MODULE_NAME: 'app.service.appdata',
   APP_DATA_NG_SERVICE_ID: 'AppDataService',
+
+  DOSSIER_STATUS_OPEN: 'open',
+  DOSSIER_STATUS_CLOSED: 'closed',
+  SUBMISSION_STATUS_IN_PROGRESS: 'inprogress',
+  SUBMISSION_STATUS_PACKAGED: 'packaged',
+  SUBMISSION_STATUS_SENT: 'sent',
+  STATUS_ACTIVE: 'active',
+  STATUS_DEACTIVE: 'deactive'
 };
 
 (function (exports) {
-  let keys = Object.keys(SHARED_CONSTANTS); 
+  let keys = Object.keys(SHARED_CONSTANTS);
 
   keys.map(key => {
     exports[key] = SHARED_CONSTANTS[key];

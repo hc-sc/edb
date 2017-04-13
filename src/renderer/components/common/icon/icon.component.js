@@ -10,7 +10,8 @@ export default angular.module('icon', [
 .component('icon', {
   template,
   bindings: {
-    icon: '<'
+    icon: '<',
+    disabled: '<'
   }
 })
 .name;

@@ -3,11 +3,6 @@
     {
       "product": {
         "TYPE_NAME": "GHSTS.GHSTS.PRODUCT",
-        "metadatastatus": {
-          "TYPE_NAME": "GHSTS.TYPEMETADATASTATUSSTRUCT",
-          "value": "New",
-          "valuedecode": "New"
-        },
         "productpid": "urn:pppww:E3568230-87E3-4693-8F44-F7B1ACCB0EDB",
         "genericproductname": "Famous Product EC 250 Test 1",
         "productra": [

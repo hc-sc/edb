@@ -1,0 +1,18 @@
+text-input {
+  flex: 1;
+  margin: 0;
+  padding: 0;
+}
+
+md-input-container.custom-container {
+  margin: 30px 0 0 0;
+  padding: 0;
+}
+
+md-input-container .md-errors-spacer {
+  display: none;
+}
+
+text-input.search-input > md-input-container {
+  margin: 0;
+}

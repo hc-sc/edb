@@ -1,0 +1,28 @@
+{
+  "sender": [
+    {
+      "TYPE_NAME": "GHSTS.GHSTS.RECEIVERS.RECEIVER.SENDER",
+      "_shortname": "PPPWG",
+      "companycontactregulatoryrole": "Sender",
+      "remark": "no remark"
+    },
+    {
+      "TYPE_NAME": "GHSTS.GHSTS.RECEIVERS.RECEIVER.SENDER",
+      "_shortname": "PPPWC",
+      "companycontactregulatoryrole": "Sender",
+      "remark": "no remark"
+    },
+    {
+      "TYPE_NAME": "GHSTS.GHSTS.RECEIVERS.RECEIVER.SENDER",
+      "_shortname": "PPPWB",
+      "companycontactregulatoryrole": "Sender",
+      "remark": "no remark"
+    },
+    {
+      "TYPE_NAME": "GHSTS.GHSTS.RECEIVERS.RECEIVER.SENDER",
+      "_shortname": "PPPWA",
+      "companycontactregulatoryrole": "Sender",
+      "remark": "no remark"
+    }
+  ]
+}

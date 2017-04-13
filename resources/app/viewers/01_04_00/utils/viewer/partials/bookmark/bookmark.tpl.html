@@ -1,0 +1,7 @@
+<div id="menu-panel" ng-controller="BookmarkController as bookmarkCtrl" >
+    <div class="menu-row">
+        <div class="menu-field">
+            <a href="" ng-click="bookmarkCtrl.set()" ng-show="bookmarkCtrl.currentDoc"><i title="Bookmark" alt="Bookmark" class="fa fa-bookmark fa-2x fa-fw" ng-class="{ 'menu-selected': bookmarkCtrl.bookmarks[bookmarkCtrl.currentDoc._Id] }"></i></a>
+        </div>
+    </div>
+</div>

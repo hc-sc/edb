@@ -11,3 +11,19 @@
     fill: $dark;
   }
 }
+
+.light.disabled {
+  svg {
+    fill: $dark;
+  }
+}
+
+.dark.disabled {
+  svg {
+    fill: $light;
+  }
+}
+
+.disabled:hover {
+  cursor: not-allowed;
+}

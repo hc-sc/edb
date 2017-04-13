@@ -1,6 +1,6 @@
 {
   "name": "edossier_builder",
-  "version": "1.14.0",
+  "version": "1.0.15",
   "description": "eDossier Builder",
   "main": "src/index.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "dist": "webpack && build -p never",
     "run": "electron dist",
     "publish": "build",
-    "schema": "java -jar ./node_modules/jsonix/lib/jsonix-schema-compiler-full.jar -generateJsonSchema -d ./resources/app/standards/01_00_02 -p GHSTS ./resources/app/standards/ghsts_01-00-02.xsd"
+    "schema": "java -jar ./node_modules/jsonix/lib/jsonix-schema-compiler-full.jar -generateJsonSchema -d ./resources/app/standards/01_04_00 -p GHSTS ./resources/app/standards/ghsts_01-04-00.xsd"
   },
   "author": "Health Canada - Santé Canada",
   "contributers": [
@@ -47,7 +47,7 @@
     "html-webpack-plugin": "2.24.1",
     "json-loader": "0.5.4",
     "lodash": "4.17.2",
-    "moment": "^2.17.1",
+    "moment": "2.18.1",
     "mongoose": "4.7.2",
     "node-sass": "3.13.1",
     "protractor": "4.0.13",

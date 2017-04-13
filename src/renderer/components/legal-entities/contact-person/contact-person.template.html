@@ -15,7 +15,7 @@
       <div class='md-dialog-content'>
         <text-input label='{{"title" | translate}}' text-value='$ctrl.node.title' on-update='$ctrl.update("title", value)' max-Length='255'></text-input>
         <text-input label='{{"firstname" | translate}}' text-value='$ctrl.node.firstname' on-update='$ctrl.update("firstname", value)' max-Length='255'></text-input>
-        <text-input label='{{"lastname" | translate}}' text-value='$ctrl.node.lastname' on-update='$ctrl.update("lastname", value)' max-Length='255'></text-input>
+        <text-input label='{{"lastname" | translate}}' text-value='$ctrl.node.lastname' is-required='true' on-update='$ctrl.update("lastname", value)' max-Length='255'></text-input>
         <text-input label='{{"phone" | translate}}' text-value='$ctrl.node.phone' on-update='$ctrl.update("phone", value)' max-Length='255'></text-input>
         <text-input label='{{"email" | translate}}' text-value='$ctrl.node.email' on-update='$ctrl.update("email", value)' max-Length='255'></text-input>
         <text-input label='{{"mobile" | translate}}' text-value='$ctrl.node.mobile' on-update='$ctrl.update("mobile", value)' max-Length='255'></text-input>

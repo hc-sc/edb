@@ -29,7 +29,7 @@
           on-add='$ctrl.createPicklistItem("applicationtype", "applicationTypes", value)'
           on-update='$ctrl.update("applicationtype", value)'>
         </select-input-extensible>
-        <text-input label='{{"projectidnumber" | translate}}' is-required='false' text-value='$ctrl.node.projectidnumber' on-update='$ctrl.update("projectidnumber", value)'></text-input>
+        <text-input label='{{"projectidnumber" | translate}}' is-required='false' text-value='$ctrl.node.projectidnumber' on-update='$ctrl.update("projectidnumber", value)' max-Length='255'></text-input>
       </div>
     </md-dialog-content>
 

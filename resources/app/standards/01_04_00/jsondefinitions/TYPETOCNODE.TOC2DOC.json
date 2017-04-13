@@ -1,0 +1,25 @@
+{
+	"localName": "TYPETOCNODE.TOC2DOC",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "nodeassignmentstatus",
+			"required": true,
+			"elementName": "NODE_ASSIGNMENT_STATUS",
+			"typeInfo": ".TYPENODEASSIGNMENTSTATUSSTRUCT"
+		},
+		{
+			"name": "replaceddocumentpid",
+			"elementName": "REPLACED_DOCUMENT_PID"
+		},
+		{
+			"name": "toDocumentId",
+			"required": true,
+			"typeInfo": "IDREF",
+			"attributeName": {
+				"localPart": "To_Document_Id"
+			},
+			"type": "attribute"
+		}
+	]
+}

@@ -1,0 +1,16 @@
+{
+	"localName": "TYPEDOCUMENTCONTENTSTATUSSTRUCT",
+	"typeName": "TYPE_DOCUMENT_CONTENT_STATUS_STRUCT",
+	"propertyInfos": [
+		{
+			"name": "value",
+			"required": true,
+			"elementName": "VALUE"
+		},
+		{
+			"name": "valuedecode",
+			"required": true,
+			"elementName": "VALUE_DECODE"
+		}
+	]
+}

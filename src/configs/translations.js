@@ -1,7 +1,7 @@
 export const picklists_en = {
   'EXTENSION_TYPE_ADMIN_NUMBER_TYPE': 'Admin Number Type',
   'EXTENSION_TYPE_APPLICATION_TYPE': 'Application Type',
-  'TYPE_CONTENT_STATUS': 'Content Status',
+  'TYPE_DOCUMENT_CONTENT_STATUS': 'Document Content Status',
   'EXTENSION_TYPE_COUNTRY': 'Country',
   'TYPE_DATA_PROTECTION': 'Data Protection',
   'TYPE_DATA_REQUIREMENT': 'Data Requirement',
@@ -16,6 +16,7 @@ export const picklists_en = {
   'EXTENSION_TYPE_REGULATORY_TYPE': 'Regulatory Type',
   'EXTENSION_TYPE_SUBSTANCE_IDENTIFIER_TYPE': 'Substance Identifier Type',
   'EXTENSION_TYPE_TOC_OWNER': 'TOC Owner',
+  'TYPE_NODE_ASSIGNMENT_STATUS': 'TOC Node Assignment Status',
   'EXTENSION_TYPE_UNIT': 'Unit'
 };
 
@@ -107,13 +108,13 @@ export const propNames_en = {
   'filefulllocation': 'Select Source File',
   'filepid': 'File PID',
   'filecompanyid': 'Company File ID',
-  'contentstatus': 'Content Status',
+  'contentstatus': 'File Content Status',
   'replacedfilepid': 'Replaced File PID',
   'filetype': 'File Type',
   'formatcomment': 'Format Comment',
   'md5checksum': 'MD5 Checksum',
   'filename': 'Submission File Name',
-
+  'regulatoryauthority':'Regulatory Authority',
   'fileRA': 'Regulatory Authority File Information',
   //File RA
   'filecomment': 'File Comments',

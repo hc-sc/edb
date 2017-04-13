@@ -1,0 +1,15 @@
+<div id="annotation-panel" ng-controller="AnnotationController as annoCtrl">
+
+        <div id="annotation-container">
+            <div id="annotation-content-loading" ng-show="showLoadingOverlay">
+                <div id="annotation-content-loading-spinner">
+                    <i class="fa fa-circle-o-notch fa-3x fa-spin"></i>
+                </div>
+            </div>
+
+            <div id="annotation-content">
+                <div ng-include="'partials/annotation/summary-panel.html'"></div>
+            </div>
+        </div>
+
+</div>

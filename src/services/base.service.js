@@ -20,7 +20,7 @@ module.exports = class BaseService {
   constructor(modelClassName, inmem, version) {
     this.modelClassName = modelClassName;
     this.inmem = inmem;
-    this.version = version ? version : '01.00.02';
+    this.version = version ? version : '';
     this.schemaDir = path.resolve('./', BACKEND_CONST.BASE_DIR1, BACKEND_CONST.BASE_DIR2, BACKEND_CONST.STANDARD_DIR_NAME);
     this.defDir = path.join(this.schemaDir, this.version.replace(/\./g, '_'), BACKEND_CONST.DEF_SUB_DIR_NAME);
     this.productDir = path.resolve('./', BACKEND_CONST.PRODUCTS_DIR);
@@ -442,12 +442,14 @@ module.exports = class BaseService {
               retVal[key] = PickListService.toJsonix(retVal[key]);
             }
           } else if (retVal[key]) { //this is not picklist item
-            if (Array.isArray(retVal[key])) {
-              let subRet = self._get_xml_jsonix(retVal[key]);
-              retVal[key] = subRet;
-            } else if (typeof retVal[key] === 'object') {
-              retVal[key] = self._get_xml_jsonix(retVal[key]);
-            } 
+            if (key !== 'documentcontentstatushistory') {
+              if (Array.isArray(retVal[key])) {
+                let subRet = self._get_xml_jsonix(retVal[key]);
+                retVal[key] = subRet;
+              } else if (typeof retVal[key] === 'object') {
+                retVal[key] = self._get_xml_jsonix(retVal[key]);
+              } 
+            }
           }
         }
       });

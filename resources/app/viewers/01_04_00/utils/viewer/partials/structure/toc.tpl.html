@@ -1,0 +1,24 @@
+<div id="tree-pane" ng-controller="TocController as tocCtrl">
+    <treecontrol class="tree-classic-ghsts" tree-model="tocCtrl.treedata.tree | setTOCVisibilityFilter"
+                 options="::tocCtrl.treeopts" order-by="nodeIndex" reverse-order filter-expression="tocCtrl.showOnlyVisible"
+                 selected-node="tocCtrl.TreeState.selectedNode"
+                 expanded-nodes="tocCtrl.TreeState.expandedNodes" toc-loaded>
+      
+      <span bindonce="node" class="treenode" bo-title="node.name + ' - ' + node.title" bo-id="'TOC' + node.id">
+          <span class="badge light" ng-class="{null: (node.docCount == 0)}" ng-if="node.type != 'DOC'" style="font-family: monospace; width: 40px; text-align: right">
+            {{node.docCount}}
+          </span>
+          <!-- Replaced with assignmentStatus in 01.02.00 - 
+          <status-icon-static style="background: none;" status-value="{{::node.currentStatus}}" ng-if="node.type == 'DOC'"></status-icon-static>
+          -->
+          <a href="" ng-class="structCtrl.getTocDocClass(node)" ng-click="tocCtrl.showDocument($event, node.id, node.type)">
+            <status-icon-static style="background: none;" status-value="{{::node.assignmentStatus}}" ng-if="node.type == 'DOC'"></status-icon-static>
+            <span bo-text="node.name + ' - ' + node.title"></span>
+          </a>
+          <i ng-show="tocCtrl.bookmarks[node.id]" class="fa fa-bookmark fa-fw base-inverted-color"></i>
+          <!-- Annotation Integration -->
+          <i ng-show="tocCtrl.annotationsActivated" ng-click="tocCtrl.activateAnnotation(node, $event)" class="annotation-indicator fa" ng-class="tocCtrl.getAvailabilityStateIcon(node)"></i>
+      </span>
+
+    </treecontrol>
+</div>

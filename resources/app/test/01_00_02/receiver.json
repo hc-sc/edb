@@ -1,0 +1,24 @@
+{
+  "receiver": [
+    {
+      "TYPE_NAME": "GHSTS.GHSTS.RECEIVERS.RECEIVER",
+      "shortname": "BVL",
+      "role": "Recipient"
+    },
+    {
+      "TYPE_NAME": "GHSTS.GHSTS.RECEIVERS.RECEIVER",
+      "shortname": "PMRA",
+      "role": "Recipient"
+    },
+    {
+      "TYPE_NAME": "GHSTS.GHSTS.RECEIVERS.RECEIVER",
+      "shortname": "APVMA",
+      "role": "Recipient"
+    },
+    {
+      "TYPE_NAME": "GHSTS.GHSTS.RECEIVERS.RECEIVER",
+      "shortname": "IBAMA",
+      "role": "Recipient"
+    }
+  ]
+}
