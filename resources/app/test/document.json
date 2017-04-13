@@ -49,14 +49,14 @@
                 },
                 "identifier": "APVMA 3987-77-R23",
                 "alreadysubmitted": true,
-                "submissioncontext": [
+                "dossiercontext": [
                   {
-                    "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.SUBMISSIONCONTEXT",
+                    "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.DOSSIERCONTEXT",
                     "dossierpid": "urn:aa:a",
                     "dossiernumber": "DOSSIER1234"
                   },
                   {
-                    "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.SUBMISSIONCONTEXT",
+                    "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.DOSSIERCONTEXT",
                     "dossierpid": "urn:aa:a",
                     "dossiernumber": "DOSSIER4567"
                   }
@@ -104,14 +104,14 @@
                 },
                 "identifier": "PMRA 134987-2011-09-12",
                 "alreadysubmitted": true,
-                "submissioncontext": [
+                "dossiercontext": [
                   {
-                    "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.SUBMISSIONCONTEXT",
+                    "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.DOSSIERCONTEXT",
                     "dossierpid": "urn:aa:a",
                     "dossiernumber": "DOSSIER1234"
                   },
                   {
-                    "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.SUBMISSIONCONTEXT",
+                    "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.DOSSIERCONTEXT",
                     "dossierpid": "urn:aa:a",
                     "dossiernumber": "DOSSIER4567"
                   }
@@ -164,14 +164,14 @@
                 },
                 "identifier": "APVMA 3987-77-R23",
                 "alreadysubmitted": true,
-                "submissioncontext": [
+                "dossiercontext": [
                   {
-                    "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.SUBMISSIONCONTEXT",
+                    "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.DOSSIERCONTEXT",
                     "dossierpid": "urn:aa:a",
                     "dossiernumber": "DOSSIER1234"
                   },
                   {
-                    "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.SUBMISSIONCONTEXT",
+                    "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.DOSSIERCONTEXT",
                     "dossierpid": "urn:aa:a",
                     "dossiernumber": "DOSSIER4567"
                   }
@@ -224,14 +224,14 @@
                 },
                 "identifier": "APVMA 3987-77-R23",
                 "alreadysubmitted": true,
-                "submissioncontext": [
+                "dossiercontext": [
                   {
-                    "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.SUBMISSIONCONTEXT",
+                    "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.DOSSIERCONTEXT",
                     "dossierpid": "urn:aa:a",
                     "dossiernumber": "DOSSIER1234"
                   },
                   {
-                    "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.SUBMISSIONCONTEXT",
+                    "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.DOSSIERCONTEXT",
                     "dossierpid": "urn:aa:a",
                     "dossiernumber": "DOSSIER4567"
                   }
@@ -250,32 +250,8 @@
             "documentpid": "urn:nms:71775C1B-427D-4ACC-8A25-4C4128298E7D",
             "documentfamilypid": "urn:pppww:316BFBE5-8AF9-4D46-9BF1-C125C1F3045E",
             "documentfamily": "T-423579",
-            "contentstatushistory": [
-              {
-                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
-                "contentstatus": {
-                  "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
-                  "value": "New",
-                  "valuedecode": "New"
-                },
-                "submissionnumber": "01"
-              }
-            ],
-            "documentnumber": [
-              {
-                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER",
-                "documentnumbertype": {
-                  "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER.DOCUMENTNUMBERTYPE",
-                  "value": {
-                    "TYPE_NAME": "GHSTS.EXTENSIONTYPEDOCUMENTNUMBERTYPE",
-                    "value": "Plot Number"
-                  },
-                  "valuedecode": "Plot Number"
-                },
-                "identifier": "T-423579-01-1"
-              }
-            ],
-			    "referenceddocument": [    
+            
+	          "referenceddocument": [    
               {
                 "TYPE_NAME": "GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.REFERENCEDDOCUMENT",
                 "referencetype": {
@@ -284,7 +260,7 @@
                   "valuedecode": "document to replaced document"
                 },
                 "internal": true,
-				        "documentpid": "123Hai",
+		            "documentpid": "123Hai",
                 "documentnumber": [
                       {
                           "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.REFERENCEDDOCUMENT.DOCUMENTNUMBER",
@@ -459,17 +435,6 @@
             "documentpid": "urn:nms:4B52D6EE-35B4-4793-B95E-E1041603654F",
             "documentfamilypid": "urn:pppww:8F8AD212-C5B7-4B04-ADA2-2769A6339735",
             "documentfamily": "T-423640",
-            "contentstatushistory": [
-              {
-                "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.CONTENTSTATUSHISTORY",
-                "contentstatus": {
-                  "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
-                  "value": "New",
-                  "valuedecode": "New"
-                },
-                "submissionnumber": "01"
-              }
-            ],
             "documentnumber": [
               {
                 "TYPE_NAME": "GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTNUMBER",
