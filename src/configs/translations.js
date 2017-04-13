@@ -1,3 +1,5 @@
+import * as CONSTANTS from '../constants/shared';
+
 export const picklists_en = {
   'EXTENSION_TYPE_ADMIN_NUMBER_TYPE': 'Admin Number Type',
   'EXTENSION_TYPE_APPLICATION_TYPE': 'Application Type',
@@ -177,8 +179,14 @@ export const propNames_en = {
   'submissioncontext': 'Submission Context',
   'dossiernumber': 'Dossier Number'
   // 'toSpecificForRAId': 		    'To Specific For RA Id'
+};
 
-
-
-
+export const statuses_en = {
+  [CONSTANTS.DOSSIER_STATUS_OPEN]: 'Open',
+  [CONSTANTS.DOSSIER_STATUS_CLOSED]: 'Closed',
+  [CONSTANTS.SUBMISSION_STATUS_IN_PROGRESS]: 'In Progress',
+  [CONSTANTS.SUBMISSION_STATUS_PACKAGED]: 'Packaged',
+  [CONSTANTS.SUBMISSION_STATUS_SENT]: 'Sent',
+  [CONSTANTS.STATUS_ACTIVE]: 'Active',
+  [CONSTANTS.STATUS_DEACTIVE]: 'Deactive'
 };
