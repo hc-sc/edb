@@ -286,26 +286,32 @@ export default angular.module('home', [
       deleteSubmission(index) {
         if (this.canDeleteSubmission(this.submissions[index])) {
           let confirm = this.$mdDialog.confirm()
-          .title('Confirm delete')
-          .textContent('Are you sure you want to delete this submission?')
-          .ok('Delete')
-          .cancel('Cancel');
+            .title('Confirm delete')
+            .textContent('Are you sure you want to delete this submission?')
+            .ok('Delete')
+            .cancel('Cancel');
 
           this.$mdDialog.show(confirm)
-          .then(() => {
-            // delete on the backend first
-            //backend.delete
-            // .then(() => {
+            .then(() => {
+              // delete on the backend first
+              return this.GhstsService.edb_delete({_url: 'submission', submissionId: this.submissions[index]._id, dossierId: this.dossier._id});
+            })
+            .then(ret => {
               this.submissions = this.submissions.slice(0, index).concat(this.submissions.slice(index + 1));
-            // }
-            // .catch(e => {
-            //   this.$mdToast.show(
-            //     this.$mdToast.simple()
-            //     .textContent('Error in deleting')
-            //     .hideDelay(1200)
-            //   );
-            // }
-          });
+              this.$mdToast.show(
+                this.$mdToast.simple()
+                  .textContent('Deleted')
+                  .hideDelay(1200)
+              );
+            })
+            .catch(e => {
+              this.$mdToast.show(
+                this.$mdToast.simple()
+                  .textContent('Error in deleting')
+                  .hideDelay(1200)
+              );
+            });
+
         }
         else {
           this.$mdToast.show(

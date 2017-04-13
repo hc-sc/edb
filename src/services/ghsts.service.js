@@ -749,7 +749,8 @@ module.exports = class GhstsService extends BaseService {
         if (subUrlObj.subUrl) {
           let curProp, curEntity, curMdsProp, curDocProp, curDCHProp, needUpdate = true,
             keys,
-            isExisting;
+            isExisting,
+            dossierService, submissionService;
           switch (subUrlObj.subUrl) {
             case 'receiver':
               curProp = self.ghsts[0]._receiver;
@@ -808,9 +809,12 @@ module.exports = class GhstsService extends BaseService {
             default:
               curProp = undefined;
           }
-          if (needUpdate)
-            res(super.edb_post(self.ghsts[0]));
-          else
+          if (needUpdate) {
+            if (subUrlObj.subUrl === 'submission')
+              res(self._deleteSubmission(obj));
+            else
+              res(super.edb_post(self.ghsts[0]));
+          } else
             res(new RVHelper('EDB00000'));
         } else {
           rej(new RVHelper('EDB12016'));
@@ -1170,8 +1174,34 @@ module.exports = class GhstsService extends BaseService {
       if (obj._subUrl)
         res(self._subUrlProcess4Del(obj));
       else {
-        res(super.edb_post);
+        res(super.edb_delete(obj));
       }
+    });
+  }
+
+  _deleteSubmission(obj) {
+    return new Q((res, rej) => {
+      let self = this;
+      let submissionService, dossierService, dosObj;
+      if (!self.ghsts[0])
+        self.ghsts[0] = GhstsService.edb_getSync({ _submissionid: obj.submissionId })[0];
+      submissionService = new SubmissionService(self._version);
+      dossierService = new DossierService(self._version);
+      dosObj = _.merge({}, DossierService.edb_getSync({ _id: obj.dossierId })[0]);
+      submissionService.edb_delete(obj.submissionId)
+        .then(() => {
+          return self.edb_delete(self.ghsts[0]._id);
+        })
+        .then(() => {
+          dosObj.submission.splice(dosObj.submission.length - 1, 1);
+          return dossierService.edb_post(dosObj);
+        })
+        .then(dossierRet => {
+          res(dossierRet);
+        })
+        .catch(err => {
+          rej(err);
+        });
     });
   }
 
