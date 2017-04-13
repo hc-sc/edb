@@ -12,6 +12,7 @@
     on-delete='$ctrl.deleteDossier(index)'
     on-edit='$ctrl.editDossier(index)'
     editable='true'
+    deletable='false'
   ></tbl-edit>
   <tbl-edit
     title='{{$ctrl.dossier.dossierdescriptiontitle || "Submissions"}}'
@@ -23,6 +24,7 @@
     on-delete='$ctrl.deleteSubmission(index)'
     on-view='$ctrl.viewSubmission(index)'
     on-edit='$ctrl.editSubmission(index)'
+    deletable='true'
     viewable='true'
     editable='true'
   ></tbl-edit>
