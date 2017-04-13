@@ -451,17 +451,23 @@ export default angular.module('home', [
       // if dossier is closed, can open
       canEditDossier(item) {
         const state = new RegExp(item._state, 'i');
-        return (state.test(DOSSIER_STATUS_OPEN));
+        if (state.test(DOSSIER_STATUS_OPEN)) {
+          for (let sub of item.submission) {
+            console.log(sub);
+            if (sub._state !== SUBMISSION_STATUS_SENT) return false;
+          }
+        }
+        return true;
       }
 
       getPossibleDossierStates(item) {
         const states = [];
         if (item._state === DOSSIER_STATUS_CLOSED) {
           states.push({label: DOSSIER_STATUS_CLOSED, disabled: false});
-          states.push({label: DOSSIER_STATUS_OPEN, disabled: true});
+          states.push({label: DOSSIER_STATUS_OPEN, disabled: false});
         }
         else if (item._state === DOSSIER_STATUS_OPEN) {
-          states.push({label: DOSSIER_STATUS_CLOSED, disabled: true});
+          states.push({label: DOSSIER_STATUS_CLOSED, disabled: false});
           states.push({label: DOSSIER_STATUS_OPEN, disabled: false});
         }
         return states;

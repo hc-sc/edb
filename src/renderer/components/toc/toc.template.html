@@ -14,7 +14,7 @@
   <section>
     <div class='extension-wrapper'>
       <select-input label='Search Nodes' select-value='$ctrl.selectedNode' values='$ctrl.treeNodes' main='nodename' on-update='$ctrl.updateSelected(value)'></select-input>
-      <md-button class='md-raised md-primary' ng-click='$ctrl.showTree()'>Show Full TOC</md-button>
+      <md-button class='md-raised md-primary' ng-click='$ctrl.showTree()'>Clean Search</md-button>
     </div>
     <tree node='$ctrl.selectedNode' items='$ctrl.docs'></tree>
   </section>

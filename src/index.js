@@ -84,6 +84,7 @@ var init_mongoose = () => {
 
 var init = () => {
   let dataPath = path.join(basePath, BACKEND_CONST.DATA_DIR);
+  let viewerConfPath;
   let fstat, needInitDB = true;
   try {
     fstat = fs.statSync(dataPath);
@@ -115,14 +116,26 @@ var init = () => {
   } catch (err) {
     if (err.code === 'ENOENT') {
       try {
-        let viewerExecPath = path.resolve(basePath, BACKEND_CONST.BASE_DIR1, BACKEND_CONST.BASE_DIR2, BACKEND_CONST.VIEWER_EXEC_DIR_NAME);
-        copydir.sync(viewerExecPath, dataPath);
+        let viewerExecSource = path.resolve(basePath, BACKEND_CONST.BASE_DIR1, BACKEND_CONST.BASE_DIR2, BACKEND_CONST.VIEWER_EXEC_DIR_NAME);
+        copydir.sync(viewerExecSource, dataPath);
+        viewerConfPath = path.resolve(dataPath, BACKEND_CONST.VIEWER_CONF_DIR_NAME);
+        fstat = fs.statSync(viewerConfPath);
+        if (fstat.isDirectory()) {
+          console.log(fs.readdirSync(viewerConfPath).length);
+        }
       } catch (err) {
-        throw new Error(err);
+        if (err.code === 'ENOENT') {
+          try {
+            fs.mkdirSync(viewerConfPath);
+          } catch (err) {
+            throw err;
+          }
+        } else 
+          throw err;
       }
     } else {
       console.log(err);
-      throw new Error(err);
+      throw err;
     }
   }
 
