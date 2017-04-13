@@ -25,7 +25,7 @@ export default angular.module('tblEdit', [
       defaultSort: '@',
       defaultReverse: '@',
       projection: '<',
-      deletable: '@',
+      deletable: '<',
       viewable: '<',
       editable: '<',
       onSelect: '&',
@@ -40,11 +40,11 @@ export default angular.module('tblEdit', [
         this.addIcon = { name: 'add', label: 'Add' };
         this.deleteIcon = { name: 'delete', label: 'Delete', color: 'dark' };
         this.viewIcon = {name: 'view', label: 'View', color: 'dark'};
-        this.editIcon = {name: 'edit', label: 'Edit', color: 'dark'};
+        this.editIcon = {name: 'status', label: 'Edit Status', color: 'dark'};
         this.closeIcon = { name: 'close', label: 'Close', color: 'dark' };
         this.sortField = this.defaultSort ? this.defaultSort : '';
         this.reverse = this.defaultReverse ? true : false;
-        this.deletable = this.deletable || true;
+        this.deletable = this.deletable;
         this.viewable = this.viewable || false;
         this.editable = this.editable || false;
         this.search = false;

@@ -482,7 +482,7 @@ export default angular.module('home', [
         else if (item._state === SUBMISSION_STATUS_PACKAGED) {
           states.push({label: SUBMISSION_STATUS_IN_PROGRESS, disabled: true});
           states.push({label: SUBMISSION_STATUS_PACKAGED, disabled: false});
-          states.push({label: SUBMISSION_STATUS_SENT, disabled: true});
+          states.push({label: SUBMISSION_STATUS_SENT, disabled: false});
         }
 
         // if sent, should not even be able to open edit model
