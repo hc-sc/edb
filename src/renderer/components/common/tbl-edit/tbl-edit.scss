@@ -81,15 +81,14 @@ td.icon-cell .md-button {
 }
 
 tr.selected {
-  background-color: $primary-color;
+  border-left: 2px solid $primary-color;
+  background: rgba(255, 255, 255, 0.3);
 }
 
 tr.selected td {
-  color: rgba(255,255,255,0.87);
 }
 
 tr.selected:hover {
-  background-color: $primary-color-light;
 }
 
 

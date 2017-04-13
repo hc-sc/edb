@@ -12,7 +12,7 @@ export default angular.module('icon', [
   bindings: {
     icon: '<',
     disabled: '<',
-    color: '@',
+    color: '<',
     label: '<',
     name:' <'
   }
