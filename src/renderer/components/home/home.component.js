@@ -59,10 +59,9 @@ export default angular.module('home', [
               dossier.productname = dossier.product[0].genericproductname;
               return dossier;
             });
-          this.results = this.dossiers.slice();
-          if (Array.isArray(this.dossiers) && this.dossiers.length > 0) {
-            this.selectDossier(this.dossiers[0]._id);
-          }
+          // if (Array.isArray(this.dossiers) && this.dossiers.length > 0) {
+          //   this.selectDossier(this.dossiers[0]._id);
+          // }
           return this.appDataService.edb_get({ _url: 'product' });
         })
           .then(products => {
@@ -131,13 +130,17 @@ export default angular.module('home', [
           this.dossier = this.dossiers.filter(dossier => {
             return dossier._id === id;
           })[0];
+
+          // need to change selected, remember angular can't tell when
+          // objects are mutated beyond when the reference changes
+          this.dossiers = this.dossiers.map(dossier => {
+            dossier.isSelected = this.dossier._id === dossier._id ? true : false;
+            return dossier;
+          });
           this.submissions = this.dossier.submission.map(sub => {
             sub.packagetype = sub.incremental ? 'Incremental' : 'Full';
             sub.dossierdescriptiontitle = this.dossier.dossierdescriptiontitle;
             return sub;
-          });
-          this.submissions.sort((a, b) => {
-            return a.submissionnumber < b.submissionnumber ? 1 : a.submissionnumber > b.submissionnumber ? -1 : 0;
           });
         }
       }
@@ -187,7 +190,6 @@ export default angular.module('home', [
             let {dossiertitle, tocId, product} = name;
             if (dossiertitle && tocId && product) {
               this.GhstsService.edb_put(name).then(result => {
-                console.log(result.data);
                 this.$state.go('submission.submissionNode', {
                   dossierid: result.data.dossierid,
                   submissionid: result.data.submissionid,
@@ -349,7 +351,6 @@ export default angular.module('home', [
           .then(selection => {
             // send selection to update in backend
             if (selection.status === SUBMISSION_STATUS_SENT) {
-              console.log(this);
               let curGhsts = this.GhstsService.edb_getSync({_submissionid: this.submissions[0]._id})[0];
               curGhsts._state = SUBMISSION_STATUS_SENT;
               return this.GhstsService.edb_post(curGhsts);
@@ -453,7 +454,6 @@ export default angular.module('home', [
         const state = new RegExp(item._state, 'i');
         if (state.test(DOSSIER_STATUS_OPEN)) {
           for (let sub of item.submission) {
-            console.log(sub);
             if (sub._state !== SUBMISSION_STATUS_SENT) return false;
           }
         }

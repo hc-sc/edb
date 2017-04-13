@@ -13,7 +13,7 @@
     <tbl ng-if='!$ctrl.loading' title='{{"otheridentifiers"|translate}}' items='$ctrl.selected.substanceidentifier' projection='[ {name: "substanceidentifiertype", url: "picklist"},"identifier"]'
       on-select='$ctrl.selectTblItem("substanceidentifier",index)' on-add='$ctrl.addTblItem("substanceidentifier")' on-delete='$ctrl.deleteTblItem("substanceidentifier",index)' ></tbl>
 
-    <div style='z-index:100' class='float-bottom'>
+    <div class='float-bottom'>
       <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
         <md-tooltip>Save</md-tooltip>
         <md-icon md-svg-icon='save' class='light'></md-icon>

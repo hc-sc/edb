@@ -10,12 +10,12 @@
     </div>
     <text-input label='{{"legalentityname" | translate}}' text-value='$ctrl.selected.legalentityname' is-required='true' on-update='$ctrl.update("legalentityname", value)' max-Length='255'></text-input>
 
-    <select-input-extensible label='{{"legalentitytype" | translate}}' 
-        values='$ctrl.legalEntityTypes' 
-        select-value='$ctrl.selected.legalentitytype' 
+    <select-input-extensible label='{{"legalentitytype" | translate}}'
+        values='$ctrl.legalEntityTypes'
+        select-value='$ctrl.selected.legalentitytype'
         is-required='true'
-        on-update='$ctrl.update("legalentitytype", value)' 
-        on-add='$ctrl.createPicklistItem("legalentitytype", "legalEntityTypes", value)' 
+        on-update='$ctrl.update("legalentitytype", value)'
+        on-add='$ctrl.createPicklistItem("legalentitytype", "legalEntityTypes", value)'
         type-name='EXTENSION_TYPE_LEGALENTITY_TYPE'>
     </select-input-extensible>
 
@@ -35,7 +35,7 @@
       <text-input label='{{"city" | translate}}' text-value='$ctrl.selected.contactaddress.city' is-required='true' on-update='$ctrl.update("contactaddress.city", value)' max-Length='255'></text-input>
       <text-input label='{{"state" | translate}}' text-value='$ctrl.selected.contactaddress.state' on-update='$ctrl.update("contactaddress.state", value)' max-Length='255'></text-input>
       <select-input-extensible label='{{"country" | translate}}' select-value='$ctrl.selected.contactaddress.country'
-        values='$ctrl.countries' is-required='true' on-update='$ctrl.update("contactaddress.country", value)' 
+        values='$ctrl.countries' is-required='true' on-update='$ctrl.update("contactaddress.country", value)'
         type-name='EXTENSION_TYPE_COUNTRY' show-value='true'
         on-add='$ctrl.createPicklistItem("contactaddress.country", "countries", value)'></select-input-extensible>
       <text-input label='{{"phone" | translate}}' text-value='$ctrl.selected.contactaddress.phone' on-update='$ctrl.update("contactaddress.phone", value)' max-Length='255'></text-input>
@@ -46,7 +46,7 @@
     </div>
     <tbl ng-if='!$ctrl.loading' title='{{"contacts" | translate}}' items='$ctrl.selected.contactperson' projection='["lastname", "firstname", "title", "email"]'
       on-select='$ctrl.selectTblItem("contactperson", index)' on-add='$ctrl.addTblItem("contactperson")' on-delete='$ctrl.deleteTblItem("contactperson", index)'></tbl>
-    <div style='z-index:100' class='float-bottom'>
+    <div class='float-bottom'>
       <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
         <md-tooltip>Save</md-tooltip>
         <md-icon md-svg-icon='save' class='light'></md-icon>

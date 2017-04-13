@@ -45,8 +45,8 @@ export default angular.module('tblEdit', [
         this.sortField = this.defaultSort ? this.defaultSort : '';
         this.reverse = this.defaultReverse ? true : false;
         this.deletable = this.deletable;
-        this.viewable = this.viewable || false;
-        this.editable = this.editable || false;
+        this.viewable = this.viewable;
+        this.editable = this.editable;
         this.search = false;
         this.searchText = '';
 
@@ -126,7 +126,12 @@ export default angular.module('tblEdit', [
             row.editable = item.editable;
             row.viewable = item.viewable;
 
+            // show if it's selected
+            row.isSelected = item.isSelected;
+            // if (item._url === 'dossier') console.log(row, item);
+
             row.push(item['_id']);
+
 
             // convert times
             for (let col of row) {
