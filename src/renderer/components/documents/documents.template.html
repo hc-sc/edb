@@ -77,7 +77,7 @@
                     aria-label='{{"gxpindicator" | translate}}'
                     class='md-primary'
                     ng-change='$ctrl.printValue()'>
-            {{"gxpindicator" | translate}}
+            {{"gxpindicator" | translate}} : {{$ctrl.selected.documentgeneric.gxpindicator}}
             <md-tooltip>True or False</md-tooltip>
         </md-switch>
 
@@ -85,7 +85,7 @@
                     aria-label='{{"testedonvertebrate" | translate}}'
                     class='md-primary'
                     ng-change='$ctrl.printValue()'>
-            {{"testedonvertebrate" | translate}}
+            {{"testedonvertebrate" | translate}} : {{$ctrl.selected.documentgeneric.testedonvertebrate}}
             <md-tooltip>True or False</md-tooltip>
         </md-switch>
 
@@ -101,10 +101,18 @@
         </md-toolbar>
         <md-list>
             <md-list-item ng-repeat= "owner in $ctrl.selected.documentgeneric.documentowner track by $index"  class="noright">
+<<<<<<< HEAD
 
                     <text-input
                             label='{{"documentowner" | translate}}'
                             text-value='owner'
+=======
+
+                    <text-input
+                            label='{{"documentowner" | translate}}'
+                            is-required='true'
+                            text-value='owner'
+>>>>>>> ef8813be4ecabceb96bbe85c0cd68f45eb6e5282
                             on-update='$ctrl.updateArrayGen("documentowner", $index, value)'
                             max-Length='2000'>
                     </text-input>
@@ -130,10 +138,18 @@
         </md-toolbar>
         <md-list>
             <md-list-item ng-repeat= "lab in $ctrl.selected.documentgeneric.testlaboratory track by $index"  class="noright">
+<<<<<<< HEAD
 
                     <text-input
                             label='{{"testlaboratory" | translate}}'
                             text-value='lab'
+=======
+
+                    <text-input
+                            label='{{"testlaboratory" | translate}}'
+                            is-required='true'
+                            text-value='lab'
+>>>>>>> ef8813be4ecabceb96bbe85c0cd68f45eb6e5282
                             on-update='$ctrl.updateArrayGen("testlaboratory", $index, value)'
                             max-Length='2000'>
                     </text-input>
@@ -146,14 +162,15 @@
             </md-list-item>
         </md-list>
 
-        <tbl ng-if='!$ctrl.loading' title ='{{"contentstatushistory" | translate}}'
 
-              items='$ctrl.selected.documentgeneric.contentstatushistory'
-              projection='$ctrl.contentStatusProjection'
-              on-select='$ctrl.selectTblItem("documentgeneric.contentstatushistory",index)'
-              on-add='$ctrl.addTblItem("documentgeneric.contentstatushistory")'
-              on-delete='$ctrl.deleteTblItem("documentgeneric.contentstatushistory",index)'>
-        </tbl>
+        <!--<tbl ng-if='!$ctrl.loading' title ='{{"documentcontentstatushistory" | translate}}'
+
+              items='$ctrl.selected.documentgeneric.documentcontentstatushistory.documentcontentstatus'
+              projection='$ctrl.documentContentStatusProjection'
+              on-select='$ctrl.selectTblItem("documentgeneric.documentcontentstatushistory.documentcontentstatus",index)'
+              on-add='$ctrl.addTblItem("documentgeneric.documentcontentstatushistory.documentcontentstatus")'
+              on-delete='$ctrl.deleteTblItem("documentgeneric.documentcontentstatushistory.documentcontentstatus",index)'>
+        </tbl>-->
 
         <tbl ng-if='!$ctrl.loading' title ='{{"referencedtofile" | translate}} *'
 

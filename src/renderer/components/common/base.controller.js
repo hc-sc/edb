@@ -482,7 +482,7 @@ function getModalValues(nodeName) {
         controller: FileRACtrl
       };
 
-    case 'documentgeneric.contentstatushistory':
+    case 'documentgeneric.documentcontentstatushistory.documentcontentstatus':
 
       return {
         template: contentStatusHistoryTemplate,
