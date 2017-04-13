@@ -202,7 +202,6 @@ export default angular.module('home', [
 
       editDossier(index) {
         if (!this.canEditDossier(this.dossiers[index])) return false;
-        const statuses = ['Open', 'Closed'];
         const prompt = {
           template: editDossierTemplate,
           controller: class EditDossierCtrl {
@@ -225,7 +224,7 @@ export default angular.module('home', [
           controllerAs: '$ctrl',
           locals: {
             $mdDialog: this.$mdDialog,
-            statuses: statuses
+            statuses: this.getPossibleDossierStates(this.dossiers[index])
           }
         };
 
@@ -342,7 +341,7 @@ export default angular.module('home', [
             controllerAs: '$ctrl',
             locals: {
               $mdDialog: this.$mdDialog,
-              statuses: ['1', '2', '3']
+              statuses: this.getPossibleSubmissionStates(this.submissions[index])
             }
           };
 
@@ -454,6 +453,46 @@ export default angular.module('home', [
       canEditDossier(item) {
         const state = new RegExp(item._state, 'i');
         return (state.test(DOSSIER_STATUS_OPEN));
+      }
+
+      getPossibleDossierStates(item) {
+        const states = [];
+        if (item._state === DOSSIER_STATUS_CLOSED) {
+          states.push({label: DOSSIER_STATUS_CLOSED, disabled: false});
+          states.push({label: DOSSIER_STATUS_OPEN, disabled: true});
+        }
+        else if (item._state === DOSSIER_STATUS_OPEN) {
+          states.push({label: DOSSIER_STATUS_CLOSED, disabled: true});
+          states.push({label: DOSSIER_STATUS_OPEN, disabled: false});
+        }
+        return states;
+      }
+
+      getPossibleSubmissionStates(item) {
+        const states = [];
+
+        // if in progress, should not even be able to open edit modal
+        if (item._state === SUBMISSION_STATUS_IN_PROGRESS) {
+          states.push({label: SUBMISSION_STATUS_IN_PROGRESS, disabled: false});
+          states.push({label: SUBMISSION_STATUS_PACKAGED, disabled: false});
+          states.push({label: SUBMISSION_STATUS_SENT, disabled: false});
+        }
+
+        // if in packaged, can change back to in progress, or to sent
+        else if (item._state === SUBMISSION_STATUS_PACKAGED) {
+          states.push({label: SUBMISSION_STATUS_IN_PROGRESS, disabled: false});
+          states.push({label: SUBMISSION_STATUS_PACKAGED, disabled: false});
+          states.push({label: SUBMISSION_STATUS_SENT, disabled: true});
+        }
+
+        // if sent, should not even be able to open edit model
+        // in future, may be able to go back to packaged
+        else if (item._state === SUBMISSION_STATUS_SENT) {
+          states.push({label: SUBMISSION_STATUS_IN_PROGRESS, disabled: false});
+          states.push({label: SUBMISSION_STATUS_PACKAGED, disabled: false});
+          states.push({label: SUBMISSION_STATUS_SENT, disabled: false});
+        }
+        return states;
       }
 
       update(prop, value) {

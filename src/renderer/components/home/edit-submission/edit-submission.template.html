@@ -16,7 +16,7 @@
         <md-input-container flex>
           <label>Status</label>
           <md-select ng-model='$ctrl.status' required flex>
-            <md-option ng-repeat='option in $ctrl.statuses' ng-value='option'>{{option}}</md-option>
+            <md-option ng-repeat='option in $ctrl.statuses' ng-value='option.label' ng-disabled='open.disabled'>{{option.label | translate}}</md-option>
           </md-select>
         </md-input-container>
       </div>
