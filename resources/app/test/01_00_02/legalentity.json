@@ -1,0 +1,447 @@
+{
+  "legalentity": [
+    {
+      "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY",
+      "metadatastatus": {
+        "TYPE_NAME": "GHSTS.TYPEMETADATASTATUSSTRUCT",
+        "value": "New",
+        "valuedecode": "New"
+      },
+      "legalentitypid": "urn:ghsts:1AB3B93C-4920-4F3A-BE4B-9298E09CC5CC",
+      "legalentityname": "Bundesanstalt für Verbraucherschutz und Landwirtschaft",
+      "legalentitytype": {
+        "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.LEGALENTITYTYPE",
+        "value": {
+          "TYPE_NAME": "GHSTS.EXTENSIONTYPELEGALENTITYTYPE",
+          "value": "Regulatory Authority"
+        },
+        "valuedecode": "Regulatory Authority"
+      },
+      "othername": [
+        "BVL",
+        "BVL hAI"
+      ],
+      "contactaddress": {
+        "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTADDRESS",
+        "street1": "Messeweg 11/12",
+        "street2": "-/-",
+        "zipcode": "38104",
+        "city": "Braunschweig",
+        "state": "...",
+        "country": {
+          "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTADDRESS.COUNTRY",
+          "value": {
+            "TYPE_NAME": "GHSTS.EXTENSIONTYPECOUNTRY",
+            "value": "DE"
+          },
+          "valuedecode": "Germany"
+        },
+        "phone": "+49 (0)531 299 5",
+        "fax": "+49 (0)531 299 3002",
+        "email": "info@bvl.de",
+        "website": "ttp://www.bvl.de"
+      },
+      "contactperson": [
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON",
+          "organisation": "Unit 204: EC Procedures",
+          "department": "Department 2: Plant Protection Products",
+          "title": "Mr.",
+          "firstname": "Hermann",
+          "lastname": "Köppen",
+          "phone": "+49 531 299 4567",
+          "mobile": "-/-",
+          "fax": "+49 531 299 3003",
+          "email": "hermann.koeppen@bvl.bund.de"
+        }
+      ]
+    },
+    {
+      "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY",
+      "metadatastatus": {
+        "TYPE_NAME": "GHSTS.TYPEMETADATASTATUSSTRUCT",
+        "value": "New",
+        "valuedecode": "New"
+      },
+      "legalentitypid": "urn:ghsts:5B39944B-E7CD-4BC9-BFA0-9316D1A9592E",
+      "legalentityname": "Pest Management Regulatory Agency ",
+      "legalentitytype": {
+        "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.LEGALENTITYTYPE",
+        "value": {
+          "TYPE_NAME": "GHSTS.EXTENSIONTYPELEGALENTITYTYPE",
+          "value": "Regulatory Authority"
+        },
+        "valuedecode": "Regulatory Authority"
+      },
+      "othername": [
+        "PMRA"
+      ],
+      "contactaddress": {
+        "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTADDRESS",
+        "street1": "2720 Riverside Drive",
+        "street2": "B2720 Riverside Drive",
+        "zipcode": "6606D2 / K1A 0K9",
+        "city": "6606D2 / K1A 0K9",
+        "state": "Ontario",
+        "country": {
+          "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTADDRESS.COUNTRY",
+          "value": {
+            "TYPE_NAME": "GHSTS.EXTENSIONTYPECOUNTRY",
+            "value": "CA"
+          },
+          "valuedecode": "Canada"
+        },
+        "phone": "1-613-736-3799 or 1-800-267-6315",
+        "fax": "1-613-736-3798",
+        "email": "info@hc-sc.gc.ca",
+        "website": "http://www.hc-sc.gc.ca/contact/cps-spc/pmra-arla/infoserv-eng.php"
+      },
+      "contactperson": [
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON",
+          "organisation": "Chemicals",
+          "department": "Submissions",
+          "title": "Mr.",
+          "firstname": "Marcus",
+          "lastname": "Miller",
+          "phone": "613-736-3602",
+          "mobile": "613-612-0554",
+          "fax": "-/-",
+          "email": "marcus.miller@hc-sc.gc.ca"
+        }
+      ]
+    },
+    {
+      "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY",
+      "metadatastatus": {
+        "TYPE_NAME": "GHSTS.TYPEMETADATASTATUSSTRUCT",
+        "value": "New",
+        "valuedecode": "New"
+      },
+      "legalentitypid": "urn:ghsts:F68B42B5-F54B-4E14-A859-B36F487E42C2",
+      "legalentityname": "Australian Pesticides and Veterinary Medicines Authority",
+      "legalentitytype": {
+        "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.LEGALENTITYTYPE",
+        "value": {
+          "TYPE_NAME": "GHSTS.EXTENSIONTYPELEGALENTITYTYPE",
+          "value": "Regulatory Authority"
+        },
+        "valuedecode": "Regulatory Authority"
+      },
+      "othername": [
+        "APVMA"
+      ],
+      "contactaddress": {
+        "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTADDRESS",
+        "street1": "18 Wormald Street",
+        "zipcode": "2609",
+        "city": "Symonston",
+        "state": "ACT",
+        "country": {
+          "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTADDRESS.COUNTRY",
+          "value": {
+            "TYPE_NAME": "GHSTS.EXTENSIONTYPECOUNTRY",
+            "value": "AU"
+          },
+          "valuedecode": "Australia"
+        },
+        "phone": "+61 2 6210 4701",
+        "fax": "+61 2 6210 4701 234",
+        "email": "enquiries@apvma.gov.au",
+        "website": "http://apvma.gov.au"
+      },
+      "contactperson": [
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON",
+          "organisation": "APVMA",
+          "department": "Regulatory Affairs",
+          "firstname": "Susan",
+          "lastname": "Miller",
+          "phone": "+61 2 6210 4701 3544",
+          "mobile": "+61 413 025 837",
+          "fax": "-/-",
+          "email": "susan.miller@apvma.gov.au"
+        }
+      ]
+    },
+    {
+      "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY",
+      "metadatastatus": {
+        "TYPE_NAME": "GHSTS.TYPEMETADATASTATUSSTRUCT",
+        "value": "New",
+        "valuedecode": "New"
+      },
+      "legalentitypid": "urn:legal:9F60237F-7445-4BAA-9235-3B6FF1FDA271",
+      "legalentityname": "Instituto Brasileiro do Meio Ambiente",
+      "legalentitytype": {
+        "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.LEGALENTITYTYPE",
+        "value": {
+          "TYPE_NAME": "GHSTS.EXTENSIONTYPELEGALENTITYTYPE",
+          "value": "Regulatory Authority"
+        },
+        "valuedecode": "Regulatory Authority"
+      },
+      "othername": [
+        "IBAMA"
+      ],
+      "contactaddress": {
+        "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTADDRESS",
+        "street1": "SCEN Trecho 2",
+        "street2": "Ed. Sede - Cx. Postal n° 09566",
+        "zipcode": "70818-900",
+        "city": "Brasília",
+        "state": "DF",
+        "country": {
+          "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTADDRESS.COUNTRY",
+          "value": {
+            "TYPE_NAME": "GHSTS.EXTENSIONTYPECOUNTRY",
+            "value": "BR"
+          },
+          "valuedecode": "Brazil"
+        },
+        "phone": "+55 61-3316-1212",
+        "fax": "+55 61-3316-1212-433",
+        "email": "sic@ibama.gov.br",
+        "website": "http://www.ibama.gov.br/"
+      },
+      "contactperson": [
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON",
+          "organisation": "IBAMA",
+          "firstname": "João",
+          "lastname": "Gilberto",
+          "phone": "+55 61-3316-1212-265",
+          "mobile": "+55 21-99635-9499",
+          "email": "joao.gilberto@ibama.gov.br"
+        }
+      ]
+    },
+    {
+      "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY",
+      "metadatastatus": {
+        "TYPE_NAME": "GHSTS.TYPEMETADATASTATUSSTRUCT",
+        "value": "New",
+        "valuedecode": "New"
+      },
+      "legalentitypid": "urn:ghsts:6440A2D4-2733-4E40-A632-81FC7681DC89",
+      "legalentityname": "Plant Protection Products WorldWide GmbH Germany",
+      "legalentitytype": {
+        "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.LEGALENTITYTYPE",
+        "value": {
+          "TYPE_NAME": "GHSTS.EXTENSIONTYPELEGALENTITYTYPE",
+          "value": "Company"
+        },
+        "valuedecode": "Company"
+      },
+      "othername": [
+        "PPP Deutschland"
+      ],
+      "contactaddress": {
+        "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTADDRESS",
+        "street1": "Hans-Klawitter-Str. 23-25",
+        "zipcode": "35442",
+        "city": "Buxtehude",
+        "state": "-/-",
+        "country": {
+          "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTADDRESS.COUNTRY",
+          "value": {
+            "TYPE_NAME": "GHSTS.EXTENSIONTYPECOUNTRY",
+            "value": "DE"
+          },
+          "valuedecode": "Germany"
+        },
+        "phone": "+49 43665 764-0",
+        "fax": "+49 43665 764-11",
+        "email": "info@pppww.de",
+        "website": "http://www.pppww.com/de"
+      },
+      "contactperson": [
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON",
+          "organisation": "Plant Protection Products WorldWide GmbH Germany",
+          "department": "Global Regulatory Affairs",
+          "title": "Dr.",
+          "firstname": "Franz",
+          "lastname": "Bundschuh",
+          "phone": "+49 43665 764-123",
+          "mobile": "+49 176 34576233",
+          "fax": "+49 43665 764-11",
+          "email": "franz.bundschuh@pppww.com"
+        },
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON",
+          "organisation": "Plant Protection Productsxxxxxxxxxxxxxxx WorldWide GmbH Germany",
+          "department": "Global Regulatory Affairs",
+          "title": "Dr.",
+          "firstname": "Buntsen",
+          "lastname": "Honeydue",
+          "phone": "+49 4366xxx5 764-123",
+          "mobile": "+49 17xxxx6 34576344",
+          "fax": "+49 4366xxxxx5 764-11",
+          "email": "buntsen.honeydue@pppww.com"
+        }
+      ]
+    },
+    {
+      "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY",
+      "metadatastatus": {
+        "TYPE_NAME": "GHSTS.TYPEMETADATASTATUSSTRUCT",
+        "value": "New",
+        "valuedecode": "New"
+      },
+      "legalentitypid": "urn:ghsts:60BF5221-9BC5-47C3-A6E6-EC2AD872172B",
+      "legalentityname": "Plant Protection Products WorldWide Canada",
+      "legalentitytype": {
+        "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.LEGALENTITYTYPE",
+        "value": {
+          "TYPE_NAME": "GHSTS.EXTENSIONTYPELEGALENTITYTYPE",
+          "value": "Company"
+        },
+        "valuedecode": "Company"
+      },
+      "othername": [
+        "PPP Canada"
+      ],
+      "contactaddress": {
+        "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTADDRESS",
+        "street1": "125 Commerce Valley Drive West",
+        "street2": "-/-",
+        "zipcode": "L3T 7W4",
+        "city": "Markham",
+        "state": "ON",
+        "country": {
+          "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTADDRESS.COUNTRY",
+          "value": {
+            "TYPE_NAME": "GHSTS.EXTENSIONTYPECOUNTRY",
+            "value": "CA"
+          },
+          "valuedecode": "Canada"
+        },
+        "phone": "+1 905-763-0560",
+        "fax": "+41 905-763-0560-11",
+        "email": "info@pppww.ca",
+        "website": "http://www.pppww.com/ca"
+      },
+      "contactperson": [
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON",
+          "organisation": "Plant Protection Products WorldWide Canada",
+          "department": "Global Regulatory Affairs",
+          "firstname": "Peter",
+          "lastname": "Walshe",
+          "phone": "+1 905-763-0560",
+          "mobile": "+1 379-453-2228",
+          "fax": "+1 905-763-0560-11",
+          "email": "peter.walshe@pppww.com"
+        }
+      ]
+    },
+    {
+      "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY",
+      "metadatastatus": {
+        "TYPE_NAME": "GHSTS.TYPEMETADATASTATUSSTRUCT",
+        "value": "New",
+        "valuedecode": "New"
+      },
+      "legalentitypid": "urn:ghsts:C9910E3B-8B6E-41ED-AADA-A4E516211866",
+      "legalentityname": "Plant Protection Products WorldWide Brasil",
+      "legalentitytype": {
+        "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.LEGALENTITYTYPE",
+        "value": {
+          "TYPE_NAME": "GHSTS.EXTENSIONTYPELEGALENTITYTYPE",
+          "value": "Company"
+        },
+        "valuedecode": "Company"
+      },
+      "othername": [
+        "PPP Brasil"
+      ],
+      "contactaddress": {
+        "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTADDRESS",
+        "street1": "Avenida Alfredo Egídio de Souza Aranha, 100",
+        "zipcode": "04726-170",
+        "city": "Vila Cruzeiro, São Paulo",
+        "state": "SP",
+        "country": {
+          "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTADDRESS.COUNTRY",
+          "value": {
+            "TYPE_NAME": "GHSTS.EXTENSIONTYPECOUNTRY",
+            "value": "BR"
+          },
+          "valuedecode": "Brazil"
+        },
+        "phone": "+55 11 3444-3500",
+        "fax": "+55 11 3444-3501",
+        "email": "info@pppww.br",
+        "website": "http://www.pppww.com/br"
+      },
+      "contactperson": [
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON",
+          "organisation": "Plant Protection Products WorldWide Brasil",
+          "department": "Regulatory Department",
+          "firstname": "Ary",
+          "lastname": "Barroso",
+          "phone": "+55 11 3444-3500",
+          "mobile": "+55 11 9 7307 1799",
+          "fax": "+55 11 3444-3500",
+          "email": "ary.barroso@pppww.com"
+        }
+      ]
+    },
+    {
+      "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY",
+      "metadatastatus": {
+        "TYPE_NAME": "GHSTS.TYPEMETADATASTATUSSTRUCT",
+        "value": "New",
+        "valuedecode": "New"
+      },
+      "legalentitypid": "urn:ghsts:54C8D6A7-30AC-46F0-BA9C-B4F63D51B132",
+      "legalentityname": "Plant Protection Products WorldWide Australia",
+      "legalentitytype": {
+        "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.LEGALENTITYTYPE",
+        "value": {
+          "TYPE_NAME": "GHSTS.EXTENSIONTYPELEGALENTITYTYPE",
+          "value": "Company"
+        },
+        "valuedecode": "Company"
+      },
+      "othername": [
+        "PPP Australia"
+      ],
+      "contactaddress": {
+        "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTADDRESS",
+        "street1": "601 Pacific Highway",
+        "street2": "-/-",
+        "zipcode": "2065",
+        "city": "St Leonards",
+        "state": "NSW",
+        "country": {
+          "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTADDRESS.COUNTRY",
+          "value": {
+            "TYPE_NAME": "GHSTS.EXTENSIONTYPECOUNTRY",
+            "value": "AU"
+          },
+          "valuedecode": "Australia"
+        },
+        "phone": "+61-2-9354-4000",
+        "fax": "+61-2-9354-4000-99",
+        "email": "info@pppww.au",
+        "website": "http://www.pppww.com/au"
+      },
+      "contactperson": [
+        {
+          "TYPE_NAME": "GHSTS.GHSTS.LEGALENTITIES.LEGALENTITY.CONTACTPERSON",
+          "organisation": "Plant Protection Products WorldWide Australia",
+          "department": "Global Regulatory Affairs",
+          "title": "Dr.",
+          "firstname": "Marc",
+          "lastname": "Planter",
+          "phone": "+61-2-9354-4000-463",
+          "mobile": "+61-0410499665",
+          "email": "marc.planter@pppww.com"
+        }
+      ]
+    }
+  ]
+}

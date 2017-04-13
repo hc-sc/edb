@@ -1,0 +1,19 @@
+<div id="main-container" ui-layout="{flow : 'column', dividerSize: '10'}" ng-hide="!mainCtrl.tocLoaded">
+    <div id="main-left" ui-layout-container="central" min-size="600px">
+        <div id="left-container" ui-layout="{flow: 'row', dividerSize: '10'}">
+            <div id="left-top" ui-layout-container min-size="300px">
+                <div id='menu-container' ng-include="'partials/menu/menu.tpl.html'"></div>
+                <div ng-include="'partials/filter/filter-panel.html'"></div>
+                <div id='structure-container'>
+                    <div ng-include="'partials/structure/structure.tpl.html'"></div>
+                </div>
+            </div>
+            <div id="left-bottom" ui-layout-container min-size="106px" ng-include="mainCtrl.useAnnotations">
+                <div ng-include="'partials/annotation/annotation-panel.html'"></div>
+            </div>
+        </div>
+    </div>
+    <div id="main-right" ui-layout-container min-size="600px" size="40%" >
+        <div id="content-container" ng-include="'partials/detail-panel/details-structure-panel.html'"></div>
+    </div>
+</div>

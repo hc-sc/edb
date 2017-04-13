@@ -1,0 +1,60 @@
+<div id="filter-panel" ng-controller="FilterController as filterCtrl">
+
+    <form class="form-inline" role="form">
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon">RA</div>
+                <select id="filterOnRA" class="form-control" ng-model="filterCtrl.Filter.filterOnRA" ng-class="{'filter-active': filterCtrl.Filter.filterOnRA !== 'ALL' }">
+                    <option value="ALL" class="base-color">ALL</option>
+                    <option ng-repeat="ra in filterCtrl.FilterData.RAs" value="{{ra.Id}}">{{ra.Name}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon" title="last change at or after"><i class="fa fa-exchange"></i>&#xA0;&#xA0;from</div>
+                <select id="changedSince" class="form-control" ng-model="filterCtrl.Filter.changedSince" ng-class="{'filter-active': filterCtrl.Filter.changedSince !== 'all' }">
+                    <option value="all" class="base-color">all</option>
+                    <option ng-repeat="submission in filterCtrl.FilterData.Submissions" value="{{submission}}">{{submission}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon">Filter</div>
+                <input type="search" class="form-control" id="searchText" placeholder="filter for..." ng-model="filterCtrl.Filter.searchText" ng-class="{'filter-active': filterCtrl.Filter.searchText !== '' }" filter-change-events />
+                <!--
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">Go!</button>
+                </span>
+            -->
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <label class="input-group-addon">
+                    <i title="Hide Empty Nodes" alt="Hide Empty Nodes" class="fa fa-sitemap fa-fw"></i>
+                    <input type="checkbox" id="hideEmptyNodes" title="Hide Empty Nodes" ng-model="filterCtrl.Filter.hideEmptyNodes" style="vertical-align: bottom" ng-class="{'filter-active': filterCtrl.Filter.hideEmptyNodes }"/>
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <label class="input-group-addon">
+                    <i title="Favorites" alt="Favorites" class="fa fa-bookmark fa-fw"></i>
+                    <input type="checkbox" id="favorites" title="Favorites" ng-model="filterCtrl.Filter.favorites" style="vertical-align: bottom" ng-class="{'filter-active': filterCtrl.Filter.favorites }"/>
+                </label>
+            </div>
+        </div>
+        <div class="form-group" ng-if="filterCtrl.useAnnotations">
+            <div class="input-group">
+                <label class="input-group-addon">
+                    <span ng-hide="filterCtrl.iconWidth">Show Annotated Nodes Only&nbsp;</span>  
+                    <i title="Show Annotated Nodes Only" alt="Show Annotated Nodes Only" class="fa fa-comment fa-fw" ng-show="filterCtrl.iconWidth"></i>                  
+                    <input type="checkbox" id="showAnnotatedNodesOnly" style="vertical-align: bottom"/>
+                </label>
+            </div>
+        </div>
+    </form>
+
+</div>

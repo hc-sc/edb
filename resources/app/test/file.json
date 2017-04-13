@@ -30,11 +30,6 @@
             "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
             "filepid": "urn:pppww:C563739E-F406-4D58-B417-9905C1BC060F",
             "filecompanyid": "T-423579-01-1",
-            "contentstatus": {
-              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
-              "value": "New",
-              "valuedecode": "New"
-            },
             "filetype": {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
               "value": "Main",
@@ -74,11 +69,6 @@
             "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
             "filepid": "urn:pppww:8025AB57-CCA3-49C1-AED8-A2143954C9E2",
             "filecompanyid": "T-423640-01-1",
-            "contentstatus": {
-              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
-              "value": "New",
-              "valuedecode": "New"
-            },
             "filetype": {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
               "value": "Main",
@@ -118,11 +108,6 @@
             "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
             "filepid": "urn:pppww:03D8D9D5-ADBD-4E04-8272-89157235174F",
             "filecompanyid": "T-423586-01-1",
-            "contentstatus": {
-              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
-              "value": "New",
-              "valuedecode": "New"
-            },
             "filetype": {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
               "value": "Main",
@@ -162,11 +147,6 @@
             "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
             "filepid": "urn:pppww:6333F97D-4F67-4408-8D11-4F630EE64C27",
             "filecompanyid": "T-423584-01-1",
-            "contentstatus": {
-              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
-              "value": "New",
-              "valuedecode": "New"
-            },
             "filetype": {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
               "value": "Main",
@@ -206,11 +186,6 @@
             "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
             "filepid": "urn:pppww:920F2AC5-B0AF-4B22-9E6A-152E9F8155E4",
             "filecompanyid": "T-423615-01-1",
-            "contentstatus": {
-              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
-              "value": "New",
-              "valuedecode": "New"
-            },
             "filetype": {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
               "value": "Main",
@@ -255,11 +230,6 @@
             "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
             "filepid": "urn:pppww:020812D6-1B89-4415-A5B4-11B189380C08",
             "filecompanyid": "T-423612-01-1",
-            "contentstatus": {
-              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
-              "value": "New",
-              "valuedecode": "New"
-            },
             "filetype": {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
               "value": "Main",
@@ -299,11 +269,6 @@
             "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
             "filepid": "urn:pppww:3FA5FEE1-2FFC-42A3-A6B8-0301B3C70766",
             "filecompanyid": "T-423618-02-1",
-            "contentstatus": {
-              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
-              "value": "New",
-              "valuedecode": "New"
-            },
             "filetype": {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
               "value": "Main",
@@ -343,11 +308,6 @@
             "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
             "filepid": "urn:pppww:0CF31D45-3F9B-42D2-A8D0-C7E3EA47C6CD",
             "filecompanyid": "T-423604-01-1",
-            "contentstatus": {
-              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
-              "value": "New",
-              "valuedecode": "New"
-            },
             "filetype": {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
               "value": "Main",
@@ -387,11 +347,6 @@
             "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
             "filepid": "urn:pppww:AF158239-8BA3-4C13-80AE-D73E32602C01",
             "filecompanyid": "T-423613-01-1",
-            "contentstatus": {
-              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
-              "value": "New",
-              "valuedecode": "New"
-            },
             "filetype": {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
               "value": "Main",
@@ -431,11 +386,6 @@
             "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
             "filepid": "urn:pppww:52FB765F-044D-44E0-95A5-D0B05FE9A1AD",
             "filecompanyid": "T-423605-01-1",
-            "contentstatus": {
-              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
-              "value": "New",
-              "valuedecode": "New"
-            },
             "filetype": {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
               "value": "Main",
@@ -475,11 +425,6 @@
             "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
             "filepid": "urn:pppww:6046C369-D8CD-4114-AAEC-B2CA2DF5B8CB",
             "filecompanyid": "T-423616-01-1",
-            "contentstatus": {
-              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
-              "value": "New",
-              "valuedecode": "New"
-            },
             "filetype": {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
               "value": "Main",
@@ -519,11 +464,6 @@
             "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
             "filepid": "urn:pppww:F95CBD70-309D-4D3F-B676-241E2F3BF4BA",
             "filecompanyid": "T-423616-01-1",
-            "contentstatus": {
-              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
-              "value": "New",
-              "valuedecode": "New"
-            },
             "filetype": {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
               "value": "Main",
@@ -563,11 +503,6 @@
             "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
             "filepid": "urn:pppww:81CF44F9-0F92-4C31-B643-83A9F234B700",
             "filecompanyid": "T-423601-01-1",
-            "contentstatus": {
-              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
-              "value": "New",
-              "valuedecode": "New"
-            },
             "filetype": {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
               "value": "Main",
@@ -607,11 +542,6 @@
             "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
             "filepid": "urn:pppww:AA870BE0-4332-453B-83BA-A4E81DBB33A8",
             "filecompanyid": "T-423656-01-1",
-            "contentstatus": {
-              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
-              "value": "New",
-              "valuedecode": "New"
-            },
             "filetype": {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
               "value": "Main",
@@ -651,11 +581,6 @@
             "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
             "filepid": "urn:pppww:639AAC5D-15A0-4237-801E-AC334D6BAE16",
             "filecompanyid": "M-508647-01-1",
-            "contentstatus": {
-              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
-              "value": "New",
-              "valuedecode": "New"
-            },
             "filetype": {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
               "value": "Main",
@@ -695,11 +620,6 @@
             "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
             "filepid": "urn:pppww:FBC24EDB-A90C-476A-80ED-8BF47F42B7CB",
             "filecompanyid": "T-423658-01-1",
-            "contentstatus": {
-              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
-              "value": "New",
-              "valuedecode": "New"
-            },
             "filetype": {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
               "value": "Main",
@@ -739,11 +659,6 @@
             "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
             "filepid": "urn:pppww:F99CABCB-3AA0-486B-A672-91148BD5141F",
             "filecompanyid": "T-423596-01-1",
-            "contentstatus": {
-              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
-              "value": "New",
-              "valuedecode": "New"
-            },
             "filetype": {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
               "value": "Main",
@@ -783,11 +698,6 @@
             "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
             "filepid": "urn:pppww:BF920721-A775-444D-9ADF-D1BB04706BD0",
             "filecompanyid": "T-423659-01-1",
-            "contentstatus": {
-              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
-              "value": "New",
-              "valuedecode": "New"
-            },
             "filetype": {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
               "value": "Main",
@@ -827,11 +737,6 @@
             "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
             "filepid": "urn:pppww:E0F2887A-A8DC-48B5-B365-5AB1C96D1C34",
             "filecompanyid": "T-423662-01-1",
-            "contentstatus": {
-              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
-              "value": "New",
-              "valuedecode": "New"
-            },
             "filetype": {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
               "value": "Main",
@@ -871,11 +776,6 @@
             "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
             "filepid": "urn:pppww:8E3FCEA2-8738-495F-BFBC-6B176DEA1F10",
             "filecompanyid": "T-423592-01-1",
-            "contentstatus": {
-              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
-              "value": "New",
-              "valuedecode": "New"
-            },
             "filetype": {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
               "value": "Main",
@@ -915,11 +815,6 @@
             "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
             "filepid": "urn:pppww:DA049806-EADD-4928-B962-E6E700F67F7A",
             "filecompanyid": "T-423663-01-1",
-            "contentstatus": {
-              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
-              "value": "New",
-              "valuedecode": "New"
-            },
             "filetype": {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
               "value": "Main",
@@ -959,11 +854,6 @@
             "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
             "filepid": "urn:pppww:75232CA3-781E-47E4-96C6-66CE8FD615D8",
             "filecompanyid": "T-423664-01-1",
-            "contentstatus": {
-              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
-              "value": "New",
-              "valuedecode": "New"
-            },
             "filetype": {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
               "value": "Main",
@@ -1003,11 +893,6 @@
             "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
             "filepid": "urn:pppww:F04EA348-9763-467C-920B-A51C6A9D8531",
             "filecompanyid": "T-423591-01-1",
-            "contentstatus": {
-              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
-              "value": "New",
-              "valuedecode": "New"
-            },
             "filetype": {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
               "value": "Main",
@@ -1047,11 +932,6 @@
             "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
             "filepid": "urn:pppww:D532917B-6B09-4318-94B4-B6CC0BF1444E",
             "filecompanyid": "T-423583-01-1",
-            "contentstatus": {
-              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
-              "value": "New",
-              "valuedecode": "New"
-            },
             "filetype": {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
               "value": "Main",
@@ -1091,11 +971,6 @@
             "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
             "filepid": "urn:pppww:6745CF2F-0AD8-42DF-9109-D223C61E5866",
             "filecompanyid": "T-423585-01-1",
-            "contentstatus": {
-              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
-              "value": "New",
-              "valuedecode": "New"
-            },
             "filetype": {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
               "value": "Main",
@@ -1135,11 +1010,6 @@
             "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
             "filepid": "urn:pppww:FB45F2B4-131A-45E2-BC85-E13D70FB0B27",
             "filecompanyid": "T-423581-01-1",
-            "contentstatus": {
-              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
-              "value": "New",
-              "valuedecode": "New"
-            },
             "filetype": {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
               "value": "Main",
@@ -1179,11 +1049,6 @@
             "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
             "filepid": "urn:pppww:DC7A966F-6F41-4F42-B7FF-3AF3872E41B7",
             "filecompanyid": "T-423578-01-1",
-            "contentstatus": {
-              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
-              "value": "New",
-              "valuedecode": "New"
-            },
             "filetype": {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
               "value": "Main",
@@ -1223,11 +1088,6 @@
             "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
             "filepid": "urn:pppww:C2C106E4-E607-4BF9-8708-02E490AF8888",
             "filecompanyid": "T-423584-01-1",
-            "contentstatus": {
-              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
-              "value": "New",
-              "valuedecode": "New"
-            },
             "filetype": {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
               "value": "Supplemental",
@@ -1267,11 +1127,6 @@
             "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
             "filepid": "urn:pppww:1E0996A0-D058-4050-B885-E3F279F639AC",
             "filecompanyid": "T-423612-01-1",
-            "contentstatus": {
-              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
-              "value": "New",
-              "valuedecode": "New"
-            },
             "filetype": {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
               "value": "Supplemental",
@@ -1311,11 +1166,6 @@
             "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
             "filepid": "urn:pppww:B36BC906-C259-4D57-A00C-6EA6AC55F842",
             "filecompanyid": "T-423601-01-1",
-            "contentstatus": {
-              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
-              "value": "New",
-              "valuedecode": "New"
-            },
             "filetype": {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
               "value": "Supplemental",
@@ -1355,11 +1205,6 @@
             "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
             "filepid": "urn:pppww:F4C7DCFD-9061-4086-91A8-EB0CB21F5695",
             "filecompanyid": "T-423656-01-1",
-            "contentstatus": {
-              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
-              "value": "New",
-              "valuedecode": "New"
-            },
             "filetype": {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
               "value": "Supplemental",
@@ -1399,11 +1244,6 @@
             "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC",
             "filepid": "urn:pppww:F1A37D9A-7D9C-471F-859D-F9E0B55F6BBF",
             "filecompanyid": "M-508647-01-1",
-            "contentstatus": {
-              "TYPE_NAME": "GHSTS.TYPECONTENTSTATUSSTRUCT",
-              "value": "New",
-              "valuedecode": "New"
-            },
             "filetype": {
               "TYPE_NAME": "GHSTS.GHSTS.FILES.FILE.FILEGENERIC.FILETYPE",
               "value": "Supplemental",

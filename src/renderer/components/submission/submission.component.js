@@ -52,7 +52,7 @@ export default angular.module('submission', [
           { title: 'Senders/Receivers', state: '.receivers' },
           { title: 'Dossier', state: '.dossier' },
           { title: 'Products', state: '.products' },
-          { title: 'Files', state: '.files' },          
+          { title: 'Files', state: '.files' },
           { title: 'Documents', state: '.documents' },
           { title: 'TOC', state: '.toc' }
         ];
@@ -67,7 +67,7 @@ export default angular.module('submission', [
            // { name: 'compare', label: 'Compare' },
             { name: 'check', label: 'Validate', func: this.validateXML.bind(this) },
             { name: 'archive', label: 'Package', func: this.package.bind(this) },
-            { name: 'email', label: 'Send', func: this.sendSubmission.bind(this) },
+            // { name: 'email', label: 'Send', func: this.sendSubmission.bind(this) },
            // { name: 'settings', label: 'Settings', state: 'settings' },
            // { name: 'help', label: 'Help' }
           ]
@@ -117,20 +117,6 @@ export default angular.module('submission', [
           .catch(err => {
             console.log(err);
           });
-      }
-
-      sendSubmission() {
-        console.log(this);
-        let curGhsts = this.ghstsService.edb_getSync({_submissionid: this.dossierData.submissionid})[0];
-        curGhsts._state = 'sent';
-        console.log(curGhsts);
-        this.ghstsService.edb_post(curGhsts)
-          .then(ret => {
-            console.log(ret);
-            this.showMessage('Submission Status set to sent.');
-            this.$state.go('home');
-          })
-          .catch(err => {console.log(err);});
       }
 
       // used to display notifications to the user

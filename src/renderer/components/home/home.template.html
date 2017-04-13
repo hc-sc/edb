@@ -1,7 +1,32 @@
 <div class='main-layout'>
 <toolbar items='$ctrl.toolbarItems'></toolbar>
 <section class='flex' layout-padding>
-  <tbl title='Dossiers' items='$ctrl.dossiers' projection='$ctrl.dossierProjection' default-sort='LAST_MODIFIED' default-reverse='true' on-select='$ctrl.selectDossier(id, index)' on-add='$ctrl.newDossier()' on-delete='$ctrl.deleteDossier(id)'></tbl>
-  <tbl title='{{$ctrl.dossier.dossierdescriptiontitle || "Submissions"}}' items='$ctrl.submissions' projection='$ctrl.submissionProjection' default-sort='submissionnumber' default-reverse='false' on-select='$ctrl.selectSubmission(id, index)' on-add='$ctrl.newSubmission()' on-delete='$ctrl.deleteSubmission(id)'></tbl>
+  <tbl-edit
+    title='Dossiers'
+    items='$ctrl.dossiers'
+    projection='$ctrl.dossierProjection'
+    default-sort='LAST_MODIFIED'
+    default-reverse='true'
+    on-select='$ctrl.selectDossier(id, index)'
+    on-add='$ctrl.newDossier()'
+    on-delete='$ctrl.deleteDossier(index)'
+    on-edit='$ctrl.editDossier(index)'
+    editable='true'
+    deletable='false'
+  ></tbl-edit>
+  <tbl-edit
+    title='{{$ctrl.dossier.dossierdescriptiontitle || "Submissions"}}'
+    items='$ctrl.submissions'
+    projection='$ctrl.submissionProjection'
+    default-reverse='false'
+    on-select='$ctrl.selectSubmission(id, index)'
+    on-add='$ctrl.newSubmission()'
+    on-delete='$ctrl.deleteSubmission(index)'
+    on-view='$ctrl.viewSubmission(index)'
+    on-edit='$ctrl.editSubmission(index)'
+    deletable='true'
+    viewable='true'
+    editable='true'
+  ></tbl-edit>
 </section>
 </div>

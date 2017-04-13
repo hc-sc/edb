@@ -1,0 +1,15 @@
+{
+	"localName": "GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTCONTENTSTATUSHISTORY.DOCUMENTCONTENTSTATUS",
+	"typeName": null,
+	"baseTypeInfo": ".TYPEDOCUMENTCONTENTSTATUSSTRUCT",
+	"propertyInfos": [
+		{
+			"name": "submissionNumber",
+			"required": true,
+			"attributeName": {
+				"localPart": "submission_number"
+			},
+			"type": "attribute"
+		}
+	]
+}

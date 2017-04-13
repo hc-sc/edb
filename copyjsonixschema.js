@@ -4,7 +4,7 @@ copydir.sync('./node_modules/jsonix/jsonschemas', './resources/app/standards/jso
 
 //extraction of schema to .json file
 //var GHSTSJsonSchema = JSON.parse(fs.readFileSync('./resources/app/standards/01_00_00/GHSTS.jsonschema').toString());
-var GHSTS = require('./resources/app/standards/01_00_02/GHSTS').GHSTS;
+var GHSTS = require('./resources/app/standards/01_04_00/GHSTS').GHSTS;
 
 var count = 0;
 var defName_arr = [];
@@ -87,7 +87,7 @@ GHSTS.typeInfos.forEach(ghstsDefn => {
   count++;
   var defLocalName = ghstsDefn.localName;
   var jsondef = JSON.stringify(ghstsDefn, undefined, '\t');
-  var curPath = './resources/app/standards/01_00_02/jsondefinitions';
+  var curPath = './resources/app/standards/01_04_00/jsondefinitions';
   try {
     fs.mkdirSync(curPath);
   } catch (err) {

@@ -76,7 +76,7 @@ export default function ($stateProvider, $urlRouterProvider) {
           return PicklistService.getService().edb_get({ 'TYPE_NAME': 'TYPE_METADATA_STATUS' });
         },
         contentStatusType: PicklistService => {
-          return PicklistService.getService().edb_get({ 'TYPE_NAME': 'TYPE_CONTENT_STATUS' });
+          return PicklistService.getService().edb_get({ 'TYPE_NAME': 'TYPE_DOCUMENT_CONTENT_STATUS' });
         },
         referenceType: PicklistService => {
           return PicklistService.getService().edb_get({ 'TYPE_NAME': 'TYPE_REFERENCE_TYPE' });

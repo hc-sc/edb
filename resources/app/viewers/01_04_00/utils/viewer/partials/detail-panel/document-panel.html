@@ -1,0 +1,337 @@
+<div id="menu-container" style="float: left;" ng-include="'partials/history/history.tpl.html'"></div>
+
+<uib-tabset ng-show="State.Detail.currentDocument" class="detail-tabs" active="activeTabIndex">
+
+    <uib-tab select="selectMainTab()">
+        <uib-tab-heading>
+            <i class="fa fa-file-text-o fa-fw"></i>&nbsp;Main
+        </uib-tab-heading>
+        <embed-file file-src="{{pdfSource}}" ng-show="!resizing"></embed-file>
+    </uib-tab>
+
+    <!-- show RA tabs dynamically -->
+    <uib-tab ng-repeat="ra in raList | documentFilterOnRA" select="selectTab($index + 1)">
+        <uib-tab-heading>
+            <i class="fa fa-envelope fa-fw"></i>
+            <span ng-class="{ 'ra-unavailable': !ra.available || ra.filtered }">{{ra.RA.SHORT_NAME}}</span>
+        </uib-tab-heading>
+        <div class="panel panel-default content-panel" style="width: 100%; height: 40px; z-index: 100;"
+             ng-show="ra.available && !ra.filtered">
+            <div class="panel-heading">
+                <i class="fa fa-file-text-o fa-fw fa-2x"></i>
+                DOCUMENT
+                <span class="pull-right detail-small-content">
+                    <span class="pid">{{Detail.currentDocument.DOCUMENT_GENERIC.DOCUMENT_PID}}</span>
+                    <content-icon></content-icon><status-icon
+                        status-value="{{Detail.currentDocument.DOCUMENT_GENERIC.currentStatus}}"></status-icon>
+                </span>
+            </div>
+        </div>
+        <div class="panel panel-default content-panel" style="overflow-y: auto; margin-top: 40px;"
+             ng-show="ra.available && !ra.filtered">
+            <div class="panel-body">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        Content
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped data-table">
+                            <tr ng-if="!(ra.FILEINFO.length > 0)">
+                                <th>Files</th>
+                                <td>- no file information for this RA -</td>
+                            </tr>
+                            <tr ng-if="ra.FILEINFO.length > 0" ng-repeat="fileinfo in ra.FILEINFO">
+                                <th>
+                                    {{fileinfo.filetype}}
+                                    <div class="pull-right">
+                                        <button class="btn btn-xs btn-default" type="button"
+                                                ng-click="showFileDetails[fileinfo.filepath] = !showFileDetails[fileinfo.filepath]">
+                                            <i title="Expand file details" class="fa fa-chevron-up"
+                                               ng-show="showFileDetails[fileinfo.filepath]"></i><i
+                                                title="Collapse file details" class="fa fa-chevron-down"
+                                                ng-show="!showFileDetails[fileinfo.filepath]"></i></button>
+                                    </div>
+                                </th>
+                                <td class="panel-file">
+                                    <i ng-if="fileinfo.cbi" title="CBI Designation" alt="CBI Designation"
+                                       class="fa fa-lock fa-fw" style="color: red"></i>
+                                    <i ng-if="!fileinfo.cbi" title="CBI Designation" alt="CBI Designation"
+                                       class="base-color fa fa-unlock fa-fw"></i>
+                                    <mime-icon mime-type='{{fileinfo.mimetype}}'></mime-icon>
+                                    <a href="" ng-click="openFile($index + 1, fileinfo.filetype, fileinfo.filepath)">
+                                        {{fileinfo.shortfilename}}</a>
+                                    <span class="pull-right">
+                                        <open-file-icon path="{{fileinfo.filepath}}"
+                                                          relative="true"></open-file-icon>
+                                        <open-folder-icon path="{{fileinfo.filepath}}"
+                                                          relative="true"></open-folder-icon>
+                                    </span>
+                                    <table class="table inner-data-table" style="margin-top: 5px;"
+                                           ng-show="showFileDetails[fileinfo.filepath]">
+                                        <tr ng-if="fileinfo.companyid">
+                                            <th>File ID</th>
+                                            <td>{{fileinfo.companyid}}</td>
+                                        </tr>
+                                        <tr ng-if="fileinfo.comment">
+                                            <th>Comment</th>
+                                            <td>{{fileinfo.comment}}</td>
+                                        </tr>
+                                        <tr ng-if="fileinfo.formatcomment">
+                                            <th>Format Comment</th>
+                                            <td>{{fileinfo.formatcomment}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>File PID</th>
+                                            <td><span class="pid">{{fileinfo.pid}}</span></td>
+                                        </tr>
+                                        <!-- Removed in 01.02.00
+                                        <tr ng-if="fileinfo.replacedpid.length > 0">
+                                            <th>Replaced File PID</th>
+                                            <td><span class="pid">{{fileinfo.replacedpid}}</span></td>
+                                        </tr>
+                                        -->
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        Generic Information
+                        <span class="pull-right">
+                            <metadata-icon></metadata-icon>
+                            <status-icon
+                                    status-value="{{Detail.currentDocument.DOCUMENT_GENERIC.METADATA_STATUS}}"></status-icon>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped data-table">
+                            <tr>
+                                <th>Title</th>
+                                <td>{{Detail.currentDocument.DOCUMENT_GENERIC.DOCUMENT_TITLE}}</td>
+                            </tr>
+                            <tr>
+                                <th>Author</th>
+                                <td>{{Detail.currentDocument.DOCUMENT_GENERIC.DOCUMENT_AUTHOR}}</td>
+                            </tr>
+                            <tr>
+                                <th>Issue Date</th>
+                                <td>{{Detail.currentDocument.DOCUMENT_GENERIC.DOCUMENT_ISSUE_DATE}}</td>
+                            </tr>
+                            <tr>
+                                <th>Test Facility</th>
+                                <td>
+                                    <p ng-repeat="testlab in Detail.currentDocument.DOCUMENT_GENERIC.TEST_LABORATORY">
+                                        {{testlab}}</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Source</th>
+                                <td ng-hide="Detail.currentDocument.DOCUMENT_GENERIC.COMPLETE_DOCUMENT_SOURCE == ''">
+                                    {{Detail.currentDocument.DOCUMENT_GENERIC.COMPLETE_DOCUMENT_SOURCE}}
+                                </td>
+                                <td ng-show="Detail.currentDocument.DOCUMENT_GENERIC.COMPLETE_DOCUMENT_SOURCE == ''">
+                                    {{Detail.currentDocument.DOCUMENT_GENERIC.DOCUMENT_SOURCE}},
+                                    <strong>Year:</strong> {{Detail.currentDocument.DOCUMENT_GENERIC.DOCUMENT_YEAR}},
+                                    <strong>Issue:</strong> {{Detail.currentDocument.DOCUMENT_GENERIC.DOCUMENT_ISSUE}},
+                                    <strong>Volume:</strong>
+                                    {{Detail.currentDocument.DOCUMENT_GENERIC.DOCUMENT_VOLUME}},
+                                    <strong>Pages:</strong> {{Detail.currentDocument.DOCUMENT_GENERIC.DOCUMENT_PAGES}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Owner</th>
+                                <td><p ng-repeat="docowner in Detail.currentDocument.DOCUMENT_GENERIC.DOCUMENT_OWNER">
+                                    {{docowner}}</p></td>
+                            </tr>
+                            <tr>
+                                <th>Published</th>
+                                <td>
+                                    <bool-icon
+                                            bool-value="{{Detail.currentDocument.DOCUMENT_GENERIC.PUBLISHED_INDICATOR}}"></bool-icon>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>GLP</th>
+                                <td>
+                                    <bool-icon
+                                            bool-value="{{Detail.currentDocument.DOCUMENT_GENERIC.GXP_INDICATOR}}"></bool-icon>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Tested on Vertebrates</th>
+                                <td>
+                                    <bool-icon
+                                            bool-value="{{Detail.currentDocument.DOCUMENT_GENERIC.TESTED_ON_VERTEBRATE}}"></bool-icon>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Document ID</th>
+                                <td>{{Detail.currentDocument.DOCUMENT_GENERIC.DOCUMENT_COMPANY_ID}}</td
+                            </tr>
+                            <tr>
+                                <th>Other Document ID</th>
+                                <td>
+                                    <table class="table inner-data-table">
+                                        <tr ng-repeat="docnums in Detail.currentDocument.DOCUMENT_GENERIC.DOCUMENT_NUMBER">
+                                            <th>{{docnums.DOCUMENT_NUMBER_TYPE}}</th>
+                                            <td>{{docnums.IDENTIFIER}}</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Document Family</th>
+                                <td>{{Detail.currentDocument.DOCUMENT_GENERIC.DOCUMENT_FAMILY}}<span
+                                        class="pid pull-right" style="padding-top: 5px;">{{Detail.currentDocument.DOCUMENT_GENERIC.DOCUMENT_FAMILY_PID}}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>TOC / Guideline</th>
+                                <td>
+                                    <a href="" ng-repeat="tocRef in Detail.currentDocument.DOCUMENT_GENERIC.toc_refs"
+                                       ng-click="selectTreeNode(tocRef.id, tocRef.index)">{{tocRef.name}}<br/></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Content Status History</th>
+                                <td>
+                                    <table class="table inner-data-table">
+                                        <colgroup>
+                                            <col style="width: 30%;">
+                                            <col style="width: 70%;">
+                                        </colgroup>  
+                                        <tr>
+                                            <th>Status</th>
+                                            <th>Submission</th>
+                                        </tr>
+                                        <tr ng-repeat="history in Detail.currentDocument.DOCUMENT_GENERIC.DOCUMENT_CONTENT_STATUS_HISTORY | reverse">
+                                            <td>
+                                                <status-icon
+                                                        status-value="{{history.DOCUMENT_CONTENT_STATUS}}"></status-icon>
+                                            </td>
+                                            <td>{{history.SUBMISSION_NUMBER}}</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Reference</th>
+                                <td>
+                                    <table class="table inner-data-table">
+                                        <tr>
+                                            <th>Type</th>
+                                            <th style="width: 35px;">Internal</th>
+                                            <th>Reference</th>
+                                        </tr>
+                                        <tr ng-repeat="ref in Detail.currentDocument.DOCUMENT_GENERIC.REFERENCED_DOCUMENT">
+                                            <td>{{ref.REFERENCE_TYPE}}</td>
+                                            <td style="width: 35px;">
+                                                <bool-icon bool-value="{{ref.INTERNAL}}"></bool-icon>
+                                            </td>
+                                            <td>
+                                                <p ng-hide="ref.DOCUMENT_PID == ''">PID: <span class="pid">{{ref.DOCUMENT_PID}}</span>
+                                                </p>
+                                                <p ng-hide="ref.DOCUMENT_NUMBER.IDENTIFIER == ''">
+                                                    {{ref.DOCUMENT_NUMBER.DOCUMENT_NUMBER_TYPE}}:
+                                                    {{ref.DOCUMENT_NUMBER.IDENTIFIER}}</p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Related to Substance</th>
+                                <td>
+                                    <p ng-repeat="subr in Detail.currentDocument.DOCUMENT_GENERIC.RELATED_TO_SUBSTANCE">
+                                        {{subr.SUBSTANCE.SUBSTANCE_NAME}}</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="panel panel-info">
+                        <div class="panel-heading">{{ra.RA.SHORT_NAME}}
+                        <span class="pull-right"><metadata-icon></metadata-icon><status-icon
+                                status-value="{{ra.METADATA_STATUS}}"></status-icon>
+                        </span>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-striped data-table">
+                                <tr>
+                                    <th>Data Protection</th>
+                                    <td>
+                                        <bool-icon bool-value="{{ra.DATA_PROTECTION}}"></bool-icon>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Data Requirement</th>
+                                    <td>
+                                        <bool-icon bool-value="{{ra.DATA_REQUIREMENT}}"></bool-icon>
+                                    </td>
+                                </tr>
+                                <tr ng-show="ra.RA_DOCUMENT_NUMBER.RA_DOCUMENT_NUMBER_TYPE">
+                                    <th>Submission Context</th>
+                                    <td>
+                                        <table class="table inner-data-table">
+                                            <tr>
+                                                <th>{{ra.RA_DOCUMENT_NUMBER.RA_DOCUMENT_NUMBER_TYPE}}</th>
+                                                <td>{{ra.RA_DOCUMENT_NUMBER.IDENTIFIER}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Already submitted:</th>
+                                                <td>
+                                                    <bool-icon
+                                                            bool-value="{{ra.RA_DOCUMENT_NUMBER.ALREADY_SUBMITTED}}"></bool-icon>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <table class="table inner-data-table">
+                                            <tr ng-repeat="context in ra.RA_DOCUMENT_NUMBER.DOSSIER_CONTEXT">
+                                                <td>{{ context.DOSSIER_PID ? 'PID: ' : 'Number: '
+                                                    }}{{context.DOSSIER_PID}}{{context.DOSSIER_NUMBER}}
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Comment</th>
+                                    <td><p ng-repeat="comment in ra.DOCUMENT_COMMENT">{{comment}}</p></td>
+                                </tr>
+                                <tr ng-repeat="guideline in ra.OTHER_NATIONAL_GUIDELINE">
+                                    <th>{{guideline.GUIDELINE_SYSTEM}}</th>
+                                    <td>{{guideline.GUIDELINE_NUMBER}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default content-panel" style="width: 100%; height: 40px; z-index: 100;"
+             ng-show="ra.filtered">
+            <div class="panel-heading">
+                <i class="fa fa-filter fa-fw fa-2x"></i>
+                The selected RA is hidden due to the current filter settings
+            </div>
+        </div>
+        <div class="panel panel-default content-panel" style="width: 100%; height: 40px; z-index: 100;"
+             ng-show="!ra.available">
+            <div class="panel-heading">
+                <i class="fa fa-times-circle-o fa-fw fa-2x"></i>
+                The selected document is not assigned to this RA
+            </div>
+        </div>
+    </uib-tab>
+
+    <uib-tab title="{{file.path}}" ng-repeat="file in State.Detail.openFiles track by $index" select="selectTab(file.tabIndex)">
+        <uib-tab-heading>
+            <i class="fa fa-file-text-o fa-fw"></i>&nbsp;{{file.title}}
+        </uib-tab-heading>
+        <embed-file file-src="{{file.src}}" ng-show="!resizing"></embed-file>
+    </uib-tab>
+
+</uib-tabset>
+
+<div id="menu-container" style="float: right;" ng-include="'partials/bookmark/bookmark.tpl.html'"></div>

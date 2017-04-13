@@ -21,9 +21,13 @@ export default class DocumentCtrl extends BaseCtrl{
       };
       
     
-      this.contentStatusProjection = [
-        {name: "contentstatus", url: "picklist"},
-        'submissionnumber'
+      // this.contentStatusProjection = [
+      //   {name: "documentcontentstatushistory", url: "picklist"},
+      //   'submissionnumber'
+      // ]; 
+
+       this.documentContentStatusProjection = [
+        {name: "documentcontentstatushistory", url: "picklist"}
       ]; 
 
       this.referencedDocumentProjection = [
@@ -47,6 +51,7 @@ export default class DocumentCtrl extends BaseCtrl{
 
 
     genPid() {
+      // console.log("View document: " + JSON.stringify(this.selected.documentgeneric));
       this.selected.documentgeneric.documentpid = this.getPid();
     }
 

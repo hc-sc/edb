@@ -1,0 +1,76 @@
+<div ng-controller="ProductController as productCtrl">
+    <div class="panel panel-default content-panel" style="width: 100%; height: 40px; z-index: 100;">
+        <div class="panel-heading">
+            <i class="fa fa-flask fa-2x fa-fw"></i>
+            PRODUCT
+            <span class="pull-right detail-small-content">
+                <span class="pid">{{vm.PRODUCT_PID}}</span>
+            </span>
+        </div>
+    </div>
+    <div class="panel panel-default content-panel" style="overflow-y: auto; margin-top: 40px;">
+        <div class="panel-body">
+            <div class="panel panel-success">
+                <div class="panel-heading">Generic Information
+                    <span class="pull-right"><metadata-icon></metadata-icon><status-icon status-value="{{vm.METADATA_STATUS}}"></status-icon></span>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped data-table">
+                        <tr>
+                            <th>Product Name</th>
+                            <td>{{vm.GENERIC_PRODUCT_NAME}}</td>
+                        </tr>
+                        <tr>
+                            <th>Formulation Type</th>
+                            <td>{{vm.FORMULATION_TYPE}}</td>
+                        </tr>
+                        <tr>
+                            <th>Ingredient</th>
+                            <td>
+                                <table class="table inner-data-table">
+                                    <tr>
+                                        <th>Substance</th>
+                                        <th>Identifier</th>
+                                        <th>Concentration</th>
+                                    </tr>
+                                    <tr ng-repeat="ing in vm.INGREDIENTS">
+                                        <td>
+                                            <p>{{ing.SUBSTANCE.SUBSTANCE_NAME}}</p>
+                                            <p><span class="pid">{{ing.SUBSTANCE.SUBSTANCE_PID}}</span></p>
+                                        </td>
+                                        <td>
+                                            <p ng-repeat="subId in ing.SUBSTANCE.SUBSTANCE_IDENTIFIER">{{subId.SUBSTANCE_IDENTIFIER_TYPE}}: {{subId.IDENTIFIER}}<br/></p>
+                                        </td>
+                                        <td>{{ing.QUANTITY}} {{ing.UNIT}}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="panel panel-info" ng-repeat="ra in vm.PRODUCT_RA | filterOnRA">
+                <div class="panel-heading">{{ra.RA.SHORT_NAME}}<small class="pull-right"></small></div>
+                <div class="panel-body">
+                    <table class="table table-striped data-table">
+                        <tr>
+                            <th>Product Name</th>
+                            <td>{{ra.PRODUCT_NAME}}</td>
+                        </tr>
+                        <tr>
+                            <th>Admin Number</th>
+                            <td>
+                                <table class="table inner-data-table">
+                                    <tr ng-repeat="admNo in ra.ADMIN_NUMBER">
+                                        <td>{{admNo.ADMIN_NUMBER_TYPE}}: </td>
+                                        <td>{{admNo.IDENTIFIER}}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

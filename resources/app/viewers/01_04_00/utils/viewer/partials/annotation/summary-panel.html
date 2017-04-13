@@ -1,0 +1,386 @@
+<!--<div id="annotation-summary-container" ng-show="annotationViews.summary.visible || !annotation">-->
+<div id="annotation-summary-container">
+
+    <table id="annotation-table" class="table"
+           ng-if="annotationList"
+           st-safe-src="annotationList" st-table="annoDisplayList">
+        <thead>
+        <tr>
+            <th id="anno-filter-toggle" title="Show/Hide Filter"
+                ng-click="showFilter=!showFilter" class="clickable unselectable">
+                <i class="fa fa-filter fa-lg"></i>
+                <i class="fa fa-lg" ng-class="{'fa-angle-down':!showFilter, 'fa-angle-up':showFilter}"></i>
+            </th>
+            <th st-sort="authorData.name" class="st-sort">Author</th>
+            <th st-sort="authorData.org.abbr" class="st-sort">Organisation</th>
+            <th st-sort="date" class="st-sort">Date</th>
+            <th st-sort="state" class="st-sort">Status</th>
+            <th st-sort="comments.length" class="st-sort">Count</th>
+            <th>
+                <i id="annotation-addressee-header" class="fa fa-university"></i>
+            </th>
+        </tr>
+        <tr ng-show="showFilter">
+            <th id="anno-filter-clear">
+                <i class="fa fa-times fa-lg clickable" st-reset-search title="Clear Filters"></i>
+            </th>
+            <th>
+                <input st-search="authorData.name" placeholder="search for author" class="input-sm form-control"
+                       type="search"/>
+            </th>
+            <th>
+                <select st-search="authorData.org.abbr">
+                    <option value="">All</option>
+                    <option ng-repeat="anno in annotationList | unique:'authorData.org.name'"
+                            value="{{anno.authorData.org.abbr}}">
+                        {{anno.authorData.org.abbr}}
+                    </option>
+                </select>
+            </th>
+            <th></th>
+            <th>
+                <select st-search="state">
+                    <option value="">All</option>
+                    <option ng-repeat="anno in annotationList | unique:'state'" value="{{anno.state}}">
+                        {{anno.state}}
+                    </option>
+                </select>
+            </th>
+            <th colspan="2"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Add Annotation -->
+        <tr ng-show="isEditable && !newAnnotation && !newComment" ng-click="addAnnotation()"
+            class="annotation-add-line">
+            <td class="annotation-table-actions">
+                <i class="fa fa-plus annotation-table-add" title="Add Annotation"></i>
+            </td>
+            <td class="clickable" colspan="6">
+                <span>Add Annotation </span>
+                <span ng-show="newRef.type == annotationTypes.dossier">to Dossier</span>
+                <span ng-show="newRef.type == annotationTypes.node">to Node</span>
+                <span ng-show="newRef.type == annotationTypes.document">to Document</span>
+            </td>
+        </tr>
+        <!-- New Annotation -->
+        <tr ng-show="newAnnotation"
+            class="new-meta-line">
+            <td class="annotation-table-actions">
+                <i ng-click="showAddresseeList=false;cancelAnnotation()" class="fa fa-times annotation-table-cancel"
+                   title="Cancel Annotation"></i>
+            </td>
+            <td>
+                <i class="fa fa-user"></i>
+                <span ng-bind="newAnnotation.authorData.name"></span>
+            </td>
+            <td title="{{newAnnotation.authorData.org.name}}">
+                <i class="fa fa-building"></i>
+                <span ng-bind="newAnnotation.authorData.org.abbr || newAnnotation.authorData.org.name"></span>
+            </td>
+            <td>
+                <i class="fa fa-calendar"></i>
+                <span ng-bind="newAnnotation.date | date:'dd.MM.yyyy'"></span>
+            </td>
+            <td class="new-state">
+                <div>
+                    <span bind-html-unsafe="getAnnotationState(newAnnotation.state, 'iconOnly')"></span>
+                    <select ng-model="newAnnotation.state" class="clickable"
+                            ng-class="{'custom':(newAnnotation.state == 'custom')}">
+                        <option ng-repeat="(stateKey,state) in annotationStates" ng-if="state.name"
+                                value="{{stateKey}}" ng-selected="stateKey == 'normal'">
+                            {{state.name}}
+                        </option>
+                        <option value="custom">Custom</option>
+                    </select>
+                </div>
+                <div>
+                    <input id="new-custom-state" type="text" ng-show="(newAnnotation.state == 'custom')"
+                           placeholder="Custom State"/>
+                </div>
+            </td>
+            <td class="new-addressee" colspan="2">
+                <div>
+                    <div ng-click="showAddresseeList=!showAddresseeList" class="clickable unselectable">
+                        Select Addressee
+                        <span class="fa"
+                              ng-class="{'fa-caret-down':!showAddresseeList, 'fa-caret-up':showAddresseeList}"></span>
+                    </div>
+                    <div>
+                        (<span ng-bind="newAnnotation.addressee.length"></span>)
+                    </div>
+                    <ul class="dropdown-menu" ng-show="showAddresseeList">
+                        <li ng-repeat="org in organisationList">
+                            <label title="{{org.LEGALENTITY_NAME}}">
+                                <input type="checkbox" value="{{org._Id}}" class="new-addressee-checkbox"
+                                       ng-click="selectChecklistItem($event, newAnnotation.addressee)">
+                                {{(org.OTHER_NAME && org.OTHER_NAME.length) ? org.OTHER_NAME[0] : org.LEGALENTITY_NAME}}
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr ng-show="newAnnotation"
+            class="new-content-line">
+            <td class="annotation-table-actions">
+                <i class="fa annotation-table-indicator" ng-class="annotationTypeIcons[newAnnotation.type]"
+                   title="{{annotationTypeNames[newAnnotation.type]}}"></i>
+                <i ng-click="showAddresseeList=false;saveAnnotation()" class="fa fa-floppy-o annotation-table-save"
+                   title="Save Annotation"></i>
+            </td>
+            <td colspan="6">
+                <textarea ng-model="newAnnotation.annotation"
+                          placeholder="Your Annotation to {{(annotationTypes.pdf == newAnnotation.type)?'selected text in PDF':(annotationTypes.document == newAnnotation.type)?'Document':(annotationTypes.node == newAnnotation.type)?'Node':'Dossier'}}"></textarea>
+            </td>
+        </tr>
+        <!-- Annotation List -->
+        <tr ng-repeat-start="anno in annoDisplayList"
+            ng-show="visibleForUser(anno)"
+            ng-class="{'row-shadow':$odd,active:(activeAnnotationPID == anno.pid)}"
+            class="annotation-meta-line">
+            <td class="annotation-table-actions">
+                <i class="fa fa-external-link-square fa-lg annotation-table-lookup"
+                   title="Show Text Reference"
+                   ng-click="activateAnnotation(anno.pid, false, true)"
+                   ng-show="(anno.type == annotationTypes.pdf)"></i>
+                <i class="fa annotation-table-indicator" ng-class="annotationTypeIcons[anno.type]"
+                   title="{{annotationTypeNames[anno.type]}}"></i>
+            </td>
+            <td ng-click="activateAnnotation(anno.pid, true, true)" class="clickable">
+                <i class="fa fa-user"></i>
+                <span ng-bind="anno.authorData.name"></span>
+            </td>
+            <td ng-click="activateAnnotation(anno.pid, true, true)" class="clickable"
+                title="{{anno.authorData.org.name}}">
+                <i class="fa fa-building"></i>
+                <span ng-bind="anno.authorData.org.abbr || anno.authorData.org.name"></span>
+            </td>
+            <td ng-click="activateAnnotation(anno.pid, true, true)" class="clickable">
+                <i class="fa fa-calendar"></i>
+                <span ng-bind="anno.date | date:'dd.MM.yyyy'"></span>
+            </td>
+            <td ng-click="activateAnnotation(anno.pid, true, true)" class="clickable"
+                ng-show="!editObject || (editObject.pid != anno.pid) || !editObject.type">
+                <span bind-html-unsafe="getAnnotationState(anno.state)"></span>
+            </td>
+            <td ng-click="activateAnnotation(anno.pid, true, true)" class="clickable"
+                ng-show="!editObject || (editObject.pid != anno.pid) || !editObject.type">
+                <i class="fa fa-comments-o"></i>
+                <span ng-bind="anno.comments.length"></span>
+            </td>
+            <td class="annotation-addressee" ng-show="!editObject || (editObject.pid != anno.pid) || !editObject.type">
+                <span ng-show="anno.addressee.length" title="Show/Hide Addressee"
+                      ng-click="toggleAddressee($index)" class="clickable unselectable">
+                    <i id="annotation-addressee-toggle-indicator-{{$index}}" class="fa fa-angle-down"></i>
+                    <i class="fa fa-envelope"></i>
+                    (<span ng-bind="anno.addressee.length"></span>)
+                </span>
+                <span ng-show="!anno.addressee.length" title="Private Annotation"
+                      class="private-annotation">
+                    <i class="fa fa-lock"></i>
+                </span>
+                <div>
+                    <div id="annotation-addressee-container-{{$index}}">
+                        <div class="annotation-addressee-overlay">
+                            <div class="annotation-addressee-overlay unselectable">
+                                Visible for:
+                            </div>
+                            <ul class="annotation-addressee-overlay">
+                                <li ng-repeat="org in anno.addressee" class="annotation-addressee-overlay">
+                                <span ng-bind="resolveOrganisation(org).abbr || resolveOrganisation(org).name || org"
+                                      title="{{resolveOrganisation(org).name || org}}"
+                                      class="annotation-addressee-overlay">
+                                </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <!--EDIT-->
+            <td class="edit-state" ng-show="editObject && (editObject.pid == anno.pid) && editObject.type">
+                <div>
+                    <span bind-html-unsafe="getAnnotationState(editObject.state, 'iconOnly')"></span>
+                    <select ng-model="editObject.state" class="clickable"
+                            ng-class="{'custom':(editObject.state == 'custom')}">
+                        <option ng-repeat="(stateKey,state) in annotationStates" ng-if="state.name"
+                                value="{{stateKey}}" ng-selected="stateKey == editObject.state">
+                            {{state.name}}
+                        </option>
+                        <option value="custom"
+                                ng-selected="(editObject.state == 'custom')">
+                            Custom
+                        </option>
+                    </select>
+                </div>
+                <div>
+                    <input type="text" ng-show="(editObject.state == 'custom')" ng-model="editObject.customState"
+                           placeholder="Custom State"/>
+                </div>
+            </td>
+            <td class="edit-addressee" colspan="2"
+                ng-show="editObject && (editObject.pid == anno.pid) && editObject.type">
+                <div>
+                    <div ng-click="showAddresseeList=!showAddresseeList" class="clickable unselectable">
+                        Select Addressee
+                        <span class="fa"
+                              ng-class="{'fa-caret-down':!showAddresseeList, 'fa-caret-up':showAddresseeList}"></span>
+                    </div>
+                    <div>
+                        (<span ng-bind="editObject.addressee.length"></span>)
+                    </div>
+                    <ul class="dropdown-menu" ng-show="showAddresseeList">
+                        <li ng-repeat="org in organisationList">
+                            <label title="{{org.LEGALENTITY_NAME}}">
+                                <input type="checkbox" value="{{org._Id}}" class="edit-addressee-checkbox"
+                                       ng-click="selectChecklistItem($event, editObject.addressee)"
+                                       ng-checked="(editObject.addressee.indexOf(org._Id) > -1)">
+                                {{(org.OTHER_NAME && org.OTHER_NAME.length) ? org.OTHER_NAME[0] : org.LEGALENTITY_NAME}}
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr ng-show="visibleForUser(anno)"
+            ng-class="{'row-shadow':$odd,active:(activeAnnotationPID == anno.pid),'annotation-end':(!isEditable && (expandedAnnotationPID != anno.pid || anno.comments.length == 0))}"
+            class="annotation-annotation-line">
+            <td class="annotation-table-actions">
+                <i class="fa fa-angle-down annotation-table-collapser" title="Show Comments"
+                   ng-if="(expandedAnnotationPID != anno.pid && anno.comments.length > 0)"
+                   ng-click="setExpandedAnnotation(anno.pid)"></i>
+                <i class="fa fa-angle-up annotation-table-collapser" title="Hide Comments"
+                   ng-if="(expandedAnnotationPID == anno.pid && anno.comments.length > 0)"
+                   ng-click="setExpandedAnnotation(null)"></i>
+                <i class="fa fa-pencil fa-lg annotation-table-edit"
+                   title="Edit Annotation"
+                   ng-click="editAnnotation(anno)"
+                   ng-show="editableByUser(anno) && (!editObject || (editObject.pid != anno.pid) || !editObject.type)"></i>
+                <i class="fa fa-times fa-lg annotation-table-cancel"
+                   title="Cancel Editing"
+                   ng-click="showAddresseeList=false;cancelEditing()"
+                   ng-show="editObject && (editObject.pid == anno.pid) && editObject.type"></i>
+            </td>
+            <td colspan="6" ng-show="!editObject || (editObject.pid != anno.pid) || !editObject.type"
+                ng-click="activateAnnotation(anno.pid, true, true)" class="clickable">
+                <span ng-bind="anno.annotation"></span>
+            </td>
+            <!--EDIT-->
+            <td colspan="6" ng-show="editObject && (editObject.pid == anno.pid) && editObject.type">
+                <div class="textarea-container">
+                    <textarea ng-model="editObject.annotation" placeholder="Your Annotation"></textarea>
+                </div>
+                <div class="pull-right">
+                    <i ng-click="showAddresseeList=false;saveEditObject(anno)"
+                       class="fa fa-floppy-o annotation-table-save"
+                       title="Save Annotation"></i>
+                    <i ng-click="showAddresseeList=false;deleteEditObject()"
+                       class="fa fa-trash-o annotation-table-delete"
+                       title="Delete Annotation"></i>
+                </div>
+            </td>
+        </tr>
+        <!-- Comment List in Annotation List -->
+        <tr ng-repeat-start="comment in anno.comments"
+            ng-show="(visibleForUser(anno) && (expandedAnnotationPID == anno.pid))"
+            ng-class="{'row-shadow':$parent.$odd,active:(activeAnnotationPID == anno.pid)}"
+            class="comment-meta-line">
+            <td class="annotation-table-actions"></td>
+            <td ng-click="activateAnnotation(anno.pid, true, true)" class="clickable">
+                <i class="fa fa-user"></i>
+                <span ng-bind="resolveAuthor(comment.author).name"></span>
+            </td>
+            <td ng-click="activateAnnotation(anno.pid, true, true)" class="clickable"
+                title="{{resolveAuthor(comment.author).org.name}}">
+                <i class="fa fa-building"></i>
+                <span ng-bind="resolveAuthor(comment.author).org.abbr || resolveAuthor(comment.author).org.name"></span>
+            </td>
+            <td ng-click="activateAnnotation(anno.pid, true, true)" class="clickable">
+                <i class="fa fa-calendar"></i>
+                <span ng-bind="comment.date | date:'dd.MM.yyyy'"></span>
+            </td>
+            <td colspan="3"></td>
+        </tr>
+        <tr ng-repeat-end
+            ng-show="visibleForUser(anno) && (expandedAnnotationPID == anno.pid)"
+            ng-class="{'row-shadow':$parent.$odd,active:(activeAnnotationPID == anno.pid)}"
+            class="comment-comment-line">
+            <td class="annotation-table-actions">
+                <i class="fa fa-pencil fa-lg annotation-table-edit"
+                   title="Edit Comment"
+                   ng-click="editComment(anno, $index)"
+                   ng-show="editableByUser(comment) && (!editObject || (editObject.pid != anno.pid) || editObject.type || (editObject.commentKey != $index))"></i>
+                <i class="fa fa-times fa-lg annotation-table-cancel"
+                   title="Cancel Editing"
+                   ng-click="showAddresseeList=false;cancelEditing()"
+                   ng-show="editObject && (editObject.pid == anno.pid) && !editObject.type && (editObject.commentKey == $index)"></i>
+            </td>
+            <td colspan="6"
+                ng-show="!editObject || (editObject.pid != anno.pid) || editObject.type || (editObject.commentKey != $index)"
+                ng-click="activateAnnotation(anno.pid, true, true)" class="clickable">
+                <span ng-bind="comment.comment"></span>
+            </td>
+            <!--EDIT-->
+            <td colspan="6"
+                ng-show="editObject && (editObject.pid == anno.pid) && !editObject.type && (editObject.commentKey == $index)">
+                <div class="textarea-container">
+                    <textarea ng-model="editObject.comment" placeholder="Your Comment"></textarea>
+                </div>
+                <div class="pull-right">
+                    <i ng-click="showAddresseeList=false;saveEditObject(comment)"
+                       class="fa fa-floppy-o annotation-table-save"
+                       title="Save Comment"></i>
+                    <i ng-click="showAddresseeList=false;deleteEditObject()"
+                       class="fa fa-trash-o annotation-table-delete"
+                       title="Delete Comment"></i>
+                </div>
+            </td>
+        </tr>
+        <!-- End Comment List-->
+        <tr ng-show="isEditable && !newComment && !newAnnotation" ng-click="addComment(anno.pid)"
+            ng-class="{'row-shadow':$odd,active:(activeAnnotationPID == anno.pid)}"
+            class="annotation-reply-line annotation-end">
+            <td class="annotation-table-actions">
+                <i class="fa fa-plus annotation-table-add" title="Add Comment to Annotation"></i>
+            </td>
+            <td class="clickable" colspan="6">
+                Reply to Annotation
+            </td>
+        </tr>
+        <!-- New Comment -->
+        <tr ng-show="newComment && (newComment.annotationPID == anno.pid)"
+            class="new-meta-line">
+            <td class="annotation-table-actions">
+                <i ng-click="cancelComment()" class="fa fa-times annotation-table-cancel"
+                   title="Cancel Annotation"></i>
+            </td>
+            <td>
+                <i class="fa fa-user"></i>
+                <span ng-bind="newComment.authorData.name"></span>
+            </td>
+            <td title="{{newComment.authorData.org.name}}">
+                <i class="fa fa-building"></i>
+                <span ng-bind="newComment.authorData.org.abbr || newComment.authorData.org.name"></span>
+            </td>
+            <td>
+                <i class="fa fa-calendar"></i>
+                <span ng-bind="newComment.date | date:'dd.MM.yyyy'"></span>
+            </td>
+            <td colspan="3">
+            </td>
+        </tr>
+        <tr ng-repeat-end
+            ng-show="newComment && (newComment.annotationPID == anno.pid)"
+            class="new-content-line">
+            <td class="annotation-table-actions">
+                <i ng-click="saveComment()" class="fa fa-floppy-o annotation-table-save" title="Save Annotation"></i>
+            </td>
+            <td colspan="6">
+                <textarea ng-model="newComment.comment" placeholder="Your Comment"></textarea>
+            </td>
+        </tr>
+        <!-- End Annotation List -->
+        </tbody>
+    </table>
+</div>

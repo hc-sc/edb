@@ -1,0 +1,54 @@
+<div id="menu-panel" ng-controller="MenuController as menuCtrl">
+    <div class="menu-row">
+        <div class="menu-field">
+            <a href="" ng-click="menuCtrl.changeState('TOC')">
+                <i title="TOC" alt="TOC" class="fa fa-sitemap fa-2x fa-fw" ng-class="{'menu-selected': menuCtrl.State.Viewer.StructureView == 'TOC'}"></i>
+            </a>
+        </div>
+        <div class="menu-field">
+            <a href="" ng-click="menuCtrl.changeState('TABLE')">
+                <i title="Listview" alt="Listview" class="fa fa-table fa-2x fa-fw" ng-class="{'menu-selected': menuCtrl.State.Viewer.StructureView == 'TABLE'}"></i>
+            </a>
+        </div>
+        <div class="menu-spacer"></div>
+        <div class="menu-field">
+            <a href="" ng-click="menuCtrl.changeState('DOSSIER')">
+                <i title="Dossier" alt="Dossier" class="fa fa-book fa-2x fa-fw" ng-class="{'menu-selected': menuCtrl.State.Viewer.DetailView == 'DOSSIER'}"></i>
+            </a>
+        </div>
+        <div class="menu-field">
+            <a href="" ng-click="menuCtrl.changeState('PRODUCT')">
+                <i title="Product" alt="Product" class="fa fa-flask fa-2x fa-fw" ng-class="{'menu-selected': menuCtrl.State.Viewer.DetailView == 'PRODUCT'}"></i>
+            </a>
+        </div>
+        <div class="menu-field">
+            <a href="" ng-click="menuCtrl.changeState('PARTNERS')">
+                <i title="Recipient / Sender" alt="Recipient / Sender" class="fa fa-envelope fa-2x fa-fw" ng-class="{'menu-selected': menuCtrl.State.Viewer.DetailView == 'PARTNERS'}"></i>
+            </a>
+        </div>
+        <div class="menu-field">
+            <a href="" ng-click="menuCtrl.changeState('INFO')">
+                <i title="Info" alt="Info" class="fa fa-info fa-2x fa-fw" ng-class="{'menu-selected': menuCtrl.State.Viewer.DetailView == 'INFO'}"></i>
+            </a>
+        </div>
+        
+        <div class="menu-field" style="width: 100%;"></div>
+        <div class="menu-field" style="color: white; font-family: Verdana; font-size: 1.25em; vertical-align: middle; text-align: right; white-space: nowrap;">
+            &Sigma; {{ menuCtrl.docdata.length >= 0 && menuCtrl.docdata.length !== menuCtrl.fullDocCount ? menuCtrl.docdata.length + '/' : '' }}{{menuCtrl.fullDocCount}}
+        </div>
+        <div class="menu-spacer-sm"></div>
+        <div class="menu-field">
+            <span class="filter-icon" ng-class="{ 'menu-hidden': !menuCtrl.isFilterActive() }"><a href="" ng-click="menuCtrl.clearFilter()"><i title="clear Filter" alt="clear Filter" class="fa fa-filter fa-2x fa-fw menu-selected"></i></a></span>
+        </div>        
+        <div class="menu-spacer-sm"></div>
+        <div class="menu-field" ng-show="menuCtrl.State.Viewer.ToggleView"><a href="" ng-click="menuCtrl.expandAll()"><i title="expand All" alt="expand All" class="fa fa-plus-circle fa-2x fa-fw"></i></a></div>
+        <div class="menu-field" ng-show="menuCtrl.State.Viewer.ToggleView"><a href="" ng-click="menuCtrl.collapseAll()"><i title="collapse All" alt="collpase All" class="fa fa-minus-circle fa-2x fa-fw" ng-class="{ 'menu-disabled': !menuCtrl.isTreeElementSelected }"></i></a></div>
+        <div class="menu-spacer-sm"></div>
+        <div class="menu-field" ng-show="menuCtrl.State.Viewer.NavigateView">
+            <a href="" ng-click="menuCtrl.showPrev()"><i title="Up" alt="Up" class="fa fa-chevron-circle-up fa-2x fa-fw" ng-class="{ 'menu-disabled': !menuCtrl.hasPrevElement }"></i></a>
+        </div>
+        <div class="menu-field" ng-show="menuCtrl.State.Viewer.NavigateView">
+            <a href="" ng-click="menuCtrl.showNext()"><i title="Down" alt="Down" class="fa fa-chevron-circle-down fa-2x fa-fw" ng-class="{ 'menu-disabled': !menuCtrl.hasNextElement }"></i></a>
+        </div>
+    </div>
+</div>

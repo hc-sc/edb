@@ -1,0 +1,83 @@
+<div ng-controller="DossierController as dossierCtrl">
+    <div class="panel panel-default content-panel" style="width: 100%; height: 40px; z-index: 100;">
+        <div class="panel-heading">
+            <i class="fa fa-book fa-2x fa-fw"></i>
+            DOSSIER
+            <span class="pull-right detail-small-content">
+                <span class="pid">{{vm.DOSSIER_PID}}</span>
+            </span>
+        </div>
+    </div>
+    <div class="panel panel-default content-panel" style="overflow-y: auto; margin-top: 40px;">
+        <div class="panel-body">
+            <div class="panel panel-success">
+                <div class="panel-heading">Generic Information</div>
+                <div class="panel-body">
+                    <table class="table table-striped data-table">
+                        <tr>
+                            <th>Title</th>
+                            <td>{{vm.DOSSIER_DESCRIPTION_TITLE}}</td>
+                        </tr>
+                        <tr>
+                            <th>Dossier ID</th>
+                            <td>{{vm.DOSSIER_COMP_ID}}</td>
+                        </tr>
+                        <tr>
+                            <th>Submission</th>
+                            <td>
+                                <table class="table inner-data-table">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Date</th>
+                                        <th>Title</th>
+                                        <th>Incremental</th>
+                                    </tr>
+                                    <tr ng-repeat="submission in vm.SUBMISSIONS">
+                                        <td><div style="width: 25px;">{{submission.SUBMISSION_NUMBER}}</div></td>
+                                        <td><div style="width: 85px;">{{submission.SUBMISSION_VERSION_DATE}}</div></td>
+                                        <td><a href="" ng-click="openSubmission(submission.SUBMISSION_NUMBER)">{{submission.SUBMISSION_TITLE}}</a></td>
+                                        <td><div style="width: 80px;"><bool-icon bool-value="{{submission.INCREMENTAL}}"></bool-icon></div></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Referenced Dossier</th>
+                            <td>
+                                <table class="table inner-data-table">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Reason</th>
+                                    </tr>
+                                    <tr ng-repeat="refs in vm.REFERENCED_DOSSIER">
+                                        <td>{{refs.REFERENCED_DOSSIER_NUMBER}}</td>
+                                        <td>{{refs.REFERENCED_DOSSIER_REASON}}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="panel panel-info" ng-repeat="ra in vm.DOSSIER_RA | filterOnRA">
+                <div class="panel-heading">{{ra.RA.SHORT_NAME}}<small class="pull-right"></small></div>
+                <div class="panel-body">
+                    <table class="table table-striped data-table">
+                        <tr>
+                            <th>Regulatory Type</th>
+                            <td>{{ra.REGULATORY_TYPE}}</td>
+                        </tr>
+                        <tr>
+                            <th>Application Type</th>
+                            <td>{{ra.APPLICATION_TYPE}}</td>
+                        </tr>
+                        <tr>
+                            <th>Project Number</th>
+                            <td><p ng-repeat="prId in ra.PROJECT_ID_NUMBER">{{prId}}</p></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

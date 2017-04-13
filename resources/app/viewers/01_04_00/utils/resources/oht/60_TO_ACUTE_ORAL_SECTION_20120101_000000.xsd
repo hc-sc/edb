@@ -1,0 +1,2212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:i5="http://echa.europa.eu/schemas/iuclid5/20120101" xmlns:aug="http://www.ecb.jrc.it/ecb-net/augmenting" targetNamespace="http://echa.europa.eu/schemas/iuclid5/20120101" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2012-06-14 15:26:47 +0300">
+	<xsd:include schemaLocation="phrases.xsd"/>
+	<xsd:simpleType name="string255">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="255"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="string2000">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2000"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="string32768">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="32768"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="string256000">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="256000"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="uuidType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="41" fixed="false"/>
+			<xsd:pattern value="\w{0,4}(\-[0-9a-f]+){5}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="documentReferencePKType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="83" fixed="false"/>
+			<xsd:pattern value="\w{1,4}(\-[0-9a-f]+){5}/0"/>
+			<xsd:pattern value="\w{1,4}(\-[0-9a-f]+){5}/\w{1,4}(\-[0-9a-f]+){5}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="documentTypeType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="LegalEntity"/>
+			<xsd:enumeration value="Substance"/>
+			<xsd:enumeration value="Dossier"/>
+			<xsd:enumeration value="DossierRecreationInfo"/>
+			<xsd:enumeration value="Annotation"/>
+			<xsd:enumeration value="Category"/>
+			<xsd:enumeration value="Mixture"/>
+			<xsd:enumeration value="ReferenceSubstance"/>
+			<xsd:enumeration value="Template"/>
+			<xsd:enumeration value="AttachmentDocument"/>
+			<xsd:enumeration value="EndpointStudyRecord"/>
+			<xsd:enumeration value="EndpointSummary"/>
+			<xsd:enumeration value="EndpointRecord"/>
+			<xsd:enumeration value="Site"/>
+			<xsd:enumeration value="DocumentReferenceGroup"/>
+			<xsd:enumeration value="ExtendedAttribute"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="picklistClearText">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="255" fixed="false"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="escapedStringUserType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="255" fixed="false"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="datetimeType">
+		<xsd:union memberTypes="xsd:dateTime">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:maxLength value="0"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:union>
+	</xsd:simpleType>
+	<xsd:simpleType name="timestamp">
+		<xsd:union memberTypes="xsd:dateTime">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:maxLength value="0"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:union>
+	</xsd:simpleType>
+	<xsd:simpleType name="number_4_0">
+		<xsd:restriction base="xsd:decimal"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="number_19_9">
+		<xsd:restriction base="xsd:decimal"/>
+	</xsd:simpleType>
+	<xsd:element name="EndpointStudyRecord">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">The &lt;code&gt;EndpointStudyRecord&lt;/code&gt; is used for modelling Endpoints in the
+  flexible model such as containers for 'all endpoint study records', 'all
+  endpoints' or even further &lt;code&gt;EndpointStudyRecord&lt;/code&gt; entries. Basically
+  everything that is an entry on the 'hierarchical chapter tree' is represented
+  by a &lt;code&gt;EndpointStudyRecord&lt;/code&gt;. &lt;p/&gt;The &lt;code&gt;EndpointStudyRecord&lt;/code&gt;
+  can be direct parent for &lt;code&gt;Element&lt;/code&gt; objects. The latter are
+  already flexible data objects yet provide no addressing capabilities.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType mixed="false">
+			<xsd:sequence>
+				<xsd:element name="modificationHistory">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Modification tracking of this object - any trackable document needs such
+a record since the queryLastModified() and similar methods
+require this structure to be present.</xsd:documentation>
+					</xsd:annotation>
+					<xsd:complexType mixed="false">
+						<xsd:sequence>
+							<xsd:element name="modification" minOccurs="1" maxOccurs="unbounded">
+								<xsd:complexType mixed="false">
+									<xsd:sequence>
+										<xsd:element name="comment" type="i5:escapedStringUserType" nillable="true" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">An optional modification comment.</xsd:documentation>
+											</xsd:annotation>
+										</xsd:element>
+										<xsd:element name="modificationBy" type="i5:escapedStringUserType" nillable="true" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">The party performing the modification.</xsd:documentation>
+											</xsd:annotation>
+										</xsd:element>
+									</xsd:sequence>
+									<xsd:attribute name="date" type="i5:datetimeType" use="required">
+										<xsd:annotation>
+											<xsd:documentation xml:lang="en">The modification date.</xsd:documentation>
+										</xsd:annotation>
+									</xsd:attribute>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="ownershipProtection" minOccurs="1" maxOccurs="1">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">This structure defines properies on ownership, authentication of the
+original author, and authorized uses of the current document.</xsd:documentation>
+					</xsd:annotation>
+					<xsd:complexType mixed="false">
+						<xsd:attribute name="fractionalDocument" type="xsd:boolean">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="en">If a document originally was filtered during export and thus the data
+contained within the document is only a subset of the overall, this flag
+should be set to true. It can be used during import to advise
+the user if he can safely import the document or should rather take a
+closer look inside since otherwise data may effectively be lost!</xsd:documentation>
+							</xsd:annotation>
+						</xsd:attribute>
+						<xsd:attribute name="sealed" type="xsd:boolean">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="en">Usually no document is sealed and thus can be modified at any time by
+virtually anybody allowed by the access control. However, there is one
+big exception: IUCLID5 Agency and management of Dossier documents. Once
+dossiers have been created, the dossier itself and anything referenced
+from within is not modifyable anymore - therefore, it can be sealed.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:attribute>
+						<xsd:attribute name="copyProtection" type="xsd:boolean">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="en">Flag that allows or prevents the current document to be copied and pasted.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:attribute>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="name" type="i5:escapedStringUserType" minOccurs="1">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">A user-specified name for the endpoint study record.
+      This name is not to be confused with the so called 
+      'default endpoint names' for REACH-IT. It is just a simple
+      name where the user (or later some system automatism) can store
+      text which is displayed in the section tree, the reference tracker,
+      the import/export module, etc.</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="ownerRef" minOccurs="0">
+					<xsd:complexType mixed="false">
+						<xsd:sequence>
+							<xsd:element name="description" type="i5:escapedStringUserType" minOccurs="0">
+								<xsd:annotation>
+									<xsd:documentation xml:lang="en">This is the alphanumeric description field which is displayed on screen as
+indicator where the document reference points to. Usually this
+field has to be set when the document reference is created and should
+carry some clear indication where it points to such as the company name,
+the substance name, etc.</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+							<xsd:element name="notes" type="i5:escapedStringUserType" minOccurs="0">
+								<xsd:annotation>
+									<xsd:documentation xml:lang="en">This is a free-text field for user convenience to attach additional text
+to a DocumentReference.</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+						</xsd:sequence>
+						<xsd:attribute name="lastModificationDate" type="i5:datetimeType">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="en">Last modification date of the target document. This field is not
+member of the primary key. Only at dossier creation time, the content of
+the field is encoded into timeStamp thus virtually creating a
+snapshot copy of the original object.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:attribute>
+						<xsd:attribute name="type" type="i5:documentTypeType" use="required">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="en">Type of the target document, required for reference resolving.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:attribute>
+						<xsd:attribute name="uniqueKey" type="i5:documentReferencePKType" use="required">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="en">Unique identifier of the target document
+
+Note: primary key composition. Yet this does not belong
+to the primary key of the current class since there may be any number of
+DocumentReference objects pointing to the same document
+effectively.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:attribute>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="origin" minOccurs="0">
+					<xsd:complexType mixed="false">
+						<xsd:sequence>
+							<xsd:element name="description" type="i5:escapedStringUserType" minOccurs="0">
+								<xsd:annotation>
+									<xsd:documentation xml:lang="en">This is the alphanumeric description field which is displayed on screen as
+indicator where the document reference points to. Usually this
+field has to be set when the document reference is created and should
+carry some clear indication where it points to such as the company name,
+the substance name, etc.</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+							<xsd:element name="notes" type="i5:escapedStringUserType" minOccurs="0">
+								<xsd:annotation>
+									<xsd:documentation xml:lang="en">This is a free-text field for user convenience to attach additional text
+to a DocumentReference.</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+							<xsd:element name="endpointKind" type="i5:escapedStringUserType" minOccurs="0">
+								<xsd:annotation>
+									<xsd:documentation xml:lang="en">The endpoint kind of the endpoint this reference points to. This field is
+not reliable, it may be null although the
+referenced document carries an 'endpoint kind' of course. Yet not all
+code might be changed to properly support this. 
+Also, IUC-468 (sorting) assumes that the 'endpointKind' of the referenced
+FlexibleEndpoint will never change.</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+						</xsd:sequence>
+						<xsd:attribute name="lastModificationDate" type="i5:datetimeType">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="en">Last modification date of the target document. This field is not
+member of the primary key. Only at dossier creation time, the content of
+the field is encoded into timeStamp thus virtually creating a
+snapshot copy of the original object.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:attribute>
+						<xsd:attribute name="type" type="i5:documentTypeType" use="required">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="en">Type of the target document, required for reference resolving.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:attribute>
+						<xsd:attribute name="uniqueKey" type="i5:documentReferencePKType" use="required">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="en">Unique identifier of the target document
+
+Note: primary key composition. Yet this does not belong
+to the primary key of the current class since there may be any number of
+DocumentReference objects pointing to the same document
+effectively.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:attribute>
+						<xsd:attribute name="targetType" type="xsd:long">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="en">The target type for the referenced flexible element.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:attribute>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="dataProtection" minOccurs="0">
+					<xsd:complexType mixed="false">
+						<xsd:sequence>
+							<xsd:element name="confidentiality" minOccurs="0">
+								<xsd:annotation>
+									<xsd:documentation xml:lang="en">the level of data protection == confidentiality intended for the associated data / entities</xsd:documentation>
+								</xsd:annotation>
+								<xsd:complexType mixed="false">
+									<xsd:simpleContent>
+										<xsd:extension base="xsd:string">
+											<xsd:attribute name="valueID" type="i5:phrasegroup_N64"/>
+										</xsd:extension>
+									</xsd:simpleContent>
+								</xsd:complexType>
+							</xsd:element>
+							<xsd:element name="justification" type="i5:string32768" minOccurs="0">
+								<xsd:annotation>
+									<xsd:documentation xml:lang="en">A free-text justification on the current confidentiality setting (see member confidentiality)</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+							<xsd:element name="regulatoryPurposes" minOccurs="0">
+								<xsd:annotation>
+									<xsd:documentation xml:lang="en">Pick list &lt;b&gt;N78 &lt;/b&gt; &lt;p/&gt;The regulatory purpose which applies:
+      &lt;ul&gt;
+      &lt;li&gt;Canada: Existing Substances Program under CEPA&lt;/li&gt;
+      &lt;li&gt;Canada: Pest Control Products Act (PCPA)&lt;/li&gt;
+      &lt;li&gt;EU: Biocides Programme&lt;/li&gt;
+      &lt;li&gt;EU: Existing Chemicals Programme&lt;/li&gt;
+      &lt;li&gt;EU: New Chemicals Programme&lt;/li&gt;
+      &lt;li&gt;EU: Registration, Evaluation and Authorisation of Chemicals (REACH)&lt;/li&gt;
+      &lt;li&gt;Japan: Chemical Substances Control Law&lt;/li&gt;
+      &lt;li&gt;OECD: HPV Chemicals Programme&lt;/li&gt;
+      &lt;li&gt;US: EPA HPV Chemical Challenge Programme&lt;/li&gt;
+      &lt;li&gt;US: Federal Insecticide, Fungicide, and Rodenticide Act (FIFRA)&lt;/li&gt;
+      &lt;li&gt;US: Toxic Substances Control Act&lt;/li&gt;
+      &lt;li&gt;[other]&lt;/li&gt;
+      &lt;/ul&gt;</xsd:documentation>
+								</xsd:annotation>
+								<xsd:complexType mixed="false">
+									<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+										<xsd:element name="regulatoryPurpose">
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="otherValue" type="i5:picklistClearText" nillable="true" minOccurs="0"/>
+												</xsd:sequence>
+												<xsd:attribute name="valueID" type="i5:phrasegroup_N78"/>
+											</xsd:complexType>
+										</xsd:element>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="purposeFlag" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">the purpose flag</xsd:documentation>
+					</xsd:annotation>
+					<xsd:complexType mixed="false">
+						<xsd:simpleContent>
+							<xsd:extension base="xsd:string">
+								<xsd:attribute name="valueID" type="i5:phrasegroup_Y14-3"/>
+							</xsd:extension>
+						</xsd:simpleContent>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="dataWaiving" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">the data waiving</xsd:documentation>
+					</xsd:annotation>
+					<xsd:complexType mixed="false">
+						<xsd:simpleContent>
+							<xsd:extension base="xsd:string">
+								<xsd:attribute name="valueID" type="i5:phrasegroup_Z02"/>
+							</xsd:extension>
+						</xsd:simpleContent>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="dataWaivingJustification" type="i5:string32768" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">the justification for the data waiving</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="studyResultType" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">the study result type</xsd:documentation>
+					</xsd:annotation>
+					<xsd:complexType mixed="false">
+						<xsd:sequence>
+							<xsd:element name="otherValue" type="i5:picklistClearText" nillable="true" minOccurs="0"/>
+						</xsd:sequence>
+						<xsd:attribute name="valueID" type="i5:phrasegroup_Z05"/>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="studyPeriod" type="i5:escapedStringUserType" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">the study period</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="reliability" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">the reliablility</xsd:documentation>
+					</xsd:annotation>
+					<xsd:complexType mixed="false">
+						<xsd:sequence>
+							<xsd:element name="otherValue" type="i5:picklistClearText" nillable="true" minOccurs="0"/>
+						</xsd:sequence>
+						<xsd:attribute name="valueID" type="i5:phrasegroup_A36"/>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="rationalReliability" type="i5:string32768" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">the rational reliablility</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="scientificPart" minOccurs="1" maxOccurs="1">
+					<xsd:complexType mixed="false">
+						<xsd:sequence>
+							<xsd:element name="TO_ACUTE_ORAL" minOccurs="1" maxOccurs="1">
+								<xsd:complexType mixed="false">
+									<xsd:all>
+										<xsd:element name="GEN_DATA_SOURCE_HD" nillable="true" minOccurs="0">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.GEN_DATA_SOURCE_HD]</xsd:documentation>
+											</xsd:annotation>
+										</xsd:element>
+										<xsd:element name="REFERENCE" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.REFERENCE]
+Indicate the bibliographic reference of the study report or publication the study summary is based on. Always enter the primary reference in the first block of fields (i.e. Sort no. = 1), if there are more than one reference to be cited. Copy this block of fields for specifying any other references related to this record (e.g. report of a preliminary study or other documentation). If results of a study report have been published, indicate the full citation of that publication(s) in addition to the reference of the original study.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="10">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="PHRASEOTHER_REFERENCE_TYPE" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="REFERENCE_TYPE" type="i5:phrasegroup_Z31" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.REFERENCE.REFERENCE_TYPE]
+Indicate the type of reference, e.g. "Study report" or "Publication". Select "Other company data" to characterise any unpublished information from a company other than a study report. Select "Grey literature" for any other unpublished information or "other:" and specify.</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="REFERENCE_TYPE.value" type="i5:picklistClearText" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en"/>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="REFERENCE_TYPE_TXT" type="i5:string255" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.REFERENCE.REFERENCE_TYPE_TXT]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+																<xsd:element name="REFERENCE_AUTHOR" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="REFERENCE_AUTHOR" type="i5:string2000" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.REFERENCE.REFERENCE_AUTHOR]
+For ease of sorting and searchability use following convention: Surname, Initial (Example 1: White D, Ruehl KJ, Borman SA &amp; Little J. Example 2: Hartley M &amp; Murray W (avoid unnecessary full-stops, commas)). If no individuals are cited as authors, enter name of company or organisation or "Anon." as appropriate.Note that the complete bibliographic reference may appear in this field after migration of unstructured data from existing databases.</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+																<xsd:element name="REFERENCE_YEAR" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="REFERENCE_YEAR" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.REFERENCE.REFERENCE_YEAR]
+Enter year of study report or publication. For a study report this field should be completed to include it in any searches, regardless of whether the complete date is given in field "Report date".</xsd:documentation>
+																				</xsd:annotation>
+																				<xsd:simpleType>
+																					<xsd:union>
+																						<xsd:simpleType>
+																							<xsd:restriction base="i5:number_4_0">
+																								<xsd:minInclusive value="1000"/>
+																								<xsd:maxInclusive value="9999"/>
+																							</xsd:restriction>
+																						</xsd:simpleType>
+																						<xsd:simpleType>
+																							<xsd:restriction base="xsd:string">
+																								<xsd:maxLength value="0"/>
+																							</xsd:restriction>
+																						</xsd:simpleType>
+																					</xsd:union>
+																				</xsd:simpleType>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+																<xsd:element name="REFERENCE_TITLE" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="REFERENCE_TITLE" type="i5:string255" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.REFERENCE.REFERENCE_TITLE]
+Include the title of the report. For publications, include the title of the article of a journal or article/chapter of a book (e.g. handbook).</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+																<xsd:element name="REFERENCE_SOURCE" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="REFERENCE_SOURCE" type="i5:string255" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.REFERENCE.REFERENCE_SOURCE]
+Not relevant for any study report. For publications or any other literature source (grey literature) specify the following type of information: (i) Title of scientific journal or book (e.g. if handbook); (ii) Volume of journal; (iii) Editor, publisher, place of publication for books or articles in books; (iv) Pagination.Example 1 (journal): J. Agric. Food Chem. 38: 215-227Example 2 (handbook): In: Lyman WJ (ed.) Handbook of chemical property estimation methods. Environmental behavior of organic compounds. McGraw-Hill Book Company 15.1-15.34, New York.</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+																<xsd:element name="REFERENCE_TESTLAB" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="REFERENCE_TESTLAB" type="i5:string255" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.REFERENCE.REFERENCE_TESTLAB]
+Either manually enter the name of the testing laboratory or select it from the picklist. In either case, editing is possible.</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+																<xsd:element name="REFERENCE_REPORT_NO" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="REFERENCE_REPORT_NO" type="i5:string255" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.REFERENCE.REFERENCE_REPORT_NO]
+Specify the report number allocated by the testing laboratory. Note that any company-specific study number should be included in the respective field.</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+																<xsd:element name="REFERENCE_COMPANY_ID" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="REFERENCE_COMPANY_ID" type="i5:string255" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.REFERENCE.REFERENCE_COMPANY_ID]
+Either manually enter the identity of the company who owns the data or select it from the picklist. In either case, editing is possible.</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+																<xsd:element name="REFERENCE_COMPANY_STUDY_NO" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="REFERENCE_COMPANY_STUDY_NO" type="i5:string255" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.REFERENCE.REFERENCE_COMPANY_STUDY_NO]
+Specify any company study no. if there is such a number and if it is different from the report no. of the testing laboratory. Otherwise leave field empty.</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+																<xsd:element name="REFERENCE_REPORT_DATE" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="REFERENCE_REPORT_DATE" type="i5:timestamp" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.REFERENCE.REFERENCE_REPORT_DATE]
+Specify the complete date of the study report, e.g. "2005-05-12" for 12 May 2005. Note that subfield "Year" should be completed in any case for sorting and searching purposes.</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="DATA_ACCESS" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.DATA_ACCESS]
+Select appropriate indication for data access. Enter "Not applicable" if the summary consists of information that is commonly accessible such as guidance on safe use.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="PHRASEOTHER_LIST_POP" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="LIST_POP" type="i5:phrasegroup_Z03" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.DATA_ACCESS.LIST_POP]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="LIST_POP.value" type="i5:picklistClearText" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en"/>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="LIST_POP_TXT" type="i5:string255" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.DATA_ACCESS.LIST_POP_TXT]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="DATA_PROT_CLAIM" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.DATA_PROT_CLAIM]
+Indicate as appropriate. Note: "yes" should be selected only if "Data submitter is data owner" or "Data submitter has Letter of Access". Options "yes, but willing to share" or "yes, but not willing to share" may be relevant for specific regulatory programmes where the submitter is requested to indicate whether he is willing to share studies (e.g. with vertebrates).In the supplementary remarks field, include an explanation as appropriate, i.e. justification for denial of sharing the corresponding study or refer to a document attached that provides justification (e.g. "for justification see attached document X")</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="PHRASEOTHER_LIST_POP_FIX" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="LIST_POP_FIX" type="i5:phrasegroup_Z30" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.DATA_PROT_CLAIM.LIST_POP_FIX]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="LIST_POP_FIX.value" type="i5:picklistClearText" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en"/>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="LIST_POP_FIX_TXT" type="i5:string255" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.DATA_PROT_CLAIM.LIST_POP_FIX_TXT]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="CROSSREF_SAMESTUDY" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.CROSSREF_SAMESTUDY]
+A cross-reference can be included to indicate that the same study is recorded in another record. Indicate the respective chapter and record ID and enter relevant explanatory text. This may be useful if specific endpoints of a given study are described in another chapter (e.g. results on reproduction toxicity in case of a combined repeated dose / reproduction toxicity study) or if more than one experiment is described by the same study report, but included in separate records.Check with the relevant guidance document whether all the methodology details must be repeated or whether a cross-reference to the same study in another chapter may suffice.Note that any such cross-reference may become useless if a record is either printed or exchanged on its own.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="TEXT_BELOW" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="TEXT_BELOW" type="i5:string2000" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.CROSSREF_SAMESTUDY.TEXT_BELOW]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="GEN_MAT_ME_HD" nillable="true" minOccurs="0">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.GEN_MAT_ME_HD]</xsd:documentation>
+											</xsd:annotation>
+										</xsd:element>
+										<xsd:element name="TEST_TYPE_ACUTETOX" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.TEST_TYPE_ACUTETOX]
+If possible, indicate whether the acute toxic class method, fixed dose procedure, up-and-down procedure or standard acute method was used. The latter method should not be used any more. However, it may apply to existing studies.If neither of these test types applies, either leave field empty or use "other:".Note: This field may be redundant with the information given in field "Guideline", but is considered useful for searching reasons.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="PHRASEOTHER_LIST_POP" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="LIST_POP" type="i5:phrasegroup_T123" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.TEST_TYPE_ACUTETOX.LIST_POP]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="LIST_POP.value" type="i5:picklistClearText" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en"/>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="LIST_POP_TXT" type="i5:string255" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.TEST_TYPE_ACUTETOX.LIST_POP_TXT]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="LIMIT_TEST" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.LIMIT_TEST]
+Indicate if the experiment was a limit test.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="LIST_BELOW_SEL" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="LIST_BELOW_SEL" type="i5:phrasegroup_Z38" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.LIMIT_TEST.LIST_BELOW_SEL]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="LIST_BELOW_SEL.value" type="i5:picklistClearText" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en"/>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="GUIDELINE" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.GUIDELINE]
+Indicate according to which test guideline the study was conducted. If no test guideline was explicitly followed, but the methodology used is equivalent or similar to a specific guideline, you can indicate so in the "Qualifier" subfield preceding the field "Guideline".Copy this block of fields for specifying more than one guideline (e.g. US EPA in addition to OECD guideline).</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="5">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="QUALIFIER" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="QUALIFIER" type="i5:phrasegroup_Z06" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.GUIDELINE.QUALIFIER]
+Select appropriate qualifier, i.e.- "according to" (if a given test guideline was followed);- "equivalent or similar to" (if no test guideline was explicitly followed, but the methodology is equivalent or similar to a specific guideline);- "no guideline followed" (if none of above qualifiers apply. If so, fill in field "Principles of method if other than guideline");- "no guideline available" (if so, fill in field "Principles of method if other than guideline").- "no guideline required" (if so, fill in field "Principles of method if other than guideline").</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="QUALIFIER.value" type="i5:picklistClearText" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en"/>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+																<xsd:element name="PHRASEOTHER_GUIDELINE" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="GUIDELINE" type="i5:phrasegroup_T03" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.GUIDELINE.GUIDELINE]
+Select the applicable test guideline, e.g. "OECD Guideline xxx". If the test guideline used is not listed, choose "other guideline:" and specify the test guideline in the related text field.In this text field, you can also enter any remarks as applicable, particularly:- To include any other title of the test guideline draft used, a subtitle, another version or update number and the year of update (For instance, different titles and/or numbers may exist for a given EU test guideline.);- To indicate if a the study was performed prior to the adoption of the test guideline specified;- To indicate if the methodology used was based on an extension of the test guideline specified.</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="GUIDELINE.value" type="i5:picklistClearText" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en"/>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="GUIDELINE_TXT" type="i5:string255" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.GUIDELINE.GUIDELINE_TXT]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+																<xsd:element name="PHRASEOTHER_DEVIATION" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="DEVIATION" type="i5:phrasegroup_Z08" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.GUIDELINE.DEVIATION]
+For robust study summaries or as requested by the regulatory programme, indicate if there are any deviations from the test guideline specified. If "yes" is selected, only briefly state relevant deviations in the supplementary remarks field (e.g. "other species used"); details should be described in the respective fields of the section MATERIALS AND METHODS.</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="DEVIATION.value" type="i5:picklistClearText" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en"/>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="DEVIATION_TXT" type="i5:string255" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.GUIDELINE.DEVIATION_TXT]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="METHOD_NOGUIDELINE" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.METHOD_NOGUIDELINE]
+If no guideline was followed, include a description of the principles of the test protocol or estimated method used in the study. Details should be entered in appropriate distinct fields of section MATERIALS AND METHODS if available. Also provide a justification for using this method if appropriate.If an estimation method was used (to be indicated in field "Study result type") state the equation(s) and/or computer software or other methods applied to calculate the value(s).</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="TEXTAREA_BELOW" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="TEXTAREA_BELOW" type="i5:string32768" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.METHOD_NOGUIDELINE.TEXTAREA_BELOW]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="GLP_COMPLIANCE_STATEMENT" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.GLP_COMPLIANCE_STATEMENT]
+Indicate whether the study was conducted following Good Laboratory Practice or not. Select "yes (incl. certificate)" if a GLP certificate of a test facility is available. Select "yes" if a GLP compliance statement is available, but no information on a GLP certificate. You can give an explanation in the supplementary remarks field, e.g. for explaining why GLP was not complied with or for specifying which (national) GLP was followed.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="PHRASEOTHER_LIST_SEL_FIX" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="LIST_SEL_FIX" type="i5:phrasegroup_Z40" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.GLP_COMPLIANCE_STATEMENT.LIST_SEL_FIX]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="LIST_SEL_FIX.value" type="i5:picklistClearText" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en"/>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="LIST_SEL_FIX_TXT" type="i5:string255" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.GLP_COMPLIANCE_STATEMENT.LIST_SEL_FIX_TXT]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="TESTMAT_HD" nillable="true" minOccurs="0">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.TESTMAT_HD]</xsd:documentation>
+											</xsd:annotation>
+										</xsd:element>
+										<xsd:element name="TESTMAT_INDICATOR" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.TESTMAT_INDICATOR]
+Select "yes" or "no" from the drop-down list for indicating that the identity of the test material is the same or is not the same, respectively, as for substance defined in section 1 (General information). In addition, the identity of the test material should be specified in the subsequent block of fields "Test material identity".NOTE: You cannot update this field, if a completed record is copied to another submission substance as reference. Therefore, in case of read-across the indication of "yes" is not relevant.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="LIST_BELOW_SEL" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="LIST_BELOW_SEL" type="i5:phrasegroup_Z38" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.TESTMAT_INDICATOR.LIST_BELOW_SEL]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="LIST_BELOW_SEL.value" type="i5:picklistClearText" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en"/>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="TESTMAT" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.TESTMAT]
+Indicate the identity of the test material for one or more appropriate identifiers, e.g. CAS number, CAS name, IUPAC name. Copy this block of fields as appropriate.NOTE: In order to avoid confusion on the test material identity it is highly recommended to enter at least one substance identifier, regardless of what has been enterd in field "Identity of test material same as for substance defined in section 1 (if not read-across)".</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="10">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="PHRASEOTHER_IDENTIFIER" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="IDENTIFIER" type="i5:phrasegroup_Z39" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.TESTMAT.IDENTIFIER]
+Select an appropriate identifier from drop-down list, e.g. "CAS number". Use "Other:" and specify, if identity according to a standard identifier is not known or if an additional chemical name or number is provided.</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="IDENTIFIER.value" type="i5:picklistClearText" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en"/>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="IDENTIFIER_TXT" type="i5:string255" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.TESTMAT.IDENTIFIER_TXT]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+																<xsd:element name="ID" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="ID" type="i5:string2000" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.TESTMAT.ID]
+Select the corresponding substance identity from drop-down list or enter manually if the identity is not available from the list or if no list is provided for the type of identifier selected.</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="TESTMAT_FORM" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.TESTMAT_FORM]
+Select the test material form from the drop-down list. If the form of the test chemical is not available in the list, select 'other:' and specify in the adjacent field. If the test material form is unknown, select 'no data'.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="PHRASEOTHER_TESTMAT_FORM" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="TESTMAT_FORM" type="i5:phrasegroup_A101" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.TESTMAT_FORM.TESTMAT_FORM]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="TESTMAT_FORM.value" type="i5:picklistClearText" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en"/>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="TESTMAT_FORM_TXT" type="i5:string255" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.TESTMAT_FORM.TESTMAT_FORM_TXT]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="TESTMAT_DETAILS" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.TESTMAT_DETAILS]
+Use freetext template and delete/add elements as appropriate. Enter any details that could be relevant for evaluating this study summary or that are requested by the respective regulatory programme. Consult the programme-specific guidance (e.g. OECD HPVC, Pesticides NAFTA or EU REACH) thereof.Note that any information that can be claimed confidential should be included in the subsequent field "Confidential details on test material".Explanations:- Name of test material (as cited in study report): only if different from any other identifiers provided in the preceding fields.- Molecular formula (if other than submission substance): specify- Molecular weight (if other than submission substance): specify- Smiles notation (if other than submission substance): provide if available- InChl (if other than submission substance): provide if available- Structural formula attached as image file (if other than submission substance): see Fig.: only if different from submission substance. Indicate Fig. no. if a file is attached in field "Attached document", e.g. state "see Fig. 1".- Substance type: indicate whether pure active substance, technical product, formulation or other.- Physical state: indicate "gas", "solid" or "liquid" only if different from submission substance or if substance can occur in different physical states.- Analytical purity: specify in %- Impurities (identity and concentrations): specify- Composition of the test material, percentage of components: specify if applicable- Isomers composition: specify if applicable- Purity test date: provide if available- Lot/batch No.: provide if available- Expiration date of the lot/batch: provide if available- Radiochemical purity (if radiolabelling): specify if applicable- Specific activity (if radiolabelling): specify if applicable- Locations of the label (if radiolabelling): specify if applicable- Expiration date of radiochemical substance (if radiolabelling): specify if applicable- Storage condition of test substance: specify if applicable- Stability under test conditions: indicate if available</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="FREETEXT_BELOW" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="FREETEXT_BELOW" type="i5:string32768" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.TESTMAT_DETAILS.FREETEXT_BELOW]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="TESTMAT_CONFIDENTIAL_DETAILS" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.TESTMAT_CONFIDENTIAL_DETAILS]
+Enter any confidential information on the test material in this separate field. Use freetext template and delete/add elements as appropriate. Enter any details that could be relevant for evaluating this study summary or that are requested by the respective regulatory programme. Consult the programme-specific guidance (e.g. OECD HPVC, Pesticides NAFTA or EU REACH) thereof.Explanations:- Analytical purity: specify in %- Impurities (identity and concentrations): specify- Composition of the test material, percentage of components: specify if applicable- Purity test date: provide if available- Lot/batch No.: : provide if available- Expiration date of the lot/batch: : provide if available- Isomers composition: specify if applicable</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="FREETEXT_BELOW" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="FREETEXT_BELOW" type="i5:string32768" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.TESTMAT_CONFIDENTIAL_DETAILS.FREETEXT_BELOW]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="ORGANISM_HD" nillable="true" minOccurs="0">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.ORGANISM_HD]</xsd:documentation>
+											</xsd:annotation>
+										</xsd:element>
+										<xsd:element name="ORGANISM" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.ORGANISM]
+Select name of species. If not available from picklist, select "other" and specify.NOTE: Human data should be reported in an appropriate subsection of section "Exposure related observations", particularly subsection "Direct observations: clinical cases, poisoning incidents and other".It can be useful to document, in the section on acute toxicity, that human data are provided by creating a record and referring to the human data in field "Cross-reference to same study". This could be relevant if lack of animal experiments is defended by the availability of data on experience with human exposure.Consult the programme-specific guidance (e.g. OECD HPVC, Pesticides NAFTA or EU REACH) as to whether human data should be referenced in the appropriate endpoint summary record.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="PHRASEOTHER_LIST_POP" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="LIST_POP" type="i5:phrasegroup_T02-1" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.ORGANISM.LIST_POP]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="LIST_POP.value" type="i5:picklistClearText" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en"/>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="LIST_POP_TXT" type="i5:string255" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.ORGANISM.LIST_POP_TXT]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="STRAIN" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.STRAIN]
+Select strain as appropriate. If not available from picklist, select "other" and specify.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="PHRASEOTHER_LIST_POP" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="LIST_POP" type="i5:phrasegroup_T23-1234" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.STRAIN.LIST_POP]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="LIST_POP.value" type="i5:picklistClearText" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en"/>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="LIST_POP_TXT" type="i5:string255" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.STRAIN.LIST_POP_TXT]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="SEX" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.SEX]
+Select as appropriate.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="LIST_BELOW_POP" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="LIST_BELOW_POP" type="i5:phrasegroup_T24" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.SEX.LIST_BELOW_POP]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="LIST_BELOW_POP.value" type="i5:picklistClearText" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en"/>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="ORGANISM_DETAILS" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.ORGANISM_DETAILS]
+Use freetext template and delete/add elements as appropriate. Enter any details that could be relevant for evaluating this study summary or that are requested by the respective regulatory programme. Consult the programme-specific guidance (e.g. OECD HPVC, Pesticides NAFTA or EU REACH) thereof.Explanations:- Diet: Describe type of diet (e.g. conventional laboratory diet / caloric restriction) and whether it was provided ad libitum.- Water: Describe type (e.g. drinking water) and whether it was provided ad libitum.- IN-LIFE DATES: If required, specify the in-life dates (i.e. the phase of a study following treatment in which the test system is alive/growing).</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="FREETEXT_BELOW" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="FREETEXT_BELOW" type="i5:string32768" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.ORGANISM_DETAILS.FREETEXT_BELOW]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="ADMIN_EXP_HD" nillable="true" minOccurs="0">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.ADMIN_EXP_HD]</xsd:documentation>
+											</xsd:annotation>
+										</xsd:element>
+										<xsd:element name="ROUTE" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.ROUTE]
+Select as appropriate. If not available from picklist, select "other" and specify.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="PHRASEOTHER_LIST_POP" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="LIST_POP" type="i5:phrasegroup_T25-1" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.ROUTE.LIST_POP]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="LIST_POP.value" type="i5:picklistClearText" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en"/>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="LIST_POP_TXT" type="i5:string255" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.ROUTE.LIST_POP_TXT]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="VEHICLE_TOX" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.VEHICLE_TOX]
+Select "unchanged (no vehicle)" if none was used or select vehicle used if any. If not available from picklist, select "other" and specify. Further information can be given in the supplementary remarks field.Note that some of the vehicles provided in this list are used for specific routes of administration only.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="PHRASEOTHER_LIST_POP_FIX" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="LIST_POP_FIX" type="i5:phrasegroup_T48" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.VEHICLE_TOX.LIST_POP_FIX]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="LIST_POP_FIX.value" type="i5:picklistClearText" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en"/>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="LIST_POP_FIX_TXT" type="i5:string255" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.VEHICLE_TOX.LIST_POP_FIX_TXT]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="ORAL_EXP_DETAILS" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.ORAL_EXP_DETAILS]
+Indicate details of oral exposure. Use freetext template and delete/add elements as appropriate. As an option you may include an excerpt from the study report.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="FREETEXT_BELOW" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="FREETEXT_BELOW" type="i5:string32768" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.ORAL_EXP_DETAILS.FREETEXT_BELOW]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="DOSES_CONCENTRATIONS" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.DOSES_CONCENTRATIONS]
+Include the doses including unit administered to the test animals, "5, 50, 500 and 2000 mg/kg bw". As appropriate include notes in parentheses, e.g. "(male)".</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="TEXT_BELOW" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="TEXT_BELOW" type="i5:string2000" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.DOSES_CONCENTRATIONS.TEXT_BELOW]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="NUMBER_ANIMALS" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.NUMBER_ANIMALS]
+Enter value or specify according to dose if different number of animals per dose, e.g. "10 (controls), 5 (in dose groups)".For robust study summaries or as requested by the regulatory programme, also include a detailed table on the animal assignment in the rich text field "Any other information on results incl. tables". Upload predefined table(s) if any or adapt table(s) from study report. Use table numbers in the sequence in which you refer to them in the Remarks text (e.g. "... see Table 1").Note: Specific tables may be required. Consult the programme-specific guidance (e.g. OECD HPVC, Pesticides NAFTA or EU REACH) thereof.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="TEXT_BELOW" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="TEXT_BELOW" type="i5:string2000" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.NUMBER_ANIMALS.TEXT_BELOW]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="CONTROL_GROUP" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.CONTROL_GROUP]
+Indicate whether concurrent control group was used.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="PHRASEOTHER_LIST_POP" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="LIST_POP" type="i5:phrasegroup_T148" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.CONTROL_GROUP.LIST_POP]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="LIST_POP.value" type="i5:picklistClearText" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en"/>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="LIST_POP_TXT" type="i5:string255" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.CONTROL_GROUP.LIST_POP_TXT]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="STUDY_DESIGN_DETAILS" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.STUDY_DESIGN_DETAILS]
+Include any further details on the study design, i.e. observation period, frequency of observations/weighing, necropsy of survivors and other examinations performed. Use freetext template and delete/add elements as appropriate.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="FREETEXT_BELOW" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="FREETEXT_BELOW" type="i5:string32768" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.STUDY_DESIGN_DETAILS.FREETEXT_BELOW]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="STATISTICS" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.STATISTICS]
+Indicate the method of calculating the LD50 or other.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="TEXT_INT" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="TEXT_INT" type="i5:string2000" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.STATISTICS.TEXT_INT]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="REM_ME_TC" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.REM_ME_TC]
+In this field, you can enter any information on materials and methods, for which no distinct field is available, or transfer free text from other databases. You can also open a rich text editor and create formatted text and tables or insert and edit any excerpt from a word processing or spreadsheet document, provided it was converted to the HTML format.Note: One rich text editor field each is provided for the MATERIALS AND METHODS and RESULTS section. In addition the fields "Overall remarks" and "Executive summary" allow rich text entry.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="RICHTEXT_BELOW" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="RICHTEXT_BELOW" type="i5:string256000" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.REM_ME_TC.RICHTEXT_BELOW]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="GEN_RESULTS_HD" nillable="true" minOccurs="0">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.GEN_RESULTS_HD]</xsd:documentation>
+											</xsd:annotation>
+										</xsd:element>
+										<xsd:element name="PRELIM_STUDY_RS" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.PRELIM_STUDY_RS]
+In the case of a fixed dose study, summarise evidence of toxicity and mortality of any preliminary sighting study at the fixed doses administered.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="TEXT_INT" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="TEXT_INT" type="i5:string2000" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.PRELIM_STUDY_RS.TEXT_INT]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="EFFLEVEL" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.EFFLEVEL]
+Provide the LD50 with confidence limits if available and/or other effect levels reported. Copy this field block for each effect level.If both sexes were tested at each dose level, then the combined effect level should be stated. Where there are significant differences in response between the sexes, include the effect levels for both.If the test was conducted according to the fixed dose procedure, include the discriminating dose, i.e. the highest out of the four fixed dose levels which can be administered without causing compound-related mortality (including human kills).If no LD50 or other endpoint available from picklist is reported, but only a dose level, specify this dose using "other" and indicate the effects observed in subfield "Remarks".</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="10">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="SEX" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="SEX" type="i5:phrasegroup_T24" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.EFFLEVEL.SEX]
+Select from drop-down list.</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="SEX.value" type="i5:picklistClearText" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en"/>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+																<xsd:element name="PHRASEOTHER_ENDPOINT" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="ENDPOINT" type="i5:phrasegroup_T01" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.EFFLEVEL.ENDPOINT]
+Select from drop-down list.</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="ENDPOINT.value" type="i5:picklistClearText" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en"/>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="ENDPOINT_TXT" type="i5:string255" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.EFFLEVEL.ENDPOINT_TXT]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+																<xsd:element name="PRECISION_LOQUALIFIER" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="LOQUALIFIER" type="i5:phrasegroup_A02-1" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.EFFLEVEL.LOQUALIFIER]
+Enter a numeric value or a range of numeric values according to following conventions:(i) In the first numeric field, enter a single value (Qualifier subfield left blank) or a value if preceded by "&gt;", "&gt;=" or "ca." (e.g. "20", "ca. 20", "&gt;20").(ii) In the second numeric field, enter a single value if preceded by "&lt;" or "&lt;=".(iii) Use both numeric fields and, as required, the lower and upper qualifier field to enter a range of numeric values (e.g. "2 - 8" or "&gt;2 &lt;8").</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="LOQUALIFIER.value" type="i5:picklistClearText" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en"/>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="LOVALUE" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.EFFLEVEL.LOVALUE]</xsd:documentation>
+																				</xsd:annotation>
+																				<xsd:simpleType>
+																					<xsd:union memberTypes="i5:number_19_9">
+																						<xsd:simpleType>
+																							<xsd:restriction base="xsd:string">
+																								<xsd:maxLength value="0"/>
+																							</xsd:restriction>
+																						</xsd:simpleType>
+																					</xsd:union>
+																				</xsd:simpleType>
+																			</xsd:element>
+																			<xsd:element name="UPQUALIFIER" type="i5:phrasegroup_A02-2" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.EFFLEVEL.UPQUALIFIER]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="UPQUALIFIER.value" type="i5:picklistClearText" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en"/>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="UPVALUE" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.EFFLEVEL.UPVALUE]</xsd:documentation>
+																				</xsd:annotation>
+																				<xsd:simpleType>
+																					<xsd:union memberTypes="i5:number_19_9">
+																						<xsd:simpleType>
+																							<xsd:restriction base="xsd:string">
+																								<xsd:maxLength value="0"/>
+																							</xsd:restriction>
+																						</xsd:simpleType>
+																					</xsd:union>
+																				</xsd:simpleType>
+																			</xsd:element>
+																			<xsd:element name="UNIT" type="i5:phrasegroup_T04" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.EFFLEVEL.UNIT]
+Select from drop-down list.</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="UNIT.value" type="i5:picklistClearText" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en"/>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="UNIT_TXT" type="i5:string255" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.EFFLEVEL.UNIT_TXT]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+																<xsd:element name="PHRASEOTHER_EFF_CONC_TYPE" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="EFF_CONC_TYPE" type="i5:phrasegroup_E105" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.EFFLEVEL.EFF_CONC_TYPE]
+Indicate whether the dose/concentration is based on the test material (test mat.), active ingredient (act. ingr.), element, dissolved (if inorganic non-metal), labile/free (if metal) or other (specify). Further information can be given in the supplementary remarks field.Leave blank or select "no data" if type is not known.</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="EFF_CONC_TYPE.value" type="i5:picklistClearText" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en"/>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="EFF_CONC_TYPE_TXT" type="i5:string255" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.EFFLEVEL.EFF_CONC_TYPE_TXT]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+																<xsd:element name="PRECISION_CONF_LIMITS_LOQUALIFIER" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="CONF_LIMITS_LOQUALIFIER" type="i5:phrasegroup_A02-1" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.EFFLEVEL.CONF_LIMITS_LOQUALIFIER]
+For robust study summaries or as requested by the regulatory programme, provide the 95% confidence limits if available.Enter a numeric value or a range of numeric values according to following conventions:(i) In the first numeric field, enter a single value (Qualifier subfield left blank) or a value if preceded by "&gt;", "&gt;=" or "ca." (e.g. "20", "ca. 20", "&gt;20").(ii) In the second numeric field, enter a single value if preceded by "&lt;" or "&lt;=".(iii) Use both numeric fields and, as required, the lower and upper qualifier field to enter a range of numeric values (e.g. "2 - 8" or "&gt;2 &lt;8").</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="CONF_LIMITS_LOQUALIFIER.value" type="i5:picklistClearText" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en"/>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="CONF_LIMITS_LOVALUE" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.EFFLEVEL.CONF_LIMITS_LOVALUE]</xsd:documentation>
+																				</xsd:annotation>
+																				<xsd:simpleType>
+																					<xsd:union memberTypes="i5:number_19_9">
+																						<xsd:simpleType>
+																							<xsd:restriction base="xsd:string">
+																								<xsd:maxLength value="0"/>
+																							</xsd:restriction>
+																						</xsd:simpleType>
+																					</xsd:union>
+																				</xsd:simpleType>
+																			</xsd:element>
+																			<xsd:element name="CONF_LIMITS_UPQUALIFIER" type="i5:phrasegroup_A02-2" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.EFFLEVEL.CONF_LIMITS_UPQUALIFIER]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="CONF_LIMITS_UPQUALIFIER.value" type="i5:picklistClearText" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en"/>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="CONF_LIMITS_UPVALUE" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.EFFLEVEL.CONF_LIMITS_UPVALUE]</xsd:documentation>
+																				</xsd:annotation>
+																				<xsd:simpleType>
+																					<xsd:union memberTypes="i5:number_19_9">
+																						<xsd:simpleType>
+																							<xsd:restriction base="xsd:string">
+																								<xsd:maxLength value="0"/>
+																							</xsd:restriction>
+																						</xsd:simpleType>
+																					</xsd:union>
+																				</xsd:simpleType>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+																<xsd:element name="REM" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="REM" type="i5:string255" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.EFFLEVEL.REM]
+For robust study summaries or as requested by the regulatory programme, provide any other specific information, e.g. the slope in probit units per log10 dose mortality curve if reported.</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="OBSERV_MORTALITY" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.OBSERV_MORTALITY]
+Include raw data on mortality and evident toxicity for each sex and approximate time of deaths. As appropriate include a detailed table in the rich text field "Any other information on results incl. tables". Upload predefined table(s) if any or adapt table(s) from study report. Use table numbers in the sequence in which you refer to them in the Remarks text (e.g. "... see Table 1").If the fixed dose method was used, tabulate the evidence of toxicity and mortality (number of animals) for each sex and dose group. "Evidence of toxicity" describes clear signs of toxicity following administration of test substance, which should be such that an increase in the exposure concentration can be expected to result in the development of severe toxic signs and probable mortality.If the acute toxic class method was used, tabulate the number of moribund or dead animals for each dose step used.Note: Specific tables may be required. Consult the programme-specific guidance (e.g. OECD HPVC, Pesticides NAFTA or EU REACH) thereof.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="TEXT_INT" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="TEXT_INT" type="i5:string2000" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.OBSERV_MORTALITY.TEXT_INT]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="OBSERV_CLIN_SIGNS" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.OBSERV_CLIN_SIGNS]
+Briefly describe signficant effects found, including the numbers of animals showing signs, time of onset, duration of the major clinical signs and time when most animals recovered. Do not dwell on effects that are most likeley due to agonal death. Focus on any important findings, i.e. compound-related or suspected related effetcs. In case particular effects are considered control-related e.g. because of abnormal control values, this should be specifically addressed.Note if there was a NOAEL for clinical findings.If the fixed dose method was used, indicate if animals appeared to recover completely and state if there were no obvious substance-related signs of toxicity.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="TEXT_INT" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="TEXT_INT" type="i5:string2000" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.OBSERV_CLIN_SIGNS.TEXT_INT]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="OBSERV_BODYWEIGHT" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.OBSERV_BODYWEIGHT]
+Briefly describe whether animals gained or lost weight.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="TEXT_INT" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="TEXT_INT" type="i5:string2000" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.OBSERV_BODYWEIGHT.TEXT_INT]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="OBSERV_GRPATHOL" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.OBSERV_GRPATHOL]
+Briefly describe whether there were any treatment related effects. Do not stress effects due to agonal death.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="TEXT_INT" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="TEXT_INT" type="i5:string2000" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.OBSERV_GRPATHOL.TEXT_INT]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="OBSERV_OTHER_FINDINGS" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.OBSERV_OTHER_FINDINGS]
+Include any further results using freetext template as appropriate. If applicable, briefly describe whether there were any treatment related differences in organ weights or histopathology and state if potential target organs were identified.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="FREETEXT_BELOW" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="FREETEXT_BELOW" type="i5:string32768" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.OBSERV_OTHER_FINDINGS.FREETEXT_BELOW]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="REM_RS" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.REM_RS]
+In this field, you can enter any other remarks on results. You can also open a rich text editor and create formatted text and tables or insert and edit any excerpt from a word processing or spreadsheet document, provided it was converted to the HTML format.Note: Both the "Materials and methods" section and "Results" section. In addition the fields "Overall remarks" and "Executive summary" allow rich text entry.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="RICHTEXT_BELOW" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="RICHTEXT_BELOW" type="i5:string256000" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.REM_RS.RICHTEXT_BELOW]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="GEN_OVERALL_HD" nillable="true" minOccurs="0">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.GEN_OVERALL_HD]</xsd:documentation>
+											</xsd:annotation>
+										</xsd:element>
+										<xsd:element name="REM_ANYOTHER" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.REM_ANYOTHER]
+In this field, you can enter any overall remarks or transfer free text from other databases. You can also open a rich text editor and create formatted text and tables or insert and edit any excerpt from a word processing or spreadsheet document, provided it was converted to the HTML format.Note: One rich text editor field each is provided for the MATERIALS AND METHODS and RESULTS section. In addition the fields "Overall remarks" and "Executive summary" allow rich text entry.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="RICHTEXT_BELOW" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="RICHTEXT_BELOW" type="i5:string256000" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.REM_ANYOTHER.RICHTEXT_BELOW]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="AD" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.AD]
+Attach any background document that cannot be inserted in any rich text editor field, particularly image files (e.g. an image of a structural formula).Copy this block of fields for attaching more than one file.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="10">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="DOC" minOccurs="0">
+																	<xsd:annotation>
+																		<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.AD.DOC]
+Upload file by clicking the upload icon. As appropriate, enter any additional information, e.g. language. The file name is displayed after uploading the document.</xsd:documentation>
+																	</xsd:annotation>
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="DOC" type="xsd:string" minOccurs="0"/>
+																			<xsd:element name="DOC.description" type="xsd:string" minOccurs="0"/>
+																			<xsd:element name="DOC.mimetype" type="xsd:string" minOccurs="0"/>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+																<xsd:element name="REM" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="REM" type="i5:string255" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.AD.REM]
+As appropriate, include remarks, e.g. a short description of the content of the attached document if the file name is not self-explanatory.</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="AD_STUDYREPORT" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.AD_STUDYREPORT]
+If required, an electronic copy of the full study report can be attached as WORD, pdf or other document type, which will not be integrated in any report, but must be handled as separate files.Note: In the export administration you can indicate whether the attached files should be included in the data export or not.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="10">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="ATTACHMENT_BELOW" minOccurs="0">
+																	<xsd:annotation>
+																		<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.AD_STUDYREPORT.ATTACHMENT_BELOW]
+Upload file by clicking the upload icon. As appropriate, enter any additional information, e.g. language. The file name is displayed after uploading the document.</xsd:documentation>
+																	</xsd:annotation>
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="ATTACHMENT_BELOW" type="xsd:string" minOccurs="0"/>
+																			<xsd:element name="ATTACHMENT_BELOW.description" type="xsd:string" minOccurs="0"/>
+																			<xsd:element name="ATTACHMENT_BELOW.mimetype" type="xsd:string" minOccurs="0"/>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="PG_ILLUSTRATION" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.PG_ILLUSTRATION]
+If required, an image can be attached (e.g. jpg, png, gif).Note: Only image formats are supported.It is not possible to include MS Word (doc) or Adobe Portable Documents (pdf).</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="PIC_BELOW" minOccurs="0">
+																	<xsd:annotation>
+																		<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.PG_ILLUSTRATION.PIC_BELOW]
+Upload file by clicking the upload icon. As appropriate, enter any additional information, e.g. language. The file name is displayed after uploading the document.</xsd:documentation>
+																	</xsd:annotation>
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="PIC_BELOW" type="xsd:string" minOccurs="0"/>
+																			<xsd:element name="PIC_BELOW.description" type="xsd:string" minOccurs="0"/>
+																			<xsd:element name="PIC_BELOW.mimetype" type="xsd:string" minOccurs="0"/>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="GEN_APPL_SUM_HD" nillable="true" minOccurs="0">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.GEN_APPL_SUM_HD]</xsd:documentation>
+											</xsd:annotation>
+										</xsd:element>
+										<xsd:element name="INTERPRET_RS_SUBMITTER" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.INTERPRET_RS_SUBMITTER]
+Indicate overall interpretation of test results as given in the study report or as concluded by the submitter. Use supplementary remarks field for indicating if conclusions originally reported were changed by submitter.Note that a classification in the strict sense is normally not based on an individual study, but includes a weight of evidence evaluation of all relevant data. However, if a single study is used for a classification, you can indicate this In the supplementary remarks field.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="PHRASEOTHER_LIST_POP_FIX" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="LIST_POP_FIX" type="i5:phrasegroup_T124" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.INTERPRET_RS_SUBMITTER.LIST_POP_FIX]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="LIST_POP_FIX.value" type="i5:picklistClearText" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en"/>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="LIST_POP_FIX_TXT" type="i5:string255" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.INTERPRET_RS_SUBMITTER.LIST_POP_FIX_TXT]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="CRITERIA_SUBMITTER" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.CRITERIA_SUBMITTER]
+If the conclusions were based on hazard classification criteria, indicate the respective organisation. If no criteria are indicated in the report, enter "expert judgment", "no data" or "other: &lt;describe&gt;" as appropriate.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="PHRASEOTHER_LIST_POP" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="LIST_POP" type="i5:phrasegroup_T108" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.CRITERIA_SUBMITTER.LIST_POP]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="LIST_POP.value" type="i5:picklistClearText" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en"/>
+																				</xsd:annotation>
+																			</xsd:element>
+																			<xsd:element name="LIST_POP_TXT" type="i5:string255" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.CRITERIA_SUBMITTER.LIST_POP_TXT]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="APPL_CL" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.APPL_CL]
+Enter any conclusions if applicable.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="TEXTAREA_BELOW" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="TEXTAREA_BELOW" type="i5:string32768" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.APPL_CL.TEXTAREA_BELOW]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="APPL_EXEC_SUM" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.APPL_EXEC_SUM]
+If required by the respective national/regional programme, briefly summarise the relevant aspects of the study including the conclusions reached. If a specific format is prescribed, upload the respective freetext template if available from the drop-down list or copy it from the corresponding document.Consult the programme-specific guidance (e.g. OECD HPVC, Pesticides NAFTA or EU REACH) thereof.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="RICHTEXT_BELOW" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="RICHTEXT_BELOW" type="i5:string256000" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.APPL_EXEC_SUM.RICHTEXT_BELOW]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="CROSSREF_OTHER_STUDY" minOccurs="0" maxOccurs="1">
+											<xsd:annotation>
+												<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.CROSSREF_OTHER_STUDY]
+A Cross-reference to other study or other studies can be included which are considered relevant in the interpretation of the test results, e.g. for supporting the conclusion that an effect observed was not substance-related. Indicate the respective chapter(s) and record ID(s) and enter relevant explanatory text.Such cross-references may be useful if it is considered relevant to discuss other results at the summary level of a single study. It should be noted that the overall appraisal of results from different studies is normally done in the hazard or risk assessment.Note that any such cross-reference may become useless if a record is either printed or exchanged on its own.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType mixed="false">
+												<xsd:sequence>
+													<xsd:element name="set" minOccurs="0" maxOccurs="1">
+														<xsd:complexType mixed="false">
+															<xsd:sequence>
+																<xsd:element name="TEXT_BELOW" minOccurs="0">
+																	<xsd:complexType mixed="false">
+																		<xsd:sequence>
+																			<xsd:element name="TEXT_BELOW" type="i5:string2000" nillable="true" minOccurs="0">
+																				<xsd:annotation>
+																					<xsd:documentation xml:lang="en">[Path: TO_ACUTE_ORAL.CROSSREF_OTHER_STUDY.TEXT_BELOW]</xsd:documentation>
+																				</xsd:annotation>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+									</xsd:all>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+			<xsd:attribute name="version" type="i5:datetimeType" use="required">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">The version timestamp associates the XSDs with the underlying data format specification version
+as published by the IUCLID Management Group. See also layout.xml and the version attribute
+in data documents.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="documentReferencePK" type="i5:documentReferencePKType" use="required">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">The document reference pointing to the current document</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="robustStudy" type="xsd:boolean" use="optional">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">robust study flag</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="usedForClassification" type="xsd:boolean" use="optional">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">used for classification flag</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="usedForMSDS" type="xsd:boolean" use="optional">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">used for MSDS flag</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

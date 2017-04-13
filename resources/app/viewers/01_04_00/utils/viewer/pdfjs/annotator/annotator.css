@@ -1,0 +1,273 @@
+/* icon set */
+.font-awesome::before {
+    font: normal normal normal 14px/1 FontAwesome;
+}
+
+/* annotation module activation buttons */
+.font-awesome.annotator-on::before,
+.font-awesome.comment::before {
+    content: "\f075";
+}
+
+.font-awesome.annotator-off::before,
+.font-awesome.comment-o::before {
+    content: "\f0e5";
+}
+
+/* info icon */
+.font-awesome.warn::before,
+.font-awesome.exclamation-triangle::before {
+    content: "\f071";
+}
+
+.font-awesome.error::before,
+.font-awesome.bolt::before {
+    content: "\f0e7";
+}
+
+/* add annotation buttons */
+
+.toolbarButton.font-awesome.add::before {
+    content: "\f067";
+    font-size: 0.9em;
+    margin-top: 9px;
+    margin-left: 13px;
+}
+
+.toolbarButton.font-awesome.add::after {
+    content: "\f075";
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.secondaryToolbarButton.font-awesome.add::before {
+    content: "\f067";
+    padding-top: 2px;
+}
+
+/******************************************/
+/* toolbar */
+#secondaryAnnotatorSeparator {
+    display: none;
+}
+
+#annotatorBtn {
+    display: block;
+}
+
+#secondaryAnnotatorBtn {
+    display: none;
+}
+
+#annotateBtn {
+    display: block;
+}
+
+#secondaryAnnotateBtn {
+    display: none;
+}
+
+@media (max-width: 720px) {
+    #download {
+        display: none !important;
+    }
+
+    #secondaryDownload {
+        display: inherit !important;
+    }
+
+    .horizontalToolbarSeparator:not(#secondaryAnnotatorSeparator) {
+        display: inherit !important;
+    }
+}
+
+@media (max-width: 685px) {
+    #print {
+        display: none !important;
+    }
+
+    #secondaryPrint {
+        display: inherit !important;
+    }
+}
+
+@media (max-width: 650px) {
+    #secondaryAnnotatorSeparator {
+        display: inherit;
+    }
+
+    #annotatorBtn {
+        display: none;
+    }
+
+    #secondaryAnnotatorBtn {
+        display: inherit;
+    }
+}
+
+@media (min-width: 600px) and (max-width: 620px), (min-width: 510px) and (max-width: 560px), (max-width: 325px) {
+    #annotateBtn {
+        display: none;
+    }
+
+    #secondaryAnnotateBtn {
+        display: inherit;
+    }
+}
+
+/******************************************/
+/* general util classes */
+.titleContent::after {
+    content: attr(title);
+}
+
+.zindex {
+    z-index: 1;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/******************************************/
+/* marker */
+
+.marker {
+    position: absolute;
+    border-radius: 6px;
+}
+
+.marker:not(.active) {
+    background-color: rgba(97, 71, 103, 0.42);
+}
+
+.marker.active {
+    background-color: rgba(255, 141, 109, 0.42);
+}
+
+.marker.tempMarker {
+    background-color: rgba(0, 179, 136, 0.42);
+}
+
+/******************************************/
+/* annotator bar */
+.annotatorBar {
+    /* pdfJS dialog design */
+    position: absolute;
+    padding: 10px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    color: hsl(0, 0%, 85%);
+    background-color: #474747; /* fallback */
+    background-image: url(../images/texture.png),
+    linear-gradient(hsla(0, 0%, 32%, .99), hsla(0, 0%, 27%, .95));
+    box-shadow: inset 1px 0 0 hsla(0, 0%, 100%, .08),
+    inset 0 1px 1px hsla(0, 0%, 0%, .15),
+    inset 0 -1px 0 hsla(0, 0%, 100%, .05),
+    0 1px 0 hsla(0, 0%, 0%, .15),
+    0 1px 1px hsla(0, 0%, 0%, .1);
+    /* customization */
+    margin-right: 17px;
+    font-size: 0.85em;
+    z-index: 5;
+}
+
+.annotatorBar label {
+    font-size: 0.8em;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.annotatorBar label.left {
+    margin-right: 10px;
+}
+
+.annotatorBar label.right {
+    margin-left: 10px;
+}
+
+.annotatorBar .closer {
+    margin-bottom: -12px;
+    margin-top: -2px;
+    margin-right: -2px;
+    float: right;
+}
+
+.annotatorBar .closer::before {
+    font: normal normal normal 14px/1 FontAwesome;
+    content: "\f00d";
+}
+
+.annotatorBar .annoMetaContainer {
+    margin-bottom: 7px;
+}
+
+.annotatorBar .annoMetaContainer #annoViewerAuthor::before {
+    font: normal normal normal 14px/1 FontAwesome;
+    content: "\f007";
+    padding-right: 5px;
+}
+
+.annotatorBar .annoMetaContainer #annoViewerOrgAbbr {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .annotatorBar .annoMetaContainer #annoViewerOrgAbbr {
+        display: inline;
+    }
+}
+
+.annotatorBar .annoMetaContainer #annoViewerOrgAbbr::before,
+.annotatorBar .annoMetaContainer #annoViewerOrg::before {
+    font: normal normal normal 14px/1 FontAwesome;
+    content: "\f1ad";
+    padding-right: 5px;
+    padding-left: 21px;
+}
+
+.annotatorBar .annoMetaContainer #annoViewerDate {
+    /*padding-right: 15px;*/
+    font-size: 0.8em;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.annotatorBar .annoMetaContainer #annoViewerDate::before {
+    font: normal normal normal 14px/1 FontAwesome;
+    content: "\f073";
+    padding-right: 5px;
+    padding-left: 21px;
+}
+
+.annotatorBar .annoAnnotationContainer {
+    display: table;
+}
+
+.annotatorBar .annoAnnotationContainer #annoViewerAnnotation {
+    display: table-cell;
+    padding-left: 18px;
+    padding-right: 42px;
+}
+
+.annotatorBar .annoAnnotationContainer #annoViewerAnnotation::before {
+    font: normal normal normal 14px/1 FontAwesome;
+    content: "\f0e5";
+    padding-right: 5px;
+    margin-left: -19px;
+}
+
+.annotatorBar .annoAnnotationContainer #annoViewerCommentCount {
+    display: table-cell;
+    position: absolute;
+    right: 10px;
+    font-size: 0.9em;
+}
+
+.annotatorBar .annoAnnotationContainer #annoViewerCommentCount::before {
+    font: normal normal normal 14px/1 FontAwesome;
+    content: "\f0e6";
+    padding-right: 5px;
+}

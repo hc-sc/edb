@@ -1,0 +1,126 @@
+/* 
+ * customization of pdf.js viewer.css
+ */
+
+body {
+  background-color: #0075BE;
+  background-image: none;
+}
+
+html[dir='ltr'] #viewerContainer {
+  box-shadow: none;
+}
+html[dir='rtl'] #viewerContainer {
+  box-shadow: none;
+}
+
+.pdfViewer.removePageBorders .page {
+  margin: 0px auto 10px auto;
+  border: none;
+}
+
+.pdfViewer .page {
+  border-image: none;
+  border-right: none;
+  border-left: none;
+}
+
+#toolbarSidebar {
+  background-color: #eeeeee;
+  background-image: none;
+}
+
+#toolbarContainer, .findbar, .secondaryToolbar {
+  background-color: #eeeeee; /* fallback */
+  background-image: none;
+}
+
+.toolbarButton, .dropdownToolbarButton, .secondaryToolbarButton {
+  color: black;
+}
+
+.toolbarLabel {
+  color: black;
+}
+.toolbarField {
+  color: black;
+}
+
+.toolbarButton#sidebarToggle::before {
+  -webkit-filter: invert(100%);
+}
+#viewThumbnail.toolbarButton::before {
+  -webkit-filter: invert(100%);
+}
+#viewOutline.toolbarButton::before {
+  -webkit-filter: invert(100%);
+}
+#viewAttachments.toolbarButton::before {
+  -webkit-filter: invert(100%);
+}
+#viewFind.toolbarButton::before {
+  -webkit-filter: invert(100%);
+}
+.toolbarButton.pageUp::before {
+  -webkit-filter: invert(100%);
+}
+.toolbarButton.pageDown::before {
+  -webkit-filter: invert(100%);
+}
+.toolbarButton.zoomOut::before {
+  -webkit-filter: invert(100%); 
+}
+.toolbarButton.zoomIn::before {
+  -webkit-filter: invert(100%); 
+}
+.toolbarButton.print::before, .secondaryToolbarButton.print::before {
+  -webkit-filter: invert(100%);  
+}
+.toolbarButton.download::before, .secondaryToolbarButton.download::before {
+  -webkit-filter: invert(100%);   
+}
+.toolbarButton#secondaryToolbarToggle::before {
+  -webkit-filter: invert(100%);    
+}
+.secondaryToolbarButton.firstPage::before {
+  -webkit-filter: invert(100%);     
+}
+.secondaryToolbarButton.lastPage::before {
+  -webkit-filter: invert(100%);     
+}
+.toolbarButton.findPrevious::before {
+  -webkit-filter: invert(100%);    
+}
+.toolbarButton.findNext::before {
+  -webkit-filter: invert(100%);    
+}
+.secondaryToolbarButton.rotateCw::before {
+  -webkit-filter: invert(100%);     
+}
+.secondaryToolbarButton.rotateCcw::before {
+  -webkit-filter: invert(100%);     
+}
+.secondaryToolbarButton.handTool::before {
+  -webkit-filter: invert(100%);       
+}
+.secondaryToolbarButton.documentProperties::before {
+  -webkit-filter: invert(100%);       
+}
+.dropdownToolbarButton {
+}
+.dropdownToolbarButton select {
+  color: black;
+}
+.dropdownToolbarButton > select > option {
+  background-color: white;
+  color: black;
+}
+
+.toolbarField.pageNumber {
+  width: 28px;
+  padding: 3px 3px;
+}
+
+.outlineItem > a, .attachmentsItem > button {
+  color: white;
+}

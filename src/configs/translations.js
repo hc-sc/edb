@@ -1,7 +1,9 @@
+import * as CONSTANTS from '../constants/shared';
+
 export const picklists_en = {
   'EXTENSION_TYPE_ADMIN_NUMBER_TYPE': 'Admin Number Type',
   'EXTENSION_TYPE_APPLICATION_TYPE': 'Application Type',
-  'TYPE_CONTENT_STATUS': 'Content Status',
+  'TYPE_DOCUMENT_CONTENT_STATUS': 'Document Content Status',
   'EXTENSION_TYPE_COUNTRY': 'Country',
   'TYPE_DATA_PROTECTION': 'Data Protection',
   'TYPE_DATA_REQUIREMENT': 'Data Requirement',
@@ -16,6 +18,7 @@ export const picklists_en = {
   'EXTENSION_TYPE_REGULATORY_TYPE': 'Regulatory Type',
   'EXTENSION_TYPE_SUBSTANCE_IDENTIFIER_TYPE': 'Substance Identifier Type',
   'EXTENSION_TYPE_TOC_OWNER': 'TOC Owner',
+  'TYPE_NODE_ASSIGNMENT_STATUS': 'TOC Node Assignment Status',
   'EXTENSION_TYPE_UNIT': 'Unit'
 };
 
@@ -107,13 +110,13 @@ export const propNames_en = {
   'filefulllocation': 'Select Source File',
   'filepid': 'File PID',
   'filecompanyid': 'Company File ID',
-  'contentstatus': 'Content Status',
+  'contentstatus': 'File Content Status',
   'replacedfilepid': 'Replaced File PID',
   'filetype': 'File Type',
   'formatcomment': 'Format Comment',
   'md5checksum': 'MD5 Checksum',
   'filename': 'Submission File Name',
-
+  'regulatoryauthority':'Regulatory Authority',
   'fileRA': 'Regulatory Authority File Information',
   //File RA
   'filecomment': 'File Comments',
@@ -134,7 +137,7 @@ export const propNames_en = {
   'documentpid': 'Document PID',
   'documentfamilypid': 'Document Family PID',
   'documentfamily': 'Document Family',
-  'contentstatushistory': 'Content Status History',
+  'documentcontentstatushistory': 'Document Content Status History',
   'referenceddocument': 'Referenced Document',
   'referencetype': 'Reference Type',
   'internal': 'Internal',
@@ -153,7 +156,7 @@ export const propNames_en = {
   'documentvolume': 'Document Volume',
   'documentpages': 'Document Pages',
   'testlaboratory': 'Test Laboratory',
-  'gxpindicator': 'Gxp Indicator',
+  'gxpindicator': 'GXP Indicator',
   'testedonvertebrate': 'Tested on Vertebrate',
   'referencedtofile': 'Associated Files',
   'toFileId': 'File Name',
@@ -173,8 +176,17 @@ export const propNames_en = {
   'radocumentnumber': 'RA Document Number',
   'radocumentnumbertype': 'RA Document Number Type',
   'alreadysubmitted': 'Already Submitted',
-  'submissioncontext': 'Submission Context',
+  'dossiercontext': 'Dossier Context',
   'dossiernumber': 'Dossier Number'
   // 'toSpecificForRAId': 		    'To Specific For RA Id'
+};
 
+export const statuses_en = {
+  [CONSTANTS.DOSSIER_STATUS_OPEN]: 'Open',
+  [CONSTANTS.DOSSIER_STATUS_CLOSED]: 'Closed',
+  [CONSTANTS.SUBMISSION_STATUS_IN_PROGRESS]: 'In Progress',
+  [CONSTANTS.SUBMISSION_STATUS_PACKAGED]: 'Packaged',
+  [CONSTANTS.SUBMISSION_STATUS_SENT]: 'Sent',
+  [CONSTANTS.STATUS_ACTIVE]: 'Active',
+  [CONSTANTS.STATUS_DEACTIVE]: 'Deactive'
 };

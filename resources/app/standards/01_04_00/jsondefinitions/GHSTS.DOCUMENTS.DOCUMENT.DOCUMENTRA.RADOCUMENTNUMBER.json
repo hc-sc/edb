@@ -1,0 +1,30 @@
+{
+	"localName": "GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER",
+	"typeName": null,
+	"propertyInfos": [
+		{
+			"name": "radocumentnumbertype",
+			"required": true,
+			"elementName": "RA_DOCUMENT_NUMBER_TYPE",
+			"typeInfo": ".GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.RADOCUMENTNUMBERTYPE"
+		},
+		{
+			"name": "identifier",
+			"required": true,
+			"elementName": "IDENTIFIER"
+		},
+		{
+			"name": "alreadysubmitted",
+			"required": true,
+			"elementName": "ALREADY_SUBMITTED",
+			"typeInfo": "Boolean"
+		},
+		{
+			"name": "dossiercontext",
+			"minOccurs": 0,
+			"collection": true,
+			"elementName": "DOSSIER_CONTEXT",
+			"typeInfo": ".GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTRA.RADOCUMENTNUMBER.DOSSIERCONTEXT"
+		}
+	]
+}

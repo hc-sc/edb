@@ -26,6 +26,7 @@ const app = require('electron').app;
 const ipc = require('electron').ipcMain;
 const BrowserWindow = require('electron').BrowserWindow;
 const { dialog } = require('electron');
+const copydir = require('copy-dir');
 
 const _ = require('lodash');
 
@@ -59,7 +60,7 @@ var svrDisp;
 
 var XMLSchemaJsonSchema;
 var JsonixJsonSchema;
-var supprtVersions = ['01.00.02'], validateInsts = {}, marshallers = {}, unmarshallers = {};
+var supprtVersions = ['01.04.00'], validateInsts = {}, marshallers = {}, unmarshallers = {};
 var ajvInst;
 
 var init_mongoose = () => {
@@ -74,7 +75,7 @@ var init_mongoose = () => {
 
     for (var i = 0; i < srvs.length; i++) {
       let svrmod = require('./services/' + srvs[i] + '.service');
-      let svrInst = new svrmod();
+      let svrInst = new svrmod(supprtVersions[0]);
       qs.push(svrInst.initMongoose());
     }
     return Q.all(qs);
@@ -85,6 +86,7 @@ var init_mongoose = () => {
 
 var init = () => {
   let dataPath = path.join(basePath, BACKEND_CONST.DATA_DIR);
+  let viewerConfPath;
   let fstat, needInitDB = true;
   try {
     fstat = fs.statSync(dataPath);
@@ -104,6 +106,38 @@ var init = () => {
     } else {
       console.log(err);
       throw new Error(err);
+    }
+  }
+
+  dataPath = path.resolve(basePath, BACKEND_CONST.VIEWER_EXEC_DIR_NAME);
+  try {
+    fstat = fs.statSync(dataPath);
+    if (fstat.isDirectory()) {
+      console.log(fs.readdirSync(dataPath).length);
+    }
+  } catch (err) {
+    if (err.code === 'ENOENT') {
+      try {
+        let viewerExecSource = path.resolve(basePath, BACKEND_CONST.BASE_DIR1, BACKEND_CONST.BASE_DIR2, BACKEND_CONST.VIEWER_EXEC_DIR_NAME);
+        copydir.sync(viewerExecSource, dataPath);
+        viewerConfPath = path.resolve(dataPath, BACKEND_CONST.VIEWER_CONF_DIR_NAME);
+        fstat = fs.statSync(viewerConfPath);
+        if (fstat.isDirectory()) {
+          console.log(fs.readdirSync(viewerConfPath).length);
+        }
+      } catch (err) {
+        if (err.code === 'ENOENT') {
+          try {
+            fs.mkdirSync(viewerConfPath);
+          } catch (err) {
+            throw err;
+          }
+        } else 
+          throw err;
+      }
+    } else {
+      console.log(err);
+      throw err;
     }
   }
 
@@ -149,13 +183,13 @@ var initDB = () => {
         let svr;
 
         svrClass = require('./services/legalentity.service');
-        svr = new svrClass('01.00.02');
+        svr = new svrClass('01.04.00');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/substance.service');
-        svr = new svrClass('01.00.02');
+        svr = new svrClass('01.04.00');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/toc.service');
-        svr = new svrClass('01.00.02');
+        svr = new svrClass('01.04.00');
         qAry.push(svr.initDbfromTestData());
         res(Q.all(qAry));
       }
@@ -197,7 +231,7 @@ ipc.on(SHARED_CONST.PICKLIST_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, functi
 });
 
 ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL, function (event, arg) {
-  let svr = new GhstsService(submissions, validateInsts, marshallers, unmarshallers);
+  let svr = new GhstsService(submissions, validateInsts, marshallers, unmarshallers, '01.04.00');
   let timestamp = arg.timestamp;
   if (lastMessageTimestamp === timestamp) {
     ghstsLogger.error('There are duplicatied message request');
@@ -239,7 +273,7 @@ ipc.on(SHARED_CONST.GHSTS_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, function 
 ipc.on(SHARED_CONST.APP_DATA_MSG_CHANNEL, function (event, arg) {
   if (!svrDisp)
     svrDisp = new ServiceDispatcher();
-  let svr = svrDisp.getService(arg.url);
+  let svr = svrDisp.getService(arg.url, '01.04.00');
   let method = 'edb_' + arg.method;
   let timestamp = arg.timestamp;
   if (lastMessageTimestamp === timestamp) {
@@ -261,7 +295,7 @@ ipc.on(SHARED_CONST.APP_DATA_MSG_CHANNEL + SHARED_CONST.EDB_IPC_SYNC_SUF, functi
   } else {
     if (!svrDisp)
       svrDisp = new ServiceDispatcher();
-    let svr = svrDisp.getServiceClass(arg.url);
+    let svr = svrDisp.getServiceClass(arg.url, '01.04.00');
     let method = 'edb_' + arg.method + 'Sync';
     event.returnValue = svr[method](arg.data);
   }
@@ -324,11 +358,14 @@ app.on('ready', function () {
   mainWindow.on('closed', function () {
     mainWindow = null;
   });
-  
-  mainWindow.loadURL('file://' + __dirname + '/renderer/index.html');
+
+  if (process.env.NODE_ENV === 'development')
+    mainWindow.loadURL('file://' + __dirname + '/../build/renderer/index.html');
+  else
+    mainWindow.loadURL('file://' + __dirname + '/renderer/index.html');
   mainWindow.webContents.on('did-finish-load', function () {
     // TODO: setTitle is being deprecated, find and use alternative
-    mainWindow.setTitle('eDossier Builder (V1.14.0)');
+    mainWindow.setTitle('eDossier Builder (V1.0.15)');
     //if (configure.env.toString().toUpper() == 'DEV'){
     // mainWindow.openDevTools();
   });

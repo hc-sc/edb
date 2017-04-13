@@ -9,6 +9,24 @@ export class GhstsService extends BaseService {
     super($q, GHSTS_MSG_CHANNEL);
   }
 
+  edb_openViewer(obj) {
+    let deffer = this.$q.defer();
+    if (window.ipcRenderer) {
+      let timestamp = performance.now().toString();
+      window.ipcRenderer.once(this.msgChannel + EDB_IPC_ASYNC_REPLAY_SUF + timestamp, (event, arg) => {
+        if (arg.err) {
+          deffer.reject(arg.err);
+        } else {
+          deffer.resolve(this.jsonClassfer(arg));
+        }
+      });
+      window.ipcRenderer.send(this.msgChannel, this._msg_envelope('openViewer', obj, timestamp));
+    } else {
+      deffer.reject('Error: Please run application in electron!');
+    }
+    return deffer.promise; 
+  }
+
   edb_package() {
     let deffer = this.$q.defer();
     if (window.ipcRenderer) {

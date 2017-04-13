@@ -1,5 +1,2 @@
-<md-chips ng-model='$ctrl.items' readonly='false' md-enable-chip-edit='true' placeholder='{{$ctrl.label}}' secondary-placeholder='{{$ctrl.label}}' md-enable-chip-edit='true' md-transform-chip='$ctrl.validateChip($chip)'>
-  <md-chip-template>
-    <span>{{$chip}}</span>
-  </md-chip-template>
+<md-chips ng-model='$ctrl.items' readonly='$ctrl.readonly' md-removable='$ctrl.removable' md-enable-chip-edit='true' placeholder='{{$ctrl.label}}' secondary-placeholder='{{$ctrl.label}}' md-transform-chip='$ctrl.validateChip($chip)'>
 </md-chips>

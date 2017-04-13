@@ -2,7 +2,7 @@ const PicklistService = require('../services/picklist.service');
 const _ = require('lodash');
 
 const metadataStatusdef = {
-  '01.00.02': {
+  '': {
     fields: {
       receiver: [],
       product: {},
@@ -30,7 +30,7 @@ class MetaDataStatusNode {
 class MetaDataStatusNodeWithRA {
   constructor(elementid, metadatastatusid, elementpath, receiverids, version) {
     this.elementid = elementid;
-    let ver = version ? version : '01.00.02';
+    let ver = version ? version : '';
     metadataStatusdef[ver].path[elementpath].map(item => {
       if (item.endsWith('ra')) {
         this[item] = [];
@@ -79,5 +79,26 @@ module.exports.MetaDataStatus = class MetaDataStatus {
         return item;
     });
     return retVal[0]._id.toString();
+  }
+
+  static updateMetadataStatus4NewSub(metadataValue, typename, keyname, changeto) {
+    let retVal = JSON.stringify(_.merge({}, metadataValue));
+    let mds = PicklistService.edb_getSync({TYPE_NAME: typename});
+    let newStr, searStr = []; 
+    
+    mds.map(md => {
+      if (md.value === changeto)
+        newStr = '"' + keyname + '":"' + md._id + '"';
+      else {
+        searStr.push('"' + keyname + '":"' + md._id + '"');
+      }
+    });
+    
+    searStr.map(ss => {
+      retVal = retVal.replace(new RegExp(ss, 'g'), newStr);
+    });
+
+    retVal = JSON.parse(retVal);
+    return retVal;
   }
 };

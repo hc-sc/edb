@@ -1,10 +1,11 @@
-
+const SHARED_CONST = require('../../constants/shared');
 // service.level.js
 module.exports = exports = function ServiceLevelPlugin(schema, options) {
+  let defState = (options.url === 'dossier') ? SHARED_CONST.DOSSIER_STATUS_OPEN : (options.url === 'submission') ? SHARED_CONST.SUBMISSION_STATUS_IN_PROGRESS : SHARED_CONST.STATUS_ACTIVE;
   schema.add({
     _url: { type: String, required: true, default: options.url },
-    _version: { type: String, required: true, default: '01.00.02' },
-    _state: { type: String, required: true, default: 'active' },
+    _version: { type: String, required: true, default: '' },
+    _state: { type: String, required: true, default: defState },
     _created: { type: Date, required: true, default: Date.now },
     _lastMod: Date,
     _updateFrom: { type: String }
