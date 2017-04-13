@@ -135,7 +135,7 @@ export const propNames_en = {
   'documentpid': 'Document PID',
   'documentfamilypid': 'Document Family PID',
   'documentfamily': 'Document Family',
-  'contentstatushistory': 'Content Status History',
+  'documentcontentstatushistory': 'Document Content Status History',
   'referenceddocument': 'Referenced Document',
   'referencetype': 'Reference Type',
   'internal': 'Internal',
@@ -154,7 +154,7 @@ export const propNames_en = {
   'documentvolume': 'Document Volume',
   'documentpages': 'Document Pages',
   'testlaboratory': 'Test Laboratory',
-  'gxpindicator': 'Gxp Indicator',
+  'gxpindicator': 'GXP Indicator',
   'testedonvertebrate': 'Tested on Vertebrate',
   'referencedtofile': 'Associated Files',
   'toFileId': 'File Name',
@@ -174,7 +174,7 @@ export const propNames_en = {
   'radocumentnumber': 'RA Document Number',
   'radocumentnumbertype': 'RA Document Number Type',
   'alreadysubmitted': 'Already Submitted',
-  'submissioncontext': 'Submission Context',
+  'dossiercontext': 'Dossier Context',
   'dossiernumber': 'Dossier Number'
   // 'toSpecificForRAId': 		    'To Specific For RA Id'
 
