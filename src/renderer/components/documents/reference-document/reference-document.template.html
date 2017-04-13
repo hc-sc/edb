@@ -15,6 +15,7 @@
       <div class='md-dialog-content'>
         <select-input 
             label='{{"referencetype" | translate}}' 
+            is-required='true'
             select-value='$ctrl.node.referencetype' 
             values='$ctrl.picklists.referenceTypeOptions' 
             on-update='$ctrl.update("referencetype", value)'>
@@ -35,15 +36,19 @@
         </text-input>
         <select-input-extensible 
                 label='{{"documentnumbertype" | translate}}' 
+                is-required='true'
                 select-value='$ctrl.node.documentnumber.documentnumbertype'         
                 on-update='$ctrl.updateSubArray("documentnumbertype", value, "documentnumber")'
                 values='$ctrl.picklists.documentNumberTypeOptions' 
                 type-name='EXTENSION_TYPE_DOCUMENT_NUMBER_TYPE' 
                 on-add='$ctrl.createPicklistItem("documentnumbertype", "documentNumberTypeOptions", value)'>
         </select-input-extensible>
-        <text-input label='{{"identifier" | translate}}' 
+        <text-input 
+            label='{{"identifier" | translate}}' 
+            is-required='true'
             text-value='$ctrl.node.documentnumber.identifier' 
-            on-update='$ctrl.updateSubArray("identifier", value, "documentnumber")' max-Length='25'>
+            on-update='$ctrl.updateSubArray("identifier", value, "documentnumber")' 
+            max-Length='25'>
         </text-input>
       </div>
     </md-dialog-content>
