@@ -22,6 +22,12 @@ table, tr, th, td {
   outline: none;
 }
 
+td {
+  color: rgba(0, 0, 0, 0.87);
+  font-size: 13px;
+  border-top: 1px rgba(0, 0, 0, 0.12) solid;
+}
+
 text-input.search-input {
   margin: 0;
 }
@@ -69,8 +75,21 @@ td.icon-cell .md-button {
 }
 
 /* the last icon cell in the table */
-.icon-cell +  :not(.icon-cell) {
+.icon-cell + :not(.icon-cell) {
   border-left: 1px solid rgba(0, 0, 0, 0.117647);
   margin-left: 10px !important;
 }
+
+tr.selected {
+  border-left: 2px solid $primary-color;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+tr.selected td {
+}
+
+tr.selected:hover {
+}
+
+
 

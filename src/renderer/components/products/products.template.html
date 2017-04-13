@@ -18,7 +18,7 @@
     <tbl ng-if='!$ctrl.loading' title='{{"productregulartoryauthorities" | translate}}' items='$ctrl.selected.productra' projection='[{name: "toSpecificForRAId", url: "receiver"}, "productname"]'
       on-select='$ctrl.selectTblItem("productra",index)' on-add='$ctrl.addTblItem("productra")' on-delete='$ctrl.deleteTblItem("productra",index)'></tbl>
 
-    <div style='z-index:100' class='float-bottom'>
+    <div class='float-bottom'>
       <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
         <md-tooltip>Save</md-tooltip>
         <md-icon md-svg-icon='save' class='light'></md-icon>

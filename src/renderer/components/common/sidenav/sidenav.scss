@@ -27,7 +27,7 @@ md-sidenav.custom-sidenav {
   }
 }
 
-.selected {
-  background-color: $primary-color;
+md-list-item.selected {
+  background-color: $primary-color-light;
   color: rgba(255,255,255,0.87);
 }
