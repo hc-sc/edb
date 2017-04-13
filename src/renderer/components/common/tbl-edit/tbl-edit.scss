@@ -1,0 +1,76 @@
+@import '../../../scss/constants';
+
+table {
+  word-wrap: break-word;
+}
+
+tbody > tr:hover {
+  background-color: $hover-color;
+  cursor: pointer;
+}
+
+.md-title {
+  overflow: hidden;
+  text-overflow: ellipsis
+}
+
+th:hover {
+  cursor: pointer;
+}
+
+table, tr, th, td {
+  outline: none;
+}
+
+text-input.search-input {
+  margin: 0;
+}
+
+div.table-container > md-card {
+  margin: 0 0 5px 0;
+  padding: 0;
+}
+
+div.table-container {
+  margin: 15px 0;
+  padding: 0;
+}
+
+table.md-table td.icon-cell {
+  border-top: 1px solid rgba(0, 0, 0, 0.117647);
+  width: 30px;
+}
+
+.table-sort-icon {
+  position: relative;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.sort-ascending, .sort-descending {
+  opacity: 1;
+  transition: transform 0.2s;
+}
+
+.sort-descending {
+  transform: rotate(180deg);
+  transition: transform 0.2s;
+}
+
+table.md-table:not(.md-row-select) th.md-column,
+table.md-table:not(.md-row-select) td.md-cell {
+  padding: 0 5px 0 5px !important;
+}
+
+td.icon-cell .md-button {
+  width: 28px;
+}
+
+/* the last icon cell in the table */
+.icon-cell +  :not(.icon-cell) {
+  border-left: 1px solid rgba(0, 0, 0, 0.117647);
+  margin-left: 10px !important;
+}
+

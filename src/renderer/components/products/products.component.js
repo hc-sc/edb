@@ -6,6 +6,7 @@ import BaseCtrl from '../common/base.controller';
 
 import Sidenav from '../common/sidenav/sidenav.component';
 import TextInput from '../common/text-input/text-input.component';
+import NumberInput from '../common/number-input/number-input.component';
 import SelectInput from '../common/select-input/select-input.component';
 import SelectInputExtensible from '../common/select-input-extensible/select-input-extensible.component';
 
@@ -16,6 +17,7 @@ export default angular.module('products', [
   ngMaterial,
   Sidenav,
   TextInput,
+  NumberInput,
   SelectInput,
   SelectInputExtensible,
   PicklistService,

@@ -114,7 +114,7 @@ export const propNames_en = {
   'formatcomment': 'Format Comment',
   'md5checksum': 'MD5 Checksum',
   'filename': 'Submission File Name',
-
+  'regulatoryauthority':'Regulatory Authority',
   'fileRA': 'Regulatory Authority File Information',
   //File RA
   'filecomment': 'File Comments',

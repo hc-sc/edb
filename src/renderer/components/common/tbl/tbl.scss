@@ -36,8 +36,9 @@ div.table-container {
   padding: 0;
 }
 
-table.md-table td.md-cell:last-child, table.md-table th.md-column:last-child {
-  width: 30px;
+table.md-table td.icon-cell {
+  padding: 1px;
+  border-top: 1px solid rgba(0, 0, 0, 0.117647);
 }
 
 .table-sort-icon {

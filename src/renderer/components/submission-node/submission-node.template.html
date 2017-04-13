@@ -1,7 +1,7 @@
 <section class='node-page'>
   <spinner ng-show='$ctrl.$scope.$root.loading'></spinner>
   <div class='no-margin no-padding' ng-show='!$ctrl.$scope.$root.loading'>
-    <text-input label='{{"submissiontitle" | translate}}' is-required='true' text-value='$ctrl.selected.submissiontitle' on-update='$ctrl.update("submissiontitle", value)' max-Length='255'></text-input>
+    <text-input label='{{"submissiontitle" | translate}}' is-required='true' text-value='$ctrl.selected.submissiontitle' on-update='$ctrl.update("submissiontitle", value)' max-Length='2000'></text-input>
     <text-input label='{{"submissionnumber" | translate}}' is-required='true' is-disabled='true' text-value='$ctrl.selected.submissionnumber'></text-input>
     <text-input label='{{"submissionversiondate" | translate}}' is-required='true' text-value='$ctrl.selected.submissionversiondate' on-update='$ctrl.update("submissionversiondate", value)'></text-input>
     <md-switch ng-model='$ctrl.selected.incremental' aria-label='{{"incremental" | translate}}' class='md-primary'>{{'incremental' | translate}}: {{$ctrl.selected.incremental}}</md-switch>

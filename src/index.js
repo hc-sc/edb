@@ -23,6 +23,7 @@ const fs = require('fs');
 const app = require('electron').app;
 const ipc = require('electron').ipcMain;
 const BrowserWindow = require('electron').BrowserWindow;
+const copydir = require('copy-dir');
 
 const _ = require('lodash');
 
@@ -96,6 +97,26 @@ var init = () => {
     if (err.code === 'ENOENT') {
       try {
         fstat = fs.mkdirSync(dataPath);
+      } catch (err) {
+        throw new Error(err);
+      }
+    } else {
+      console.log(err);
+      throw new Error(err);
+    }
+  }
+
+  dataPath = path.resolve(basePath, BACKEND_CONST.VIEWER_EXEC_DIR_NAME);
+  try {
+    fstat = fs.statSync(dataPath);
+    if (fstat.isDirectory()) {
+      console.log(fs.readdirSync(dataPath).length);
+    }
+  } catch (err) {
+    if (err.code === 'ENOENT') {
+      try {
+        let viewerExecPath = path.resolve(basePath, BACKEND_CONST.BASE_DIR1, BACKEND_CONST.BASE_DIR2, BACKEND_CONST.VIEWER_EXEC_DIR_NAME);
+        copydir.sync(viewerExecPath, dataPath);
       } catch (err) {
         throw new Error(err);
       }
@@ -337,8 +358,11 @@ app.on('ready', function () {
   mainWindow.on('closed', function () {
     mainWindow = null;
   });
-  
-  mainWindow.loadURL('file://' + __dirname + '/renderer/index.html');
+
+  if (process.env.NODE_ENV === 'development')
+    mainWindow.loadURL('file://' + __dirname + '/../build/renderer/index.html');
+  else
+    mainWindow.loadURL('file://' + __dirname + '/renderer/index.html');
   mainWindow.webContents.on('did-finish-load', function () {
     // TODO: setTitle is being deprecated, find and use alternative
     mainWindow.setTitle('eDossier Builder (V1.0.15)');
