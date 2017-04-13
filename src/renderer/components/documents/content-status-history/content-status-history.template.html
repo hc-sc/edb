@@ -2,7 +2,7 @@
   <form ng-cloak>
     <md-toolbar>
       <div class='md-toolbar-tools'>
-        <h2>{{"contentstatushistory" | translate}}</h2>
+        <h2>{{"documentcontentstatushistory" | translate}}</h2>
         <span flex></span>
         <md-button class='md-icon-button' ng-click='$ctrl.cancel()'>
           <md-icon md-svg-icon='close' aria-label='close dialog' class='light'></md-icon>
@@ -13,15 +13,15 @@
 
     <md-dialog-content>
        <div class='md-dialog-content'>
-         <select-input label='{{"contentstatus" | translate}}' 
-            select-value='$ctrl.node.contentstatus' 
+         <select-input label='{{"documentcontentstatushistory" | translate}}' 
+            select-value='$ctrl.node.documentcontentstatus' 
             values='$ctrl.picklists.contentStatusOptions' 
-            on-update='$ctrl.update("contentstatus", value)'>
+            on-update='$ctrl.update("documentcontentstatus", value)'>
          </select-input>
-        <text-input label='{{"submissionnumber" | translate}}' 
+        <!--<text-input label='{{"submissionnumber" | translate}}' 
             text-value='$ctrl.node.submissionnumber' 
             on-update='$ctrl.update("submissionnumber", value)'>
-        </text-input>
+        </text-input>-->
       </div>
     </md-dialog-content>
 

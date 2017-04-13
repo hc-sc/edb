@@ -21,14 +21,15 @@ import modelDocumentGeneric from '../view-models/gen/documentgeneric.json';
 import modelDocumentRA from '../view-models/gen/documentra.json';
 import modelDocumentNumber from '../view-models/gen/documentnumber.json';
 
-// import modelDocumentContentStatus from '../view-models/gen/contentstatushistory.json';
+// import modelDocumentContentStatusHistory from '../view-models/gen/documentcontentstatushistory.json';
+// import modelDocumentContentStatus from '../view-models/gen/documentcontentstatus.json';
 
 import modelReferencedDocument from '../view-models/gen/referenceddocument.json';
 import modelReLatedToSubstance from '../view-models/gen/relatedtosubstance.json';
 import modelReferencedToFile from '../view-models/gen/referencedtofile.json';
 import modelOtherNationalGuideLine from '../view-models/gen/othernationalguideline.json';
 
-// import modelSubmissionContext from '../view-models/gen/submissioncontext.json';
+import modelDossiercontext from '../view-models/gen/dossiercontext.json';
 
 import modelRaDocumentNumber from '../view-models/gen/radocumentnumber.json';
 
@@ -106,12 +107,12 @@ export default class ModelService {
 
       case 'radocumentnumber':
            model = _.merge({}, Object.assign(modelRaDocumentNumber.fields));
-           model.submissioncontext = [];
+           model.dossiercontext = [];
            return model;
 
 
-      // case 'submissioncontext':
-      //   return _.merge({}, Object.assign(modelSubmissionContext.fields));
+      case 'dossiercontext':
+        return _.merge({}, Object.assign(modelDossiercontext.fields));
 
 
       case 'documentgeneric.documentnumber':
@@ -121,9 +122,13 @@ export default class ModelService {
         return _.merge({}, Object.assign(modelDocumentNumber.fields));
 
 
-      // case 'documentgeneric.contentstatushistory':
+      // case 'documentgeneric.documentcontentstatushistory':
+      //     model = _.merge({}, Object.assign(modelDocumentContentStatusHistory.fields));
+      //     model.documentcontentstatus = [];
+      //     return model;
+     
+      // case 'documentcontentstatus':
       //   return _.merge({}, Object.assign(modelDocumentContentStatus.fields));
-
 
       case 'documentgeneric.referenceddocument':
           model =  _.merge({}, Object.assign(modelReferencedDocument.fields));
