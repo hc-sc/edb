@@ -101,18 +101,10 @@
         </md-toolbar>
         <md-list>
             <md-list-item ng-repeat= "owner in $ctrl.selected.documentgeneric.documentowner track by $index"  class="noright">
-<<<<<<< HEAD
-
-                    <text-input
-                            label='{{"documentowner" | translate}}'
-                            text-value='owner'
-=======
-
                     <text-input
                             label='{{"documentowner" | translate}}'
                             is-required='true'
                             text-value='owner'
->>>>>>> ef8813be4ecabceb96bbe85c0cd68f45eb6e5282
                             on-update='$ctrl.updateArrayGen("documentowner", $index, value)'
                             max-Length='2000'>
                     </text-input>
@@ -138,18 +130,10 @@
         </md-toolbar>
         <md-list>
             <md-list-item ng-repeat= "lab in $ctrl.selected.documentgeneric.testlaboratory track by $index"  class="noright">
-<<<<<<< HEAD
-
-                    <text-input
-                            label='{{"testlaboratory" | translate}}'
-                            text-value='lab'
-=======
-
                     <text-input
                             label='{{"testlaboratory" | translate}}'
                             is-required='true'
                             text-value='lab'
->>>>>>> ef8813be4ecabceb96bbe85c0cd68f45eb6e5282
                             on-update='$ctrl.updateArrayGen("testlaboratory", $index, value)'
                             max-Length='2000'>
                     </text-input>
