@@ -45,8 +45,8 @@ export default angular.module('tblEdit', [
         this.sortField = this.defaultSort ? this.defaultSort : '';
         this.reverse = this.defaultReverse ? true : false;
         this.deletable = this.deletable;
-        this.viewable = this.viewable || false;
-        this.editable = this.editable || false;
+        this.viewable = this.viewable;
+        this.editable = this.editable;
         this.search = false;
         this.searchText = '';
 
@@ -121,23 +121,33 @@ export default angular.module('tblEdit', [
               }
             }
 
+            // convert times
+            row = row.map(col => {
+              try {
+                let date = new Date(col);
+                if (date.toString() !== "Invalid Date" && !isNaN(date)) {
+                  col = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+                }
+                return col;
+              }
+
+              /* eslint-disable no-empty */
+              catch(e) {
+                console.log('errored');
+              }
+            });
+
             // need to append properties 'deletable', 'editable', 'viewable'
             row.deletable = item.deletable;
             row.editable = item.editable;
             row.viewable = item.viewable;
 
+            // show if it's selected
+            row.isSelected = item.isSelected;
+            // if (item._url === 'dossier') console.log(row, item);
+
             row.push(item['_id']);
 
-            // convert times
-            for (let col of row) {
-              try {
-                let date = Date.parseDate(col);
-                col = date.toUTCString();
-              }
-
-              /* eslint-disable no-empty */
-              catch(e) {}
-            }
             return row;
           });
         } else
@@ -200,8 +210,6 @@ export default angular.module('tblEdit', [
         else {
           return this.appDataService.edb_get({ _url: url })
             .then(results => {
-              // console.log(JSON.parse(results.data));
-
               return mappings;
             });
         }
