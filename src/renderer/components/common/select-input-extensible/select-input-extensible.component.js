@@ -41,6 +41,8 @@ export default angular.module('selectInputExtensible', [
 
     toggleAdd() {
       this.adding = !this.adding;
+      this.value = '';
+      this.valuedecode = '';
     }
 
     // update the database
