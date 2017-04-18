@@ -6,12 +6,23 @@ import template from './home.template';
 
 import Toolbar from '../common/toolbar/toolbar.component';
 import Tbl from '../common/tbl/tbl.component';
+import TblEdit from '../common/tbl-edit/tbl-edit.component';
 import Footer from '../common/footer/footer.component';
 import DossierService from '../../services/dossier.service';
 import { } from '../../services/ghsts.service';
 import { } from '../../services/app.data.service';
 import { GHSTS_NG_MODULE_NAME, APP_DATA_NG_MODULE_NAME, PICKLIST_NG_MODULE_NAME } from '../../../constants/shared';
 import newDossierTemplate from './new-dossier/new-dossier.template';
+import editSubmissionTemplate from'./edit-submission/edit-submission.template';
+import editDossierTemplate from './edit-dossier/edit-dossier.template';
+
+import {
+  DOSSIER_STATUS_OPEN,
+  DOSSIER_STATUS_CLOSED,
+  SUBMISSION_STATUS_IN_PROGRESS,
+  SUBMISSION_STATUS_PACKAGED,
+  SUBMISSION_STATUS_SENT
+} from '../../../constants/shared.js';
 
 export default angular.module('home', [
   uiRouter,
@@ -22,13 +33,15 @@ export default angular.module('home', [
   PICKLIST_NG_MODULE_NAME,
   Toolbar,
   Tbl,
+  TblEdit,
   Footer
 ])
   .component('home', {
     template,
     controller: class HomeCtrl {
-      constructor($mdDialog, $state, GhstsService, PicklistService, AppDataService) {
+      constructor($mdDialog, $mdToast, $state, GhstsService, PicklistService, AppDataService) {
         this.$mdDialog = $mdDialog;
+        this.$mdToast = $mdToast;
         this.$state = $state;
         this.GhstsService = GhstsService.getService();
         this.picklistService = PicklistService.getService();
@@ -46,10 +59,9 @@ export default angular.module('home', [
               dossier.productname = dossier.product[0].genericproductname;
               return dossier;
             });
-          this.results = this.dossiers.slice();
-          if (Array.isArray(this.dossiers) && this.dossiers.length > 0) {
-            this.selectDossier(this.dossiers[0]._id);
-          }
+          // if (Array.isArray(this.dossiers) && this.dossiers.length > 0) {
+          //   this.selectDossier(this.dossiers[0]._id);
+          // }
           return this.appDataService.edb_get({ _url: 'product' });
         })
           .then(products => {
@@ -58,17 +70,14 @@ export default angular.module('home', [
           })
           .then(toc => {
             this.toc = JSON.parse(toc.data);
+            this.setOptions();
           });
 
         this.toolbarItems = {
           navIcons: [
             { name: 'home', label: 'Home', state: 'splash' }
           ],
-          functionIcons: [
-          //  { name: 'globals', state: 'globals.legalEntities', label: 'Entities' },
-           // { name: 'settings', state: 'settings', label: 'Settings' },
-           // { name: 'help', label: 'Help', func: this.backend.bind(this) }
-          ]
+          functionIcons: []
         };
 
         this.dossierProjection = [
@@ -91,19 +100,47 @@ export default angular.module('home', [
         ];
       }
 
+      $onChanges() {
+        this.setOptions();
+      }
+
+      setOptions() {
+        this.dossiers = this.dossiers.map(dos => {
+          dos.deletable = this.canDeleteDossier(dos);
+          dos.editable = this.canEditDossier(dos);
+          dos.submission = dos.submission.map(sub => {
+            sub.deletable = this.canDeleteSubmission(sub);
+            sub.editable = this.canEditSubmission(sub);
+            sub.viewable = this.canViewSubmission(sub);
+            return sub;
+          });
+          return dos;
+        });
+
+        this.submissions = this.submissions.map(sub => {
+          sub.deletable = this.canDeleteSubmission(sub);
+          sub.editable = this.canEditSubmission(sub);
+          sub.viewable = this.canViewSubmission(sub);
+          return sub;
+        });
+      }
+
       selectDossier(id) {
         if (id) {
-          console.log(id);
           this.dossier = this.dossiers.filter(dossier => {
             return dossier._id === id;
           })[0];
+
+          // need to change selected, remember angular can't tell when
+          // objects are mutated beyond when the reference changes
+          this.dossiers = this.dossiers.map(dossier => {
+            dossier.isSelected = this.dossier._id === dossier._id ? true : false;
+            return dossier;
+          });
           this.submissions = this.dossier.submission.map(sub => {
             sub.packagetype = sub.incremental ? 'Incremental' : 'Full';
             sub.dossierdescriptiontitle = this.dossier.dossierdescriptiontitle;
             return sub;
-          });
-          this.submissions.sort((a, b) => {
-            return a.submissionnumber < b.submissionnumber ? 1 : a.submissionnumber > b.submissionnumber ? -1 : 0;
           });
         }
       }
@@ -153,7 +190,6 @@ export default angular.module('home', [
             let {dossiertitle, tocId, product} = name;
             if (dossiertitle && tocId && product) {
               this.GhstsService.edb_put(name).then(result => {
-                console.log(result.data);
                 this.$state.go('submission.submissionNode', {
                   dossierid: result.data.dossierid,
                   submissionid: result.data.submissionid,
@@ -166,37 +202,209 @@ export default angular.module('home', [
           });
       }
 
-      deleteDossier(index) {
-        this.dossiers = this.dossiers.slice(0, index).concat(this.dossiers.slice(index + 1, 0));
+      editDossier(index) {
+        if (!this.canEditDossier(this.dossiers[index])) return false;
+        const prompt = {
+          template: editDossierTemplate,
+          controller: class EditDossierCtrl {
+            constructor($mdDialog, statuses) {
+              this.$mdDialog = $mdDialog;
+              this.statuses = statuses;
+              this.status = '';
+            }
+
+            confirm() {
+              this.$mdDialog.hide({
+                status: this.status
+              });
+            }
+
+            cancel() {
+              this.$mdDialog.cancel();
+            }
+          },
+          controllerAs: '$ctrl',
+          locals: {
+            $mdDialog: this.$mdDialog,
+            statuses: this.getPossibleDossierStates(this.dossiers[index])
+          }
+        };
+
+        this.$mdDialog.show(prompt)
+        .then(selection => {
+          // send selection to update in backend
+          console.log(selection);
+        });
       }
 
-      selectSubmission(id, index) {
-        let status = this.submissions[index]._state.toLowerCase();
-        if (status === 'active' || status === 'reopen') {
-          this.$state.go('submission.submissionNode', {
-            dossierid: this.dossier._id,
-            submissionid: this.submissions[index]._id,
-            dossiertitle: this.dossier.dossierdescriptiontitle
-          });
-        } else {
-          let confirm = 
+      deleteDossier(index) {
+        if (this.canDeleteDossier(this.dossiers[index])) {
+          console.log('deleting');
+          // confirm backend deletes the item
+          // .then(() => {
+          //   this.dossiers = this.dossiers.slice(0, index).concat(this.dossiers.slice(index + 1));
+
+          //   if the dossier was selected, empty selection
+          // }
+          // .catch(() => {
+          //   this.$mdToast.show(
+          //     this.$mdToast.simple()
+          //     .textContent('Error in deleting')
+          //     .hideDelay(1200)
+          //   );
+          // });
+        }
+        else {
+          this.$mdToast.show(
+            this.$mdToast.simple()
+            .textContent('Cannot delete a dossier that has sent submissions')
+            .hideDelay(1200)
+          );
+        }
+      }
+
+      viewSubmission(index) {
+        if (this.canViewSubmission(this.submissions[index])) {
+          let confirm =
             this.$mdDialog.confirm()
               .title('Open packaged submission in Viewer')
-              .textContent('Please close opened Viewer application, and then click "VIEWER CLOSED" button to continue; or click "RETURN" button to cancel.')
-              .ok('VIEWER CLOSED')
-              .cancel('RETURN');
+              .textContent('The viewer must be closed to load properly')
+              .ok('View')
+              .cancel('Cancel');
           this.$mdDialog.show(confirm)
             .then(() => {
               this.GhstsService.edb_openViewer({submissionid: this.submissions[index]._id});
             });
         }
+        else {
+          this.$mdToast.show(
+            this.$mdToast.simple()
+            .textContent('Cannot view a submission that hasn\'t been packaged or Sent')
+            .hideDelay(1200)
+          );
+        }
+      }
+
+      deleteSubmission(index) {
+        if (this.canDeleteSubmission(this.submissions[index])) {
+          let confirm = this.$mdDialog.confirm()
+            .title('Confirm delete')
+            .textContent('Are you sure you want to delete this submission?')
+            .ok('Delete')
+            .cancel('Cancel');
+
+          this.$mdDialog.show(confirm)
+            .then(() => {
+              // delete on the backend first
+              return this.GhstsService.edb_delete({_url: 'submission', submissionId: this.submissions[index]._id, dossierId: this.dossier._id});
+            })
+            .then(ret => {
+              this.submissions = this.submissions.slice(0, index).concat(this.submissions.slice(index + 1));
+              this.$mdToast.show(
+                this.$mdToast.simple()
+                  .textContent('Deleted')
+                  .hideDelay(1200)
+              );
+            })
+            .catch(e => {
+              this.$mdToast.show(
+                this.$mdToast.simple()
+                  .textContent('Error in deleting')
+                  .hideDelay(1200)
+              );
+            });
+
+        }
+        else {
+          this.$mdToast.show(
+            this.$mdToast.simple()
+              .textContent('Cannot delete a submission that has been Sent')
+              .hideDelay(1200)
+          );
+        }
+      }
+
+      editSubmission(index) {
+        if (this.canEditSubmission(this.submissions[index])) {
+          // disable the statuses that you can't use
+          const prompt = {
+            template: editSubmissionTemplate,
+            controller: class EditSubmissionCtrl {
+              constructor($mdDialog, statuses) {
+                this.$mdDialog = $mdDialog;
+                this.statuses = statuses;
+                this.status = '';
+              }
+
+              confirm() {
+                this.$mdDialog.hide({
+                  status: this.status
+                });
+              }
+
+              cancel() {
+                this.$mdDialog.cancel();
+              }
+            },
+            controllerAs: '$ctrl',
+            locals: {
+              $mdDialog: this.$mdDialog,
+              statuses: this.getPossibleSubmissionStates(this.submissions[index])
+            }
+          };
+
+          this.$mdDialog.show(prompt)
+          .then(selection => {
+            // send selection to update in backend
+            if (selection.status === SUBMISSION_STATUS_SENT) {
+              let curGhsts = this.GhstsService.edb_getSync({_submissionid: this.submissions[0]._id})[0];
+              curGhsts._state = SUBMISSION_STATUS_SENT;
+              return this.GhstsService.edb_post(curGhsts);
+            } else
+              return Promise.reject();
+          })
+          .then(ret => {
+            this.submissions[index]._state = SUBMISSION_STATUS_SENT;
+            this.setOptions();
+            this.$mdToast.show(
+              this.$mdToast.simple()
+                .textContent('Submission status changed to sent!')
+                .hideDelay(1200)
+            );
+          })
+          .catch(err => {console.log(err);});
+        }
+        else {
+          this.$mdToast.show(
+            this.$mdToast.simple()
+              .textContent('Can only edit a submission that has been packaged')
+              .hideDelay(1200)
+          );
+        }
+      }
+
+      selectSubmission(id, index) {
+        const state = new RegExp(this.submissions[index]._state, 'i');
+        if (state.test(SUBMISSION_STATUS_IN_PROGRESS)) {
+          this.$state.go('submission.submissionNode', {
+            dossierid: this.dossier._id,
+            submissionid: this.submissions[index]._id,
+            dossiertitle: this.dossier.dossierdescriptiontitle
+          });
+        }
+        else {
+          this.$mdToast.show(
+            this.$mdToast.simple()
+              .textContent('Cannot open a packaged or sent submission')
+              .hideDelay(1200)
+          );
+        }
       }
 
       newSubmission() {
         // get new ghsts ids
-        // console.log(this.submissions);
         let state = this.submissions[0]._state.toLowerCase();
-        if (state === 'packaged' || state === 'sent') {
+        if (state === 'sent') {
           this.GhstsService.edb_put({ _url: 'ghsts', data: { dossierId: this.dossier._id, submissionid: this.submissions[0]._id } })
             .then(result => {
               this.$state.go('submission.submissionNode', {
@@ -205,8 +413,98 @@ export default angular.module('home', [
                 dossiertitle: result.data.dossiertitle
               });
             });
-        } else 
+        } else
           console.log(state);
+      }
+
+      // BUSINESS RULES FOR WORKFLOW
+
+      // can delete if in-progress or packaged
+      canDeleteSubmission(item) {
+        const state = new RegExp(item._state, 'i');
+        return (state.test(SUBMISSION_STATUS_IN_PROGRESS));
+      }
+
+      // if in-progress, will be set to packaged by packager
+      // if packaged, can set to sent or back to in-progress
+      // if sent, cannot change
+      canEditSubmission(item) {
+        const state = new RegExp(item._state, 'i');
+        return (state.test(SUBMISSION_STATUS_PACKAGED));
+      }
+
+      // can view submission if packaged or sent
+      canViewSubmission(item) {
+        const state = new RegExp(item._state, 'i');
+        return (state.test(SUBMISSION_STATUS_SENT) ||
+                state.test(SUBMISSION_STATUS_PACKAGED));
+      }
+
+      // can delete dossier if there are no sent submissions
+      canDeleteDossier(item) {
+        const state = new RegExp(item._state, 'i');
+
+        if (state.test(DOSSIER_STATUS_CLOSED)) return false;
+
+        const submissionState = new RegExp(SUBMISSION_STATUS_SENT, 'i');
+        for (let sub of item.submission) {
+          if (submissionState.test(sub._state)) return false;
+        }
+
+        return true;
+      }
+
+      // if dossier is open, can closed if all submissions are sent
+      // if dossier is closed, can open
+      canEditDossier(item) {
+        const state = new RegExp(item._state, 'i');
+        if (state.test(DOSSIER_STATUS_OPEN)) {
+          for (let sub of item.submission) {
+            if (sub._state !== SUBMISSION_STATUS_SENT) return false;
+          }
+        }
+        return true;
+      }
+
+      getPossibleDossierStates(item) {
+        const states = [];
+        if (item._state === DOSSIER_STATUS_CLOSED) {
+          states.push({label: DOSSIER_STATUS_CLOSED, disabled: false});
+          states.push({label: DOSSIER_STATUS_OPEN, disabled: false});
+        }
+        else if (item._state === DOSSIER_STATUS_OPEN) {
+          states.push({label: DOSSIER_STATUS_CLOSED, disabled: false});
+          states.push({label: DOSSIER_STATUS_OPEN, disabled: false});
+        }
+        return states;
+      }
+
+      getPossibleSubmissionStates(item) {
+        const states = [];
+
+        // if in progress, should not even be able to open edit modal,
+        // is handled by the package function
+        if (item._state === SUBMISSION_STATUS_IN_PROGRESS) {
+          states.push({label: SUBMISSION_STATUS_IN_PROGRESS, disabled: false});
+          states.push({label: SUBMISSION_STATUS_PACKAGED, disabled: false});
+          states.push({label: SUBMISSION_STATUS_SENT, disabled: false});
+        }
+
+        // if in packaged, can change back to in progress, or to sent
+        else if (item._state === SUBMISSION_STATUS_PACKAGED) {
+          states.push({label: SUBMISSION_STATUS_IN_PROGRESS, disabled: true});
+          states.push({label: SUBMISSION_STATUS_PACKAGED, disabled: false});
+          states.push({label: SUBMISSION_STATUS_SENT, disabled: false});
+        }
+
+        // if sent, should not even be able to open edit model
+        // in future, may be able to go back to packaged
+        else if (item._state === SUBMISSION_STATUS_SENT) {
+          states.push({label: SUBMISSION_STATUS_IN_PROGRESS, disabled: false});
+          states.push({label: SUBMISSION_STATUS_PACKAGED, disabled: false});
+          states.push({label: SUBMISSION_STATUS_SENT, disabled: false});
+        }
+        return states;
       }
 
       update(prop, value) {

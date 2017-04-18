@@ -28,7 +28,7 @@
 
     <tbl ng-if='!$ctrl.loading' title='{{"fileRA" | translate}}' items='$ctrl.selected.filera' projection='[{name: "toSpecificForRAId", url: "receiver"}, "cbidesignation", "filecomment"]'
       on-select='$ctrl.selectTblItem("filera",index)' on-delete='$ctrl.deleteTblItem("filera",index)' on-add='$ctrl.addTblItem("filera")' min-items='1'></tbl>
-    <div style='z-index:100' class='float-bottom'>
+    <div class='float-bottom'>
       <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
         <md-tooltip>Save</md-tooltip>
         <md-icon md-svg-icon='save' class='light'></md-icon>

@@ -1,8 +1,8 @@
-<md-dialog aria-label='ingredient' flex='80'>
+<md-dialog aria-label='edit submission' flex='80'>
   <form ng-cloak>
     <md-toolbar>
       <div class='md-toolbar-tools'>
-        <h2>{{"substance" | translate}}</h2>
+        <h2>Edit Submission</h2>
         <span flex></span>
         <md-button class='md-icon-button' ng-click='$ctrl.cancel()'>
           <md-icon md-svg-icon='close' aria-label='close dialog' class='light'></md-icon>
@@ -12,15 +12,14 @@
     </md-toolbar>
 
     <md-dialog-content>
-      <div class='md-dialog-content'>
-        <select-input 
-            label='{{"substance" | translate}}' 
-            is-required='true'
-            main='substancename' 
-            select-value='$ctrl.node.toSubstanceId' 
-            values='$ctrl.substances' 
-            on-update='$ctrl.update("toSubstanceId", value)'></select-input>
-          </div>
+      <div class='md-dialog-content' layout='row'>
+        <md-input-container flex>
+          <label>Status</label>
+          <md-select ng-model='$ctrl.status' required flex>
+            <md-option ng-repeat='option in $ctrl.statuses' ng-value='option.label' ng-disabled='option.disabled'>{{option.label | translate}}</md-option>
+          </md-select>
+        </md-input-container>
+      </div>
     </md-dialog-content>
 
     <md-dialog-actions layout='row'>

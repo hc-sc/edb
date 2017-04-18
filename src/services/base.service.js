@@ -442,12 +442,14 @@ module.exports = class BaseService {
               retVal[key] = PickListService.toJsonix(retVal[key]);
             }
           } else if (retVal[key]) { //this is not picklist item
-            if (Array.isArray(retVal[key])) {
-              let subRet = self._get_xml_jsonix(retVal[key]);
-              retVal[key] = subRet;
-            } else if (typeof retVal[key] === 'object') {
-              retVal[key] = self._get_xml_jsonix(retVal[key]);
-            } 
+            if (key !== 'documentcontentstatushistory') {
+              if (Array.isArray(retVal[key])) {
+                let subRet = self._get_xml_jsonix(retVal[key]);
+                retVal[key] = subRet;
+              } else if (typeof retVal[key] === 'object') {
+                retVal[key] = self._get_xml_jsonix(retVal[key]);
+              } 
+            }
           }
         }
       });

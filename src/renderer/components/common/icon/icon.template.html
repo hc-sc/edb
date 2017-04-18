@@ -1,5 +1,5 @@
 <md-button class='md-icon-button' aria-label='{{ $ctrl.icon.label }}'>
-  <md-tooltip>{{ $ctrl.icon.label }}</md-tooltip>
-  <md-icon md-svg-icon='{{ $ctrl.icon.name }}' class='light {{ $ctrl.icon.color }}'>
+  <md-tooltip>{{ $ctrl.label || $ctrl.icon.label }}</md-tooltip>
+  <md-icon md-svg-icon='{{ $ctrl.name || $ctrl.icon.name }}' ng-class='[{disabled: $ctrl.disabled}, {light: $ctrl.color === "light" || $ctrl.icon.color  === "light" || true}, {dark:  $ctrl.color === "dark" || $ctrl.icon.color === "dark"}]'>
   </md-icon>
 </md-button>
