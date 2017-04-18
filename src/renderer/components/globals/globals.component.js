@@ -31,8 +31,8 @@ export default angular.module('globals', [
         { title: 'Receivers', state: 'globals.receivers' },
         { title: 'Substances', state: 'globals.substances' },
         { title: 'Products', state: 'globals.products' },
-        // { title: 'Files', state: 'globals.files' },
-        // { title: 'Documents', state: 'globals.documents' },
+        { title: 'Files', state: 'globals.files' },
+        { title: 'Documents', state: 'globals.documents' },
         { title: 'Picklists', state: 'globals.picklists' }
       ];
     }
