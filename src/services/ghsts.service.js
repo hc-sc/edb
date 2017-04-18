@@ -1061,7 +1061,9 @@ module.exports = class GhstsService extends BaseService {
               _product: obj.product,
               _foldername: obj.dossiertitle,
               _tocid: obj.tocId,
-              _documentcontenthistory: {}
+              _documentcontenthistory: {},
+              _metadatastatus: {},
+              _version: self._version ? self._version : '01.04.00'
             };
           } else if (obj.dossierId) { //create submission other than 01
             dossObj = _.merge({}, DossierService.edb_getSync({
@@ -1121,7 +1123,10 @@ module.exports = class GhstsService extends BaseService {
               prodObj = JSON.parse(prodRet.data);
               if (obj.product)
                 ghstsObj._foldername = prodObj.genericproductname + BACKEND_CONST.PRODUCT_DOSSIER_FOLDER_CONTACT_SYMBOL + ghstsObj._foldername;
-              return super._create(ghstsObj);
+              if (obj.dossierId)
+                return super._create(ghstsObj);
+              else
+                return self._create(ghstsObj);
             })
             .then(ghstsRet => {
               self.ghsts[0] = JSON.parse(ghstsRet.data);
