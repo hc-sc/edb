@@ -70,8 +70,13 @@ table.md-table:not(.md-row-select) td.md-cell {
   padding: 0 5px 0 5px !important;
 }
 
+td.icon-cell {
+  text-align: center;
+}
+
 td.icon-cell .md-button {
   width: 28px;
+  padding: 2px;
 }
 
 /* the last icon cell in the table */
@@ -89,6 +94,10 @@ tr.selected td {
 }
 
 tr.selected:hover {
+}
+
+td {
+  padding: 5px;
 }
 
 
