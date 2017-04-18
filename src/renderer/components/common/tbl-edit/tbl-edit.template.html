@@ -41,7 +41,7 @@
             <td ng-show='$ctrl.viewable' class='icon-cell'>
               <icon icon='$ctrl.viewIcon' ng-click='$ctrl.view(row.index)' disabled='!row.viewable || false' color='row.isSelected ? dark : light'></icon>
             </td>
-            <td ng-repeat='data in row track by $index' ng-if='!$last' ng-click='$ctrl.select(row[row.length - 1], row.index)'>{{$ctrl.getData(data, $index)}}</td>
+            <td ng-repeat='data in row track by $index' ng-if='!$last' ng-click='$ctrl.select(row[row.length - 1], row.index)'>{{$ctrl.getData(data, $index) | translate}}</td>
           </tr>
         </tbody>
       </table>
