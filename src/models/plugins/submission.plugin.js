@@ -1,4 +1,3 @@
-
 module.exports = exports = function SubmissionPlugin(schema, options) {
   schema.remove(['submissionversiondate', 'incremental']);
   schema.add({
