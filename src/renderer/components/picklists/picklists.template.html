@@ -10,9 +10,9 @@
     </md-toolbar>
     <md-content layout-padding ng-show='item.showing'>
       <md-list class='picklist'>
-        <md-list-item ng-repeat='subitem in item.items' ng-click='$ctrl.toggleItem(subitem)'>
+        <md-list-item ng-repeat='subitem in item.items | orderBy:"valuedecode":false:$ctrl.localeSensitiveComparator' ng-click='$ctrl.toggleItem(subitem)'>
           <p>{{subitem.valuedecode}}</p>
-          <!-- do not delete!!! Hide by Jamie's request, will reopen when we are able to handle the changes later on, 
+          <!-- do not delete!!! Hide by Jamie's request, will reopen when we are able to handle the changes later on,
           <md-checkbox class='md-primary' ng-show='subitem.isExt' ng-checked='subitem._state === "active"' ng-click='$ctrl.toggleItem(subitem)'></md-checkbox>
           -->
         </md-list-item>
