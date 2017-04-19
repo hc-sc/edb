@@ -26,11 +26,9 @@ export default angular.module('picklists', [
       this.promoteItems();
       this.$scope = $scope;
       this.$scope.$root.loading = false;
-      console.log(this.items);
     }
 
     localeSensitiveComparator(a, b) {
-      console.log(a, b);
       return a.value.localeCompare(b.value);
     }
 
