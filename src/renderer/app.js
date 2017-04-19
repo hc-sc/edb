@@ -35,6 +35,7 @@ import translations from './config/app.translations';
 
 import 'angular-material/angular-material.scss';
 import 'angular-material-data-table/dist/md-data-table.css';
+import './scss/fonts.scss';
 import './scss//main.scss';
 
 angular.module('app', [

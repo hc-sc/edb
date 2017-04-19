@@ -3,8 +3,9 @@ splash, splash > div {
   padding: 0;
 }
 
-div {
-  // background-image: url();
+splash {
+  background: url('../../img/pmra_green_leaf.svg') no-repeat center center fixed;
+  background-size: cover;
 }
 
 md-card.button {
@@ -32,9 +33,10 @@ md-card.button {
 
 .splash-wrapper > .title {
   flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 10px;
+  display: block;
+  margin: auto;
+  text-align: center;
 }
 
 .splash-wrapper > .cards {
@@ -46,6 +48,13 @@ p.status {
   position: absolute;
   bottom: 0;
   left: 10px;
+}
+
+p.status md-icon {
+  vertical-align: text-bottom;
+  width: 1.2em;
+  height: 1.2em;
+  margin: 0 5px;
 }
 
 .cards {

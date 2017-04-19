@@ -32,5 +32,8 @@ export default function($mdIconProvider) {
   .icon('description', `${IMG_DIR}description${SUF}`)
   .icon('status', `${IMG_DIR}cached${SUF}`)
   .icon('send', `${IMG_DIR}send${SUF}`)
-  .icon('folder', `${IMG_DIR}folder_open${SUF}`);
+  .icon('folder', `${IMG_DIR}folder_open${SUF}`)
+
+  .icon('pmra_green', `img/pmra_green_leaf.svg`)
+  .icon('pmra_white', `img/pmra_white_leaf.svg`);
 }
