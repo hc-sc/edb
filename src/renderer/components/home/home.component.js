@@ -71,6 +71,8 @@ export default angular.module('home', [
           .then(toc => {
             this.toc = JSON.parse(toc.data);
             this.setOptions();
+
+            console.log(this.dossiers);
           });
 
         this.toolbarItems = {
@@ -142,6 +144,9 @@ export default angular.module('home', [
             sub.dossierdescriptiontitle = this.dossier.dossierdescriptiontitle;
             return sub;
           });
+            console.log(this.dossier)
+            console.log(this.submissions);
+
         }
       }
 
@@ -233,7 +238,8 @@ export default angular.module('home', [
         this.$mdDialog.show(prompt)
         .then(selection => {
           // send selection to update in backend
-          console.log(selection);
+
+          this.setOptions();
         });
       }
 
@@ -454,7 +460,7 @@ export default angular.module('home', [
         return true;
       }
 
-      // if dossier is open, can closed if all submissions are sent
+      // if dossier is open and all submissions are sent can close
       // if dossier is closed, can open
       canEditDossier(item) {
         const state = new RegExp(item._state, 'i');
@@ -462,8 +468,10 @@ export default angular.module('home', [
           for (let sub of item.submission) {
             if (sub._state !== SUBMISSION_STATUS_SENT) return false;
           }
+          console.log('here');
+          return true;
         }
-        return true;
+        return false;
       }
 
       getPossibleDossierStates(item) {

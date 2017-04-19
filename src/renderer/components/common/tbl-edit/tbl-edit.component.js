@@ -1,6 +1,7 @@
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import mdTable from 'angular-material-data-table';
+import moment from 'moment';
 import template from './tbl-edit.template';
 
 import Toolbar from '../toolbar/toolbar.component';
@@ -124,9 +125,17 @@ export default angular.module('tblEdit', [
             // convert times
             row = row.map(col => {
               try {
-                let date = new Date(col);
-                if (date.toString() !== "Invalid Date" && !isNaN(date)) {
-                  col = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+                // let date = new Date('YYYY-MM-DD', col);
+                // let yyymmdd = new RegExp(/\d{4}-\d{2}-\d{2}/);
+                // let utctime = new RegExp(/\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2})?/)
+                // console.log(date);
+                // if (date.toString() !== "Invalid Date" && !isNaN(date)) {
+                //   console.log(col, typeof col);
+                //   col = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+                // }
+                let date = moment(col, moment.ISO_8601, true);
+                if (date._isValid) {
+                  col = date.format('YYYY-MM-DD');
                 }
                 return col;
               }

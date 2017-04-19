@@ -1,0 +1,38 @@
+div.card {
+  position: relative;
+  display: inline-block;
+  font-weight: 700;
+  font-size: 1.075rem;
+  border: 2px solid rgba(0, 0, 0, 0.5);
+  text-align: center;
+  width: 38%;
+  height: 200px;
+  min-width: 200px;
+  max-width: 300px;
+  max-height: 300px;
+  margin: 5px;
+  transition: background 0.1s ease, box-shadow 0.2s ease-in-out;
+}
+
+div.card:hover {
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.11);
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3);
+  transition: background 0.1s ease, box-shadow 0.2s ease-in-out;
+}
+
+div.card > p {
+  margin: 0;
+  padding: 5px;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-150%);
+}
+
+div.card md-icon {
+  display: block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(50%);
+}
