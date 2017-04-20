@@ -161,11 +161,29 @@ export default class BaseCtrl {
           this.selectedIndex = -1;
           this.selected = angular.copy(this.getModel(prop));
           this.oriSelected = _.merge({}, this.selected);
+          this.selectPID(prop,this.selected);
           this.showMessage('Adding a new record.');
         });
     }
   }
-
+selectPID(prop,selected){
+  let generatedPID=this.getPid();
+  if(prop=='substance'){
+     selected.substancepid=generatedPID;
+  }else if(prop=='file'){
+    selected.filegeneric.filepid=generatedPID;
+  }else if(prop=='product'){
+    selected.productpid=generatedPID;
+  }else if(prop=='legalentity'){
+    selected.legalentitypid=generatedPID;
+  }else if(prop=='document'){
+    selected.documentgeneric.documentpid=generatedPID;
+    selected.documentgeneric.documentfamilypid=this.getPid();
+  }
+  else{
+    console.log(prop+" doesn't have PID, do nothing.");
+  }
+}
   // update an item in the database
   save() {
     if (!this.dialogOpen) {
