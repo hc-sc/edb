@@ -26,8 +26,8 @@ export default angular.module('tree', [
       // tocnode - subnodes for this node
       this.$mdDialog = $mdDialog;
       this.$mdToast = $mdToast;
-      this.expandIcon = {name: 'down', color: 'dark', label: 'Expand'};
-      this.collapseIcon = {name: 'right', color: 'dark', label: 'Collapse'};
+      this.expandIcon = {name: 'down', color: 'dark', label: 'Collapse'};
+      this.collapseIcon = {name: 'right', color: 'dark', label: 'Expand'};
       this.addIcon = {name: 'add', color: 'dark', label: 'Add Document'};
       this.documentIcon = {name: 'description', color: 'dark', label: 'Document'};
       this.deleteIcon = {name: 'delete', color: 'dark', label: 'Delete Document'};

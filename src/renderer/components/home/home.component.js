@@ -146,12 +146,11 @@ export default angular.module('home', [
             return dossier;
           });
           this.submissions = this.dossier.submission.map(sub => {
+            console.log('in select dossier');
             sub.packagetype = sub.incremental ? 'Incremental' : 'Full';
             sub.dossierdescriptiontitle = this.dossier.dossierdescriptiontitle;
             return sub;
           });
-            console.log(this.dossier)
-            console.log(this.submissions);
         }
         this.shouldShowSubmissions();
       }
@@ -321,7 +320,15 @@ export default angular.module('home', [
               // delete on the backend first
               return this.GhstsService.edb_delete({_url: 'submission', submissionId: this.submissions[index]._id, dossierId: this.dossier._id});
             })
-            .then(ret => {
+            .then(() => {
+              this.dossiers.forEach(dos => {
+                if (dos._id === this.dossier._id) {
+                  dos.submission = dos.submission.filter(sub => {
+                    console.log(this.submissions[index]);
+                    return (sub._id === this.submissions[index]._id) ? false : true;
+                  });
+                }
+              });
               this.submissions = this.submissions.slice(0, index).concat(this.submissions.slice(index + 1));
               this.$mdToast.show(
                 this.$mdToast.simple()
@@ -329,7 +336,8 @@ export default angular.module('home', [
                   .hideDelay(1200)
               );
             })
-            .catch(e => {
+            .catch(err => {
+              console.log(err);
               this.$mdToast.show(
                 this.$mdToast.simple()
                   .textContent('Error in deleting')
