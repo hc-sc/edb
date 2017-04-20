@@ -34,13 +34,21 @@ const common = {
         include: path.join(PATHS.src, 'components'),
         loader: 'html'
       },
+      // {
+      //   test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+      //   loader: 'url?limit=10000&mimetype=application/font-woff'
+      // },
+      // {
+      //   test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+      //   loader: 'file'
+      // }
       {
-        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: 'url?limit=10000&mimetype=application/font-woff'
+        test: /\.(woff2?|ttf|eot)$/,
+        loader: 'file-loader'
       },
       {
-        test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: 'file'
+        test: /\.(jpe?g|png|gif|svg)$/,
+        loader: 'file-loader'
       }
     ]
   },
