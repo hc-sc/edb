@@ -1,4 +1,7 @@
 const BaseService = require('./base.service');
+const Q = require('bluebird');
+const ProductService = require('./product.service');
+const _ = require('lodash');
 
 module.exports = class DossierService extends BaseService {
   constructor(version) {
@@ -7,7 +10,37 @@ module.exports = class DossierService extends BaseService {
     this.referencedBy = {refName: 'product', field: 'dossier'};
     this.pidField = 'dossierpid';
   }
+  
+  edb_post(obj) {
+    let dossierInDB = DossierService.edb_getSync({_id: obj._id})[0];
+    if (dossierInDB._state === obj._state)
+      return super.edb_post(obj);
+    else 
+      return this._change_state(obj);
+  }
+
+  _change_state(obj) {
+    return new Q((res, rej) => {
+      let self = this;
+      let curProd = _.merge({}, obj.product[0]);
+      let proSvr = new ProductService(self.version);
+      obj.product[0] = obj.product[0]._id;
+
+      curProd.dossier = 'null';
+      super.edb_post(obj)
+      .then(() => {
+        return proSvr.edb_post(curProd);
+      })
+      .then(proRet => {
+        res(proRet);
+      })
+      .catch(err => {
+        rej(err);
+      });
+    });
+  }
 };
+
 /*
   getDossiers() {
     let deferred = this.$q.defer();

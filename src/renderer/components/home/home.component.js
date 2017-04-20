@@ -164,7 +164,7 @@ export default angular.module('home', [
               this.$mdDialog = $mdDialog;
               this.dossiertitle;
               this.products = products.filter(product => {
-                if (!product.dossier || typeof product.dossier !== 'string')
+                if (!product.dossier || typeof product.dossier !== 'string' || product.dossier === 'null')
                   return product;
               });
               this.product;
@@ -243,8 +243,17 @@ export default angular.module('home', [
 
         this.$mdDialog.show(prompt)
         .then(selection => {
-          // send selection to update in backend
-          // !!!!JUN TASK
+          this.dossiers[index]._state = selection.status;
+          return this.appDataService.edb_post(this.dossiers[index]);
+        })
+        .then(ret => {
+          let curProd = JSON.parse(ret.data);
+          for (let i = 0; i < this.products.length; i++) {
+            if (this.products[i]._id === curProd._id) {
+              this.products[i] = curProd;
+              break;
+            }
+          }
           this.setOptions();
         });
       }
