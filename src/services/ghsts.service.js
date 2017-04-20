@@ -1053,6 +1053,7 @@ module.exports = class GhstsService extends BaseService {
             dossObj = {
               dossierdescriptiontitle: obj.dossiertitle,
               product: obj.product,
+              _tocId: obj.tocId,
               submission: []
             };
             ghstsObj = {
@@ -1069,31 +1070,48 @@ module.exports = class GhstsService extends BaseService {
             dossObj = _.merge({}, DossierService.edb_getSync({
               _id: obj.dossierId
             })[0]);
-            ghstsObj = _.merge({}, GhstsService.edb_getSync({
-              _submissionid: obj.submissionid
-            })[0]);
-            delete ghstsObj.__v;
-            delete ghstsObj._created;
-            delete ghstsObj._id;
-            delete ghstsObj._lastMod;
-            delete ghstsObj.id;
-            delete ghstsObj._state;
-            if (!ghstsObj._documentcontenthistory)
-              ghstsObj._documentcontenthistory = {};
+            if (!obj.submissionid) { //create submission 01 for existing dossier
+              subObj = {
+                submissionnumber: '01',
+                _version: self._version ? self._version : '01.04.00'
+              };
+              ghstsObj = {
+                _submissionid: '',
+                _submissionnumber: 1,
+                _product: dossObj.product[0],
+                _foldername: dossObj.dossiertitle,
+                _tocid: dossObj._tocId,
+                _documentcontenthistory: {},
+                _metadatastatus: {},
+                _version: self._version ? self._version : '01.04.00'
+              };
+            } else { //create submission other than 01
+              ghstsObj = _.merge({}, GhstsService.edb_getSync({
+                _submissionid: obj.submissionid
+              })[0]);
+              delete ghstsObj.__v;
+              delete ghstsObj._created;
+              delete ghstsObj._id;
+              delete ghstsObj._lastMod;
+              delete ghstsObj.id;
+              delete ghstsObj._state;
+              if (!ghstsObj._documentcontenthistory)
+                ghstsObj._documentcontenthistory = {};
 
-            let prevSubObj = SubmissionService.edb_getSync({
-              _id: obj.submissionid
-            })[0];
-            subObj = {
-              _version: self._version ? self._version : '01.04.00'
-            };
-            ghstsObj._submissionnumber++;
-            subObj.submissionnumber = ghstsObj._submissionnumber.toString();
-            if (subObj.submissionnumber.length === 1) subObj.submissionnumber = '0' + subObj.submissionnumber;
-            subObj.submissiontitle = prevSubObj.submissiontitle.replace(prevSubObj.submissionnumber, '') + subObj.submissionnumber;
-            ghstsObj._metadatastatus = MetaDataStatus.updateMetadataStatus4NewSub(ghstsObj._metadatastatus, 'TYPE_METADATA_STATUS', 'metadatastatusid', 'No Change');
-            ghstsObj._toc2docs = MetaDataStatus.updateMetadataStatus4NewSub(ghstsObj._toc2docs, 'TYPE_NODE_ASSIGNMENT_STATUS', 'nodeassignmentstatusId', 'No Change');
-            GhstsService.updateDocContentStatus4NewSub(ghstsObj._documentcontenthistory, 'TYPE_DOCUMENT_CONTENT_STATUS', subObj.submissionnumber, ghstsObj._document);
+              let prevSubObj = SubmissionService.edb_getSync({
+                _id: obj.submissionid
+              })[0];
+              subObj = {
+                _version: self._version ? self._version : '01.04.00'
+              };
+              ghstsObj._submissionnumber++;
+              subObj.submissionnumber = ghstsObj._submissionnumber.toString();
+              if (subObj.submissionnumber.length === 1) subObj.submissionnumber = '0' + subObj.submissionnumber;
+              subObj.submissiontitle = prevSubObj.submissiontitle.replace(prevSubObj.submissionnumber, '') + subObj.submissionnumber;
+              ghstsObj._metadatastatus = MetaDataStatus.updateMetadataStatus4NewSub(ghstsObj._metadatastatus, 'TYPE_METADATA_STATUS', 'metadatastatusid', 'No Change');
+              ghstsObj._toc2docs = MetaDataStatus.updateMetadataStatus4NewSub(ghstsObj._toc2docs, 'TYPE_NODE_ASSIGNMENT_STATUS', 'nodeassignmentstatusId', 'No Change');
+              GhstsService.updateDocContentStatus4NewSub(ghstsObj._documentcontenthistory, 'TYPE_DOCUMENT_CONTENT_STATUS', subObj.submissionnumber, ghstsObj._document);
+            }
           }
           subSvr._create(subObj)
             .then(subRet => {
@@ -1123,7 +1141,7 @@ module.exports = class GhstsService extends BaseService {
               prodObj = JSON.parse(prodRet.data);
               if (obj.product)
                 ghstsObj._foldername = prodObj.genericproductname + BACKEND_CONST.PRODUCT_DOSSIER_FOLDER_CONTACT_SYMBOL + ghstsObj._foldername;
-              if (obj.dossierId)
+              if (obj.dossierId && obj.submissionid)
                 return super._create(ghstsObj);
               else
                 return self._create(ghstsObj);
