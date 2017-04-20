@@ -11,6 +11,27 @@ module.exports = class DossierService extends BaseService {
     this.pidField = 'dossierpid';
   }
   
+  edb_delete(id) {
+    return new Q((res, rej) => {
+      let self = this;
+      let dossierInDB = DossierService.edb_getSync({_id: id})[0];
+      let curProd = _.merge({}, ProductService.edb_getSync({_id: dossierInDB.product[0]})[0]);
+      let proSvr = new ProductService(self.version);
+      curProd.dossier = 'null';
+
+      super.edb_delete(id)
+      .then(() => {
+        return proSvr.edb_post(curProd)
+      })
+      .then(proRet => {
+        res(proRet);
+      })
+      .catch(err =>{
+        rej(err);
+      });
+    });
+  }
+
   edb_post(obj) {
     let dossierInDB = DossierService.edb_getSync({_id: obj._id})[0];
     if (dossierInDB._state === obj._state)
