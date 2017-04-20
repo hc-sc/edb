@@ -29,7 +29,7 @@ module.exports = class PickListService extends BaseService {
         .then(rets => {
           let data = JSON.parse(rets.data);
           data.sort((a, b) => {
-            return a.lowvaluedecode < b.lowvaluedecode ? -1 : a.lowvaluedecode > b.lowvaluedecode ? 1 : 0;
+            return a.lowvaluedecode.localeCompare(b.lowvaluedecode);
           });
           res(new RVHelper('EDB00000', JSON.stringify(data)));
         })
