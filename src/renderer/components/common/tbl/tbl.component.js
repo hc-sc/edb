@@ -28,7 +28,8 @@ export default angular.module('tbl', [
       deletable: '@',
       onSelect: '&',
       onAdd: '&',
-      onDelete: '&'
+      onDelete: '&',
+      canAdd: '<'
     },
     controller: class TableCtrl {
       constructor(AppDataService, PicklistService) {
@@ -117,7 +118,7 @@ export default angular.module('tbl', [
             row.push(item['_id']);
             return row;
           });
-        } else 
+        } else
           this.rows = [];
       }
 
