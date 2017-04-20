@@ -61,7 +61,7 @@ export const propNames_en = {
   'dossierdescriptiontitle': 'Dossier Title',
   'dossierpid': 'Dossier PID',
   'dossiercompid': 'Company Dossier ID',
-  'dossierregulartoryauthorities': 'Regulatory Authority Dossier Type',
+  'dossierregulartoryauthorities': 'Regulatory Authority Dossier Type*',
   'referenceddossier': 'Referenced Dossier',
   'referenceddossiers': 'Referenced Dossiers',
   'referenceddossierreason': 'Reference Dossier Reason',
@@ -117,12 +117,12 @@ export const propNames_en = {
   'md5checksum': 'MD5 Checksum',
   'filename': 'Submission File Name',
   'regulatoryauthority':'Regulatory Authority',
-  'fileRA': 'Regulatory Authority File Information',
+  'fileRA': 'Regulatory Authority File Information*',
   //File RA
   'filecomment': 'File Comments',
   'cbidesignation': 'CBI Designation',
   //receivers
-  'receivers': 'Receivers',
+  'receivers': 'Receivers*',
   'legalentity': 'Legal Entity',
   'shortname': 'Short Name',
   'role': 'Role',
