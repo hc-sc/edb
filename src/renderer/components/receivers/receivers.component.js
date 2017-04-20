@@ -162,7 +162,6 @@ export default angular.module('receiver', [
           .catch(err => console.error(err));
       }
 
-      // MAKE SURE IT'S ACTUALLY DELETED IN THE DB
       deleteSender(index) {
         this.senders = [...this.senders.slice(0, index), ...this.senders.slice(index + 1)];
         this.updateGhstsReceiver();
