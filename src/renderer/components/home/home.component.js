@@ -48,6 +48,7 @@ export default angular.module('home', [
         this.appDataService = AppDataService.getService();
         this.dossiers = [];
         this.dossierTitle;
+        this.hasSelection = false;
         this.supportedversions = [{
           _id: '',
           valuedecode: ''
@@ -106,6 +107,11 @@ export default angular.module('home', [
         this.setOptions();
       }
 
+      shouldShowSubmissions() {
+        this.hasSelection =
+          (Array.isArray(this.dossiers) && Array.isArray(this.submissions) && this.dossier != null) ? true : false;
+      }
+
       setOptions() {
         this.dossiers = this.dossiers.map(dos => {
           dos.deletable = this.canDeleteDossier(dos);
@@ -146,8 +152,8 @@ export default angular.module('home', [
           });
             console.log(this.dossier)
             console.log(this.submissions);
-
         }
+        this.shouldShowSubmissions();
       }
 
       newDossier() {
@@ -238,7 +244,7 @@ export default angular.module('home', [
         this.$mdDialog.show(prompt)
         .then(selection => {
           // send selection to update in backend
-
+          // !!!!JUN TASK
           this.setOptions();
         });
       }
@@ -248,8 +254,9 @@ export default angular.module('home', [
           console.log('deleting');
           // confirm backend deletes the item
           // .then(() => {
+            // !!!!!JUN TASK
           //   this.dossiers = this.dossiers.slice(0, index).concat(this.dossiers.slice(index + 1));
-
+          //
           //   if the dossier was selected, empty selection
           // }
           // .catch(() => {
@@ -259,6 +266,7 @@ export default angular.module('home', [
           //     .hideDelay(1200)
           //   );
           // });
+          this.shouldShowSubmissions();
         }
         else {
           this.$mdToast.show(

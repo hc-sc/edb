@@ -1,4 +1,8 @@
 <div class='card'>
-  <p>{{$ctrl.label | translate}}</p>
-  <md-icon md-svg-icon='{{$ctrl.icon}}'></md-icon>
+  <div class='card-title'>
+    <p>{{$ctrl.label | translate}}</p>
+  </div>
+  <div class='card-icon'>
+    <icon label='{{$ctrl.label}}' name='{{$ctrl.icon}}' color='{{$ctrl.color}}'></icon>
+  </div>
 </div>
