@@ -227,6 +227,7 @@ module.exports = class GhstsService extends BaseService {
         path: '_product',
         populate: [{
           path: 'dossier',
+          model: 'DOSSIER',
           populate: {
             path: 'submission'
           }
