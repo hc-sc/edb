@@ -163,7 +163,7 @@ export default angular.module('home', [
               this.$mdDialog = $mdDialog;
               this.dossiertitle;
               this.products = products.filter(product => {
-                if (!product.dossier || typeof product.dossier !== 'string' || product.dossier === 'null')
+                if (!product.dossier || typeof product.dossier !== 'string')
                   return product;
               });
               this.product;
