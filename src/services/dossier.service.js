@@ -17,7 +17,7 @@ module.exports = class DossierService extends BaseService {
       let dossierInDB = DossierService.edb_getSync({_id: id})[0];
       let curProd = _.merge({}, ProductService.edb_getSync({_id: dossierInDB.product[0]})[0]);
       let proSvr = new ProductService(self.version);
-      curProd.dossier = 'null';
+      curProd.dossier = undefined;
 
       super.edb_delete(id)
       .then(() => {
@@ -47,7 +47,7 @@ module.exports = class DossierService extends BaseService {
       let proSvr = new ProductService(self.version);
       obj.product[0] = obj.product[0]._id;
 
-      curProd.dossier = 'null';
+      curProd.dossier = undefined;
       super.edb_post(obj)
       .then(() => {
         return proSvr.edb_post(curProd);
