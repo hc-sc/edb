@@ -7,7 +7,7 @@ module.exports = exports = function ProductPlugin(schema, options) {
 
   schema.remove(dossiers);
   schema.add({
-    dossier: {type: 'ObjectId', ref: 'DOSSIER'}
+    dossier: {type: String}
   });
 
   schema.virtual('valuedecode').get(function () {

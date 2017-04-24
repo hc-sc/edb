@@ -163,7 +163,7 @@ export default angular.module('home', [
               this.$mdDialog = $mdDialog;
               this.dossiertitle;
               this.products = products.filter(product => {
-                if (!product.dossier || typeof product.dossier !== 'string')
+                if (!product.dossier || typeof product.dossier !== 'string' || product.dossier === 'null')
                   return product;
               });
               this.product;
@@ -242,8 +242,17 @@ export default angular.module('home', [
 
         this.$mdDialog.show(prompt)
         .then(selection => {
-          // send selection to update in backend
-          // !!!!JUN TASK
+          this.dossiers[index]._state = selection.status;
+          return this.appDataService.edb_post(this.dossiers[index]);
+        })
+        .then(ret => {
+          let curProd = JSON.parse(ret.data);
+          for (let i = 0; i < this.products.length; i++) {
+            if (this.products[i]._id === curProd._id) {
+              this.products[i] = curProd;
+              break;
+            }
+          }
           this.setOptions();
         });
       }
@@ -251,6 +260,16 @@ export default angular.module('home', [
       deleteDossier(index) {
         if (this.canDeleteDossier(this.dossiers[index])) {
           console.log('deleting');
+          this.appDataService.edb_delete({url: 'dossier', data: this.dossiers[index]._id})
+          .then(ret => {
+            let curProd = JSON.parse(ret.data);
+            for (let i = 0; i < this.products.length; i++) {
+              if (this.products[i]._id === curProd._id) {
+                this.products[i] = curProd;
+                break;
+              }
+            }
+          });
           // confirm backend deletes the item
           // .then(() => {
             // !!!!!JUN TASK
@@ -426,18 +445,20 @@ export default angular.module('home', [
 
       newSubmission() {
         // get new ghsts ids
-        let state = this.submissions[0]._state.toLowerCase();
-        if (state === 'sent') {
-          this.GhstsService.edb_put({ _url: 'ghsts', data: { dossierId: this.dossier._id, submissionid: this.submissions[0]._id } })
-            .then(result => {
-              this.$state.go('submission.submissionNode', {
-                dossierid: result.data.dossierid,
-                submissionid: result.data.submissionid,
-                dossiertitle: result.data.dossiertitle
-              });
+        
+        let state = this.submissions.length > 0 ? this.submissions[0]._state.toLowerCase() : 'notsent';
+        let subId = '';
+        if (state === 'sent') 
+          subId = this.submissions[0]._id;
+
+        this.GhstsService.edb_put({ _url: 'ghsts', data: { dossierId: this.dossier._id, submissionid: subId } })
+          .then(result => {
+            this.$state.go('submission.submissionNode', {
+              dossierid: result.data.dossierid,
+              submissionid: result.data.submissionid,
+              dossiertitle: result.data.dossiertitle
             });
-        } else
-          console.log(state);
+          });
       }
 
       // BUSINESS RULES FOR WORKFLOW
