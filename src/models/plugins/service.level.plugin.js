@@ -1,4 +1,6 @@
 const SHARED_CONST = require('../../constants/shared');
+const BACKEND_CONST = require('../../constants/backend');
+
 // service.level.js
 module.exports = exports = function ServiceLevelPlugin(schema, options) {
   let defState = (options.url === 'dossier') ? SHARED_CONST.DOSSIER_STATUS_OPEN : (options.url === 'submission') ? SHARED_CONST.SUBMISSION_STATUS_IN_PROGRESS : SHARED_CONST.STATUS_ACTIVE;
