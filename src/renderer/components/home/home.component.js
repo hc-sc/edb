@@ -321,6 +321,7 @@ export default angular.module('home', [
                 }
               });
               this.submissions = this.submissions.slice(0, index).concat(this.submissions.slice(index + 1));
+              this.setOptions();
               this.$mdToast.show(
                 this.$mdToast.simple()
                   .textContent('Deleted')
@@ -468,9 +469,10 @@ export default angular.module('home', [
 
         if (state.test(DOSSIER_STATUS_CLOSED)) return false;
 
-        const submissionState = new RegExp(SUBMISSION_STATUS_SENT, 'i');
+        const sent = new RegExp(SUBMISSION_STATUS_SENT, 'i');
+        const inprogress = new RegExp(SUBMISSION_STATUS_IN_PROGRESS, 'i');
         for (let sub of item.submission) {
-          if (submissionState.test(sub._state)) return false;
+          if (sent.test(sub._state) || inprogress.test(sub._state)) return false;
         }
 
         return true;
