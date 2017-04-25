@@ -1,0 +1,27 @@
+<div class='table-container'>
+  <div class='table-toolbar' ng-show='!$ctrl.search'>
+    <h2 class='table-toolbar-title'>{{$ctrl.title}}</h2>
+    <div class='icon-group-right'>
+      <icon name='search' label='Search' color='light' ng-click='$ctrl.search = !$ctrl.search'></icon>
+      <icon name='add' label='Add' color='light' ng-click='$ctrl.onAdd()'></icon>
+    </div>
+  </div>
+  <div class='table-toolbar table-search' ng-show='$ctrl.search'>
+    <text-input class='search-input' label='Search' text-value='$ctrl.searchText' on-update='$ctrl.update("searchText", value)'></text-input>
+    <icon name='close' label='Close' color='light' ng-click='$ctrl.search = !$ctrl.search'></icon>
+  </div>
+  <div class='table-wrapper'>
+    <table class='search-table'>
+      <thead>
+        <tr>
+          <th>One</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Two</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

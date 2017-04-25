@@ -72,6 +72,16 @@ export default angular.module('tbl', [
           this.reverse = false;
           this.sortField = item.paramName;
         }
+
+        return item.paramName
+      }
+
+      getSortField(item) {
+        console.log(item);
+      }
+
+      sort(a, b) {
+        console.log(a, b);
       }
 
 
@@ -176,7 +186,6 @@ export default angular.module('tbl', [
             });
         }
       }
-
     }
   })
   .name;

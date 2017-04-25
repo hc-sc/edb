@@ -5,7 +5,6 @@ import mdDataTable from 'angular-material-data-table';
 import template from './home.template';
 
 import Toolbar from '../common/toolbar/toolbar.component';
-import Tbl from '../common/tbl/tbl.component';
 import TblEdit from '../common/tbl-edit/tbl-edit.component';
 import Footer from '../common/footer/footer.component';
 import DossierService from '../../services/dossier.service';
@@ -32,7 +31,6 @@ export default angular.module('home', [
   APP_DATA_NG_MODULE_NAME,
   PICKLIST_NG_MODULE_NAME,
   Toolbar,
-  Tbl,
   TblEdit,
   Footer
 ])
@@ -72,8 +70,6 @@ export default angular.module('home', [
           .then(toc => {
             this.toc = JSON.parse(toc.data);
             this.setOptions();
-
-            console.log(this.dossiers);
           });
 
         this.toolbarItems = {
@@ -146,7 +142,6 @@ export default angular.module('home', [
             return dossier;
           });
           this.submissions = this.dossier.submission.map(sub => {
-            console.log('in select dossier');
             sub.packagetype = sub.incremental ? 'Incremental' : 'Full';
             sub.dossierdescriptiontitle = this.dossier.dossierdescriptiontitle;
             return sub;
@@ -445,10 +440,10 @@ export default angular.module('home', [
 
       newSubmission() {
         // get new ghsts ids
-        
+
         let state = this.submissions.length > 0 ? this.submissions[0]._state.toLowerCase() : 'notsent';
         let subId = '';
-        if (state === 'sent') 
+        if (state === 'sent')
           subId = this.submissions[0]._id;
 
         this.GhstsService.edb_put({ _url: 'ghsts', data: { dossierId: this.dossier._id, submissionid: subId } })
