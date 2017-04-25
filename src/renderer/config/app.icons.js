@@ -33,6 +33,7 @@ export default function($mdIconProvider) {
   .icon('status', `${IMG_DIR}cached${SUF}`)
   .icon('send', `${IMG_DIR}send${SUF}`)
   .icon('folder', `${IMG_DIR}folder_open${SUF}`)
+  .icon('database', 'img/1493163121_database.svg')
 
   .icon('pmra_green', `img/pmra_green_leaf.svg`)
   .icon('pmra_white', `img/pmra_white_leaf.svg`);

@@ -5,7 +5,7 @@ import mdDataTable from 'angular-material-data-table';
 import template from './home.template';
 
 import Toolbar from '../common/toolbar/toolbar.component';
-import TblEdit from '../common/tbl-edit/tbl-edit.component';
+import TblNew from '../common/tbl-new/tbl-new.component';
 import Footer from '../common/footer/footer.component';
 import DossierService from '../../services/dossier.service';
 import { } from '../../services/ghsts.service';
@@ -31,7 +31,7 @@ export default angular.module('home', [
   APP_DATA_NG_MODULE_NAME,
   PICKLIST_NG_MODULE_NAME,
   Toolbar,
-  TblEdit,
+  TblNew,
   Footer
 ])
   .component('home', {

@@ -8,27 +8,31 @@ div.table-container {
   border-radius: $border-radius;
 }
 
-div.table-toolbar {
+.table-toolbar {
   border-top-left-radius: $border-radius;
   border-top-right-radius: $border-radius;
   display: flex;
   align-items: center;
-  padding: 0 5px;
+  padding: 0 8px;
   background: $primary-color;
   height: 3.5rem;
 }
 
 .table-toolbar-title {
+  color: $light-text;
+  font-weight: normal;
   font-size: 1.2rem;
   margin: 0;
 }
 
-div.table-toolbar.table-search {
+.table-toolbar.table-search {
   background: white;
+  border-bottom: 1px solid $dark-divider;
 }
 
 .search-table {
   width: 100%;
+  word-wrap: break-word;
   border-collapse: collapse;
   border-spacing: 0;
   overflow: hidden;
@@ -36,15 +40,30 @@ div.table-toolbar.table-search {
 
 .search-table th, .search-table td {
   border: none;
+  outline: none;
   margin: 0;
   padding: 0;
   text-align: left;
 }
 
+.search-table th {
+  border-bottom: 1px solid $dark-divider;
+}
 
+.search-table:hover {
+  cursor: pointer;
+}
 
 .icon-group-right {
   margin-left: auto;
 }
 
+.sort-icon.selected {
+  transition: transform 0.2s ease-in-out;
+}
+
+.sort-icon.selected.desc {
+  transform: rotate(180deg);
+  transition: transform 0.2s ease-in-out;
+}
 

@@ -7,7 +7,7 @@ import Toolbar from '../toolbar/toolbar.component';
 import Icon from '../icon/icon.component';
 import IndexFilter from '../../../filters/index.filter';
 
-import './tbl.scss';
+// import './tbl.scss';
 
 export default angular.module('tbl', [
   uiRouter,
