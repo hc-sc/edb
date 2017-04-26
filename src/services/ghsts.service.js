@@ -463,9 +463,16 @@ module.exports = class GhstsService extends BaseService {
               self.ghsts[0]._tocid = TocService.edb_getSync({
                 tocversion: '01.00.01'
               })[0]._id;
-            let curToc = _.merge({}, TocService.edb_getSync({
+            let curToc = TocService.edb_getSync({
               _id: self.ghsts[0]._tocid
-            })[0]);
+            })[0];
+//TODO: template change for demo DACO in Paris meeting. Should be removed or modified to handle multiple TOCs.            
+            if (!curToc) 
+              curToc = TocService.edb_getSync({
+                tocversion: '01.00.01'
+              })[0];
+//End TODO
+            curToc = _.merge({}, curToc);
             let docSvr = new DocumentService(self.ghsts[0]._version);
             docSvr.edb_get({
                 where: self.ghsts[0]._document
@@ -939,6 +946,10 @@ module.exports = class GhstsService extends BaseService {
           let filesNeedCopy = _.concat([], ret._filesNeedCopy);
           delete ret._filesNeedCopy;
           let doc = self._marsh['01_04_00'].marshalString(ret);
+          let exp = new RegExp(/Z<\/SUBMISSION_VERSION_DATE/g);
+          doc = doc.replace(exp, '</SUBMISSION_VERSION_DATE');
+          exp = new RegExp(/Z<\/DOCUMENT_ISSUE_DATE/g);
+          doc = doc.replace(exp, '</DOCUMENT_ISSUE_DATE');
           packageLocation = self._createPackage(doc, filesNeedCopy);
           let subSvr = new SubmissionService(self._version);
           let subObj = SubmissionService.edb_getSync({
@@ -963,7 +974,7 @@ module.exports = class GhstsService extends BaseService {
 
   edb_validation() {
     return new Q((res, rej) => {
-      let self = this;
+      let self = this, errWithDSMissing = [], DSMissingPath = [];
       self._buildXmlJson()
         .then(ret => {
           let xmlJsonix = _.merge({}, ret);
@@ -975,6 +986,31 @@ module.exports = class GhstsService extends BaseService {
               if (error.keyword !== 'anyOf')
                 return error;
             });
+          }
+          if (errors && errors.length > 0) { //Fix for bug of Josinx XSD choice
+            errors = _.filter(errors, error => {
+              if (error.keyword !== 'required' || (error.params.missingProperty !== 'documentsource' && error.params.missingProperty !== 'completedocumentsource'))
+                return error;
+              else {
+                errWithDSMissing.push(error);
+                DSMissingPath.push(error.dataPath);
+              }
+            });
+            if (errWithDSMissing.length > 0) {
+              DSMissingPath = _.uniq(DSMissingPath);
+              DSMissingPath.map(dp => {
+                let isErr = _.filter(errWithDSMissing, err => {
+                  if (err.dataPath === dp)
+                    return err;
+                });
+                if (isErr.length > 1) { //documentsource and completedocumentsource both missing
+                  let newErr = _.merge({}, isErr[0]);
+                  newErr.message = "should have required property 'documentsource' or 'completedocumentsource'"; 
+                  newErr.params.missingProperty = 'documentsource and completedocumentsource';
+                  errors.push(newErr);
+                }
+              });
+            }
           }
           if (errors && errors.length > 0) {
             rej(new RVHelper('EDB30002', errors));

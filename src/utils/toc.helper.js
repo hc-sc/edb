@@ -29,6 +29,7 @@ module.exports = class TocTreeHelper {
 
     if (tree) {
       if (tree.tocnodepid) {
+        tree.emptynode = false;
         if (keys.indexOf(tree.tocnodepid) >= 0) {
           if (!tree[nodeKey])
             tree[nodeKey] = [];
