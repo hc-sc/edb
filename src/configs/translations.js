@@ -137,6 +137,7 @@ export const propNames_en = {
   'documentpid': 'Document PID',
   'documentfamilypid': 'Document Family PID',
   'documentfamily': 'Document Family',
+  'documentcompanyid': 'Document Company ID',
   'documentcontentstatushistory': 'Document Content Status History',
   'referenceddocument': 'Referenced Document',
   'referencetype': 'Reference Type',
