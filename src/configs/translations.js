@@ -160,7 +160,7 @@ export const propNames_en = {
   'testedonvertebrate': 'Tested on Vertebrate',
   'referencedtofile': 'Associated Files',
   'toFileId': 'File Name',
-  'filesToSelect': 'Files',
+  'filesToSelect': 'File',
   'file': 'File',
   'fileName': 'File Name',
   'selectFile': 'Select File',
