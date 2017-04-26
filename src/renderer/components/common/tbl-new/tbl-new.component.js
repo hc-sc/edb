@@ -57,17 +57,23 @@ export default angular.module('tblNew', [
       if (this.projection) {
         this.headers = this.projection.map(header => {
           if (typeof header === 'string') return header;
-          else return header.name
+          else return header.name;
         });
       }
 
       if (this.items) {
         this.rows = this.items.map(item => {
-          let row = [];
+          let row = {};
+          let value;
+          let headerName;
           for (let header of this.projection) {
-            if (typeof header === 'string') row.push(item[header]);
+            if (typeof header === 'string') {
+              headerName = header;
+              value = item[header];
+            }
             else {
-              let _id = item[header.name];
+              headerName = header.name;
+              let _id = item[headerName];
               let returnValue;
               if (header.url === 'picklists') {
                 returnValue = this.picklists.edb_getSync({_id})[0];
@@ -77,20 +83,21 @@ export default angular.module('tblNew', [
               }
 
               if (returnValue && returnValue.hasOwnProperty('valuedecode')) {
-                row.push(returnValue.valuedecode);
+                value = returnValue.valuedecode;
               }
-              else row.push('undefined');
+              else value = 'undefined';
+            }
+
+
+            let date = moment(value, moment.ISO_8601, true);
+            if (date._isValid) {
+              row[headerName] = date.format('YYYY-MM-DD');
+            }
+            else {
+              row[headerName] = value;
             }
           }
-
-          row = row.map(data => {
-            let date = moment(data, moment.ISO_8601, true);
-            if (date._isValid) {
-              return date.format('YYYY-MM-DD');
-            }
-            return data;
-          });
-
+          row._id = item._id;
           return row;
         });
       }
@@ -104,14 +111,6 @@ export default angular.module('tblNew', [
         this.reverse = false;
         this.sortField = header;
       }
-    }
-
-    isSelected(header) {
-      return header === this.sortField;
-    }
-
-    getSortIndex(item) {
-      console.log(item);
     }
 
     compareItems(a, b) {
