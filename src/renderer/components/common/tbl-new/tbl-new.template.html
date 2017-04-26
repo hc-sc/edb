@@ -1,7 +1,7 @@
  <div class='table'>
   <div class='table-container'>
     <div class='table-toolbar' ng-show='!$ctrl.search'>
-      <h2 class='table-toolbar-title'>{{$ctrl.title}}</h2>
+      <h2 class='table-toolbar-title'>{{$ctrl.title}}<span ng-if='$ctrl.isRequired'>*</span></h2>
       <div class='icon-group-right'>
         <icon name='add' ng-if='$ctrl.addable' label='Add' color='light' ng-click='$ctrl.onAdd()'></icon>
         <icon name='search' ng-if='$ctrl.searchable' label='Search' color='light' ng-click='$ctrl.toggleSearch()'></icon>
@@ -18,22 +18,22 @@
             <th ng-if='$ctrl.deletable' class='icon-cell'></th>
             <th ng-if='$ctrl.editable' class='icon-cell'></th>
             <th ng-if='$ctrl.viewable' class='icon-cell'></th>
-            <th ng-repeat='header in $ctrl.projection' ng-click='$ctrl.setSort(header)'>
-              {{$ctrl.getHeader(header) | translate}}
+            <th ng-repeat='header in $ctrl.headers' ng-click='$ctrl.setSort(header)'>
+              {{header | translate}}
               <md-icon class='sort-icon' ng-class='{"selected": $ctrl.isSelected(header), "desc": $ctrl.reverse}' md-svg-icon='up'></md-icon>
             </th>
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat='item in $ctrl.items | index | filter:$ctrl.searchText | orderBy:$ctrl.sortField:$ctrl.reverse:$ctrl.compareItems' ng-class='{"selected": $ctrl.selected.id === item.id}' ng-click='$ctrl.select(item)'>
-            <td ng-if='$ctrl.deletable' class='icon-cell'><icon name='delete' label='Delete' color='dark' disabled='!item.deletable || false'></icon></td>
-            <td ng-if='$ctrl.editable' class='icon-cell'><icon name='forward' label='Status' color='dark' disabled='!item.editable || false'></icon></td>
-            <td ng-if='$ctrl.viewable' class='icon-cell'><icon name='view' label='View' color='dark' disabled='!item.viewable || false'></icon></td>
-            <td ng-repeat='header in $ctrl.projection' ng-click='$ctrl.select(item)'>{{$ctrl.getValue(item, header) | translate}}</td>
+          <tr ng-repeat='row in $ctrl.rows | filter:$ctrl.searchText | orderBy:$ctrl.getSortIndex(row):$ctrl.reverse:$ctrl.compareItems' ng-class='{"selected": $ctrl.row.id === row.id}' ng-click='$ctrl.select(row)'>
+            <td ng-if='$ctrl.deletable' ng-click='$ctrl.delete($index)' class='icon-cell'><icon name='delete' label='Delete' color='dark' disabled='!row.deletable || false'></icon></td>
+            <td ng-if='$ctrl.editable' ng-click='$ctrl.edit($index)' class='icon-cell'><icon name='forward' label='Status' color='dark' disabled='!row.editable || false'></icon></td>
+            <td ng-if='$ctrl.viewable' ng-click='$ctrl.view($index)' class='icon-cell'><icon name='view' label='View' color='dark' disabled='!row.viewable || false'></icon></td>
+            <td ng-repeat='data in row track by $index'>{{data | translate}}</td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
-  <p class='error-message' ng-if='$ctrl.rows && $ctrl.rows.length < $ctrl.minItems'>{{"Requires " + $ctrl.items + " items" | translate}}</p>
+  <p class='error-message' ng-if='$ctrl.rows && $ctrl.rows.length < $ctrl.minItems'>Requires 1 or more items</p>
 </div>

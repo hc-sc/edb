@@ -381,6 +381,7 @@ selectPID(prop,selected){
   }
 
   dirtCheck(oriString, curString) {
+    console.log(this.oriSelected, this.selected);
     let oriStr = oriString ? oriString : JSON.stringify(angular.copy(this.oriSelected));
     let curStr = curString ? curString : JSON.stringify(angular.copy(this.selected));
     if (curStr && (oriStr !== curStr)) {

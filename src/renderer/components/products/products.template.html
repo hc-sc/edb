@@ -12,11 +12,11 @@
       values='$ctrl.formulationType' type-name='EXTENSION_TYPE_FORMULATION_TYPE' on-add='$ctrl.createPicklistItem("formulationtype", "formulationType", value)'>
     </select-input-extensible>
 
-    <tbl ng-if='!$ctrl.loading' title='{{"ingredients" | translate}}*' items='$ctrl.selected.ingredients.ingredient' projection='[{name: "toSubstanceId", url: "substance"}, "quantity", {name: "unit", url: "picklist"}]'
+    <tbl-new ng-if='!$ctrl.loading' title='{{"ingredients" | translate}}*' items='$ctrl.selected.ingredients.ingredient' projection='[{name: "toSubstanceId", url: "substance"}, "quantity", {name: "unit", url: "picklist"}]'
       on-select='$ctrl.selectTblItem("ingredients.ingredient",index)' on-add='$ctrl.addTblItem("ingredients.ingredient")' on-delete='$ctrl.deleteTblItem("ingredients.ingredient",index)' min-items='1'>
-    </tbl>
-    <tbl ng-if='!$ctrl.loading  && $ctrl.isSubmission' title='{{"productregulartoryauthorities" | translate}}' items='$ctrl.selected.productra' projection='[{name: "toSpecificForRAId", url: "receiver"}, "productname"]'
-      on-select='$ctrl.selectTblItem("productra",index)' on-add='$ctrl.addTblItem("productra")' on-delete='$ctrl.deleteTblItem("productra",index)'></tbl>
+    </tbl-new>
+    <tbl-new ng-if='!$ctrl.loading  && $ctrl.isSubmission' title='{{"productregulartoryauthorities" | translate}}' items='$ctrl.selected.productra' projection='[{name: "toSpecificForRAId", url: "receiver"}, "productname"]'
+      on-select='$ctrl.selectTblItem("productra",index)' on-add='$ctrl.addTblItem("productra")' on-delete='$ctrl.deleteTblItem("productra",index)'></tbl-new>
 
     <div class='float-bottom'>
       <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>

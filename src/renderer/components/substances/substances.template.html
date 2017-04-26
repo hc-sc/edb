@@ -11,7 +11,7 @@
     <text-input label='{{"substancename"|translate}}'  is-required='true' text-value='$ctrl.selected.substancename' on-update='$ctrl.update("substancename", value)' max-Length='2000'></text-input>
 
     <tbl ng-if='!$ctrl.loading' title='{{"otheridentifiers"|translate}}' items='$ctrl.selected.substanceidentifier' projection='[ {name: "substanceidentifiertype", url: "picklist"},"identifier"]'
-      on-select='$ctrl.selectTblItem("substanceidentifier",index)' on-add='$ctrl.addTblItem("substanceidentifier")' on-delete='$ctrl.deleteTblItem("substanceidentifier",index)' ></tbl>
+      on-select='$ctrl.selectTblItem("substanceidentifier",index)' on-add='$ctrl.addTblItem("substanceidentifier")' on-delete='$ctrl.deleteTblItem("substanceidentifier",index)'></tbl>
 
     <div class='float-bottom'>
       <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>

@@ -18,6 +18,7 @@ export default angular.module('tblNew', [
   bindings: {
     title: '@',
     items: '<',
+    isRequired: '<',
     minItems: '@',
     defaultSort: '@',
     defaultReverse: '@',
@@ -32,6 +33,7 @@ export default angular.module('tblNew', [
   },
   controller: class TblNewCtrl {
     constructor(PicklistService, AppDataService) {
+      this.required = this.isRequired || false;
       this.sortField = this.defaultSort || '';
       this.reverse = this.defaultReverse || false;
       this.search = false;
@@ -41,11 +43,58 @@ export default angular.module('tblNew', [
       this.viewable = this.viewable || false;
       this.addable = true;
       this.searchable = true;
+      this.rows = this.items.slice();
+      this.headers = this.projection.slice();
       this.picklistService = PicklistService.getService();
       this.appDataService = AppDataService.getService();
     }
 
-    $onChanges() {}
+    $onChanges() {
+      this.mapItems();
+    }
+
+    mapItems() {
+      if (this.projection) {
+        this.headers = this.projection.map(header => {
+          if (typeof header === 'string') return header;
+          else return header.name
+        });
+      }
+
+      if (this.items) {
+        this.rows = this.items.map(item => {
+          let row = [];
+          for (let header of this.projection) {
+            if (typeof header === 'string') row.push(item[header]);
+            else {
+              let _id = item[header.name];
+              let returnValue;
+              if (header.url === 'picklists') {
+                returnValue = this.picklists.edb_getSync({_id})[0];
+              }
+              else {
+                returnValue = this.appDataService.edb_getSync({url: header.url, data: {_id}})[0];
+              }
+
+              if (returnValue && returnValue.hasOwnProperty('valuedecode')) {
+                row.push(returnValue.valuedecode);
+              }
+              else row.push('undefined');
+            }
+          }
+
+          row = row.map(data => {
+            let date = moment(data, moment.ISO_8601, true);
+            if (date._isValid) {
+              return date.format('YYYY-MM-DD');
+            }
+            return data;
+          });
+
+          return row;
+        });
+      }
+    }
 
     setSort(header) {
       if (this.sortField === header) {
@@ -57,45 +106,17 @@ export default angular.module('tblNew', [
       }
     }
 
-    // if the header is a string, use it, if its an object, use the name
-    getHeader(header) {
-      if (typeof header === 'string') return header;
-      return header.name;
+    isSelected(header) {
+      return header === this.sortField;
     }
 
-    getValue(item, header) {
-      // test if its an id that requires a lookup
-      if (typeof header !== 'string') {
-        let _id = item[header.name].id;
-        let returnValue;
-
-        if (header.url === 'picklist') {
-          returnValue = this.picklistService.edb_getSync({_id})[0];
-        }
-        else {
-          returnValue = this.appDataService.edb_getSync({url: header.url, data: {_id}})[0];
-        }
-
-        if (returnValue && returnValue.hasOwnProperty('valuedecode')) {
-          return returnValue.valuedecode;
-        }
-
-        return item[header.name];
-      }
-
-      // test if it's a date
-      // need to use moment because standard js date parsing is insufficient
-      let date = moment(item[header], moment.ISO_8601, true);
-      if (date._isValid) {
-        return date.format('YYYY-MM-DD');
-      }
-
-      return item[header];
+    getSortIndex(item) {
+      console.log(item);
     }
 
     compareItems(a, b) {
       if (a.type === 'string') return a.value.localeCompare(b.value);
-      if (a.type === 'number') return a.value < b.value;
+      if (a.type === 'number') return a.value - b.value;
     }
 
     toggleSearch() {
@@ -104,17 +125,12 @@ export default angular.module('tblNew', [
       this.search = !this.search;
     }
 
-    isSelected(header) {
-      if (typeof header === 'string') return header === this.sortField;
-      return header.name === this.sortField;
-    }
-
     update(prop, value) {
       this[prop] = value;
     }
 
     select(item) {
-      this.selected = item;
+      this.row = item;
       this.onSelect({id: item.id, index: item.index});
     }
 

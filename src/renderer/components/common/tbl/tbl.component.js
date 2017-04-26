@@ -135,6 +135,7 @@ export default angular.module('tbl', [
       }
 
       select(id, index) {
+        console.log(this.rows[index])
         this.onSelect({ id, index });
       }
 
