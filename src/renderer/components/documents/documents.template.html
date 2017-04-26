@@ -29,7 +29,14 @@
              <md-button class='md-raised md-primary' ng-click='$ctrl.genFamilyPid()'>Generate PID</md-button>
         </div>
 
-         <text-input label='{{"documentfamily" | translate}}'
+         <text-input label='{{"documentcompanyid" | translate}}'
+            is-required='true'
+            text-value='$ctrl.selected.documentgeneric.documentcompanyid'
+            on-update='$ctrl.update("documentgeneric.documentcompanyid", value)'
+            max-Length='20'>
+        </text-input>
+
+        <text-input label='{{"documentfamily" | translate}}'
             is-required='true'
             text-value='$ctrl.selected.documentgeneric.documentfamily'
             on-update='$ctrl.update("documentgeneric.documentfamily", value)'
@@ -57,6 +64,13 @@
             on-update='$ctrl.update("documentgeneric.documentissuedate", value)'>
         </text-input>
 
+        <text-input label='{{"completedocumentsource" | translate}}'
+            is-required='true'
+            text-value='$ctrl.selected.documentgeneric.completedocumentsource'
+            on-update='$ctrl.update("documentgeneric.completedocumentsource", value)'
+            max-Length='2000'>
+        </text-input>
+
         <md-switch ng-model='$ctrl.selected.documentgeneric.publishedindicator'
                         aria-label='{{"publishedindicator" | translate}}'
                         class='md-primary'
@@ -65,13 +79,6 @@
                 <md-tooltip>True or False</md-tooltip>
         </md-switch>
 
-
-         <text-input label='{{"completedocumentsource" | translate}}'
-            is-required='true'
-            text-value='$ctrl.selected.documentgeneric.completedocumentsource'
-            on-update='$ctrl.update("documentgeneric.completedocumentsource", value)'
-            max-Length='2000'>
-        </text-input>
 
         <md-switch ng-model='$ctrl.selected.documentgeneric.gxpindicator'
                     aria-label='{{"gxpindicator" | translate}}'
@@ -88,6 +95,16 @@
             {{"testedonvertebrate" | translate}} : {{$ctrl.selected.documentgeneric.testedonvertebrate}}
             <md-tooltip>True or False</md-tooltip>
         </md-switch>
+
+        <tbl ng-if='!$ctrl.loading' title ='{{"referencedtofile" | translate}} *'
+
+              items='$ctrl.selected.documentgeneric.referencedtofile'
+              projection='[{name: "toFileId", url: "file"}]'
+              on-select='$ctrl.selectTblItem("documentgeneric.referencedtofile",index)'
+              on-add='$ctrl.addTblItem("documentgeneric.referencedtofile")'
+              on-delete='$ctrl.deleteTblItem("documentgeneric.referencedtofile",index)'
+              min-items='1'>
+        </tbl>
 
         <md-toolbar>
             <div class='md-toolbar-tools custom-toolbar'>
@@ -156,15 +173,7 @@
               on-delete='$ctrl.deleteTblItem("documentgeneric.documentcontentstatushistory.documentcontentstatus",index)'>
         </tbl>-->
 
-        <tbl ng-if='!$ctrl.loading' title ='{{"referencedtofile" | translate}} *'
-
-              items='$ctrl.selected.documentgeneric.referencedtofile'
-              projection='[{name: "toFileId", url: "file"}]'
-              on-select='$ctrl.selectTblItem("documentgeneric.referencedtofile",index)'
-              on-add='$ctrl.addTblItem("documentgeneric.referencedtofile")'
-              on-delete='$ctrl.deleteTblItem("documentgeneric.referencedtofile",index)'
-              min-items='1'>
-        </tbl>
+        
 
        <tbl ng-if='!$ctrl.loading' title ='{{"referenceddocument" | translate}}'
 
