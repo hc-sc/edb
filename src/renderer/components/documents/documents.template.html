@@ -29,7 +29,14 @@
              <md-button class='md-raised md-primary' ng-click='$ctrl.genFamilyPid()'>Generate PID</md-button>
         </div>
 
-         <text-input label='{{"documentfamily" | translate}}'
+         <text-input label='{{"documentcompanyid" | translate}}'
+            is-required='true'
+            text-value='$ctrl.selected.documentgeneric.documentcompanyid'
+            on-update='$ctrl.update("documentgeneric.documentcompanyid", value)'
+            max-Length='20'>
+        </text-input>
+
+        <text-input label='{{"documentfamily" | translate}}'
             is-required='true'
             text-value='$ctrl.selected.documentgeneric.documentfamily'
             on-update='$ctrl.update("documentgeneric.documentfamily", value)'
