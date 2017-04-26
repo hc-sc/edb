@@ -23,15 +23,18 @@ const BACKEND_CONSTANTS = {
   FILE_MAIN_DIR_NAME: 'main',
   FILE_ATTAC_DIR_NAME: 'attachments',
 
-  DOCUMENT_ID_PREFIX: 'DC',
-  DOSSIER_ID_PREFIX: 'DS',
-  FILE_ID_PREFIX: 'FL',
-  LE_ID_PREFIX: 'LE',
-  PRODUCT_ID_PREFIX: 'PD',
-  RECEIVER_ID_PREFIX: 'RC',
-  SENDER_ID_PREFIX: 'SD',
-  SUBMISSION_ID_PREFIX: 'SM',
-  SUBSTANCE_ID_PREFIX: 'SS'
+  ID_PREFIX: {
+    'document': 'DC',
+    'dossier': 'DS',
+    'file': 'FL',
+    'legalentity': 'LE',
+    'product': 'PD',
+    'receiver': 'RE',
+    'sender': 'SE',
+    'submission': 'SM',
+    'substance': 'SS',
+    'toc': 'TC'
+  }
 };
 
 module.exports = BACKEND_CONSTANTS;
