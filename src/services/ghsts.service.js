@@ -185,7 +185,7 @@ module.exports = class GhstsService extends BaseService {
       };
       let retVal = {
         TYPE_NAME: 'GHSTS.GHSTS',
-        specificationversion: self.ghsts[0].specificationversion,
+        specificationversion: self.ghsts[0].specificationversion ? self.ghsts[0].specificationversion : '01.04.00',
         receivers: {
           TYPE_NAME: 'GHSTS.GHSTS.RECEIVERS',
           receiver: []
@@ -252,15 +252,16 @@ module.exports = class GhstsService extends BaseService {
         else {
           try {
             let result = JSON.parse(JSON.stringify(rows[0])); ///Mongoose or Tingo BSON id process has bug, may improve later
-            let receiverIds = [];
+            let receiverIds = [], strId;
 
             // For Receiver
             if (result._receiver) {
               retVal.receivers.receiver = result._receiver.map(item => {
                 retVal.legalentities.legalentity.push(item.receiver.toLegalEntityId);
-                item.receiver.id = item.receiver._id.toString();
-                item.receiver.metadatastatus = self._metadatastatus_process('receiver', item.receiver.id);
-                receiverIds.push(item.receiver.id);
+                item.receiver.toLegalEntityId = BACKEND_CONST.ID_PREFIX.legalentity + item.receiver.toLegalEntityId;
+                strId = item.receiver._id.toString();
+                item.receiver.metadatastatus = self._metadatastatus_process('receiver', strId);
+                receiverIds.push(strId);
                 return item;
               });
               retVal.receivers.receiver = self._get_xml_jsonix(retVal.receivers.receiver);
@@ -274,6 +275,7 @@ module.exports = class GhstsService extends BaseService {
                 ret.sender = self._get_xml_jsonix(ret.sender);
                 ret.sender.map(sender => {
                   retVal.legalentities.legalentity.push(sender.toLegalEntityId);
+                  sender.toLegalEntityId = BACKEND_CONST.ID_PREFIX.legalentity + sender.toLegalEntityId;
                 });
                 return ret;
               });
@@ -283,8 +285,19 @@ module.exports = class GhstsService extends BaseService {
             // For Product, Dossier, Submission
             retVal.product = result._product;
             retVal.product.metadatastatus = self._metadatastatus_process('product', result._product._id);
+            retVal.product.productra.map(ra => {
+              ra.toSpecificForRAId = BACKEND_CONST.ID_PREFIX.receiver + ra.toSpecificForRAId;
+            });
+            retVal.product.ingredients.ingredient.map(ing => {
+              ing.toSubstanceId = BACKEND_CONST.ID_PREFIX.substance + ing.toSubstanceId;
+            });
             retVal.product = self._get_xml_jsonix(result._product);
             delete retVal.product.dossier.product;
+
+            retVal.product.dossier.dossierra.map(ra => {
+              ra.toSpecificForRAId = BACKEND_CONST.ID_PREFIX.receiver + ra.toSpecificForRAId;
+            });
+                        
             retVal.product.dossier.submission.map(sub => {
               sub.submissionversiondate =
                 DateTimeProc.dateToJsonixObj(sub.submissionversiondate);
@@ -296,7 +309,7 @@ module.exports = class GhstsService extends BaseService {
                 let retDoc = _.merge({}, doc);
                 let docMeta = self._metadatastatus_process('document', retDoc._id, receiverIds);
                 if (!retDoc.id)
-                  retDoc.id = retDoc._id;
+                  retDoc.id = BACKEND_CONST.ID_PREFIX.document + retDoc._id;
                 retDoc.documentgeneric.metadatastatus = docMeta.documentgeneric.metadatastatusid;
                 let jsonixDCH = self.assignDCHJosnix(doc._id);
                 if (jsonixDCH)
@@ -312,6 +325,7 @@ module.exports = class GhstsService extends BaseService {
                         break;
                       }
                     }
+                    documentra.toSpecificForRAId = BACKEND_CONST.ID_PREFIX.receiver + documentra.toSpecificForRAId;
                     return documentra;
                   });
                 } else
@@ -333,6 +347,12 @@ module.exports = class GhstsService extends BaseService {
                     retVal.files.file.push(file.toFileId);
                   });
                 }
+                retDoc.documentgeneric.relatedtosubstance.map(ss => {
+                  ss.toSubstanceId = BACKEND_CONST.ID_PREFIX.substance + ss.toSubstanceId;
+                });
+                retDoc.documentgeneric.referencedtofile.map(fl => {
+                  fl.toFileId = BACKEND_CONST.ID_PREFIX.file + fl.toFileId;
+                });
                 return retDoc;
               });
               retVal.documents.document = self._get_xml_jsonix(retVal.documents.document); ///Working with Project Number bug
@@ -365,6 +385,7 @@ module.exports = class GhstsService extends BaseService {
                           break;
                         }
                       }
+                      filera.toSpecificForRAId = BACKEND_CONST.ID_PREFIX.receiver + filera.toSpecificForRAId;
                       return filera;
                     });
                   } else
@@ -409,7 +430,7 @@ module.exports = class GhstsService extends BaseService {
             // Search Substances from Ingredients
             if (result._product.ingredients.ingredient && result._product.ingredients.ingredient.length > 0) {
               result._product.ingredients.ingredient.map(item => {
-                retVal.substances.substance.push(item.toSubstanceId);
+                retVal.substances.substance.push(item.toSubstanceId.replace(BACKEND_CONST.ID_PREFIX.substance, ''));
               });
             }
             if (retVal.substances.substance && retVal.substances.substance.length > 0) {
