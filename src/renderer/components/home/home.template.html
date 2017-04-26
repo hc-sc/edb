@@ -11,11 +11,11 @@
     on-add='$ctrl.newDossier()'
     on-delete='$ctrl.deleteDossier(index)'
     on-edit='$ctrl.editDossier(index)'
+    deletable='true'
     editable='true'
     viewable='false'
-    deletable='true'
   ></tbl-new>
-  <p ng-if='!$ctrl.hasSelection'>Select a dossier to review submissions</p>
+  <p ng-if='$ctrl.dossiers && $ctrl.dossiers.length != 0 && !$ctrl.hasSelection'>Select a dossier to review submissions</p>
   <tbl-new
     title='Submissions'
     ng-if='$ctrl.hasSelection'

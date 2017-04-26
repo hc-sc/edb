@@ -77,11 +77,9 @@ export default angular.module('tbl', [
       }
 
       getSortField(item) {
-        console.log(item);
       }
 
       sort(a, b) {
-        console.log(a, b);
       }
 
 

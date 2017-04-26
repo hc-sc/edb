@@ -81,7 +81,7 @@ export default angular.module('home', [
 
         this.dossierProjection = [
           'dossierdescriptiontitle',
-          'dossierpid',
+          // 'dossierpid',
           'productname',
           '_state',
           '_created',

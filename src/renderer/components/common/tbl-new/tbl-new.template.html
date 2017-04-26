@@ -1,30 +1,39 @@
-<div class='table-container'>
-  <div class='table-toolbar' ng-show='!$ctrl.search'>
-    <h2 class='table-toolbar-title'>{{$ctrl.title}}</h2>
-    <div class='icon-group-right'>
-      <icon name='search' ng-if='$ctrl.searchable' label='Search' color='light' ng-click='$ctrl.search = !$ctrl.search'></icon>
-      <icon name='add' ng-if='$ctrl.addable' label='Add' color='light' ng-click='$ctrl.onAdd()'></icon>
+ <div class='table'>
+  <div class='table-container'>
+    <div class='table-toolbar' ng-show='!$ctrl.search'>
+      <h2 class='table-toolbar-title'>{{$ctrl.title}}</h2>
+      <div class='icon-group-right'>
+        <icon name='add' ng-if='$ctrl.addable' label='Add' color='light' ng-click='$ctrl.onAdd()'></icon>
+        <icon name='search' ng-if='$ctrl.searchable' label='Search' color='light' ng-click='$ctrl.toggleSearch()'></icon>
+      </div>
+    </div>
+    <div class='table-toolbar table-search' ng-show='$ctrl.search'>
+      <text-input class='search-input' label='Search' text-value='$ctrl.searchText' on-update='$ctrl.update("searchText", value)'></text-input>
+      <icon name='close' label='Close' color='dark' ng-click='$ctrl.toggleSearch()'></icon>
+    </div>
+    <div class='table-wrapper'>
+      <table class='search-table'>
+        <thead>
+          <tr>
+            <th ng-if='$ctrl.deletable' class='icon-cell'></th>
+            <th ng-if='$ctrl.editable' class='icon-cell'></th>
+            <th ng-if='$ctrl.viewable' class='icon-cell'></th>
+            <th ng-repeat='header in $ctrl.projection' ng-click='$ctrl.setSort(header)'>
+              {{$ctrl.getHeader(header) | translate}}
+              <md-icon class='sort-icon' ng-class='{"selected": $ctrl.isSelected(header), "desc": $ctrl.reverse}' md-svg-icon='up'></md-icon>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat='item in $ctrl.items | index | filter:$ctrl.searchText | orderBy:$ctrl.sortField:$ctrl.reverse:$ctrl.compareItems' ng-class='{"selected": $ctrl.selected.id === item.id}' ng-click='$ctrl.select(item)'>
+            <td ng-if='$ctrl.deletable' class='icon-cell'><icon name='delete' label='Delete' color='dark' disabled='!item.deletable || false'></icon></td>
+            <td ng-if='$ctrl.editable' class='icon-cell'><icon name='forward' label='Status' color='dark' disabled='!item.editable || false'></icon></td>
+            <td ng-if='$ctrl.viewable' class='icon-cell'><icon name='view' label='View' color='dark' disabled='!item.viewable || false'></icon></td>
+            <td ng-repeat='header in $ctrl.projection' ng-click='$ctrl.select(item)'>{{$ctrl.getValue(item, header) | translate}}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
-  <div class='table-toolbar table-search' ng-show='$ctrl.search'>
-    <text-input class='search-input' label='Search' text-value='$ctrl.searchText' on-update='$ctrl.update("searchText", value)'></text-input>
-    <icon name='close' label='Close' color='dark' ng-click='$ctrl.search = !$ctrl.search'></icon>
-  </div>
-  <div class='table-wrapper'>
-    <table class='search-table'>
-      <thead>
-        <tr>
-          <th ng-repeat='header in $ctrl.projection' ng-click='$ctrl.setSort(header)'>
-            {{header | translate}}
-            <md-icon ng-show='$ctrl.sortField === header' class='sort-icon' ng-class='{"selected": $ctrl.sortField === header, "desc": $ctrl.reverse}' md-svg-icon='up'></md-icon>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat='item in $ctrl.items'>
-          <td ng-repeat='header in $ctrl.projection'>{{item[header]}}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <p class='error-message' ng-if='$ctrl.rows && $ctrl.rows.length < $ctrl.minItems'>{{"Requires " + $ctrl.items + " items" | translate}}</p>
 </div>
