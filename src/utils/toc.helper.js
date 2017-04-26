@@ -1,6 +1,7 @@
 const _ = require('lodash');
 
-const PickListService = require('../services/picklist.service');
+const BACKEND_CONST = require('../constants/backend');
+
 module.exports = class TocTreeHelper {
   
   static sanitizeTree(tree) {
@@ -29,6 +30,7 @@ module.exports = class TocTreeHelper {
 
     if (tree) {
       if (tree.tocnodepid) {
+        tree.emptynode = false;
         if (keys.indexOf(tree.tocnodepid) >= 0) {
           if (!tree[nodeKey])
             tree[nodeKey] = [];
@@ -36,7 +38,7 @@ module.exports = class TocTreeHelper {
             if (!documents) { /// For generate Jsonix Obj
               tree[nodeKey].push({
                 TYPE_NAME: 'GHSTS.TYPETOCNODE.TOC2DOC',
-                toDocumentId: docId.docId,
+                toDocumentId: BACKEND_CONST.ID_PREFIX.document + docId.docId,
                 nodeassignmentstatus: docId.nodeassignmentstatusId
               });
             } else {  ///For front-end display
