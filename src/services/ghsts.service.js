@@ -463,9 +463,16 @@ module.exports = class GhstsService extends BaseService {
               self.ghsts[0]._tocid = TocService.edb_getSync({
                 tocversion: '01.00.01'
               })[0]._id;
-            let curToc = _.merge({}, TocService.edb_getSync({
+            let curToc = TocService.edb_getSync({
               _id: self.ghsts[0]._tocid
-            })[0]);
+            })[0];
+//TODO: template change for demo DACO in Paris meeting. Should be removed or modified to handle multiple TOCs.            
+            if (!curToc) 
+              curToc = TocService.edb_getSync({
+                tocversion: '01.00.01'
+              })[0];
+//End TODO
+            curToc = _.merge({}, curToc);
             let docSvr = new DocumentService(self.ghsts[0]._version);
             docSvr.edb_get({
                 where: self.ghsts[0]._document
