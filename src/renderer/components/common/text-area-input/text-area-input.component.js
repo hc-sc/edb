@@ -25,7 +25,7 @@ export angular.module('textAreaInput', [
 
     checkValid() {
       if (this.textValue) {
-        this.exceededLimit = this.maxLength && this.textValue.toString().length > this.maxLength);
+        this.exceededLimit = this.maxLength && this.textValue.toString().length > this.maxLength;
       }
     }
 
