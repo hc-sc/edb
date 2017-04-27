@@ -5,8 +5,7 @@ import mdDataTable from 'angular-material-data-table';
 import template from './home.template';
 
 import Toolbar from '../common/toolbar/toolbar.component';
-import Tbl from '../common/tbl/tbl.component';
-import TblEdit from '../common/tbl-edit/tbl-edit.component';
+import TblNew from '../common/tbl-new/tbl-new.component';
 import Footer from '../common/footer/footer.component';
 import DossierService from '../../services/dossier.service';
 import { } from '../../services/ghsts.service';
@@ -32,8 +31,7 @@ export default angular.module('home', [
   APP_DATA_NG_MODULE_NAME,
   PICKLIST_NG_MODULE_NAME,
   Toolbar,
-  Tbl,
-  TblEdit,
+  TblNew,
   Footer
 ])
   .component('home', {
@@ -72,8 +70,6 @@ export default angular.module('home', [
           .then(toc => {
             this.toc = JSON.parse(toc.data);
             this.setOptions();
-
-            console.log(this.dossiers);
           });
 
         this.toolbarItems = {
@@ -85,7 +81,7 @@ export default angular.module('home', [
 
         this.dossierProjection = [
           'dossierdescriptiontitle',
-          'dossierpid',
+          // 'dossierpid',
           'productname',
           '_state',
           '_created',
@@ -146,7 +142,6 @@ export default angular.module('home', [
             return dossier;
           });
           this.submissions = this.dossier.submission.map(sub => {
-            console.log('in select dossier');
             sub.packagetype = sub.incremental ? 'Incremental' : 'Full';
             sub.dossierdescriptiontitle = this.dossier.dossierdescriptiontitle;
             return sub;
@@ -213,7 +208,15 @@ export default angular.module('home', [
       }
 
       editDossier(index) {
-        if (!this.canEditDossier(this.dossiers[index])) return false;
+        if (!this.canEditDossier(this.dossiers[index])) {
+          this.$mdToast.show(
+            this.$mdToast.simple()
+            .textContent('Cannot edit a dossier that has been closed')
+            .hideDelay(1200)
+          );
+          return false;
+        }
+
         const prompt = {
           template: editDossierTemplate,
           controller: class EditDossierCtrl {
@@ -259,7 +262,6 @@ export default angular.module('home', [
 
       deleteDossier(index) {
         if (this.canDeleteDossier(this.dossiers[index])) {
-          console.log('deleting');
           this.appDataService.edb_delete({url: 'dossier', data: this.dossiers[index]._id})
           .then(ret => {
             let curProd = JSON.parse(ret.data);
@@ -269,27 +271,17 @@ export default angular.module('home', [
                 break;
               }
             }
+            this.dossiers = this.dossiers.filter(dossier => {
+              return dossier !== this.dossiers[index];
+            })
+            this.setOptions();
+            this.shouldShowSubmissions();
           });
-          // confirm backend deletes the item
-          // .then(() => {
-            // !!!!!JUN TASK
-          //   this.dossiers = this.dossiers.slice(0, index).concat(this.dossiers.slice(index + 1));
-          //
-          //   if the dossier was selected, empty selection
-          // }
-          // .catch(() => {
-          //   this.$mdToast.show(
-          //     this.$mdToast.simple()
-          //     .textContent('Error in deleting')
-          //     .hideDelay(1200)
-          //   );
-          // });
-          this.shouldShowSubmissions();
         }
         else {
           this.$mdToast.show(
             this.$mdToast.simple()
-            .textContent('Cannot delete a dossier that has sent submissions')
+            .textContent('Cannot delete a dossier that has packaged or sent submissions')
             .hideDelay(1200)
           );
         }
@@ -340,6 +332,7 @@ export default angular.module('home', [
                 }
               });
               this.submissions = this.submissions.slice(0, index).concat(this.submissions.slice(index + 1));
+              this.setOptions();
               this.$mdToast.show(
                 this.$mdToast.simple()
                   .textContent('Deleted')
@@ -444,10 +437,10 @@ export default angular.module('home', [
 
       newSubmission() {
         // get new ghsts ids
-        
+
         let state = this.submissions.length > 0 ? this.submissions[0]._state.toLowerCase() : 'notsent';
         let subId = '';
-        if (state === 'sent') 
+        if (state === 'sent')
           subId = this.submissions[0]._id;
 
         this.GhstsService.edb_put({ _url: 'ghsts', data: { dossierId: this.dossier._id, submissionid: subId } })
@@ -465,7 +458,7 @@ export default angular.module('home', [
       // can delete if in-progress or packaged
       canDeleteSubmission(item) {
         const state = new RegExp(item._state, 'i');
-        return (state.test(SUBMISSION_STATUS_IN_PROGRESS));
+        return (state.test(SUBMISSION_STATUS_IN_PROGRESS) || state.test(SUBMISSION_STATUS_PACKAGED));
       }
 
       // if in-progress, will be set to packaged by packager
@@ -483,18 +476,10 @@ export default angular.module('home', [
                 state.test(SUBMISSION_STATUS_PACKAGED));
       }
 
-      // can delete dossier if there are no sent submissions
+      // can delete dossier if there are no submissions
       canDeleteDossier(item) {
-        const state = new RegExp(item._state, 'i');
-
-        if (state.test(DOSSIER_STATUS_CLOSED)) return false;
-
-        const submissionState = new RegExp(SUBMISSION_STATUS_SENT, 'i');
-        for (let sub of item.submission) {
-          if (submissionState.test(sub._state)) return false;
-        }
-
-        return true;
+        console.log(item.submission, item.submission.length);
+        return (item.submission && item.submission.length === 0);
       }
 
       // if dossier is open and all submissions are sent can close
@@ -505,8 +490,7 @@ export default angular.module('home', [
           for (let sub of item.submission) {
             if (sub._state !== SUBMISSION_STATUS_SENT) return false;
           }
-          console.log('here');
-          return true;
+          return (item.submission && item.submission.length > 0);
         }
         return false;
       }

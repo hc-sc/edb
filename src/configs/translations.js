@@ -34,7 +34,7 @@ export const propNames_en = {
   'legalentitytype': 'Legal Entity Type',
   'othername': 'Other Name',
   'legalentityidentifier': 'Legal Entity Identifier',
-  'contactaddress': 'Address*',
+  'contactaddress': 'Address',
   'street1': 'Street 1',
   'street2': 'Street 2',
   'zipcode': 'Zip/Postal Code',
@@ -61,7 +61,7 @@ export const propNames_en = {
   'dossierdescriptiontitle': 'Dossier Title',
   'dossierpid': 'Dossier PID',
   'dossiercompid': 'Company Dossier ID',
-  'dossierregulartoryauthorities': 'Regulatory Authority Dossier Type*',
+  'dossierregulartoryauthorities': 'Regulatory Authority Dossier Type',
   'referenceddossier': 'Referenced Dossier',
   'referenceddossiers': 'Referenced Dossiers',
   'referenceddossierreason': 'Reference Dossier Reason',
@@ -95,7 +95,7 @@ export const propNames_en = {
   'formulationtype': 'Formulation Type',
   'toSpecificForRAId': 'Regulatory Authority',
   'ingredients': 'Ingredients',
-  'ingredient': 'Ingredient*',
+  'ingredient': 'Ingredient',
   'productregulartoryauthorities': 'Regulatory Authority Product Information',
   //Product RA
   'productRA': 'Regulatory Authority Product Information',
@@ -117,12 +117,12 @@ export const propNames_en = {
   'md5checksum': 'MD5 Checksum',
   'filename': 'Submission File Name',
   'regulatoryauthority':'Regulatory Authority',
-  'fileRA': 'Regulatory Authority File Information*',
+  'fileRA': 'Regulatory Authority File Information',
   //File RA
   'filecomment': 'File Comments',
   'cbidesignation': 'CBI Designation',
   //receivers
-  'receivers': 'Receivers*',
+  'receivers': 'Receivers',
   'legalentity': 'Legal Entity',
   'shortname': 'Short Name',
   'role': 'Role',
@@ -191,3 +191,7 @@ export const statuses_en = {
   [CONSTANTS.STATUS_ACTIVE]: 'Active',
   [CONSTANTS.STATUS_DEACTIVE]: 'Deactive'
 };
+
+export const other_en = {
+  noitems: 'There are currently no items. Create a new one to begin'
+}

@@ -1,7 +1,7 @@
 <div class='main-layout'>
 <toolbar items='$ctrl.toolbarItems'></toolbar>
 <section class='flex' layout-padding>
-  <tbl-edit
+  <tbl-new
     title='Dossiers'
     items='$ctrl.dossiers'
     projection='$ctrl.dossierProjection'
@@ -11,12 +11,11 @@
     on-add='$ctrl.newDossier()'
     on-delete='$ctrl.deleteDossier(index)'
     on-edit='$ctrl.editDossier(index)'
-    editable='true'
-    viewable='false'
     deletable='true'
-  ></tbl-edit>
-  <p ng-if='!$ctrl.hasSelection'>Select a dossier to review submissions</p>
-  <tbl-edit
+    editable='true'
+  ></tbl-new>
+  <p ng-if='$ctrl.dossiers && $ctrl.dossiers.length != 0 && !$ctrl.hasSelection'>Select a dossier to review submissions</p>
+  <tbl-new
     title='Submissions'
     ng-if='$ctrl.hasSelection'
     items='$ctrl.submissions'
@@ -31,6 +30,6 @@
     deletable='true'
     viewable='true'
     editable='true'
-  ></tbl-edit>
+  ></tbl-new>
 </section>
 </div>
