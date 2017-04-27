@@ -145,7 +145,7 @@
             <md-tooltip>True or False</md-tooltip>
         </md-switch>
 
-        <tbl ng-if='!$ctrl.loading' title ='{{"referencedtofile" | translate}} *'
+        <tbl-new ng-if='!$ctrl.loading' title ='{{"referencedtofile" | translate}} *'
 
               items='$ctrl.selected.documentgeneric.referencedtofile'
               projection='[{name: "toFileId", url: "file"}]'
@@ -153,7 +153,7 @@
               on-add='$ctrl.addTblItem("documentgeneric.referencedtofile")'
               on-delete='$ctrl.deleteTblItem("documentgeneric.referencedtofile",index)'
               min-items='1'>
-        </tbl>
+        </tbl-new>
 
         <md-toolbar>
             <div class='md-toolbar-tools custom-toolbar'>
@@ -213,46 +213,46 @@
         </md-list>
 
 
-        <!--<tbl ng-if='!$ctrl.loading' title ='{{"documentcontentstatushistory" | translate}}'
+        <!--<tbl-new ng-if='!$ctrl.loading' title ='{{"documentcontentstatushistory" | translate}}'
 
               items='$ctrl.selected.documentgeneric.documentcontentstatushistory.documentcontentstatus'
               projection='$ctrl.documentContentStatusProjection'
               on-select='$ctrl.selectTblItem("documentgeneric.documentcontentstatushistory.documentcontentstatus",index)'
               on-add='$ctrl.addTblItem("documentgeneric.documentcontentstatushistory.documentcontentstatus")'
               on-delete='$ctrl.deleteTblItem("documentgeneric.documentcontentstatushistory.documentcontentstatus",index)'>
-        </tbl>-->
+        </tbl-new>-->
 
         
 
-       <tbl ng-if='!$ctrl.loading' title ='{{"referenceddocument" | translate}}'
+       <tbl-new ng-if='!$ctrl.loading' title ='{{"referenceddocument" | translate}}'
 
               items='$ctrl.selected.documentgeneric.referenceddocument'
               projection='$ctrl.referencedDocumentProjection'
               on-select='$ctrl.selectTblItem("documentgeneric.referenceddocument",index)'
               on-add='$ctrl.addTblItem("documentgeneric.referenceddocument")'
               on-delete='$ctrl.deleteTblItem("documentgeneric.referenceddocument",index)'>
-        </tbl>
+        </tbl-new>
 
 
-        <tbl ng-if='!$ctrl.loading' title ='{{"relatedtosubstance" | translate}}'
+        <tbl-new ng-if='!$ctrl.loading' title ='{{"relatedtosubstance" | translate}}'
 
               items='$ctrl.selected.documentgeneric.relatedtosubstance'
               projection='[{name: "toSubstanceId", url: "substance"}]'
               on-select='$ctrl.selectTblItem("documentgeneric.relatedtosubstance",index)'
               on-add='$ctrl.addTblItem("documentgeneric.relatedtosubstance")'
               on-delete='$ctrl.deleteTblItem("documentgeneric.relatedtosubstance",index)'>
-        </tbl>
+        </tbl-new>
 
-        <tbl ng-if='!$ctrl.loading' title ='{{"documentnumber" | translate}}'
+        <tbl-new ng-if='!$ctrl.loading' title ='{{"documentnumber" | translate}}'
               items='$ctrl.selected.documentgeneric.documentnumber'
               projection='$ctrl.documentnumberProjection'
               on-select='$ctrl.selectTblItem("documentgeneric.documentnumber",index)'
               on-add='$ctrl.addTblItem("documentgeneric.documentnumber")'
               on-delete='$ctrl.deleteTblItem("documentgeneric.documentnumber",index)'>
-        </tbl>
+        </tbl-new>
 
 
-       <tbl ng-if='!$ctrl.loading'
+       <tbl-new ng-if='!$ctrl.loading'
             title ='{{"documentra" | translate}} *'
             items='$ctrl.selected.documentra'
             projection='[{name: "toSpecificForRAId", url: "receiver"}]'
@@ -260,7 +260,7 @@
             on-delete='$ctrl.deleteTblItem("documentra",index)'
             on-add='$ctrl.addTblItem("documentra")'
             min-items='1'>
-       </tbl>
+       </tbl-new>
 
         <div class='float-bottom'>
             <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
