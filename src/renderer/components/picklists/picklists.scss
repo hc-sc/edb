@@ -1,16 +1,78 @@
-div.accordion-title {
+@import '../../scss/constants.scss';
+
+.picklist {
+  outline: none;
+  margin: 7px 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.picklist-toolbar {
+  border-radius: $border-radius;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 8px;
+  background: $primary-color;
+  height: 2.8rem;
   outline: none;
 }
 
-div.accordion-title:hover {
+.picklist.expanded .picklist-toolbar {
+  border-radius: 0;
+  border-top-left-radius: $border-radius;
+  border-top-right-radius: $border-radius;
+}
+
+.picklist-toolbar:hover {
   cursor: pointer;
 }
 
-md-list.picklist {
-  min-height: 0;
-  padding: 0 10px;
+.picklist-toolbar-title {
+  font-weight: normal;
+  font-size: 0.8rem;
+  color: $light-text;
 }
 
-md-list-item, md-list-item .md-list-item-inner {
-  min-height: 0;
+.picklist-icon {
+  width: 24px;
+  margin: 0;
 }
+
+.picklist-icon svg {
+  fill: $light-text;
+}
+
+.picklist .picklist-icon {
+  transition: transform 0.2s ease-in-out;
+}
+
+.picklist.expanded .picklist-icon {
+  transform: rotate(90deg);
+  transition: transform 0.2s ease-in-out;
+}
+
+.picklist-data {
+  overflow: hidden;
+  background-color: white;
+  border-bottom-left-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
+}
+
+.picklist .picklist-data {
+  height: 0;
+}
+
+.picklist.expanded .picklist-data {
+  height: auto;
+}
+
+.picklist li {
+  list-style: none;
+  line-height: 1.6rem;
+}
+
+.picklist li:hover {
+  background-color: $hover-color;
+  cursor: default;
+}
+
