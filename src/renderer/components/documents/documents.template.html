@@ -71,6 +71,55 @@
             max-Length='2000'>
         </text-input>
 
+        <!--<text-input label='{{"documentsource" | translate}}'
+            is-required='true'
+            text-value='$ctrl.selected.documentgeneric.documentsource'
+            on-update='$ctrl.update("documentgeneric.documentsource", value)'
+            max-Length='2000'>
+        </text-input>
+
+         <div layout="row" layout-wrap>  
+              <div flex="50">   
+                    <text-input 
+                        label='{{"documentyear" | translate}}'
+                        is-required='true'
+                        text-value='$ctrl.selected.documentgeneric.documentyear'
+                        on-update='$ctrl.update("documentgeneric.documentyear", value)'
+                        max-Length='20'>
+                    </text-input>
+              </div>   
+              <div flex="50">   
+                    <text-input 
+                        label='{{"documentissue" | translate}}'
+                        is-required='true'
+                        text-value='$ctrl.selected.documentgeneric.documentissue'
+                        on-update='$ctrl.update("documentgeneric.documentissue", value)'
+                        max-Length='20'>
+                    </text-input>
+              </div>                   
+        </div> 
+
+        <div layout="row" layout-wrap>  
+              <div flex="50">   
+                    <text-input 
+                        label='{{"documentvolume" | translate}}'
+                        is-required='true'
+                        text-value='$ctrl.selected.documentgeneric.documentvolume'
+                        on-update='$ctrl.update("documentgeneric.documentvolume", value)'
+                        max-Length='20'>
+                    </text-input>
+              </div>   
+              <div flex="50">   
+                    <text-input 
+                        label='{{"documentpages" | translate}}'
+                        is-required='true'
+                        text-value='$ctrl.selected.documentgeneric.documentpages'
+                        on-update='$ctrl.update("documentgeneric.documentpages", value)'
+                        max-Length='20'>
+                    </text-input>
+              </div>                   
+        </div>                       -->
+
         <md-switch ng-model='$ctrl.selected.documentgeneric.publishedindicator'
                         aria-label='{{"publishedindicator" | translate}}'
                         class='md-primary'
