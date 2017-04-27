@@ -7,7 +7,7 @@ import Toolbar from '../toolbar/toolbar.component';
 import Icon from '../icon/icon.component';
 import IndexFilter from '../../../filters/index.filter';
 
-import './tbl.scss';
+// import './tbl.scss';
 
 export default angular.module('tbl', [
   uiRouter,
@@ -72,6 +72,14 @@ export default angular.module('tbl', [
           this.reverse = false;
           this.sortField = item.paramName;
         }
+
+        return item.paramName
+      }
+
+      getSortField(item) {
+      }
+
+      sort(a, b) {
       }
 
 
@@ -127,6 +135,7 @@ export default angular.module('tbl', [
       }
 
       select(id, index) {
+        console.log(this.rows[index])
         this.onSelect({ id, index });
       }
 
@@ -176,7 +185,6 @@ export default angular.module('tbl', [
             });
         }
       }
-
     }
   })
   .name;
