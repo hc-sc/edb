@@ -1,28 +1,30 @@
 <section class='node-page'>
-  <div class='no-padding no-margin' ng-repeat='item in $ctrl.items'>
-    <md-toolbar>
-      <div class='md-toolbar-tools custom-toolbar accordion-title' ng-click='$ctrl.toggleShow(item)'>
-        <icon icon='$ctrl.expandIcon' ng-show='!item.showing'></icon>
-        <icon icon='$ctrl.collapseIcon' ng-show='item.showing'></icon>
-        <h2 class='md-title'>{{item.title | translate}}</h2>
-        <div flex></div>
-      </div>
-    </md-toolbar>
-    <md-content layout-padding ng-show='item.showing'>
+  <div class='picklist' ng-repeat='item in $ctrl.items'  ng-class='{"expanded": item.showing}'>
+    <div class='picklist-toolbar' ng-click='$ctrl.toggleShow(item)'>
+      <md-icon class='picklist-icon' md-svg-icon='right'></md-icon>
+      <h2 class='picklist-toolbar-title'>{{item.title | translate}}</h2>
+    </div>
+    <div class='picklist-data'>
+      <ul>
+        <li ng-repeat='subitem in item.items | orderBy:"valuedecode":false:$ctrl.localeSensitiveComparator'>
+          {{subitem.valuedecode}}
+        </li>
+      </ul>
+    </div>
+    <!--<md-content layout-padding ng-show='item.showing'>
       <md-list class='picklist'>
         <md-list-item ng-repeat='subitem in item.items | orderBy:"valuedecode":false:$ctrl.localeSensitiveComparator' ng-click='$ctrl.toggleItem(subitem)'>
           <p>{{subitem.valuedecode}}</p>
-          <!-- do not delete!!! Hide by Jamie's request, will reopen when we are able to handle the changes later on,
+          do not delete!!! Hide by Jamie's request, will reopen when we are able to handle the changes later on,
           <md-checkbox class='md-primary' ng-show='subitem.isExt' ng-checked='subitem._state === "active"' ng-click='$ctrl.toggleItem(subitem)'></md-checkbox>
-          -->
         </md-list-item>
       </md-list>
     </md-content>
-    <md-divider></md-divider>
+    <md-divider></md-divider>-->
   </div>
-  <div class='float-bottom'>
-    <!--<md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
+  <!--<div class='float-bottom'>
+    <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
       <md-icon md-svg-icon='save' class='light'></md-icon>
-    </md-button>-->
-  </div>
+    </md-button>
+  </div>-->
 </section>
