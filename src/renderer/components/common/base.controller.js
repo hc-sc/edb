@@ -83,9 +83,8 @@ export default class BaseCtrl {
   // create a new item
   createAppData(data = {}, url = this.url) {
     if (this.isSubmission && url === this.url) {
-      if (url === 'document' || url === 'file') {
+      if ((url === 'document' || url === 'file') && (data._dossier !== this.dossierData.dossierid)) {
         data._dossier = this.dossierData.dossierid;
-        data._ghsts = this.ghsts._id;
         return this.ghstsService.edb_put({url, data});
       } else
         return this.appDataService.edb_put({ url, data });
@@ -96,7 +95,7 @@ export default class BaseCtrl {
   // update a item
   updateAppData(data = {}, url = this.url) {
     if (this.isSubmission && url === this.url) {
-      if (url === 'document' || url === 'file') {
+      if ((url === 'document' || url === 'file') && (data._dossier !== this.dossierData.dossierid)) {
         data._dossier = this.dossierData.dossierid;  //Do not set _ghsts to allow back-end create new item, if it is required.
         return this.ghstsService.edb_post({url, data});
       } else

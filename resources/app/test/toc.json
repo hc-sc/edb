@@ -14,6 +14,11 @@
       },
       "tocfullname": "Table of Content for Plant Protection Products and their Active Substances according to OECD Dossier Guidance - Revision 2 May 2005",
       "tocversion": "01.00.01",
+      "standardtocreference": {
+        "TYPE_NAME": "GHSTS.GHSTS.TOC.STANDARDTOCREFERENCE",
+        "standardtocpid": "urn:oecd:D7DC69AB-46E8-4812-97D2-9B9A934D1B69",
+        "filename": "../01/utils/tocs/TOC_OECD_PPP_2005_01.00.01.xml"
+      },
       "structure": {
         "TYPE_NAME": "GHSTS.GHSTS.TOC.STRUCTURE",
         "tocnode": [
