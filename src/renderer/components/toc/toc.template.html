@@ -1,5 +1,4 @@
 <section class='node-page'>
-  <md-button class='md-raised md-primary' ng-click='$ctrl.toggleShowTOCData()'>Show TOC Data</md-button>
   <div ng-show='$ctrl.showTOCData'>
     <text-input label='Short Name' text-value='$ctrl.toc.tocshortname' on-update='$ctrl.updateTOC("tocshortname", value)' is-disabled='true'></text-input>
     <select-input label='Owner' is-disabled='true' select-value='$ctrl.toc.tocowner' values='$ctrl.tocOwnerType'></select-input>
@@ -18,4 +17,7 @@
     </div>
     <tree node='$ctrl.selectedNode' items='$ctrl.docs'></tree>
   </section>
+  <div class='float-bottom'>
+    <md-button class='md-raised md-primary' ng-click='$ctrl.toggleShowTOCData()'>Show TOC Data</md-button>
+  </div>
 </section>

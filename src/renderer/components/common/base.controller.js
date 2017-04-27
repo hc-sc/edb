@@ -160,6 +160,8 @@ export default class BaseCtrl {
           }
           this.selectedIndex = -1;
           this.selected = angular.copy(this.getModel(prop));
+          this.records.push(this.selected);
+          this.sortData();
           this.oriSelected = _.merge({}, this.selected);
           this.selectPID(prop,this.selected);
           this.showMessage('Adding a new record.');
@@ -381,7 +383,6 @@ selectPID(prop,selected){
   }
 
   dirtCheck(oriString, curString) {
-    console.log(this.oriSelected, this.selected);
     let oriStr = oriString ? oriString : JSON.stringify(angular.copy(this.oriSelected));
     let curStr = curString ? curString : JSON.stringify(angular.copy(this.selected));
     if (curStr && (oriStr !== curStr)) {

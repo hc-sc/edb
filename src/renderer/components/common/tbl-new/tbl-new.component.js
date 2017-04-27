@@ -30,6 +30,8 @@ export default angular.module('tblNew', [
     onSelect: '&',
     onAdd: '&',
     onDelete: '&',
+    onEdit: '&',
+    onView: '&'
   },
   controller: class TblNewCtrl {
     constructor(PicklistService, AppDataService) {
@@ -51,6 +53,7 @@ export default angular.module('tblNew', [
 
     $onChanges() {
       this.mapItems();
+      console.log(this.items);
     }
 
     mapItems() {
@@ -97,6 +100,9 @@ export default angular.module('tblNew', [
               row[headerName] = value;
             }
           }
+          row.deletable = item.deletable == null ? true : item.deletable;
+          row.editable = item.editable == null ? false : item.editable;
+          row.viewable = item.viewable == null ? false: item.viewable;
           row._id = item._id;
           return row;
         });
@@ -130,18 +136,21 @@ export default angular.module('tblNew', [
 
     select(item) {
       this.row = item;
-      this.onSelect({id: item.id, index: item.index});
+      this.onSelect({id: item._id, index: item.index});
     }
 
     delete(index) {
+      if (!this.deletable) return;
       this.onDelete({index});
     }
 
     edit(index) {
+      if (!this.editable) return;
       this.onEdit({index});
     }
 
     view(index) {
+      if (!this.deletable) return;
       this.onView({index});
     }
   }

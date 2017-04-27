@@ -208,7 +208,15 @@ export default angular.module('home', [
       }
 
       editDossier(index) {
-        if (!this.canEditDossier(this.dossiers[index])) return false;
+        if (!this.canEditDossier(this.dossiers[index])) {
+          this.$mdToast.show(
+            this.$mdToast.simple()
+            .textContent('Cannot edit a dossier that has been closed')
+            .hideDelay(1200)
+          );
+          return false;
+        }
+
         const prompt = {
           template: editDossierTemplate,
           controller: class EditDossierCtrl {
@@ -254,7 +262,6 @@ export default angular.module('home', [
 
       deleteDossier(index) {
         if (this.canDeleteDossier(this.dossiers[index])) {
-          console.log('deleting');
           this.appDataService.edb_delete({url: 'dossier', data: this.dossiers[index]._id})
           .then(ret => {
             let curProd = JSON.parse(ret.data);
@@ -264,27 +271,17 @@ export default angular.module('home', [
                 break;
               }
             }
+            this.dossiers = this.dossiers.filter(dossier => {
+              return dossier !== this.dossiers[index];
+            })
+            this.setOptions();
+            this.shouldShowSubmissions();
           });
-          // confirm backend deletes the item
-          // .then(() => {
-            // !!!!!JUN TASK
-          //   this.dossiers = this.dossiers.slice(0, index).concat(this.dossiers.slice(index + 1));
-          //
-          //   if the dossier was selected, empty selection
-          // }
-          // .catch(() => {
-          //   this.$mdToast.show(
-          //     this.$mdToast.simple()
-          //     .textContent('Error in deleting')
-          //     .hideDelay(1200)
-          //   );
-          // });
-          this.shouldShowSubmissions();
         }
         else {
           this.$mdToast.show(
             this.$mdToast.simple()
-            .textContent('Cannot delete a dossier that has sent submissions')
+            .textContent('Cannot delete a dossier that has packaged or sent submissions')
             .hideDelay(1200)
           );
         }
@@ -461,7 +458,7 @@ export default angular.module('home', [
       // can delete if in-progress or packaged
       canDeleteSubmission(item) {
         const state = new RegExp(item._state, 'i');
-        return (state.test(SUBMISSION_STATUS_IN_PROGRESS));
+        return (state.test(SUBMISSION_STATUS_IN_PROGRESS) || state.test(SUBMISSION_STATUS_PACKAGED));
       }
 
       // if in-progress, will be set to packaged by packager
@@ -479,19 +476,10 @@ export default angular.module('home', [
                 state.test(SUBMISSION_STATUS_PACKAGED));
       }
 
-      // can delete dossier if there are no sent submissions
+      // can delete dossier if there are no submissions
       canDeleteDossier(item) {
-        const state = new RegExp(item._state, 'i');
-
-        if (state.test(DOSSIER_STATUS_CLOSED)) return false;
-
-        const sent = new RegExp(SUBMISSION_STATUS_SENT, 'i');
-        const inprogress = new RegExp(SUBMISSION_STATUS_IN_PROGRESS, 'i');
-        for (let sub of item.submission) {
-          if (sent.test(sub._state) || inprogress.test(sub._state)) return false;
-        }
-
-        return true;
+        console.log(item.submission, item.submission.length);
+        return (item.submission && item.submission.length === 0);
       }
 
       // if dossier is open and all submissions are sent can close
@@ -502,8 +490,7 @@ export default angular.module('home', [
           for (let sub of item.submission) {
             if (sub._state !== SUBMISSION_STATUS_SENT) return false;
           }
-          console.log('here');
-          return true;
+          return (item.submission && item.submission.length > 0);
         }
         return false;
       }
