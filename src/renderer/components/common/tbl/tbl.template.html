@@ -30,7 +30,7 @@
           </tr>
         </thead>
         <tbody md-body>
-          <tr ng-repeat='row in $ctrl.rows | index | filter:$ctrl.searchText | orderBy:$ctrl.sortField:$ctrl.reverse' md-row>
+          <tr ng-repeat='row in $ctrl.rows | index | filter:$ctrl.searchText | orderBy:$ctrl.getSortField:$ctrl.reverse:$ctrl.sort' md-row>
             <td ng-show='$ctrl.deletable' class='icon-cell'>
               <icon icon='$ctrl.deleteIcon' ng-click='$ctrl.delete(row.index)'></icon>
             </td>

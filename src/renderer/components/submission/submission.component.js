@@ -51,7 +51,7 @@ export default angular.module('submission', [
           { title: 'Submission', state: '.submissionNode' },
           { title: 'Senders/Receivers', state: '.receivers' },
           { title: 'Dossier', state: '.dossier' },
-          { title: 'Products', state: '.products' },
+          { title: 'Product', state: '.products' },
           { title: 'Files', state: '.files' },
           { title: 'Documents', state: '.documents' },
           { title: 'TOC', state: '.toc' }

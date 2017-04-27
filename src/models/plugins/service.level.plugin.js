@@ -25,9 +25,9 @@ module.exports = exports = function ServiceLevelPlugin(schema, options) {
 
   schema.post('find', ret => {
     let retVal = ret.map(item => {
-      // if (BACKEND_CONST.ID_PREFIX[item._doc._url])
-      //   item._doc.id = BACKEND_CONST.ID_PREFIX[item._doc._url] + item._doc._id;
-      // else
+      if (BACKEND_CONST.ID_PREFIX[item._doc._url])
+        item._doc.id = BACKEND_CONST.ID_PREFIX[item._doc._url] + item._doc._id;
+      else
         item._doc.id = item._doc._id;
     });
     return retVal;

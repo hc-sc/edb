@@ -70,7 +70,7 @@ export default angular.module('receiver', [
                 });
             }
             else {
-              return this.init();
+              return this.init().then(() => this.loading = false);
             }
           })
         ])
@@ -93,14 +93,17 @@ export default angular.module('receiver', [
       // need to override since the method depends on whether it is a submission or not
       save() {
         if (this.isSubmission) {
+          debugger;
           this.ghstsService.edb_post(angular.copy(this.ghsts))
             .then(result => {
               console.log(result);
               this.ghsts = JSON.parse(result.data);
               if (this.records.length > 0) {
                 this.sortData();
-                this.resetSelected(this.selected._id);
-                this.selectReceiver(this.selected._id, this.selectedIndex);
+                if (this.selected) {
+                  this.resetSelected(this.selected._id);
+                  this.selectReceiver(this.selected._id, this.selectedIndex);
+                }
               } else {
                 this.oriSelected = JSON.stringify(this.ghsts._receiver);
               }

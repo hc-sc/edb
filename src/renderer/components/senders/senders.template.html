@@ -1,18 +1,22 @@
 <section class='node-page'>
-  <sidenav items='$ctrl.records'
-          selected='$ctrl.selected'
-          main='_shortname'
-          is-open='$ctrl.sidenavOpen'
-          on-select='$ctrl.updateSelected(item)'
-          on-add='$ctrl.add(item)'>
-  </sidenav>
-  <div ng-show='!$ctrl.isSubmission' class='no-padding no-margin'>
-    <select-input label='{{"legalentity" | translate}}' is-required='true' select-value='$ctrl.selected.toLegalEntityId' main='legalentityname' values='$ctrl.legalEntities' on-update='$ctrl.update("toLegalEntityId", value)'></select-input>
-    <text-input label='{{"shortname" | translate}}' is-required='true' text-value='$ctrl.selected._shortname' on-update='$ctrl.update("_shortname", value)' max-Length='20'></text-input>
-    <text-input label='{{"companycontactregulatoryrole" | translate}}' text-value='$ctrl.selected.companycontactregulatoryrole' on-update='$ctrl.update("companycontactregulatoryrole", value)' max-Length='255'></text-input>
-    <text-input label='{{"remark" | translate}}' text-value='$ctrl.selected.remark' on-update='$ctrl.update("remark", value)' max-Length='2000'></text-input>
-  </div>
-  </div>
+  <spinner ng-if='$ctrl.loading'></spinner>
+  <div ng-if='!$ctrl.loading'>
+    <div ng-if='$ctrl.records && $ctrl.records.length == 0'>{{"noitems" | translate}}</div>
+    <div ng-if='!($ctrl.records && $ctrl.records.length == 0)'>
+      <sidenav items='$ctrl.records'
+              selected='$ctrl.selected'
+              main='_shortname'
+              is-open='$ctrl.sidenavOpen'
+              on-select='$ctrl.updateSelected(item)'
+              on-add='$ctrl.add(item)'>
+      </sidenav>
+      <div ng-show='!$ctrl.isSubmission' class='no-padding no-margin'>
+        <select-input label='{{"legalentity" | translate}}' is-required='true' select-value='$ctrl.selected.toLegalEntityId' main='legalentityname' values='$ctrl.legalEntities' on-update='$ctrl.update("toLegalEntityId", value)'></select-input>
+        <text-input label='{{"shortname" | translate}}' is-required='true' text-value='$ctrl.selected._shortname' on-update='$ctrl.update("_shortname", value)' max-Length='20'></text-input>
+        <text-input label='{{"companycontactregulatoryrole" | translate}}' text-value='$ctrl.selected.companycontactregulatoryrole' on-update='$ctrl.update("companycontactregulatoryrole", value)' max-Length='255'></text-input>
+        <text-input label='{{"remark" | translate}}' text-value='$ctrl.selected.remark' on-update='$ctrl.update("remark", value)' max-Length='2000'></text-input>
+      </div>
+    </div>
     <div class='float-bottom'>
       <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
         <md-tooltip>Save</md-tooltip>
@@ -27,4 +31,5 @@
         <md-icon md-svg-icon='list' class='light'></md-icon>
       </md-button>
     </div>
+  </div>
 </section>

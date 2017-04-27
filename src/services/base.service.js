@@ -444,13 +444,17 @@ module.exports = class BaseService {
           } else if (retVal[key]) { //this is not picklist item
             if (key !== 'documentcontentstatushistory') {
               if (Array.isArray(retVal[key])) {
-                let subRet = self._get_xml_jsonix(retVal[key]);
-                retVal[key] = subRet;
+                if (retVal[key].length > 0) {
+                  let subRet = self._get_xml_jsonix(retVal[key]);
+                  retVal[key] = subRet;
+                } else 
+                  delete retVal[key];
               } else if (typeof retVal[key] === 'object') {
                 retVal[key] = self._get_xml_jsonix(retVal[key]);
               } 
             }
-          }
+          } else if (retVal[key] !== false)
+            delete retVal[key];
         }
       });
     }
