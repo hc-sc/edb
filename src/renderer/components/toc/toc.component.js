@@ -38,6 +38,9 @@ export default angular.module('toc', [
         return this.getAppData({}, 'document');
       }).then(docs => {
         this.docs = JSON.parse(docs.data);
+        this.docs = this.docs.filter(doc => {
+          return doc._dossier === this.dossierData.dossierid;
+        });
         return this.picklistService.edb_get({ 'TYPE_NAME': 'EXTENSION_TYPE_TOC_OWNER' });
       }).then(ret => {
         this.tocOwnerType = JSON.parse(ret.data);
