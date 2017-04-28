@@ -16,9 +16,9 @@ module.exports = class DateTimeProc {
       hour: date.hours,
       minute: date.minutes,
       second: date.seconds,
-      fractionalSecond: date.milliseconds ? date.milliseconds : 0,
-      timezone: (date.milliseconds ? date.milliseconds : 0) / 60,
-      date: dateString
+      // fractionalSecond: date.milliseconds ? date.milliseconds : 0,
+      // timezone: (date.milliseconds ? date.milliseconds : 0) / 60,
+      date: dateStr
     };
     return dateObj;
   }

@@ -20,14 +20,15 @@ export default angular.module('tree', [
       // Tree Structure
       // nodename - name of node
       // nodeheading - annotation
-      // logicaldeleted - whether or not there can be toc2doc nodes
-      // emptynode - flag for if it's a leaf
+      // logicaldeleted - whether or not there can be toc2doc nodes - removed by ghsts_01-04-00.xsd
+      // documentreferences - whether or not there can be toc2doc nodes - add in toc_01-00-00.xsd 
+      // emptynode - flag for if it's a leaf - removed by TOC_OECD PPP 2005_01.00.02.xml
       // toc2doc - the documents related to this node
       // tocnode - subnodes for this node
       this.$mdDialog = $mdDialog;
       this.$mdToast = $mdToast;
-      this.expandIcon = {name: 'down', color: 'dark', label: 'Expand'};
-      this.collapseIcon = {name: 'right', color: 'dark', label: 'Collapse'};
+      this.expandIcon = {name: 'down', color: 'dark', label: 'Collapse'};
+      this.collapseIcon = {name: 'right', color: 'dark', label: 'Expand'};
       this.addIcon = {name: 'add', color: 'dark', label: 'Add Document'};
       this.documentIcon = {name: 'description', color: 'dark', label: 'Document'};
       this.deleteIcon = {name: 'delete', color: 'dark', label: 'Delete Document'};
@@ -37,6 +38,10 @@ export default angular.module('tree', [
 
     toggleHidden() {
       this.isHidden = !this.isHidden;
+    }
+
+    addable() {
+      return this.node && this.node.documentreferences;
     }
 
     canExpand() {

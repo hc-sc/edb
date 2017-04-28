@@ -21,7 +21,20 @@ const BACKEND_CONSTANTS = {
   FILE_CONF_DIR_NAME: 'confidential',
   FILE_CONT_DIR_NAME: 'content',
   FILE_MAIN_DIR_NAME: 'main',
-  FILE_ATTAC_DIR_NAME: 'attachments'
+  FILE_ATTAC_DIR_NAME: 'attachments',
+
+  ID_PREFIX: {
+    'document': 'DC',
+    'dossier': 'DS',
+    'file': 'FL',
+    'legalentity': 'LE',
+    'product': 'PD',
+    'receiver': 'RE',
+    'sender': 'SE',
+    'submission': 'SM',
+    'substance': 'SS',
+    'toc': 'TC'
+  }
 };
 
 module.exports = BACKEND_CONSTANTS;

@@ -1,3 +1,5 @@
+@import './constants.scss';
+
 body {
   height: 100%;
 }
@@ -102,4 +104,16 @@ p.error-message {
   font-size: 0.8em;
   padding: 0;
   margin: 0;
+}
+
+md-dialog {
+  z-index: 2;
+}
+
+md-switch.dark-switch.md-checked .md-bar {
+  background-color: rgb(158, 158, 158);
+}
+
+md-switch.dark-switch.md-checked .md-thumb {
+  background-color: rgba(255, 255, 255, 0.87);
 }
