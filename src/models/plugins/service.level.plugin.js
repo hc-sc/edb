@@ -1,4 +1,6 @@
 const SHARED_CONST = require('../../constants/shared');
+const BACKEND_CONST = require('../../constants/backend');
+
 // service.level.js
 module.exports = exports = function ServiceLevelPlugin(schema, options) {
   let defState = (options.url === 'dossier') ? SHARED_CONST.DOSSIER_STATUS_OPEN : (options.url === 'submission') ? SHARED_CONST.SUBMISSION_STATUS_IN_PROGRESS : SHARED_CONST.STATUS_ACTIVE;
@@ -23,7 +25,10 @@ module.exports = exports = function ServiceLevelPlugin(schema, options) {
 
   schema.post('find', ret => {
     let retVal = ret.map(item => {
-      item._doc.id = item._doc._id;
+      if (BACKEND_CONST.ID_PREFIX[item._doc._url])
+        item._doc.id = BACKEND_CONST.ID_PREFIX[item._doc._url] + item._doc._id;
+      else
+        item._doc.id = item._doc._id;
     });
     return retVal;
   });

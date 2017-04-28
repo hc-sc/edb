@@ -1,0 +1,33 @@
+<md-dialog aria-label='identifier' flex='80'>
+  <form ng-cloak>
+    <md-toolbar>
+      <div class='md-toolbar-tools'>
+        <h2>TOC Data</h2>
+        <span flex></span>
+        <md-button class='md-icon-button' ng-click='$ctrl.close()'>
+          <md-icon md-svg-icon='close' aria-label='close dialog' class='light'></md-icon>
+          <md-tooltip>Close</md-tooltip>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class='md-dialog-content'>
+        <text-input label='Short Name' is-disabled='true' text-value='$ctrl.toc.tocshortname'></text-input>
+        <text-input label='Owner' is-disabled='true' text-value='$ctrl.toc.tocowner'></text-input>
+        <text-input label='Full Name' is-disabled='true' text-value='$ctrl.toc.tocfullname'></text-input>
+        <text-input label='Version' is-disabled='true' text-value='$ctrl.toc.tocversion'></text-input>
+        <fieldset style='margin-top: 20px'>
+          <legend>Standard Reference</legend>
+          <text-input label='Standard PID' text-value='$ctrl.toc.standardtocreference.standardtocpid' on-update='$ctrl.updateStandardReference("standardtocpid", value)' is-disabled='true'></text-input>
+          <text-input label='Filename' text-value='$ctrl.toc.standardtocreference.filename' on-update='$ctrl.updateStandardReference("filename", value)' is-disabled='true'></text-input>
+        </fieldset>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout='row'>
+      <span flex></span>
+      <md-button ng-click='$ctrl.confirm()'>Okay</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

@@ -83,9 +83,8 @@ export default class BaseCtrl {
   // create a new item
   createAppData(data = {}, url = this.url) {
     if (this.isSubmission && url === this.url) {
-      if (url === 'document' || url === 'file') {
+      if ((url === 'document' || url === 'file') && (data._dossier !== this.dossierData.dossierid)) {
         data._dossier = this.dossierData.dossierid;
-        data._ghsts = this.ghsts._id;
         return this.ghstsService.edb_put({url, data});
       } else
         return this.appDataService.edb_put({ url, data });
@@ -96,7 +95,7 @@ export default class BaseCtrl {
   // update a item
   updateAppData(data = {}, url = this.url) {
     if (this.isSubmission && url === this.url) {
-      if (url === 'document' || url === 'file') {
+      if ((url === 'document' || url === 'file') && (data._dossier !== this.dossierData.dossierid)) {
         data._dossier = this.dossierData.dossierid;  //Do not set _ghsts to allow back-end create new item, if it is required.
         return this.ghstsService.edb_post({url, data});
       } else
@@ -160,12 +159,32 @@ export default class BaseCtrl {
           }
           this.selectedIndex = -1;
           this.selected = angular.copy(this.getModel(prop));
+          this.records.push(this.selected);
+          this.sortData();
           this.oriSelected = _.merge({}, this.selected);
+          this.selectPID(prop,this.selected);
           this.showMessage('Adding a new record.');
         });
     }
   }
-
+selectPID(prop,selected){
+  let generatedPID=this.getPid();
+  if(prop=='substance'){
+     selected.substancepid=generatedPID;
+  }else if(prop=='file'){
+    selected.filegeneric.filepid=generatedPID;
+  }else if(prop=='product'){
+    selected.productpid=generatedPID;
+  }else if(prop=='legalentity'){
+    selected.legalentitypid=generatedPID;
+  }else if(prop=='document'){
+    selected.documentgeneric.documentpid=generatedPID;
+    selected.documentgeneric.documentfamilypid=this.getPid();
+  }
+  else{
+    console.log(prop+" doesn't have PID, do nothing.");
+  }
+}
   // update an item in the database
   save() {
     if (!this.dialogOpen) {
@@ -238,13 +257,27 @@ export default class BaseCtrl {
     this.dialogOpen = true;
     this.$mdDialog.show(this.buildModal(nodeName, this.selected.length, true))
       .then(item => {
-        if (this.getRef(nodeName).filter(record => {
-          console.log(record, item);
-          if (nodeName.toLowerCase().endsWith('ra'))
-            return record.toSpecificForRAId === item.toSpecificForRAId;
-          else
-            return equals(record, item);
-        }).length !== 0) {
+        // if (this.getRef(nodeName).filter(record => {
+        //   if (nodeName.toLowerCase().endsWith('ra'))
+        //     return record.toSpecificForRAId === item.toSpecificForRAId;
+        //   else {
+        //     Object.keys(item).forEach(prop => {
+        //       console.log(item[prop], record[prop]);
+        //       if (!equals(item[prop], record[prop])) return false;
+        //     });
+        //     return true;
+        //   }
+        // }).length !== 0) {
+
+        // for each item in the table
+        // for each prop in the added item
+        let isDupe = this.getRef(nodeName).filter(record => {
+          return Object.keys(item).filter(prop => {
+            return (equals(item[prop], record[prop]));
+          }).length === Object.keys(item).length;
+        }).length !== 0;
+
+        if (isDupe) {
           this.showMessage('Duplicate item.');
         }
         else {

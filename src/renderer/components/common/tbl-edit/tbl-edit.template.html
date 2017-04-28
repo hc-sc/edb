@@ -31,17 +31,17 @@
           </tr>
         </thead>
         <tbody md-body>
-          <tr ng-repeat='row in $ctrl.rows | index | filter:$ctrl.searchText | orderBy:$ctrl.sortField:$ctrl.reverse' md-row>
+          <tr ng-repeat='row in $ctrl.rows | index | filter:$ctrl.searchText | orderBy:$ctrl.sortField:$ctrl.reverse' md-row ng-class='{selected: row.isSelected}'>
             <td ng-show='$ctrl.deletable' class='icon-cell'>
-              <icon icon='$ctrl.deleteIcon' ng-click='$ctrl.delete(row.index)' disabled='!row.deletable || false'></icon>
+              <icon icon='$ctrl.deleteIcon' ng-click='$ctrl.delete(row.index)' disabled='!row.deletable || false' color='row.isSelected ? dark : light'></icon>
             </td>
             <td ng-show='$ctrl.editable' class='icon-cell'>
-              <icon icon='$ctrl.editIcon' ng-click='$ctrl.edit(row.index)' disabled='!row.editable || false'></icon>
+              <icon icon='$ctrl.editIcon' ng-click='$ctrl.edit(row.index)' disabled='!row.editable || false' color='row.isSelected ? dark : dark'></icon>
             </td>
             <td ng-show='$ctrl.viewable' class='icon-cell'>
-              <icon icon='$ctrl.viewIcon' ng-click='$ctrl.view(row.index)' disabled='!row.viewable || false'></icon>
+              <icon icon='$ctrl.viewIcon' ng-click='$ctrl.view(row.index)' disabled='!row.viewable || false' color='row.isSelected ? dark : light'></icon>
             </td>
-            <td ng-repeat='data in row track by $index' ng-if='!$last' md-cell ng-click='$ctrl.select(row[row.length - 1], row.index)'>{{$ctrl.getData(data, $index)}}</td>
+            <td ng-repeat='data in row track by $index' ng-if='!$last' ng-click='$ctrl.select(row[row.length - 1], row.index)'>{{$ctrl.getData(data, $index) | translate}}</td>
           </tr>
         </tbody>
       </table>

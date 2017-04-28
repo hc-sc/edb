@@ -180,10 +180,25 @@ var initDB = () => {
         let svrClass;
         let svr;
 
+        svrClass = require('./services/product.service');
+        svr = new svrClass('01.04.00');
+        qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/legalentity.service');
         svr = new svrClass('01.04.00');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/substance.service');
+        svr = new svrClass('01.04.00');
+        qAry.push(svr.initDbfromTestData());
+        svrClass = require('./services/file.service');
+        svr = new svrClass('01.04.00');
+        qAry.push(svr.initDbfromTestData());
+        svrClass = require('./services/document.service');
+        svr = new svrClass('01.04.00');
+        qAry.push(svr.initDbfromTestData());
+        svrClass = require('./services/receiver.service');
+        svr = new svrClass('01.04.00');
+        qAry.push(svr.initDbfromTestData());
+        svrClass = require('./services/sender.service');
         svr = new svrClass('01.04.00');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/toc.service');
@@ -363,7 +378,7 @@ app.on('ready', function () {
     mainWindow.loadURL('file://' + __dirname + '/renderer/index.html');
   mainWindow.webContents.on('did-finish-load', function () {
     // TODO: setTitle is being deprecated, find and use alternative
-    mainWindow.setTitle('eDossier Builder (V1.0.15)');
+    mainWindow.setTitle('eDossier Builder (V1.0.16)');
     //if (configure.env.toString().toUpper() == 'DEV'){
     mainWindow.openDevTools();
   });

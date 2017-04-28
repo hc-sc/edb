@@ -1,222 +1,202 @@
 <section class='node-page'>
-
   <spinner ng-if='$ctrl.loading'></spinner>
   <div class='no-margin no-padding' ng-if='!ctrl.loading'>
-        <sidenav items='$ctrl.records' 
-                  selected='$ctrl.selected'
-                  main='documentgeneric.documenttitle' 
-                  is-open='$ctrl.sidenavOpen' 
-                  on-select='$ctrl.updateSelected(item)'
-                  on-add='$ctrl.add(item)'>
-        </sidenav>
-        
-        <div class='extension-wrapper'>
-            <text-input label='{{"documentpid" | translate}}' 
-                  is-required='true'  
-                  text-value='$ctrl.selected.documentgeneric.documentpid' 
-                  on-update='$ctrl.update("documentgeneric.documentpid", value)'>
-            </text-input>
-             <md-button class='md-raised md-primary' ng-click='$ctrl.genPid()'>Generate PID</md-button>
+    <div ng-if='$ctrl.records && $ctrl.records.length == 0'>{{"noitems" | translate}}</div>
+    <div ng-if='!($ctrl.records && $ctrl.records.length == 0)'>
+      <sidenav items='$ctrl.records' selected='$ctrl.selected' main='documentgeneric.documenttitle' is-open='$ctrl.sidenavOpen'
+        on-select='$ctrl.updateSelected(item)' on-add='$ctrl.add(item)'>
+      </sidenav>
+
+      <div class='extension-wrapper'>
+        <text-input label='{{"documentpid" | translate}}' is-required='true' text-value='$ctrl.selected.documentgeneric.documentpid'
+          on-update='$ctrl.update("documentgeneric.documentpid", value)'>
+        </text-input>
+        <md-button class='md-raised md-primary' ng-click='$ctrl.genPid()'>Generate PID</md-button>
+      </div>
+
+
+      <div class='extension-wrapper'>
+        <text-input label='{{"documentfamilypid" | translate}}' is-required='true' text-value='$ctrl.selected.documentgeneric.documentfamilypid'
+          on-update='$ctrl.update("documentgeneric.documentfamilypid", value)'>
+        </text-input>
+        <md-button class='md-raised md-primary' ng-click='$ctrl.genFamilyPid()'>Generate PID</md-button>
+      </div>
+
+      <text-input label='{{"documentcompanyid" | translate}}' is-required='true' text-value='$ctrl.selected.documentgeneric.documentcompanyid'
+        on-update='$ctrl.update("documentgeneric.documentcompanyid", value)' max-Length='20'>
+      </text-input>
+
+      <text-input label='{{"documentfamily" | translate}}' is-required='true' text-value='$ctrl.selected.documentgeneric.documentfamily'
+        on-update='$ctrl.update("documentgeneric.documentfamily", value)' max-Length='255'>
+      </text-input>
+
+      <text-input label='{{"documenttitle" | translate}}' is-required='true' text-value='$ctrl.selected.documentgeneric.documenttitle'
+        on-update='$ctrl.update("documentgeneric.documenttitle", value)' max-Length='2000'>
+      </text-input>
+
+      <text-input label='{{"documentauthor" | translate}}' is-required='true' text-value='$ctrl.selected.documentgeneric.documentauthor'
+        on-update='$ctrl.update("documentgeneric.documentauthor", value)' max-Length='255'>
+      </text-input>
+
+      <text-input label='{{"documentissuedate" | translate}}' text-value='$ctrl.selected.documentgeneric.documentissuedate' is-required='true'
+        max-length='30' on-update='$ctrl.update("documentgeneric.documentissuedate", value)'>
+      </text-input>
+
+      <md-switch ng-model='$ctrl.selected.documentgeneric.publishedindicator' aria-label='{{"publishedindicator" | translate}}'
+        class='md-primary' ng-change='$ctrl.printValue()'>
+        {{"publishedindicator" | translate}} : {{$ctrl.selected.documentgeneric.publishedindicator}}
+        <md-tooltip>True or False</md-tooltip>
+      </md-switch>
+
+
+      <md-switch ng-model='$ctrl.selected.documentgeneric.gxpindicator' aria-label='{{"gxpindicator" | translate}}' class='md-primary'
+        ng-change='$ctrl.printValue()'>
+        {{"gxpindicator" | translate}} : {{$ctrl.selected.documentgeneric.gxpindicator}}
+        <md-tooltip>True or False</md-tooltip>
+      </md-switch>
+
+      <md-switch ng-model='$ctrl.selected.documentgeneric.testedonvertebrate' aria-label='{{"testedonvertebrate" | translate}}'
+        class='md-primary' ng-change='$ctrl.printValue()'>
+        {{"testedonvertebrate" | translate}} : {{$ctrl.selected.documentgeneric.testedonvertebrate}}
+        <md-tooltip>True or False</md-tooltip>
+      </md-switch>
+
+      <md-toolbar>
+        <div class='md-toolbar-tools custom-toolbar'>
+          <md-switch class='dark-switch' ng-model='$ctrl.selected._docsourcetype' aria-label='{{"publishedindicator" | translate}}'
+            ng-change='$ctrl.printValue()'>
+            {{"documentsource" | translate}}: {{$ctrl.selected._docsourcetype}}
+            <md-tooltip>Complated document source or Partial document source</md-tooltip>
+          </md-switch>
         </div>
+      </md-toolbar>
 
-       
-        <div class='extension-wrapper'>
-            <text-input label='{{"documentfamilypid" | translate}}' 
-                  is-required='true'  
-                  text-value='$ctrl.selected.documentgeneric.documentfamilypid' 
-                  on-update='$ctrl.update("documentgeneric.documentfamilypid", value)'>
-            </text-input>
-             <md-button class='md-raised md-primary' ng-click='$ctrl.genFamilyPid()'>Generate PID</md-button>
+      <div layout='column' flex class='group-container'>
+        <text-input ng-if='$ctrl.selected._docsourcetype' label='{{"completedocumentsource" | translate}}' is-required='true' text-value='$ctrl.selected.documentgeneric.completedocumentsource'
+          on-update='$ctrl.update("documentgeneric.completedocumentsource", value)' max-Length='2000'>
+        </text-input>
+
+        <text-input ng-if='!$ctrl.selected._docsourcetype' label='{{"documentsource" | translate}}' is-required='true' text-value='$ctrl.selected.documentgeneric.documentsource'
+          on-update='$ctrl.update("documentgeneric.documentsource", value)' max-Length='2000'>
+        </text-input>
+
+        <number-input ng-if='!$ctrl.selected._docsourcetype' label='{{"documentyear" | translate}}' is-required='false' text-value='$ctrl.selected.documentgeneric.documentyear'
+          on-update='$ctrl.update("documentgeneric.documentyear", value)' max-Length='20'>
+        </number-input>
+        <text-input ng-if='!$ctrl.selected._docsourcetype' label='{{"documentissue" | translate}}' is-required='false' text-value='$ctrl.selected.documentgeneric.documentissue'
+          on-update='$ctrl.update("documentgeneric.documentissue", value)' max-Length='20'>
+        </text-input>
+
+        <number-input ng-if='!$ctrl.selected._docsourcetype' label='{{"documentvolume" | translate}}' is-required='false' text-value='$ctrl.selected.documentgeneric.documentvolume'
+          on-update='$ctrl.update("documentgeneric.documentvolume", value)' max-Length='20'>
+        </number-input>
+        <number-input ng-if='!$ctrl.selected._docsourcetype' label='{{"documentpages" | translate}}' is-required='false' text-value='$ctrl.selected.documentgeneric.documentpages'
+          on-update='$ctrl.update("documentgeneric.documentpages", value)' max-Length='20'>
+        </number-input>
+      </div>
+
+      <tbl-new ng-if='!$ctrl.loading' title='{{"referencedtofile" | translate}} *' items='$ctrl.selected.documentgeneric.referencedtofile'
+        projection='[{name: "toFileId", url: "file"}]' on-select='$ctrl.selectTblItem("documentgeneric.referencedtofile",index)'
+        on-add='$ctrl.addTblItem("documentgeneric.referencedtofile")' on-delete='$ctrl.deleteTblItem("documentgeneric.referencedtofile",index)'
+        min-items='1'>
+      </tbl-new>
+
+      <md-toolbar>
+        <div class='md-toolbar-tools custom-toolbar'>
+          <h2 class='md-title'>{{"documentowner" | translate}}</h2>
+          <span flex></span>
+          <md-button class='md-icon-button' ng-click='$ctrl.addArrayGen("documentowner")'>
+            <md-icon md-svg-icon='add' aria-label='add dialog' class='light'></md-icon>
+            <md-tooltip>Add Owner</md-tooltip>
+          </md-button>
         </div>
-        
-         <text-input label='{{"documentfamily" | translate}}'
-            is-required='true'
-            text-value='$ctrl.selected.documentgeneric.documentfamily'
-            on-update='$ctrl.update("documentgeneric.documentfamily", value)'
-            max-Length='255'>
-        </text-input>
-
-        <text-input label='{{"documenttitle" | translate}}' 
-            is-required='true'
-            text-value='$ctrl.selected.documentgeneric.documenttitle'
-            on-update='$ctrl.update("documentgeneric.documenttitle", value)'
+      </md-toolbar>
+      <md-list>
+        <md-list-item ng-repeat="owner in $ctrl.selected.documentgeneric.documentowner track by $index" class="noright">
+          <text-input label='{{"documentowner" | translate}}' is-required='true' text-value='owner' on-update='$ctrl.updateArrayGen("documentowner", $index, value)'
             max-Length='2000'>
-        </text-input>
+          </text-input>
 
-        <text-input label='{{"documentauthor" | translate}}' 
-            is-required='true'
-            text-value='$ctrl.selected.documentgeneric.documentauthor'
-            on-update='$ctrl.update("documentgeneric.documentauthor", value)'
-            max-Length='255'>
-        </text-input>
+          <md-button aria-label='Delete Item' ng-click='$ctrl.deleteArrayGen("documentowner", $index)'>
+            <md-icon md-svg-icon='delete' class='dark'></md-icon>
+            <md-tooltip>Delete Owner</md-tooltip>
+          </md-button>
 
-        <text-input label='{{"documentissuedate" | translate}}' 
-            text-value='$ctrl.selected.documentgeneric.documentissuedate' 
-            is-required='true' 
-            max-length='30'
-            on-update='$ctrl.update("documentgeneric.documentissuedate", value)'>
-        </text-input>    
-        
-        <md-switch ng-model='$ctrl.selected.documentgeneric.publishedindicator' 
-                        aria-label='{{"publishedindicator" | translate}}' 
-                        class='md-primary' 
-                        ng-change='$ctrl.printValue()'>
-                {{"publishedindicator" | translate}} : {{$ctrl.selected.documentgeneric.publishedindicator}}
-                <md-tooltip>True or False</md-tooltip>
-        </md-switch>
-     
+        </md-list-item>
+      </md-list>
 
-         <text-input label='{{"completedocumentsource" | translate}}' 
-            is-required='true'
-            text-value='$ctrl.selected.documentgeneric.completedocumentsource'
-            on-update='$ctrl.update("documentgeneric.completedocumentsource", value)'
+
+      <md-toolbar>
+        <div class='md-toolbar-tools custom-toolbar'>
+          <h2 class='md-title'>{{"testlaboratory" | translate}}</h2>
+          <span flex></span>
+          <md-button class='md-icon-button' ng-click='$ctrl.addArrayGen("testlaboratory")'>
+            <md-icon md-svg-icon='add' aria-label='add dialog' class='light'></md-icon>
+            <md-tooltip>Add Test Laboratory</md-tooltip>
+          </md-button>
+        </div>
+      </md-toolbar>
+      <md-list>
+        <md-list-item ng-repeat="lab in $ctrl.selected.documentgeneric.testlaboratory track by $index" class="noright">
+          <text-input label='{{"testlaboratory" | translate}}' is-required='true' text-value='lab' on-update='$ctrl.updateArrayGen("testlaboratory", $index, value)'
             max-Length='2000'>
-        </text-input>
-        
-        <md-switch ng-model='$ctrl.selected.documentgeneric.gxpindicator' 
-                    aria-label='{{"gxpindicator" | translate}}' 
-                    class='md-primary' 
-                    ng-change='$ctrl.printValue()'>
-            {{"gxpindicator" | translate}} : {{$ctrl.selected.documentgeneric.gxpindicator}}
-            <md-tooltip>True or False</md-tooltip>
-        </md-switch>
+          </text-input>
 
-        <md-switch ng-model='$ctrl.selected.documentgeneric.testedonvertebrate' 
-                    aria-label='{{"testedonvertebrate" | translate}}'
-                    class='md-primary' 
-                    ng-change='$ctrl.printValue()'>
-            {{"testedonvertebrate" | translate}} : {{$ctrl.selected.documentgeneric.testedonvertebrate}}
-            <md-tooltip>True or False</md-tooltip>
-        </md-switch>
+          <md-button aria-label='Delete Item' ng-click='$ctrl.deleteArrayGen("testlaboratory", $index)'>
+            <md-icon md-svg-icon='delete' class='dark'></md-icon>
+            <md-tooltip>Delete Test Lab</md-tooltip>
+          </md-button>
 
-        <md-toolbar>
-            <div class='md-toolbar-tools custom-toolbar'>
-                <h2 class='md-title'>{{"documentowner" | translate}}</h2>       
-                <span flex></span>
-                <md-button class='md-icon-button' ng-click='$ctrl.addArrayGen("documentowner")'>
-                    <md-icon md-svg-icon='add' aria-label='add dialog' class='light'></md-icon>
-                    <md-tooltip>Add Owner</md-tooltip>
-                </md-button>
-            </div>
-        </md-toolbar>
-        <md-list>
-            <md-list-item ng-repeat= "owner in $ctrl.selected.documentgeneric.documentowner track by $index"  class="noright">
-              
-                    <text-input 
-                            label='{{"documentowner" | translate}}' 
-                            is-required='true'
-                            text-value='owner' 
-                            on-update='$ctrl.updateArrayGen("documentowner", $index, value)'
-                            max-Length='2000'>
-                    </text-input>
-                   
-                    <md-button aria-label='Delete Item'  ng-click='$ctrl.deleteArrayGen("documentowner", $index)'>
-                        <md-icon md-svg-icon='delete' class='dark'></md-icon>
-                        <md-tooltip>Delete Owner</md-tooltip>
-                    </md-button>
-              
-            </md-list-item>
-        </md-list>
-      
+        </md-list-item>
+      </md-list>
 
-        <md-toolbar>
-            <div class='md-toolbar-tools custom-toolbar'>
-                <h2 class='md-title'>{{"testlaboratory" | translate}}</h2>
-                <span flex></span>
-                <md-button class='md-icon-button' ng-click='$ctrl.addArrayGen("testlaboratory")'>
-                    <md-icon md-svg-icon='add' aria-label='add dialog' class='light'></md-icon>
-                    <md-tooltip>Add Test Laboratory</md-tooltip>
-                </md-button>
-            </div>
-        </md-toolbar>
-        <md-list>
-            <md-list-item ng-repeat= "lab in $ctrl.selected.documentgeneric.testlaboratory track by $index"  class="noright">
-              
-                    <text-input 
-                            label='{{"testlaboratory" | translate}}' 
-                            is-required='true'
-                            text-value='lab' 
-                            on-update='$ctrl.updateArrayGen("testlaboratory", $index, value)'
-                            max-Length='2000'>
-                    </text-input>
-                   
-                    <md-button  aria-label='Delete Item'  ng-click='$ctrl.deleteArrayGen("testlaboratory", $index)'>
-                        <md-icon md-svg-icon='delete' class='dark'></md-icon>
-                        <md-tooltip>Delete Test Lab</md-tooltip>
-                    </md-button>
-               
-            </md-list-item>
-        </md-list>
-          
-        <!--<tbl ng-if='!$ctrl.loading' title ='{{"documentcontentstatushistory" | translate}}' 
-                
-              items='$ctrl.selected.documentgeneric.documentcontentstatushistory.documentcontentstatus' 
-              projection='$ctrl.documentContentStatusProjection' 
-              on-select='$ctrl.selectTblItem("documentgeneric.documentcontentstatushistory.documentcontentstatus",index)' 
-              on-add='$ctrl.addTblItem("documentgeneric.documentcontentstatushistory.documentcontentstatus")' 
+
+      <!--<tbl-new ng-if='!$ctrl.loading' title ='{{"documentcontentstatushistory" | translate}}'
+
+              items='$ctrl.selected.documentgeneric.documentcontentstatushistory.documentcontentstatus'
+              projection='$ctrl.documentContentStatusProjection'
+              on-select='$ctrl.selectTblItem("documentgeneric.documentcontentstatushistory.documentcontentstatus",index)'
+              on-add='$ctrl.addTblItem("documentgeneric.documentcontentstatushistory.documentcontentstatus")'
               on-delete='$ctrl.deleteTblItem("documentgeneric.documentcontentstatushistory.documentcontentstatus",index)'>
-        </tbl>-->
-               
-        <tbl ng-if='!$ctrl.loading' title ='{{"referencedtofile" | translate}} *'
- 
-              items='$ctrl.selected.documentgeneric.referencedtofile'  
-              projection='[{name: "toFileId", url: "file"}]' 
-              on-select='$ctrl.selectTblItem("documentgeneric.referencedtofile",index)' 
-              on-add='$ctrl.addTblItem("documentgeneric.referencedtofile")' 
-              on-delete='$ctrl.deleteTblItem("documentgeneric.referencedtofile",index)'
-              min-items='1'>
-        </tbl>
-      
-       <tbl ng-if='!$ctrl.loading' title ='{{"referenceddocument" | translate}}'
- 
-              items='$ctrl.selected.documentgeneric.referenceddocument'  
-              projection='$ctrl.referencedDocumentProjection'
-              on-select='$ctrl.selectTblItem("documentgeneric.referenceddocument",index)' 
-              on-add='$ctrl.addTblItem("documentgeneric.referenceddocument")' 
-              on-delete='$ctrl.deleteTblItem("documentgeneric.referenceddocument",index)'>
-        </tbl>
+        </tbl-new>-->
 
 
-        <tbl ng-if='!$ctrl.loading' title ='{{"relatedtosubstance" | translate}}'
- 
-              items='$ctrl.selected.documentgeneric.relatedtosubstance'  
-              projection='[{name: "toSubstanceId", url: "substance"}]' 
-              on-select='$ctrl.selectTblItem("documentgeneric.relatedtosubstance",index)' 
-              on-add='$ctrl.addTblItem("documentgeneric.relatedtosubstance")' 
-              on-delete='$ctrl.deleteTblItem("documentgeneric.relatedtosubstance",index)'>
-        </tbl>
 
-        <tbl ng-if='!$ctrl.loading' title ='{{"documentnumber" | translate}}'
-              items='$ctrl.selected.documentgeneric.documentnumber'  
-              projection='$ctrl.documentnumberProjection'
-              on-select='$ctrl.selectTblItem("documentgeneric.documentnumber",index)' 
-              on-add='$ctrl.addTblItem("documentgeneric.documentnumber")' 
-              on-delete='$ctrl.deleteTblItem("documentgeneric.documentnumber",index)'>
-        </tbl>
+      <tbl-new ng-if='!$ctrl.loading' title='{{"referenceddocument" | translate}}' items='$ctrl.selected.documentgeneric.referenceddocument'
+        projection='$ctrl.referencedDocumentProjection' on-select='$ctrl.selectTblItem("documentgeneric.referenceddocument",index)'
+        on-add='$ctrl.addTblItem("documentgeneric.referenceddocument")' on-delete='$ctrl.deleteTblItem("documentgeneric.referenceddocument",index)'>
+      </tbl-new>
 
 
-       <tbl ng-if='!$ctrl.loading' 
-            title ='{{"documentra" | translate}} *' 
-            items='$ctrl.selected.documentra' 
-            projection='[{name: "toSpecificForRAId", url: "receiver"}]'
-            on-select='$ctrl.selectTblItem("documentra",index)' 
-            on-delete='$ctrl.deleteTblItem("documentra",index)' 
-            on-add='$ctrl.addTblItem("documentra")'
-            min-items='1'>
-       </tbl>
-        
-        <div style='z-index:100' class='float-bottom'>
-            <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
-                <md-icon md-svg-icon='save' class='light'></md-icon>
-            </md-button>
-            <md-button aria-label='Add New Item' class='md-fab md-primary' ng-click='$ctrl.add("document")'>
-                <md-tooltip>Add</md-tooltip>
-                <md-icon md-svg-icon='add' class='light'></md-icon>
-            </md-button>
-            <md-button aria-label='Toggle List' class='md-fab md-primary' ng-click='$ctrl.toggleList()'>
-                <md-tooltip>View List</md-tooltip>
-                <md-icon md-svg-icon='list' class='light'></md-icon>
-            </md-button>
-        </div>
+      <tbl-new ng-if='!$ctrl.loading' title='{{"relatedtosubstance" | translate}}' items='$ctrl.selected.documentgeneric.relatedtosubstance'
+        projection='[{name: "toSubstanceId", url: "substance"}]' on-select='$ctrl.selectTblItem("documentgeneric.relatedtosubstance",index)'
+        on-add='$ctrl.addTblItem("documentgeneric.relatedtosubstance")' on-delete='$ctrl.deleteTblItem("documentgeneric.relatedtosubstance",index)'>
+      </tbl-new>
+
+      <tbl-new ng-if='!$ctrl.loading' title='{{"documentnumber" | translate}}' items='$ctrl.selected.documentgeneric.documentnumber'
+        projection='$ctrl.documentnumberProjection' on-select='$ctrl.selectTblItem("documentgeneric.documentnumber",index)'
+        on-add='$ctrl.addTblItem("documentgeneric.documentnumber")' on-delete='$ctrl.deleteTblItem("documentgeneric.documentnumber",index)'>
+      </tbl-new>
+
+
+      <tbl-new ng-if='!$ctrl.loading' title='{{"documentra" | translate}} *' items='$ctrl.selected.documentra' projection='[{name: "toSpecificForRAId", url: "receiver"}]'
+        on-select='$ctrl.selectTblItem("documentra",index)' on-delete='$ctrl.deleteTblItem("documentra",index)' on-add='$ctrl.addTblItem("documentra")'
+        min-items='1'>
+      </tbl-new>
+    </div>
+
+    <div class='float-bottom'>
+      <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
+        <md-icon md-svg-icon='save' class='light'></md-icon>
+      </md-button>
+      <md-button aria-label='Add New Item' class='md-fab md-primary' ng-click='$ctrl.add("document")'>
+        <md-tooltip>Add</md-tooltip>
+        <md-icon md-svg-icon='add' class='light'></md-icon>
+      </md-button>
+      <md-button aria-label='Toggle List' class='md-fab md-primary' ng-click='$ctrl.toggleList()'>
+        <md-tooltip>View List</md-tooltip>
+        <md-icon md-svg-icon='list' class='light'></md-icon>
+      </md-button>
+    </div>
   </div>
 </section>

@@ -19,16 +19,16 @@ export default class DocumentCtrl extends BaseCtrl{
             datarequirementTypeOptions: this.datarequirementTypeOptions,
             raDocumentNumberTypeOptions: this.raDocumentNumberType
       };
-      
-    
+
+
       // this.contentStatusProjection = [
       //   {name: "documentcontentstatushistory", url: "picklist"},
       //   'submissionnumber'
-      // ]; 
+      // ];
 
        this.documentContentStatusProjection = [
         {name: "documentcontentstatushistory", url: "picklist"}
-      ]; 
+      ];
 
       this.referencedDocumentProjection = [
         {name: "referencetype", url: "picklist"},
@@ -38,7 +38,7 @@ export default class DocumentCtrl extends BaseCtrl{
 
        this.documentnumberProjection = [
          {name: "documentnumbertype", url: "picklist"},
-         'identifier'       
+         'identifier'
       ];
 
       this.init().then(() => {
@@ -50,14 +50,14 @@ export default class DocumentCtrl extends BaseCtrl{
     }
 
 
-    genPid() {
-      // console.log("View document: " + JSON.stringify(this.selected.documentgeneric));
-      this.selected.documentgeneric.documentpid = this.getPid();
-    }
+    // genPid() {
+    //   // console.log("View document: " + JSON.stringify(this.selected.documentgeneric));
+    //   this.selected.documentgeneric.documentpid = this.getPid();
+    // }
 
-    genFamilyPid() {
-      this.selected.documentgeneric.documentfamilypid = this.getPid();
-    }
+    // genFamilyPid() {
+    //   this.selected.documentgeneric.documentfamilypid = this.getPid();
+    // }
 
     getModel(prop) {
       return this.modelService.getModel(prop);
@@ -67,12 +67,12 @@ export default class DocumentCtrl extends BaseCtrl{
         this.selected.documentgeneric[prop].push(this.getModel(prop));
     }
 
-    updateArrayGen(prop, index, value, parentArray) {     
+    updateArrayGen(prop, index, value, parentArray) {
           this.selected.documentgeneric[prop][index] = value;
     }
 
     deleteArrayGen(prop, index) {
         this.selected.documentgeneric[prop] = this.selected.documentgeneric[prop].slice(0, index).concat(this.selected.documentgeneric[prop].slice(index + 1));
     }
-    
+
 }

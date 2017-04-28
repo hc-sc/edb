@@ -1,23 +1,26 @@
 <div class='main-layout'>
 <toolbar items='$ctrl.toolbarItems'></toolbar>
 <section class='flex' layout-padding>
-  <tbl-edit
+  <tbl-new
     title='Dossiers'
     items='$ctrl.dossiers'
     projection='$ctrl.dossierProjection'
-    default-sort='LAST_MODIFIED'
+    default-sort='_lastMod'
     default-reverse='true'
     on-select='$ctrl.selectDossier(id, index)'
     on-add='$ctrl.newDossier()'
     on-delete='$ctrl.deleteDossier(index)'
     on-edit='$ctrl.editDossier(index)'
+    deletable='true'
     editable='true'
-    deletable='false'
-  ></tbl-edit>
-  <tbl-edit
-    title='{{$ctrl.dossier.dossierdescriptiontitle || "Submissions"}}'
+  ></tbl-new>
+  <p ng-if='$ctrl.dossiers && $ctrl.dossiers.length != 0 && !$ctrl.hasSelection'>Select a dossier to review submissions</p>
+  <tbl-new
+    title='Submissions'
+    ng-if='$ctrl.hasSelection'
     items='$ctrl.submissions'
     projection='$ctrl.submissionProjection'
+    default-sort='submissionnumber'
     default-reverse='false'
     on-select='$ctrl.selectSubmission(id, index)'
     on-add='$ctrl.newSubmission()'
@@ -27,6 +30,6 @@
     deletable='true'
     viewable='true'
     editable='true'
-  ></tbl-edit>
+  ></tbl-new>
 </section>
 </div>

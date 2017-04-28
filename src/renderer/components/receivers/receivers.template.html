@@ -1,22 +1,23 @@
 <section class='node-page'>
-  <sidenav items='$ctrl.records'
-          selected='$ctrl.selected'
-          main='shortname'
-          is-open='$ctrl.sidenavOpen'
-          on-select='$ctrl.updateSelected(item)'
-          on-add='$ctrl.add(item)'>
-  </sidenav>
-  <div ng-show='!$ctrl.isSubmission' class='no-padding no-margin'>
-    <select-input label='{{"legalentity" | translate}}' is-required='true' select-value='$ctrl.selected.toLegalEntityId' main='legalentityname' values='$ctrl.legalEntities' on-update='$ctrl.update("toLegalEntityId", value)'></select-input>
-    <text-input label='{{"shortname" | translate}}' is-required='true' text-value='$ctrl.selected.shortname' on-update='$ctrl.update("shortname", value)' max-Length='20'></text-input>
-    <text-input label='{{"role" | translate}}' text-value='$ctrl.selected.role' on-update='$ctrl.update("role", value)' max-Length='255'></text-input>
-  </div>
-  <div ng-show='$ctrl.isSubmission' class='no-padding no-margin'>
-    <!--<tbl ng-if='!this.$scope.$root.loading' title='Receivers' items='$ctrl.records' projection='["shortname", "role"]' default-sort='LAST_MODIFIED' default-reverse='true' on-select='$ctrl.selectReceiver(id, index)' on-add='$ctrl.newReceiver()' on-delete='$ctrl.deleteReceiver(id)'></tbl>-->
-    <tbl ng-if='!this.$scope.$root.loading' title='{{"receivers" | translate}}' items='$ctrl.records' projection='[{name: "toLegalEntityId", url: "legalentity"}, "shortname", "role"]' default-sort='toLegalEntityId' on-select='$ctrl.selectReceiver(id, index)' on-add='$ctrl.addReceiver()' on-delete='$ctrl.deleteReceiver(id, index)' min-items='1'></tbl>
-    <tbl title='{{$ctrl.selected.shortname}} Senders' items='$ctrl.senders' projection='[{name: "toLegalEntityId", url: "legalentity"},"_shortname", "companycontactregulatoryrole", "remark"]' on-select='$ctrl.selectSender(index)' default-sort='toLegalEntityId' on-add='$ctrl.addSender()' on-delete='$ctrl.deleteSender(index)' min-items='1'></tbl>
-  </div>
-    <div style='z-index:100' class='float-bottom'>
+  <spinner ng-if='$ctrl.loading'></spinner>
+  <div ng-if='!$ctrl.loading'>
+    <div ng-if='$ctrl.isSubmission'>
+      <tbl-new ng-if='!this.$scope.$root.loading' title='{{"receivers" | translate}}' items='$ctrl.records' projection='[{name: "toLegalEntityId", url: "legalentity"}, "shortname", "role"]' default-sort='toLegalEntityId' on-select='$ctrl.selectReceiver(id, index)' on-add='$ctrl.addReceiver()' on-delete='$ctrl.deleteReceiver(id, index)' min-items='1' is-required='true'></tbl-new>
+      <p ng-if='$ctrl.records && $ctrl.records.length != 0 && !$ctrl.hasSelection'>Select a receiver to review senders</p>
+      <tbl-new ng-if='$ctrl.hasSelection' title='{{$ctrl.selected.shortname}} Senders' items='$ctrl.senders' projection='[{name: "toLegalEntityId", url: "legalentity"},"_shortname", "companycontactregulatoryrole", "remark"]' on-select='$ctrl.selectSender(index)' default-sort='toLegalEntityId' on-add='$ctrl.addSender()' on-delete='$ctrl.deleteSender(index)' min-items='1' is-required='true'></tbl-new>
+    </div>
+    <div ng-if='!$ctrl.isSubmission'>
+      <div ng-if='$ctrl.records && $ctrl.records.length == 0'>{{"noitems" | translate}}</div>
+      <div ng-if='!($ctrl.records && $ctrl.records.length == 0)'>
+        <sidenav items='$ctrl.records' selected='$ctrl.selected' main='shortname' is-open='$ctrl.sidenavOpen' on-select='$ctrl.updateSelected(item)' on-add='$ctrl.add(item)'></sidenav>
+        <div ng-show='!$ctrl.isSubmission' class='no-padding no-margin'>
+          <select-input label='{{"legalentity" | translate}}' is-required='true' select-value='$ctrl.selected.toLegalEntityId' main='legalentityname' values='$ctrl.legalEntities' on-update='$ctrl.update("toLegalEntityId", value)'></select-input>
+          <text-input label='{{"shortname" | translate}}' is-required='true' text-value='$ctrl.selected.shortname' on-update='$ctrl.update("shortname", value)' max-Length='20'></text-input>
+          <text-input label='{{"role" | translate}}' text-value='$ctrl.selected.role' on-update='$ctrl.update("role", value)' max-Length='255'></text-input>
+        </div>
+      </div>
+    </div>
+    <div class='float-bottom'>
       <md-button aria-label='Save' class='md-fab md-primary' ng-click='$ctrl.save()'>
         <md-tooltip>Save</md-tooltip>
         <md-icon md-svg-icon='save' class='light'></md-icon>
@@ -30,4 +31,5 @@
         <md-icon md-svg-icon='list' class='light'></md-icon>
       </md-button>
     </div>
+  </div>
 </section>

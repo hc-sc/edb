@@ -5,6 +5,7 @@ export default function($mdIconProvider) {
   $mdIconProvider
   .icon('home', `${IMG_DIR}home${SUF}`)
   .icon('search', `${IMG_DIR}search${SUF}`)
+  .icon('help_outline', `${IMG_DIR}help_outline${SUF}`)
   .icon('help', `${IMG_DIR}help${SUF}`)
   .icon('up', `${IMG_DIR}expand_less${SUF}`)
   .icon('down', `${IMG_DIR}expand_more${SUF}`)
@@ -29,5 +30,12 @@ export default function($mdIconProvider) {
   .icon('menu', `${IMG_DIR}menu${SUF}`)
   .icon('view', `${IMG_DIR}visibility${SUF}`)
   .icon('description', `${IMG_DIR}description${SUF}`)
-  .icon('status', `${IMG_DIR}cached${SUF}`);
+  .icon('status', `${IMG_DIR}cached${SUF}`)
+  .icon('send', `${IMG_DIR}send${SUF}`)
+  .icon('folder', `${IMG_DIR}folder${SUF}`)
+  .icon('database', 'img/1493163121_database.svg')
+  .icon('forward', `${IMG_DIR}forward${SUF}`)
+
+  .icon('pmra_green', `img/pmra_green_leaf.svg`)
+  .icon('pmra_white', `img/pmra_white_leaf.svg`);
 }

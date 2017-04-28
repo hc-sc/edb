@@ -28,6 +28,10 @@ export default angular.module('picklists', [
       this.$scope.$root.loading = false;
     }
 
+    localeSensitiveComparator(a, b) {
+      return a.value.localeCompare(b.value);
+    }
+
     promoteItems() {
       this.items = this.items.map(item => {
         item.items.map(subitem => {
