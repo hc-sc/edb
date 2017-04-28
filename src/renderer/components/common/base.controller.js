@@ -258,12 +258,16 @@ selectPID(prop,selected){
     this.dialogOpen = true;
     this.$mdDialog.show(this.buildModal(nodeName, this.selected.length, true))
       .then(item => {
+        console.log(item, this.getRef(nodeName));
         if (this.getRef(nodeName).filter(record => {
-          console.log(record, item);
           if (nodeName.toLowerCase().endsWith('ra'))
             return record.toSpecificForRAId === item.toSpecificForRAId;
-          else
-            return equals(record, item);
+          else {
+            Object.keys(item).forEach(prop => {
+              if (!equals(item[prop], record[prop])) return false;
+            });
+            return true;
+          }
         }).length !== 0) {
           this.showMessage('Duplicate item.');
         }
