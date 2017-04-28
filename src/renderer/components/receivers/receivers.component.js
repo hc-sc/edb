@@ -67,6 +67,7 @@ export default angular.module('receiver', [
                   } else {
                     this.oriSelected = JSON.stringify(this.ghsts._receiver);
                   }
+                  this.loading = false;
                 });
             }
             else {
@@ -75,7 +76,6 @@ export default angular.module('receiver', [
           })
         ])
           .then(() => {
-            console.log(this.senders);
             this.$scope.$root.loading = false;
             this.$scope.$apply();
           });
@@ -93,7 +93,6 @@ export default angular.module('receiver', [
       // need to override since the method depends on whether it is a submission or not
       save() {
         if (this.isSubmission) {
-          debugger;
           this.ghstsService.edb_post(angular.copy(this.ghsts))
             .then(result => {
               console.log(result);

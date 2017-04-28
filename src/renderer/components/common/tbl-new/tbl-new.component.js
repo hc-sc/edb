@@ -45,15 +45,12 @@ export default angular.module('tblNew', [
       this.viewable = this.viewable || false;
       this.addable = true;
       this.searchable = true;
-      this.rows = this.items.slice();
-      this.headers = this.projection.slice();
       this.picklistService = PicklistService.getService();
       this.appDataService = AppDataService.getService();
     }
 
     $onChanges() {
       this.mapItems();
-      console.log(this.items);
     }
 
     mapItems() {

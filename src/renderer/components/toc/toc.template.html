@@ -1,15 +1,4 @@
 <section class='node-page'>
-  <div ng-show='$ctrl.showTOCData'>
-    <text-input label='Short Name' text-value='$ctrl.toc.tocshortname' on-update='$ctrl.updateTOC("tocshortname", value)' is-disabled='true'></text-input>
-    <select-input label='Owner' is-disabled='true' select-value='$ctrl.toc.tocowner' values='$ctrl.tocOwnerType'></select-input>
-    <text-input label='Full Name' text-value='$ctrl.toc.tocfullname' on-update='$ctrl.updateTOC("tocfullname", value)' is-disabled='true'></text-input>
-    <text-input label='Version' is-disabled='true' text-value='$ctrl.toc.tocversion' is-disabled='true'></text-input>
-    <fieldset style='margin-top: 20px'>
-      <legend>Standard Reference</legend>
-      <text-input label='Standard PID' text-value='$ctrl.toc.standardreference.standardtocpid' on-update='$ctrl.updateStandardReference("standardtocpid", value)' is-disabled='true'></text-input>
-      <text-input label='Filename' text-value='$ctrl.toc.standardreference.filename' on-update='$ctrl.updateStandardReference("filename", value)' is-disabled='true'></text-input>
-    </fieldset>
-  </div>
   <section>
     <div class='extension-wrapper'>
       <select-input label='Search Nodes' select-value='$ctrl.selectedNode' values='$ctrl.treeNodes' main='nodename' on-update='$ctrl.updateSelected(value)'></select-input>
@@ -18,6 +7,6 @@
     <tree node='$ctrl.selectedNode' items='$ctrl.docs'></tree>
   </section>
   <div class='float-bottom'>
-    <md-button class='md-raised md-primary' ng-click='$ctrl.toggleShowTOCData()'>Show TOC Data</md-button>
+    <md-button class='md-raised md-primary' ng-click='$ctrl.showTOCDataModal()'>Show TOC Data</md-button>
   </div>
 </section>
