@@ -339,7 +339,7 @@ module.exports = class GhstsService extends BaseService {
                   delete retDoc.documentgeneric.documentpages;
                 } else 
                   delete retDoc.documentgeneric.completedocumentsource;
-                  
+
                 retDoc.documentgeneric.documentissuedate =
                   DateTimeProc.dateToJsonixObj(retDoc.documentgeneric.documentissuedate);
 
@@ -429,6 +429,8 @@ module.exports = class GhstsService extends BaseService {
                 })[0]);
                 let metaId = self._metadatastatus_process('legalentity', les);
                 ret.metadatastatus = metaId;
+                if (!ret.id.startsWith(BACKEND_CONST.ID_PREFIX.legalentity))
+                  ret.id = BACKEND_CONST.ID_PREFIX.legalentity + ret.id;
                 return ret;
               });
               retVal.legalentities.legalentity = self._get_xml_jsonix(retVal.legalentities.legalentity);
@@ -450,6 +452,8 @@ module.exports = class GhstsService extends BaseService {
                 })[0]);
                 let metaId = self._metadatastatus_process('substance', item);
                 ret.metadatastatus = metaId;
+                if (!ret.id.startsWith(BACKEND_CONST.ID_PREFIX.substance))
+                  ret.id = BACKEND_CONST.ID_PREFIX.substance + ret.id;
                 return ret;
               });
               retVal.substances.substance = self._get_xml_jsonix(retVal.substances.substance);
