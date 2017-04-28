@@ -438,19 +438,30 @@ export default angular.module('home', [
       newSubmission() {
         // get new ghsts ids
 
-        let state = this.submissions.length > 0 ? this.submissions[0]._state.toLowerCase() : 'notsent';
-        let subId = '';
-        if (state === 'sent')
-          subId = this.submissions[0]._id;
+        let dosState = this.dossier ? this.dossier._state ? this.dossier._state.toLowerCase() : undefined : undefined;
 
-        this.GhstsService.edb_put({ _url: 'ghsts', data: { dossierId: this.dossier._id, submissionid: subId } })
-          .then(result => {
-            this.$state.go('submission.submissionNode', {
-              dossierid: result.data.dossierid,
-              submissionid: result.data.submissionid,
-              dossiertitle: result.data.dossiertitle
+        if (dosState === DOSSIER_STATUS_OPEN) {
+          let state = this.submissions.length > 0 ? this.submissions[0]._state.toLowerCase() : 'notsent';
+          let subId = '';
+          if (state === 'sent') {
+            subId = this.submissions[0]._id;
+
+            this.GhstsService.edb_put({ _url: 'ghsts', data: { dossierId: this.dossier._id, submissionid: subId } })
+            .then(result => {
+              this.$state.go('submission.submissionNode', {
+                dossierid: result.data.dossierid,
+                submissionid: result.data.submissionid,
+                dossiertitle: result.data.dossiertitle
+              });
             });
-          });
+          }
+        } else {
+          this.$mdToast.show(
+            this.$mdToast.simple()
+              .textContent('Cannot create submission for closed dossier')
+              .hideDelay(1200)
+          );
+        }
       }
 
       // BUSINESS RULES FOR WORKFLOW

@@ -331,6 +331,15 @@ module.exports = class GhstsService extends BaseService {
                 } else
                   delete retDoc.documentra;
 
+                if (retDoc._docsourcetype) {
+                  delete retDoc.documentgeneric.documentsource;
+                  delete retDoc.documentgeneric.documentyear;
+                  delete retDoc.documentgeneric.documentissue;
+                  delete retDoc.documentgeneric.documentvolume;
+                  delete retDoc.documentgeneric.documentpages;
+                } else 
+                  delete retDoc.documentgeneric.completedocumentsource;
+                  
                 retDoc.documentgeneric.documentissuedate =
                   DateTimeProc.dateToJsonixObj(retDoc.documentgeneric.documentissuedate);
 
