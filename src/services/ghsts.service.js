@@ -526,9 +526,10 @@ module.exports = class GhstsService extends BaseService {
               break;
             case 'document':
             case 'file':
+              let pro = ProductService.edb_getSync({_id: self.ghsts[0]._product})[0];
               ids = {
-                fieldname: '_ghsts',
-                ids: [self.ghsts[0]._id]
+                fieldname: '_dossier',
+                ids: [pro.dossier]
               };
               break;
             default:
