@@ -391,7 +391,7 @@ export default angular.module('home', [
           .then(selection => {
             // send selection to update in backend
             if (selection.status === SUBMISSION_STATUS_SENT) {
-              let curGhsts = this.GhstsService.edb_getSync({_submissionid: this.submissions[0]._id})[0];
+              let curGhsts = this.GhstsService.edb_getSync({_submissionid: this.submissions[index]._id})[0];
               curGhsts._state = SUBMISSION_STATUS_SENT;
               return this.GhstsService.edb_post(curGhsts);
             } else
@@ -441,10 +441,10 @@ export default angular.module('home', [
         let dosState = this.dossier ? this.dossier._state ? this.dossier._state.toLowerCase() : undefined : undefined;
 
         if (dosState === DOSSIER_STATUS_OPEN) {
-          let state = this.submissions.length > 0 ? this.submissions[0]._state.toLowerCase() : 'notsent';
+          let state = this.submissions.length > 0 ? this.dossier.submission[this.dossier.submission.length - 1]._state.toLowerCase() : 'notsent';
           let subId = '';
           if (state === 'sent') {
-            subId = this.submissions[0]._id;
+            subId = this.dossier.submission[this.dossier.submission.length - 1]._id;
 
             this.GhstsService.edb_put({ _url: 'ghsts', data: { dossierId: this.dossier._id, submissionid: subId } })
             .then(result => {
