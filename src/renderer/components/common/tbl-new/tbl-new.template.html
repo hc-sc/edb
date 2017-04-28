@@ -25,7 +25,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat='row in $ctrl.rows | index | filter:$ctrl.searchText | orderBy:$ctrl.sortField:$ctrl.reverse:$ctrl.compareItems' ng-class='{"selected": $ctrl.row._id === row._id}'>
+          <tr ng-repeat='row in $ctrl.rows | index | filter:$ctrl.searchText | orderBy:$ctrl.sortField:$ctrl.reverse:$ctrl.compareItems' ng-class='{"selected": $ctrl.selectedRow._id === row._id}'>
             <td ng-if='$ctrl.deletable' ng-click='$ctrl.delete(row.index)' class='icon-cell'><icon name='delete' label='Delete' color='dark' disabled='!row.deletable || false'></icon></td>
             <td ng-if='$ctrl.editable' ng-click='$ctrl.edit(row.index)' class='icon-cell'><icon name='forward' label='Status' color='dark' disabled='!row.editable || false'></icon></td>
             <td ng-if='$ctrl.viewable' ng-click='$ctrl.view(row.index)' class='icon-cell'><icon name='view' label='View' color='dark' disabled='!row.viewable || false'></icon></td>

@@ -257,17 +257,27 @@ selectPID(prop,selected){
     this.dialogOpen = true;
     this.$mdDialog.show(this.buildModal(nodeName, this.selected.length, true))
       .then(item => {
-        console.log(item, this.getRef(nodeName));
-        if (this.getRef(nodeName).filter(record => {
-          if (nodeName.toLowerCase().endsWith('ra'))
-            return record.toSpecificForRAId === item.toSpecificForRAId;
-          else {
-            Object.keys(item).forEach(prop => {
-              if (!equals(item[prop], record[prop])) return false;
-            });
-            return true;
-          }
-        }).length !== 0) {
+        // if (this.getRef(nodeName).filter(record => {
+        //   if (nodeName.toLowerCase().endsWith('ra'))
+        //     return record.toSpecificForRAId === item.toSpecificForRAId;
+        //   else {
+        //     Object.keys(item).forEach(prop => {
+        //       console.log(item[prop], record[prop]);
+        //       if (!equals(item[prop], record[prop])) return false;
+        //     });
+        //     return true;
+        //   }
+        // }).length !== 0) {
+
+        // for each item in the table
+        // for each prop in the added item
+        let isDupe = this.getRef(nodeName).filter(record => {
+          return Object.keys(item).filter(prop => {
+            return (equals(item[prop], record[prop]));
+          }).length === Object.keys(item).length;
+        }).length !== 0;
+
+        if (isDupe) {
           this.showMessage('Duplicate item.');
         }
         else {
