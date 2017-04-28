@@ -132,7 +132,7 @@ export default angular.module('tblNew', [
     }
 
     select(item) {
-      this.row = item;
+      this.selectedRow = item;
       this.onSelect({id: item._id, index: item.index});
     }
 
