@@ -178,8 +178,8 @@ selectPID(prop,selected){
   }else if(prop=='legalentity'){
     selected.legalentitypid=generatedPID;
   }else if(prop=='document'){
-    selected.documentgeneric.documentpid=generatedPID;
-    selected.documentgeneric.documentfamilypid=this.getPid();
+    this.selected.documentgeneric.documentpid=generatedPID;
+    this.selected.documentgeneric.documentfamilypid=this.getPid();
   }
   else{
     console.log(prop+" doesn't have PID, do nothing.");
