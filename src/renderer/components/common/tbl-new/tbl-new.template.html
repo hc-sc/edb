@@ -29,7 +29,7 @@
             <td ng-if='$ctrl.deletable' ng-click='$ctrl.delete(row.index)' class='icon-cell'><icon name='delete' label='Delete' color='dark' disabled='!row.deletable || false'></icon></td>
             <td ng-if='$ctrl.editable' ng-click='$ctrl.edit(row.index)' class='icon-cell'><icon name='forward' label='Status' color='dark' disabled='!row.editable || false'></icon></td>
             <td ng-if='$ctrl.viewable' ng-click='$ctrl.view(row.index)' class='icon-cell'><icon name='view' label='View' color='dark' disabled='!row.viewable || false'></icon></td>
-            <td ng-repeat='header in $ctrl.headers' ng-click='$ctrl.select(row)'>{{row[header] | translate}}</td>
+            <td ng-repeat='header in $ctrl.headers' ng-click='$ctrl.select(row)'>{{$ctrl.getData(row[header]) | translate}}</td>
           </tr>
         </tbody>
       </table>

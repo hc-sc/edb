@@ -85,7 +85,7 @@ export default angular.module('tblNew', [
               if (returnValue && returnValue.hasOwnProperty('valuedecode')) {
                 value = returnValue.valuedecode;
               }
-              else value = 'undefined';
+              else value = item[headerName];
             }
 
 
@@ -104,6 +104,10 @@ export default angular.module('tblNew', [
           return row;
         });
       }
+    }
+
+    getData(data) {
+      return Array.isArray(data) ? data.join(', ') : data;
     }
 
     setSort(header) {

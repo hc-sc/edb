@@ -68,7 +68,7 @@ export const propNames_en = {
   'referenceddossiernumber': 'Referenced Dossier Number',
   'regulatorytype': 'Regulatory Type',
   'applicationtype': 'Application Type',
-  'projectidnumber': 'Project Number',
+  'projectidnumber': 'Project ID Number',
   'productname': 'Product Name',
   '_state': 'Status',
   '_created': 'Created',
