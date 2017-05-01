@@ -193,5 +193,5 @@ export const statuses_en = {
 };
 
 export const other_en = {
-  noitems: 'There are currently no items. Create a new one to begin'
+  noitems: 'There are currently no items. Create a new one to begin.'
 }

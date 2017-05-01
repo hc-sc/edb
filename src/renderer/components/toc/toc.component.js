@@ -49,6 +49,7 @@ export default angular.module('toc', [
         this.tree.tocnode.forEach(node => this.getNodes(this.treeNodes, node));
         $scope.$apply(this.$scope.$root.loading = false);
         this.associations = [];
+        console.log(this.toc.structure);
       });
     }
 
