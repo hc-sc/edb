@@ -50,14 +50,14 @@ export default class DocumentCtrl extends BaseCtrl{
     }
 
 
-    // genPid() {
-    //   // console.log("View document: " + JSON.stringify(this.selected.documentgeneric));
-    //   this.selected.documentgeneric.documentpid = this.getPid();
-    // }
+    genPid() {
+      // console.log("View document: " + JSON.stringify(this.selected.documentgeneric));
+      this.selected.documentgeneric.documentpid = this.getPid();
+    }
 
-    // genFamilyPid() {
-    //   this.selected.documentgeneric.documentfamilypid = this.getPid();
-    // }
+    genFamilyPid() {
+      this.selected.documentgeneric.documentfamilypid = this.getPid();
+    }
 
     getModel(prop) {
       return this.modelService.getModel(prop);
