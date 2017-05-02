@@ -49,4 +49,4 @@ Then goto Visual Studio Code debug panel, click `Debug` button when the drop dow
  * Version build number lower 1 than [_DEV]. Files: /package.json, src/package.json, src/index.js, and splash.template.html.
 
 ### _PROD vs _TEST
- [_PROD] build.asar = true with in /package.json
+ [_PROD] 'build.asar = true' within /package.json
