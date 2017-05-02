@@ -100,6 +100,8 @@ export default class ModelService {
       case 'documentra':
          model = _.merge({}, Object.assign(modelDocumentRA.fields));
          model.radocumentnumber = this.getModel('radocumentnumber');
+         model.dataprotection = '';
+         model.datarequirement = '';
          return model;
 
       case 'othernationalguideline':
