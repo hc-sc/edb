@@ -9,7 +9,7 @@
         <text-input label='{{"productid" | translate}}' is-required='true' text-value='$ctrl.selected.productpid' on-update='$ctrl.update("productpid", value)'></text-input>
         <md-button class='md-raised md-primary' ng-click='$ctrl.genPid()'>Generate PID</md-button>
       </div>
-      <text-input label='{{"genericproductname" | translate}}' is-required='true' text-value='$ctrl.selected.genericproductname' on-update='$ctrl.update("genericproductname", value)' max-Length='255'></text-input>
+      <text-input label='{{"genericproductname" | translate}}' is-required='true' text-value='$ctrl.selected.genericproductname' on-update='$ctrl.update("genericproductname", value)' max-Length='255' has-pattern='^[^#]*$' message='Cannot contain the # character'></text-input>
       <select-input-extensible label='{{"formulationtype" | translate}}' is-required='true' select-value='$ctrl.selected.formulationtype' on-update='$ctrl.update("formulationtype", value)'
         values='$ctrl.formulationType' type-name='EXTENSION_TYPE_FORMULATION_TYPE' on-add='$ctrl.createPicklistItem("formulationtype", "formulationType", value)'>
       </select-input-extensible>
