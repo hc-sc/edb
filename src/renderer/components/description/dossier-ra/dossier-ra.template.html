@@ -13,23 +13,23 @@
 
     <md-dialog-content>
       <div class='md-dialog-content'>
-        <select-input label='{{"toSpecificForRAId" | translate}}' main='shortname' select-value='$ctrl.node.toSpecificForRAId' values='$ctrl.receivers' on-update='$ctrl.update("toSpecificForRAId", value)'></select-input>        
-        <select-input-extensible label='{{"regulatorytype" | translate}}' 
-          select-value='$ctrl.node.regulatorytype' 
+        <select-input label='{{"toSpecificForRAId" | translate}}' main='shortname' select-value='$ctrl.node.toSpecificForRAId' values='$ctrl.receivers' on-update='$ctrl.update("toSpecificForRAId", value)'></select-input>
+        <select-input-extensible label='{{"regulatorytype" | translate}}'
+          select-value='$ctrl.node.regulatorytype'
           values='$ctrl.picklists.regulatoryTypes'
-          type-name='EXTENSION_TYPE_REGULATORY_TYPE' 
+          type-name='EXTENSION_TYPE_REGULATORY_TYPE'
           on-update='$ctrl.update("regulatorytype", value)'
           on-add='$ctrl.createPicklistItem("regulatorytype", "regulatoryTypes", value)'
           >
         </select-input-extensible>
-        <select-input-extensible label='{{"applicationtype" | translate}}' 
-          select-value='$ctrl.node.applicationtype' 
-          values='$ctrl.picklists.applicationTypes' 
-          type-name='EXTENSION_TYPE_APPLICATION_TYPE' 
+        <select-input-extensible label='{{"applicationtype" | translate}}'
+          select-value='$ctrl.node.applicationtype'
+          values='$ctrl.picklists.applicationTypes'
+          type-name='EXTENSION_TYPE_APPLICATION_TYPE'
           on-add='$ctrl.createPicklistItem("applicationtype", "applicationTypes", value)'
           on-update='$ctrl.update("applicationtype", value)'>
         </select-input-extensible>
-        <text-input label='{{"projectidnumber" | translate}}' is-required='false' text-value='$ctrl.node.projectidnumber' on-update='$ctrl.update("projectidnumber", value)' max-Length='255'></text-input>
+        <list label='{{"projectidnumber" | translate}}' items='$ctrl.node.projectidnumber'></list>
       </div>
     </md-dialog-content>
 

@@ -1,8 +1,7 @@
 <div class='no-padding no-margin node-title'>
   <span class='tree-options'>
-    <icon class='tree-icon' ng-show='$ctrl.addable()' icon='$ctrl.addIcon' ng-click='$ctrl.addDocument()'></icon>
-    <icon class='tree-icon' ng-show='!$ctrl.isHidden && $ctrl.canExpand()' icon='$ctrl.expandIcon' ng-click='$ctrl.toggleHidden()'></icon>
-    <icon class='tree-icon' ng-show='$ctrl.isHidden && $ctrl.canExpand()' icon='$ctrl.collapseIcon' ng-click='$ctrl.toggleHidden()'></icon>
+    <md-icon class='tree-icon' ng-class='{"expanded": !$ctrl.isHidden, "invisible": !$ctrl.canExpand()}' md-svg-icon='right' aria-label='View Subtree' ng-click='$ctrl.toggleHidden()'></md-icon>
+    <md-icon class='tree-icon tree-add' ng-show='$ctrl.addable()' md-svg-icon='add' aria-label='Add Document' ng-click='$ctrl.addDocument()'></md-icon>
   </span>
   <a class='node-title' ng-click='$ctrl.toggleHidden()'>
     {{$ctrl.node.nodename}}
@@ -14,8 +13,7 @@
 <ul class='tree-ul' ng-show='!$ctrl.isHidden && $ctrl.node.toc2doc && $ctrl.node.toc2doc.length > 0' class='node-document'>
   <li class='tree-li tree-doc' ng-repeat='doc in $ctrl.node.toc2doc track by $index' class='tree-document'>
     <span class='tree-options'>
-      <icon class='tree-icon' icon='$ctrl.deleteIcon' ng-click='$ctrl.deleteDocument($index)'></icon>
-      <!--<icon class='tree-icon' icon='$ctrl.documentIcon'></icon>-->
+      <md-icon class='tree-icon' md-svg-icon='delete' aria-label='Delete Document' ng-click='$ctrl.deleteDocument($index)'></md-icon>
     </span>
     {{doc.document.documenttitle}}
   </li>

@@ -3,7 +3,8 @@
   <div ng-if='!$ctrl.loading'>
     <div ng-if='$ctrl.isSubmission'>
       <tbl-new ng-if='!this.$scope.$root.loading' title='{{"receivers" | translate}}' items='$ctrl.records' projection='[{name: "toLegalEntityId", url: "legalentity"}, "shortname", "role"]' default-sort='toLegalEntityId' on-select='$ctrl.selectReceiver(id, index)' on-add='$ctrl.addReceiver()' on-delete='$ctrl.deleteReceiver(id, index)' min-items='1' is-required='true'></tbl-new>
-      <p ng-if='$ctrl.records && $ctrl.records.length != 0 && !$ctrl.hasSelection'>Select a receiver to review senders</p>
+      <p ng-if='$ctrl.records && $ctrl.records.length == 0'>Add a new Receiver to begin.</p>
+      <p ng-if='$ctrl.records && $ctrl.records.length != 0 && !$ctrl.hasSelection'>Select a Receiver to review Senders.</p>
       <tbl-new ng-if='$ctrl.hasSelection' title='{{$ctrl.selected.shortname}} Senders' items='$ctrl.senders' projection='[{name: "toLegalEntityId", url: "legalentity"},"_shortname", "companycontactregulatoryrole", "remark"]' on-select='$ctrl.selectSender(index)' default-sort='toLegalEntityId' on-add='$ctrl.addSender()' on-delete='$ctrl.deleteSender(index)' min-items='1' is-required='true'></tbl-new>
     </div>
     <div ng-if='!$ctrl.isSubmission'>

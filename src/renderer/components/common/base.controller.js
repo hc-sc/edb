@@ -33,7 +33,6 @@ export default class BaseCtrl {
   init(id) {
     return this.getAppData()
       .then(records => {
-        console.log('records: ', records);
         this.records = [].concat(JSON.parse(records.data));
         if (this.records && this.records.length > 0) {
           // there is some data in the db
@@ -48,7 +47,6 @@ export default class BaseCtrl {
         }
         else {
           // empty table, need to prompt to create first
-          console.log('EMPTY ON INIT');
         }
         // console.log("View Data: " + JSON.stringify(this.selected));
       });
@@ -178,7 +176,7 @@ selectPID(prop,selected){
   }else if(prop=='legalentity'){
     selected.legalentitypid=generatedPID;
   }else if(prop=='document'){
-    this.selected.documentgeneric.documentpid=generatedPID;
+    this.selected.documentgeneric.documentpid=this.getPid();
     this.selected.documentgeneric.documentfamilypid=this.getPid();
   }
   else{
@@ -192,7 +190,6 @@ selectPID(prop,selected){
       if (!this.selected.hasOwnProperty('_id')) {
         this.createAppData(angular.copy(this.selected))
           .then(result => {
-            console.log(result);
             let data = JSON.parse(result.data);
             if (Array.isArray(data))
               data = data[0];
@@ -208,7 +205,6 @@ selectPID(prop,selected){
       else {
         this.updateAppData(angular.copy(this.selected))
           .then(result => {
-            console.log(result);
             let data = JSON.parse(result.data);
             if (Array.isArray(data))
               data = data[0];
@@ -311,7 +307,6 @@ selectPID(prop,selected){
     this.dialogOpen = true;
     this.$mdDialog.show(this.buildModal(nodeName, index, false))
       .then(item => {
-        console.log(item);
         if (!nodeName.toLowerCase().endsWith('ra') && (this.getRef(nodeName).filter(record => {
           return equals(record, item);
         }).length !== 0)) {
@@ -359,7 +354,6 @@ selectPID(prop,selected){
 
   // used as a generic function to build our modals
   buildModal(nodeName, index, isNew) {
-    console.log(this.selected);
     const {template, controller} = getModalValues(nodeName);
     return {
       template,
