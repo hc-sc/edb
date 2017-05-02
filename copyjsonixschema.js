@@ -24,7 +24,9 @@ var transf2vm = function (doc) {
         !lTypeInfo.endsWith('struct') &&
         !lTypeInfo.endsWith('type') &&
         lTypeInfo !== 'country' &&
-        lTypeInfo !== 'unit')
+        lTypeInfo !== 'unit' &&
+        lTypeInfo !== 'dataprotection' &&
+        lTypeInfo !== 'datarequirement')
         if (lTypeInfo === 'decimal' || lTypeInfo === 'positiveinteger')
           fields[prop.name] = '';
         else if (lTypeInfo === 'boolean')
