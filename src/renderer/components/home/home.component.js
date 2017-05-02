@@ -105,7 +105,7 @@ export default angular.module('home', [
 
       shouldShowSubmissions() {
         this.hasSelection =
-          (Array.isArray(this.dossiers) && Array.isArray(this.submissions) && this.dossier != null) ? true : false;
+          (Array.isArray(this.dossiers) && this.dossiers.length > 0 && Array.isArray(this.submissions) && this.dossier != null) ? true : false;
       }
 
       setOptions() {
@@ -273,7 +273,8 @@ export default angular.module('home', [
             }
             this.dossiers = this.dossiers.filter(dossier => {
               return dossier !== this.dossiers[index];
-            })
+            });
+            this.hasSelection = false;
             this.setOptions();
             this.shouldShowSubmissions();
           });
@@ -438,37 +439,78 @@ export default angular.module('home', [
       newSubmission() {
         // get new ghsts ids
 
-        let dosState = this.dossier ? this.dossier._state ? this.dossier._state.toLowerCase() : undefined : undefined;
-
-        if (dosState === DOSSIER_STATUS_OPEN) {
-          let state = this.submissions.length > 0 ? this.dossier.submission[this.dossier.submission.length - 1]._state.toLowerCase() : 'notsent';
-          let subId = '';
-          if (state === SUBMISSION_STATUS_SENT) {
-            subId = this.dossier.submission[this.dossier.submission.length - 1]._id;
-
-            this.GhstsService.edb_put({ _url: 'ghsts', data: { dossierId: this.dossier._id, submissionid: subId } })
-            .then(result => {
-              this.$state.go('submission.submissionNode', {
-                dossierid: result.data.dossierid,
-                submissionid: result.data.submissionid,
-                dossiertitle: result.data.dossiertitle
+        if (this.dossier == null) return;
+        const dossierState = new RegExp(this.dossier._state, 'i');
+        if (dossierState.test(DOSSIER_STATUS_OPEN)) {
+          if (Array.isArray(this.submissions)) {
+            // if there's zero items, this will be true anyways
+            let canAdd = this.submissions.filter(submission => {
+              return submission._state === SUBMISSION_STATUS_SENT;
+            }).length === this.submissions.length;
+            console.log(canAdd);
+            if (canAdd) {
+              let subId = this.dossier.submission.length > 0 ?
+                this.dossier.submission[this.dossier.submission.length - 1]._id :
+                '';
+              this.GhstsService.edb_put({ _url: 'ghsts', data: { dossierId: this.dossier._id, submissionid: subId } })
+              .then(result => {
+                this.$state.go('submission.submissionNode', {
+                  dossierid: result.data.dossierid,
+                  submissionid: result.data.submissionid,
+                  dossiertitle: result.data.dossiertitle
+                });
               });
-            });
+            }
+            else {
+              this.$mdToast.show(
+                this.$mdToast.simple()
+                .textContent('Cannot add a Submission if there are non-sent Submissions.')
+                .hideDelay(1200)
+              );
+            }
           }
-          else {
-            this.$mdToast.show(
-              this.$mdToast.simple()
-              .textContent('Cannot add a new Submission until previous Submissions are sent.')
-              .hideDelay(1200)
-            );
-          }
-        } else {
+        }
+        else {
           this.$mdToast.show(
             this.$mdToast.simple()
-              .textContent('Cannot create submission for closed dossier')
-              .hideDelay(1200)
+            .textContent('Cannot add a Submission to a closed Dossier.')
+            .hideDelay(1200)
           );
         }
+
+
+        // let dosState = this.dossier ? this.dossier._state ? this.dossier._state.toLowerCase() : undefined : undefined;
+
+
+        // if (dosState === DOSSIER_STATUS_OPEN) {
+        //   let state = this.submissions.length > 0 ? this.dossier.submission[this.dossier.submission.length - 1]._state.toLowerCase() : undefined;
+        //   let subId = '';
+        //   if ((this.submissions && this.submissions.length == 0) || state === SUBMISSION_STATUS_SENT) {
+        //     subId = this.dossier.submission[this.dossier.submission.length - 1]._id;
+
+        //     this.GhstsService.edb_put({ _url: 'ghsts', data: { dossierId: this.dossier._id, submissionid: subId } })
+        //     .then(result => {
+        //       this.$state.go('submission.submissionNode', {
+        //         dossierid: result.data.dossierid,
+        //         submissionid: result.data.submissionid,
+        //         dossiertitle: result.data.dossiertitle
+        //       });
+        //     });
+        //   }
+        //   else {
+        //     this.$mdToast.show(
+        //       this.$mdToast.simple()
+        //       .textContent('Cannot add a new Submission until previous Submissions are sent.')
+        //       .hideDelay(1200)
+        //     );
+        //   }
+        // } else {
+        //   this.$mdToast.show(
+        //     this.$mdToast.simple()
+        //       .textContent('Cannot create submission for closed dossier')
+        //       .hideDelay(1200)
+        //   );
+        // }
       }
 
       // BUSINESS RULES FOR WORKFLOW
