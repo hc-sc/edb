@@ -68,7 +68,7 @@ export const propNames_en = {
   'referenceddossiernumber': 'Referenced Dossier Number',
   'regulatorytype': 'Regulatory Type',
   'applicationtype': 'Application Type',
-  'projectidnumber': 'Project Number',
+  'projectidnumber': 'Project ID Number',
   'productname': 'Product Name',
   '_state': 'Status',
   '_created': 'Created',
@@ -193,5 +193,5 @@ export const statuses_en = {
 };
 
 export const other_en = {
-  noitems: 'There are currently no items. Create a new one to begin'
+  noitems: 'There are currently no items. Create a new one to begin.'
 }

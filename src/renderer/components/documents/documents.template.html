@@ -81,7 +81,7 @@
         </text-input>
 
         <number-input ng-if='!$ctrl.selected._docsourcetype' label='{{"documentyear" | translate}}' is-required='false' text-value='$ctrl.selected.documentgeneric.documentyear'
-          on-update='$ctrl.update("documentgeneric.documentyear", value)' max-Length='20'>
+          on-update='$ctrl.update("documentgeneric.documentyear", value)' has-pattern='\d{4}' message='Needs to be a year' max-Length='20'>
         </number-input>
         <text-input ng-if='!$ctrl.selected._docsourcetype' label='{{"documentissue" | translate}}' is-required='false' text-value='$ctrl.selected.documentgeneric.documentissue'
           on-update='$ctrl.update("documentgeneric.documentissue", value)' max-Length='20'>

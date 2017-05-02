@@ -61,7 +61,11 @@ export default angular.module('tbl', [
         //     if (data === value._id) return value.valuedecode;
         //   }
         // }
-        return Array.isArray(data) ? data.join(', ') : data;
+        console.log(data);
+        if (Array.isArray(data)) {
+          return data.join(',');
+        }
+        return  data;
       }
 
       setSort(item) {
