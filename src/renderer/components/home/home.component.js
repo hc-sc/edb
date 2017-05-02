@@ -443,7 +443,7 @@ export default angular.module('home', [
         if (dosState === DOSSIER_STATUS_OPEN) {
           let state = this.submissions.length > 0 ? this.dossier.submission[this.dossier.submission.length - 1]._state.toLowerCase() : 'notsent';
           let subId = '';
-          if (state === 'sent') {
+          if (state === SUBMISSION_STATUS_SENT) {
             subId = this.dossier.submission[this.dossier.submission.length - 1]._id;
 
             this.GhstsService.edb_put({ _url: 'ghsts', data: { dossierId: this.dossier._id, submissionid: subId } })
@@ -454,6 +454,13 @@ export default angular.module('home', [
                 dossiertitle: result.data.dossiertitle
               });
             });
+          }
+          else {
+            this.$mdToast.show(
+              this.$mdToast.simple()
+              .textContent('Cannot add a new Submission until previous Submissions are sent.')
+              .hideDelay(1200)
+            );
           }
         } else {
           this.$mdToast.show(
