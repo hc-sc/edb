@@ -3,6 +3,7 @@ import uiRouter from 'angular-ui-router';
 import ngMaterial from 'angular-material';
 import mdDataTable from 'angular-material-data-table';
 import template from './home.template';
+import {TOAST_HIDE_DELAY} from '../../../constants/shared';
 
 import Toolbar from '../common/toolbar/toolbar.component';
 import TblNew from '../common/tbl-new/tbl-new.component';
@@ -209,11 +210,7 @@ export default angular.module('home', [
 
       editDossier(index) {
         if (!this.canEditDossier(this.dossiers[index])) {
-          this.$mdToast.show(
-            this.$mdToast.simple()
-            .textContent('Cannot edit a dossier that has been closed')
-            .hideDelay(1200)
-          );
+          this.showMessage('Cannot edit a Dossier that has been closed');
           return false;
         }
 
@@ -280,11 +277,7 @@ export default angular.module('home', [
           });
         }
         else {
-          this.$mdToast.show(
-            this.$mdToast.simple()
-            .textContent('Cannot delete a dossier that has packaged or sent submissions')
-            .hideDelay(1200)
-          );
+          this.showMessage('Cannot delete a Dossier that has Submissions.');
         }
       }
 
@@ -293,7 +286,7 @@ export default angular.module('home', [
           let confirm =
             this.$mdDialog.confirm()
               .title('Open packaged submission in Viewer')
-              .textContent('The viewer must be closed to load properly')
+              .textContent('The viewer must be closed to load properly.')
               .ok('View')
               .cancel('Cancel');
           this.$mdDialog.show(confirm)
@@ -302,11 +295,7 @@ export default angular.module('home', [
             });
         }
         else {
-          this.$mdToast.show(
-            this.$mdToast.simple()
-            .textContent('Cannot view a submission that hasn\'t been packaged or Sent')
-            .hideDelay(1200)
-          );
+          this.showMessage('Cannot view a Submission that has not been packaged or sent.');
         }
       }
 
@@ -334,28 +323,16 @@ export default angular.module('home', [
               });
               this.submissions = this.submissions.slice(0, index).concat(this.submissions.slice(index + 1));
               this.setOptions();
-              this.$mdToast.show(
-                this.$mdToast.simple()
-                  .textContent('Deleted')
-                  .hideDelay(1200)
-              );
+              this.showMessage('Deleted.');
             })
             .catch(err => {
               console.log(err);
-              this.$mdToast.show(
-                this.$mdToast.simple()
-                  .textContent('Error in deleting')
-                  .hideDelay(1200)
-              );
+              this.showMessage('Error in deleting.');
             });
 
         }
         else {
-          this.$mdToast.show(
-            this.$mdToast.simple()
-              .textContent('Cannot delete a submission that has been Sent')
-              .hideDelay(1200)
-          );
+          this.showMessage('Cannot delete a Submission that has been sent.');
         }
       }
 
@@ -401,20 +378,12 @@ export default angular.module('home', [
           .then(ret => {
             this.submissions[index]._state = SUBMISSION_STATUS_SENT;
             this.setOptions();
-            this.$mdToast.show(
-              this.$mdToast.simple()
-                .textContent('Submission status changed to sent!')
-                .hideDelay(1200)
-            );
+            this.showMessage('Submission status changed to sent.');
           })
           .catch(err => {console.log(err);});
         }
         else {
-          this.$mdToast.show(
-            this.$mdToast.simple()
-              .textContent('Can only edit a submission that has been packaged')
-              .hideDelay(1200)
-          );
+          this.showMessage('Can only edit a Submission that has been packaged');
         }
       }
 
@@ -428,11 +397,7 @@ export default angular.module('home', [
           });
         }
         else {
-          this.$mdToast.show(
-            this.$mdToast.simple()
-              .textContent('Cannot open a packaged or sent submission')
-              .hideDelay(1200)
-          );
+          this.showMessage('Cannot open a packaged or send Submission.');
         }
       }
 
@@ -462,55 +427,13 @@ export default angular.module('home', [
               });
             }
             else {
-              this.$mdToast.show(
-                this.$mdToast.simple()
-                .textContent('Cannot add a Submission if there are non-sent Submissions.')
-                .hideDelay(1200)
-              );
+              this.showMessage('Cannot add a Submission if there are non-sent Submissions');
             }
           }
         }
         else {
-          this.$mdToast.show(
-            this.$mdToast.simple()
-            .textContent('Cannot add a Submission to a closed Dossier.')
-            .hideDelay(1200)
-          );
+          this.showMessage('Cannot add a Submission to a closed Dossier.');
         }
-
-
-        // let dosState = this.dossier ? this.dossier._state ? this.dossier._state.toLowerCase() : undefined : undefined;
-
-
-        // if (dosState === DOSSIER_STATUS_OPEN) {
-        //   let state = this.submissions.length > 0 ? this.dossier.submission[this.dossier.submission.length - 1]._state.toLowerCase() : undefined;
-        //   let subId = '';
-        //   if ((this.submissions && this.submissions.length == 0) || state === SUBMISSION_STATUS_SENT) {
-        //     subId = this.dossier.submission[this.dossier.submission.length - 1]._id;
-
-        //     this.GhstsService.edb_put({ _url: 'ghsts', data: { dossierId: this.dossier._id, submissionid: subId } })
-        //     .then(result => {
-        //       this.$state.go('submission.submissionNode', {
-        //         dossierid: result.data.dossierid,
-        //         submissionid: result.data.submissionid,
-        //         dossiertitle: result.data.dossiertitle
-        //       });
-        //     });
-        //   }
-        //   else {
-        //     this.$mdToast.show(
-        //       this.$mdToast.simple()
-        //       .textContent('Cannot add a new Submission until previous Submissions are sent.')
-        //       .hideDelay(1200)
-        //     );
-        //   }
-        // } else {
-        //   this.$mdToast.show(
-        //     this.$mdToast.simple()
-        //       .textContent('Cannot create submission for closed dossier')
-        //       .hideDelay(1200)
-        //   );
-        // }
       }
 
       // BUSINESS RULES FOR WORKFLOW
@@ -598,6 +521,14 @@ export default angular.module('home', [
 
       update(prop, value) {
         this[prop] = value;
+      }
+
+      showMessage(message) {
+        this.$mdToast.show(
+          this.$mdToast.simple()
+          .textContent(message)
+          .hideDelay(TOAST_HIDE_DELAY)
+        );
       }
 
       backend() {

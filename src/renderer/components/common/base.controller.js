@@ -329,7 +329,7 @@ selectPID(prop,selected){
     this.$mdToast.show(
       this.$mdToast.simple()
         .textContent(message)
-        .hideDelay(1200)
+        .hideDelay(2000)
     );
   }
 
