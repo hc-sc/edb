@@ -42,6 +42,52 @@
         max-length='30' on-update='$ctrl.update("documentgeneric.documentissuedate", value)'>
       </text-input>
 
+      <tbl-new ng-if='!$ctrl.loading' title='{{"referencedtofile" | translate}} *' items='$ctrl.selected.documentgeneric.referencedtofile'
+        projection='[{name: "toFileId", url: "file"}]' on-select='$ctrl.selectTblItem("documentgeneric.referencedtofile",index)'
+        on-add='$ctrl.addTblItem("documentgeneric.referencedtofile")' on-delete='$ctrl.deleteTblItem("documentgeneric.referencedtofile",index)'
+        min-items='1'>
+      </tbl-new>
+
+      <tbl-new ng-if='!$ctrl.loading' title='{{"documentra" | translate}} *' items='$ctrl.selected.documentra' projection='[{name: "toSpecificForRAId", url: "receiver"}]'
+        on-select='$ctrl.selectTblItem("documentra",index)' on-delete='$ctrl.deleteTblItem("documentra",index)' on-add='$ctrl.addTblItem("documentra")'
+        min-items='1'>
+      </tbl-new>
+      
+      <md-toolbar>
+        <div class='md-toolbar-tools custom-toolbar'>
+          <md-switch class='dark-switch toolbar-title' ng-model='$ctrl.selected._docsourcetype' 
+            ng-change='$ctrl.printValue()'>
+            {{"documentsource" | translate}}: {{$ctrl.selected._docsourcetype === true ? 'complete' : 'partial'}}
+            <md-tooltip>Complated Document source or Partial document source</md-tooltip>
+
+          </md-switch>
+        </div>
+      </md-toolbar>
+
+      <div layout='column' flex class='group-container'>
+        <text-input ng-if='$ctrl.selected._docsourcetype' label='{{"completedocumentsource" | translate}}' is-required='true' text-value='$ctrl.selected.documentgeneric.completedocumentsource'
+          on-update='$ctrl.update("documentgeneric.completedocumentsource", value)' max-Length='2000'>
+        </text-input>
+
+        <text-input ng-if='!$ctrl.selected._docsourcetype' label='{{"documentsource" | translate}}' is-required='true' text-value='$ctrl.selected.documentgeneric.documentsource'
+          on-update='$ctrl.update("documentgeneric.documentsource", value)' max-Length='2000'>
+        </text-input>
+
+        <number-input ng-if='!$ctrl.selected._docsourcetype' label='{{"documentyear" | translate}}' is-required='false' text-value='$ctrl.selected.documentgeneric.documentyear'
+          on-update='$ctrl.update("documentgeneric.documentyear", value)' has-pattern='\d{4}' message='Needs to be a year' max-Length='4'>
+        </number-input>
+        <text-input ng-if='!$ctrl.selected._docsourcetype' label='{{"documentissue" | translate}}' is-required='false' text-value='$ctrl.selected.documentgeneric.documentissue'
+          on-update='$ctrl.update("documentgeneric.documentissue", value)' max-Length='20'>
+        </text-input>
+
+        <text-input ng-if='!$ctrl.selected._docsourcetype' label='{{"documentvolume" | translate}}' is-required='false' text-value='$ctrl.selected.documentgeneric.documentvolume'
+          on-update='$ctrl.update("documentgeneric.documentvolume", value)' max-Length='20'>
+        </text-input>
+        <text-input ng-if='!$ctrl.selected._docsourcetype' label='{{"documentpages" | translate}}' is-required='false' text-value='$ctrl.selected.documentgeneric.documentpages'
+          on-update='$ctrl.update("documentgeneric.documentpages", value)' max-Length='20'>
+        </text-input>
+      </div>
+
       <md-switch ng-model='$ctrl.selected.documentgeneric.publishedindicator' aria-label='{{"publishedindicator" | translate}}'
         class='md-primary' ng-change='$ctrl.printValue()'>
         {{"publishedindicator" | translate}} : {{$ctrl.selected.documentgeneric.publishedindicator}}
@@ -61,49 +107,11 @@
         <md-tooltip>True or False</md-tooltip>
       </md-switch>
 
-      <md-toolbar>
-        <div class='md-toolbar-tools custom-toolbar'>
-          <md-switch class='dark-switch' ng-model='$ctrl.selected._docsourcetype' aria-label='{{"publishedindicator" | translate}}'
-            ng-change='$ctrl.printValue()'>
-            {{"documentsource" | translate}}: {{$ctrl.selected._docsourcetype === true ? 'complete' : 'partial'}}
-            <md-tooltip>Complated Document source or Partial document source</md-tooltip>
-          </md-switch>
-        </div>
-      </md-toolbar>
-
-      <div layout='column' flex class='group-container'>
-        <text-input ng-if='$ctrl.selected._docsourcetype' label='{{"completedocumentsource" | translate}}' is-required='true' text-value='$ctrl.selected.documentgeneric.completedocumentsource'
-          on-update='$ctrl.update("documentgeneric.completedocumentsource", value)' max-Length='2000'>
-        </text-input>
-
-        <text-input ng-if='!$ctrl.selected._docsourcetype' label='{{"documentsource" | translate}}' is-required='true' text-value='$ctrl.selected.documentgeneric.documentsource'
-          on-update='$ctrl.update("documentgeneric.documentsource", value)' max-Length='2000'>
-        </text-input>
-
-        <number-input ng-if='!$ctrl.selected._docsourcetype' label='{{"documentyear" | translate}}' is-required='false' text-value='$ctrl.selected.documentgeneric.documentyear'
-          on-update='$ctrl.update("documentgeneric.documentyear", value)' has-pattern='\d{4}' message='Needs to be a year' max-Length='20'>
-        </number-input>
-        <text-input ng-if='!$ctrl.selected._docsourcetype' label='{{"documentissue" | translate}}' is-required='false' text-value='$ctrl.selected.documentgeneric.documentissue'
-          on-update='$ctrl.update("documentgeneric.documentissue", value)' max-Length='20'>
-        </text-input>
-
-        <text-input ng-if='!$ctrl.selected._docsourcetype' label='{{"documentvolume" | translate}}' is-required='false' text-value='$ctrl.selected.documentgeneric.documentvolume'
-          on-update='$ctrl.update("documentgeneric.documentvolume", value)' max-Length='20'>
-        </text-input>
-        <text-input ng-if='!$ctrl.selected._docsourcetype' label='{{"documentpages" | translate}}' is-required='false' text-value='$ctrl.selected.documentgeneric.documentpages'
-          on-update='$ctrl.update("documentgeneric.documentpages", value)' max-Length='20'>
-        </text-input>
-      </div>
-
-      <tbl-new ng-if='!$ctrl.loading' title='{{"referencedtofile" | translate}} *' items='$ctrl.selected.documentgeneric.referencedtofile'
-        projection='[{name: "toFileId", url: "file"}]' on-select='$ctrl.selectTblItem("documentgeneric.referencedtofile",index)'
-        on-add='$ctrl.addTblItem("documentgeneric.referencedtofile")' on-delete='$ctrl.deleteTblItem("documentgeneric.referencedtofile",index)'
-        min-items='1'>
-      </tbl-new>
+  
 
       <md-toolbar>
         <div class='md-toolbar-tools custom-toolbar'>
-          <h2 class='md-title'>{{"documentowner" | translate}}</h2>
+          <h2 class='toolbar-title'>{{"documentowner" | translate}}</h2>
           <span flex></span>
           <md-button class='md-icon-button' ng-click='$ctrl.addArrayGen("documentowner")'>
             <md-icon md-svg-icon='add' aria-label='add dialog' class='light'></md-icon>
@@ -128,7 +136,7 @@
 
       <md-toolbar>
         <div class='md-toolbar-tools custom-toolbar'>
-          <h2 class='md-title'>{{"testlaboratory" | translate}}</h2>
+          <h2 class='toolbar-title'>{{"testlaboratory" | translate}}</h2>
           <span flex></span>
           <md-button class='md-icon-button' ng-click='$ctrl.addArrayGen("testlaboratory")'>
             <md-icon md-svg-icon='add' aria-label='add dialog' class='light'></md-icon>
@@ -177,12 +185,7 @@
         projection='$ctrl.documentnumberProjection' on-select='$ctrl.selectTblItem("documentgeneric.documentnumber",index)'
         on-add='$ctrl.addTblItem("documentgeneric.documentnumber")' on-delete='$ctrl.deleteTblItem("documentgeneric.documentnumber",index)'>
       </tbl-new>
-
-
-      <tbl-new ng-if='!$ctrl.loading' title='{{"documentra" | translate}} *' items='$ctrl.selected.documentra' projection='[{name: "toSpecificForRAId", url: "receiver"}]'
-        on-select='$ctrl.selectTblItem("documentra",index)' on-delete='$ctrl.deleteTblItem("documentra",index)' on-add='$ctrl.addTblItem("documentra")'
-        min-items='1'>
-      </tbl-new>
+    
     </div>
 
     <div class='float-bottom'>
