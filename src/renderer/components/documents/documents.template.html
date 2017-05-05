@@ -52,14 +52,13 @@
         on-select='$ctrl.selectTblItem("documentra",index)' on-delete='$ctrl.deleteTblItem("documentra",index)' on-add='$ctrl.addTblItem("documentra")'
         min-items='1'>
       </tbl-new>
-      
+
       <md-toolbar>
         <div class='md-toolbar-tools custom-toolbar'>
-          <md-switch class='dark-switch toolbar-title' ng-model='$ctrl.selected._docsourcetype' 
+          <md-switch class='dark-switch toolbar-title' ng-model='$ctrl.selected._docsourcetype'
             ng-change='$ctrl.printValue()'>
             {{"documentsource" | translate}}: {{$ctrl.selected._docsourcetype === true ? 'complete' : 'partial'}}
             <md-tooltip>Complated Document source or Partial document source</md-tooltip>
-
           </md-switch>
         </div>
       </md-toolbar>
@@ -107,7 +106,7 @@
         <md-tooltip>True or False</md-tooltip>
       </md-switch>
 
-  
+
 
       <md-toolbar>
         <div class='md-toolbar-tools custom-toolbar'>
@@ -185,7 +184,7 @@
         projection='$ctrl.documentnumberProjection' on-select='$ctrl.selectTblItem("documentgeneric.documentnumber",index)'
         on-add='$ctrl.addTblItem("documentgeneric.documentnumber")' on-delete='$ctrl.deleteTblItem("documentgeneric.documentnumber",index)'>
       </tbl-new>
-    
+
     </div>
 
     <div class='float-bottom'>

@@ -1,5 +1,9 @@
 @import '../../../scss/constants';
 
+div.table-wrapper {
+  overflow-x: scroll;
+}
+
 div.table {
   margin: 8px 0;
 }
