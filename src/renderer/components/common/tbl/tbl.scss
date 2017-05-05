@@ -58,3 +58,9 @@ table.md-table td.icon-cell {
   transform: rotate(180deg);
   transition: transform 0.2s;
 }
+
+/* the last icon cell in the table */
+.icon-cell +  :not(.icon-cell) {
+  border-left: 1px solid rgba(0, 0, 0, 0.117647);
+  margin-left: 10px !important;
+}

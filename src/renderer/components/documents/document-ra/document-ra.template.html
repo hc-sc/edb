@@ -10,9 +10,9 @@
         </md-button>
       </div>
     </md-toolbar>
-
-
-    <div class='no-margin no-padding'>  
+    
+   <md-dialog-content>
+      <div class='md-dialog-content'>
         <select-input 
             label='{{"toSpecificForRAId" | translate}}'
             is-required='true'
@@ -42,144 +42,148 @@
               </div>                   
         </div>            
     </div>
- 
-    <md-toolbar>
-      <div class='md-toolbar-tools'>
-        <h2>{{"documentcomment" | translate}}</h2>
-        <span flex></span>
-        <md-button class='md-icon-button' ng-click='$ctrl.addString("documentcomment")'>
-          <md-icon md-svg-icon='add' aria-label='add dialog' class='light'></md-icon>
-          <md-tooltip>Add Comment</md-tooltip>
-        </md-button>
-      </div>
-    </md-toolbar>
-    <md-list>
-        <md-list-item ng-repeat="comment in $ctrl.node.documentcomment track by $index" class="noright">
-            <text-input 
-                label='{{"documentcomment" | translate}}' 
-                is-required='true'
-                text-value='comment' 
-                on-update='$ctrl.updateArray("documentcomment", $index, value)'
-                max-Length='2000'>
-            </text-input>
-            <md-button aria-label='Delete Item'  ng-click='$ctrl.deleteArray("documentcomment", $index)'>
-                <md-icon md-svg-icon='delete' class='dark'></md-icon>
-                <md-tooltip>Delete Comment</md-tooltip>
+
+    <div layout-padding>
+        <md-toolbar>
+          <div class='md-toolbar-tools'>
+            <h2>{{"documentcomment" | translate}}</h2>
+            <span flex></span>
+            <md-button class='md-icon-button' ng-click='$ctrl.addString("documentcomment")'>
+              <md-icon md-svg-icon='add' aria-label='add dialog' class='light'></md-icon>
+              <md-tooltip>Add Comment</md-tooltip>
             </md-button>
-        </md-list-item>
-    </md-list>
+          </div>
+        </md-toolbar>
+        <md-list>
+            <md-list-item ng-repeat="comment in $ctrl.node.documentcomment track by $index" >
+                <div layout-gt-xs="row" flex="100">
+                      <text-input 
+                          label='{{"documentcomment" | translate}}' 
+                          is-required='true'
+                          text-value='comment' 
+                          on-update='$ctrl.updateArray("documentcomment", $index, value)'
+                          max-Length='2000'>
+                      </text-input>                
+                      <md-button aria-label='Delete Item'  ng-click='$ctrl.deleteArray("documentcomment", $index)'>
+                            <md-icon md-svg-icon='delete' class='dark'></md-icon>
+                            <md-tooltip>Delete Comment</md-tooltip>   
+                      </md-button>                
+                </div>
+            </md-list-item>
+        </md-list>
+    </div>
 
-    <md-toolbar>
-      <div class='md-toolbar-tools'>
-        <h2>{{"othernationalguideline" | translate}}</h2>
-        <span flex></span>
-        <md-button class='md-icon-button' ng-click='$ctrl.add("othernationalguideline")'>
-          <md-icon md-svg-icon='add' aria-label='add dialog' class='light'></md-icon>
-          <md-tooltip>Add Guideline</md-tooltip>
-        </md-button>
-      </div>
-    </md-toolbar>
-    <md-list>
-        <md-list-item ng-repeat= "oth in $ctrl.node.othernationalguideline track by $index"  class="noright">
-              <div layout-gt-xs="row">
-                   <text-input 
-                        label='{{"guidelinenumber" | translate}}' 
-                        is-required='true'
-                        text-value='oth.guidelinenumber' 
-                        on-update='$ctrl.updateArray("guidelinenumber", $index, value,"othernationalguideline")'
-                        max-Length='20'>
-                   </text-input>
-                   <text-input 
-                        label='{{"guidelinesystem" | translate}}' 
-                        is-required='true'
-                        text-value='oth.guidelinesystem' 
-                        on-update='$ctrl.updateArray("guidelinesystem", $index, value,"othernationalguideline")'
-                        max-Length='20'>
-                   </text-input>
-                  <md-button aria-label='Delete Item'  ng-click='$ctrl.deleteArray("othernationalguideline", $index, $event)'>
-                      <md-icon md-svg-icon='delete' class='dark'></md-icon>
-                      <md-tooltip>Delete Guideline</md-tooltip>
-                  </md-button>
-              </div>
-        </md-list-item>
-    </md-list>
+    <div layout-padding>
+        <md-toolbar>
+          <div class='md-toolbar-tools'>
+            <h2>{{"othernationalguideline" | translate}}</h2>
+            <span flex></span>
+            <md-button class='md-icon-button' ng-click='$ctrl.add("othernationalguideline")'>
+              <md-icon md-svg-icon='add' aria-label='add dialog' class='light'></md-icon>
+              <md-tooltip>Add Guideline</md-tooltip>
+            </md-button>
+          </div>
+        </md-toolbar>
+        
+        <md-list>
+            <md-list-item ng-repeat= "oth in $ctrl.node.othernationalguideline track by $index" >
+                  <div layout-gt-xs="row"  flex="100">
+                      <text-input 
+                            label='{{"guidelinenumber" | translate}}' 
+                            is-required='true'
+                            text-value='oth.guidelinenumber' 
+                            on-update='$ctrl.updateArray("guidelinenumber", $index, value,"othernationalguideline")'
+                            max-Length='20'>
+                      </text-input>
+                      <text-input 
+                            label='{{"guidelinesystem" | translate}}' 
+                            is-required='true'
+                            text-value='oth.guidelinesystem' 
+                            on-update='$ctrl.updateArray("guidelinesystem", $index, value,"othernationalguideline")'
+                            max-Length='20'>
+                      </text-input>
+                      <md-button aria-label='Delete Item'  ng-click='$ctrl.deleteArray("othernationalguideline", $index, $event)'>      
+                            <md-icon md-svg-icon='delete' class='dark'></md-icon>
+                            <md-tooltip>Delete Guideline</md-tooltip>                    
+                      </md-button>   
+                  </div>
+            </md-list-item>
+        </md-list>
+    </div>
 
-    <md-toolbar>
-      <div class='md-toolbar-tools'>
-        <h2>{{"radocumentnumber" | translate}}</h2>
-        <span flex></span>
-      </div>
-    </md-toolbar>
-   
-   <div class='no-margin no-padding'>  
-       <select-input-extensible 
-                label='{{"radocumentnumbertype" | translate}}' 
-                is-required='true'
-                select-value='$ctrl.node.radocumentnumber.radocumentnumbertype'
-                on-update='$ctrl.updateSubArray("radocumentnumbertype", value, "radocumentnumber")'
-                values='$ctrl.picklists.raDocumentNumberTypeOptions' 
-                type-name='EXTENSION_TYPE_RA_DOCUMENT_NUMBER_TYPE' 
-                on-add='$ctrl.createPicklistItem("radocumentnumbertype", "raDocumentNumberTypeOptions", value)'>
-      </select-input-extensible>
+    <div layout-padding>
+          <md-toolbar>
+            <div class='md-toolbar-tools'>
+              <h2>{{"radocumentnumber" | translate}}</h2>
+              <span flex></span>
+            </div>
+          </md-toolbar>
+        
+        <div class='md-dialog-content'>  
+            <select-input-extensible 
+                      label='{{"radocumentnumbertype" | translate}}'                      
+                      select-value='$ctrl.node.radocumentnumber.radocumentnumbertype'
+                      on-update='$ctrl.updateSubArray("radocumentnumbertype", value, "radocumentnumber")'
+                      values='$ctrl.picklists.raDocumentNumberTypeOptions' 
+                      type-name='EXTENSION_TYPE_RA_DOCUMENT_NUMBER_TYPE' 
+                      on-add='$ctrl.createPicklistItem("radocumentnumbertype", "raDocumentNumberTypeOptions", value)'>
+            </select-input-extensible>
+            <div layout-gt-xs="row" >             
+                  <text-input 
+                          label='{{"identifier" | translate}}'                     
+                          text-value='$ctrl.node.radocumentnumber.identifier' 
+                          on-update='$ctrl.updateSubArray("identifier", value, "radocumentnumber")'
+                          max-Length='255'>
+                  </text-input>
+                  <md-switch ng-model='$ctrl.node.radocumentnumber.alreadysubmitted' 
+                          aria-label='{{"alreadysubmitted" | translate}}'
+                          class='md-primary' 
+                          ng-change='$ctrl.printValue()'>
+                  {{"alreadysubmitted" | translate}} : {{$ctrl.node.radocumentnumber.alreadysubmitted}}
+                  <md-tooltip>True or False</md-tooltip>
+              </md-switch>                     
+            </div>
+        </div>  
 
-      <div layout-gt-xs="row" >             
-             <text-input 
-                    label='{{"identifier" | translate}}' 
-                    is-required='true'
-                    text-value='$ctrl.node.radocumentnumber.identifier' 
-                    on-update='$ctrl.updateSubArray("identifier", value, "radocumentnumber")'
-                    max-Length='255'>
-            </text-input>
+        <div flex="66" flex-offset="5">
+                <md-toolbar>
+                  <div class='md-toolbar-tools'>
+                    <h2>{{"dossiercontext" | translate}}</h2>
+                    <span flex></span>
+                    <md-button class='md-icon-button' ng-click='$ctrl.addSubArray("dossiercontext","radocumentnumber")'>
+                      <md-icon md-svg-icon='add' aria-label='add dialog' class='light'></md-icon>
+                      <md-tooltip>Add dossier context</md-tooltip>
+                    </md-button>
+                  </div>
+                </md-toolbar>
+                <md-list>
+                    <md-list-item ng-repeat= "sub in $ctrl.node.radocumentnumber.dossiercontext"  class="noright">                    
+                          <div layout-gt-xs="row" flex="100">
+                              <text-input 
+                                    label='{{"dossierpid" | translate}}'                                   
+                                    text-value='sub.dossierpid' 
+                                    on-update='$ctrl.updateSubArray("dossiercontext", value, "radocumentnumber", $index, "dossierpid")'
+                                    max-Length='255'>
+                              </text-input>
+                              <text-input 
+                                    label='{{"dossiernumber" | translate}}'                                     
+                                    text-value='sub.dossiernumber' 
+                                    on-update='$ctrl.updateSubArray("dossiercontext", value, "radocumentnumber", $index, "dossiernumber")'
+                                    max-Length='255'>
+                              </text-input>
+                              <md-button aria-label='Delete Item'  ng-click='$ctrl.deleteSubArray("dossiercontext",$index,"radocumentnumber", $event)'>
+                                  <md-icon md-svg-icon='delete' class='dark'></md-icon>
+                                  <md-tooltip>Delete dossier context</md-tooltip>
+                              </md-button>
+                          </div>     
+                    </md-list-item>
+                </md-list>
+        </div>
+    </div>
 
-            <md-switch ng-model='$ctrl.node.radocumentnumber.alreadysubmitted' 
-                    aria-label='{{"alreadysubmitted" | translate}}'
-                    class='md-primary' 
-                    ng-change='$ctrl.printValue()'>
-            {{"alreadysubmitted" | translate}} 
-            <md-tooltip>True or False</md-tooltip>
-        </md-switch>                     
-      </div>
-
-   </div>  
+ </md-dialog-content>
     
   
-    <div flex="66" flex-offset="5">
-            <md-toolbar>
-              <div class='md-toolbar-tools'>
-                <h2>{{"dossiercontext" | translate}}</h2>
-                <span flex></span>
-                <md-button class='md-icon-button' ng-click='$ctrl.addSubArray("dossiercontext","radocumentnumber")'>
-                  <md-icon md-svg-icon='add' aria-label='add dialog' class='light'></md-icon>
-                  <md-tooltip>Add dossier context</md-tooltip>
-                </md-button>
-              </div>
-            </md-toolbar>
-            <md-list>
-                <md-list-item ng-repeat= "sub in $ctrl.node.radocumentnumber.dossiercontext"  class="noright">                    
-                      <div layout-gt-xs="row">
-                          <text-input 
-                                label='{{"dossierpid" | translate}}' 
-                                is-required='true'
-                                text-value='sub.dossierpid' 
-                                on-update='$ctrl.updateSubArray("dossiercontext", value, "radocumentnumber", $index, "dossierpid")'
-                                max-Length='255'>
-                          </text-input>
-                          <text-input 
-                                label='{{"dossiernumber" | translate}}' 
-                                is-required='true'
-                                text-value='sub.dossiernumber' 
-                                on-update='$ctrl.updateSubArray("dossiercontext", value, "radocumentnumber", $index, "dossiernumber")'
-                                max-Length='255'>
-                          </text-input>
-                          <md-button aria-label='Delete Item'  ng-click='$ctrl.deleteSubArray("dossiercontext",$index,"radocumentnumber", $event)'>
-                              <md-icon md-svg-icon='delete' class='dark'></md-icon>
-                              <md-tooltip>Delete dossier context</md-tooltip>
-                          </md-button>
-                      </div>     
-                </md-list-item>
-            </md-list>
-    </div>
- 
     <md-dialog-actions layout='row'>
       <span flex></span>
       <md-button ng-click='$ctrl.confirm()'>Okay</md-button>

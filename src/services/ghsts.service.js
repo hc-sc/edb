@@ -185,7 +185,7 @@ module.exports = class GhstsService extends BaseService {
       };
       let retVal = {
         TYPE_NAME: 'GHSTS.GHSTS',
-        specificationversion: self.ghsts[0].specificationversion,
+        specificationversion: self.ghsts[0].specificationversion ? self.ghsts[0].specificationversion : '01.04.00',
         receivers: {
           TYPE_NAME: 'GHSTS.GHSTS.RECEIVERS',
           receiver: []
@@ -227,6 +227,7 @@ module.exports = class GhstsService extends BaseService {
         path: '_product',
         populate: [{
           path: 'dossier',
+          model: 'DOSSIER',
           populate: {
             path: 'submission'
           }
@@ -251,15 +252,16 @@ module.exports = class GhstsService extends BaseService {
         else {
           try {
             let result = JSON.parse(JSON.stringify(rows[0])); ///Mongoose or Tingo BSON id process has bug, may improve later
-            let receiverIds = [];
+            let receiverIds = [], strId;
 
             // For Receiver
             if (result._receiver) {
               retVal.receivers.receiver = result._receiver.map(item => {
                 retVal.legalentities.legalentity.push(item.receiver.toLegalEntityId);
-                item.receiver.id = item.receiver._id.toString();
-                item.receiver.metadatastatus = self._metadatastatus_process('receiver', item.receiver.id);
-                receiverIds.push(item.receiver.id);
+                item.receiver.toLegalEntityId = BACKEND_CONST.ID_PREFIX.legalentity + item.receiver.toLegalEntityId;
+                strId = item.receiver._id.toString();
+                item.receiver.metadatastatus = self._metadatastatus_process('receiver', strId);
+                receiverIds.push(strId);
                 return item;
               });
               retVal.receivers.receiver = self._get_xml_jsonix(retVal.receivers.receiver);
@@ -273,6 +275,7 @@ module.exports = class GhstsService extends BaseService {
                 ret.sender = self._get_xml_jsonix(ret.sender);
                 ret.sender.map(sender => {
                   retVal.legalentities.legalentity.push(sender.toLegalEntityId);
+                  sender.toLegalEntityId = BACKEND_CONST.ID_PREFIX.legalentity + sender.toLegalEntityId;
                 });
                 return ret;
               });
@@ -282,8 +285,19 @@ module.exports = class GhstsService extends BaseService {
             // For Product, Dossier, Submission
             retVal.product = result._product;
             retVal.product.metadatastatus = self._metadatastatus_process('product', result._product._id);
+            retVal.product.productra.map(ra => {
+              ra.toSpecificForRAId = BACKEND_CONST.ID_PREFIX.receiver + ra.toSpecificForRAId;
+            });
+            retVal.product.ingredients.ingredient.map(ing => {
+              ing.toSubstanceId = BACKEND_CONST.ID_PREFIX.substance + ing.toSubstanceId;
+            });
             retVal.product = self._get_xml_jsonix(result._product);
             delete retVal.product.dossier.product;
+
+            retVal.product.dossier.dossierra.map(ra => {
+              ra.toSpecificForRAId = BACKEND_CONST.ID_PREFIX.receiver + ra.toSpecificForRAId;
+            });
+                        
             retVal.product.dossier.submission.map(sub => {
               sub.submissionversiondate =
                 DateTimeProc.dateToJsonixObj(sub.submissionversiondate);
@@ -295,7 +309,7 @@ module.exports = class GhstsService extends BaseService {
                 let retDoc = _.merge({}, doc);
                 let docMeta = self._metadatastatus_process('document', retDoc._id, receiverIds);
                 if (!retDoc.id)
-                  retDoc.id = retDoc._id;
+                  retDoc.id = BACKEND_CONST.ID_PREFIX.document + retDoc._id;
                 retDoc.documentgeneric.metadatastatus = docMeta.documentgeneric.metadatastatusid;
                 let jsonixDCH = self.assignDCHJosnix(doc._id);
                 if (jsonixDCH)
@@ -311,10 +325,20 @@ module.exports = class GhstsService extends BaseService {
                         break;
                       }
                     }
+                    documentra.toSpecificForRAId = BACKEND_CONST.ID_PREFIX.receiver + documentra.toSpecificForRAId;
                     return documentra;
                   });
                 } else
                   delete retDoc.documentra;
+
+                if (retDoc._docsourcetype) {
+                  delete retDoc.documentgeneric.documentsource;
+                  delete retDoc.documentgeneric.documentyear;
+                  delete retDoc.documentgeneric.documentissue;
+                  delete retDoc.documentgeneric.documentvolume;
+                  delete retDoc.documentgeneric.documentpages;
+                } else 
+                  delete retDoc.documentgeneric.completedocumentsource;
 
                 retDoc.documentgeneric.documentissuedate =
                   DateTimeProc.dateToJsonixObj(retDoc.documentgeneric.documentissuedate);
@@ -332,6 +356,12 @@ module.exports = class GhstsService extends BaseService {
                     retVal.files.file.push(file.toFileId);
                   });
                 }
+                retDoc.documentgeneric.relatedtosubstance.map(ss => {
+                  ss.toSubstanceId = BACKEND_CONST.ID_PREFIX.substance + ss.toSubstanceId;
+                });
+                retDoc.documentgeneric.referencedtofile.map(fl => {
+                  fl.toFileId = BACKEND_CONST.ID_PREFIX.file + fl.toFileId;
+                });
                 return retDoc;
               });
               retVal.documents.document = self._get_xml_jsonix(retVal.documents.document); ///Working with Project Number bug
@@ -364,6 +394,7 @@ module.exports = class GhstsService extends BaseService {
                           break;
                         }
                       }
+                      filera.toSpecificForRAId = BACKEND_CONST.ID_PREFIX.receiver + filera.toSpecificForRAId;
                       return filera;
                     });
                   } else
@@ -398,6 +429,8 @@ module.exports = class GhstsService extends BaseService {
                 })[0]);
                 let metaId = self._metadatastatus_process('legalentity', les);
                 ret.metadatastatus = metaId;
+                if (!ret.id.startsWith(BACKEND_CONST.ID_PREFIX.legalentity))
+                  ret.id = BACKEND_CONST.ID_PREFIX.legalentity + ret.id;
                 return ret;
               });
               retVal.legalentities.legalentity = self._get_xml_jsonix(retVal.legalentities.legalentity);
@@ -408,7 +441,7 @@ module.exports = class GhstsService extends BaseService {
             // Search Substances from Ingredients
             if (result._product.ingredients.ingredient && result._product.ingredients.ingredient.length > 0) {
               result._product.ingredients.ingredient.map(item => {
-                retVal.substances.substance.push(item.toSubstanceId);
+                retVal.substances.substance.push(item.toSubstanceId.replace(BACKEND_CONST.ID_PREFIX.substance, ''));
               });
             }
             if (retVal.substances.substance && retVal.substances.substance.length > 0) {
@@ -419,6 +452,8 @@ module.exports = class GhstsService extends BaseService {
                 })[0]);
                 let metaId = self._metadatastatus_process('substance', item);
                 ret.metadatastatus = metaId;
+                if (!ret.id.startsWith(BACKEND_CONST.ID_PREFIX.substance))
+                  ret.id = BACKEND_CONST.ID_PREFIX.substance + ret.id;
                 return ret;
               });
               retVal.substances.substance = self._get_xml_jsonix(retVal.substances.substance);
@@ -462,9 +497,16 @@ module.exports = class GhstsService extends BaseService {
               self.ghsts[0]._tocid = TocService.edb_getSync({
                 tocversion: '01.00.01'
               })[0]._id;
-            let curToc = _.merge({}, TocService.edb_getSync({
+            let curToc = TocService.edb_getSync({
               _id: self.ghsts[0]._tocid
-            })[0]);
+            })[0];
+//TODO: template change for demo DACO in Paris meeting. Should be removed or modified to handle multiple TOCs.            
+            if (!curToc) 
+              curToc = TocService.edb_getSync({
+                tocversion: '01.00.01'
+              })[0];
+//End TODO
+            curToc = _.merge({}, curToc);
             let docSvr = new DocumentService(self.ghsts[0]._version);
             docSvr.edb_get({
                 where: self.ghsts[0]._document
@@ -497,9 +539,10 @@ module.exports = class GhstsService extends BaseService {
               break;
             case 'document':
             case 'file':
+              let pro = ProductService.edb_getSync({_id: self.ghsts[0]._product})[0];
               ids = {
-                fieldname: '_ghsts',
-                ids: [self.ghsts[0]._id]
+                fieldname: '_dossier',
+                ids: [pro.dossier]
               };
               break;
             default:
@@ -938,6 +981,10 @@ module.exports = class GhstsService extends BaseService {
           let filesNeedCopy = _.concat([], ret._filesNeedCopy);
           delete ret._filesNeedCopy;
           let doc = self._marsh['01_04_00'].marshalString(ret);
+          let exp = new RegExp(/Z<\/SUBMISSION_VERSION_DATE/g);
+          doc = doc.replace(exp, '</SUBMISSION_VERSION_DATE');
+          exp = new RegExp(/Z<\/DOCUMENT_ISSUE_DATE/g);
+          doc = doc.replace(exp, '</DOCUMENT_ISSUE_DATE');
           packageLocation = self._createPackage(doc, filesNeedCopy);
           let subSvr = new SubmissionService(self._version);
           let subObj = SubmissionService.edb_getSync({
@@ -962,7 +1009,7 @@ module.exports = class GhstsService extends BaseService {
 
   edb_validation() {
     return new Q((res, rej) => {
-      let self = this;
+      let self = this, errWithDSMissing = [], DSMissingPath = [];
       self._buildXmlJson()
         .then(ret => {
           let xmlJsonix = _.merge({}, ret);
@@ -974,6 +1021,31 @@ module.exports = class GhstsService extends BaseService {
               if (error.keyword !== 'anyOf')
                 return error;
             });
+          }
+          if (errors && errors.length > 0) { //Fix for bug of Josinx XSD choice
+            errors = _.filter(errors, error => {
+              if (error.keyword !== 'required' || (error.params.missingProperty !== 'documentsource' && error.params.missingProperty !== 'completedocumentsource'))
+                return error;
+              else {
+                errWithDSMissing.push(error);
+                DSMissingPath.push(error.dataPath);
+              }
+            });
+            if (errWithDSMissing.length > 0) {
+              DSMissingPath = _.uniq(DSMissingPath);
+              DSMissingPath.map(dp => {
+                let isErr = _.filter(errWithDSMissing, err => {
+                  if (err.dataPath === dp)
+                    return err;
+                });
+                if (isErr.length > 1) { //documentsource and completedocumentsource both missing
+                  let newErr = _.merge({}, isErr[0]);
+                  newErr.message = "should have required property 'documentsource' or 'completedocumentsource'"; 
+                  newErr.params.missingProperty = 'documentsource and completedocumentsource';
+                  errors.push(newErr);
+                }
+              });
+            }
           }
           if (errors && errors.length > 0) {
             rej(new RVHelper('EDB30002', errors));
@@ -1053,6 +1125,7 @@ module.exports = class GhstsService extends BaseService {
             dossObj = {
               dossierdescriptiontitle: obj.dossiertitle,
               product: obj.product,
+              _tocId: obj.tocId,
               submission: []
             };
             ghstsObj = {
@@ -1069,31 +1142,48 @@ module.exports = class GhstsService extends BaseService {
             dossObj = _.merge({}, DossierService.edb_getSync({
               _id: obj.dossierId
             })[0]);
-            ghstsObj = _.merge({}, GhstsService.edb_getSync({
-              _submissionid: obj.submissionid
-            })[0]);
-            delete ghstsObj.__v;
-            delete ghstsObj._created;
-            delete ghstsObj._id;
-            delete ghstsObj._lastMod;
-            delete ghstsObj.id;
-            delete ghstsObj._state;
-            if (!ghstsObj._documentcontenthistory)
-              ghstsObj._documentcontenthistory = {};
+            if (!obj.submissionid) { //create submission 01 for existing dossier
+              subObj = {
+                submissionnumber: '01',
+                _version: self._version ? self._version : '01.04.00'
+              };
+              ghstsObj = {
+                _submissionid: '',
+                _submissionnumber: 1,
+                _product: dossObj.product[0],
+                _foldername: dossObj.dossiertitle,
+                _tocid: dossObj._tocId,
+                _documentcontenthistory: {},
+                _metadatastatus: {},
+                _version: self._version ? self._version : '01.04.00'
+              };
+            } else { //create submission other than 01
+              ghstsObj = _.merge({}, GhstsService.edb_getSync({
+                _submissionid: obj.submissionid
+              })[0]);
+              delete ghstsObj.__v;
+              delete ghstsObj._created;
+              delete ghstsObj._id;
+              delete ghstsObj._lastMod;
+              delete ghstsObj.id;
+              delete ghstsObj._state;
+              if (!ghstsObj._documentcontenthistory)
+                ghstsObj._documentcontenthistory = {};
 
-            let prevSubObj = SubmissionService.edb_getSync({
-              _id: obj.submissionid
-            })[0];
-            subObj = {
-              _version: self._version ? self._version : '01.04.00'
-            };
-            ghstsObj._submissionnumber++;
-            subObj.submissionnumber = ghstsObj._submissionnumber.toString();
-            if (subObj.submissionnumber.length === 1) subObj.submissionnumber = '0' + subObj.submissionnumber;
-            subObj.submissiontitle = prevSubObj.submissiontitle.replace(prevSubObj.submissionnumber, '') + subObj.submissionnumber;
-            ghstsObj._metadatastatus = MetaDataStatus.updateMetadataStatus4NewSub(ghstsObj._metadatastatus, 'TYPE_METADATA_STATUS', 'metadatastatusid', 'No Change');
-            ghstsObj._toc2docs = MetaDataStatus.updateMetadataStatus4NewSub(ghstsObj._toc2docs, 'TYPE_NODE_ASSIGNMENT_STATUS', 'nodeassignmentstatusId', 'No Change');
-            GhstsService.updateDocContentStatus4NewSub(ghstsObj._documentcontenthistory, 'TYPE_DOCUMENT_CONTENT_STATUS', subObj.submissionnumber, ghstsObj._document);
+              let prevSubObj = SubmissionService.edb_getSync({
+                _id: obj.submissionid
+              })[0];
+              subObj = {
+                _version: self._version ? self._version : '01.04.00'
+              };
+              ghstsObj._submissionnumber++;
+              subObj.submissionnumber = ghstsObj._submissionnumber.toString();
+              if (subObj.submissionnumber.length === 1) subObj.submissionnumber = '0' + subObj.submissionnumber;
+              subObj.submissiontitle = prevSubObj.submissiontitle.replace(prevSubObj.submissionnumber, '') + subObj.submissionnumber;
+              ghstsObj._metadatastatus = MetaDataStatus.updateMetadataStatus4NewSub(ghstsObj._metadatastatus, 'TYPE_METADATA_STATUS', 'metadatastatusid', 'No Change');
+              ghstsObj._toc2docs = MetaDataStatus.updateMetadataStatus4NewSub(ghstsObj._toc2docs, 'TYPE_NODE_ASSIGNMENT_STATUS', 'nodeassignmentstatusId', 'No Change');
+              GhstsService.updateDocContentStatus4NewSub(ghstsObj._documentcontenthistory, 'TYPE_DOCUMENT_CONTENT_STATUS', subObj.submissionnumber, ghstsObj._document);
+            }
           }
           subSvr._create(subObj)
             .then(subRet => {
@@ -1123,7 +1213,7 @@ module.exports = class GhstsService extends BaseService {
               prodObj = JSON.parse(prodRet.data);
               if (obj.product)
                 ghstsObj._foldername = prodObj.genericproductname + BACKEND_CONST.PRODUCT_DOSSIER_FOLDER_CONTACT_SYMBOL + ghstsObj._foldername;
-              if (obj.dossierId)
+              if (obj.dossierId && obj.submissionid)
                 return super._create(ghstsObj);
               else
                 return self._create(ghstsObj);

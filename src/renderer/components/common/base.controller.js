@@ -33,7 +33,6 @@ export default class BaseCtrl {
   init(id) {
     return this.getAppData()
       .then(records => {
-        console.log('records: ', records);
         this.records = [].concat(JSON.parse(records.data));
         if (this.records && this.records.length > 0) {
           // there is some data in the db
@@ -48,7 +47,6 @@ export default class BaseCtrl {
         }
         else {
           // empty table, need to prompt to create first
-          console.log('EMPTY ON INIT');
         }
         // console.log("View Data: " + JSON.stringify(this.selected));
       });
@@ -83,9 +81,8 @@ export default class BaseCtrl {
   // create a new item
   createAppData(data = {}, url = this.url) {
     if (this.isSubmission && url === this.url) {
-      if (url === 'document' || url === 'file') {
+      if ((url === 'document' || url === 'file') && (data._dossier !== this.dossierData.dossierid)) {
         data._dossier = this.dossierData.dossierid;
-        data._ghsts = this.ghsts._id;
         return this.ghstsService.edb_put({url, data});
       } else
         return this.appDataService.edb_put({ url, data });
@@ -96,7 +93,7 @@ export default class BaseCtrl {
   // update a item
   updateAppData(data = {}, url = this.url) {
     if (this.isSubmission && url === this.url) {
-      if (url === 'document' || url === 'file') {
+      if ((url === 'document' || url === 'file') && (data._dossier !== this.dossierData.dossierid)) {
         data._dossier = this.dossierData.dossierid;  //Do not set _ghsts to allow back-end create new item, if it is required.
         return this.ghstsService.edb_post({url, data});
       } else
@@ -160,12 +157,32 @@ export default class BaseCtrl {
           }
           this.selectedIndex = -1;
           this.selected = angular.copy(this.getModel(prop));
+          this.records.push(this.selected);
+          this.sortData();
           this.oriSelected = _.merge({}, this.selected);
+          this.selectPID(prop,this.selected);
           this.showMessage('Adding a new record.');
         });
     }
   }
-
+selectPID(prop,selected){
+  let generatedPID=this.getPid();
+  if(prop=='substance'){
+     selected.substancepid=generatedPID;
+  }else if(prop=='file'){
+    selected.filegeneric.filepid=generatedPID;
+  }else if(prop=='product'){
+    selected.productpid=generatedPID;
+  }else if(prop=='legalentity'){
+    selected.legalentitypid=generatedPID;
+  }else if(prop=='document'){
+    this.selected.documentgeneric.documentpid=this.getPid();
+    this.selected.documentgeneric.documentfamilypid=this.getPid();
+  }
+  else{
+    console.log(prop+" doesn't have PID, do nothing.");
+  }
+}
   // update an item in the database
   save() {
     if (!this.dialogOpen) {
@@ -173,7 +190,6 @@ export default class BaseCtrl {
       if (!this.selected.hasOwnProperty('_id')) {
         this.createAppData(angular.copy(this.selected))
           .then(result => {
-            console.log(result);
             let data = JSON.parse(result.data);
             if (Array.isArray(data))
               data = data[0];
@@ -189,7 +205,6 @@ export default class BaseCtrl {
       else {
         this.updateAppData(angular.copy(this.selected))
           .then(result => {
-            console.log(result);
             let data = JSON.parse(result.data);
             if (Array.isArray(data))
               data = data[0];
@@ -238,13 +253,27 @@ export default class BaseCtrl {
     this.dialogOpen = true;
     this.$mdDialog.show(this.buildModal(nodeName, this.selected.length, true))
       .then(item => {
-        if (this.getRef(nodeName).filter(record => {
-          console.log(record, item);
-          if (nodeName.toLowerCase().endsWith('ra'))
-            return record.toSpecificForRAId === item.toSpecificForRAId;
-          else
-            return equals(record, item);
-        }).length !== 0) {
+        // if (this.getRef(nodeName).filter(record => {
+        //   if (nodeName.toLowerCase().endsWith('ra'))
+        //     return record.toSpecificForRAId === item.toSpecificForRAId;
+        //   else {
+        //     Object.keys(item).forEach(prop => {
+        //       console.log(item[prop], record[prop]);
+        //       if (!equals(item[prop], record[prop])) return false;
+        //     });
+        //     return true;
+        //   }
+        // }).length !== 0) {
+
+        // for each item in the table
+        // for each prop in the added item
+        let isDupe = this.getRef(nodeName).filter(record => {
+          return Object.keys(item).filter(prop => {
+            return (equals(item[prop], record[prop]));
+          }).length === Object.keys(item).length;
+        }).length !== 0;
+
+        if (isDupe) {
           this.showMessage('Duplicate item.');
         }
         else {
@@ -278,7 +307,6 @@ export default class BaseCtrl {
     this.dialogOpen = true;
     this.$mdDialog.show(this.buildModal(nodeName, index, false))
       .then(item => {
-        console.log(item);
         if (!nodeName.toLowerCase().endsWith('ra') && (this.getRef(nodeName).filter(record => {
           return equals(record, item);
         }).length !== 0)) {
@@ -301,7 +329,7 @@ export default class BaseCtrl {
     this.$mdToast.show(
       this.$mdToast.simple()
         .textContent(message)
-        .hideDelay(1200)
+        .hideDelay(2000)
     );
   }
 
@@ -326,7 +354,6 @@ export default class BaseCtrl {
 
   // used as a generic function to build our modals
   buildModal(nodeName, index, isNew) {
-    console.log(this.selected);
     const {template, controller} = getModalValues(nodeName);
     return {
       template,

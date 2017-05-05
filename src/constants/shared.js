@@ -26,7 +26,9 @@ const SHARED_CONSTANTS = {
   SUBMISSION_STATUS_PACKAGED: 'packaged',
   SUBMISSION_STATUS_SENT: 'sent',
   STATUS_ACTIVE: 'active',
-  STATUS_DEACTIVE: 'deactive'
+  STATUS_DEACTIVE: 'deactive',
+
+  TOAST_HIDE_DELAY: 2000
 };
 
 (function (exports) {

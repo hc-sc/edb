@@ -29,6 +29,7 @@ export default angular.module('receiver', [
       constructor($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, $scope, GhstsService, $transitions) {
         super($mdDialog, $mdToast, $state, PicklistService, AppDataService, ModelService, 'receiver', $scope, GhstsService, $transitions);
         this.senders = [];
+        this.hasSelection = false;
         this.records = [];
 
         Promise.all([
@@ -66,18 +67,27 @@ export default angular.module('receiver', [
                   } else {
                     this.oriSelected = JSON.stringify(this.ghsts._receiver);
                   }
+                  this.loading = false;
                 });
             }
             else {
-              return this.init();
+              return this.init().then(() => this.loading = false);
             }
           })
         ])
           .then(() => {
-            console.log('finished');
             this.$scope.$root.loading = false;
             this.$scope.$apply();
           });
+      }
+
+      shouldShowSenders() {
+        this.hasSelection =
+          (Array.isArray(this.senders) && Array.isArray(this.records) && this.records.length > 0 && this.selected != null) ? true : false;
+      }
+
+      $onChanges(changes) {
+        console.log('changed', changes);
       }
 
       // need to override since the method depends on whether it is a submission or not
@@ -89,8 +99,10 @@ export default angular.module('receiver', [
               this.ghsts = JSON.parse(result.data);
               if (this.records.length > 0) {
                 this.sortData();
-                this.resetSelected(this.selected._id);
-                this.selectReceiver(this.selected._id, this.selectedIndex);
+                if (this.selected) {
+                  this.resetSelected(this.selected._id);
+                  this.selectReceiver(this.selected._id, this.selectedIndex);
+                }
               } else {
                 this.oriSelected = JSON.stringify(this.ghsts._receiver);
               }
@@ -146,13 +158,12 @@ export default angular.module('receiver', [
               sender = this.appDataService.edb_getSync({ _url: 'sender', data: { _id: item._id } })[0];
               this.senders = this.senders.concat(sender);
               this.updateGhstsReceiver();
-            } else 
+            } else
               this.showMessage('Duplicate item.');
           })
           .catch(err => console.error(err));
       }
 
-      // MAKE SURE IT'S ACTUALLY DELETED IN THE DB
       deleteSender(index) {
         this.senders = [...this.senders.slice(0, index), ...this.senders.slice(index + 1)];
         this.updateGhstsReceiver();
@@ -167,6 +178,7 @@ export default angular.module('receiver', [
           .then(res => {
             this.senders = JSON.parse(res.data);
           });
+        this.shouldShowSenders();
       }
 
       addReceiver() {
@@ -193,7 +205,7 @@ export default angular.module('receiver', [
               this.ghsts._receiver.push({receiver: item.receiver, sender: []});
               this.records = this.records.concat(receiver);
               this.senders = [];
-            } else 
+            } else
               this.showMessage('Duplicate item.');
           })
           .catch(err => console.log(err));
@@ -214,6 +226,7 @@ export default angular.module('receiver', [
           this.oriSelected = undefined;
           this.senders = [];
         }
+        this.shouldShowSenders();
       }
 
       updateGhstsReceiver() {
@@ -237,6 +250,7 @@ export default angular.module('receiver', [
       }
 
       resetSelected(id) {
+        console.log('resetting');
         super.resetSelected(id);
         if (this.isSubmission)
           this.oriSelected = JSON.stringify(this.ghsts._receiver);

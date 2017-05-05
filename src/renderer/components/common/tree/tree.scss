@@ -28,6 +28,21 @@
   display: inline-block;
   min-width: 0;
   width: 20px;
+  visibility: visible;
+  transition: transform 0.2s ease-in-out;
+}
+
+.tree-icon.invisible {
+  visibility: hidden;
+}
+
+.tree-icon.expanded {
+  transform: rotate(90deg);
+  transition: transform 0.2s ease-in-out;
+}
+
+.tree-icon svg {
+  fill: $dark-icon;
 }
 
 .tree-options {

@@ -1,5 +1,6 @@
 import angular from 'angular';
 import ngMaterial from 'angular-material';
+import tocTemplate from './toc-data/toc-data.template.html';
 import template from './toc.template';
 
 import BaseCtrl from '../common/base.controller';
@@ -38,6 +39,9 @@ export default angular.module('toc', [
         return this.getAppData({}, 'document');
       }).then(docs => {
         this.docs = JSON.parse(docs.data);
+        this.docs = this.docs.filter(doc => {
+          return doc._dossier === this.dossierData.dossierid;
+        });
         return this.picklistService.edb_get({ 'TYPE_NAME': 'EXTENSION_TYPE_TOC_OWNER' });
       }).then(ret => {
         this.tocOwnerType = JSON.parse(ret.data);
@@ -45,6 +49,7 @@ export default angular.module('toc', [
         this.tree.tocnode.forEach(node => this.getNodes(this.treeNodes, node));
         $scope.$apply(this.$scope.$root.loading = false);
         this.associations = [];
+        console.log(this.toc.structure);
       });
     }
 
@@ -68,8 +73,29 @@ export default angular.module('toc', [
       if (tree.tocnode) tree.tocnode.forEach(node => this.getNodes(list, node));
     }
 
-    toggleShowTOCData() {
-      this.showTOCData = !this.showTOCData;
+    showTOCDataModal() {
+      this.$mdDialog.show({
+        template: tocTemplate,
+        controllerAs: '$ctrl',
+        controller: class ReceiverSelectCtrl {
+          constructor($mdDialog, toc) {
+            this.toc = toc
+            this.$mdDialog = $mdDialog;
+            console.log(this);
+          }
+
+          close() {
+            this.$mdDialog.hide(this);
+          }
+
+          confirm() {
+            this.$mdDialog.hide(this);
+          }
+        },
+        locals: {
+          toc: this.toc
+        }
+      });
     }
 
     updateTOC(node, value) {

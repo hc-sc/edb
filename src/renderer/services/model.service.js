@@ -87,9 +87,10 @@ export default class ModelService {
         return _.merge({}, Object.assign(modelReferencedDossier.fields));
 
       case 'document':
-        model = _.merge({}, Object.assign(modelDocument.fields));
-        model.documentgeneric = this.getModel('documentgeneric');
-        model._url = 'document';
+          model = _.merge({}, Object.assign(modelDocument.fields));
+          model.documentgeneric = this.getModel('documentgeneric');
+          model._url = 'document';
+          model._docsourcetype = false;
         return model;
 
       case 'documentgeneric':
@@ -100,6 +101,8 @@ export default class ModelService {
       case 'documentra':
          model = _.merge({}, Object.assign(modelDocumentRA.fields));
          model.radocumentnumber = this.getModel('radocumentnumber');
+         model.dataprotection = '';
+         model.datarequirement = '';
          return model;
 
       case 'othernationalguideline':

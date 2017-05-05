@@ -34,7 +34,7 @@ export const propNames_en = {
   'legalentitytype': 'Legal Entity Type',
   'othername': 'Other Name',
   'legalentityidentifier': 'Legal Entity Identifier',
-  'contactaddress': 'Address*',
+  'contactaddress': 'Address',
   'street1': 'Street 1',
   'street2': 'Street 2',
   'zipcode': 'Zip/Postal Code',
@@ -68,7 +68,7 @@ export const propNames_en = {
   'referenceddossiernumber': 'Referenced Dossier Number',
   'regulatorytype': 'Regulatory Type',
   'applicationtype': 'Application Type',
-  'projectidnumber': 'Project Number',
+  'projectidnumber': 'Project ID Number',
   'productname': 'Product Name',
   '_state': 'Status',
   '_created': 'Created',
@@ -95,10 +95,10 @@ export const propNames_en = {
   'formulationtype': 'Formulation Type',
   'toSpecificForRAId': 'Regulatory Authority',
   'ingredients': 'Ingredients',
-  'ingredient': 'Ingredient*',
-  'productregulartoryauthorities': 'Regulatory Authority Production Information',
+  'ingredient': 'Ingredient',
+  'productregulartoryauthorities': 'Regulatory Authority Product Information',
   //Product RA
-  'productRA': 'Product Regulatory Authorities',
+  'productRA': 'Regulatory Authority Product Information',
   'receiver': 'Receiver',
   'adminnumbertype': 'Admin Number Type',
   //Ingredient
@@ -137,6 +137,7 @@ export const propNames_en = {
   'documentpid': 'Document PID',
   'documentfamilypid': 'Document Family PID',
   'documentfamily': 'Document Family',
+  'documentcompanyid': 'Document Company ID',
   'documentcontentstatushistory': 'Document Content Status History',
   'referenceddocument': 'Referenced Document',
   'referencetype': 'Reference Type',
@@ -151,7 +152,7 @@ export const propNames_en = {
   'publishedindicator': 'Published Indicator',
   'completedocumentsource': 'Complete Document Source',
   'documentsource': 'Document Source',
-  'documentyear': 'Document Year',
+  'documentyear': 'Document Year (YYYY)',
   'documentissue': 'Document Issue',
   'documentvolume': 'Document Volume',
   'documentpages': 'Document Pages',
@@ -160,7 +161,7 @@ export const propNames_en = {
   'testedonvertebrate': 'Tested on Vertebrate',
   'referencedtofile': 'Associated Files',
   'toFileId': 'File Name',
-  'filesToSelect': 'Files',
+  'filesToSelect': 'File',
   'file': 'File',
   'fileName': 'File Name',
   'selectFile': 'Select File',
@@ -189,4 +190,10 @@ export const statuses_en = {
   [CONSTANTS.SUBMISSION_STATUS_SENT]: 'Sent',
   [CONSTANTS.STATUS_ACTIVE]: 'Active',
   [CONSTANTS.STATUS_DEACTIVE]: 'Deactive'
+};
+
+export const other_en = {
+  noitems: 'There are currently no items. Create a new one to begin.',
+  'true': 'True',
+  'false': 'False'
 };

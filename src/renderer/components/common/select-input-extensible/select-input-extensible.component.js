@@ -28,7 +28,6 @@ export default angular.module('selectInputExtensible', [
   },
   controller: class selectInputExtensibleCtrl {
     constructor(PicklistService) {
-      console.log(this.label);
       this.picklistService = PicklistService.getService();
       this.addButton = { name: 'add', label: 'Add Extension', color: 'dark' };
       this.cancelButton = { name: 'close', label: 'Cancel', color: 'dark' };
@@ -41,6 +40,8 @@ export default angular.module('selectInputExtensible', [
 
     toggleAdd() {
       this.adding = !this.adding;
+      this.value = '';
+      this.valuedecode = '';
     }
 
     // update the database

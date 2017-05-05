@@ -11,7 +11,10 @@ export default angular.module('icon', [
   template,
   bindings: {
     icon: '<',
-    disabled: '<'
+    disabled: '<',
+    color: '@',
+    label: '@',
+    name:'@'
   }
 })
 .name;

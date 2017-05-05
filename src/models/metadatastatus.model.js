@@ -52,7 +52,7 @@ module.exports.MetaDataStatusNodeWithRA = MetaDataStatusNodeWithRA;
 
 module.exports.MetaDataStatus = class MetaDataStatus {
   constructor(version) {
-    this.version = version;
+    this.version = version ? version : '01.04.00';
     this.metadatastatusValues = MetaDataStatus.getMetadataStatusValues();
     Object.assign(this, metadataStatusdef[this.version].fields);
   }

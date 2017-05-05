@@ -7,7 +7,7 @@ import Toolbar from '../toolbar/toolbar.component';
 import Icon from '../icon/icon.component';
 import IndexFilter from '../../../filters/index.filter';
 
-import './tbl.scss';
+// import './tbl.scss';
 
 export default angular.module('tbl', [
   uiRouter,
@@ -28,7 +28,8 @@ export default angular.module('tbl', [
       deletable: '@',
       onSelect: '&',
       onAdd: '&',
-      onDelete: '&'
+      onDelete: '&',
+      canAdd: '<'
     },
     controller: class TableCtrl {
       constructor(AppDataService, PicklistService) {
@@ -60,7 +61,11 @@ export default angular.module('tbl', [
         //     if (data === value._id) return value.valuedecode;
         //   }
         // }
-        return Array.isArray(data) ? data.join(', ') : data;
+        console.log(data);
+        if (Array.isArray(data)) {
+          return data.join(',');
+        }
+        return  data;
       }
 
       setSort(item) {
@@ -71,6 +76,14 @@ export default angular.module('tbl', [
           this.reverse = false;
           this.sortField = item.paramName;
         }
+
+        return item.paramName
+      }
+
+      getSortField(item) {
+      }
+
+      sort(a, b) {
       }
 
 
@@ -117,7 +130,7 @@ export default angular.module('tbl', [
             row.push(item['_id']);
             return row;
           });
-        } else 
+        } else
           this.rows = [];
       }
 
@@ -126,6 +139,7 @@ export default angular.module('tbl', [
       }
 
       select(id, index) {
+        console.log(this.rows[index])
         this.onSelect({ id, index });
       }
 
@@ -175,7 +189,6 @@ export default angular.module('tbl', [
             });
         }
       }
-
     }
   })
   .name;
