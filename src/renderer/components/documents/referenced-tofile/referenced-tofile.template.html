@@ -16,6 +16,7 @@
         <select-input 
             label='{{"selectFile" | translate}}' 
             main='filename' 
+            is-required='true'
             select-value='$ctrl.node.toFileId' 
             values='$ctrl.files' 
             on-update='$ctrl.update("toFileId", value)'>
