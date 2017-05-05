@@ -174,8 +174,8 @@ export const propNames_en = {
   'othernationalguideline': 'Other National Guideline',
   'guidelinesystem': 'Guideline System',
   'guidelinenumber': 'Guideline Number',
-  'radocumentnumber': 'RA Document Number',
-  'radocumentnumbertype': 'RA Document Number Type',
+  'radocumentnumber': 'Regulatory Authority Document Number',
+  'radocumentnumbertype': 'Regulatory Authority Document Number Type',
   'alreadysubmitted': 'Already Submitted',
   'dossiercontext': 'Dossier Context',
   'dossiernumber': 'Dossier Number'

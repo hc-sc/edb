@@ -121,7 +121,8 @@
         
         <div class='md-dialog-content'>  
             <select-input-extensible 
-                      label='{{"radocumentnumbertype" | translate}}'                      
+                      label='{{"radocumentnumbertype" | translate}}'     
+                      is-required='true'
                       select-value='$ctrl.node.radocumentnumber.radocumentnumbertype'
                       on-update='$ctrl.updateSubArray("radocumentnumbertype", value, "radocumentnumber")'
                       values='$ctrl.picklists.raDocumentNumberTypeOptions' 
