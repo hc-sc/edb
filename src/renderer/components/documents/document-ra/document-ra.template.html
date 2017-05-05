@@ -121,8 +121,7 @@
         
         <div class='md-dialog-content'>  
             <select-input-extensible 
-                      label='{{"radocumentnumbertype" | translate}}' 
-                      is-required='true'
+                      label='{{"radocumentnumbertype" | translate}}'                      
                       select-value='$ctrl.node.radocumentnumber.radocumentnumbertype'
                       on-update='$ctrl.updateSubArray("radocumentnumbertype", value, "radocumentnumber")'
                       values='$ctrl.picklists.raDocumentNumberTypeOptions' 
@@ -131,8 +130,7 @@
             </select-input-extensible>
             <div layout-gt-xs="row" >             
                   <text-input 
-                          label='{{"identifier" | translate}}' 
-                          is-required='true'
+                          label='{{"identifier" | translate}}'                     
                           text-value='$ctrl.node.radocumentnumber.identifier' 
                           on-update='$ctrl.updateSubArray("identifier", value, "radocumentnumber")'
                           max-Length='255'>
@@ -141,7 +139,7 @@
                           aria-label='{{"alreadysubmitted" | translate}}'
                           class='md-primary' 
                           ng-change='$ctrl.printValue()'>
-                  {{"alreadysubmitted" | translate}} 
+                  {{"alreadysubmitted" | translate}} : {{$ctrl.node.radocumentnumber.alreadysubmitted}}
                   <md-tooltip>True or False</md-tooltip>
               </md-switch>                     
             </div>
@@ -162,15 +160,13 @@
                     <md-list-item ng-repeat= "sub in $ctrl.node.radocumentnumber.dossiercontext"  class="noright">                    
                           <div layout-gt-xs="row" flex="100">
                               <text-input 
-                                    label='{{"dossierpid" | translate}}' 
-                                    is-required='true'
+                                    label='{{"dossierpid" | translate}}'                                   
                                     text-value='sub.dossierpid' 
                                     on-update='$ctrl.updateSubArray("dossiercontext", value, "radocumentnumber", $index, "dossierpid")'
                                     max-Length='255'>
                               </text-input>
                               <text-input 
-                                    label='{{"dossiernumber" | translate}}' 
-                                    is-required='true'
+                                    label='{{"dossiernumber" | translate}}'                                     
                                     text-value='sub.dossiernumber' 
                                     on-update='$ctrl.updateSubArray("dossiercontext", value, "radocumentnumber", $index, "dossiernumber")'
                                     max-Length='255'>

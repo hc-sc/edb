@@ -152,7 +152,7 @@ export const propNames_en = {
   'publishedindicator': 'Published Indicator',
   'completedocumentsource': 'Complete Document Source',
   'documentsource': 'Document Source',
-  'documentyear': 'Document Year',
+  'documentyear': 'Document Year (YYYY)',
   'documentissue': 'Document Issue',
   'documentvolume': 'Document Volume',
   'documentpages': 'Document Pages',
