@@ -14,7 +14,7 @@ const ServiceLevelPlugin = require('../models/plugins/service.level.plugin');
 const BACKEND_CONST = require('../constants/backend');
 const GhstsPid = require('../utils/pid');
 const NestedPropertyProc = require('../utils/nested-property.process');
-const NoNeedIdServiceNames = ['PRODUCT', 'DOSSIER', 'TOC']; 
+const NoNeedIdServiceNames = ['PRODUCT', 'DOSSIER', 'TOC'];
 
 module.exports = class BaseService {
   constructor(modelClassName, inmem, version) {
@@ -58,6 +58,13 @@ module.exports = class BaseService {
     return self._update(obj);
   }
 
+  /**
+   *
+   * @param {*} obj
+   * @param {String} pop - comma separated string, for fields referenced
+   * @param {*} where
+   * @param {*} sort
+   */
   edb_get(obj, pop, where, sort) {
     return new Q((res, rej) => {
       let self = this;
@@ -226,7 +233,7 @@ module.exports = class BaseService {
             delete firstLevel[key];
           else
             delete secondLevel[key];
-          
+
         });
 
         let entityClass = require('mongoose').model(self.modelClassName);
@@ -436,7 +443,7 @@ module.exports = class BaseService {
               let subRet = [];
               retVal[key].map(picklistId => {
                 subRet.push(PickListService.toJsonix(picklistId));
-              }); 
+              });
               retVal[key] = subRet;
             } else {
               retVal[key] = PickListService.toJsonix(retVal[key]);
@@ -447,11 +454,11 @@ module.exports = class BaseService {
                 if (retVal[key].length > 0) {
                   let subRet = self._get_xml_jsonix(retVal[key]);
                   retVal[key] = subRet;
-                } else 
+                } else
                   delete retVal[key];
               } else if (typeof retVal[key] === 'object') {
                 retVal[key] = self._get_xml_jsonix(retVal[key]);
-              } 
+              }
             }
           } else if (retVal[key] !== false)
             delete retVal[key];

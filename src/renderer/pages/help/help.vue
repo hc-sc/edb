@@ -1,0 +1,36 @@
+<template>
+  <div>
+    <vue-header :title='$t("help")'></vue-header>
+    <p>The PMRA eDossier Builder allows Submitters to prepare electronic Submissions to any participating Regulatory Authority. The eDossier Builder Submissions are based on the OECD Global Harmonised Submission Transport Standard (GHSTS). eDossier Builder allows Submitters to manage tombstone data using the ‘Manage Application Data’ section (Legal Entities, Substances, Products, etc.). The Application Data is then used within the ‘Build Dossier’ section to build, validate, and package Submissions.</p>
+
+    <p>Each field within the eDossier Builder is described in the GHSTS Format Specification
+    <br/>(http://www.oecd.org/chemicalsafety/submission-transport-standard/ghsts-downloads-description.htm).</p>
+
+    <p>Simple business rules have also been integrated into the eDossier Builder’s screens to help ensure that Submitters are properly completing the data entry fields. The eDossier Builder also allows Submitters to ‘validate’ the Submission at any time, allowing the Submitter to check whether or not a Submission has been properly completed.</p>
+      <!--<p>Once Submissions are entered and validated, the Submitter creates the Submission package. The package will be saved in the following path: </p>
+
+      <md-list flex>
+        <md-list-item class="md-2-line">
+          <div class="md-list-item-text" layout="column">
+            <h3>Windows</h3>
+            <p>C:\Users\[YOUR-USER-NAME]\AppData\Local\Programs\edossier_builder\projects</p>
+          </div>
+        </md-list-item>
+      </md-list>
+
+      -->
+    <p>This packaged Submission file can then be sent to the participating Regulatory Authority using their required transport channel.</p>
+    <p>If you have any questions on the PMRA eDossier Builder, you may reach us at ePRS-Innovation-SERP@hc-sc.gc.ca</p>
+  </div>
+</template>
+
+<script>
+import Header from '@/components/header/header.vue';
+
+export default {
+  name: 'Help',
+  components: {
+    'vue-header': Header,
+  }
+};
+</script>

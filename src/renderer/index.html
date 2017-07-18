@@ -1,12 +1,17 @@
 <!DOCTYPE html>
-<html lang='en' ng-app='<%= htmlWebpackPlugin.options.ngAppName %>'>
+<html lang='en'>
 <head>
+  <base href='<%= htmlWebpackPlugin.options.base %>'>
   <meta charset='utf-8'>
   <meta name='viewport' content='width=device-width, initial-scale=1'>
-  <meta name='author' content='<%= htmlWebpackPlugin.options.authors %>'>
-  <title><%= htmlWebpackPlugin.options.title %></title>
+  <meta name='author' content='alexgagnon'>
+  <title>eDossier Builder</title>
+  <link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>
 </head>
 <body>
-  <ui-view></ui-view>
+  <div id='app'></div>
+  <script defer>
+    document.body.classList.add('js');
+  </script>
 </body>
 </html>

@@ -7,7 +7,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const PATHS = {
-  app: path.join(__dirname, 'src', 'renderer', 'app'),
+  app: path.join(__dirname, 'src', 'renderer', 'index'),
   src: path.join(__dirname, 'src', 'renderer'),
   build: path.join(__dirname, 'build', 'renderer'),
   dist: path.join(__dirname, 'dist', 'renderer')

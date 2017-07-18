@@ -1,8 +1,0 @@
-<md-input-container class='md-block custom-container'>
-  <label>{{ $ctrl.label }}</label>
-  <md-select ng-model='$ctrl.selectValue' ng-required='$ctrl.isRequired' aria-label='{{ $ctrl.label }}' ng-disabled='$ctrl.isDisabled'>
-    <md-option ng-repeat='item in $ctrl.values' ng-value='item._id' ng-selected='item._id === $ctrl.selectValue' ng-click='$ctrl.update(item)'>
-      {{ item.valuedecode || $ctrl.getMain(item) }}
-      <span ng-if='$ctrl.showValue'> ({{ item.value }})</md-option>
-  </md-select>
-</md-input-container>
