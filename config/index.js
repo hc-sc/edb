@@ -4,7 +4,7 @@ const pathFromRoot = (...paths) => {
   return resolve(__dirname, '..', ...paths);
 };
 
-const TARGET = 'electron';
+const TARGET = 'electron-renderer';
 const APP_ENTRY = 'index.js';
 const HTML_ENTRY = 'index.html';
 const SRC_DIR = 'src';

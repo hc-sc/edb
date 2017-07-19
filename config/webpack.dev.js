@@ -9,7 +9,8 @@ const {
 module.exports = {
   output: {
     filename: '[name].js',
-    path: BUILD_PATH
+    path: join(BUILD_PATH, 'renderer'),
+    // publicPath: '/renderer'
   },
   devtool: 'cheap-module-eval-source-map',
   devServer: {
@@ -52,7 +53,7 @@ module.exports = {
         loader: 'file-loader',
         options: {
           name: join(ASSETS_PATH_REL, 'images', '[name].[ext]'),
-          publicPath: '../../'
+          // publicPath: '../../'
         }
       },
       {
@@ -60,7 +61,7 @@ module.exports = {
         loader: 'file-loader',
         options: {
           name: join(ASSETS_PATH_REL, 'fonts', '[name].[ext]'),
-          publicPath: '../../'
+          // publicPath: '../../'
         }
       }
     ]
@@ -98,6 +99,6 @@ module.exports = {
       chunksSortMode: 'dependency'
     }),
 
-    new webpack.HotModuleReplacementPlugin(),
+    // new webpack.HotModuleReplacementPlugin(),
   ]
 };

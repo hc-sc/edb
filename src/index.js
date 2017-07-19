@@ -130,7 +130,7 @@ var init = () => {
           } catch (err) {
             throw err;
           }
-        } else 
+        } else
           throw err;
       }
     } else {
@@ -312,7 +312,7 @@ app.on('ready', function () {
     app.quit();
     return;
   }
-  
+
   ghstsLogger.info('Application started, ENV: ' + process.env.NODE_ENV);
   XMLSchemaJsonSchema = JSON.parse(fs.readFileSync('./resources/app/standards/jsonschemas/w3c/2001/XMLSchema.jsonschema').toString());
   JsonixJsonSchema = JSON.parse(fs.readFileSync('./resources/app/standards/jsonschemas/jsonix/Jsonix.jsonschema').toString());
@@ -348,7 +348,7 @@ app.on('ready', function () {
     height: 800,
     show: false,
     webPreferences: {
-      nodeIntegration: false,
+      // nodeIntegration: false,
       preload: path.join(__dirname, 'preload.js')
     }
   });
@@ -361,7 +361,7 @@ app.on('ready', function () {
     mainWindow.loadURL('file://' + __dirname + '/../build/renderer/index.html');
   else
     mainWindow.loadURL('file://' + __dirname + '/renderer/index.html');
-  
+
   mainWindow.setTitle('eDossier Builder (V1.1.0)');
   mainWindow.webContents.on('did-finish-load', function () {
     // TODO: setTitle is being deprecated, find and use alternative

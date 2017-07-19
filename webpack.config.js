@@ -34,15 +34,20 @@ let baseConfig = {
 
 module.exports = (env) => {
   printEnvironment(env);
+  let config;
   switch (env) {
     case 'development':
-      return merge(baseConfig, devConfig);
+      config = merge(baseConfig, devConfig);
+      break;
     case 'production':
-      return merge(baseConfig, prodConfig);
+      config = merge(baseConfig, prodConfig);
+      break;
     default:
       console.error('ERROR: Invalid environment');
       process.exit(1);
   }
+  // console.log(JSON.stringify(config, null, 2));
+  return config;
 };
 
 function printEnvironment(env) {
