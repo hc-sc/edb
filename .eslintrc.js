@@ -1,24 +1,38 @@
 module.exports = {
   "env": {
-    "browser": true
-    ,"commonjs": true
-    ,"es6": true
-    ,"node": true
-    ,"mocha": true
-    ,"protractor": true
+    "browser": true,
+    "commonjs": true,
+    "es6": true,
+    "node": true,
+    "jasmine": true
   },
-  "extends": "eslint:recommended",
+  "extends": [
+    "eslint:recommended",
+  ],
+  "parser": "babel-eslint",
   "parserOptions": {
     "sourceType": "module"
   },
+  "plugins": [
+    "html",
+  ],
   "rules": {
-    "semi": [1, "always"]
-    ,"indent": [1, 2]
-    // ,"linebreak-style": [1, "unix"]
-    ,"quotes": [1, "single"]
-    ,"no-console": 0
-    ,"no-unused-vars": 1
-    ,"no-debugger": 1
-    // ,"brace-style": [1, "stroustrup"]
+    "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
+    "no-unused-vars": process.env.NODE_ENV === "production" ? "error" : "warn",
+    "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
+    "indent": [
+      "error",
+      2,
+      {"SwitchCase": 1}
+    ],
+    "quotes": [
+      "error",
+      "single",
+      {"allowTemplateLiterals": true}
+    ],
+    "semi": [
+      "error",
+      "always"
+    ]
   }
 }
