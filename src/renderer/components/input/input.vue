@@ -113,7 +113,8 @@ export default {
       default: true
     },
     value: {
-      type: String
+      type: String,
+      default: ''
     },
     cb: {
       type: Function,
@@ -169,7 +170,6 @@ export default {
     toDate(value) {
       if (!moment(value, [moment.ISO_8601], true).isValid()) return;
 
-      // use YYYY-MM-DD format
       return moment(value).format('YYYY-MM-DD');
     }
   },

@@ -5,11 +5,10 @@
         <vue-list @select='select' :items='legalentities.map(item => item.legalentityname)'></vue-list>
       </div>
       <div slot='split-pane-2' class='pane'>
-        <!-- <vue-input type='text' id='legalentitypid' :label='$t("legalentitypid")' v-model='model.legalentitypid' required>
-          </vue-input>
+          <vue-input type='text' id='legalentitypid' :label='$t("legalentitypid")' v-model='model.legalentitypid' required></vue-input>
          <vue-input type='text' id='legalentityname' :label='$t("legalentityname")' required v-model='model.legalentityname'></vue-input>
-        <vue-select id='legalentitytype' :label='$t("legalentitytype")' v-model='model.legalentitytype' :options='legalentitytypes' :displayValue='displayPicklistItem'></vue-select>
-        <vue-chips deletable unique id='othername' :label='$tc("othername", 2)' :items.sync='model.othername'></vue-chips>
+        <vue-select-extensible id='legalentitytype' :label='$t("legalentitytype")' v-model='model.legalentitytype' :options='legalentitytypes' :displayValue='displayPicklistItem' listname='legalentitytype'></vue-select-extensible>
+         <vue-chips deletable unique id='othername' :label='$tc("othername", 2)' :items.sync='model.othername'></vue-chips>
         <vue-table :title='$t("otheridentifiers")' id='other-identifiers'></vue-table>
         <vue-fieldset :legend='$t("address")'>
           <vue-input type='text' id='street1' :label='$t("street1")' v-model='model.contactaddress.street1'></vue-input>
@@ -23,7 +22,7 @@
           <vue-input type='text' id='website' :label='$t("website")' v-model='model.contactaddress.website'>
             <span slot='prefix'>http://</span>
           </vue-input>
-        </vue-fieldset> -->
+        </vue-fieldset>
         <vue-table :title='$tc("contact", 2)' :items='model.contactperson' id='contact' :headers='["lastname", "firstname", "title", "email"]' selectable pageable></vue-table>
       </div>
     </vue-split-pane>
@@ -47,6 +46,7 @@ import List from '@/components/list/list.vue';
 import Table from '@/components/table/table.vue';
 import Button from '@/components/button/button.vue';
 import Select from '@/components/select/select.vue';
+import SelectExtensible from '@/components/select-extensible/select-extensible.vue';
 import Chips from '@/components/chips/chips.vue';
 import Fieldset from '@/components/fieldset/fieldset.vue';
 import Menu from '@/components/menu/menu.vue';
@@ -114,6 +114,7 @@ export default {
     'vue-select': Select,
     'vue-menu': Menu,
     'vue-fieldset': Fieldset,
+    'vue-select-extensible': SelectExtensible,
     'vue-split-pane': SplitPane
   }
 };

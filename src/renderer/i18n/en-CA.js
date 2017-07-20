@@ -5,6 +5,8 @@ export default {
   settings: 'Settings',
   language: 'Language | Languages',
   help: 'Help',
+  value: 'Value',
+  valuedecode: 'Display Value',
 
   TYPE_ADMIN_NUMBER_TYPE: 'Admin Number Type',
   TYPE_APPLICATION_TYPE: 'Application Type',

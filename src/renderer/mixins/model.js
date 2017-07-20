@@ -1,4 +1,3 @@
-import BackendService from '@/services/backend.service.js';
 import {cloneDeep} from 'lodash';
 
 const model = {
@@ -9,12 +8,11 @@ const model = {
     }
   },
   methods: {
+    revert() {
+      this.mapStateToLocaleModel();
+    },
     mapStateToLocaleModel() {
       this.model = cloneDeep(this.stateModel);
-    },
-
-    getModel() {
-
     }
   }
 };

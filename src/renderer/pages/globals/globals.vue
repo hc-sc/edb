@@ -2,8 +2,12 @@
   <div>
     <vue-header>
       <span slot='left'>
-        <span @click='$router.back'>back</span>
-        <span @click='$router.forward'>next</span>
+        <span @click='back'>
+          <i class='material-icons'>&#xE5C4;</i>
+        </span>
+        <span @click='forward'>
+          <i class="material-icons">&#xE5C8;</i>
+        </span>
       </span>
       {{$t('manageApplication')}}
       <vue-nav id='global-nav' slot='subheader' :navs='pageNodes'></vue-nav>
@@ -16,9 +20,11 @@
 import Button from '@/components/button/button.vue';
 import Header from '@/components/header/header.vue';
 import Nav from '@/components/nav/nav.vue';
+import {navigation} from '@/mixins/navigation.js';
 
 export default {
   name: 'Globals',
+  mixins: [navigation],
   computed: {
     pageNodes: function() {
       return [
@@ -46,14 +52,6 @@ export default {
           label: this.$tc('picklist', 2), path: '/globals/picklists'
         }
       ];
-    }
-  },
-  methods: {
-    navigateBack() {
-      this.$router.back();
-    },
-    navigateForward() {
-      this.$router.forward();
     }
   },
   components: {
