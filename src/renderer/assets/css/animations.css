@@ -1,0 +1,59 @@
+:root {
+  /* standard */
+  --fast-out-slow-in: cubic-bezier(.4, 0, .2, 1);
+
+  /* objects entering screen */
+  --linear-out-slow-in: cubic-bezier(0, 0, .2, 1);
+
+  /* objects leaving screen */
+  --fast-out-linear-in: cubic-bezier(.4, 0, 0, 1);
+
+  --toggle: .2s var(--fast-out-slow-in);
+  --in: .2s var(--linear-out-slow-in);
+  --out: .2s var(--fast-out-linear-in);
+}
+
+.pulse {
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    width: 0;
+    height: 0;
+  }
+
+  100% {
+    opacity: 0;
+    width: 110%;
+    height: 110%;
+  }
+}
+
+@keyframes ripple {
+
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

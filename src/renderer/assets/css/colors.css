@@ -1,0 +1,113 @@
+:root {
+
+  /* IT'S YOUR RESPONSIBILITY TO MAKE SURE THESE HAVE ENOUGH CONTRAST TO BE INCLUSIVE */
+
+  --primary-color-dark: #004c8c;
+  --primary-text-dark: rgba(255, 255, 255, .64);
+  --primary-color: #0277bd;
+  --primary-text: rgba(255, 255, 255, .95);
+  --primary-color-light: #58a5f0;
+  --primary-text-light: rgba(0, 0, 0, .66);
+  --accent-color-dark: #004c40;
+  --accent-text-dark: rgba(255, 255, 255, .59);
+  --accent-color: #00796b;
+  --accent-text: rgba(255, 255, 255, .88);
+  --accent-color-light: #48a999;
+  --accent-text-light: rgba(0, 0, 0, .67);
+  --success-color: #5cb85c;
+  --info-color: #5bc0de;
+  --warn-color: #f0ad4e;
+  --error-color: #d9534f;
+  --disabled-text: rgba(0, 0, 0, .26);
+  --disabled-color: rgba(0, 0, 0, .12);
+  --hover-color: rgba(0, 0, 0, .08);
+  --background-color: white;
+
+  --divider: rgba(0, 0, 0, .12);
+  --divider-dark: rgba(255, 255, 255, .12);
+
+  --primary-dark: {
+    background-color: var(--primary-color-dark);
+    color: var(--primary-text-dark);
+  }
+
+  --primary: {
+    background-color: var(--primary-color);
+    color: var(--primary-text);
+  }
+
+  --primary-light: {
+    background-color: var(--primary-color-light);
+    color: var(--primary-text-light);
+  }
+
+  --accent-dark: {
+    background-color: var(--accent-color-dark);
+    color: var(--accent-text-dark)
+  }
+
+  --accent: {
+    background-color: var(--accent-color);
+    color: var(--accent-text);
+  }
+
+  --accent-light: {
+    background-color: var(--accent-color-light);
+    color: var(--accent-text-light);
+  }
+
+  --info: {
+    background-color: var(--info-color);
+    color: var(--primary-text);
+  }
+
+  --warn: {
+    background-color: var(--warn-color);
+    color: var(--primary-text);
+  }
+
+  --error {
+    background-color: var(--error-color);
+    color: var(--primary-text);
+  }
+}
+
+.primary-dark {
+  @apply --primary-dark;
+}
+
+.primary {
+  @apply --primary;
+}
+
+.primary-light {
+  @apply --primary-light;
+}
+
+.accent-dark {
+  @apply --accent-dark;
+}
+
+.accent {
+  @apply --accent;
+}
+
+.accent-light {
+  @apply --accent-light;
+}
+
+.info {
+  @apply --info;
+}
+
+.warn {
+  @apply --warn;
+}
+
+.error {
+  @apply --error;
+}
+
+.error-text {
+  color: var(--error-color);
+}

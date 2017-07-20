@@ -1,0 +1,189 @@
+@import './shadows.css';
+@import './colors.css';
+@import './fonts.css';
+@import './animations.css';
+
+* {
+  font-family: 'Roboto', sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, body > div, main {
+  height: 100%;
+  font-size: 100%;
+}
+
+body {
+  overflow: hidden;
+}
+
+main {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- MEDIA --- */
+img {
+  display: block;
+}
+
+.responsive {
+  max-width: 100%;
+  height: auto;
+}
+
+.circular {
+  border-radius: 50%;
+}
+
+/* --- DISPLAY --- */
+.block {
+  display: block;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.inline {
+  display: inline;
+}
+
+/* --- ALIGNMENT --- */
+/* Absolute */
+.a-left {
+  position: absolute;
+  left: 0;
+}
+
+.a-right {
+  position: absolute;
+  right: 0;
+}
+
+/* Flexbox */
+.f-container {
+  display: flex;
+}
+
+.f-start {
+  justify-content: flex-start;
+}
+
+.f-end {
+  justify-content: flex-end;
+}
+
+.f-center {
+  justify-content: center;
+}
+
+.f-space {
+  justify-content: space-around;
+}
+
+.f-stretch {
+  align-items: stretch;
+}
+
+.f-middle {
+  justify-content: center;
+  align-items: center;
+}
+
+.flex {
+  flex: 1;
+}
+
+/* Block Elements */
+.b-center {
+  margin: 0 auto;
+}
+
+.b-left {
+  margin: 0 auto 0 0;
+}
+
+.b-right {
+  margin: 0 0 0 auto;
+}
+
+.b-middle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Inline Elements */
+.i-center {
+  text-align: center;
+}
+
+.i-left {
+  text-align: left;
+}
+
+.i-right {
+  text-align: right;
+}
+
+.i-middle {
+  vertical-align: middle;
+}
+
+.clear {
+  clear: both;
+}
+
+.sticky {
+  position: sticky;
+  top: 0;
+}
+
+/* --- OTHER --- */
+.bottom-float {
+  position: fixed;
+  bottom: 5px;
+  right: 5px;
+  z-index: 5;
+}
+
+/* --- SIZES --- */
+.small {
+  width: 44px;
+  height: 44px;
+}
+
+.large {
+  width: 64px;
+  height: 64px;
+}
+
+/* --- PADDING --- */
+.pane {
+  padding: 5px;
+}
+
+/* --- VISIBILITY --- */
+.a-hidden {
+  position: absolute !important;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0 !important;
+  border: 0 !important;
+  height: 1px !important;
+  width: 1px !important;
+  overflow: hidden;
+}
+
+/* --- FIXES --- */
+[hidden] {
+  display: none;
+}
+
+section {
+  margin-bottom: 30px;
+}

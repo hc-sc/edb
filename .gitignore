@@ -1,12 +1,11 @@
-node_modules
+node_modules/
 *.log.*
 *.log
 build
 dist
 projects
 products
-css
-data
+data/
 prepublish/win-unpacked
 prepublish/*.zip
 src/renderer/view-models/gen
