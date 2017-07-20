@@ -1,43 +1,98 @@
-import {ipcRenderer as ipc} from 'electron';
+//import {ipcRenderer as ipc} from 'electron';
+import * as BACKENDCONST from '../../constants/shared';
+
+const ipc = window.ipcRenderer;
 
 const BackendService = {
-  getAll: function() {
-    return handleIPC('getAll', {});
+  getAppDataAll: function (url) {
+    return handleIPC(BACKENDCONST.APP_DATA_MSG_CHANNEL, 'get', {_url: url});
   },
 
-  get: function(id) {
-    return handleIPC('get', {id});
+  getAppData: function (id) {
+    return handleIPC('get', { id });
   },
 
-  delete: function(id) {
-    return handleIPC('delete', {id});
+  deleteAppData: function (id) {
+    return handleIPC('delete', { id });
   },
 
-  create: function(name) {
-    return handleIPC('create', {name});
+  createAppData: function (name) {
+    return handleIPC('create', { name });
   },
 
-  update: function(hero) {
-    return handleIPC('update', {hero});
+  updateAppData: function (hero) {
+    return handleIPC('update', { hero });
   },
 
-  search: function(term) {
+  searchAppData: function (term) {
     return handleIPC('search', term);
   },
 
-  getPicklists: function() {
-    return handleIPC('getAll', {url: 'picklists'});
-  }
+  getGhstsAll: function () {
+    return handleIPC('getAll', {});
+  },
+
+  getGhsts: function (id) {
+    return handleIPC('get', { id });
+  },
+
+  deleteGhsts: function (id) {
+    return handleIPC('delete', { id });
+  },
+
+  createGhsts: function (name) {
+    return handleIPC('create', { name });
+  },
+
+  updateGhsts: function (hero) {
+    return handleIPC('update', { hero });
+  },
+
+  searchGhsts: function (term) {
+    return handleIPC('search', term);
+  },
+
+  getPicklists: function () {
+    return handleIPC(BACKENDCONST.PICKLIST_MSG_CHANNEL, 'get', {});
+  },
+  
+  getPicklist: function (typeName) {
+    return handleIPC(BACKENDCONST.PICKLIST_MSG_CHANNEL, 'get', typeName);
+  },
+
+  deletePicklist: function (id) {
+    return handleIPC(BACKENDCONST.PICKLIST_MSG_CHANNEL, 'delete', { '_id': id });
+  },
+
+  createPicklist: function (obj) {
+    return handleIPC(BACKENDCONST.PICKLIST_MSG_CHANNEL, 'put', obj);
+  },
+
+  updatePicklist: function (obj) {
+    return handleIPC(BACKENDCONST.PICKLIST_MSG_CHANNEL, 'post', obj);
+  },
+
+  searchPicklist: function (cont) {
+    return handleIPC(BACKENDCONST.PICKLIST_MSG_CHANNEL, 'get', {where: cont});
+  },
+  
 };
 
-function handleIPC(method, query) {
-  ipc.send(method, query);
-  return new Promise((resolve) => {
-    ipc.once(method, (event, args) => {
-      if (args.err) handleError(args.err);
-      else if (args.data) resolve(args.data);
-      else resolve(200);
-    });
+function handleIPC(msgChannel, method, query) {
+  return new Promise((res) => {
+    if (ipc) {
+      let timestamp = _getTimeStamp();
+      ipc.once(msgChannel + BACKENDCONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, (event, args) => {
+        if (args.err) {
+          handleError(args.err);
+        } else {
+          res(JSON.parse(args.data));
+        }
+      });
+      ipc.send(msgChannel, _msg_envelope(method, query, timestamp));
+    } else {
+      handleError('Error: Please run application in electron!');
+    }
   });
 }
 
@@ -46,4 +101,28 @@ function handleError(error) {
   return Promise.reject(error.message || error);
 }
 
-export {BackendService};
+function _getTimeStamp() {
+  let retVal = performance.now().toString();
+  let exiTimeStamp = window.curTimeStamp;
+  if (!exiTimeStamp || (exiTimeStamp !== retVal)) {
+    window.curTimeStamp = exiTimeStamp = retVal;
+    window.curTick = 0;
+  } else {
+    window.curTick++;
+    retVal = retVal + window.curTick.toString();
+  }
+  return retVal;
+}
+
+function _msg_envelope(method, obj, timestamp) {
+  let retVal = {};
+  retVal.method = (obj && obj.method) ? obj.method : method;
+  if (obj) {
+    retVal.url = obj.url ? obj.url : obj._url;
+    retVal.data = obj.data ? obj.data : obj;
+  }
+  retVal.timestamp = timestamp;
+  return retVal;
+}
+
+export { BackendService };

@@ -25,6 +25,8 @@ const store = new Vuex.Store({
 
     picklists: [],
 
+    appRecords: [],
+
     // currently selected node for application wide and submission specific pages
     pageUrl: '',
 
@@ -50,6 +52,10 @@ const store = new Vuex.Store({
     },
     updateModel(state, payload) {
       state.model = payload;
+    },
+
+    updateRecords(state, payload) {
+      state.appRecords = payload;
     }
   },
 
@@ -68,7 +74,11 @@ const store = new Vuex.Store({
       commit('updateModel', model);
     },
     async getDossier() {},
-    async getAppData() {}
+    async getAppDataAll({commit}, url) {
+      console.log('here', url);
+      let appData = await BackendService.getAppDataAll(url);
+      commit('updateRecords', appData);
+    }
   }
 });
 

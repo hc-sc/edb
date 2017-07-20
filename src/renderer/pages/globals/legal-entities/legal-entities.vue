@@ -58,7 +58,7 @@ export default {
   name: 'LegalEntities',
   data() {
     return {
-      legalentities: getSampleLegalEntities(),
+      legalentities: [],
       model: {
         ...getEmptyModel('legalentities')
       }
@@ -103,6 +103,7 @@ export default {
     }
   },
   created() {
+    this.$store.dispatch('getAppDataAll', 'legalentity');
     this.$store.dispatch('getModel', getSampleLegalEntities()[0]);
   },
   components: {

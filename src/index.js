@@ -357,17 +357,20 @@ app.on('ready', function () {
     mainWindow = null;
   });
 
-  if (process.env.NODE_ENV === 'development')
+  if (process.env.NODE_ENV === 'development') {
+    BrowserWindow.addDevToolsExtension('C:\\Users\\hcuser\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions\\nhdogjmejiglipccpnnnanhbledajbpd\\3.1.6_0');
+  
     mainWindow.loadURL('file://' + __dirname + '/../build/renderer/index.html');
-  else
+  } else
     mainWindow.loadURL('file://' + __dirname + '/renderer/index.html');
 
   mainWindow.setTitle('eDossier Builder (V1.1.0)');
   mainWindow.webContents.on('did-finish-load', function () {
     // TODO: setTitle is being deprecated, find and use alternative
-    // mainWindow.setTitle('eDossier Builder (V1.1.0)');
+    mainWindow.setTitle('eDossier Builder (V1.1.0)');
     //if (configure.env.toString().toUpper() == 'DEV'){
-    mainWindow.openDevTools();
+    if (process.env.NODE_ENV === 'development')       
+      mainWindow.openDevTools();
   });
   mainWindow.show();
 });
