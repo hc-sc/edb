@@ -5,7 +5,7 @@ The table component acts as either a client side table, where rows are given as 
 </docs>
 
 <template>
-  <div class='table' :class='{selectable, sortable, pageable, filterable}' @select='select' @sort='sort'  @changeOffset='changeOffset'>
+  <vue-card class='table' :class='{selectable, sortable, pageable, filterable}' @select='select' @sort='sort'  @changeOffset='changeOffset'>
     <vue-toolbar>
       {{title}}
       <span slot='right'>
@@ -51,11 +51,12 @@ The table component acts as either a client side table, where rows are given as 
         <i class='material-icons'>chevron_right</i>
       </span>
     </div>
-  </div>
+  </vue-card>
 </template>
 
 <script>
 import Button from '@/components/button/button.vue';
+import Card from '@/components/card/card.vue';
 import Chips from '@/components/chips/chips.vue';
 import Input from '@/components/input/input.vue';
 import Toolbar from '@/components/toolbar/toolbar.vue';
@@ -224,6 +225,7 @@ export default {
   },
   components: {
     'vue-button': Button,
+    'vue-card': Card,
     'vue-chips': Chips,
     'vue-input': Input,
     'vue-toolbar': Toolbar,
@@ -260,7 +262,6 @@ function matchFilter(filter, item) {
 .table {
   border: none;
   outline: none;
-  box-shadow: var(--depth-1);
 }
 
 .table-wrapper {

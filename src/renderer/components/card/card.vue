@@ -34,15 +34,18 @@ export default {
 
 <style>
 @import '../../assets/css/shadows.css';
-@import '../../assets/css/animations';
+@import '../../assets/css/animations.css';
 
 .card {
   box-shadow: var(--depth-1);
-  transition: .2s var(--fast-out-slow-in);
+  border-radius: 2px;
+  transition: var(--toggle);
+  margin-bottom: 12px;
+  overflow: hidden;
 }
 
 .card.hover:hover {
   box-shadow: var(--depth-3);
-  transition: .2s var(--fast-out-slow-in);
+  transition: var(--toggle);
 }
 </style>

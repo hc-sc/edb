@@ -1,19 +1,26 @@
 <template>
-  <fieldset class='fieldset'>
-    <legend class='fieldset-legend h4'>{{legend}}</legend>
-    <div class='fieldset-items'>
-      <slot></slot>
-    </div>
-  </fieldset>
+  <vue-card>
+    <fieldset class='fieldset'>
+      <legend class='fieldset-legend h4'>{{legend}}</legend>
+      <div class='fieldset-items'>
+        <slot></slot>
+      </div>
+    </fieldset>
+  </vue-card>
 </template>
 
 <script>
+import Card from '@/components/card/card.vue';
+
 export default {
   name: 'Fieldset',
   props: {
     legend: {
       type: String
     }
+  },
+  components: {
+    'vue-card': Card
   }
 };
 </script>
@@ -25,9 +32,7 @@ export default {
 .fieldset {
   border: none;
   outline: none;
-  border-radius: 2px;
   overflow: hidden;
-  box-shadow: var(--depth-1);
 }
 
 .fieldset-items {
