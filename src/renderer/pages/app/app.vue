@@ -9,9 +9,9 @@ import {mapActions} from 'vuex';
 
 export default {
   name: 'App',
-  actions: mapActions(['getPicklists']),
+  actions: mapActions(['picklists/getPicklists']),
   created: function() {
-    this.$store.dispatch('getPicklists');
+    this.$store.dispatch('picklists/getPicklists');
   }
 };
 </script>

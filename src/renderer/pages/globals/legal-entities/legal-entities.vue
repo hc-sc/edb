@@ -4,7 +4,7 @@
       <div slot='split-pane-1'>
         <vue-list @select='select' :items='legalentities.map(item => item.legalentityname)'></vue-list>
       </div>
-      <div slot='split-pane-2' class='pane'>
+      <!-- <div slot='split-pane-2' class='pane'>
           <vue-input type='text' id='legalentitypid' :label='$t("legalentitypid")' v-model='model.legalentitypid' required></vue-input>
          <vue-input type='text' id='legalentityname' :label='$t("legalentityname")' required v-model='model.legalentityname'></vue-input>
         <vue-select-extensible id='legalentitytype' :label='$t("legalentitytype")' v-model='model.legalentitytype' :options='legalentitytypes' :displayValue='displayPicklistItem' listname='legalentitytype'></vue-select-extensible>
@@ -24,7 +24,7 @@
           </vue-input>
         </vue-fieldset>
         <vue-table :title='$tc("contact", 2)' :items='model.contactperson' id='contact' :headers='["lastname", "firstname", "title", "email"]' selectable pageable></vue-table>
-      </div>
+      </div> -->
     </vue-split-pane>
     <div class='bottom-float'>
       <vue-button display='fab'>
@@ -51,7 +51,7 @@ import Chips from '@/components/chips/chips.vue';
 import Fieldset from '@/components/fieldset/fieldset.vue';
 import Menu from '@/components/menu/menu.vue';
 import SplitPane from '@/components/split-pane/split-pane.vue';
-import {mapState} from 'vuex';
+import {mapState, mapGetters} from 'vuex';
 import {cloneDeep} from 'lodash';
 
 export default {
@@ -65,19 +65,17 @@ export default {
     };
   },
   computed: {
-    ...mapState(
+    ...mapState('app',
       {
         stateModel(state) {
           return state.model;
-        },
-        countries(state) {
-          return state.picklists.TYPE_COUNTRY.values;
-        },
-        legalentitytypes(state) {
-          return state.picklists.TYPE_LEGALENTITY_TYPE.values;
-        },
+        }
       }
-    )
+    ),
+    ...mapGetters('picklists', [
+      'country',
+      'legalentitytype',
+    ])
   },
   watch: {
     stateModel() {
@@ -85,12 +83,12 @@ export default {
     }
   },
   methods: {
-    select(value) {
+    select() {
       // sample
-      const le = getSampleLegalEntities().filter(item => {
-        return item.legalentityname === value;
-      });
-      if (le && le.length) this.$store.dispatch('getModel', le[0]);
+      // const le = getSampleLegalEntities().filter(item => {
+      //   return item.legalentityname === value;
+      // });
+      // if (le && le.length) this.$store.dispatch('getModel', le[0]);
     },
     revert() {
       this.model = Object.assign({}, this.stateModel);
@@ -103,8 +101,8 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch('getAppDataAll', 'legalentity');
-    this.$store.dispatch('getModel', getSampleLegalEntities()[0]);
+    // this.$store.dispatch('getAppDataAll', 'legalentity');
+    // this.$store.dispatch('getModel', );
   },
   components: {
     'vue-input': Input,
@@ -157,90 +155,90 @@ function getEmptyModel(type) {
   }
 }
 
-function getSampleLegalEntities() {
-  return [
-    {
-      legalentitypid: 'urn:ghsts:sample',
-      legalentityname: 'Australian Pesticides and Veterinary Medicines Authority',
-      legalentitytype: {origin: 'IUCLID', status: 'enabled', value: 'Regulatory Authority', valueDecode: 'Regulatory Authority'},
-      othername: ['APVMA'],
-      contactaddress: {
-        street1: '18 Wormald Street',
-        street2: '',
-        zipcode: '2609',
-        city: 'Symonston',
-        state: 'ACT',
-        country: 'Australia',
-        phone: '+61 2 6210 4701',
-        fax: '+61 20 6210 4701 234',
-        email: 'enquiries@apvma.gov.au',
-        website: 'http://apvma.gov.au'
-      },
-      contactperson: [
-        {
-          organization: 'APVMA',
-          department: 'Regulatory Affairs',
-          title: 'Director',
-          firstname: 'Susan',
-          lastname: 'Miller',
-          phone: '+61 2 6210 4701 3544',
-          mobile: '+61 413 025 837',
-          fax: '',
-          email: 'susan.miller@apvma.gov.au'
-        },
-        {
-          organization: 'PMRA',
-          department: 'Regulatory Affairs',
-          title: 'Boss',
-          firstname: 'Some',
-          lastname: 'Person',
-          phone: '+1 613 899 9998',
-          mobile: '',
-          fax: '',
-          email: 'some.person@pmra.gc.ca'
-        },
-        {
-          organization: 'PMRA',
-          department: 'Regulatory Affairs',
-          title: 'Director',
-          firstname: 'Another',
-          lastname: 'Individual',
-          phone: '+1 613 899 9999',
-          mobile: '',
-          fax: '',
-          email: 'another.individual@pmra.gc.ca'
-        },
-      ]
-    },
-    {
-      legalentitypid: 'urn:ghsts:sample2',
-      legalentityname: 'Instituto Braseileiro do Meio Ambiente',
-      legalentitytype: 'Regulatory Authority',
-      othername: ['IBAMA'],
-      contactaddress: {
-        street1: 'SCEN Trecho 2',
-        street2: 'Ed. Sede - Cx. Postal n 09566',
-        zipcode: '70818-900',
-        city: 'Brasilia',
-        state: 'DF',
-        country: 'Brazil',
-        phone: '+55 61-3316-1212',
-        fax: '+55 61-3316-1212-433',
-        email: 'sic@ibama.gov.br',
-        website: 'http://www.ibama.gov.br'
-      },
-      contactperson: [{
-        organization: 'IBAMA',
-        department: '',
-        title: '',
-        firstname: 'Joao',
-        lastname: 'Gilberto',
-        phone: '+55 61-3316-1212-265',
-        mobile: '+55 21-99635-9499',
-        fax: '',
-        email: ''
-      }]
-    }
-  ];
-}
+// function getSampleLegalEntities() {
+//   return [
+//     {
+//       legalentitypid: 'urn:ghsts:sample',
+//       legalentityname: 'Australian Pesticides and Veterinary Medicines Authority',
+//       legalentitytype: {origin: 'IUCLID', status: 'enabled', value: 'Regulatory Authority', valueDecode: 'Regulatory Authority'},
+//       othername: ['APVMA'],
+//       contactaddress: {
+//         street1: '18 Wormald Street',
+//         street2: '',
+//         zipcode: '2609',
+//         city: 'Symonston',
+//         state: 'ACT',
+//         country: 'Australia',
+//         phone: '+61 2 6210 4701',
+//         fax: '+61 20 6210 4701 234',
+//         email: 'enquiries@apvma.gov.au',
+//         website: 'http://apvma.gov.au'
+//       },
+//       contactperson: [
+//         {
+//           organization: 'APVMA',
+//           department: 'Regulatory Affairs',
+//           title: 'Director',
+//           firstname: 'Susan',
+//           lastname: 'Miller',
+//           phone: '+61 2 6210 4701 3544',
+//           mobile: '+61 413 025 837',
+//           fax: '',
+//           email: 'susan.miller@apvma.gov.au'
+//         },
+//         {
+//           organization: 'PMRA',
+//           department: 'Regulatory Affairs',
+//           title: 'Boss',
+//           firstname: 'Some',
+//           lastname: 'Person',
+//           phone: '+1 613 899 9998',
+//           mobile: '',
+//           fax: '',
+//           email: 'some.person@pmra.gc.ca'
+//         },
+//         {
+//           organization: 'PMRA',
+//           department: 'Regulatory Affairs',
+//           title: 'Director',
+//           firstname: 'Another',
+//           lastname: 'Individual',
+//           phone: '+1 613 899 9999',
+//           mobile: '',
+//           fax: '',
+//           email: 'another.individual@pmra.gc.ca'
+//         },
+//       ]
+//     },
+//     {
+//       legalentitypid: 'urn:ghsts:sample2',
+//       legalentityname: 'Instituto Braseileiro do Meio Ambiente',
+//       legalentitytype: 'Regulatory Authority',
+//       othername: ['IBAMA'],
+//       contactaddress: {
+//         street1: 'SCEN Trecho 2',
+//         street2: 'Ed. Sede - Cx. Postal n 09566',
+//         zipcode: '70818-900',
+//         city: 'Brasilia',
+//         state: 'DF',
+//         country: 'Brazil',
+//         phone: '+55 61-3316-1212',
+//         fax: '+55 61-3316-1212-433',
+//         email: 'sic@ibama.gov.br',
+//         website: 'http://www.ibama.gov.br'
+//       },
+//       contactperson: [{
+//         organization: 'IBAMA',
+//         department: '',
+//         title: '',
+//         firstname: 'Joao',
+//         lastname: 'Gilberto',
+//         phone: '+55 61-3316-1212-265',
+//         mobile: '+55 21-99635-9499',
+//         fax: '',
+//         email: ''
+//       }]
+//     }
+//   ];
+// }
 </script>
