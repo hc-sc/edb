@@ -4,10 +4,10 @@
       <div slot='split-pane-1'>
         <vue-list @select='select' :items='legalentities.map(item => item.legalentityname)'></vue-list>
       </div>
-      <!-- <div slot='split-pane-2' class='pane'>
-          <vue-input type='text' id='legalentitypid' :label='$t("legalentitypid")' v-model='model.legalentitypid' required></vue-input>
-         <vue-input type='text' id='legalentityname' :label='$t("legalentityname")' required v-model='model.legalentityname'></vue-input>
-        <vue-select-extensible id='legalentitytype' :label='$t("legalentitytype")' v-model='model.legalentitytype' :options='legalentitytypes' :displayValue='displayPicklistItem' listname='legalentitytype'></vue-select-extensible>
+       <div slot='split-pane-2' class='pane'>
+        <vue-input type='text' id='legalentitypid' :label='$t("legalentitypid")' v-model='model.legalentitypid' required></vue-input>
+        <vue-input type='text' id='legalentityname' :label='$t("legalentityname")' required v-model='model.legalentityname'></vue-input>
+        <vue-select-extensible id='legalentitytype' :label='$t("legalentitytype")' v-model='model.legalentitytype' :options='legalentitytype' :displayValue='displayPicklistItem'></vue-select-extensible>
          <vue-chips deletable unique id='othername' :label='$tc("othername", 2)' :items.sync='model.othername'></vue-chips>
         <vue-table :title='$t("otheridentifiers")' id='other-identifiers'></vue-table>
         <vue-fieldset :legend='$t("address")'>
@@ -15,7 +15,7 @@
           <vue-input type='text' id='street2' :label='$t("street2")' v-model='model.contactaddress.street2'></vue-input>
           <vue-input type='text' id='zipcode' :label='$t("zipcode")' v-model='model.contactaddress.zipcode'></vue-input>
           <vue-input type='text' id='city' :label='$t("city")' v-model='model.contactaddress.city'></vue-input>
-          <vue-select id='country' :label='$tc("country", 2)' v-model='model.contactaddress.country' :options='countries' :displayValue='displayCountry'></vue-select>
+          <vue-select-extensible id='country' :label='$tc("country", 2)' v-model='model.contactaddress.country' :options='country' :displayValue='displayCountry'></vue-select-extensible>
           <vue-input type='text' id='phone' :label='$t("phone")' v-model='model.contactaddress.phone'></vue-input>
           <vue-input type='text' id='fax' :label='$t("fax")' v-model='model.contactaddress.fax'></vue-input>
           <vue-input type='text' id='email' :label='$t("email")' v-model='model.contactaddress.email'></vue-input>
@@ -24,7 +24,7 @@
           </vue-input>
         </vue-fieldset>
         <vue-table :title='$tc("contact", 2)' :items='model.contactperson' id='contact' :headers='["lastname", "firstname", "title", "email"]' selectable pageable></vue-table>
-      </div> -->
+      </div>
     </vue-split-pane>
     <div class='bottom-float'>
       <vue-button display='fab'>
@@ -94,10 +94,13 @@ export default {
       this.model = Object.assign({}, this.stateModel);
     },
     displayPicklistItem(value) {
-      return value.valueDecode;
+      return value.valuedecode;
     },
     displayCountry(value) {
-      return `(${value.value}) - ${value.valueDecode}`;
+      return `(${value.value}) - ${value.valuedecode}`;
+    },
+    print(event) {
+      console.log('here', event);
     }
   },
   created() {
@@ -124,7 +127,7 @@ function getEmptyModel(type) {
       return {
         legalentitypid: '',
         legalentityname: '',
-        legalentitytype: '',
+        legalentitytype: {},
         othername: [],
         contactaddress: {
           street1: '',
@@ -132,7 +135,7 @@ function getEmptyModel(type) {
           zipcode: '',
           city: '',
           state: '',
-          country: '',
+          country: {},
           phone: '',
           fax: '',
           email: '',

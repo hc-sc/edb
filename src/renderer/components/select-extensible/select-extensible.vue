@@ -1,15 +1,17 @@
 <template>
   <div class='select-extensible'>
     <div class='f-container f-middle'>
-      <vue-select :value='value' class='flex' id='id' :label='label' :options='options' :displayValue='displayValue'></vue-select>
+      <vue-select @input='$emit("input", $event)' :value='value' class='flex' :id='id' :label='label' :options='options' :displayValue='displayValue'></vue-select>
       <span @click='toggleAdd'>
         <i class='material-icons select-extensible-add' :class='{adding}'>add</i>
       </span>
     </div>
     <div class='f-container f-middle' v-show='adding'>
-      <vue-input id='value' :label='$tc("value")' v-model='newValue'></vue-input>
-      <vue-input id='valuedecode' :label='$tc("valuedecode")' v-model='newValueDecode'></vue-input>
-      <vue-button display='flat' @click.native='add'>add</vue-button>
+      <slot name='add-fields'>
+        <vue-input id='value' :label='$tc("value")' v-model='newValue'></vue-input>
+        <vue-input id='valuedecode' :label='$tc("valuedecode")' v-model='newValueDecode'></vue-input>
+        <vue-button display='flat' @click.native='add(value)'>add</vue-button>
+      </slot>
     </div>
   </div>
 </template>
@@ -18,7 +20,6 @@
 import Button from '@/components/button/button.vue';
 import Input from '@/components/input/input.vue';
 import Select from '@/components/select/select.vue';
-// import {mapActions} from 'vuex';
 
 export default {
   name: 'SelectExtensible',
@@ -35,9 +36,11 @@ export default {
       type: Array,
       required: true
     },
-    listname: {
-      type: String,
-      required: true
+    add: {
+      type: Function,
+      default(value) {
+        console.log('add new value', value);
+      }
     },
     displayValue: {
       type: Function,
@@ -62,18 +65,6 @@ export default {
         this.clear();
       }
       this.adding = !this.adding;
-    },
-    add() {
-      const item = {
-        value: this.newValue,
-        valuedecode: this.newValueDecode,
-        listname: this.listname
-      };
-
-      console.log(item);
-      // this.$store.dispatch('addPicklistItem', item);
-
-      this.toggleAdd();
     },
     clear() {
       this.newValue = '';
