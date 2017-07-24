@@ -1,7 +1,7 @@
 <template>
   <div class='select-extensible'>
     <div class='f-container f-middle'>
-      <vue-select :value='value' class='flex' id='id' :label='label' :options='options' :displayValue='i => i.value'></vue-select>
+      <vue-select :value='value' class='flex' id='id' :label='label' :options='options' :displayValue='displayValue'></vue-select>
       <span @click='toggleAdd'>
         <i class='material-icons select-extensible-add' :class='{adding}'>add</i>
       </span>
@@ -38,6 +38,12 @@ export default {
     listname: {
       type: String,
       required: true
+    },
+    displayValue: {
+      type: Function,
+      default(value) {
+        return value.label || value;
+      }
     },
     value: {
       type: String | Object

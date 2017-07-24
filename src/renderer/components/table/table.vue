@@ -1,25 +1,32 @@
 <docs>
 ## Table
 
-The table component acts as either a client side table, where rows are given as props, or as a server side table, where it is given a URL and the table communicates directly with the backend. There are various configuration options for allowing single or multiple select, display, pagination, filtering, etc. The items passed in as values or from some API should be normalize into objects of flat key-value pairs. The `header` prop is then used to control projections of the rows and order of the columns.
+The table component acts as either a client side table, where rows are given as props, or as a server side table, where it is given a function that allows the table to retrieve and manage it's own data. There are various configuration options for allowing pagination, filtering, etc. The items passed in as values or from some API should be normalize into objects of flat key-value pairs. The `header` prop is then used to control projections of the rows and order of the columns, for example headers=['name', 'age'] will cause the 'name' and 'age' properties of the rows to be displayed, in that order.
 </docs>
 
 <template>
   <div class='table' :class='{selectable, sortable, pageable, filterable}' @select='select' @sort='sort'  @changeOffset='changeOffset'>
-    <vue-toolbar>{{title}}</vue-toolbar>
+    <vue-toolbar>
+      {{title}}
+      <span slot='right'>
+        <i v-if='filterable' class='material-icons' @click='addFilter'>filter_list</i>
+        <i v-if='addable' class='material-icons'>add</i>
+      </span>
+    </vue-toolbar>
     <div class='table-filter'>
-      <vue-button display='flat' @click.native='addFilter'>add filter</vue-button>
-      <div class='table-filter-group' v-for='(filter, index) of filters' :key='index'>
-        <vue-select :id='`${id}-filter-select-${index}`' label='Filter' :options='["all", ...headers]' v-model='filters[index].filter'></vue-select>
-        <vue-input type='text' id='filter-text' label='Filter' v-model='filters[index].value'></vue-input>
-        <span @click='deleteFilter(index)'>x</span>
+      <div class='f-container f-middle' v-for='(filter, index) of filters' :key='index'>
+        <vue-select :id='`${id}-filter-select-${index}`' :label='$tc("title")' :options='["any", ...headers]' :displayValue='displayHeader' v-model='filters[index].prop'></vue-select>
+        <vue-input type='text' :id='`${id}-filter-text-${index}`' :label='$tc("filter")' v-model='filters[index].value'></vue-input>
+        <span @click='deleteFilter(index)'>
+          <i class='material-icons'>close</i>
+        </span>
       </div>
     </div>
     <div class='table-wrapper'>
       <table class='table-table' v-if='!loading && rows.length !== 0'>
         <thead>
           <tr>
-            <th v-for='header of headers' :key='header' @click='sort(header)' :class='[sortColumn === header ? "selected" : "", {desc}]'>
+            <th v-for='header of headers' :key='header' @click='sort(header)' :class='[sortBy === header ? "selected" : "", {desc}]'>
               {{displayHeader(header)}}
               <span class='sort-icon'>↓</span>
             </th>
@@ -34,11 +41,15 @@ The table component acts as either a client side table, where rows are given as 
       <p v-else-if='!loading'>No results!</p>
       <vue-progress v-else></vue-progress>
     </div>
-    <div v-if='pageable && rows.length > 0' class='table-pagination'>
-      <!--<vue-select :id='`${id}-pagesize`' label='Page Size' :options='["5", "10", "20"]' v-model='pageSize'></vue-select>-->
-      <span @click='changeOffset(offset - 1)' :disabled='offset === 0'>«</span>
+    <div v-if='pageable && rows.length > 0' class='table-pagination f-container f-middle'>
+      <!-- <vue-select :id='`${id}-pagesize`' label='Page Size' :options='["1", "5", "10", "20"]' v-model='pageSize'></vue-select> -->
+      <span @click='changeOffset(offset - 1)' :disabled='offset === 0'>
+        <i class='material-icons'>chevron_left</i>
+      </span>
       <span class='page'>{{page}}</span>
-      <span @click='changeOffset(offset + 1)' :disabled='offset === Math.floor(count / pageSize)'>»</span>
+      <span @click='changeOffset(offset + 1)' :disabled='(this.offset + 1) * this.pageSize >= this.count'>
+        <i class='material-icons'>chevron_right</i>
+      </span>
     </div>
   </div>
 </template>
@@ -50,6 +61,7 @@ import Input from '@/components/input/input.vue';
 import Toolbar from '@/components/toolbar/toolbar.vue';
 import Select from '@/components/select/select.vue';
 import Progress from '@/components/progress/progress.vue';
+import {debounce} from 'lodash';
 
 export default {
   name: 'Table',
@@ -61,6 +73,16 @@ export default {
     title: {
       type: String,
       required: true
+    },
+    addable: {
+      type: Boolean,
+      default: false
+    },
+    addItem: {
+      type: Function,
+      default() {
+        this.$emit('addItem', {id: this.id});
+      }
     },
     selectable: {
       type: Boolean,
@@ -86,13 +108,13 @@ export default {
       type: Array,
       default: () => []
     },
-    url: {
-      type: String
+    getItems: {
+      type: Function,
     },
     displayHeader: {
       type: Function,
       default(value) {
-        return this.$tc(value);
+        return value.label || value;
       }
     }
   },
@@ -100,10 +122,10 @@ export default {
     return {
       filters: [],
       offset: 0,
-      pageSize: 10,
-      sortColumn: this.headers[0],
+      pageSize: 7,
+      sortBy: this.headers[0],
       desc: false,
-      loading: false
+      loading: true,
     };
   },
   computed: {
@@ -111,36 +133,42 @@ export default {
       return this.queryResults.length;
     },
     queryResults() {
-      if (this.url) {
+      /* prop based tables use the data attributes to control which rows to show. fetch based tables use the getItems prop function to retrieve data and set the offset, count, sortBy, and desc fields */
+      if (this.getItems) {
         this.loading = true;
-        return this.backendService.get(this.url, {sortColumn: this.sortColumn})
-        .then(results => {
-          // should set count, offset, etc.
-          this.rows = results;
-          this.loading = false;
-        });
+        debounce(
+          this.getItems({
+            offset: this.offset,
+            pageSize: this.pageSize,
+            sortBy: this.sortBy,
+            desc: this.desc
+          })
+          .then(({count, items}) => {
+            this.count = count;
+            this.rows = items;
+            this.loading = false;
+          })
+          .catch(err => {
+            console.error(err);
+            // display normalized/translated error via snackbar
+          }),
+          300,
+          {leading: true}
+        );
       }
       else {
-        return this.items.filter(() => {
+        return this.items.filter((item) => {
           let match = true;
-          // for (let filter of this.filters) {
-          //   console.log(filter);
-          //   const key = Object.keys(filter)[0];
-          //   const values = Object.values(filter)[0];
-          //   console.log(values);
-          //   const isMatch = values.some(elem => {
-          //     return elem.toString().toLowerCase() === item[key].toString().toLowerCase();
-          //   });
-          //   if (!isMatch) {
-          //     match = false;
-          //     break;
-          //   }
-          // }
+          this.filters.filter(f => {
+            return match && (match = (
+              matchFilter(f, item)
+            ));
+          });
           return match;
         })
         .sort((a, b) => {
           let comp;
-          let x = a[this.sortColumn], y = b[this.sortColumn];
+          let x = a[this.sortBy], y = b[this.sortBy];
           if (!Number.isNaN(Number(x)) && !Number.isNaN(Number(y))) {
             comp = x - y;
           }
@@ -152,14 +180,9 @@ export default {
       }
     },
     rows() {
-      if (this.url) {
-        return this.queryResults.slice();
-      }
-      else {
-        return this.queryResults.slice(
-          this.offset * this.pageSize, (this.offset + 1) * this.pageSize
-        );
-      }
+      return this.queryResults.slice(
+        this.offset * this.pageSize, (this.offset + 1) * this.pageSize
+      );
     },
     page() {
       return `${this.offset * this.pageSize + 1} - ${Math.min((this.offset + 1) * this.pageSize, this.count)} of ${this.count}`;
@@ -167,37 +190,37 @@ export default {
   },
   methods: {
     changeOffset(offset) {
-      if (this.url) {
-        if (offset < 0 || offset >= (Math.floor(this.count / this.pageSize) + 1)) return;
-      }
-      else {
-        this.offset = offset;
-      }
+      if (offset < 0 || offset * this.pageSize >= this.count) return;
+      this.offset = offset;
     },
     select(index) {
-      if (this.selectable) this.$emit('select', index);
+      if (this.selectable) {
+        this.$emit('select', index);
+      }
     },
     sort(header) {
+      if (!this.sortable) return;
       this.offset = 0;
-      if (this.sortColumn === header) {
+      if (this.sortBy === header) {
         this.desc = !this.desc;
       }
       else {
-        this.sortColumn = header;
+        this.sortBy = header;
         this.desc = false;
       }
     },
     addFilter() {
-      this.filters.push({filter: 'all', value: ''});
+      this.filters.push({prop: '', value: ''});
     },
     deleteFilter(index) {
       this.filters.splice(index, 1);
     }
   },
-  created() {
-    if (this.url) {
-      this.backendService = require('@/services/backend.service.js');
+  async created() {
+    if (this.getItems) {
+      this.items = await this.getItems();
     }
+    this.loading = false;
   },
   components: {
     'vue-button': Button,
@@ -208,6 +231,25 @@ export default {
     'vue-progress': Progress
   }
 };
+
+function matchFilter(filter, item) {
+  if (filter == null || filter.prop == null || filter.value == null || filter.prop === '') {
+    return true;
+  }
+  else if (filter.prop === 'any') {
+    if (filter.value === '') return true;
+    let match = false;
+    Object.entries(item).filter(entry => {
+      return match || (match = (
+        item[entry[0]].toString().toLowerCase().includes(filter.value.toString().toLowerCase())
+      ));
+    });
+    return match;
+  }
+  else {
+    return item[filter.prop].toString().toLowerCase().includes(filter.value.toString().toLowerCase());
+  }
+}
 </script>
 
 <style>
@@ -247,7 +289,7 @@ export default {
   cursor: pointer;
 }
 
-.table.sortable thead tr:hover {
+.table.sortable thead th:hover {
   cursor: pointer;
 }
 
@@ -296,21 +338,14 @@ export default {
   cursor: pointer;
 }
 
-.table-pagination > span[disabled] {
+.table-pagination > span {
+  display: inline-block;
+  height: 100%;
+  line-height: 100%;
+}
+
+.table-pagination > span[disabled] i {
   color: var(--disabled-color);
   cursor: not-allowed;
-}
-
-.table-filter-group {
-   display: flex;
-   flex-wrap: nowrap;
-}
-
-.table-filter-group > div {
-  flex: 1;
-}
-
-.table-filter-group .select-wrapper {
-  min-width: 200px;
 }
 </style>

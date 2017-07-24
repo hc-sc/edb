@@ -196,6 +196,9 @@ export default {
   min-height: 2.5rem;
   padding: 1.2rem 0 1rem 0;
   width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 
@@ -208,6 +211,7 @@ export default {
   box-shadow: none;
   outline: none;
   font-size: 1rem;
+  overflow: hidden;
   transition: .2s var(--fast-out-linear-in);
 }
 

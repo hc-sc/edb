@@ -82,7 +82,7 @@ export default {
   computed: {
     compName() {return this.name || this.id;},
     selectedValue() {
-      return this.selected == null ? this.label : (this.value.value || this.value);
+      return this.selected == null ? this.label : this.displayValue(this.value);
     }
   },
   methods: {
@@ -142,6 +142,7 @@ export default {
 
 .select {
   min-height: 2.5rem;
+  min-width: 100px;
   padding: 1.2rem 0 1rem 0;
 }
 
@@ -190,6 +191,8 @@ export default {
   border-bottom: 1px solid var(--divider);
   padding-bottom: 2px;
   text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
   font-size: 1rem;
   outline: none;
   transition: var(--out);
@@ -210,15 +213,16 @@ export default {
   width: 100%;
   position: relative;
   display: inline-block;
-  z-index: 3;
 }
 
-.select-dropdown .select-list {
+.select-list {
+  z-index: 4;
   position: absolute;
   left: 0;
   right: 0;
   top: 0;
   box-shadow: var(--depth-3);
+  min-width: 250px;
   max-height: 400px;
   overflow-y: hidden;
 }

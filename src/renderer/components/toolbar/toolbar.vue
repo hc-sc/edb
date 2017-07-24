@@ -46,6 +46,7 @@ export default {
 
 .toolbar {
   display: flex;
+  justify-content: center;
   font-size: var(--h4-size);
   line-height: var(--h4-line);
   font-weight: 300;
@@ -53,6 +54,7 @@ export default {
 
 .toolbar > span {
   padding: 0 5px;
+  line-height: inherit;
 }
 
 .toolbar > span:last-child {

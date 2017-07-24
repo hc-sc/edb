@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const HtmlPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const {
-  PROTOCOL, HOST, PORT, HTML_PATH, BUILD_PATH, DIST_PATH, CONFIG_PATH, ASSETS_PATH_REL, TARGET
+  HTML_PATH, BUILD_PATH, CONFIG_PATH, ASSETS_PATH_REL, TARGET
 } = require('.');
 
 module.exports = {
@@ -13,14 +13,6 @@ module.exports = {
     // publicPath: '/renderer'
   },
   devtool: 'cheap-module-eval-source-map',
-  devServer: {
-    hot: true,
-    https: PROTOCOL === 'https' ? true : false,
-    host: HOST,
-    port: PORT,
-    stats: 'minimal',
-    historyApiFallback: true
-  },
   module: {
     rules: [
       {
@@ -95,7 +87,7 @@ module.exports = {
 
     new HtmlPlugin({
       template: HTML_PATH,
-      base: TARGET === 'web' ? '/' : './',
+      base: TARGET === 'web' ? join('/') : join('./'),
       chunksSortMode: 'dependency'
     }),
 

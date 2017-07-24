@@ -76,7 +76,7 @@ export default {
   display: inline-block;
   line-height: 2.5rem;
   text-transform: uppercase;
-  flex-grow: 1;
+  /* flex-grow: 1; */
 }
 
 .nav-item > a {

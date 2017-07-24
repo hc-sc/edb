@@ -42,12 +42,8 @@ export default {
 @import '../../assets/css/shadows.css';
 
 .header {
-  flex: 0 0 auto;
+  flex: 0;
   border: none;
   box-shadow: var(--depth-1);
-}
-
-.header.sticky {
-  flex: 0 0 auto;
 }
 </style>

@@ -358,8 +358,10 @@ app.on('ready', function () {
   });
 
   if (process.env.NODE_ENV === 'development') {
-    BrowserWindow.addDevToolsExtension('C:\\Users\\hcuser\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions\\nhdogjmejiglipccpnnnanhbledajbpd\\3.1.6_0');
-  
+    // BrowserWindow.addDevToolsExtension('C:\\Users\\hcuser\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions\\nhdogjmejiglipccpnnnanhbledajbpd\\3.1.6_0');
+    BrowserWindow.addDevToolsExtension('../node_modules/devtron');
+    BrowserWindow.addDevToolsExtension('../node_modules/vue-devtools');
+
     mainWindow.loadURL('file://' + __dirname + '/../build/renderer/index.html');
   } else
     mainWindow.loadURL('file://' + __dirname + '/renderer/index.html');
@@ -369,7 +371,7 @@ app.on('ready', function () {
     // TODO: setTitle is being deprecated, find and use alternative
     mainWindow.setTitle('eDossier Builder (V1.1.0)');
     //if (configure.env.toString().toUpper() == 'DEV'){
-    if (process.env.NODE_ENV === 'development')       
+    if (process.env.NODE_ENV === 'development')
       mainWindow.openDevTools();
   });
   mainWindow.show();
