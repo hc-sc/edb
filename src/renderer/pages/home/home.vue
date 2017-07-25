@@ -9,7 +9,7 @@
         {{$t('manageApplication')}}
       </router-link>
       <router-link to='/settings' class='app-nav'>
-        {{$t('settings')}}
+        {{$tc('setting', 2)}}
       </router-link>
       <router-link to='/help' class='app-nav'>
         {{$t('help')}}

@@ -1,10 +1,8 @@
 <template>
   <div>
     <vue-header>
+      <vue-history slot='left'></vue-history>
       {{title}}
-      <span slot='actions'>
-        <span>☰</span>
-      </span>
       <vue-nav id='submission-nav' slot='subheader' :navs='pageNodes'></vue-nav>
     </vue-header>
     <router-view></router-view>
@@ -12,9 +10,10 @@
 </template>
 
 <script>
-import {mapState} from 'vuex';
 import Header from '@/components/header/header.vue';
+import History from '@/components/history/history.vue';
 import Nav from '@/components/nav/nav.vue';
+import {mapState} from 'vuex';
 
 export default {
   name: 'Submission',
@@ -52,6 +51,7 @@ export default {
   },
   components: {
     'vue-header': Header,
+    'vue-history': History,
     'vue-nav': Nav
   }
 };

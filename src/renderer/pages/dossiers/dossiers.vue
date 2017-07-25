@@ -1,6 +1,7 @@
 <template>
   <div>
     <vue-header>
+      <vue-history slot='left'></vue-history>
       {{dossierTitle}}
     </vue-header>
     <router-link to='/submission'>Go to submission</router-link>
@@ -9,6 +10,7 @@
 
 <script>
 import Header from '@/components/header/header.vue';
+import History from '@/components/history/history.vue';
 
 export default {
   name: 'Dossiers',
@@ -18,7 +20,8 @@ export default {
     }
   },
   components: {
-    'vue-header': Header
+    'vue-header': Header,
+    'vue-history': History
   }
 };
 </script>

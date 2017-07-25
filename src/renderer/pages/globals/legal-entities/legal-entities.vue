@@ -5,7 +5,11 @@
         <vue-list @select='select' :items='legalentities.map(item => item.legalentityname)'></vue-list>
       </div>
        <div slot='split-pane-2' class='pane'>
-        <vue-input type='text' id='legalentitypid' :label='$t("legalentitypid")' v-model='model.legalentitypid' required></vue-input>
+        <div class='f-container f-cross-start'>
+          <vue-button class='input-prefix'>generate</vue-button>
+          <span class='spacer'></span>
+          <vue-input type='text' id='legalentitypid' :label='$t("legalentitypid")' v-model='model.legalentitypid' required></vue-input>
+        </div>
         <vue-input type='text' id='legalentityname' :label='$t("legalentityname")' required v-model='model.legalentityname'></vue-input>
         <vue-select-extensible id='legalentitytype' :label='$t("legalentitytype")' v-model='model.legalentitytype' :options='legalentitytype' :displayValue='displayPicklistItem'></vue-select-extensible>
          <vue-chips deletable unique id='othername' :label='$tc("othername", 2)' :items.sync='model.othername'></vue-chips>

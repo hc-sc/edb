@@ -73,12 +73,20 @@ img {
   justify-content: flex-start;
 }
 
+.f-cross-start {
+  align-items: flex-start;
+}
+
 .f-end {
   justify-content: flex-end;
 }
 
 .f-center {
   justify-content: center;
+}
+
+.f-cross-center {
+  align-items: center
 }
 
 .f-space {
@@ -133,6 +141,11 @@ img {
 
 .i-middle {
   vertical-align: middle;
+}
+
+.spacer {
+  display: inline-block;
+  width: 5px;
 }
 
 .clear {

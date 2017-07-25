@@ -1,14 +1,7 @@
 <template>
   <div>
     <vue-header>
-      <span slot='left'>
-        <span @click='back'>
-          <i class='material-icons'>&#xE5C4;</i>
-        </span>
-        <span @click='forward'>
-          <i class="material-icons">&#xE5C8;</i>
-        </span>
-      </span>
+      <vue-history slot='left'></vue-history>
       {{$t('manageApplication')}}
       <vue-nav id='global-nav' slot='subheader' :navs='pageNodes'></vue-nav>
     </vue-header>
@@ -19,12 +12,11 @@
 <script>
 import Button from '@/components/button/button.vue';
 import Header from '@/components/header/header.vue';
+import History from '@/components/history/history.vue';
 import Nav from '@/components/nav/nav.vue';
-import {navigation} from '@/mixins/navigation.js';
 
 export default {
   name: 'Globals',
-  mixins: [navigation],
   computed: {
     pageNodes: function() {
       return [
@@ -55,9 +47,10 @@ export default {
     }
   },
   components: {
+    'vue-button': Button,
     'vue-header': Header,
-    'vue-nav': Nav,
-    'vue-button': Button
+    'vue-history': History,
+    'vue-nav': Nav
   }
 };
 </script>

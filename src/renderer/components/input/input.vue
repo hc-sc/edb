@@ -1,8 +1,8 @@
 <template>
-  <div class='input' @focusout='touched = true'>
-    <span class='input-prefix'>
+  <div class='input f-container' @focusout='touched = true'>
+    <!-- <span class='input-prefix'>
       <slot name='input-prefix'></slot>
-    </span>
+    </span> -->
     <div class='input-group'>
       <template v-if='isTextField'>
         <div>
@@ -201,6 +201,9 @@ export default {
   text-overflow: ellipsis;
 }
 
+.input-prefix {
+  margin-top: .4rem;
+}
 
 .input-field {
   width: 100%;
