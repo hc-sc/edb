@@ -5,7 +5,8 @@ const app = {
 
   state: {
     appRecords: [],
-    model: {}
+    model: {},
+    projectUrl: ''
   },
 
   mutations: {
@@ -14,6 +15,17 @@ const app = {
     },
     updateAppRecords(state, payload) {
       state.appRecords = payload;
+    },
+    updateProjectUrl(state, payload) {
+      state.projectUrl = payload;
+    }
+  },
+
+  actions: {
+    setProjectUrl({commit}, payload) {
+      // if (await BackendService.updateProjectUrl) {
+      commit('updateProjectUrl', payload);
+      // }
     }
   }
 };

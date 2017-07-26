@@ -29,6 +29,7 @@ export default {
   organization: 'Organization',
   otheridentifiers: 'Other Identifiers',
   othername: 'Other Name | Other Names',
+  path: 'Path | Paths',
   phone: 'Phone Number',
   picklist: 'Picklist | Picklists',
   product: 'Product | Products',

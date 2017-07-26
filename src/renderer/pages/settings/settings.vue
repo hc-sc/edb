@@ -1,10 +1,12 @@
 <template>
-  <div>
+  <div class='page-node'>
     <vue-header>
       <vue-history slot='left'></vue-history>
       {{$tc('setting', 2)}}
     </vue-header>
-     <vue-select id='language' :label='$tc("language", 1)' v-model='locale' :options='languages'></vue-select>
+    <main class='pane'>
+      <vue-select id='language' :label='$tc("language", 1)' v-model='locale' :options='languages'></vue-select>
+    </main>
   </div>
   <!-- <div class='container'>
     <vue-header :title='$t("settings")'></vue-header>
@@ -31,10 +33,10 @@ export default {
     return {
       locale: this.$i18n.locale,
       languages: [
-        {label: this.$tc('english'), value: 'en-CA'},
-        {label: this.$tc('french'), value: 'fr-CA'},
-        {label: this.$tc('japanese'), value: 'jp-JP', disabled: true},
-        {label: this.$tc('german'), value: 'de-DE', disabled: true}
+        {label: 'English', value: 'en-CA'},
+        {label: 'Francais', value: 'fr-CA'},
+        {label: '日本語', value: 'jp-JP', disabled: true},
+        {label: 'Deutsch', value: 'de-DE', disabled: true}
       ]
     };
   },

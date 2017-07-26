@@ -8,7 +8,7 @@
       </button>
       <ul class='select-list'>
         <li role='option' disabled tabindex='-1'>{{label}}</li>
-        <li role='option' v-for='(option, index) of options' :key='(index)' :disabled='option.disabled' :tabindex='option.disabled ? "-1" : "0"' @keyup.down='next' @keyup.up='prev' @keyup.tab='close' @click='select(option.label || option)' :aria-selected='isSelected(index)'>
+        <li role='option' v-for='(option, index) of options' :key='(index)' :disabled='option.disabled' :tabindex='option.disabled ? "-1" : "0"' @keyup.down='next' @keyup.up='prev' @keyup.tab='close' @click='select(option)' :aria-selected='isSelected(index)'>
           {{displayValue(option)}}
         </li>
       </ul>
@@ -254,7 +254,7 @@ export default {
   line-height: 1.5rem;
 }
 
-.select-dropdown [role^="option"]:not(:first-child):hover, .select-dropdown [role^="option"]:focus {
+.select-dropdown [role^="option"]:not([disabled]):hover, .select-dropdown [role^="option"]:focus {
   background: lightgray;
   cursor: pointer;
 }
