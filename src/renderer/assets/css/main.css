@@ -161,8 +161,12 @@ img {
 .bottom-float {
   position: fixed;
   bottom: 5px;
-  right: 5px;
+  right: 10px;
   z-index: 5;
+}
+
+.pad {
+  padding: 5px;
 }
 
 /* --- SIZES --- */
@@ -179,6 +183,7 @@ img {
 /* --- PADDING --- */
 .pane {
   padding: 5px;
+  margin-bottom: 40px;
 }
 
 /* --- VISIBILITY --- */

@@ -29,6 +29,7 @@ const routes = [
     path: '/submission',
     component: Submission,
     children: [
+      // {path: '/', component: SubmissionNode},
       {path: 'senders-receivers', component: SendersReceivers},
       {path: 'dossier', component: Dossier},
       {path: 'product', component: Product},
@@ -41,6 +42,7 @@ const routes = [
     path: '/globals',
     component: Globals,
     children: [
+      {path: '/', redirect: 'legal-entities'},
       {path: 'legal-entities', component: LegalEntities},
       {path: 'senders', component: Senders},
       {path: 'receivers', component: Receivers},

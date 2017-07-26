@@ -1,17 +1,16 @@
 import {cloneDeep} from 'lodash';
 
 const model = {
-  // initialize
   watch: {
     stateModel() {
-      this.mapStateToLocalModel();
+      this.mapStateToModel();
     }
   },
   methods: {
     revert() {
-      this.mapStateToLocaleModel();
+      this.mapStateToModel();
     },
-    mapStateToLocaleModel() {
+    mapStateToModel() {
       this.model = cloneDeep(this.stateModel);
     }
   }

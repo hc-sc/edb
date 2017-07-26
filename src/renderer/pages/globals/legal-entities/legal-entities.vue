@@ -2,7 +2,7 @@
   <main>
     <vue-split-pane >
       <div slot='split-pane-1'>
-        <vue-list @select='select' :items='legalentities.map(item => item.legalentityname)'></vue-list>
+        <vue-list-filter id='master-search' selectable @select='select' :items='legalentities' :displayValue='le => le.legalentityname' :label='$t("search")'></vue-list-filter>
       </div>
        <div slot='split-pane-2' class='pane'>
         <div class='f-container f-cross-start'>
@@ -10,8 +10,8 @@
           <span class='spacer'></span>
           <vue-input type='text' id='legalentitypid' :label='$t("legalentitypid")' v-model='model.legalentitypid' required></vue-input>
         </div>
-        <vue-input type='text' id='legalentityname' :label='$t("legalentityname")' required v-model='model.legalentityname'></vue-input>
-        <vue-select-extensible id='legalentitytype' :label='$t("legalentitytype")' v-model='model.legalentitytype' :options='legalentitytype' :displayValue='displayPicklistItem'></vue-select-extensible>
+        <vue-input type='text' id='legalentityname' :label='$t("legalentityname")' :max='20' required v-model='model.legalentityname'></vue-input>
+        <vue-select-extensible id='legalentitytype' :label='$t("legalentitytype")' :value='model.legalentitytype' @input='model.legalentitytype = $event._id' :options='legalentitytype' :displayValue='displayPicklistItem'></vue-select-extensible>
          <vue-chips deletable unique id='othername' :label='$tc("othername", 2)' :items.sync='model.othername'></vue-chips>
         <vue-table :title='$t("otheridentifiers")' id='other-identifiers'></vue-table>
         <vue-fieldset :legend='$t("address")'>
@@ -27,7 +27,7 @@
             <span slot='prefix'>http://</span>
           </vue-input>
         </vue-fieldset>
-        <vue-table :title='$tc("contact", 2)' :items='model.contactperson' id='contact' :headers='["lastname", "firstname", "title", "email"]' selectable pageable></vue-table>
+        <vue-table :title='$tc("contact", 2)' :items='model.contactperson' id='contact' :headers='["lastname", "firstname", "title", "email"]' :displayHeader='displayTranslation' selectable pageable></vue-table>
       </div>
     </vue-split-pane>
     <div class='bottom-float'>
@@ -46,7 +46,7 @@
 
 <script>
 import Input from '@/components/input/input.vue';
-import List from '@/components/list/list.vue';
+import ListFilter from '@/components/list-filter/list-filter.vue';
 import Table from '@/components/table/table.vue';
 import Button from '@/components/button/button.vue';
 import Select from '@/components/select/select.vue';
@@ -56,13 +56,13 @@ import Fieldset from '@/components/fieldset/fieldset.vue';
 import Menu from '@/components/menu/menu.vue';
 import SplitPane from '@/components/split-pane/split-pane.vue';
 import {mapState, mapGetters} from 'vuex';
-import {cloneDeep} from 'lodash';
+import {model} from '@/mixins/model.js';
 
 export default {
   name: 'LegalEntities',
+  mixins: [model],
   data() {
     return {
-      legalentities: [],
       model: {
         ...getEmptyModel('legalentities')
       }
@@ -72,7 +72,10 @@ export default {
     ...mapState('app',
       {
         stateModel(state) {
-          return state.model;
+          return state.currentRecord;
+        },
+        legalentities(state) {
+          return state.appRecords;
         }
       }
     ),
@@ -81,21 +84,15 @@ export default {
       'legalentitytype',
     ])
   },
-  watch: {
-    stateModel() {
-      this.model = cloneDeep(this.stateModel);
-    }
-  },
   methods: {
-    select() {
-      // sample
-      // const le = getSampleLegalEntities().filter(item => {
-      //   return item.legalentityname === value;
-      // });
-      // if (le && le.length) this.$store.dispatch('getModel', le[0]);
+    selectId(prop, item) {
+      console.log(prop, item);
+      this.model[prop] = item._id;
     },
-    revert() {
-      this.model = Object.assign({}, this.stateModel);
+    select(item) {
+      if (this.legalentities) {
+        this.$store.commit('app/updateModel', item);
+      }
     },
     displayPicklistItem(value) {
       return value.valuedecode;
@@ -103,17 +100,17 @@ export default {
     displayCountry(value) {
       return `(${value.value}) - ${value.valuedecode}`;
     },
-    print(event) {
-      console.log('here', event);
+    displayTranslation(value) {
+      return this.$t(value);
     }
   },
-  created() {
-    // this.$store.dispatch('getAppDataAll', 'legalentity');
-    // this.$store.dispatch('getModel', );
+  async created() {
+    await this.$store.dispatch('app/getAppDataAll', 'legalentity');
+    this.select(this.legalentities[0]);
   },
   components: {
     'vue-input': Input,
-    'vue-list': List,
+    'vue-list-filter': ListFilter,
     'vue-table': Table,
     'vue-button': Button,
     'vue-chips': Chips,

@@ -82,7 +82,10 @@ export default {
   computed: {
     compName() {return this.name || this.id;},
     selectedValue() {
-      return this.selected == null ? this.label : this.displayValue(this.value);
+      // return this.selected == null ? this.label : this.displayValue(this.value);
+      console.log(this.value, this.options);
+      console.log(this.options.filter(o => o === this.value));
+      return this.selected == null ? this.label : this.options.filter(o => o._id === this.value)[0].valuedecode;
     }
   },
   methods: {

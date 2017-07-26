@@ -34,6 +34,7 @@ export default {
   picklist: 'Picklist | Picklists',
   product: 'Product | Products',
   receiver: 'Receiver | Receivers',
+  search: 'Search',
   sender: 'Sender | Senders',
   setting: 'Setting | Settings',
   state: 'State/Province',

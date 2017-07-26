@@ -1,5 +1,5 @@
 <template>
-  <ul class='list'>
+  <ul class='list' :class='{selectable}'>
     <slot name='list-items'>
       <li class='list-item' v-for='(item, index) of items' :key='index' @click='onSelect(item)'>
         <slot name='prefix'></slot>
@@ -25,10 +25,14 @@ export default {
     items: {
       type: Array
     },
+    selectable: {
+      type: Boolean,
+      default: false
+    },
     onSelect: {
       type: Function,
       default(value) {
-        this.$emit('select', value);
+        if (this.selectable) this.$emit('select', value);
       }
     },
     displayValue: {
@@ -55,6 +59,10 @@ export default {
   padding: .75rem 1rem;
 }
 
+.list.selectable .list-item {
+  cursor: pointer;
+}
+
 .list-item:hover {
   background-color: var(--hover-color);
 }
@@ -64,7 +72,7 @@ export default {
 }
 
 .list-item-content {
-  max-width: 60%;
+  max-width: 95%;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
