@@ -9,6 +9,7 @@
     <div class='f-container f-middle' v-show='adding'>
       <slot name='add-fields'>
         <vue-input id='value' :label='$tc("value")' v-model='newValue'></vue-input>
+        <span class='spacer'></span>
         <vue-input id='valuedecode' :label='$tc("valuedecode")' v-model='newValueDecode'></vue-input>
         <vue-button display='flat' @click.native='add(value)'>add</vue-button>
       </slot>

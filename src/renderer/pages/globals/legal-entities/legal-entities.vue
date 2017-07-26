@@ -19,7 +19,7 @@
           <vue-input type='text' id='street2' :label='$t("street2")' v-model='model.contactaddress.street2'></vue-input>
           <vue-input type='text' id='zipcode' :label='$t("zipcode")' v-model='model.contactaddress.zipcode'></vue-input>
           <vue-input type='text' id='city' :label='$t("city")' v-model='model.contactaddress.city'></vue-input>
-          <vue-select-extensible id='country' :label='$tc("country", 2)' v-model='model.contactaddress.country' :options='country' :displayValue='displayCountry'></vue-select-extensible>
+           <vue-select-extensible id='country' :label='$tc("country", 2)' v-model='model.contactaddress.country' :options='country' :displayValue='displayCountry'></vue-select-extensible>
           <vue-input type='text' id='phone' :label='$t("phone")' v-model='model.contactaddress.phone'></vue-input>
           <vue-input type='text' id='fax' :label='$t("fax")' v-model='model.contactaddress.fax'></vue-input>
           <vue-input type='text' id='email' :label='$t("email")' v-model='model.contactaddress.email'></vue-input>
@@ -86,7 +86,6 @@ export default {
   },
   methods: {
     selectId(prop, item) {
-      console.log(prop, item);
       this.model[prop] = item._id;
     },
     select(item) {

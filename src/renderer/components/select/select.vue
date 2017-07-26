@@ -8,7 +8,7 @@
       </button>
       <ul class='select-list'>
         <li role='option' disabled tabindex='-1'>{{label}}</li>
-        <li role='option' v-for='(option, index) of options' :key='(index)' :disabled='option.disabled' :tabindex='option.disabled ? "-1" : "0"' @keyup.down='next' @keyup.up='prev' @keyup.tab='close' @click='select(option)' :aria-selected='isSelected(index)'>
+        <li role='option' v-for='(option, index) of options' :key='(index)' :disabled='option.disabled' :tabindex='option.disabled ? "-1" : "0"' @keyup.down='next' @keyup.up='prev' @keyup.tab='close' @click='select(index)' :aria-selected='isSelected(index)'>
           {{displayValue(option)}}
         </li>
       </ul>
@@ -82,17 +82,28 @@ export default {
   computed: {
     compName() {return this.name || this.id;},
     selectedValue() {
-      // return this.selected == null ? this.label : this.displayValue(this.value);
-      console.log(this.value, this.options);
-      console.log(this.options.filter(o => o === this.value));
-      return this.selected == null ? this.label : this.options.filter(o => o._id === this.value)[0].valuedecode;
+      let val = '';
+      if (this.selected == null) val = this.label;
+      else {
+        let match = this.matchValue();
+        if (match >= 0) val = this.displayValue(this.options[match]);
+      }
+      return val;
     }
   },
   methods: {
-    select(value) {
-      this.selected = value;
-      this.cb(value);
+    matchValue() {
+      return this.options.findIndex(o => {
+        return o._id === this.value;
+      });
+    },
+    select(index) {
+      this.selected = index;
+      this.cb(this.options[index]);
       if (!this.native) this.close();
+    },
+    isSelected(index) {
+      return this.selected === index;
     },
     toggle() {
       if (this.expanded) this.close();
@@ -103,7 +114,7 @@ export default {
       const firstItem = this.$el.querySelector('[role=option]:not([disabled])');
       if (firstItem) firstItem.focus();
 
-      // close the listbox when clicked outside, during capture
+      // close the listbox when clicked outside, during capture phase
       document.addEventListener('click', this.close, true);
     },
     close() {
@@ -112,9 +123,12 @@ export default {
       document.removeEventListener('click', this.close, true);
     },
     prev() {},
-    next() {},
-    isSelected(index) {
-      return index === this.selectedIndex;
+    next() {}
+  },
+  watch: {
+    value() {
+      let match = this.matchValue();
+      if (match >= 0) this.selected = match;
     }
   },
   mounted() {
