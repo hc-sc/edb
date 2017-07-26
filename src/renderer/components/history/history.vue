@@ -1,10 +1,13 @@
 <template>
   <div>
+    <span @click='home'>
+      <i class='material-icons'>home</i>
+    </span>
     <span @click='back'>
-      <i class='material-icons'>&#xE5C4;</i>
+      <i class='material-icons'>arrow_back</i>
     </span>
     <span @click='forward'>
-      <i class="material-icons">&#xE5C8;</i>
+      <i class='material-icons'>arrow_forward</i>
     </span>
   </div>
 </template>

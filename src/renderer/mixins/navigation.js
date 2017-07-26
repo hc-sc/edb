@@ -5,6 +5,9 @@ const navigation = {
     },
     forward() {
       this.$router.forward();
+    },
+    home() {
+      this.$router.push('/');
     }
   }
 };
