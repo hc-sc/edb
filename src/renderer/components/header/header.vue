@@ -28,7 +28,7 @@ export default {
       type: String,
       default: 'primary',
       validator(value) {
-        return ['primary', 'accent', 'flat'].includes(value);
+        return ['primary', 'accent', 'info', 'warn', 'error', 'none'].includes(value);
       }
     }
   },

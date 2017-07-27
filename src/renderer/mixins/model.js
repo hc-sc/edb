@@ -12,6 +12,11 @@ const model = {
     },
     mapStateToModel() {
       this.model = cloneDeep(this.stateModel);
+    },
+    matchById(options, value) {
+      return options.findIndex(o => {
+        return o._id === value;
+      });
     }
   }
 };

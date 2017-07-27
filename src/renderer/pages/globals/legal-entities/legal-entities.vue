@@ -1,6 +1,9 @@
 <template>
   <main>
-    <vue-split-pane >
+    <vue-dialog id='contactperson-dialog' ref='contactperson-dialog'>
+      <vue-contacts ref='contactperson'></vue-contacts>
+    </vue-dialog>
+    <vue-split-pane>
       <div slot='split-pane-1'>
         <vue-list-filter id='master-search' selectable @select='select' :items='legalentities' :displayValue='le => le.legalentityname' :label='$t("search")'></vue-list-filter>
       </div>
@@ -10,8 +13,8 @@
           <span class='spacer'></span>
           <vue-input type='text' id='legalentitypid' :label='$t("legalentitypid")' v-model='model.legalentitypid' required></vue-input>
         </div>
-        <vue-input type='text' id='legalentityname' :label='$t("legalentityname")' :max='20' required v-model='model.legalentityname'></vue-input>
-        <vue-select-extensible id='legalentitytype' :label='$t("legalentitytype")' :value='model.legalentitytype' @input='model.legalentitytype = $event._id' :options='legalentitytype' :displayValue='displayPicklistItem'></vue-select-extensible>
+        <vue-input type='text' id='legalentityname' :label='$t("legalentityname")' required v-model='model.legalentityname'></vue-input>
+        <vue-select-extensible id='legalentitytype' :label='$t("legalentitytype")' :value='model.legalentitytype' @input='model.legalentitytype = $event._id' :options='legalentitytype' :displayValue='displayPicklistItem' :matchValue='matchById'></vue-select-extensible>
          <vue-chips deletable unique id='othername' :label='$tc("othername", 2)' :items.sync='model.othername'></vue-chips>
         <vue-table :title='$t("otheridentifiers")' id='other-identifiers'></vue-table>
         <vue-fieldset :legend='$t("address")'>
@@ -19,7 +22,7 @@
           <vue-input type='text' id='street2' :label='$t("street2")' v-model='model.contactaddress.street2'></vue-input>
           <vue-input type='text' id='zipcode' :label='$t("zipcode")' v-model='model.contactaddress.zipcode'></vue-input>
           <vue-input type='text' id='city' :label='$t("city")' v-model='model.contactaddress.city'></vue-input>
-           <vue-select-extensible id='country' :label='$tc("country", 2)' v-model='model.contactaddress.country' :options='country' :displayValue='displayCountry'></vue-select-extensible>
+           <vue-select-extensible id='country' :label='$tc("country", 2)' :value='model.contactaddress.country' @input='model.contactaddress.country = $event._id' :options='country' :displayValue='displayCountry' :matchValue='matchById'></vue-select-extensible>
           <vue-input type='text' id='phone' :label='$t("phone")' v-model='model.contactaddress.phone'></vue-input>
           <vue-input type='text' id='fax' :label='$t("fax")' v-model='model.contactaddress.fax'></vue-input>
           <vue-input type='text' id='email' :label='$t("email")' v-model='model.contactaddress.email'></vue-input>
@@ -27,7 +30,7 @@
             <span slot='prefix'>http://</span>
           </vue-input>
         </vue-fieldset>
-        <vue-table :title='$tc("contact", 2)' :items='model.contactperson' id='contact' :headers='["lastname", "firstname", "title", "email"]' :displayHeader='displayTranslation' selectable pageable></vue-table>
+        <vue-table :title='$tc("contact", 2)' :items='model.contactperson' id='contact' :headers='["lastname", "firstname", "title", "email"]' :displayHeader='displayTranslation' selectable pageable sortable @select='showModal("contactperson", $event)'></vue-table>
       </div>
     </vue-split-pane>
     <div class='bottom-float'>
@@ -45,18 +48,21 @@
 </template>
 
 <script>
+import Button from '@/components/button/button.vue';
+import Chips from '@/components/chips/chips.vue';
+import Contacts from '@/pages/globals/legal-entities/contacts.vue';
+import Dialog from '@/components/dialog/dialog.vue';
+import Fieldset from '@/components/fieldset/fieldset.vue';
 import Input from '@/components/input/input.vue';
 import ListFilter from '@/components/list-filter/list-filter.vue';
-import Table from '@/components/table/table.vue';
-import Button from '@/components/button/button.vue';
+import Menu from '@/components/menu/menu.vue';
 import Select from '@/components/select/select.vue';
 import SelectExtensible from '@/components/select-extensible/select-extensible.vue';
-import Chips from '@/components/chips/chips.vue';
-import Fieldset from '@/components/fieldset/fieldset.vue';
-import Menu from '@/components/menu/menu.vue';
 import SplitPane from '@/components/split-pane/split-pane.vue';
+import Table from '@/components/table/table.vue';
 import {mapState, mapGetters} from 'vuex';
 import {model} from '@/mixins/model.js';
+import {cloneDeep} from 'lodash';
 
 export default {
   name: 'LegalEntities',
@@ -85,6 +91,13 @@ export default {
     ])
   },
   methods: {
+    showModal(ref, index) {
+      // this.$refs[ref].$set(model, cloneDeep(this.model.contactperson[index]));
+      // this.$refs[ref].open();
+      console.log(this.$refs);
+      this.$refs['contactperson'].model = cloneDeep(this.model.contactperson[index]);
+      this.$refs['contactperson-dialog'].open();
+    },
     selectId(prop, item) {
       this.model[prop] = item._id;
     },
@@ -108,16 +121,18 @@ export default {
     this.select(this.legalentities[0]);
   },
   components: {
-    'vue-input': Input,
-    'vue-list-filter': ListFilter,
-    'vue-table': Table,
     'vue-button': Button,
     'vue-chips': Chips,
-    'vue-select': Select,
-    'vue-menu': Menu,
+    'vue-contacts': Contacts,
+    'vue-dialog': Dialog,
     'vue-fieldset': Fieldset,
+    'vue-input': Input,
+    'vue-list-filter': ListFilter,
+    'vue-menu': Menu,
     'vue-select-extensible': SelectExtensible,
-    'vue-split-pane': SplitPane
+    'vue-select': Select,
+    'vue-split-pane': SplitPane,
+    'vue-table': Table
   }
 };
 

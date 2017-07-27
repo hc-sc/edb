@@ -10,38 +10,43 @@ Used for prompting users for simple actions. You can use the default alert or co
 
 <template>
   <div class='dialog' :aria-expanded='expanded'>
-    <div @click='expanded = true' :aria-controls='id' aria-haspopup='true'>
-      <slot name='toggle'>
-        <vue-button><slot></slot></vue-button>
-      </slot>
-    </div>
-    <aside class='dialog-cloak' :id='id' role='alertdialog' :aria-labelledby='`${id}-dialog-title`' :aria-describedby='`${id}-dialog-content`'>
+    <aside class='dialog-popup' :id='id' role='alertdialog' :aria-labelledby='`${id}-dialog-title`' :aria-describedby='`${id}-dialog-content`' :style='{width: `${width}%`}'>
       <div class='dialog-popup'>
-        <header class='dialog-title'>
+        <vue-toolbar color='none' class='dialog-title'>
           <slot name='title'>
             <span :id='`${id}-dialog-title`'>{{title}}</span>
           </slot>
-        </header>
-        <section class='dialog-content' :id='`${id}-dialog-content`'>
-          <slot name='content'>
+        </vue-toolbar>
+        <section ref='content' class='dialog-content' :id='`${id}-dialog-content`'>
+          <slot>
             <span>{{content}}</span>
           </slot>
         </section>
         <footer>
           <slot name='footer'>
             <div class='dialog-actions'>
-              <vue-button v-if='type === "confirm"' display='flat' @click.native='emit("cancel")'>cancel</vue-button>
-              <vue-button display='flat' @click.native='emit("confirm")'>okay</vue-button>
+              <vue-button v-if='type === "confirm"' display='flat' @click.native='cancel'>
+                <slot name='cancel-text'>
+                  cancel
+                </slot>
+              </vue-button>
+              <vue-button display='flat' @click.native='confirm'>
+                <slot name='confirm-text'>
+                  confirm
+                </slot>
+              </vue-button>
             </div>
           </slot>
         </footer>
       </div>
     </aside>
+    <div ref='cloak' class='dialog-cloak'></div>
   </div>
 </template>
 
 <script>
 import Button from '@/components/button/button.vue';
+import Toolbar from '@/components/toolbar/toolbar.vue';
 
 export default {
   name: 'Dialog',
@@ -56,12 +61,20 @@ export default {
     content: {
       type: String
     },
+    width: {
+      type: Number,
+      default: 80
+    },
     type: {
       type: String,
       default: 'alert',
       validator(value) {
         return ['alert', 'confirm'].includes(value);
       }
+    },
+    modal: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -70,45 +83,68 @@ export default {
     };
   },
   methods: {
-    emit(signal) {
-      this.$emit(signal);
-      this.close();
+    open() {
+      this.expanded = true;
+      this.$el.querySelector('.dialog-title').focus();
+      if (!this.modal) {
+        this.$refs['cloak'].addEventListener('click', this.cancel, true);
+      }
     },
-    close() {
+    confirm() {
+      this.emit('confirm');
+    },
+    cancel() {
+      this.emit('cancel');
+    },
+    emit(signal) {
+      this.$emit(signal, this.model);
       this.expanded = false;
+      if (!this.modal) {
+        this.$refs['cloak'].removeEventListener('click', this.cancel, true);
+      }
     }
   },
   components: {
-    'vue-button': Button
+    'vue-button': Button,
+    'vue-toolbar': Toolbar
   }
 };
 </script>
 
 <style>
 @import '../../assets/css/shadows.css';
+@import '../../assets/css/animations.css';
 
 .dialog {
-  display: inline-block;
+   width: 100%;
 }
 
 .dialog-cloak {
   display: none;
+  opacity: 0;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 100;
+  z-index: 99;
   background: rgba(0, 0, 0, .2);
+  /* animation: .2s var(--out) 0 0 reverse forward play fade; */
 }
 
-.dialog[aria-expanded] .dialog-cloak {
+.dialog[aria-expanded] .dialog-cloak, .dialog[aria-expanded] .dialog-popup {
+  /* animation: .2s var(--in) 0 0 normal forward play fade; */
   display: block;
+  opacity: 1;
 }
 
 .dialog-popup {
+  opacity: 0;
+  display: none;
+  z-index: 100;
   background: white;
   min-width: 280px;
+  width: 100%;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -129,5 +165,21 @@ export default {
 
 .dialog-actions {
   float: right;
+}
+
+@keyframes fade {
+  0% {
+    display: none;
+    opacity: 0;
+  }
+
+  .001% {
+    display: block;
+  }
+
+  100% {
+    opacity: 1;
+    display: block;
+  }
 }
 </style>

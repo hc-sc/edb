@@ -1,7 +1,7 @@
 <template>
   <div class='select-extensible'>
     <div class='f-container f-middle'>
-      <vue-select @input='$emit("input", $event)' :value='value' class='flex' :id='id' :label='label' :options='options' :displayValue='displayValue'></vue-select>
+      <vue-select @input='$emit("input", $event)' :value='value' class='flex' :id='id' :label='label' :options='options' :displayValue='displayValue' :matchValue='matchValue'></vue-select>
       <span @click='toggleAdd'>
         <i class='material-icons select-extensible-add' :class='{adding}'>add</i>
       </span>
@@ -51,6 +51,9 @@ export default {
     },
     value: {
       type: String | Object
+    },
+    matchValue: {
+      type: Function
     }
   },
   data() {

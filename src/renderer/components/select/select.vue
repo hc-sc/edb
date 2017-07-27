@@ -66,6 +66,12 @@ export default {
         return value.label || value;
       }
     },
+    matchValue: {
+      type: Function,
+      default(options, value) {
+        return options.findIndex(o => o === value);
+      }
+    },
     cb: {
       type: Function,
       default(value) {
@@ -85,18 +91,13 @@ export default {
       let val = '';
       if (this.selected == null) val = this.label;
       else {
-        let match = this.matchValue();
+        let match = this.matchValue(this.options, this.value);
         if (match >= 0) val = this.displayValue(this.options[match]);
       }
       return val;
     }
   },
   methods: {
-    matchValue() {
-      return this.options.findIndex(o => {
-        return o._id === this.value;
-      });
-    },
     select(index) {
       this.selected = index;
       this.cb(this.options[index]);
@@ -127,7 +128,7 @@ export default {
   },
   watch: {
     value() {
-      let match = this.matchValue();
+      let match = this.matchValue(this.options, this.value);
       if (match >= 0) this.selected = match;
     }
   },

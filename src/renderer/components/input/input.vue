@@ -198,6 +198,8 @@ export default {
   width: 100%;
   white-space: nowrap;
   overflow: hidden;
+  transform: translateZ(0);
+  filter: blur(0);
   text-overflow: ellipsis;
 }
 
@@ -224,6 +226,7 @@ export default {
   top: 0;
   left: 0;
   font-size: 1rem;
+  filter: blur(0);
   transform-origin: left;
   transition: .2s var(--linear-out-slow-in);
 }
@@ -268,13 +271,13 @@ body:not(.js) .input-field:active:invalid {
 }
 
 .js .input-field + label {
-  transform: scale(1) translateY(1rem);
+  transform: scale(1) translate3d(0, 1rem, 0);
 }
 
 .js .input-field:focus + label,
 .js .input-field:not(.empty) + label,
 .input-field[type=number]:invalid + label {
-  transform: scale(.7) translateY(0);
+  transform: scale(.7) translate3d(0, 0, 0);
 }
 
 .input-info {
