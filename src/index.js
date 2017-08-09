@@ -364,7 +364,7 @@ app.on('ready', function () {
 
     mainWindow.loadURL('file://' + __dirname + '/../build/renderer/index.html');
   } else
-    mainWindow.loadURL('file://' + __dirname + '/renderer/index.html');
+    mainWindow.loadURL('file://' + __dirname + '/index.html');
 
   mainWindow.setTitle('eDossier Builder (V1.1.0)');
   mainWindow.webContents.on('did-finish-load', function () {

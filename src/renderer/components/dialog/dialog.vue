@@ -10,14 +10,14 @@ Used for prompting users for simple actions. You can use the default alert or co
 
 <template>
   <div class='dialog' :aria-expanded='expanded'>
-    <aside class='dialog-popup' :id='id' role='alertdialog' :aria-labelledby='`${id}-dialog-title`' :aria-describedby='`${id}-dialog-content`' :style='{width: `${width}%`}'>
+    <aside class='dialog-popup' :id='id' role='alertdialog' :aria-labelledby='`${id}-dialog-title`' :aria-describedby='`${id}-dialog-content`' :style='{width: `${width}`}'>
       <div class='dialog-popup'>
         <vue-toolbar color='none' class='dialog-title'>
-          <slot name='title'>
-            <span :id='`${id}-dialog-title`'>{{title}}</span>
-          </slot>
+          <span :id='`${id}-dialog-title`'>
+            <slot name='title'>{{title}}</slot>
+          </span>
         </vue-toolbar>
-        <section ref='content' class='dialog-content' :id='`${id}-dialog-content`'>
+        <section ref='content' class='dialog-content' :id='`${id}-dialog-content`' :style='{maxHeight: `${height}`}'>
           <slot>
             <span>{{content}}</span>
           </slot>
@@ -62,8 +62,12 @@ export default {
       type: String
     },
     width: {
-      type: Number,
-      default: 80
+      type: String,
+      default: '80%'
+    },
+    height: {
+      type: String,
+      default: '100%'
     },
     type: {
       type: String,
@@ -161,6 +165,7 @@ export default {
 
 .dialog-content {
   padding: 1rem;
+  overflow-y: auto;
 }
 
 .dialog-actions {

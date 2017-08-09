@@ -1,11 +1,12 @@
 const {join} = require('path');
 const webpack = require('webpack');
 const CleanPlugin = require('clean-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 // const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const {
-  DIST_DIR, DIST_PATH, URL_LOADER_LIMIT, HTML_PATH, CONFIG_PATH, ASSETS_PATH_REL, TARGET, SOURCE_MAPS, pathFromRoot
+  DIST_DIR, DIST_PATH, HTML_PATH, CONFIG_PATH, ASSETS_PATH_REL, TARGET, SOURCE_MAPS, pathFromRoot
 } = require('.');
 
 module.exports = {
@@ -63,7 +64,7 @@ module.exports = {
         options: {
           // limit: URL_LOADER_LIMIT, // if using url-loader
           name: join(ASSETS_PATH_REL, 'images', '[name].[hash:7].[ext]'),
-          publicPath: '../../'
+          // publicPath: '../../'
         }
       },
       {
@@ -72,7 +73,7 @@ module.exports = {
         options: {
           // limit: URL_LOADER_LIMIT // if using url-loader
           name: join(ASSETS_PATH_REL, 'fonts', '[name].[hash:7].[ext]'),
-          publicPath: '../../'
+          // publicPath: '../../'
         }
       }
     ]
@@ -87,6 +88,32 @@ module.exports = {
     new webpack.NoEmitOnErrorsPlugin(),
 
     new CleanPlugin(DIST_DIR, {root: pathFromRoot()}),
+
+    new CopyPlugin([
+      {from: 'src/index.js', to: DIST_PATH},
+      {from: 'src/preload.js', to: DIST_PATH},
+      {from: 'src/package.json', to: DIST_PATH},
+      {
+        from: 'src/configs/',
+        to: join(DIST_PATH, 'configs')
+      },
+      {
+        from: 'src/constants/',
+        to: join(DIST_PATH, 'constants')
+      },
+      {
+        from: 'src/models/',
+        to: join(DIST_PATH, 'models')
+      },
+      {
+        from: 'src/services/',
+        to: join(DIST_PATH, 'services')
+      },
+      {
+        from: 'src/utils/',
+        to: join(DIST_PATH, 'utils')
+      }
+    ]),
 
     new webpack.optimize.UglifyJsPlugin({
       compress: {
@@ -122,7 +149,7 @@ module.exports = {
     new HtmlPlugin({
       template: HTML_PATH,
       // setting a base href causes 'not allowed to load resource' in Electron
-      base: TARGET === 'web' ? '/' : '',
+      base: TARGET === 'web' ? join('/') : join('./'),
       chunksSortMode: 'dependency',
       nodeModules: pathFromRoot('node_modules'),
       minify: {

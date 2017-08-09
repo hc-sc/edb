@@ -1,8 +1,5 @@
 <template>
   <div class='input f-container' @focusout='touched = true'>
-    <!-- <span class='input-prefix'>
-      <slot name='input-prefix'></slot>
-    </span> -->
     <div class='input-group'>
       <template v-if='isTextField'>
         <div>

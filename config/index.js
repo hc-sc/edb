@@ -29,6 +29,7 @@ const CONFIG_PATH = __dirname;
 
 const URL_LOADER_LIMIT = 10000;
 const SOURCE_MAPS = true;
+const DEV_SERVER = true;
 
 module.exports = {
   pathFromRoot,
@@ -53,5 +54,6 @@ module.exports = {
   TEST_PATH,
   CONFIG_PATH,
   URL_LOADER_LIMIT,
-  SOURCE_MAPS
+  SOURCE_MAPS,
+  DEV_SERVER
 };

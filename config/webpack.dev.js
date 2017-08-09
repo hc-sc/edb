@@ -91,6 +91,6 @@ module.exports = {
       chunksSortMode: 'dependency'
     }),
 
-    // new webpack.HotModuleReplacementPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
   ]
 };

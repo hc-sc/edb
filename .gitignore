@@ -1,12 +1,11 @@
 node_modules/
 *.log.*
 *.log
-build
-dist
-projects
+build/
+dist/
+projects/
 data/
-prepublish/win-unpacked
-prepublish/*.zip
+prepublish/
 src/renderer/view-models/gen
 resources/app/standards/**/jsondefinitions/
 desktop-viewer
