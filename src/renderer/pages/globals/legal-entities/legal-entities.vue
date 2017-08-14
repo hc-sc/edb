@@ -1,8 +1,14 @@
 <template>
   <main>
     <vue-dialog id='contactperson-dialog' ref='contactperson-dialog'>
-      <vue-contacts ref='contactperson'></vue-contacts>
+       <vue-contacts ref='contactperson'></vue-contacts>
     </vue-dialog>
+    <vue-dialog id='identifier-dialog' ref='identifier-dialog'>
+      <vue-select-extensible id='legalentityidentifier' label='Identifier Type' :options='legalentityidentifiertype' v-model='model.legalentityidentifier.legalentityidentifiertype'></vue-select-extensible>
+      <vue-input type='text' id='legalentityidentifier' v-model='model.legalentityidentifier.identifier' label='Identifier' :max='255'></vue-input>
+    </vue-dialog>
+    </vue-dialog>
+    <vue-dialog
     <vue-split-pane>
       <div slot='split-pane-1'>
         <vue-list-filter id='master-search' selectable @select='select' :items='legalentities' :displayValue='le => le.legalentityname' :label='$t("search")'></vue-list-filter>
@@ -88,6 +94,7 @@ export default {
     ...mapGetters('picklists', [
       'country',
       'legalentitytype',
+      'legalentityidentifiertype'
     ])
   },
   methods: {
@@ -144,6 +151,7 @@ function getEmptyModel(type) {
         legalentityname: '',
         legalentitytype: {},
         othername: [],
+        legalentityidentifier: [],
         contactaddress: {
           street1: '',
           street2: '',
@@ -172,91 +180,4 @@ function getEmptyModel(type) {
       };
   }
 }
-
-// function getSampleLegalEntities() {
-//   return [
-//     {
-//       legalentitypid: 'urn:ghsts:sample',
-//       legalentityname: 'Australian Pesticides and Veterinary Medicines Authority',
-//       legalentitytype: {origin: 'IUCLID', status: 'enabled', value: 'Regulatory Authority', valueDecode: 'Regulatory Authority'},
-//       othername: ['APVMA'],
-//       contactaddress: {
-//         street1: '18 Wormald Street',
-//         street2: '',
-//         zipcode: '2609',
-//         city: 'Symonston',
-//         state: 'ACT',
-//         country: 'Australia',
-//         phone: '+61 2 6210 4701',
-//         fax: '+61 20 6210 4701 234',
-//         email: 'enquiries@apvma.gov.au',
-//         website: 'http://apvma.gov.au'
-//       },
-//       contactperson: [
-//         {
-//           organization: 'APVMA',
-//           department: 'Regulatory Affairs',
-//           title: 'Director',
-//           firstname: 'Susan',
-//           lastname: 'Miller',
-//           phone: '+61 2 6210 4701 3544',
-//           mobile: '+61 413 025 837',
-//           fax: '',
-//           email: 'susan.miller@apvma.gov.au'
-//         },
-//         {
-//           organization: 'PMRA',
-//           department: 'Regulatory Affairs',
-//           title: 'Boss',
-//           firstname: 'Some',
-//           lastname: 'Person',
-//           phone: '+1 613 899 9998',
-//           mobile: '',
-//           fax: '',
-//           email: 'some.person@pmra.gc.ca'
-//         },
-//         {
-//           organization: 'PMRA',
-//           department: 'Regulatory Affairs',
-//           title: 'Director',
-//           firstname: 'Another',
-//           lastname: 'Individual',
-//           phone: '+1 613 899 9999',
-//           mobile: '',
-//           fax: '',
-//           email: 'another.individual@pmra.gc.ca'
-//         },
-//       ]
-//     },
-//     {
-//       legalentitypid: 'urn:ghsts:sample2',
-//       legalentityname: 'Instituto Braseileiro do Meio Ambiente',
-//       legalentitytype: 'Regulatory Authority',
-//       othername: ['IBAMA'],
-//       contactaddress: {
-//         street1: 'SCEN Trecho 2',
-//         street2: 'Ed. Sede - Cx. Postal n 09566',
-//         zipcode: '70818-900',
-//         city: 'Brasilia',
-//         state: 'DF',
-//         country: 'Brazil',
-//         phone: '+55 61-3316-1212',
-//         fax: '+55 61-3316-1212-433',
-//         email: 'sic@ibama.gov.br',
-//         website: 'http://www.ibama.gov.br'
-//       },
-//       contactperson: [{
-//         organization: 'IBAMA',
-//         department: '',
-//         title: '',
-//         firstname: 'Joao',
-//         lastname: 'Gilberto',
-//         phone: '+55 61-3316-1212-265',
-//         mobile: '+55 21-99635-9499',
-//         fax: '',
-//         email: ''
-//       }]
-//     }
-//   ];
-// }
 </script>

@@ -2,7 +2,10 @@
   "name": "edossier_builder",
   "version": "1.1.0",
   "description": "eDossier Builder",
-  "author": "Health Canada - Santé Canada",
+  "author": {
+    "name": "Health Canada - Santé Canada",
+    "email": "example@example.com"
+  },
   "main": "index.js",
   "contributers": [
     "Aaron Carswell <aaron.carswell@canada.ca>",

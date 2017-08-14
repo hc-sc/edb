@@ -112,6 +112,10 @@ module.exports = {
       {
         from: 'src/utils/',
         to: join(DIST_PATH, 'utils')
+      },
+      {
+        from: 'resources/app',
+        to: join(DIST_PATH, '/')
       }
     ]),
 
