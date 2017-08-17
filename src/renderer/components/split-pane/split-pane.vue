@@ -1,10 +1,10 @@
 <template>
   <div :id='id' class='split-pane' :class='[direction]'>
-    <template v-for='n of numPanes'>
-      <div class='split-pane-item'>
+    <template v-for='(n, index) of numPanes'>
+      <div class='split-pane-item' :key='index'>
         <slot :name='`split-pane-${n}`'></slot>
       </div>
-      <div v-if='n !== numPanes || direction === "column"' role='separator' :aria-orientation='direction === "row" ? "horizontal" : "vertical"' class='split-pane-divider' draggable @dragend='dragEnd($event)'></div>
+      <div v-if='n !== numPanes || direction === "column"' :key='`${index}-separator`' role='separator' :aria-orientation='direction === "row" ? "horizontal" : "vertical"' class='split-pane-divider' draggable @dragend='dragEnd($event)'></div>
       </template>
   </div>
 </template>
@@ -74,9 +74,14 @@ export default {
   border: none;
 }
 
+.split-pane-divider:hover {
+  background-color: var(--primary-color);
+}
+
 .split-pane.row .split-pane-divider {
   display: inline-block;
   width: 5px;
+  height: 100%;
   border-left: 2px solid white;
   border-right: 2px solid white;
 }
@@ -86,6 +91,7 @@ export default {
   border-top: 2px solid white;
   border-bottom: 2px solid white;
   height: 5px;
+  width: 100%;
 }
 
 .js .split-pane.row .split-pane-divider {

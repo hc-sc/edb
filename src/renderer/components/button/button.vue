@@ -70,6 +70,7 @@ export default {
   padding: 0 1rem;
   text-transform: uppercase;
   transition: var(--out);
+  border: 2px solid transparent;
 }
 
 .btn.fab {
@@ -104,6 +105,10 @@ export default {
   transition: var(--toggle);
 }
 
+.btn.flat:focus {
+  border: 2px solid var(--primary-color);
+}
+
 .btn.flat.primary {
   color: var(--primary-color);
 }
@@ -115,6 +120,11 @@ export default {
 .btn.raised:active {
   box-shadow: var(--depth-3);
   transition: var(--toggle);
+}
+
+.btn.raised:focus {
+  background-color: var(--primary-color-light);
+  color: var(--primary-text-light);
 }
 
 .btn[disabled] {

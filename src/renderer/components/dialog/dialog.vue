@@ -17,20 +17,21 @@ Used for prompting users for simple actions. You can use the default alert or co
             <slot name='title'>{{title}}</slot>
           </span>
         </vue-toolbar>
-        <section ref='content' class='dialog-content' :id='`${id}-dialog-content`' :style='{maxHeight: `${height}`}'>
+        <section class='dialog-content' :id='`${id}-dialog-content`' :style='{maxHeight: `${height}`}'>
           <slot>
-            <span>{{content}}</span>
+            <component v-if='component' :is='component' ref='component'></component>
+            <span v-else>{{content}}</span>
           </slot>
         </section>
         <footer>
           <slot name='footer'>
             <div class='dialog-actions'>
-              <vue-button v-if='type === "confirm"' display='flat' @click.native='cancel'>
+              <vue-button ref='cancel' v-if='type === "confirm"' display='flat'>
                 <slot name='cancel-text'>
                   cancel
                 </slot>
               </vue-button>
-              <vue-button display='flat' @click.native='confirm'>
+              <vue-button ref='confirm' display='flat'>
                 <slot name='confirm-text'>
                   confirm
                 </slot>
@@ -40,7 +41,7 @@ Used for prompting users for simple actions. You can use the default alert or co
         </footer>
       </div>
     </aside>
-    <div ref='cloak' class='dialog-cloak'></div>
+    <div class='dialog-cloak' v-if='modal'></div>
   </div>
 </template>
 
@@ -79,33 +80,39 @@ export default {
     modal: {
       type: Boolean,
       default: true
+    },
+    component: {
+      type: Object
     }
   },
   data() {
     return {
-      expanded: false
+      expanded: false,
+      model: {}
     };
   },
   methods: {
-    open() {
-      this.expanded = true;
-      this.$el.querySelector('.dialog-title').focus();
-      if (!this.modal) {
-        this.$refs['cloak'].addEventListener('click', this.cancel, true);
-      }
+    show(config) {
+      const {model} = config;
+      return new Promise((resolve, reject) => {
+        if (this.component && model) {
+          const component = this.$refs['component'];
+          this.$set(component, 'model', model);
+        }
+        this.expanded = true;
+
+        this.$refs['confirm'].$el.addEventListener('click', () => {
+          resolve(this.model);
+        });
+        if ('cancel' in this.$refs) {
+          this.$refs['cancel'].$el.addEventListener('click', () => {
+            reject();
+          });
+        }
+      });
     },
-    confirm() {
-      this.emit('confirm');
-    },
-    cancel() {
-      this.emit('cancel');
-    },
-    emit(signal) {
-      this.$emit(signal, this.model);
+    close() {
       this.expanded = false;
-      if (!this.modal) {
-        this.$refs['cloak'].removeEventListener('click', this.cancel, true);
-      }
     }
   },
   components: {

@@ -102,6 +102,10 @@ img {
   align-items: center;
 }
 
+.f-gap {
+  width: 5px;
+}
+
 .flex {
   flex: 1;
 }
@@ -187,7 +191,7 @@ img {
 }
 
 /* --- VISIBILITY --- */
-.a-hidden {
+.v-hidden {
   position: absolute !important;
   clip: rect(1px, 1px, 1px, 1px);
   padding: 0 !important;

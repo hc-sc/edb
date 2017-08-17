@@ -1,35 +1,24 @@
 <template>
-  <div class='select'>
-    <!-- Listbox -->
-    <div :id='`${id}-dropdown`' class='select-dropdown' role='listbox' :aria-controls='id' v-if='!native'>
-      <button type='button' class='select-button' aria-haspopup='true' :aria-expanded='expanded' @click='toggle' @keyup.down='open' @keyup.up='close'>
+  <div class='select' :class='{disabled}'>
+    <div :id='id' class='select-dropdown' role='listbox' :aria-controls='id'>
+      <input type='text' v-model='searchValue' hidden>
+      <button type='button' class='select-button' aria-haspopup='true' :aria-expanded='expanded' @click='toggle' @keydown='handleButtonEvent'>
         {{selectedValue}}
-        <span class='a-right'>▼</span>
+        <span class='error-text' v-if='required'>(required)</span>
+        <span class='a-right' aria-hidden>⯆</span>
       </button>
-      <ul class='select-list'>
-        <li role='option' disabled tabindex='-1'>{{label}}</li>
-        <li role='option' v-for='(option, index) of options' :key='(index)' :disabled='option.disabled' :tabindex='option.disabled ? "-1" : "0"' @keyup.down='next' @keyup.up='prev' @keyup.tab='close' @click='select(index)' :aria-selected='isSelected(index)'>
+      <ul class='select-list' ref='trap' role='listbox' @keydown.esc.capture='close()' @keydown.tab='close()' :aria-activedescendant='getActiveDescendant()'>
+        <li role='option' disabled>{{label}}</li>
+        <li role='option' v-for='(option, index) of options' :key='(index)' :id='`${id}-option-${index}`' :disabled='option.disabled' :tabindex='-1' @click='select(index)' :aria-selected='isSelected(index)' @keydown.down='focusNext' @keydown.up='focusPrevious'>
           {{displayValue(option)}}
         </li>
       </ul>
     </div>
-
-    <!-- Select  -->
-    <select class='select-field' :value='value' :id='id' :name='compName' :disabled='disabled' :required='required' @input='select($event.target.value)' v-show='native'>
-      <slot name='select-options'>
-        <option value='' disabled selected>
-          {{label}}
-        </option>
-         <option v-for='(option, index) of options' :key='index' :value='option.value || option' >
-          {{displayValue(option)}}
-        </option>
-      </slot>
-    </select>
   </div>
 </template>
 
 <script>
-import Menu from '@/components/menu/menu.vue';
+import {isStringMatch} from '@/services/utils.service.js';
 
 export default {
   name: 'Select',
@@ -44,18 +33,6 @@ export default {
     },
     options: {
       type: Array
-    },
-    disabled: {
-      type: Boolean,
-      default: false
-    },
-    required: {
-      type: Boolean,
-      default: false
-    },
-    native: {
-      type: Boolean,
-      default: false
     },
     value: {
       type: Array | String
@@ -72,37 +49,63 @@ export default {
         return options.findIndex(o => o === value);
       }
     },
-    cb: {
+    getItems: {
+      type: Function
+    },
+    onSelect: {
       type: Function,
       default(value) {
         this.$emit('input', value);
       }
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+    required: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return {
+      loading: false,
+      searchValue: '',
       expanded: false,
-      selected: undefined
+      selected: undefined,
+      previousFocusedNode: null,
+      focusable: [],
+      focusIndex: null,
+      timer: null
     };
   },
   computed: {
     compName() {return this.name || this.id;},
+    items() {
+      if (this.getItems) {
+        this.loading = true;
+        this.getItems().then(items => {
+          this.loading = false;
+          return items;
+        })
+        .catch(err => {
+          // show snackbar about error
+          console.log('error loading items', err);
+        });
+      }
+      else return this.options;
+    },
     selectedValue() {
       let val = '';
       if (this.selected == null) val = this.label;
       else {
-        let match = this.matchValue(this.options, this.value);
-        if (match >= 0) val = this.displayValue(this.options[match]);
+        let matchIndex = this.matchValue(this.options, this.value);
+        if (matchIndex >= 0) val = this.displayValue(this.options[matchIndex]);
       }
       return val;
     }
   },
   methods: {
-    select(index) {
-      this.selected = index;
-      this.cb(this.options[index]);
-      if (!this.native) this.close();
-    },
     isSelected(index) {
       return this.selected === index;
     },
@@ -111,44 +114,144 @@ export default {
       else this.open();
     },
     open() {
+      this.previousFocusedNode = document.activeElement;
       this.expanded = true;
-      const firstItem = this.$el.querySelector('[role=option]:not([disabled])');
-      if (firstItem) firstItem.focus();
+      this.focusable = this.getFocusableNodes();
+      if (this.selected) {
+        this.focus(this.selected);
+      }
+      else {
+        this.focus(0);
+        this.select(0);
+      }
 
-      // close the listbox when clicked outside, during capture phase
-      document.addEventListener('click', this.close, true);
+      document.addEventListener('keydown', this.handleListEvent, true);
+      document.addEventListener('click', this.handleListEvent, true);
     },
     close() {
+      document.removeEventListener('keydown', this.handleListEvent, true);
+      document.removeEventListener('click', this.handleListEvent, true);
       this.expanded = false;
-      this.$el.querySelector('.select-button').focus();
-      document.removeEventListener('click', this.close, true);
+      if (this.previousFocusedNode) this.previousFocusedNode.focus();
     },
-    prev() {},
-    next() {}
+    select(index) {
+      if (Number.isNaN(index)) index = 0;
+      if (index >= this.items.length || index < 0) return;
+      this.selected = index;
+      this.onSelect(this.options[index]);
+    },
+    focus(index) {
+      if (!Number.isNaN(index) && this.focusable && index >= 0 && index < this.focusable.length) {
+        this.focusIndex = index;
+        this.focusable[this.focusIndex].focus();
+      }
+    },
+    focusNext() {
+      this.select(this.focusIndex + 1);
+      this.focus(this.focusIndex + 1);
+    },
+    focusPrevious() {
+      this.select(this.focusIndex - 1);
+      this.focus(this.focusIndex - 1);
+    },
+    handleListEvent(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      if (event.type === 'keydown') {
+        if (event.keyCode === 9 || event.keyCode === 27) {
+          this.close();
+        }
+        else if (event.keyCode === 40) {
+          this.focusNext();
+        }
+        else if (event.keyCode === 38) {
+          this.focusPrevious();
+        }
+        else if (event.keyCode === 13) {
+          this.select(this.focusIndex);
+          this.close();
+        }
+        else if (event.keyCode >= 65 && event.keyCode <= 90) {
+          this.searchValue += event.key;
+          this.findBestMatch(true);
+        }
+      }
+      if (event.type === 'click') {
+        if (event.target.tagName !== 'LI') {
+          this.close();
+        }
+        else {
+          for (let i = 0; i < this.focusable.length; ++i) {
+            if (this.focusable[i] === event.target) {
+              this.select(i);
+              this.close();
+            }
+          }
+        }
+      }
+    },
+    handleButtonEvent(event) {
+      if (event.type === 'keydown') {
+        if (event.keyCode === 40 || event.keyCode === 38) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        if (event.keyCode === 40) this.select(this.selected + 1);
+        else if (event.keyCode === 38) this.select(this.selected - 1);
+        else if (event.keyCode >= 65 && event.keyCode <= 90) {
+          this.searchValue += event.key;
+          this.findBestMatch();
+        }
+      }
+    },
+    getFocusableNodes() {
+      return this.$refs['trap'].querySelectorAll('[role=option]:not([disabled])');
+    },
+    getActiveDescendant() {
+      if (this.selected == null) {
+        return false;
+      }
+      else return `${this.id}-option-${this.selected}`;
+    },
+    findBestMatch(shouldFocus) {
+      const matchIndex = this.items.findIndex(item => {
+        return isStringMatch(this.displayValue(item), this.searchValue);
+      });
+      if (matchIndex >= 0) {
+        this.select(matchIndex);
+        if (shouldFocus) this.focus(matchIndex);
+      }
+
+      if (this.timer == null) {
+        this.timer = setTimeout(() => {
+          this.searchValue = '';
+          clearTimeout(this.timer);
+          this.timer = null;
+        }, 1000);
+      }
+    }
   },
   watch: {
     value() {
       let match = this.matchValue(this.options, this.value);
       if (match >= 0) this.selected = match;
-    }
+    },
   },
   mounted() {
-    if (this.native) return;
-    const content = this.$el.querySelector('.select-list');
+    this.getFocusableNodes();
+    const content = this.$refs['trap'];
     const height = content.getBoundingClientRect().height;
-
     this.$el.firstChild.classList.add('mounted');
-
     const style = document.createElement('style');
     style.textContent = `
-      .js #${this.id}-dropdown.mounted [aria-expanded] + .select-list {
+      .js #${this.id}.mounted [aria-expanded] + .select-list {
         height: ${height}px;
       }
     `;
     this.$el.insertBefore(style, this.$el.firstChild);
   },
-  components: {
-    'vue-menu': Menu
+  updated() {
+    this.getFocusableNodes();
   }
 };
 </script>
@@ -164,42 +267,10 @@ export default {
   padding: 1.2rem 0 1rem 0;
 }
 
-.select-field {
-  font-size: 1rem;
-  line-height: 1.75rem;
-  padding: 5px 0;
-  width: 100%;
-  cursor: pointer;
-  background-color: inherit;
-  outline: none;
-  border: none;
-  border-bottom: 1px solid var(--divider);
-  box-shadow: none;
-  transition: var(--out);
-}
-
-.select-field:active, .select-field:focus {
-  border-bottom: 1px solid var(--primary-color);
-  box-shadow: 0 1px 0 0 var(--primary-color);
-  transition: var(--in);
-}
-
-.select option, .select [role=option] {
+.select [role=option] {
   font-size: 1rem;
   line-height: 1.75rem;
   padding: 10px 5px;
-}
-
-.select-field[multiple] {
-  outline: none;
-  border: 1px solid var(--divider);
-  box-shadow: none;
-  transition: var(--out);
-}
-
-.select-field[multiple]:active, .select select[multiple]:focus {
-  border: 1px solid var(--primary-color);
-  transition: var(--in);
 }
 
 .select-button {
@@ -257,7 +328,7 @@ export default {
   transition: var(--in);
 }
 
-.select-dropdown [role^="option"] {
+.select-dropdown [role^=option] {
   position: relative;
   text-align: left;
   display: block;
@@ -272,7 +343,7 @@ export default {
   line-height: 1.5rem;
 }
 
-.select-dropdown [role^="option"]:not([disabled]):hover, .select-dropdown [role^="option"]:focus {
+.select-dropdown [role=option]:not([disabled]):not(:focus):hover {
   background: lightgray;
   cursor: pointer;
 }

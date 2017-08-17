@@ -1,14 +1,13 @@
 <template>
   <main>
-    <vue-dialog id='contactperson-dialog' ref='contactperson-dialog'>
+    <vue-dialog id='dialog' ref='dialog' :component='getComponent()'></vue-dialog>
+    <!-- <vue-dialog id='contactperson-dialog' :confirm='updateModel' :cancel='showError' ref='contactperson-dialog'>
        <vue-contacts ref='contactperson'></vue-contacts>
     </vue-dialog>
     <vue-dialog id='identifier-dialog' ref='identifier-dialog'>
       <vue-select-extensible id='legalentityidentifier' label='Identifier Type' :options='legalentityidentifiertype' v-model='model.legalentityidentifier.legalentityidentifiertype'></vue-select-extensible>
       <vue-input type='text' id='legalentityidentifier' v-model='model.legalentityidentifier.identifier' label='Identifier' :max='255'></vue-input>
-    </vue-dialog>
-    </vue-dialog>
-    <vue-dialog
+    </vue-dialog> -->
     <vue-split-pane>
       <div slot='split-pane-1'>
         <vue-list-filter id='master-search' selectable @select='select' :items='legalentities' :displayValue='le => le.legalentityname' :label='$t("search")'></vue-list-filter>
@@ -16,12 +15,12 @@
        <div slot='split-pane-2' class='pane'>
         <div class='f-container f-cross-start'>
           <vue-button class='input-prefix'>generate</vue-button>
-          <span class='spacer'></span>
+          <span class='f-gap'></span>
           <vue-input type='text' id='legalentitypid' :label='$t("legalentitypid")' v-model='model.legalentitypid' required></vue-input>
         </div>
         <vue-input type='text' id='legalentityname' :label='$t("legalentityname")' required v-model='model.legalentityname'></vue-input>
         <vue-select-extensible id='legalentitytype' :label='$t("legalentitytype")' :value='model.legalentitytype' @input='model.legalentitytype = $event._id' :options='legalentitytype' :displayValue='displayPicklistItem' :matchValue='matchById'></vue-select-extensible>
-         <vue-chips deletable unique id='othername' :label='$tc("othername", 2)' :items.sync='model.othername'></vue-chips>
+         <vue-chips deletable unique id='othername' :label='$tc("othername", 2)' v-model='model.othername'></vue-chips>
         <vue-table :title='$t("otheridentifiers")' id='other-identifiers'></vue-table>
         <vue-fieldset :legend='$t("address")'>
           <vue-input type='text' id='street1' :label='$t("street1")' v-model='model.contactaddress.street1'></vue-input>
@@ -36,7 +35,7 @@
             <span slot='prefix'>http://</span>
           </vue-input>
         </vue-fieldset>
-        <vue-table :title='$tc("contact", 2)' :items='model.contactperson' id='contact' :headers='["lastname", "firstname", "title", "email"]' :displayHeader='displayTranslation' selectable pageable sortable @select='showModal("contactperson", $event)'></vue-table>
+        <vue-table :title='$tc("contact", 2)' :items='model.contactperson' id='contact' :headers='["lastname", "firstname", "title", "email"]' :displayHeader='displayTranslation' selectable pageable sortable @select='showDialog("contactperson", $event)'></vue-table>
       </div>
     </vue-split-pane>
     <div class='bottom-float'>
@@ -98,12 +97,20 @@ export default {
     ])
   },
   methods: {
-    showModal(ref, index) {
-      // this.$refs[ref].$set(model, cloneDeep(this.model.contactperson[index]));
-      // this.$refs[ref].open();
-      console.log(this.$refs);
-      this.$refs['contactperson'].model = cloneDeep(this.model.contactperson[index]);
-      this.$refs['contactperson-dialog'].open();
+    getComponent() {
+      return Contacts;
+    },
+    showDialog() {
+      const dialog = this.$refs['dialog'];
+      dialog.show({
+        component: Contacts,
+        model: this.model.contactperson[0]
+      })
+      .then(result => {
+        console.log(result);
+        dialog.close();
+      })
+      .catch(err => console.error(err));
     },
     selectId(prop, item) {
       this.model[prop] = item._id;
