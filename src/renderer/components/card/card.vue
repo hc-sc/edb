@@ -41,7 +41,6 @@ export default {
   border-radius: 2px;
   transition: var(--toggle);
   margin-bottom: 12px;
-  overflow: hidden;
 }
 
 .card.hover:hover {

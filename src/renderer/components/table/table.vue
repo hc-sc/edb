@@ -5,7 +5,7 @@ The table component acts as either a client side table, where rows are given as 
 </docs>
 
 <template>
-  <vue-card class='table' :class='{selectable, sortable, pageable, filterable}' @select='select' @sort='sort'  @changeOffset='changeOffset'>
+  <vue-card class='table' :class='{selectable, sortable, pageable, filterable}' @select='select' @sort='sort' @changeOffset='changeOffset'>
     <vue-toolbar>
       {{title}}
       <span slot='right'>
@@ -42,7 +42,7 @@ The table component acts as either a client side table, where rows are given as 
       <vue-progress v-else></vue-progress>
     </div>
     <div v-if='pageable && rows.length > 0' class='table-pagination f-container f-middle'>
-      <!-- <vue-select :id='`${id}-pagesize`' label='Page Size' :options='["1", "5", "10", "20"]' v-model='pageSize'></vue-select> -->
+      <vue-select :id='`${id}-pagesize`' label='Page Size' :options='["1", "5", "10", "20"]' v-model='pageSize'></vue-select>
       <span @click='changeOffset(offset - 1)' :disabled='offset === 0'>
         <i class='material-icons'>chevron_left</i>
       </span>

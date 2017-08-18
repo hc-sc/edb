@@ -9,7 +9,7 @@
         <div class='f-container f-cross-start'>
           <vue-button class='input-prefix'>generate</vue-button>
           <span class='f-gap'></span>
-          <vue-input type='text' id='legalentitypid' :label='$t("legalentitypid")' v-model='model.legalentitypid' required></vue-input>
+          <vue-input type='text' id='legalentitypid' :label='$t("legalentitypid")' v-model='model.legalentitypid' required disabled></vue-input>
         </div>
         <vue-input type='text' id='legalentityname' :label='$t("legalentityname")' required v-model='model.legalentityname'></vue-input>
         <vue-select-extensible id='legalentitytype' :label='$t("legalentitytype")' :value='model.legalentitytype' @input='model.legalentitytype = $event._id' :options='legalentitytype' :displayValue='displayPicklistItem' :matchValue='matchById'></vue-select-extensible>
@@ -101,7 +101,7 @@ export default {
         dialog.close();
       })
       .catch(err => {
-        console.error(err);
+        console.log(err);
         dialog.close();
       });
     },
