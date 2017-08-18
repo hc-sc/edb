@@ -1,13 +1,6 @@
 <template>
   <main>
-    <vue-dialog id='dialog' ref='dialog' :component='getComponent()'></vue-dialog>
-    <!-- <vue-dialog id='contactperson-dialog' :confirm='updateModel' :cancel='showError' ref='contactperson-dialog'>
-       <vue-contacts ref='contactperson'></vue-contacts>
-    </vue-dialog>
-    <vue-dialog id='identifier-dialog' ref='identifier-dialog'>
-      <vue-select-extensible id='legalentityidentifier' label='Identifier Type' :options='legalentityidentifiertype' v-model='model.legalentityidentifier.legalentityidentifiertype'></vue-select-extensible>
-      <vue-input type='text' id='legalentityidentifier' v-model='model.legalentityidentifier.identifier' label='Identifier' :max='255'></vue-input>
-    </vue-dialog> -->
+    <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
     <vue-split-pane>
       <div slot='split-pane-1'>
         <vue-list-filter id='master-search' selectable @select='select' :items='legalentities' :displayValue='le => le.legalentityname' :label='$t("search")'></vue-list-filter>
@@ -97,20 +90,20 @@ export default {
     ])
   },
   methods: {
-    getComponent() {
-      return Contacts;
-    },
     showDialog() {
       const dialog = this.$refs['dialog'];
       dialog.show({
         component: Contacts,
-        model: this.model.contactperson[0]
+        model: cloneDeep(this.model.contactperson[0])
       })
       .then(result => {
-        console.log(result);
+        this.$set(this.model.contactperson, 0, result);
         dialog.close();
       })
-      .catch(err => console.error(err));
+      .catch(err => {
+        console.error(err);
+        dialog.close();
+      });
     },
     selectId(prop, item) {
       this.model[prop] = item._id;

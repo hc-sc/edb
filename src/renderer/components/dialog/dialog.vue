@@ -81,35 +81,58 @@ export default {
       type: Boolean,
       default: true
     },
-    component: {
-      type: Object
+    confirm: {
+      type: Function,
+      default(value) {
+        return value.component ? value.$refs['component'].model : undefined;
+      }
+    },
+    cancel: {
+      type: Function,
+      default(value) {
+        return value;
+      }
     }
   },
   data() {
     return {
       expanded: false,
-      model: {}
+      component: null
     };
   },
   methods: {
     show(config) {
-      const {model} = config;
+      const {component, model} = config;
       return new Promise((resolve, reject) => {
-        if (this.component && model) {
-          const component = this.$refs['component'];
-          this.$set(component, 'model', model);
+        if (component) {
+          this.component = component;
+          this.$nextTick(() => {
+            if (model) {
+              this.$set(this.$refs['component'], 'model', model);
+            }
+          });
         }
+
         this.expanded = true;
 
         this.$refs['confirm'].$el.addEventListener('click', () => {
-          resolve(this.model);
+          resolve(this.confirm(this));
         });
+
         if ('cancel' in this.$refs) {
           this.$refs['cancel'].$el.addEventListener('click', () => {
-            reject();
+            reject(this.cancel());
           });
         }
+
+        document.addEventListener('keydown', (event) => {
+          if (event.keyCode === 27) reject(this.cancel());
+          if (event.keyCode === 13) resolve(this.confirm(this));
+        });
       });
+    },
+    open() {
+      this.expanded = true;
     },
     close() {
       this.expanded = false;
