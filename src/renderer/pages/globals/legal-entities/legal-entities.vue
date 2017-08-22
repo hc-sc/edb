@@ -28,7 +28,7 @@
             <span slot='prefix'>http://</span>
           </vue-input>
         </vue-fieldset>
-        <vue-table :title='$tc("contact", 2)' :items='model.contactperson' id='contact' :headers='["lastname", "firstname", "title", "email"]' :displayHeader='displayTranslation' selectable pageable sortable @select='showDialog("contactperson", $event)'></vue-table>
+        <vue-table :title='$tc("contact", 2)' :items='model.contactperson' id='contact' :headers='["lastname", "firstname", "title", "email"]' :displayHeader='displayTranslation' addable selectable pageable sortable @select='showDialog("contactperson", model.contactperson[$event], $event)' @addItem='addItem("contactperson")'></vue-table>
       </div>
     </vue-split-pane>
     <div class='bottom-float'>
@@ -90,14 +90,19 @@ export default {
     ])
   },
   methods: {
-    showDialog() {
+    addItem(ref) {
+      this.showDialog(ref, {});
+    },
+    showDialog(ref, model, index) {
       const dialog = this.$refs['dialog'];
+      const component = getComponent(ref);
       dialog.show({
-        component: Contacts,
-        model: cloneDeep(this.model.contactperson[0])
+        component,
+        model: cloneDeep(model)
       })
       .then(result => {
-        this.$set(this.model.contactperson, 0, result);
+        if (index != null) this.$set(this.model[ref], index, result);
+        else this.model[ref].push(result);
         dialog.close();
       })
       .catch(err => {
@@ -143,8 +148,20 @@ export default {
   }
 };
 
+function getComponent(ref) {
+  switch(ref) {
+    case 'contactperson':
+      return Contacts;
+  }
+}
+
 function getEmptyModel(type) {
   switch(type) {
+    case 'otheridentifiers':
+      return {
+        identifier: '',
+        legalentityidenfiertype: {}
+      };
     case 'legalentities':
       return {
         legalentitypid: '',

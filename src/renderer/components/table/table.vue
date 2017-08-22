@@ -9,17 +9,16 @@ The table component acts as either a client side table, where rows are given as 
     <vue-toolbar>
       {{title}}
       <span slot='right'>
-        <i v-if='filterable' class='material-icons' @click='addFilter'>filter_list</i>
-        <i v-if='addable' class='material-icons'>add</i>
+        <vue-icon id='`${id}-filter`' :label='$t("filter")' v-if='filterable' icon='filter_list' @click.native='addFilter'></vue-icon>
+        <vue-icon id='`${id}-add`' :label='$t("add")' v-if='addable' icon='add' @click.native='addItem'></vue-icon>
       </span>
     </vue-toolbar>
     <div class='table-filter'>
       <div class='f-container f-middle' v-for='(filter, index) of filters' :key='index'>
         <vue-select :id='`${id}-filter-select-${index}`' :label='$tc("title")' :options='["any", ...headers]' :displayValue='displayHeader' v-model='filters[index].prop'></vue-select>
+        <span class='f-gap'></span>
         <vue-input type='text' :id='`${id}-filter-text-${index}`' :label='$tc("filter")' v-model='filters[index].value'></vue-input>
-        <span @click='deleteFilter(index)'>
-          <i class='material-icons'>close</i>
-        </span>
+        <vue-icon id='`${id}-filter-clear-${index}`' :label='$t("clear")' icon='clear' @click.native='deleteFilter(index)'></vue-icon>
       </div>
     </div>
     <div class='table-wrapper'>
@@ -58,6 +57,7 @@ The table component acts as either a client side table, where rows are given as 
 import Button from '@/components/button/button.vue';
 import Card from '@/components/card/card.vue';
 import Chips from '@/components/chips/chips.vue';
+import Icon from '@/components/icon/icon.vue';
 import Input from '@/components/input/input.vue';
 import Toolbar from '@/components/toolbar/toolbar.vue';
 import Select from '@/components/select/select.vue';
@@ -91,15 +91,15 @@ export default {
     },
     filterable: {
       type: Boolean,
-      default: false
+      default: true
     },
     sortable: {
       type: Boolean,
-      default: false
+      default: true
     },
     pageable: {
       type: Boolean,
-      default: false
+      default: true
     },
     headers: {
       type: Array,
@@ -227,6 +227,7 @@ export default {
     'vue-button': Button,
     'vue-card': Card,
     'vue-chips': Chips,
+    'vue-icon': Icon,
     'vue-input': Input,
     'vue-toolbar': Toolbar,
     'vue-select': Select,
