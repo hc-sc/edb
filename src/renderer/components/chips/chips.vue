@@ -176,7 +176,8 @@ export default {
       this.$nextTick(() => {
         this.getFocusableNodes('.chips-item, input:not([disabled])');
         if (!this.disabled) {
-          this.focus(this.focusable.length - 1);
+          // TODO: this causes focus on render
+          // this.focus(this.focusable.length - 1);
         }
       });
     }

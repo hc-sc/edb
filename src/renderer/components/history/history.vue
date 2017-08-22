@@ -1,23 +1,21 @@
 <template>
   <div>
-    <span @click='home'>
-      <i class='material-icons'>home</i>
-    </span>
-    <span @click='back'>
-      <i class='material-icons'>arrow_back</i>
-    </span>
-    <span @click='forward'>
-      <i class='material-icons'>arrow_forward</i>
-    </span>
+    <vue-icon id='home' :label='$t("home")' icon='home' @click.native='home'></vue-icon>
+    <vue-icon id='home' :label='$t("back")' icon='arrow_back' @click.native='back'></vue-icon>
+    <vue-icon id='home' :label='$t("forward")' icon='arrow_forward' @click.native='forward'></vue-icon>
   </div>
 </template>
 
 <script>
+import Icon from '@/components/icon/icon.vue';
 import {navigation} from '@/mixins/navigation';
 
 export default {
   name: 'History',
-  mixins: [navigation]
+  mixins: [navigation],
+  components: {
+    'vue-icon': Icon
+  }
 };
 </script>
 

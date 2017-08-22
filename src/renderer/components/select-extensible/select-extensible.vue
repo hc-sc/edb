@@ -2,9 +2,7 @@
   <div class='select-extensible'>
     <div class='f-container f-middle'>
       <vue-select @input='$emit("input", $event)' :value='value' class='flex' :id='id' :label='label' :options='options' :displayValue='displayValue' :matchValue='matchValue'></vue-select>
-      <span @click='toggleAdd'>
-        <i class='material-icons select-extensible-add' :class='{adding}'>add</i>
-      </span>
+      <vue-icon id='`${id}-add`' :label='$t("add")' icon='add' @click.native='toggleAdd'></vue-icon>
     </div>
     <div class='f-container f-middle' v-show='adding'>
       <slot name='add-fields'>
@@ -19,6 +17,7 @@
 
 <script>
 import Button from '@/components/button/button.vue';
+import Icon from '@/components/icon/icon.vue';
 import Input from '@/components/input/input.vue';
 import Select from '@/components/select/select.vue';
 
@@ -77,6 +76,7 @@ export default {
   },
   components: {
     'vue-button': Button,
+    'vue-icon': Icon,
     'vue-input': Input,
     'vue-select': Select
   }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>{{$t('title')}}</h1>
+    <h1 class='i-center'>{{$t('apptitle')}}</h1>
     <nav>
       <router-link to='/dossiers' class='app-nav'>
         {{$tc('manageDossier', 2)}}

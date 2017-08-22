@@ -2,15 +2,14 @@
   <div class='list-filter'>
     <div class='f-container f-cross-center filter'>
       <vue-input :id='`${id}-filter`' :label='label' v-model='searchTerm'></vue-input>
-      <span @click='searchTerm = ""'>
-        <i class='material-icons'>clear</i>
-      </span>
+      <vue-icon id='clear' :label='$t("clear")' icon='clear' @click.native='clearSearch'></vue-icon>
     </div>
     <vue-list :selectable='selectable' :items='filteredItems' :displayValue='displayValue' @select='$emit("select", $event)'></vue-list>
   </div>
 </template>
 
 <script>
+import Icon from '@/components/icon/icon.vue';
 import Input from '@/components/input/input.vue';
 import List from '@/components/list/list.vue';
 
@@ -57,7 +56,13 @@ export default {
       });
     }
   },
+  methods: {
+    clearSearch() {
+      this.searchTerm = '';
+    }
+  },
   components: {
+    'vue-icon': Icon,
     'vue-input': Input,
     'vue-list': List
   }
