@@ -16,7 +16,7 @@ module.exports = class FileService extends BaseService {
     this.pidField = 'filegeneric.filepid';
   }
 
-  edb_put(obj) {
+  edb_post(obj) {
     if (!obj._filereallocation) {
       return new Q((res, rej) => {
         rej(new RVHelper('EDB12018'));
@@ -27,7 +27,7 @@ module.exports = class FileService extends BaseService {
     }
   }
 
-  edb_post(obj) {
+  edb_put(obj) {
     if (!obj._filereallocation) {
       return new Q((res, rej) => {
         rej(new RVHelper('EDB12018'));

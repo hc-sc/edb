@@ -8,24 +8,24 @@ const BackendService = {
     return handleIPC(BACKENDCONST.APP_DATA_MSG_CHANNEL, 'get', {_url: url});
   },
 
-  getAppData: function (id) {
-    return handleIPC('get', { id });
+  getAppData: function (url, id) {
+    return handleIPC(BACKENDCONST.APP_DATA_MSG_CHANNEL, 'get', {_url: url, data: {_id: id }});
   },
 
-  deleteAppData: function (id) {
-    return handleIPC('delete', { id });
+  deleteAppData: function (url, id) {
+    return handleIPC(BACKENDCONST.APP_DATA_MSG_CHANNEL, 'delete', {_url: url, data: {_id: id }});
   },
 
-  createAppData: function (name) {
-    return handleIPC('create', { name });
+  createAppData: function (url, obj) {
+    return handleIPC(BACKENDCONST.APP_DATA_MSG_CHANNEL, 'post', { _url: url, data: obj });
   },
 
-  updateAppData: function (hero) {
-    return handleIPC('update', { hero });
+  updateAppData: function (url, obj) {
+    return handleIPC(BACKENDCONST.APP_DATA_MSG_CHANNEL, 'put', {_url: url, data: obj});
   },
 
-  searchAppData: function (term) {
-    return handleIPC('search', term);
+  searchAppData: function (url, term) {
+    return handleIPC(BACKENDCONST.APP_DATA_MSG_CHANNEL, 'get', {_url: url, data: term});
   },
 
   getGhstsAll: function () {
@@ -65,11 +65,11 @@ const BackendService = {
   },
 
   createPicklist: function (obj) {
-    return handleIPC(BACKENDCONST.PICKLIST_MSG_CHANNEL, 'put', obj);
+    return handleIPC(BACKENDCONST.PICKLIST_MSG_CHANNEL, 'post', obj);
   },
 
   updatePicklist: function (obj) {
-    return handleIPC(BACKENDCONST.PICKLIST_MSG_CHANNEL, 'post', obj);
+    return handleIPC(BACKENDCONST.PICKLIST_MSG_CHANNEL, 'put', obj);
   },
 
   searchPicklist: function (cont) {

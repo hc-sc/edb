@@ -17,7 +17,10 @@ const model = {
       return options.findIndex(o => {
         return o._id === value;
       });
-    }
+    },
+    displayPicklistItem(value) {
+      return value.valuedecode;
+    },
   }
 };
 

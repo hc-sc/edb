@@ -32,7 +32,7 @@
       </div>
     </vue-split-pane>
     <div class='bottom-float'>
-      <vue-button display='fab'>
+      <vue-button display='fab' @click.native='save()'>
         <i class='material-icons'>save</i>
       </vue-button>
       <vue-button display='fab'>
@@ -62,6 +62,7 @@ import Table from '@/components/table/table.vue';
 import {mapState, mapGetters} from 'vuex';
 import {model} from '@/mixins/model.js';
 import {cloneDeep} from 'lodash';
+import {BackendService} from '@/store/backend.service';
 
 export default {
   name: 'LegalEntities',
@@ -119,9 +120,6 @@ export default {
         this.$store.commit('app/updateModel', item);
       }
     },
-    displayPicklistItem(value) {
-      return value.valuedecode;
-    },
     displayCountry(value) {
       return `(${value.value}) - ${value.valuedecode}`;
     },
@@ -161,6 +159,13 @@ export default {
           }
         ]
       };
+    },
+    async save() {
+      console.log(this.model);
+      let saved = await BackendService.updateAppData('legalentity', this.model);
+      // await this.$store.dispatch('app/updateAppData', 'legalentity', this.model);
+      console.log('save change ');
+      console.log(saved);
     }
   },
   async created() {

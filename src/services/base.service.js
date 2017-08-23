@@ -28,7 +28,7 @@ module.exports = class BaseService {
     this.pidField = undefined;
   }
 
-  edb_put(obj) {
+  edb_post(obj) {
     return new Q((res, rej) => {
       let self = this, obj2db = _.merge({}, obj);
       self._removeEmptyRefFields(obj);
@@ -52,7 +52,7 @@ module.exports = class BaseService {
     });
   }
 
-  edb_post(obj) {
+  edb_put(obj) {
     let self = this;
     self._removeEmptyRefFields(obj);
     return self._update(obj);

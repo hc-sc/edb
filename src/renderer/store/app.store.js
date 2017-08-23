@@ -31,6 +31,10 @@ const app = {
     async getAppDataAll({commit}, payload) {
       commit('updateAppRecords', await BackendService.getAppDataAll(payload));
     },
+
+    async updateAppData({commit}, url, payload) {
+      commit('updateAppData', await BackendService.updateAppData(url, payload));
+    }
   }
 };
 
