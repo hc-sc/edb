@@ -32,7 +32,7 @@ module.exports = class DossierService extends BaseService {
     });
   }
 
-  edb_post(obj) {
+  edb_put(obj) {
     let dossierInDB = DossierService.edb_getSync({_id: obj._id})[0];
     if (dossierInDB._state === obj._state)
       return super.edb_post(obj);

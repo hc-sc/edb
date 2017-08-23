@@ -572,7 +572,7 @@ module.exports = class GhstsService extends BaseService {
   }
 
   ///Works for only one submission for now
-  _subUrlProcess4Put(obj) {
+  _subUrlProcess4Post(obj) {
     return new Q((res, rej) => {
       let self = this,
         svr = undefined;
@@ -723,7 +723,7 @@ module.exports = class GhstsService extends BaseService {
   }
 
   ///Works for only one submission for now
-  _subUrlProcess4Post(obj) {
+  _subUrlProcess4Put(obj) {
     return new Q((res, rej) => {
       let self = this,
         svr = undefined;
@@ -1087,7 +1087,7 @@ module.exports = class GhstsService extends BaseService {
     }
   }
 
-  edb_put(obj) {
+  edb_post(obj) {
     return new Q((res, rej) => {
       if (!obj) {
         rej(new RVHelper('EDB12017', obj));
@@ -1096,7 +1096,7 @@ module.exports = class GhstsService extends BaseService {
 
       let self = this;
       if (obj._subUrl)
-        res(self._subUrlProcess4Put(obj));
+        res(self._subUrlProcess4Post(obj));
       else {
         if (obj.dossiertitle || obj.dossierId) {
           let subObj, dossObj, prodObj, ghstsObj,
@@ -1235,14 +1235,14 @@ module.exports = class GhstsService extends BaseService {
     });
   }
 
-  edb_post(obj) {
+  edb_put(obj) {
     return new Q((res, rej) => {
       let self = this;
       if (!self.ghsts[0])
         self.ghsts[0] = _.merge({}, GhstsService.edb_getSync({_id: obj._id})[0]);
 
       if (obj._subUrl)
-        res(self._subUrlProcess4Post(obj));
+        res(self._subUrlProcess4Put(obj));
       else if (obj._state !== self.ghsts[0]._state) { //Change submission state
         let svr = new SubmissionService(self._version);
         let searObj = {_id: self.ghsts[0]._submissionid};
