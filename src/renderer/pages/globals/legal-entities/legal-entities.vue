@@ -62,7 +62,6 @@ import Table from '@/components/table/table.vue';
 import {mapState, mapGetters} from 'vuex';
 import {model} from '@/mixins/model.js';
 import {cloneDeep} from 'lodash';
-import {BackendService} from '@/store/backend.service';
 
 export default {
   name: 'LegalEntities',
@@ -161,11 +160,7 @@ export default {
       };
     },
     async save() {
-      console.log(this.model);
-      let saved = await BackendService.updateAppData('legalentity', this.model);
-      // await this.$store.dispatch('app/updateAppData', 'legalentity', this.model);
-      console.log('save change ');
-      console.log(saved);
+      await this.$store.dispatch('app/updateAppData', {url: 'legalentity', model: this.model});
     }
   },
   async created() {

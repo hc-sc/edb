@@ -23,17 +23,27 @@ const app = {
 
   actions: {
     async setProjectUrl({commit}, payload) {
-      // if (await BackendService.updateProjectUrl) {
       commit('updateProjectUrl', payload);
-      // }
     },
 
-    async getAppDataAll({commit}, payload) {
-      commit('updateAppRecords', await BackendService.getAppDataAll(payload));
+    async getAppDataAll({commit}, url) {
+      try {
+        let appData = await BackendService.getAppDataAll(url);
+        commit('updateAppRecords', appData);
+      }
+      catch(err) {
+        console.error('Could not fetch data');
+      }
     },
 
-    async updateAppData({commit}, url, payload) {
-      commit('updateAppData', await BackendService.updateAppData(url, payload));
+    async updateAppData({dispatch}, {url, model}) {
+      try {
+        await BackendService.updateAppData(url, model);
+        dispatch('getAppDataAll', url);
+      }
+      catch(err) {
+        console.error('Could not update data');
+      }
     }
   }
 };
