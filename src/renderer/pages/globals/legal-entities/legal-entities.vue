@@ -14,7 +14,7 @@
         <vue-input type='text' id='legalentityname' :label='$t("legalentityname")' required v-model='model.legalentityname'></vue-input>
         <vue-select-extensible id='legalentitytype' :label='$t("legalentitytype")' :value='model.legalentitytype' @input='model.legalentitytype = $event._id' :options='legalentitytype' :displayValue='displayPicklistItem' :matchValue='matchById'></vue-select-extensible>
          <vue-chips deletable unique id='othername' :label='$tc("othername", 2)' v-model='model.othername'></vue-chips>
-        <vue-table :title='$t("otheridentifiers")' id='other-identifiers'></vue-table>
+        <vue-table :title='$tc("legalentityidentifier", 2)' :items='model.legalentityidentifier' :headers='["identifier", "legalentityidentifiertype"]' id='legalentityidentifier' :displayHeader='displayTranslation' addable @select='showDialog("legalentityidentifier", model.legalentityidentifier[$event], $event)' @addItem='addItem("legalentityidentifier")'></vue-table>
         <vue-fieldset :legend='$t("address")'>
           <vue-input type='text' id='street1' :label='$t("street1")' v-model='model.contactaddress.street1'></vue-input>
           <vue-input type='text' id='street2' :label='$t("street2")' v-model='model.contactaddress.street2'></vue-input>
@@ -28,7 +28,7 @@
             <span slot='prefix'>http://</span>
           </vue-input>
         </vue-fieldset>
-        <vue-table :title='$tc("contact", 2)' :items='model.contactperson' id='contact' :headers='["lastname", "firstname", "title", "email"]' :displayHeader='displayTranslation' addable selectable pageable sortable @select='showDialog("contactperson", model.contactperson[$event], $event)' @addItem='addItem("contactperson")'></vue-table>
+        <vue-table :title='$tc("contact", 2)' :items='model.contactperson' id='contact' :headers='["lastname", "firstname", "title", "email"]' :displayHeader='displayTranslation' addable @select='showDialog("contactperson", model.contactperson[$event], $event)' @addItem='addItem("contactperson")'></vue-table>
       </div>
     </vue-split-pane>
     <div class='bottom-float'>
@@ -54,6 +54,7 @@ import Fieldset from '@/components/fieldset/fieldset.vue';
 import Input from '@/components/input/input.vue';
 import ListFilter from '@/components/list-filter/list-filter.vue';
 import Menu from '@/components/menu/menu.vue';
+import LegalEntityIdentifier from '@/pages/globals/legal-entities/legal-entity-identifier.vue';
 import Select from '@/components/select/select.vue';
 import SelectExtensible from '@/components/select-extensible/select-extensible.vue';
 import SplitPane from '@/components/split-pane/split-pane.vue';
@@ -68,7 +69,7 @@ export default {
   data() {
     return {
       model: {
-        ...getEmptyModel('legalentities')
+        ...this.getEmptyModel()
       }
     };
   },
@@ -91,14 +92,14 @@ export default {
   },
   methods: {
     addItem(ref) {
-      this.showDialog(ref, {});
+      this.showDialog(ref);
     },
     showDialog(ref, model, index) {
       const dialog = this.$refs['dialog'];
       const component = getComponent(ref);
       dialog.show({
         component,
-        model: cloneDeep(model)
+        model: model ? cloneDeep(model) : null
       })
       .then(result => {
         if (index != null) this.$set(this.model[ref], index, result);
@@ -126,43 +127,8 @@ export default {
     },
     displayTranslation(value) {
       return this.$t(value);
-    }
-  },
-  async created() {
-    await this.$store.dispatch('app/getAppDataAll', 'legalentity');
-    this.select(this.legalentities[0]);
-  },
-  components: {
-    'vue-button': Button,
-    'vue-chips': Chips,
-    'vue-contacts': Contacts,
-    'vue-dialog': Dialog,
-    'vue-fieldset': Fieldset,
-    'vue-input': Input,
-    'vue-list-filter': ListFilter,
-    'vue-menu': Menu,
-    'vue-select-extensible': SelectExtensible,
-    'vue-select': Select,
-    'vue-split-pane': SplitPane,
-    'vue-table': Table
-  }
-};
-
-function getComponent(ref) {
-  switch(ref) {
-    case 'contactperson':
-      return Contacts;
-  }
-}
-
-function getEmptyModel(type) {
-  switch(type) {
-    case 'otheridentifiers':
-      return {
-        identifier: '',
-        legalentityidenfiertype: {}
-      };
-    case 'legalentities':
+    },
+    getEmptyModel() {
       return {
         legalentitypid: '',
         legalentityname: '',
@@ -195,6 +161,34 @@ function getEmptyModel(type) {
           }
         ]
       };
+    }
+  },
+  async created() {
+    await this.$store.dispatch('app/getAppDataAll', 'legalentity');
+    this.select(this.legalentities[0]);
+  },
+  components: {
+    'vue-button': Button,
+    'vue-chips': Chips,
+    'vue-contacts': Contacts,
+    'vue-dialog': Dialog,
+    'vue-fieldset': Fieldset,
+    'vue-input': Input,
+    'vue-list-filter': ListFilter,
+    'vue-menu': Menu,
+    'vue-select-extensible': SelectExtensible,
+    'vue-select': Select,
+    'vue-split-pane': SplitPane,
+    'vue-table': Table
+  }
+};
+
+function getComponent(ref) {
+  switch(ref) {
+    case 'contactperson':
+      return Contacts;
+    case 'legalentityidentifier':
+      return LegalEntityIdentifier;
   }
 }
 </script>

@@ -62,7 +62,7 @@ import Input from '@/components/input/input.vue';
 import Toolbar from '@/components/toolbar/toolbar.vue';
 import Select from '@/components/select/select.vue';
 import Progress from '@/components/progress/progress.vue';
-import {debounce} from 'lodash';
+import {debounce, isEqual} from 'lodash';
 
 export default {
   name: 'Table',
@@ -87,7 +87,7 @@ export default {
     },
     selectable: {
       type: Boolean,
-      default: false
+      default: true
     },
     filterable: {
       type: Boolean,
@@ -170,11 +170,16 @@ export default {
         .sort((a, b) => {
           let comp;
           let x = a[this.sortBy], y = b[this.sortBy];
-          if (!Number.isNaN(Number(x)) && !Number.isNaN(Number(y))) {
-            comp = x - y;
+          if (typeof x === 'object' || typeof y === 'object') {
+            comp = isEqual(a, b);
           }
           else {
-            comp = x.localeCompare(y);
+            if (!Number.isNaN(Number(x)) && !Number.isNaN(Number(y))) {
+              comp = x - y;
+            }
+            else {
+              comp = x.localeCompare(y);
+            }
           }
           return this.desc ? -comp : comp;
         });

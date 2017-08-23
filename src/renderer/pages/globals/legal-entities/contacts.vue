@@ -21,27 +21,28 @@ export default {
   data() {
     return {
       model: {
-        ...getEmptyModal()
+        ...this.getEmptyModel()
       }
     };
+  },
+  methods: {
+    getEmptyModel() {
+      return {
+        title: '',
+        firstname: '',
+        lastname: '',
+        phone: '',
+        email: '',
+        mobile: '',
+        fax: '',
+        organization: '',
+        department: ''
+      };
+    }
   },
   components: {
     'vue-dialog': Dialog,
     'vue-input': Input
   }
 };
-
-function getEmptyModal() {
-  return {
-    title: '',
-    firstname: '',
-    lastname: '',
-    phone: '',
-    email: '',
-    mobile: '',
-    fax: '',
-    organization: '',
-    department: ''
-  };
-}
 </script>
