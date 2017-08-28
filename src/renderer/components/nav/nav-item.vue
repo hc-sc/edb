@@ -1,6 +1,6 @@
 <template>
   <li class='nav-item'>
-    <router-link :id='nav.id || nav.label' :to='nav.path'>
+    <router-link :id='nav.id || nav.label' :to='nav.path' @click.native='navigate'>
       {{nav.label}}
       <span v-if='nav.children'>▼</span>
     </router-link>
@@ -11,8 +11,11 @@
 </template>
 
 <script>
+import {history} from '@/mixins/history.js';
+
 export default {
   name: 'NavItem',
+  mixins: [history],
   props: {
     id: {
       type: String,

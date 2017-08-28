@@ -4,7 +4,7 @@
       <vue-input :id='`${id}-filter`' :label='label' v-model='searchTerm'></vue-input>
       <vue-icon id='clear' :label='$t("clear")' icon='clear' @click.native='clearSearch'></vue-icon>
     </div>
-    <vue-list :selectable='selectable' :items='filteredItems' :displayValue='displayValue' @select='$emit("select", $event)'></vue-list>
+    <vue-list :selectable='selectable' :items='sortedItems' :displayValue='displayValue' @select='$emit("select", $event)'></vue-list>
   </div>
 </template>
 
@@ -12,6 +12,7 @@
 import Icon from '@/components/icon/icon.vue';
 import Input from '@/components/input/input.vue';
 import List from '@/components/list/list.vue';
+import {sortByLocale} from '@/services/utils.service.js';
 
 export default {
   name: 'ListFilter',
@@ -32,17 +33,24 @@ export default {
     onSelect: {
       type: Function,
       default(value) {
-        console.log(this);
         if (this.selectable) this.$emit('select', value);
       }
     },
     displayValue: {
       type: Function
+    },
+    sortable: {
+      type: Boolean,
+      default: true
+    },
+    sortByArgs: {
+      type: String | Array | Function
     }
   },
   data() {
     return {
-      searchTerm: ''
+      searchTerm: '',
+      desc: false
     };
   },
   computed: {
@@ -54,6 +62,10 @@ export default {
         });
         return match;
       });
+    },
+    sortedItems() {
+      if (this.sortable) return sortByLocale(this.filteredItems.slice(), this.desc, this.sortByArgs);
+      else return this.filteredItems;
     }
   },
   methods: {

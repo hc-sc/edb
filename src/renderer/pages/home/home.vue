@@ -2,16 +2,16 @@
   <div>
     <h1 class='i-center'>{{$t('apptitle')}}</h1>
     <nav>
-      <router-link to='/dossiers' class='app-nav'>
+      <router-link to='/dossiers' class='app-nav' @click.native='navigate'>
         {{$tc('manageDossier', 2)}}
       </router-link>
-      <router-link to='/globals' class='app-nav'>
+      <router-link to='/globals' class='app-nav' @click.native='navigate'>
         {{$t('manageApplication')}}
       </router-link>
-      <router-link to='/settings' class='app-nav'>
+      <router-link to='/settings' class='app-nav' @click.native='navigate'>
         {{$tc('setting', 2)}}
       </router-link>
-      <router-link to='/help' class='app-nav'>
+      <router-link to='/help' class='app-nav' @click.native='navigate'>
         {{$t('help')}}
       </router-link>
     </nav>
@@ -19,8 +19,11 @@
 </template>
 
 <script>
+import {history} from '@/mixins/history.js';
+
 export default {
-  name: 'Home'
+  name: 'Home',
+  mixins: [history]
 };
 </script>
 

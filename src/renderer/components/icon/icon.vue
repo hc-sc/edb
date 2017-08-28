@@ -1,6 +1,6 @@
 <template>
-  <vue-tooltip class='icon-wrapper' :id='id' :label='label'>
-    <button type='button'>
+  <vue-tooltip class='icon' :id='id' :label='label'>
+    <button type='button' :disabled='disabled'>
       <slot>
         <i class='material-icons' :class='classes'>{{icon}}</i>
       </slot>
@@ -28,6 +28,9 @@ export default {
     },
     icon: {
       type: String
+    },
+    disabled: {
+      type: Boolean
     }
   },
   components: {
@@ -38,15 +41,21 @@ export default {
 </script>
 
 <style>
-.icon-wrapper {
+@import '../../assets/css/colors.css';
+.icon {
   position:relative;
 }
 
-.icon-wrapper > button {
+.icon > button {
   background-color: transparent;
   outline: none;
   border: none;
   color: inherit;
   cursor: pointer;
+}
+
+.icon [disabled] {
+  color: var(--disabled-text);
+  cursor: not-allowed;
 }
 </style>

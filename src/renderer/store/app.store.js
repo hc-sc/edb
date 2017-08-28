@@ -6,7 +6,11 @@ const app = {
   state: {
     appRecords: [],
     currentRecord: {},
-    projectUrl: ''
+    projectUrl: '',
+
+    // used for knowing whether you can navigate back/forwards
+    numStates: 1,
+    currState: 1
   },
 
   mutations: {
@@ -18,6 +22,18 @@ const app = {
     },
     updateProjectUrl(state, payload) {
       state.projectUrl = payload;
+    },
+    updateNumStates(state, numStates) {
+      state.numStates = numStates;
+    },
+    increaseCurrState(state) {
+      if (state.numStates === state.currState) {
+        ++state.numStates;
+      }
+      ++state.currState;
+    },
+    decreaseCurrState(state) {
+      if (state.currState > 0) --state.currState;
     }
   },
 

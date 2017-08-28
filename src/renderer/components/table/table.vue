@@ -62,7 +62,8 @@ import Input from '@/components/input/input.vue';
 import Toolbar from '@/components/toolbar/toolbar.vue';
 import Select from '@/components/select/select.vue';
 import Progress from '@/components/progress/progress.vue';
-import {debounce, isEqual} from 'lodash';
+import {debounce} from 'lodash';
+import {sortByLocale} from '@/services/utils.service.js';
 
 export default {
   name: 'Table',
@@ -158,7 +159,7 @@ export default {
         );
       }
       else {
-        return this.items.filter((item) => {
+        return sortByLocale(this.items.filter((item) => {
           let match = true;
           this.filters.filter(f => {
             return match && (match = (
@@ -166,23 +167,9 @@ export default {
             ));
           });
           return match;
-        })
-        .sort((a, b) => {
-          let comp;
-          let x = a[this.sortBy], y = b[this.sortBy];
-          if (typeof x === 'object' || typeof y === 'object') {
-            comp = isEqual(a, b);
-          }
-          else {
-            if (!Number.isNaN(Number(x)) && !Number.isNaN(Number(y))) {
-              comp = x - y;
-            }
-            else {
-              comp = x.localeCompare(y);
-            }
-          }
-          return this.desc ? -comp : comp;
-        });
+        }),
+        this.desc,
+        this.sortBy);
       }
     },
     rows() {

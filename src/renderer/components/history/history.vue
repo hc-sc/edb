@@ -1,8 +1,8 @@
 <template>
   <div>
     <vue-icon id='home' :label='$t("home")' icon='home' @click.native='home'></vue-icon>
-    <vue-icon id='home' :label='$t("back")' icon='arrow_back' @click.native='back'></vue-icon>
-    <vue-icon id='home' :label='$t("forward")' icon='arrow_forward' @click.native='forward'></vue-icon>
+    <vue-icon id='home' :label='$t("back")' icon='arrow_back' @click.native='back' :disabled='backDisabled()'></vue-icon>
+    <vue-icon id='home' :label='$t("forward")' icon='arrow_forward' @click.native='forward' :disabled='forwardDisabled()'></vue-icon>
   </div>
 </template>
 

@@ -5,7 +5,7 @@
       <button type='button' class='select-button' aria-haspopup='true' :aria-expanded='expanded' @click='toggle' @keydown='handleButtonEvent'>
         {{selectedValue}}
         <span class='error-text' v-if='required'>(required)</span>
-        <span class='a-right' aria-hidden>⯆</span>
+        <span class='a-right' aria-hidden>▼</span>
       </button>
       <ul class='select-list' ref='trap' role='listbox' @keydown.esc.capture='close()' @keydown.tab='close()' :aria-activedescendant='getActiveDescendant()'>
         <li role='option' disabled>{{label}}</li>
