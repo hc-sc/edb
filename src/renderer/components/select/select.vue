@@ -3,7 +3,8 @@
     <div :id='id' class='select-dropdown' role='listbox' :aria-controls='id'>
       <input type='text' v-model='searchValue' hidden>
       <button type='button' class='select-button' aria-haspopup='true' :aria-expanded='expanded' @click='toggle' @keydown='handleButtonEvent'>
-        {{selectedValue}}
+        <span :class='{selected: selectedValue}'>{{label}}</span>
+        <span v-if='selectedValue'>{{selectedValue}}</span>
         <span class='error-text' v-if='required'>(required)</span>
         <span class='a-right' aria-hidden>▼</span>
       </button>
@@ -97,8 +98,7 @@ export default {
     },
     selectedValue() {
       let val = '';
-      if (this.selected == null) val = this.label;
-      else {
+      if (this.selected != null) {
         let matchIndex = this.matchValue(this.options, this.value);
         if (matchIndex >= 0) val = this.displayValue(this.options[matchIndex]);
       }
@@ -295,6 +295,17 @@ export default {
 
 .select-button > span {
   padding-bottom: 2px;
+}
+
+.select-button > span.selected {
+  cursor: text;
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 1rem;
+  transform: scale(0.7) translate3d(0, -2rem, 0);
+  transform-origin: left;
+  transition: .2s var(--linear-out-slow-in);
 }
 
 .select-dropdown {
