@@ -10,7 +10,7 @@ The table component acts as either a client side table, where rows are given as 
       {{title}}
       <span slot='right'>
         <vue-icon id='`${id}-filter`' :label='$t("filter")' v-if='filterable' icon='filter_list' @click.native='addFilter'></vue-icon>
-        <vue-icon id='`${id}-add`' :label='$t("add")' v-if='addable' icon='add' @click.native='addItem'></vue-icon>
+        <vue-icon id='`${id}-add`' :label='$t("add")' v-if='addable' icon='add' @click.native='addItem' position='left'></vue-icon>
       </span>
     </vue-toolbar>
     <div class='table-filter'>
@@ -18,7 +18,7 @@ The table component acts as either a client side table, where rows are given as 
         <vue-select :id='`${id}-filter-select-${index}`' :label='$tc("title")' :options='["any", ...headers]' :displayValue='displayHeader' v-model='filters[index].prop'></vue-select>
         <span class='f-gap'></span>
         <vue-input type='text' :id='`${id}-filter-text-${index}`' :label='$tc("filter")' v-model='filters[index].value'></vue-input>
-        <vue-icon id='`${id}-filter-clear-${index}`' :label='$t("clear")' icon='clear' @click.native='deleteFilter(index)'></vue-icon>
+        <vue-icon id='`${id}-filter-clear-${index}`' :label='$t("clear")' icon='clear' @click.native='deleteFilter(index)' position='left'></vue-icon>
       </div>
     </div>
     <div class='table-wrapper'>

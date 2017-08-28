@@ -1,7 +1,7 @@
 <template>
   <span class='tooltip-wrapper'>
     <slot class='tooltip' :aria-labelledby='`${id}-tooltip-label`'></slot>
-    <div role='tooltip' :id='`${id}-tooltip-label`'>{{label}}</div>
+    <div role='tooltip' :id='`${id}-tooltip-label`' :class='[position]'>{{label}}</div>
   </span>
 </template>
 
@@ -16,6 +16,13 @@ export default {
     label: {
       type: String,
       required: true
+    },
+    position: {
+      type: String,
+      default: 'bottom',
+      validator(value) {
+        return ['top', 'right', 'bottom', 'left'].includes(value);
+      }
     }
   }
 };
@@ -43,7 +50,22 @@ export default {
   line-height: normal;
   transition: var(--out);
   text-align: center;
-  margin-bottom: -5px;
+}
+
+[role=tooltip].left {
+  left: -100%;
+}
+
+[role=tooltip].right {
+  right: -100%;
+}
+
+[role=tooltip].top {
+  top: -100%;
+}
+
+[role=tooltip].bottom {
+  bottom: -50%;
 }
 
 button:hover + [role=tooltip],

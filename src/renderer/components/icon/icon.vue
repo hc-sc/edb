@@ -1,5 +1,5 @@
 <template>
-  <vue-tooltip class='icon' :id='id' :label='label'>
+  <vue-tooltip class='icon' :id='id' :label='label' :position='position'>
     <button type='button' :disabled='disabled'>
       <slot>
         <i class='material-icons' :class='classes'>{{icon}}</i>
@@ -27,6 +27,9 @@ export default {
       type: String
     },
     icon: {
+      type: String
+    },
+    position: {
       type: String
     },
     disabled: {

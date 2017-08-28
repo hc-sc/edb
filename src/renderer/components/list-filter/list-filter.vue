@@ -2,7 +2,7 @@
   <div class='list-filter'>
     <div class='f-container f-cross-center filter'>
       <vue-input :id='`${id}-filter`' :label='label' v-model='searchTerm'></vue-input>
-      <vue-icon id='clear' :label='$t("clear")' icon='clear' @click.native='clearSearch'></vue-icon>
+      <vue-icon id='clear' :label='$t("clear")' icon='clear' @click.native='clearSearch' position='left'></vue-icon>
     </div>
     <vue-list :selectable='selectable' :items='sortedItems' :displayValue='displayValue' @select='$emit("select", $event)'></vue-list>
   </div>
