@@ -22,7 +22,7 @@
       </template>
 
       <template v-else-if='type === "number"'>
-        <input type='number' :id='id' :name='compName' class='input-field' v-model.number='value' :class='{empty}' :min='min' :max='max'>
+        <input type='number' :id='id' :name='compName' class='input-field' @input='updateValue($event.target.value)' :value='value' :class='{empty}' :min='min' :max='max'>
         <label :for='id'>{{label}}</label>
         <div class='input-info' v-if='showErrors'>
           <p class='error-text' v-if='required && touched && this.value.length === 0'>Required</p>
@@ -33,7 +33,7 @@
       <template v-else-if='type === "range"'>
         <div class='input-range'>
           <div class='input-range-group'>
-            <input type='range' :id='id' :name='compName' class='input-field' v-model='value' :min='min || 0' :max='max || 100' :required='required' :disabled='disabled'>
+            <input type='range' :id='id' :name='compName' class='input-field' @input='updateValue($event.target.value)' :value='value' :min='min || 0' :max='max || 100' :required='required' :disabled='disabled'>
             <label :for='id'>{{label}}</label>
             <div class='input-info'>
               <small class='input-info-left'>{{min || 0}}</small>
@@ -41,23 +41,24 @@
             </div>
           </div>
           <div class='input-range-value'>
-            {{value}}
+            {{value || '-'}}
           </div>
         </div>
       </template>
 
       <template v-else-if='type === "checkbox"'>
-        <input type='checkbox' :id='id' :name='compName' :value='id' v-model='value' :required='required' :disabled='disabled'>
+        <input type='checkbox' :id='id' :name='compName' @change='updateValue(!value)' :value='value' :required='required' :disabled='disabled'>
         <label :for='id'>{{label}}</label>
       </template>
 
       <template v-else-if='type === "radio"'>
-        <input type='radio' :id='id' :name='compName' :value='id' v-model='value' :required='required' :disabled='disabled'>
+        <input type='radio' :id='id' :name='compName' @change='updateValue(id)' :value='id' :required='required' :disabled='disabled'>
+        <div class='radio-button'></div>
         <label :for='id'>{{label}}</label>
       </template>
 
       <template v-else-if='type === "date"'>
-        <input type='date' :id='id' :name='compName' class='input-field' v-model='value' :min='toDate(Date.now())' :max='toDate(max)' :required='required' :disabled='disabled'>
+        <input type='date' :id='id' :name='compName' class='input-field' @input='updateValue($event.target.value)' :value='value' :min='toDate(Date.now())' :max='toDate(max)' :required='required' :disabled='disabled'>
         <label :for='id'>{{label}}</label>
       </template>
     </div>
@@ -110,7 +111,7 @@ export default {
       default: true
     },
     value: {
-      type: String,
+      type: String | Boolean | Number | Boolean,
       default: ''
     },
     cb: {
@@ -194,9 +195,6 @@ export default {
   padding: 1.2rem 0 1rem 0;
   width: 100%;
   white-space: nowrap;
-  overflow: hidden;
-  transform: translateZ(0);
-  filter: blur(0);
   text-overflow: ellipsis;
 }
 
@@ -323,14 +321,19 @@ input[type=date] + label {
   border: none;
 }
 
-.input-group [type=checkbox] + label, .input-group [type=radio] + label {
+.input-group [type=checkbox] ~ label, .input-group [type=radio] ~ label {
   font-size: 1rem;
   position: relative;
   padding-left: 35px;
   cursor: pointer;
 }
 
-.input-group [type=radio] + label::before {
+.input-group [type=checkbox][disabled] ~ label, .input-group [type=radio][disabled] ~ label {
+  cursor: not-allowed;
+  color: var(--disabled-text);
+}
+
+.input-group [type=radio] ~ label::before {
   content: '';
   position: absolute;
   top: 0;
@@ -342,7 +345,7 @@ input[type=date] + label {
   border-radius: 50%;
 }
 
-.input-group [type=radio] + label::after {
+.input-group [type=radio] ~ label::after {
   content: '';
   position: absolute;
   top: 0;
@@ -357,23 +360,33 @@ input[type=date] + label {
   transition: .2s ease;
 }
 
-.input-group [type=radio]:checked + label::before {
+.input-group [type=radio]:checked ~ label::before {
   border-color: var(--primary-color);
 }
 
-.input-group [type=radio]:checked + label::after {
+.input-group [type=radio]:checked ~ label::after {
   border-color: var(--primary-color);
   background-color: var(--primary-color);
   transform: scale(0.8);
   transition: .2s ease;
 }
 
+.input-group [type=radio]:focus ~ .radio-button {
+  position: absolute;
+  border-radius: 50%;
+  top: 6px;
+  left: -14px;
+  width: 48px;
+  height: 48px;
+  background-color: rgba(0, 0, 0, 0.12);
+}
 
+/* The box */
 .input-group [type=checkbox] + label::before {
   content: '';
   position: absolute;
   top: 0;
-  left: 0;
+  left: 6px;
   margin: 0;
   width: 16px;
   height: 16px;
@@ -381,30 +394,38 @@ input[type=date] + label {
   transition: .2s ease;
 }
 
+.input-group [type=checkbox]:checked + label::before {
+  width: 8px;
+  border: none;
+  border-right: 2px solid var(--primary-color);
+  border-bottom: 2px solid var(--primary-color);
+  transform: rotate(40deg) translate(-2px, 1px);
+  transform-origin: bottom right;
+  transition: .2s ease;
+}
+
+/* The outline */
 .input-group [type=checkbox] + label::after {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 8px;
-  height: 16px;
-  margin-left: 5px;
-  border-right: 2px solid var(--primary-color);
-  border-bottom: 2px solid var(--primary-color);
+  top: -14px;
+  left: -8px;
+  width: 48px;
+  height: 48px;
+  margin: 0;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, .12);
   opacity: 0;
+  transform: scale(0);
+  transition: var(--toggle);
 }
 
-.input-group [type=checkbox]:checked + label::before {
-  transform: rotate(40deg);
-  transition: .2s ease;
-  opacity: 0;
-}
-
-.input-group [type=checkbox]:checked + label::after {
-  transform: rotate(40deg);
-  transition: .2s ease;
+.input-group [type=checkbox]:focus + label::after {
   opacity: 1;
+  transform: scale(1);
+  transition: var(--toggle);
 }
+
 
 /* Ranges, modified from http://danielstern.ca/range.css/#/ */
 
@@ -455,12 +476,13 @@ input[type=date] + label {
   transition: .2s var(--fast-out-linear-in);
 }
 
-.input-group:hover [type=range]::-webkit-slider-runnable-track {
+.input-group:hover [type=range]::-webkit-slider-runnable-track, .input-group [type=range]:focus::-webkit-slider-runnable-track {
   background-color: var(--primary-color);
   transition: .2s var(--linear-out-slow-in);
 }
 
 .input-group [type=range]::-webkit-slider-thumb {
+  box-sizing: content-box;
   box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.3);
   height: 14px;
   width: 14px;

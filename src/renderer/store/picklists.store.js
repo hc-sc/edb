@@ -8,13 +8,13 @@ const picklists = {
   },
 
   getters: {
-    adminnumber(state) {return state.picklists.filter(p => p.TYPE_NAME === 'EXTENSION_TYPE_ADMIN_NUMBER');},
+    adminnumbertype(state) {return state.picklists.filter(p => p.TYPE_NAME === 'EXTENSION_TYPE_ADMIN_NUMBER_TYPE');},
 
     applicationtype(state) {return state.picklists.filter(p => p.TYPE_NAME === 'EXTENSION_TYPE_APPLICATION_TYPE');},
 
     country(state) {return state.picklists.filter(p => p.TYPE_NAME === 'EXTENSION_TYPE_COUNTRY');},
 
-    dataprotuction(state) {return state.picklists.filter(p => p.TYPE_NAME === 'TYPE_DATA_PROTECTION');},
+    dataprotection(state) {return state.picklists.filter(p => p.TYPE_NAME === 'TYPE_DATA_PROTECTION');},
 
     datarequirement(state) {return state.picklists.filter(p => p.TYPE_NAME === 'TYPE_DATA_REQUIREMENT');},
 
@@ -43,17 +43,49 @@ const picklists = {
     tocowner(state) {return state.picklists.filter(p => p.TYPE_NAME === 'EXTENSION_TYPE_TOC_OWNER');},
 
     unit(state) {return state.picklists.filter(p => p.TYPE_NAME === 'EXTENSION_TYPE_UNIT');},
+
+    all(state, getters) {return [
+      getters.adminnumbertype,
+      getters.applicationtype,
+      getters.country,
+      getters.dataprotection,
+      getters.datarequirement,
+      getters.documentnumbertype,
+      getters.filetype,
+      getters.formulationtype,
+      getters.legalentityidentifiertype,
+      getters.legalentitytype,
+      getters.metadatastatus,
+      getters.radocumentnumbertype,
+      getters.referencetype,
+      getters.regulatorytype,
+      getters.substanceidentifiertype,
+      getters.tocowner,
+      getters.unit
+    ];}
   },
 
   mutations: {
     updatePicklists(state, payload) {
       state.picklists = payload;
+    },
+    updatePicklistItem(state, {id, item}) {
+      console.log(arguments);
+      const index = state.picklists.findIndex(picklist => {
+        return picklist._id === id;
+      });
+
+      state.picklists[index] = item;
     }
   },
 
   actions: {
     async getPicklists({commit}) {
       commit('updatePicklists', await BackendService.getPicklists());
+    },
+
+    async updatePicklistItem({commit}, payload) {
+      commit('updatePicklistItem', payload);
     }
   }
 };

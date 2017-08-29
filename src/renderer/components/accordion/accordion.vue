@@ -14,15 +14,15 @@ Presents multiple panels of content. If no JS is present, the content panels def
 <template>
   <ul class='accordion' :id='id'>
     <slot name='accordion-items'>
-      <li class='accordion-item' v-for='(item, index) of items' :key='item.title' :aria-expanded='expanded[index]'>
+      <li class='accordion-item' v-for='(item, index) of items' :key='index' :aria-expanded='expanded[index]'>
         <div class='accordion-item-title'  @click='toggle(index)'>
           <slot name='accordion-item-title'>
-            {{item.title}}
+            {{item[titleProp]}}
           </slot>
         </div>
-        <div class='accordion-item-content' :id='id + "-" + index'>
-          <slot name='accirdion-item-content'>
-            <span>{{item.content}}</span>
+        <div class='accordion-item-content' :id='`${id}-${index}`'>
+          <slot name='accordion-item-content'>
+            <span>{{item[contentProp]}}</span>
           </slot>
         </div>
       </li>
@@ -39,11 +39,20 @@ export default {
       required: true
     },
     items: {
-      type: Array
+      type: Array,
+      default: () => []
     },
     autocollapse: {
       type: Boolean,
       default: true
+    },
+    titleProp: {
+      type: String,
+      default: 'title'
+    },
+    contentProp: {
+      type: String,
+      default: 'content'
     }
   },
   data() {

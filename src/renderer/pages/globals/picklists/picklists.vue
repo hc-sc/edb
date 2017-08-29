@@ -1,92 +1,68 @@
 <template>
-  <div>
+  <main style='overflow-y: auto'>
     <h2>Picklists</h2>
-    <div class='accordion'>
-      <div v-for='(picklist, index) in picklists' class='accordion-group' :aria-expanded='expanded[index]'>
-        <div class='accordion-group-title' @click='toggle(index)'>
-          {{$t(picklist.name)}}
+    <vue-accordion id='picklists'>
+      <li slot='accordion-items' v-for='(picklist, index) of picklists' :key='index' :aria-expanded='expanded[index]'>
+        <div class='accordion-item-title' @click='toggle(index)'>
+          {{picklist.title}}
         </div>
-        <div class='accordion-group-content'>
-          <ul class='picklist-items'>
-            <li v-for='item of picklist.values'>
-              <p>{{item.value}}</p>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
+        <ul class='accordion-item-content'>
+          <li v-for='(item, itemIndex) of picklist.content' :key='itemIndex'>
+            <vue-input type='checkbox' :id='`${picklist.title}-${itemIndex}`' :label='item.valuedecode' @input='updatePicklist($event, item)' :value='item.status === "enabled" ? true : false'></vue-input>
+          </li>
+        </ul>
+      </li>
+    </vue-accordion>
+  </main>
 </template>
 
 <script>
-import {mapState} from 'vuex';
+import Accordion from '@/components/accordion/accordion.vue';
+import Input from '@/components/input/input.vue';
+import {mapGetters} from 'vuex';
 
 export default {
   name: 'Picklists',
-  data: function() {
-    return {
-      expanded: [],
-      autoCollapse: true
-    };
-  },
   computed: {
-    ...mapState(['picklists'])
+    ...mapGetters('picklists', ['all']),
+    picklists() {
+      return this.all == null || !Array.isArray(this.all) ?
+        [] : this.all.map(picklist => {
+          return {
+            title: picklist[0] ? this.$t(picklist[0].TYPE_NAME) : 'undefined',
+            content: picklist
+          };
+        });
+    },
+    expanded() {
+      return this.picklists.map(() => false);
+    }
   },
   methods: {
     toggle(index) {
-      if (this.autoCollapse) {
-        this.expanded = this.expanded.map((item, mapIndex) => {
-          return (index === mapIndex) ? item : false;
-        });
-      }
-
-      // this only works because VueJS augments splice to have reactive watchers
-      this.expanded.splice(index, 1, !this.expanded[index]);
+      this.expanded = this.expanded.map((item, itemIndex) => {
+        return index === itemIndex ?
+          !item : this.autocollapse ?
+            false : item;
+      });
+    },
+    updatePicklist(event, item) {
+      this.$store.dispatch('picklists/updatePicklistItem', {
+        id: item._id,
+        item: Object.assign({}, item, {status: event ? 'disabled' : 'enabled'})
+      });
     }
+  },
+  components: {
+    'vue-accordion': Accordion,
+    'vue-input': Input
   }
 };
 </script>
 
-<style scoped>
-.picklist-items {
+<style>
+#picklists .accordion-item-content > li {
+  margin-left: 2rem;
   list-style: none;
-}
-
-.accordion {
-  border-radius: 2px;
-  overflow: hidden;
-  box-shadow: var(--depth-1);
-}
-
-.accordion-group:not(:first-child) {
-  border-top: 1px solid lightgray;
-}
-
-.accordion-group-title {
-  cursor: pointer;
-  min-height: 3rem;
-  line-height: 3rem;
-  padding: 0 1rem;
-}
-
-.accordion-group-content {
-  background-color: var(--divider);
-  font-size: .85rem;
-  padding: 0;
-  height: 0;
-  overflow: hidden;
-  display: block;
-}
-
-.accordion-group .accordion-group-content {
-  border-top: 1px solid lightgray;
-}
-
-.accordion .accordion-group-content {
-  transition: none;
-}
-
-.accordion-group[aria-expanded=true] .accordion-group-content {
-  height: auto;
 }
 </style>
