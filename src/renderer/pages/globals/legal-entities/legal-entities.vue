@@ -32,15 +32,10 @@
       </div>
     </vue-split-pane>
     <div class='bottom-float'>
-      <vue-button display='fab' @click.native='save()'>
-        <i class='material-icons'>save</i>
-      </vue-button>
-      <vue-button display='fab'>
-        <i class='material-icons'>add</i>
-      </vue-button>
-      <vue-button display='fab' @click.native='revert'>
-        <i class='material-icons'>undo</i>
-      </vue-button>
+      <vue-icon fab @click.native='save()' id='save' :label='$t("save")' icon='save' position='top'></vue-icon>
+      <vue-icon fab id='add' :label='$t("add")' icon='add' position='top'></vue-icon>
+      <vue-icon fab @click.native='revert' id='undo' :label='$t("revert")' icon='undo' position='top'>
+      </vue-icon>
     </div>
   </main>
 </template>
@@ -51,6 +46,7 @@ import Chips from '@/components/chips/chips.vue';
 import Contacts from '@/pages/globals/legal-entities/contacts.vue';
 import Dialog from '@/components/dialog/dialog.vue';
 import Fieldset from '@/components/fieldset/fieldset.vue';
+import Icon from '@/components/icon/icon.vue';
 import Input from '@/components/input/input.vue';
 import ListFilter from '@/components/list-filter/list-filter.vue';
 import Menu from '@/components/menu/menu.vue';
@@ -173,6 +169,7 @@ export default {
     'vue-contacts': Contacts,
     'vue-dialog': Dialog,
     'vue-fieldset': Fieldset,
+    'vue-icon': Icon,
     'vue-input': Input,
     'vue-list-filter': ListFilter,
     'vue-menu': Menu,

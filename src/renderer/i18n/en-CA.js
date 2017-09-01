@@ -56,6 +56,8 @@ export default {
   picklist: 'Picklist | Picklists',
   product: 'Product | Products',
   receiver: 'Receiver | Receivers',
+  revert: 'Revert',
+  save: 'Save',
   search: 'Search',
   sender: 'Sender | Senders',
   setting: 'Setting | Settings',

@@ -73,23 +73,6 @@ export default {
   border: 2px solid transparent;
 }
 
-.btn.fab {
-  box-shadow: var(--depth-3);
-  border-radius: 100%;
-  height: 44px;
-  width: 44px;
-  transition: var(--out);
-}
-
-.btn.fab:active {
-  box-shadow: var(--depth-4);
-  transition: var(--in);
-}
-
-.btn > i {
-  transform: translate(-25%, 25%);
-}
-
 .btn.flat, .btn.raised {
   border-radius: 3px;
 }
@@ -135,7 +118,7 @@ export default {
   color: var(--disabled-text);
 }
 
-.btn.raised[disabled], .btn.fab[disabled] {
+.btn.raised[disabled] {
   box-shadow: none;
   background-color: var(--disabled-color);
   color: var(--disabled-text);
