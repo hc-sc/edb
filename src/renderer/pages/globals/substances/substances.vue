@@ -1,66 +1,71 @@
 <template>
+  <main>
+    <vue-progress v-if='loading'></vue-progress>
+    <template v-else>
+    <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
     <vue-split-pane>
-      <div slot='left-pane'>
-        hello
+      <div slot='split-pane-1'>
+        <vue-list-filter id='master-search' selectable @select='select' :items='substances' :displayValue='se => se.substancename' :label='$t("search")' sortByArgs='substancename'></vue-list-filter>
       </div>
-      <div slot='right-pane'>
-        <h2>{{$tc('substance', 2)}}</h2>
-        <vue-input prefix type='text' id='generatePID' name='generatePID' :label='$t("substancepid")' required>
-          <vue-button color='primary'>{{$t('generatepid')}}</vue-button>
-        </vue-input>
-        <vue-input type='text' id='substancename' name='substancename' :label='$t("substancename")'></vue-input>
-
-        <vue-table :title='$t("otheridentifiers")' searchable pageable>
-          <span slot='actions'>
-            <span>+</span>
-          </span>
-          <tr slot='headers'>
-            <th class='icon-cell'></th>
-            <th v-for='header of headers'>{{header}}</th>
-          </tr>
-          <tr slot='rows' v-for='row of rows'>
-            <td class='icon-cell' @click='deleteRow(row)'>🗑</td>
-            <td v-for='header of headers'>{{row[header]}}</td>
-          </tr>
-        </vue-table>
+       <div slot='split-pane-2' class='pane'>
+         <template v-if='substances && substances.length'>
+          <h1>substances</h1>
+         </template>
+         <template v-else>
+           {{$t('noitems')}}
+         </template>
       </div>
     </vue-split-pane>
+    <div class='bottom-float'>
+      <vue-icon fab @click.native='save("substance")' id='save' :label='$t("save")' icon='save' position='top'></vue-icon>
+      <vue-icon fab id='add' :label='$t("add")' icon='add' position='top'></vue-icon>
+      <vue-icon fab @click.native='revert' id='undo' :label='$t("revert")' icon='undo' position='top'>
+      </vue-icon>
+    </div>
+    </template>
+  </main>
 </template>
 
 <script>
+import Dialog from '@/components/dialog/dialog.vue';
+import Icon from '@/components/icon/icon.vue';
+import ListFilter from '@/components/list-filter/list-filter.vue';
+import Progress from '@/components/progress/progress.vue';
 import SplitPane from '@/components/split-pane/split-pane.vue';
-import Input from '@/components/input/input.vue';
-import Table from '@/components/table/table.vue';
-import Button from '@/components/button/button.vue';
+import {mapState, mapGetters} from 'vuex';
+import {model} from '@/mixins/model.js';
 
 export default {
   name: 'Substances',
-  methods: {
-    deleteRow(row) {
-      console.log(row);
-    },
-    changePage(obj) {
-      console.log(obj.page);
-    }
-  },
+  mixins: [model],
   computed: {
-    headers: function() {
-      return [
-        'identifier',
-        'identifiertype'
-      ];
-    },
-    rows: function() {
-      return [
-        {identifiertype: 'CASNO', identifier: 101898}, {identifiertype: 'ECNO', identifier: 678}
-      ];
-    }
+    ...mapState(['loading']),
+    ...mapState('app', {
+      substances(state) {
+        return state.appRecords || [];
+      }
+    }),
+    ...mapGetters('picklists', [
+
+    ])
+  },
+  methods: {
+    select() {}
+  },
+  beforeCreate() {
+    this.$store.commit('loading');
+  },
+  async created() {
+    await this.$store.dispatch('app/getAppDataAll', 'substance');
+    this.select(this.substances[0]);
+    this.$store.commit('ready');
   },
   components: {
-    'vue-split-pane': SplitPane,
-    'vue-input': Input,
-    'vue-button': Button,
-    'vue-table': Table
+    'vue-dialog': Dialog,
+    'vue-icon': Icon,
+    'vue-list-filter': ListFilter,
+    'vue-progress': Progress,
+    'vue-split-pane': SplitPane
   }
 };
 </script>

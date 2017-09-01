@@ -1,5 +1,7 @@
 <template>
   <main>
+    <vue-progress v-if='loading'></vue-progress>
+    <template v-else>
     <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
     <vue-split-pane>
       <div slot='split-pane-1'>
@@ -40,6 +42,7 @@
       <vue-icon fab @click.native='revert' id='undo' :label='$t("revert")' icon='undo' position='top'>
       </vue-icon>
     </div>
+    </template>
   </main>
 </template>
 
@@ -54,6 +57,7 @@ import Input from '@/components/input/input.vue';
 import ListFilter from '@/components/list-filter/list-filter.vue';
 import Menu from '@/components/menu/menu.vue';
 import LegalEntityIdentifier from '@/pages/globals/legal-entities/legal-entity-identifier.vue';
+import Progress from '@/components/progress/progress.vue';
 import Select from '@/components/select/select.vue';
 import SelectExtensible from '@/components/select-extensible/select-extensible.vue';
 import SplitPane from '@/components/split-pane/split-pane.vue';
@@ -73,6 +77,7 @@ export default {
     };
   },
   computed: {
+    ...mapState(['loading']),
     ...mapState('app', {
       stateModel(state) {
         return state.currentRecord;
@@ -123,9 +128,13 @@ export default {
       return this.$t(value);
     }
   },
+  async beforeCreate() {
+    this.$store.commit('loading');
+  },
   async created() {
     await this.$store.dispatch('app/getAppDataAll', 'legalentity');
     this.select(this.legalentities[0]);
+    this.$store.commit('ready');
   },
   components: {
     'vue-button': Button,
@@ -137,6 +146,7 @@ export default {
     'vue-input': Input,
     'vue-list-filter': ListFilter,
     'vue-menu': Menu,
+    'vue-progress': Progress,
     'vue-select-extensible': SelectExtensible,
     'vue-select': Select,
     'vue-split-pane': SplitPane,

@@ -6,11 +6,7 @@ const app = {
   state: {
     appRecords: [],
     currentRecord: {},
-    projectUrl: '',
-
-    // used for knowing whether you can navigate back/forwards
-    numStates: 1,
-    currState: 1
+    currentUrl: ''
   },
 
   mutations: {
@@ -20,28 +16,12 @@ const app = {
     updateAppRecords(state, payload) {
       state.appRecords = payload;
     },
-    updateProjectUrl(state, payload) {
-      state.projectUrl = payload;
-    },
-    updateNumStates(state, numStates) {
-      state.numStates = numStates;
-    },
-    increaseCurrState(state) {
-      if (state.numStates === state.currState) {
-        ++state.numStates;
-      }
-      ++state.currState;
-    },
-    decreaseCurrState(state) {
-      if (state.currState > 0) --state.currState;
+    updateCurrentUrl(state, url) {
+      state.currentUrl = url;
     }
   },
 
   actions: {
-    async setProjectUrl({commit}, payload) {
-      commit('updateProjectUrl', payload);
-    },
-
     async getAppDataAll({commit}, url) {
       try {
         let appData = await BackendService.getAppDataAll(url);

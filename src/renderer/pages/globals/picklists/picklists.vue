@@ -1,6 +1,7 @@
 <template>
   <main style='overflow-y: auto'>
-    <h2>Picklists</h2>
+    <vue-progress v-if='loading'></vue-progress>
+    <template v-else>
     <vue-accordion id='picklists'>
       <li slot='accordion-items' v-for='(picklist, index) of picklists' :key='index' :aria-expanded='expanded[index]'>
         <div class='accordion-item-title' @click='toggle(index)'>
@@ -13,17 +14,20 @@
         </ul>
       </li>
     </vue-accordion>
+    </template>
   </main>
 </template>
 
 <script>
 import Accordion from '@/components/accordion/accordion.vue';
 import Input from '@/components/input/input.vue';
-import {mapGetters} from 'vuex';
+import Progress from '@/components/progress/progress.vue';
+import {mapState, mapGetters} from 'vuex';
 
 export default {
   name: 'Picklists',
   computed: {
+    ...mapState(['loading']),
     ...mapGetters('picklists', ['all']),
     picklists() {
       return this.all == null || !Array.isArray(this.all) ?
@@ -53,9 +57,16 @@ export default {
       });
     }
   },
+  beforeCreate() {
+    this.$store.commit('loading');
+  },
+  created() {
+    this.$store.commit('ready');
+  },
   components: {
     'vue-accordion': Accordion,
-    'vue-input': Input
+    'vue-input': Input,
+    'vue-progress': Progress
   }
 };
 </script>

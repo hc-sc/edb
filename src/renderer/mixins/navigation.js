@@ -4,15 +4,15 @@ const navigation = {
   mixins: [history],
   methods: {
     back() {
-      this.$store.commit('app/decreaseCurrState');
+      this.$store.commit('decreaseCurrState');
       this.$router.back();
     },
     forward() {
-      this.$store.commit('app/increaseCurrState');
+      this.$store.commit('increaseCurrState');
       this.$router.forward();
     },
     home() {
-      this.$store.commit('app/increaseCurrState');
+      this.$store.commit('increaseCurrState');
       this.$router.push('/');
     },
     backDisabled() {

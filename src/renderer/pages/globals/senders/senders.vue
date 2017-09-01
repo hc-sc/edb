@@ -1,5 +1,7 @@
 <template>
   <main>
+    <vue-progress v-if='loading'></vue-progress>
+    <template v-else>
     <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
     <vue-split-pane>
       <div slot='split-pane-1'>
@@ -20,6 +22,7 @@
       <vue-icon fab @click.native='revert' id='undo' :label='$t("revert")' icon='undo' position='top'>
       </vue-icon>
     </div>
+    </template>
   </main>
 </template>
 
@@ -27,6 +30,7 @@
 import Dialog from '@/components/dialog/dialog.vue';
 import Icon from '@/components/icon/icon.vue';
 import ListFilter from '@/components/list-filter/list-filter.vue';
+import Progress from '@/components/progress/progress.vue';
 import SplitPane from '@/components/split-pane/split-pane.vue';
 import {mapState, mapGetters} from 'vuex';
 import {model} from '@/mixins/model.js';
@@ -35,6 +39,7 @@ export default {
   name: 'Senders',
   mixins: [model],
   computed: {
+    ...mapState(['loading']),
     ...mapState('app', {
       senders(state) {
         return state.appRecords || [];
@@ -47,14 +52,19 @@ export default {
   methods: {
     select() {}
   },
+  async beforeCreate() {
+    this.$store.commit('loading');
+  },
   async created() {
     await this.$store.dispatch('app/getAppDataAll', 'sender');
     this.select(this.senders[0]);
+    this.$store.commit('ready');
   },
   components: {
     'vue-dialog': Dialog,
     'vue-icon': Icon,
     'vue-list-filter': ListFilter,
+    'vue-progress': Progress,
     'vue-split-pane': SplitPane
   }
 };
