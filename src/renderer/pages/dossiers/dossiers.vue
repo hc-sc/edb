@@ -1,27 +1,48 @@
 <template>
-  <div>
+  <div style='position: relative;'>
     <vue-header>
       <vue-history slot='left'></vue-history>
-      {{dossierTitle}}
+      {{$tc('dossier', 2)}}
     </vue-header>
-    <router-link to='/submission'>Go to submission</router-link>
+    <main class='pane'>
+      <vue-dialog ref='dialog' id='dialog'></vue-dialog>
+      <vue-table id='dossiers' :title='$tc("dossier", 2)' addable @addItem='addDossier'></vue-table>
+      <vue-table v-if='selectedDossier' id='submissions' :title='$tc("submission", 2)' @addItem='addSubmission'></vue-table>
+    </main>
   </div>
 </template>
 
 <script>
+import Dialog from '@/components/dialog/dialog.vue';
 import Header from '@/components/header/header.vue';
 import History from '@/components/history/history.vue';
+import Table from '@/components/table/table.vue';
+import {BackendService} from '@/store/backend.service.js';
 
 export default {
   name: 'Dossiers',
-  computed: {
-    dossierTitle() {
-      return this.$i18n.tc('dossier', 2);
+  data() {
+    return {
+      dossiers: [],
+      selectedDossier: null
+    };
+  },
+  methods: {
+    addDossier() {
+      console.log('adding dossier');
+    },
+    addSubmission() {
+      console.log('adding submission');
     }
   },
+  async created() {
+    this.dossiers = await BackendService.getGhstsAll();
+  },
   components: {
+    'vue-dialog': Dialog,
     'vue-header': Header,
-    'vue-history': History
+    'vue-history': History,
+    'vue-table': Table
   }
 };
 </script>

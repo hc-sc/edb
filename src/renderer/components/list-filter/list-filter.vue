@@ -55,7 +55,9 @@ export default {
   },
   computed: {
     filteredItems() {
+      if (this.items == null) return [];
       return this.items.filter(item => {
+        console.log('here');
         let match = false;
         Object.keys(item).filter(key => {
           return match || (match = (item[key].toString().toLowerCase().includes(this.searchTerm.toLowerCase())));

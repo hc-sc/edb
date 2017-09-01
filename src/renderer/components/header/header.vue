@@ -45,5 +45,6 @@ export default {
   flex: 0;
   border: none;
   box-shadow: var(--depth-1);
+  z-index: 1000;
 }
 </style>

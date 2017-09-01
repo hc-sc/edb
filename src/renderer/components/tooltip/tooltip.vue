@@ -40,7 +40,7 @@ export default {
 [role=tooltip] {
   position: absolute;
   opacity: 0;
-  z-index: 1000;
+  z-index: 100000;
   transform: scale(0);
   background-color: #555;
   color: var(--background-color);

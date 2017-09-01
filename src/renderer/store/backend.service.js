@@ -1,6 +1,4 @@
-//import {ipcRenderer as ipc} from 'electron';
 import * as BACKENDCONST from '../../constants/shared';
-
 const ipc = window.ipcRenderer;
 
 const BackendService = {
@@ -29,23 +27,23 @@ const BackendService = {
   },
 
   getGhstsAll: function () {
-    return handleIPC('getAll', {});
+    return handleIPC(BACKENDCONST.GHSTS_MSG_CHANNEL, 'get', {});
   },
 
   getGhsts: function (id) {
-    return handleIPC('get', { id });
+    return handleIPC(BACKENDCONST.GHSTS_MSG_CHANNEL,'get', {_id: id});
   },
 
   deleteGhsts: function (id) {
-    return handleIPC('delete', { id });
+    return handleIPC('delete', {id});
   },
 
   createGhsts: function (name) {
-    return handleIPC('create', { name });
+    return handleIPC('create', {name});
   },
 
-  updateGhsts: function (hero) {
-    return handleIPC('update', { hero });
+  updateGhsts: function (item) {
+    return handleIPC('update', {item});
   },
 
   searchGhsts: function (term) {
@@ -55,7 +53,7 @@ const BackendService = {
   getPicklists: function () {
     return handleIPC(BACKENDCONST.PICKLIST_MSG_CHANNEL, 'get', {});
   },
-  
+
   getPicklist: function (typeName) {
     return handleIPC(BACKENDCONST.PICKLIST_MSG_CHANNEL, 'get', typeName);
   },
@@ -75,7 +73,7 @@ const BackendService = {
   searchPicklist: function (cont) {
     return handleIPC(BACKENDCONST.PICKLIST_MSG_CHANNEL, 'get', {where: cont});
   },
-  
+
 };
 
 function handleIPC(msgChannel, method, query) {
@@ -125,4 +123,4 @@ function _msg_envelope(method, obj, timestamp) {
   return retVal;
 }
 
-export { BackendService };
+export {BackendService};

@@ -37,10 +37,8 @@ import modelSender from '../view-models/gen/sender.json';
 import modelReceiver from '../view-models/gen/receiver.json';
 import _ from 'lodash';
 
-export default class ModelService {
-  constructor() {}
+const ModelService = {
   getModel(prop) {
-    console.log('in model service', prop);
     let model = {};
     switch(prop) {
       case 'contactaddress':
@@ -87,32 +85,31 @@ export default class ModelService {
         return _.merge({}, Object.assign(modelReferencedDossier.fields));
 
       case 'document':
-          model = _.merge({}, Object.assign(modelDocument.fields));
-          model.documentgeneric = this.getModel('documentgeneric');
-          model._url = 'document';
-          model._docsourcetype = false;
+        model = _.merge({}, Object.assign(modelDocument.fields));
+        model.documentgeneric = this.getModel('documentgeneric');
+        model._url = 'document';
+        model._docsourcetype = false;
         return model;
 
       case 'documentgeneric':
         model = _.merge({}, Object.assign(modelDocumentGeneric.fields));
-        model.documentissuedate = "";
+        model.documentissuedate = '';
         return model;
 
       case 'documentra':
-         model = _.merge({}, Object.assign(modelDocumentRA.fields));
-         model.radocumentnumber = this.getModel('radocumentnumber');
-         model.dataprotection = '';
-         model.datarequirement = '';
-         return model;
+        model = _.merge({}, Object.assign(modelDocumentRA.fields));
+        model.radocumentnumber = this.getModel('radocumentnumber');
+        model.dataprotection = '';
+        model.datarequirement = '';
+        return model;
 
       case 'othernationalguideline':
         return _.merge({}, Object.assign(modelOtherNationalGuideLine.fields));
 
       case 'radocumentnumber':
-           model = _.merge({}, Object.assign(modelRaDocumentNumber.fields));
-           model.dossiercontext = [];
-           return model;
-
+        model = _.merge({}, Object.assign(modelRaDocumentNumber.fields));
+        model.dossiercontext = [];
+        return model;
 
       case 'dossiercontext':
         return _.merge({}, Object.assign(modelDossiercontext.fields));
@@ -129,13 +126,13 @@ export default class ModelService {
       //     model = _.merge({}, Object.assign(modelDocumentContentStatusHistory.fields));
       //     model.documentcontentstatus = [];
       //     return model;
-     
+
       // case 'documentcontentstatus':
       //   return _.merge({}, Object.assign(modelDocumentContentStatus.fields));
 
       case 'documentgeneric.referenceddocument':
-          model =  _.merge({}, Object.assign(modelReferencedDocument.fields));
-          model.documentnumber = this.getModel('documentnumber');
+        model =  _.merge({}, Object.assign(modelReferencedDocument.fields));
+        model.documentnumber = this.getModel('documentnumber');
         return model;
 
       case 'documentgeneric.relatedtosubstance':
@@ -155,7 +152,9 @@ export default class ModelService {
         return model;
     }
   }
-}
+};
+
+export {ModelService};
 
 
 

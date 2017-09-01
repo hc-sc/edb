@@ -40,17 +40,21 @@ export function sortByLocale(array, desc = false, propName) {
     let comp;
     let x = a[propName], y = b[propName];
 
-    // we have no way of knowing how to sort nested objects
-    // remember that 'null' returns 'object' with typeof
-    if (typeof x === 'object' && typeof y === 'object') {
+    const xtype = x === null ? 'null' : typeof x;
+    const ytype = y === null ? 'null' : typeof y;
+
+    if (xtype === 'object' && ytype === 'object') {
       return 0;
     }
-    const xtype = typeof x, ytype = typeof y;
-    if (xtype === 'string' && (y == null || ytype === 'object')) {
-      return -1;
+    else if (x == null) {
+      if (y != null) return -1;
+      else return 0;
     }
-    else if (ytype === 'string' && (x == null || xtype === 'object')) {
+    else if (x != null && (y == null || ytype === 'object')) {
       return 1;
+    }
+    else if (y != null && (x == null || xtype === 'object')) {
+      return -1;
     }
     else {
       comp = x.toString().localeCompare(y.toString());

@@ -48,6 +48,7 @@ export default {
   manageApplication: 'Manage Application',
   manageDossier: 'Manage Dossier | Manage Dossiers',
   mobile: 'Mobile',
+  noitems: 'There are no items. Create a new one to begin',
   organization: 'Organization',
   otheridentifiers: 'Other Identifiers',
   othername: 'Other Name | Other Names',

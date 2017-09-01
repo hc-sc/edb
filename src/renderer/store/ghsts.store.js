@@ -1,4 +1,4 @@
-// import {BackendService} from '@/store/backend.service.js';
+import {BackendService} from '@/store/backend.service.js';
 
 const ghsts = {
   namespaced: true,
