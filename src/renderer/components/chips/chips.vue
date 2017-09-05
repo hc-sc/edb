@@ -1,9 +1,3 @@
-<docs>
-## Chips
-
-Used for list items of short text. Can be configured to allow duplicates, sort, delete, edit, and add new items. If read-only, only displays values.
-</docs>
-
 <template>
   <div class='chips'>
     <div class='chips-group'>
@@ -16,7 +10,7 @@ Used for list items of short text. Can be configured to allow duplicates, sort, 
         </li>
         <li class='chips-input-group'>
           <label :for='`${id}-input`' class='v-hidden'>{{label}}</label>
-          <input :id='`${id}-input`' :name='compName' class='chips-input' :placeholder='label' @focus='focusedIndex = focusable.length - 1' @keydown.enter.prevent.stop='addItem' v-model='currValue' :autocomplete='autocomplete' :list='`${id}-options`' :disabled='disabled'>
+          <input :id='`${id}-input`' ref='input' :name='compName' class='chips-input' :placeholder='label' @focus='focusedIndex = focusable.length - 1' @keydown.enter.prevent.stop='addItem' v-model='currValue' :autocomplete='autocomplete' :list='`${id}-options`' :disabled='disabled' :max='maxChipLength'>
         </li>
       </ul>
       <div class='chips-actions' v-if='!disabled' :aria-controls='id'>
@@ -96,6 +90,12 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    },
+    maxChips: {
+      type: Number
+    },
+    maxChipLength: {
+      type: Number
     }
   },
   data() {
@@ -118,6 +118,7 @@ export default {
       }
     },
     addItem() {
+      if (this.maxChips != null && this.chips.length >= this.maxChips) return;
       if (this.disabled) return;
       const text = this.currValue.trim();
       if (text.length === 0) return;
@@ -175,10 +176,6 @@ export default {
       // this updates the DOM, need to wait
       this.$nextTick(() => {
         this.getFocusableNodes('.chips-item, input:not([disabled])');
-        if (!this.disabled) {
-          // TODO: this causes focus on render
-          // this.focus(this.focusable.length - 1);
-        }
       });
     }
   },

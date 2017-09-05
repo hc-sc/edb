@@ -1,13 +1,3 @@
-<docs>
-## Dialog
-
-Used for prompting users for simple actions. You can use the default alert or confirm dialogs by defining a `type`, or create a custom one. There are slots to allow translusion of the header, content, and footer regions.
-
-### Inputs
-
--
-</docs>
-
 <template>
   <div class='dialog' :aria-expanded='expanded'>
     <aside class='dialog-popup' :id='id' role='alertdialog' :aria-labelledby='`${id}-dialog-title`' :aria-describedby='`${id}-dialog-content`' :style='{width: `${width}`}'>

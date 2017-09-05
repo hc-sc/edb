@@ -14,22 +14,21 @@
             <span class='f-gap'></span>
             <vue-input type='text' id='legalentitypid' :label='$t("legalentitypid")' v-model='model.legalentitypid' required disabled></vue-input>
           </div>
-          <vue-input type='text' id='legalentityname' :label='$t("legalentityname")' required v-model='model.legalentityname'></vue-input>
+          <vue-input type='text' id='legalentityname' :label='$t("legalentityname")' required v-model='model.legalentityname' :max='255'></vue-input>
           <vue-select-extensible id='legalentitytype' :label='$t("legalentitytype")' :value='model.legalentitytype' @input='model.legalentitytype = $event._id' :options='legalentitytype' :displayValue='displayPicklistItem' :matchValue='matchById'></vue-select-extensible>
           <vue-chips deletable unique id='othername' :label='$tc("othername", 2)' v-model='model.othername'></vue-chips>
           <vue-table :title='$tc("legalentityidentifier", 2)' :items='model.legalentityidentifier' :headers='["identifier", "legalentityidentifiertype"]' id='legalentityidentifier' :displayHeader='displayTranslation' addable @select='showDialog("legalentityidentifier", model.legalentityidentifier[$event], $event)' @addItem='addItem("legalentityidentifier")'></vue-table>
           <vue-fieldset :legend='$t("address")'>
-            <vue-input type='text' id='street1' :label='$t("street1")' v-model='model.contactaddress.street1'></vue-input>
-            <vue-input type='text' id='street2' :label='$t("street2")' v-model='model.contactaddress.street2'></vue-input>
-            <vue-input type='text' id='zipcode' :label='$t("zipcode")' v-model='model.contactaddress.zipcode'></vue-input>
-            <vue-input type='text' id='city' :label='$t("city")' v-model='model.contactaddress.city'></vue-input>
+            <vue-input type='text' id='street1' :label='$t("street1")' v-model='model.contactaddress.street1' :max='255'></vue-input>
+            <vue-input type='text' id='street2' :label='$t("street2")' v-model='model.contactaddress.street2' :max='255'></vue-input>
+            <vue-input type='text' id='zipcode' :label='$t("zipcode")' v-model='model.contactaddress.zipcode' :max='255'></vue-input>
+            <vue-input type='text' id='city' :label='$t("city")' v-model='model.contactaddress.city' :max='255'></vue-input>
+            <vue-input type='text' id='state' :label='$t("state")' v-model='model.contactaddress.state' :max='255'></vue-input>
             <vue-select-extensible id='country' :label='$tc("country", 2)' :value='model.contactaddress.country' @input='model.contactaddress.country = $event._id' :options='country' :displayValue='displayCountry' :matchValue='matchById'></vue-select-extensible>
-            <vue-input type='text' id='phone' :label='$t("phone")' v-model='model.contactaddress.phone'></vue-input>
-            <vue-input type='text' id='fax' :label='$t("fax")' v-model='model.contactaddress.fax'></vue-input>
-            <vue-input type='text' id='email' :label='$t("email")' v-model='model.contactaddress.email'></vue-input>
-            <vue-input type='text' id='website' :label='$t("website")' v-model='model.contactaddress.website'>
-              <span slot='prefix'>http://</span>
-            </vue-input>
+            <vue-input type='text' id='phone' :label='$t("phone")' v-model='model.contactaddress.phone' :max='255'></vue-input>
+            <vue-input type='text' id='fax' :label='$t("fax")' v-model='model.contactaddress.fax' :max='255'></vue-input>
+            <vue-input type='text' id='email' :label='$t("email")' v-model='model.contactaddress.email' :max='255'></vue-input>
+            <vue-input type='text' id='website' :label='$t("website")' v-model='model.contactaddress.website'></vue-input>
           </vue-fieldset>
           <vue-table :title='$tc("contact", 2)' :items='model.contactperson' id='contact' :headers='["lastname", "firstname", "title", "email"]' :displayHeader='displayTranslation' addable @select='showDialog("contactperson", model.contactperson[$event], $event)' @addItem='addItem("contactperson")'></vue-table>
         </template>

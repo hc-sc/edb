@@ -1,4 +1,5 @@
 const {resolve, join} = require('path');
+const fs = require('fs');
 
 const pathFromRoot = (...paths) => {
   return resolve(__dirname, '..', ...paths);

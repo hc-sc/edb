@@ -1,14 +1,10 @@
 <docs>
 ## Accordion
 
+SOMETHING HERE
+
 Presents multiple panels of content. If no JS is present, the content panels default to all open. Otherwise you can configure to show panels, either one at a time or toggling each individually. There are slots to transclude custom panel formats, or you can pass an array of objects with title and content properties.
 
-### Inputs
-
-- id (String): Required.
-- items (Array): an array of objects of shape {title, content}
-- autocollapse (Boolean): default = true. Whether only one panel can be open at a time, or each is controlled individually
-- popout (Boolean): default = true. Whether open panels are displayed as wells or as increased depth card-like divs
 </docs>
 
 <template>

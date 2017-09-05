@@ -1,14 +1,3 @@
-<docs>
-## Card
-
-Used as a generic container for text/media with a specified depth. It has two named slots for a top and bottom, and a single default slot for the middle.
-
-### Inputs
-
-- id (String): id of the component
-- hover (Boolean): used to increase depth on hover
-</docs>
-
 <template>
   <div class='card' :class='{hover}'>
     <slot name='top'></slot>

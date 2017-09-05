@@ -1,9 +1,3 @@
-<docs>
-## Drawer
-
-A side panel used for navigation. Can be configured using be fullscreen, and also whether it should be on the left or right, overlay, push, or collapse a component. For compatibility, the default is collapse, so that browsers without JS will initialize correctly. Both 'push' and 'collapse' require a sibling ID to control. DO NOT use both side=collapse and fullscreen=true, this will cause a lot of jank.
-</docs>
-
 <template>
   <aside class='drawer-cloak' :class='[{showing, fullscreen}, side]' @click.self='close'>
     <div class='drawer'>

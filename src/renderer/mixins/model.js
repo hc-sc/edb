@@ -28,9 +28,9 @@ const model = {
     displayPicklistItem(value) {
       return value.valuedecode;
     },
-    displayIdValue(list, id, valueProp) {
-      return;
-    }
+    // displayIdValue(list, id, valueProp) {
+    //   return;
+    // }
   }
 };
 

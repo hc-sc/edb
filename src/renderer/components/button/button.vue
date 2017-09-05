@@ -1,17 +1,3 @@
-<docs>
-## Button
-
-Used for dynamic activity. It has a single default  slot for providing a custom label/icon, and falls back to the provided `label` prop.
-
-### Inputs
-
-- type (String): default 'button'. Native button types. Must be one of 'button', 'submit', or 'reset'.
-- label (String): the display label used in case no transclusion is used.
-- display (String): default = 'raised'. The form the button takes. Must be one of 'fab', 'flat', or 'raised', which follow Material Design.
-- disabled (Boolean): whether the button is disabled
-- color (String): default = 'primary'. The theme used. Must be one of 'primary', 'accent', 'info', 'warn', or 'error'
-</docs>
-
 <template>
     <button :type='type' class='btn' :class='[display, color]' :disabled='disabled'>
       <slot>

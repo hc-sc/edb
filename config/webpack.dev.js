@@ -1,5 +1,6 @@
 const {join} = require('path');
 const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const {
@@ -17,7 +18,12 @@ module.exports = {
     rules: [
       {
         test: /\.vue$/,
-        use: 'vue-loader'
+        loader: 'vue-loader',
+        options: {
+          loaders: {
+            'docs': ExtractTextPlugin.extract('raw-loader')
+          }
+        }
       },
       {
         test: /\.js$/,
@@ -92,5 +98,7 @@ module.exports = {
     }),
 
     new webpack.HotModuleReplacementPlugin(),
+
+    new ExtractTextPlugin('docs.md')
   ]
 };

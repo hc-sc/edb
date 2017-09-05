@@ -11,7 +11,8 @@
     "dist": "webpack && build -p never",
     "run": "electron dist",
     "publish": "build",
-    "schema": "java -jar ./node_modules/jsonix/lib/jsonix-schema-compiler-full.jar -generateJsonSchema -d ./resources/app/standards/01_04_00 -p GHSTS ./resources/app/standards/ghsts_01-04-00.xsd"
+    "schema": "java -jar ./node_modules/jsonix/lib/jsonix-schema-compiler-full.jar -generateJsonSchema -d ./resources/app/standards/01_04_00 -p GHSTS ./resources/app/standards/ghsts_01-04-00.xsd",
+    "docs": "node ./config/generateDocs.js"
   },
   "author": "Health Canada - Santé Canada",
   "contributers": [
@@ -72,6 +73,7 @@
     "postcss-cssnext": "^2.11.0",
     "postcss-import": "^10.0.0",
     "postcss-loader": "^2.0.5",
+    "raw-loader": "^0.5.1",
     "spectron": "^3.6.4",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",

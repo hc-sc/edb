@@ -1,9 +1,3 @@
-<docs>
-## Table
-
-The table component acts as either a client side table, where rows are given as props, or as a server side table, where it is given a function that allows the table to retrieve and manage it's own data. There are various configuration options for allowing pagination, filtering, etc. The items passed in as values or from some API should be normalize into objects of flat key-value pairs. The `header` prop is then used to control projections of the rows and order of the columns, for example headers=['name', 'age'] will cause the 'name' and 'age' properties of the rows to be displayed, in that order.
-</docs>
-
 <template>
   <vue-card class='table' :class='{selectable, sortable, pageable, filterable}' @select='select' @sort='sort' @changeOffset='changeOffset'>
     <vue-toolbar>
