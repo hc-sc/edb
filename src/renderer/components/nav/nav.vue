@@ -1,3 +1,27 @@
+<docs>
+## Nav
+
+Navigation section, can be arranged in a horizontal or vertical manner.
+
+### Values
+
+#### Props
+
+- id (String, required): the id
+- toggleable (Boolean, default = false): if the navs can be hidden with a toggle
+- navs (Array, default = []): the nav items
+- column (Boolean, default = true): whether the navs should be horizontal or vertical
+
+#### Data
+
+- expanded (Boolean): if the nav is expanded
+
+### Methods
+
+- toggle(): toggles the expanded state
+
+</docs>
+
 <template>
   <nav :id='id'>
     <slot>

@@ -7,11 +7,11 @@ Presents multiple panels of content. If no JS is present, the content panels def
 
 #### Props
 
+- autocollapse (default = true): whether other open tabs should close when another is opened
+- contentProp: (String, default = 'content'): which property should be used for the content from the `items` array
 - id (String, required): the id, used to link a title to content for accessibility
 - items (Array, default = []): an array of items to be included
-- autocollapse (default = true): whether other open tabs should close when another is opened
 - titleProp (String, default = 'title'): which property should be used for the title from the `items` array
-- contentProp: (String, default = 'content'): which property should be used for the content from the `items` array
 
 #### Data
 

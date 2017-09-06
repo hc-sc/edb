@@ -1,3 +1,20 @@
+<docs>
+## Fieldset
+
+Used to wrap forms (or nested form models) in a fieldset
+
+### Values
+
+#### Props
+
+- legend (String): the legend of the fieldset
+
+### Slots
+
+- default: allows for field injection
+
+</docs>
+
 <template>
   <vue-card>
     <fieldset class='fieldset'>

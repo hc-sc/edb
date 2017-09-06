@@ -7,11 +7,11 @@ Buttons are used for dynamic activity on the page (non-navigation). They can be 
 
 #### Props
 
-- type (String, default = 'button'): defines the type are 'button', 'submit', or 'reset'
-- label (String): the label of the button
-- display (String, default = 'raised'): whether the button should appear raised or not
-- disabled (Boolean, default = false): if the button should be non-interactive
 - color (String, default = 'primary'): the theme of the button
+- disabled (Boolean, default = false): if the button should be non-interactive
+- display (String, default = 'raised'): whether the button should appear raised or not
+- label (String): the label of the button
+- type (String, default = 'button'): defines the type are 'button', 'submit', or 'reset'
 
 ### Slots
 

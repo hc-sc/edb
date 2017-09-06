@@ -1,3 +1,12 @@
+<docs>
+## Menu
+
+THIS IS UNFINISHED
+
+A simple dropdown consisting of buttons.
+
+</docs>
+
 <template>
   <div class='menu' :id='id'>
     <vue-button type='button' class='btn flat primary'  aria-haspopup='true' :aria-expanded='expanded' @click.native='toggle($event)' @keyup.native.down='open' @keyup.native.up='close($event)'>

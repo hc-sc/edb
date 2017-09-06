@@ -1,3 +1,23 @@
+<docs>
+## Icon
+
+Allows for definition of an icon, complete with appropriate tooltip.
+
+### Values
+
+### Props
+
+- classes (String): additional classes to append to the icon
+- color (String, default = 'primary'): the theme
+- disabled (Boolean, default = false): disables the icon
+- fab (Boolean, default = false): promotes the icon to a FAB button
+- icon (String): if using icon-fonts, allows for definition using code points or ligatures
+- id (String, required): the id
+- label (String, required): the label used as a tooltip
+- position (String): allows for modifying the location of the tooltip
+
+</docs>
+
 <template>
   <vue-tooltip class='icon' :id='id' :label='label' :position='position'>
     <button type='button' :disabled='disabled' :class='[{fab}, color]'>
@@ -34,10 +54,12 @@ export default {
       type: String
     },
     disabled: {
-      type: Boolean
+      type: Boolean,
+      default: false
     },
     fab: {
-      type: Boolean
+      type: Boolean,
+      default: false
     },
     color: {
       type: String,

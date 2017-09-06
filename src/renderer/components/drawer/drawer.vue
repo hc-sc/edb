@@ -1,3 +1,29 @@
+<docs>
+## Drawer
+
+NOT CURRENTLY FINISHED
+
+The drawer is used to place navigation or asides in a collapseable sidebar. The props are mainly to define visual effect, like which side it comes from, method of movement, etc.
+
+### Values
+
+#### Props
+
+- display (String, default = 'overlay'): controls how the drawer behaves. 'overlay' is on top, 'push' translates the siblingId over, 'collapse' shrinks the width of the siblingId
+- fullscreen (Boolean, default = false): whether the drawer should take up the full vw
+- id (String, required): the id
+- showing (Boolean): if the drawer is currently open or not
+- siblingId (String): when using 'push' display, controls which container is moved
+- side (String, default = 'left'): which side of the viewport the drawer comes from
+
+### Methods
+
+- close(): closes the drawer
+- open(): opens the meeting
+- toggle(): toggles the drawer between open and closed
+
+</docs>
+
 <template>
   <aside class='drawer-cloak' :class='[{showing, fullscreen}, side]' @click.self='close'>
     <div class='drawer'>

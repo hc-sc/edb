@@ -1,3 +1,14 @@
+<docs>
+## History
+
+A component for managing the history API. It is tightly tied to use with vuex
+
+### Mixins
+
+- navigation
+
+</docs>
+
 <template>
   <div>
     <vue-icon id='home' :label='$t("home")' icon='home' @click.native='home'></vue-icon>
@@ -18,4 +29,3 @@ export default {
   }
 };
 </script>
-

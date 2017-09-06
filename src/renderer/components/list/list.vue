@@ -1,3 +1,26 @@
+<docs>
+## List
+
+Used to display a list of items in a list-like traditional manner (for small items, see Chips).
+
+### Values
+
+#### Props
+
+- id (String): the id
+- items (Array, default = []): the items in the list
+- selectable (Boolean, default = false): if an event should be emitted on select
+- onSelect (Function, default = $emit('select', value)): event emitter
+- displayValue (Function, default = value.label || value): what to display
+
+### Slots
+
+- prefix: to include some elements before the list item
+- content: to replace the value portion
+- postfix: to append something at the end of the item, like a Badge
+
+</docs>
+
 <template>
   <ul class='list' :class='{selectable}'>
     <slot name='list-items'>
@@ -23,7 +46,8 @@ export default {
       type: String
     },
     items: {
-      type: Array
+      type: Array,
+      default: () => []
     },
     selectable: {
       type: Boolean,

@@ -1,3 +1,18 @@
+<docs>
+## List Filter
+
+A list that has been augmented to include filtering
+
+### Values
+
+#### Props
+
+- those composed from List
+- sortable (Boolean, default = true): if the list is sortable
+- sortByArgs (String): the property to sort by
+
+</docs>
+
 <template>
   <div class='list-filter'>
     <div class='f-container f-cross-center filter'>
@@ -44,7 +59,7 @@ export default {
       default: true
     },
     sortByArgs: {
-      type: String | Array | Function
+      type: String
     }
   },
   data() {

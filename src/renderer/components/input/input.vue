@@ -1,14 +1,64 @@
+<docs>
+## Input
+
+The wrapper for all input types, including text, password, email, tel, date, etc. Provides additional functionality for character counts, min/max lengths or values, pattern matching, custom error messages, disabled, and required
+
+### Values
+
+#### Props
+
+- cb (Function, default = $emit('input', value): the input callback (can be used to integrate 'vuex' more simply)
+- disabled (Boolean): disabled field
+- id (String, required): the id
+- label (String): label of the input field
+- max (Number): same as min, but for max
+- message (String): the message to display if the pattern is not matched
+- min (Number): the minimum value for number/date, and minimum length for text-based fields
+- name (String): the name
+- pattern (RegExp): the pattern the value must meet
+- required (Boolean): if the field must be filled
+- showErrors (Boolean): whether to show any error messages
+- type (String, default = 'text'): the type of the input field
+- value (String | Boolean | Number | Date): the value of the input field
+
+#### Data
+
+- touched (Boolean): if the field has received focus
+
+#### Computed
+
+- compName (String): the name if provided, otherwise the id
+- empty (Boolean): if the field has empty value
+- invalid (Boolean): if the field does not meet required, min/max, or pattern, and it has been touched
+- isTextField (Boolean): returns true if the field's type can be considered only text
+- validBounds (Boolean): if the field has correct min/max values
+- validPattern (Boolean): if the pattern is valid
+
+### Methods
+
+- toDate(value): converts a string to a date
+
+### Filters
+
+- errorMessage(message): allows for customization of error message
+
+### Slots
+
+- default: replaces the label
+
+</docs>
+
 <template>
   <div class='input f-container' @focusout='touched = true'>
     <div class='input-group'>
       <template v-if='isTextField'>
         <div>
-          <input class='input-field' :class='{empty, invalid}' :type='type' :id='id' :name='compName' @input='updateValue($event.target.value)' :value='value' :required='required' :disabled='disabled'>
+          <input class='input-field' :class='{empty, invalid}' :type='type' :id='id' :name='compName' @input='cb($event.target.value)' :value='value' :required='required' :disabled='disabled'>
           <label :for='id'>
             <slot>
               {{label}}
-              <span v-if='required' class='error-text'>*</span>
             </slot>
+            <span v-if='required' class='error-text'>*</span>
           </label>
           <div class='input-info' v-if='showErrors'>
             <small v-if='isTextField && max' class='input-info-right' :class='[value.length > max ? "error-text" : ""]'>
@@ -22,7 +72,7 @@
       </template>
 
       <template v-else-if='type === "number"'>
-        <input type='number' :id='id' :name='compName' class='input-field' @input='updateValue($event.target.value)' :value='value' :class='{empty}' :min='min' :max='max'>
+        <input type='number' :id='id' :name='compName' class='input-field' @input='cb($event.target.value)' :value='value' :class='{empty}' :min='min' :max='max'>
         <label :for='id'>{{label}}</label>
         <div class='input-info' v-if='showErrors'>
           <p class='error-text' v-if='required && touched && this.value.length === 0'>Required</p>
@@ -33,7 +83,7 @@
       <template v-else-if='type === "range"'>
         <div class='input-range'>
           <div class='input-range-group'>
-            <input type='range' :id='id' :name='compName' class='input-field' @input='updateValue($event.target.value)' :value='value' :min='min || 0' :max='max || 100' :required='required' :disabled='disabled'>
+            <input type='range' :id='id' :name='compName' class='input-field' @input='cb($event.target.value)' :value='value' :min='min || 0' :max='max || 100' :required='required' :disabled='disabled'>
             <label :for='id'>{{label}}</label>
             <div class='input-info'>
               <small class='input-info-left'>{{min || 0}}</small>
@@ -47,18 +97,18 @@
       </template>
 
       <template v-else-if='type === "checkbox"'>
-        <input type='checkbox' :id='id' :name='compName' @change='updateValue(!value)' :value='value' :required='required' :disabled='disabled'>
+        <input type='checkbox' :id='id' :name='compName' @change='cb(!value)' :value='value' :required='required' :disabled='disabled'>
         <label :for='id'>{{label}}</label>
       </template>
 
       <template v-else-if='type === "radio"'>
-        <input type='radio' :id='id' :name='compName' @change='updateValue(id)' :value='id' :required='required' :disabled='disabled'>
+        <input type='radio' :id='id' :name='compName' @change='cb(id)' :value='id' :required='required' :disabled='disabled'>
         <div class='radio-button'></div>
         <label :for='id'>{{label}}</label>
       </template>
 
       <template v-else-if='type === "date"'>
-        <input type='date' :id='id' :name='compName' class='input-field' @input='updateValue($event.target.value)' :value='value' :min='toDate(Date.now())' :max='toDate(max)' :required='required' :disabled='disabled'>
+        <input type='date' :id='id' :name='compName' class='input-field' @input='cb($event.target.value)' :value='value' :min='toDate(Date.now())' :max='toDate(max)' :required='required' :disabled='disabled'>
         <label :for='id'>{{label}}</label>
       </template>
     </div>
@@ -162,7 +212,7 @@ export default {
     }
   },
   methods: {
-    updateValue(value) {
+    cb(value) {
       this.cb(value);
     },
     toDate(value) {
