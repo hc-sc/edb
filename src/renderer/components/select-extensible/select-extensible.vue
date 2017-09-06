@@ -1,3 +1,16 @@
+<docs>
+## Select Extensible
+
+Allows for extending the collection of options in a select listbox.
+
+### Values
+
+#### Props
+
+
+
+</docs>
+
 <template>
   <div class='select-extensible'>
     <div class='f-container f-middle'>

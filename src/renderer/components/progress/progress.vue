@@ -1,3 +1,18 @@
+<docs>
+## Progress
+
+Spinners and determinate progress bars to indicate loading.
+
+### Values
+
+#### Props
+
+- type (String, default = 'circular'): spinner or bar
+- determinate (Boolean, default = false): if the indicator should have determined position
+- progress (Number, default = 0): the amount of progress that has been completed
+
+</docs>
+
 <template>
   <div class='progress' :class='[type, determinate]'></div>
 </template>
@@ -20,11 +35,6 @@ export default {
     progress: {
       type: Number,
       default: 0
-    }
-  },
-  computed: {
-    offset() {
-      return 0;
     }
   }
 };

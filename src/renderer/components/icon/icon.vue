@@ -16,6 +16,10 @@ Allows for definition of an icon, complete with appropriate tooltip.
 - label (String, required): the label used as a tooltip
 - position (String): allows for modifying the location of the tooltip
 
+### Slot
+
+- default: replace the icon character(s)
+
 </docs>
 
 <template>
@@ -29,7 +33,6 @@ Allows for definition of an icon, complete with appropriate tooltip.
 </template>
 
 <script>
-import Button from '@/components/button/button.vue';
 import Icon from '@/components/icon/icon.vue';
 import Tooltip from '@/components/tooltip/tooltip.vue';
 
@@ -70,7 +73,6 @@ export default {
     }
   },
   components: {
-    'vue-button': Button,
     'vue-icon': Icon,
     'vue-tooltip': Tooltip
   }

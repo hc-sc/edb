@@ -1,3 +1,46 @@
+<docs>
+## Select
+
+Used to replace the native HTML select input with a better styled listbox component
+
+### Values
+
+#### Props
+
+- disabled (Boolean, default = false): disabled
+- displayValue (Function, default = value.label || value): what to display of the selected value
+- getItems (Function): if defined, allows defining a function to get values
+- id (String, required): the id
+- label (String, required): the label for the select
+- matchValue (Function): how to match the selected value to the items array
+- onSelect (Function, default = $emit('input', value)): event emitter
+- options (Array): the list items
+- required (Boolean, default = false): required
+- value (String): the currently selected value
+
+#### Data
+
+- expanded (Boolean): if the listbox is open
+- focusable (Array): the focusable nodes in the listbox
+- focusedIndex (Number): the index of the currently focused/selected item
+- loading (Boolean): if the getItems function is running
+- previousFocusedNode: returns focus to the previous node on close
+- searchValue (String): the currently searched for text
+- selected (Boolean): which value is being selected
+- timer (Handle): the name of the function that clears searchValue
+
+#### Computed
+
+- compName (String): the name or id
+- items (Array): the items returned from getItems or options
+- selectedValue (Object): the currently selected value
+
+### Methods
+
+TODO: clean up focusable
+
+</docs>
+
 <template>
   <div class='select' :class='{disabled}'>
     <div :id='id' class='select-dropdown' role='listbox' :aria-controls='id'>
@@ -33,7 +76,8 @@ export default {
       required: true
     },
     options: {
-      type: Array
+      type: Array,
+      default: () => []
     },
     value: {
       type: Array | String

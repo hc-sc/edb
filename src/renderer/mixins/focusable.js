@@ -9,8 +9,8 @@ const focusable = {
   methods: {
     focus(index) {
       if (this.focusable && this.focusable.length && index >= 0 && index < this.focusable.length) {
-        this.focusable[index].focus();
         this.focusedIndex = index;
+        this.focusable[this.focusedIndex].focus();
       }
     },
     getFocusableNodes(selector, container = this.$el) {

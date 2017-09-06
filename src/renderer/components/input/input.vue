@@ -212,9 +212,6 @@ export default {
     }
   },
   methods: {
-    cb(value) {
-      this.cb(value);
-    },
     toDate(value) {
       if (!moment(value, [moment.ISO_8601], true).isValid()) return;
 
