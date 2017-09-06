@@ -1,3 +1,16 @@
+<docs>
+## Card
+
+Used to provide the material appearance to specific sections
+
+### Values
+
+#### Props
+
+- hover (Boolean, default = false): if the card should change depth on hover
+
+</docs>
+
 <template>
   <div class='card' :class='{hover}'>
     <slot name='top'></slot>
@@ -10,9 +23,6 @@
 export default {
   name: 'Card',
   props: {
-    id: {
-      type: String
-    },
     hover: {
       type: Boolean,
       default: false

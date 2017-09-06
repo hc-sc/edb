@@ -1,9 +1,28 @@
+<docs>
+## Button
+
+Buttons are used for dynamic activity on the page (non-navigation). They can be used to toggle navigation, menus, or to trigger javascript methods on data. To use, attach an @click.native handler to the custom button. NOTE: for FAB buttons, see Icon
+
+### Values
+
+#### Props
+
+- type (String, default = 'button'): defines the type are 'button', 'submit', or 'reset'
+- label (String): the label of the button
+- display (String, default = 'raised'): whether the button should appear raised or not
+- disabled (Boolean, default = false): if the button should be non-interactive
+- color (String, default = 'primary'): the theme of the button
+
+### Slots
+
+- default: replaces the label of the button
+
+</docs>
+
 <template>
     <button :type='type' class='btn' :class='[display, color]' :disabled='disabled'>
       <slot>
-        <span>
-          {{label}}
-        </span>
+        {{label}}
       </slot>
     </button>
 </template>
@@ -26,7 +45,7 @@ export default {
       type: String,
       default: 'raised',
       validator(value) {
-        return ['fab', 'flat', 'raised'].includes(value);
+        return ['flat', 'raised'].includes(value);
       }
     },
     disabled: {

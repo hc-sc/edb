@@ -1,3 +1,58 @@
+<docs>
+## Chips
+
+Chips are method of displaying simple lists, including the options to add and remove elements. Additionally you can customize whether you can sort the items. On sort, emits a 'sort' event
+
+### Mixins
+
+- focusable
+
+### Values
+
+#### Props
+
+- id (String, required): the id
+- name (String): can be used to define the chips input field
+- label (String, required): the placeholder text for the input field
+- value (Array, default = []): the array of items already in the chips
+- onAdd(Function, default = $emit('input', value)): how to update the list on add.
+- autocomplete (String, default = 'off'): whether a data-list should be included to help with completing the items
+- options (Array, default = []): the items to include in the data-list, should it be used
+- getItems (Function): used to get the autocomplete values, `options` is used if this is left undefined
+- displayValue (Function): defines how to display the value
+- unique (Boolean): if you can include duplicates
+- deletable (Boolean): if you can delete chips
+- sortable (Boolean, default = true): if you can sort the items
+- sortBy (Function, default = localeCompare): define how to sort
+- disabled (Boolean, default = false): the entire functioning of the chips is disabled (just displays the items)
+
+#### Data
+
+- currValue (String): the chip input fields value
+
+#### Computed
+
+- focused (Boolean): if the component has focus
+- compName (String): the name of the input field, keyed on either `id` or `name`
+- chips (Array): the list of chips, keyed on `value` prop
+- items (Array): the list of options, keyed on `options` prop
+
+### Methods
+
+- addItem(value: String): the item to add
+- deleteItem(index: Number): the index of the item to remove
+- sort(): emits a new array with sorted values
+- clear(): emits a new empty array
+- handleKeyBoardEvent(event: Event): handle keyboard presses
+
+### Slots
+
+- deleteIcon: specifies what to display for delete
+- actions: replace the native 'sort' and 'clear' buttons
+- options: replace the data-list element
+
+</docs>
+
 <template>
   <div class='chips'>
     <div class='chips-group'>
@@ -19,9 +74,11 @@
           <vue-button @click.native='clear' display='flat'>clear</vue-button>
         </slot>
       </div>
-      <datalist :id='`${id}-options`'>
-        <option v-for='(option, index) of items' :key='index'>{{option}}</option>
-      </datalist>
+      <slot name='options'>
+        <datalist :id='`${id}-options`'>
+          <option v-for='(option, index) of items' :key='index'>{{option}}</option>
+        </datalist>
+      </slot>
     </div>
   </div>
 </template>
@@ -87,6 +144,12 @@ export default {
       type: Boolean,
       default: true
     },
+    sortBy: {
+      type: Function,
+      default(a, b) {
+        return a.localeCompare(b.toLowerCase());
+      }
+    },
     disabled: {
       type: Boolean,
       default: false
@@ -131,9 +194,7 @@ export default {
       this.currValue = '';
     },
     sort() {
-      this.$emit('input', this.chips.sort((a, b) => {
-        return a.localeCompare(b.toLowerCase());
-      }));
+      this.$emit('input', this.chips.sort(this.sortBy));
     },
     clear() {
       this.$emit('input', []);

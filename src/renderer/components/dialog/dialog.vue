@@ -1,3 +1,43 @@
+<docs>
+## Dialog
+
+Dialogs are used to present a windowed experience. Modal dialogs restrict interaction with the rest of the page when the dialog is open.
+
+### Values
+
+#### Props
+
+- id (String, required): the id
+- title (String): the header for the dialog
+- content (String): the content for the dialog
+- width (String): defines the width of the dialog in percent, based on vw
+- height (String): defines the height of the dialog in percent, based on vh
+- type (String): shortcut for defining alerts, comfirm, prompts, or custom
+- modal (Boolean): defines whether the rest of the page should be interactive
+- confirm (Function): a callback for the 'confirm' action
+- cancel (Function): a callback for the 'cancel' action
+
+#### Data
+
+- expanded (Boolean): whether the dialog is open
+- component (Component): defines a custom component to render in the dialog
+
+### Methods
+
+- show(config: Object): allows for supplying a custom component and model to the dialog, and opens it
+- open() - open the dialog
+- close() - hide the dialog
+
+### Slots
+
+- title: replaces the title header
+- default: replaces the content, as long as there is no component defined
+- footer: the footer (including buttons for confirm and cancel)
+- confirm-text: the label for the confirm button
+- cancel-text: the label for the cancel button
+
+</docs>
+
 <template>
   <div class='dialog' :aria-expanded='expanded'>
     <aside class='dialog-popup' :id='id' role='alertdialog' :aria-labelledby='`${id}-dialog-title`' :aria-describedby='`${id}-dialog-content`' :style='{width: `${width}`}'>
@@ -64,7 +104,7 @@ export default {
       type: String,
       default: 'alert',
       validator(value) {
-        return ['alert', 'confirm'].includes(value);
+        return ['alert', 'confirm', 'prompt', 'custom'].includes(value);
       }
     },
     modal: {

@@ -34,16 +34,18 @@ function getFiles(root, regex) {
   });
 }
 
-getFiles(join(__dirname, '..', 'src', 'renderer'), /\.api\.md$/)
+getFiles(join(__dirname, '..', 'src', 'renderer', 'components'), /\.vue$/)
 .then(files => {
   fs.open(join(__dirname, '..', 'docs.md'), 'w', (err, docs) => {
     if (err) return console.error('Error opening doc file');
     files.forEach(file => {
       const fileName = file.split('/').pop();
-      fs.readFile(file, (err, data) => {
+      fs.readFile(file, {encoding: 'utf8'}, (err, data) => {
         if (err) return console.error(`Error reading: ${fileName}`);
-        fs.appendFile(docs, data, err => {
-          if (err) return console.error(`Error appending: ${fileName}`);
+        const doc = data.match(/<docs>([^]*)<\/docs>/);
+        if (doc == null || doc[1] == null) return;
+        fs.appendFile(docs, doc[1], err => {
+          if (err) console.error(`Error appending: ${fileName}`);
           else console.log(`Added: ${fileName}`);
         });
       });
@@ -51,3 +53,7 @@ getFiles(join(__dirname, '..', 'src', 'renderer'), /\.api\.md$/)
   });
 })
 .catch(err => console.log(err));
+
+module.exports = {
+  getFiles
+};
