@@ -1,3 +1,29 @@
+<docs>
+## Tree
+
+A recursive component that allows for nested children, such as a directory structure. Each tree node must be an object with properties 'label' and 'children'
+
+### Values
+
+#### Props
+
+- id (String): the id
+- tree (Object): the root of the tree, with properties 'label' and 'children'
+
+#### Data
+
+- open (Boolean): if the children are visible
+
+#### Computed
+
+- hasChildren (Boolean): if the tree has children
+
+### Methods
+
+- toggle(): toggles the 'open' state
+
+</docs>
+
 <template>
   <ul :id='tree' class='tree-list'>
     <slot>
@@ -40,10 +66,7 @@ export default {
   computed: {
     hasChildren() {
       return !!(this.tree.children && this.tree.children.length);
-    },
-    // count() {
-    //   return this.tree.children.reduce((b, a) => b = + a.count, 0);
-    // }
+    }
   },
   methods: {
     toggle() {

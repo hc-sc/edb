@@ -1,3 +1,22 @@
+<docs>
+## Tooltip
+
+A hovering element used to give extra information about an element, such as an icon or abbreviation.
+
+### Values
+
+#### Props
+
+- id (String, required): the id
+- label (String, required): the descriptive text
+- position (String, default = 'bottom'): the location of the tooltip in relation to the wrapped element
+
+### Slots
+
+- default: the injected element/component
+
+</docs>
+
 <template>
   <span class='tooltip-wrapper'>
     <slot class='tooltip' :aria-labelledby='`${id}-tooltip-label`'></slot>

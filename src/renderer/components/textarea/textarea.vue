@@ -19,7 +19,18 @@ Used for lengthy sections of text input. Has settings for required, disabled, ma
 
 #### Data
 
+- touched (Boolean): if the textarea has received focus
 
+#### Computed
+
+- compName (String): the name, or fallback to id
+- empty (Boolean): if the length of value is 0
+- invalid (Boolean): if the value is invalid
+- validLength (Boolean): if the value is less than max
+
+### Methods
+
+- resize(): resize the box to the height of the text content
 
 </docs>
 
