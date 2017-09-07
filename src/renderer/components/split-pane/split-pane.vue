@@ -1,3 +1,18 @@
+<docs>
+## Split Pane
+
+Allows for creation of adjustable columns and rows, for example to create master/detail pages. You can also nest the split-pane with other split panes.
+
+### Values
+
+#### Props
+
+- id (String): the id
+- numPanes (Number, default = 2): the number of panes desired
+- direction (String, default = 'row'): if 'row' or 'columns' are desired
+
+</docs>
+
 <template>
   <div :id='id' class='split-pane' :class='[direction]'>
     <template v-for='(n, index) of numPanes'>

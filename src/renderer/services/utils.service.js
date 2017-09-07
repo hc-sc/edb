@@ -29,7 +29,7 @@ export function getNestedProperty(obj, propString) {
 }
 
 /**
- * Sort By Locale
+ * Sort By Locale - custom function to sort based on locale specific languages
  * @param array Array the array to sort
  * @param desc Boolean whether the sorted list should be reversed
  * @param propName String if the arrays items are objects, which property to key off of
@@ -61,4 +61,28 @@ export function sortByLocale(array, desc = false, propName) {
     }
     return desc ? -comp : comp;
   });
+}
+
+/**
+ * Match Filter - used for further specific matching parameters
+ * @param filter Object the filter object
+ * @param item Object the item to compare against
+ */
+export function matchFilter(filter, filterKey, filterValue, item) {
+  if (filter == null || filter[filterKey] == null || filter[filterValue] == null || filter[filterKey] === '') {
+    return true;
+  }
+  else if (filter[filterKey] === 'any') {
+    if (filter[filterValue] === '') return true;
+    let match = false;
+    Object.entries(item).filter(entry => {
+      return match || (match = (
+        item[entry[0]].toString().toLowerCase().includes(filter[filterValue].toString().toLowerCase())
+      ));
+    });
+    return match;
+  }
+  else {
+    return item[filter[filterKey]].toString().toLowerCase().includes(filter[filterValue].toString().toLowerCase());
+  }
 }

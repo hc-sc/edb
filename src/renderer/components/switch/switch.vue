@@ -1,3 +1,23 @@
+<docs>
+## Switch
+
+An accessible checkbox like widget that is more visually indicative for on/off true/false states.
+
+### Values
+
+#### Props
+
+- id (String, required): the id
+- label (String, required): the label
+- value
+- show (Boolean, default = false): whether to include the on/off values
+- 'on-value' (String, default = 'on'): which value to display for on/true states
+- 'off-value' (String, default = 'off'): inverse of 'on-value';
+- value (Boolean): the provided data
+- cb (Function, default = $emit('input', !value)): event emitter
+
+</docs>
+
 <template>
   <div class='switch'>
     <label :for='id'>{{label}}</label>
@@ -34,12 +54,16 @@ export default {
     'off-value': {
       type: String,
       default: 'off'
+    },
+    value: {
+      type: Boolean
+    },
+    cb: {
+      type: Function,
+      default(value) {
+        this.$emit('input', !value);
+      }
     }
-  },
-  data() {
-    return {
-      value: false
-    };
   },
   computed: {
     displayValue() {

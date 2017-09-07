@@ -1,3 +1,12 @@
+<docs>
+## Snackbar
+
+NOT COMPLETE
+
+Used to indicate to the user when an event has happened via a small message on the bottom of the page.
+
+</docs>
+
 <template>
   <div class='snackbar' aria-live='assertive' aria-atomic='true' :aria-hidden='!snackbarShowing'>
     <slot name='message'>

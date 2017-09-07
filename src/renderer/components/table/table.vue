@@ -1,3 +1,38 @@
+<docs>
+## Table
+
+The table is used to display grid-like and/or tabular data. You can provide an array of items, or provide a function to get the data.
+
+### Values
+
+#### Props
+
+- id (String, required): the id
+- title (String, required): the title of the table
+- addable (Boolean, default = false): if an add button should be displayed
+- onAdd (Function, default = $emit('add', {id: this.id}))
+- selectable (Boolean, default = true): emits an event on select
+- filterable (Boolean, default = true): allows for filtering of data
+- sortable (Boolean, default = true): allows for sorting of data
+- pageable (Boolean, default = true): if you can page the data
+- header (Array, default = []): array of header columns
+- displayHeader (Function, default = header.label || header): controls how to display the header, for instance a translation function, or retrieving a property from an object
+- items (Array, default = []): the rows
+- getItems(Function): if defined will override items and retrieves rows from the given function
+
+#### Data
+
+- filters (Array, default = []): the filters to apply
+- offset (Number, default = 0): the page offset
+- pageSize (Number, default = 5): the number of rows to display per page
+- sortBy (String, default = this.headers[0]): the column to sort by
+- desc (Boolean, default = false): if the sorted rows should be applied reverse
+- loading (Boolean, default = true): if the getItems function is in progress
+
+### Methods
+
+</docs>
+
 <template>
   <vue-card class='table' :class='{selectable, sortable, pageable, filterable}' @select='select' @sort='sort' @changeOffset='changeOffset'>
     <vue-toolbar>
@@ -57,7 +92,7 @@ import Toolbar from '@/components/toolbar/toolbar.vue';
 import Select from '@/components/select/select.vue';
 import Progress from '@/components/progress/progress.vue';
 import {debounce} from 'lodash';
-import {sortByLocale} from '@/services/utils.service.js';
+import {sortByLocale, matchFilter} from '@/services/utils.service.js';
 
 export default {
   name: 'Table',
@@ -157,7 +192,7 @@ export default {
           let match = true;
           this.filters.filter(f => {
             return match && (match = (
-              matchFilter(f, item)
+              matchFilter(f, 'prop', 'value', item)
             ));
           });
           return match;
@@ -221,24 +256,6 @@ export default {
   }
 };
 
-function matchFilter(filter, item) {
-  if (filter == null || filter.prop == null || filter.value == null || filter.prop === '') {
-    return true;
-  }
-  else if (filter.prop === 'any') {
-    if (filter.value === '') return true;
-    let match = false;
-    Object.entries(item).filter(entry => {
-      return match || (match = (
-        item[entry[0]].toString().toLowerCase().includes(filter.value.toString().toLowerCase())
-      ));
-    });
-    return match;
-  }
-  else {
-    return item[filter.prop].toString().toLowerCase().includes(filter.value.toString().toLowerCase());
-  }
-}
 </script>
 
 <style>
