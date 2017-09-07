@@ -5,6 +5,12 @@ THIS IS UNFINISHED
 
 A simple dropdown consisting of buttons.
 
+### Slots
+
+- label: the label
+- content: the dropdown section
+- selected-menuitem: a value to display when selected
+
 </docs>
 
 <template>

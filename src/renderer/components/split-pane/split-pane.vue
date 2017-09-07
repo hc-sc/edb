@@ -11,6 +11,10 @@ Allows for creation of adjustable columns and rows, for example to create master
 - numPanes (Number, default = 2): the number of panes desired
 - direction (String, default = 'row'): if 'row' or 'columns' are desired
 
+### Slots
+
+- split-pane-{n}: allows you to inject components into the pane
+
 </docs>
 
 <template>

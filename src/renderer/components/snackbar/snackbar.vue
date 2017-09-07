@@ -5,6 +5,11 @@ NOT COMPLETE
 
 Used to indicate to the user when an event has happened via a small message on the bottom of the page.
 
+### Slots
+
+- message: the snackbar message
+- actions: the snackbar actions
+
 </docs>
 
 <template>

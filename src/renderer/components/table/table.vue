@@ -7,18 +7,19 @@ The table is used to display grid-like and/or tabular data. You can provide an a
 
 #### Props
 
-- id (String, required): the id
-- title (String, required): the title of the table
 - addable (Boolean, default = false): if an add button should be displayed
-- onAdd (Function, default = $emit('add', {id: this.id}))
-- selectable (Boolean, default = true): emits an event on select
-- filterable (Boolean, default = true): allows for filtering of data
-- sortable (Boolean, default = true): allows for sorting of data
-- pageable (Boolean, default = true): if you can page the data
-- header (Array, default = []): array of header columns
 - displayHeader (Function, default = header.label || header): controls how to display the header, for instance a translation function, or retrieving a property from an object
-- items (Array, default = []): the rows
+- filterable (Boolean, default = true): allows for filtering of data
 - getItems(Function): if defined will override items and retrieves rows from the given function
+- header (Array, default = []): array of header columns
+- id (String, required): the id
+- items (Array, default = []): the rows
+- onAdd (Function, default = $emit('add', {id: this.id}))
+- onSelect(Function, default = $emit('select', index)): callback for select
+- pageable (Boolean, default = true): if you can page the data
+- selectable (Boolean, default = true): emits an event on select
+- sortable (Boolean, default = true): allows for sorting of data
+- title (String, required): the title of the table
 
 #### Data
 
@@ -30,6 +31,12 @@ The table is used to display grid-like and/or tabular data. You can provide an a
 - loading (Boolean, default = true): if the getItems function is in progress
 
 ### Methods
+
+- addFilter(): adds a new empty filter
+- changeOffset(offset: Number): changes the page
+- deleteFilter(index: Number): deletes the filter at an index
+- select(index: Number): if selectable, calls onSelect
+- sort(header: String): sets sortBy if necessary and clears the offset
 
 </docs>
 
@@ -109,15 +116,21 @@ export default {
       type: Boolean,
       default: false
     },
-    addItem: {
+    onAdd: {
       type: Function,
       default() {
-        this.$emit('addItem', {id: this.id});
+        this.$emit('add', {id: this.id});
       }
     },
     selectable: {
       type: Boolean,
       default: true
+    },
+    onSelect: {
+      type: Function,
+      default(index) {
+        this.$emit('select', index);
+      }
     },
     filterable: {
       type: Boolean,
@@ -217,7 +230,7 @@ export default {
     },
     select(index) {
       if (this.selectable) {
-        this.$emit('select', index);
+        this.onSelect(index);
       }
     },
     sort(header) {

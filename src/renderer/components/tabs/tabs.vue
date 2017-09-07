@@ -1,3 +1,32 @@
+<docs>
+## Tabs
+
+NOT COMPLETE
+
+Used to display panels with tabs to navigate between them. If no JS is available, all panels are visible
+
+### Values
+
+#### Props
+
+- id (String, require): the id
+- tabs (Array, default = []): the tabs
+
+#### Data
+
+- selected (Array): the currently selected tab
+
+### Methods
+
+- select(index: Number): changes the current selection
+
+### Slots
+
+- tabs-link: the link part of the panel
+- tabs-panel: the content part of the panel
+
+</docs>
+
 <template>
   <div class='tabs'>
     <slot name='tabs-links'>

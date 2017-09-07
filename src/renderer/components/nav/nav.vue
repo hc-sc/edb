@@ -20,6 +20,10 @@ Navigation section, can be arranged in a horizontal or vertical manner.
 
 - toggle(): toggles the expanded state
 
+### Slots
+
+- default: the entire navbar
+
 </docs>
 
 <template>

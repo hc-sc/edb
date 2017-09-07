@@ -1,3 +1,28 @@
+<docs>
+## Textarea
+
+Used for lengthy sections of text input. Has settings for required, disabled, max lenth, and whether the textarea should resize automatically.
+
+### Values
+
+#### Props
+
+- id (String, required): the id
+- name (String): the name, will fall back to id if not provided
+- label (String, required): the label
+- required (Boolean): if the field needs to be valid
+- disabled (Boolean): disable the field
+- max (Number): the max character length
+- autoresize (Boolean, default = true): if false, a scroll bar will appear if needed
+- value (String): the value of the textarea
+- cb (Function, default = $emit('input', value)): the callback
+
+#### Data
+
+
+
+</docs>
+
 <template>
   <div class='textarea-group' @focusout='touched = true'>
     <textarea class='textarea-field' :class='{empty, invalid}' :id='id' :name='compName' v-model='value' @input='resize' :required='required' :disabled='disabled'></textarea>
@@ -42,11 +67,19 @@
       autoresize: {
         type: Boolean,
         default: true
+      },
+      value: {
+        type: String,
+      },
+      cb: {
+        type: Function,
+        default(value) {
+          this.$emit('input', value);
+        }
       }
     },
     data() {
       return {
-        value: '',
         touched: false
       };
     },

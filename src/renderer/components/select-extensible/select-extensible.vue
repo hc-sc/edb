@@ -21,6 +21,10 @@ Allows for extending the collection of options in a select listbox.
 - toggleAdd(): allows for adding
 - clear(): clears the adding fields
 
+### Slots
+
+- add-fields: overrides the add fields
+
 </docs>
 
 <template>
