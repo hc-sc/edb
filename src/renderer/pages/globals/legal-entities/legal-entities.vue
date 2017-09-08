@@ -17,7 +17,7 @@
           <vue-input type='text' id='legalentityname' :label='$t("legalentityname")' required v-model='model.legalentityname' :max='255'></vue-input>
           <vue-select-extensible id='legalentitytype' :label='$t("legalentitytype")' :value='model.legalentitytype' @input='model.legalentitytype = $event._id' :options='legalentitytype' :displayValue='displayPicklistItem' :matchValue='matchById'></vue-select-extensible>
           <vue-chips deletable unique id='othername' :label='$tc("othername", 2)' v-model='model.othername'></vue-chips>
-          <vue-table :title='$tc("legalentityidentifier", 2)' :items='model.legalentityidentifier' :headers='["identifier", "legalentityidentifiertype"]' id='legalentityidentifier' :displayHeader='displayTranslation' addable @select='showDialog("legalentityidentifier", model.legalentityidentifier[$event], $event)' @addItem='addItem("legalentityidentifier")'></vue-table>
+          <vue-table :title='$tc("legalentityidentifier", 2)' :items='model.legalentityidentifier' :headers='["identifier", {name: "legalentityidentifiertype", url: "picklist"}]' id='legalentityidentifier' :displayHeader='displayTranslation' addable @select='showDialog("legalentityidentifier", model.legalentityidentifier[$event], $event)' @add='addItem("legalentityidentifier")'></vue-table>
           <vue-fieldset :legend='$t("address")'>
             <vue-input type='text' id='street1' :label='$t("street1")' v-model='model.contactaddress.street1' :max='255'></vue-input>
             <vue-input type='text' id='street2' :label='$t("street2")' v-model='model.contactaddress.street2' :max='255'></vue-input>
@@ -30,14 +30,14 @@
             <vue-input type='text' id='email' :label='$t("email")' v-model='model.contactaddress.email' :max='255'></vue-input>
             <vue-input type='text' id='website' :label='$t("website")' v-model='model.contactaddress.website'></vue-input>
           </vue-fieldset>
-          <vue-table :title='$tc("contact", 2)' :items='model.contactperson' id='contact' :headers='["lastname", "firstname", "title", "email"]' :displayHeader='displayTranslation' addable @select='showDialog("contactperson", model.contactperson[$event], $event)' @addItem='addItem("contactperson")'></vue-table>
+          <vue-table :title='$tc("contact", 2)' :items='model.contactperson' id='contact' :headers='["lastname", "firstname", "title", "email"]' :displayHeader='displayTranslation' addable @select='showDialog("contactperson", model.contactperson[$event], $event)' @add='addItem("contactperson")'></vue-table>
         </template>
         <template v-else>{{$t('noitems')}}</template>
       </div>
     </vue-split-pane>
     <div class='bottom-float'>
       <vue-icon fab @click.native='save("legalentity")' id='save' :label='$t("save")' icon='save' position='top'></vue-icon>
-      <vue-icon fab id='add' :label='$t("add")' icon='add' position='top'></vue-icon>
+      <vue-icon fab id='add' :label='$t("add")' icon='add' position='top' @click.native='newRecord'></vue-icon>
       <vue-icon fab @click.native='revert' id='undo' :label='$t("revert")' icon='undo' position='top'>
       </vue-icon>
     </div>
@@ -92,6 +92,9 @@ export default {
     ])
   },
   methods: {
+    newRecord() {
+      this.$store.dispatch('app/newAppRecord', {url: 'legalentity'});
+    },
     addItem(ref) {
       this.showDialog(ref);
     },
@@ -117,7 +120,7 @@ export default {
     },
     select(item) {
       if (this.legalentities) {
-        this.$store.commit('app/updateModel', item);
+        this.$store.commit('app/updateCurrentRecord', item);
       }
     },
     displayCountry(value) {

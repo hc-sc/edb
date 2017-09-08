@@ -10,8 +10,8 @@ const app = {
   },
 
   mutations: {
-    updateModel(state, payload) {
-      state.currentRecord = payload;
+    updateCurrentRecord(state, record) {
+      state.currentRecord = record;
     },
     updateAppRecords(state, payload) {
       state.appRecords = payload;
@@ -39,6 +39,18 @@ const app = {
       }
       catch(err) {
         console.error('Could not update data');
+      }
+    },
+
+    async newAppRecord({commit, dispatch}, {url}) {
+      try {
+        let record = await BackendService.createAppData(url, {});
+        console.log(record);
+        dispatch('getAppDataAll');
+        commit('updateCurrentRecord', record);
+      }
+      catch(err) {
+        console.log('Could not create new record');
       }
     }
   }

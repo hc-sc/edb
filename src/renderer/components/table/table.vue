@@ -46,7 +46,7 @@ The table is used to display grid-like and/or tabular data. You can provide an a
       {{title}}
       <span slot='right'>
         <vue-icon id='`${id}-filter`' :label='$t("filter")' v-if='filterable' icon='filter_list' @click.native='addFilter'></vue-icon>
-        <vue-icon id='`${id}-add`' :label='$t("add")' v-if='addable' icon='add' @click.native='addItem' position='left'></vue-icon>
+        <vue-icon id='`${id}-add`' :label='$t("add")' v-if='addable' icon='add' @click.native='onAdd' position='left'></vue-icon>
       </span>
     </vue-toolbar>
     <div class='table-filter'>
@@ -61,7 +61,7 @@ The table is used to display grid-like and/or tabular data. You can provide an a
       <table class='table-table' v-if='!loading && rows.length !== 0'>
         <thead>
           <tr>
-            <th v-for='header of headers' :key='header' @click='sort(header)' :class='[sortBy === header ? "selected" : "", {desc}]'>
+            <th v-for='header of compHeaders' :key='header' @click='sort(header)' :class='[sortBy === header ? "selected" : "", {desc}]'>
               {{displayHeader(header)}}
               <span class='sort-icon'>↓</span>
             </th>
@@ -69,7 +69,7 @@ The table is used to display grid-like and/or tabular data. You can provide an a
         </thead>
         <tbody>
           <tr v-for='(row, index) of rows' :key='index'>
-            <td v-for='(header, headerIndex) of headers' :key='headerIndex' @click='select(index)'>{{row[header]}}</td>
+            <td v-for='(header, headerIndex) of headers' :key='headerIndex' @click='onSelect(index)'>{{row[header]}}</td>
           </tr>
         </tbody>
       </table>
@@ -99,6 +99,8 @@ import Toolbar from '@/components/toolbar/toolbar.vue';
 import Select from '@/components/select/select.vue';
 import Progress from '@/components/progress/progress.vue';
 import {debounce} from 'lodash';
+import moment from 'moment';
+import {BackendService} from '@/store/backend.service.js';
 import {sortByLocale, matchFilter} from '@/services/utils.service.js';
 
 export default {
@@ -166,18 +168,28 @@ export default {
     return {
       filters: [],
       offset: 0,
-      pageSize: 7,
+      pageSize: 5,
       sortBy: this.headers[0],
       desc: false,
       loading: true,
     };
   },
   computed: {
+    compHeaders() {
+      return this.headers.map(header => {
+        if (typeof header === 'string') {
+          return header;
+        }
+        else if ('name' in header) {
+          return header.name || header;
+        }
+      });
+    },
     count() {
       return this.queryResults.length;
     },
     queryResults() {
-      /* prop based tables use the data attributes to control which rows to show. fetch based tables use the getItems prop function to retrieve data and set the offset, count, sortBy, and desc fields */
+      /* prop based tables use the data attributes to control which rows to show. fetch based tables use the getItems function to retrieve data and set the offset, count, sortBy, and desc fields */
       if (this.getItems) {
         this.loading = true;
         debounce(
@@ -194,6 +206,8 @@ export default {
           })
           .catch(err => {
             console.error(err);
+            this.rows = [];
+            this.loading = false;
             // display normalized/translated error via snackbar
           }),
           300,
@@ -201,7 +215,7 @@ export default {
         );
       }
       else {
-        return sortByLocale(this.items.filter((item) => {
+        let sortedRows = sortByLocale(this.items.filter((item) => {
           let match = true;
           this.filters.filter(f => {
             return match && (match = (
@@ -212,6 +226,8 @@ export default {
         }),
         this.desc,
         this.sortBy);
+        console.log(mapProjection(this.headers, sortedRows));
+        return sortedRows;
       }
     },
     rows() {
@@ -269,6 +285,88 @@ export default {
   }
 };
 
+/**
+ * mapProjection allows for mapping a collection of rows into new ones with
+ * only the desired headers. It can also replace cell data with a desired
+ * value
+ * @param {Array} projection - the desired columns. If it is
+ * just a string, will use as is. If it's an object of the form
+ * {id: String, url: String}, will replace the cell data with the
+ * result of the database query for the id at the url table, or
+ * fallback to the id
+ * @param {Array} rows - the rows to be mapped
+ * @returns {Array} - the altered rows
+ */
+async function mapProjection(projection, rows) {
+  // map the rows to match the projected headers.
+  // replace table ID's with corresponding values
+
+  console.log(projection, rows);
+  let rs = await Promise.all(rows.map(async row => {
+    let mappedRow = [];
+    let query, result, cellData;
+
+    for (let header of projection) {
+      // if the header is a string, use that as the prop
+      if (typeof header === 'string') {
+        cellData = row[header];
+      }
+
+      // if it's not a string, need to retrieve the value from DB
+      else {
+        const id = row[header.name];
+
+        // get matching picklist item
+        if (header.url === 'picklist') {
+          query = {_id: id};
+          await BackendService.searchPicklist(query)
+          .then(result => {
+            if (result && result.length && 'valuedecode' in result[0]) {
+              console.log('picklist', result[0]['valuedecode']);
+              cellData = result[0]['valuedecode'];
+            }
+
+            // fallback if no matching id
+            else {
+              cellData = row[header.name];
+              console.log('picklist fallback');
+            }
+          });
+        }
+
+        // get matching app data item
+        else {
+          console.log('app');
+          query = {
+            url: header.url,
+            data: query
+          };
+
+          result = BackendService.searchAppData(query);
+          if (result && 'valuedecode' in result) {
+            cellData = result['valuedecode'];
+          }
+
+          // fallback
+          else {
+            cellData = row[header.id];
+          }
+        }
+      }
+
+      // replace ISO dates with more human readable versions
+      let date = moment(cellData, moment.ISO_8601, true);
+      if (date._isValid) cellData = date.format('YYY-MM-DD');
+
+      mappedRow.push(cellData);
+    }
+
+    return mappedRow;
+  }));
+
+  console.log(rs);
+  return rs;
+}
 </script>
 
 <style>

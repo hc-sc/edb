@@ -1,4 +1,6 @@
 import {escapeRegExp} from 'lodash';
+import {BackendService} from '@/store/backend.service.js';
+import moment from 'moment';
 
 /**
  * A more globally useable string matcher. Uses regex's, so needs to escape any in the string\
@@ -85,4 +87,79 @@ export function matchFilter(filter, filterKey, filterValue, item) {
   else {
     return item[filter[filterKey]].toString().toLowerCase().includes(filter[filterValue].toString().toLowerCase());
   }
+}
+
+/**
+ * mapProjection allows for mapping a collection of rows into new ones with
+ * only the desired headers. It can also replace cell data with a desired
+ * value
+ * @param {Array} projection - the desired columns. If it is
+ * just a string, will use as is. If it's an object of the form
+ * {id: String, url: String}, will replace the cell data with the
+ * result of the database query for the id at the url table, or
+ * fallback to the id
+ * @param {Array} rows - the rows to be mapped
+ * @returns {Array} - the altered rows
+ */
+export function mapProjection(projection, rows) {
+  // map the rows to match the projected headers.
+  // replace table ID's with corresponding values
+
+  console.log(projection, rows);
+  return rows.map(row => {
+    let mappedRow = [];
+    let query, result, cellData;
+
+    for (let header of projection) {
+      // if the header is a string, use that as the prop
+      if (typeof header === 'string') {
+        cellData = row[header];
+      }
+
+      // if it's not a string, need to retrieve the value from DB
+      else {
+        const id = row[header.id];
+
+        // get matching picklist item
+        if (header.url === 'picklist') {
+          query = {_id: id};
+          result = BackendService.searchPicklist(query);
+          if (result && 'valuedecode' in result) {
+            cellData = result['valuedecode'];
+          }
+
+          // fallback if no matching id
+          else {
+            cellData = row[header.name];
+          }
+        }
+
+        // get matching app data item
+        else {
+          query = {
+            url: header.url,
+            data: query
+          };
+
+          result = BackendService.searchAppData(query);
+          if (result && 'valuedecode' in result) {
+            cellData = result['valuedecode'];
+          }
+
+          // fallback
+          else {
+            cellData = row[header.id];
+          }
+        }
+      }
+
+      // replace ISO dates with more human readable versions
+      let date = moment(cellData, moment.ISO_8601, true);
+      if (date._isValid) cellData = date.format('YYY-MM-DD');
+
+      mappedRow.push(cellData);
+    }
+
+    return mappedRow;
+  });
 }

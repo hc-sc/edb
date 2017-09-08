@@ -27,10 +27,7 @@ const model = {
     },
     displayPicklistItem(value) {
       return value.valuedecode;
-    },
-    // displayIdValue(list, id, valueProp) {
-    //   return;
-    // }
+    }
   }
 };
 
