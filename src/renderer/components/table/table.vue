@@ -30,6 +30,16 @@ The table is used to display grid-like and/or tabular data. You can provide an a
 - desc (Boolean, default = false): if the sorted rows should be applied reverse
 - loading (Boolean, default = true): if the getItems function is in progress
 
+#### Computed
+
+- compHeaders (Array<String>): converts headers (which may be objects or strings), into just strings for use as table headers
+- count (Number): the total number of records
+- queryResults (Array): converts the given items (either by calling the getItems function or by providing them via props), into an array of rows
+- sortedRows (Array): sorts the rows via some function
+- projectedRows (Array): converts the items provided by queryResults into base data (i.e. converts Dates to human readable formats, replaces database ID's with their values, etc.)
+- rows (Array): the rows provided to the table with given page/offset values
+- page (String): the text string of page number, offset, and count
+
 ### Methods
 
 - addFilter(): adds a new empty filter
@@ -61,7 +71,7 @@ The table is used to display grid-like and/or tabular data. You can provide an a
       <table class='table-table' v-if='!loading && rows.length !== 0'>
         <thead>
           <tr>
-            <th v-for='header of headers' :key='header' @click='sort(header)' :class='[sortBy === header ? "selected" : "", {desc}]'>
+            <th v-for='header of compHeaders' :key='header' @click='sort(header)' :class='[sortBy === header ? "selected" : "", {desc}]'>
               {{displayHeader(header)}}
               <span class='sort-icon'>↓</span>
             </th>
@@ -69,7 +79,7 @@ The table is used to display grid-like and/or tabular data. You can provide an a
         </thead>
         <tbody>
           <tr v-for='(row, index) of rows' :key='index'>
-            <td v-for='(header, headerIndex) of headers' :key='headerIndex' @click='select(index)'>{{row[header]}}</td>
+            <td v-for='(header, headerIndex) of headers' :key='headerIndex' @click='onSelect(index)'>{{row[header]}}</td>
           </tr>
         </tbody>
       </table>
@@ -166,64 +176,111 @@ export default {
     return {
       filters: [],
       offset: 0,
-      pageSize: 7,
+      pageSize: 5,
       sortBy: this.headers[0],
       desc: false,
       loading: true,
     };
   },
   computed: {
+    compHeaders() {
+      return this.headers.map(header => {
+        if (typeof header === 'string') {
+          return header;
+        }
+        else if ('name' in header) {
+          return header.name || header;
+        }
+      });
+    },
     count() {
       return this.queryResults.length;
     },
     queryResults() {
-      /* prop based tables use the data attributes to control which rows to show. fetch based tables use the getItems prop function to retrieve data and set the offset, count, sortBy, and desc fields */
-      if (this.getItems) {
-        this.loading = true;
-        debounce(
-          this.getItems({
-            offset: this.offset,
-            pageSize: this.pageSize,
-            sortBy: this.sortBy,
-            desc: this.desc
-          })
-          .then(({count, items}) => {
-            this.count = count;
-            this.rows = items;
-            this.loading = false;
-          })
-          .catch(err => {
-            console.error(err);
-            // display normalized/translated error via snackbar
-          }),
-          300,
-          {leading: true}
-        );
-      }
-      else {
-        return sortByLocale(this.items.filter((item) => {
-          let match = true;
-          this.filters.filter(f => {
-            return match && (match = (
-              matchFilter(f, 'prop', 'value', item)
-            ));
-          });
-          return match;
-        }),
-        this.desc,
-        this.sortBy);
-      }
+      /* prop based tables use the data attributes to control which rows to show. fetch based tables use the getItems function to retrieve data and set the offset, count, sortBy, and desc fields */
+      // if (this.getItems) {
+      //   this.loading = true;
+      //   debounce(
+      //     this.getItems({
+      //       offset: this.offset,
+      //       pageSize: this.pageSize,
+      //       sortBy: this.sortBy,
+      //       desc: this.desc
+      //     })
+      //     .then(({count, items}) => {
+      //       this.count = count;
+      //       this.rows = items;
+      //       this.loading = false;
+      //     })
+      //     .catch(err => {
+      //       console.error(err);
+      //       this.rows = [];
+      //       this.loading = false;
+      //       // display normalized/translated error via snackbar
+      //     }),
+      //     300,
+      //     {leading: true}
+      //   );
+      // }
+      // else {
+      console.log('queryResult');
+      return this.items;
     },
     rows() {
-      return this.queryResults.slice(
-        this.offset * this.pageSize, (this.offset + 1) * this.pageSize
-      );
+      let mappedRows = mapProjection(this.headers, this.queryResults);
+      return mappedRows;
     },
     page() {
       return `${this.offset * this.pageSize + 1} - ${Math.min((this.offset + 1) * this.pageSize, this.count)} of ${this.count}`;
     }
   },
   methods: {
+    manageRows() {
+      let mappedRows = mapProjection(this.headers, this.items);
+      let sortedRows = sortByLocale(mappedRows.filter(row => {
+        let match = true;
+        this.filters.filter(f => {
+          return match && (match = (
+            matchFilter(f, 'prop', 'value', row)
+          ));
+        });
+        return match;
+      }),
+      this.desc,
+      this.sortBy);
+
+      return sortedRows.slice(
+        this.offset * this.pageSize, (this.offset + 1) * this.pageSize
+      );
+    },
+    projectedRows() {
+      console.log('projectedRows');
+      return this.queryResults;
+      // return await mapProjection(this.headers, this.queryResults);
+    },
+    sortedRows() {
+      console.log('sortedRows');
+      return this.projectedRows;
+      // console.log(this.projectedRows);
+      // return sortByLocale(this.queryResults.filter(row => {
+      //   let match = true;
+      //   this.filters.filter(f => {
+      //     return match && (match = (
+      //       matchFilter(f, 'prop', 'value', row)
+      //     ));
+      //   });
+      //   return match;
+      // }),
+      // this.desc,
+      // this.sortBy);
+    },
+    rows() {
+
+      this.rows = this.sortedRows.slice();
+      // return await this.sortedRows.slice(
+      //   this.offset * this.pageSize, (this.offset + 1) * this.pageSize
+      // );
+    },
     changeOffset(offset) {
       if (offset < 0 || offset * this.pageSize >= this.count) return;
       this.offset = offset;
@@ -269,6 +326,87 @@ export default {
   }
 };
 
+/**
+ * mapProjection allows for mapping a collection of rows into new ones with
+ * only the desired headers. It can also replace cell data with a desired
+ * value
+ * @param {Array} projection - the desired columns. If it is
+ * just a string, will use as is. If it's an object of the form
+ * {id: String, url: String}, will replace the cell data with the
+ * result of the database query for the id at the url table, or
+ * fallback to the id
+ * @param {Array} rows - the rows to be mapped
+ * @returns {Array} - the altered rows
+ */
+function mapProjection(projection, rows = []) {
+  // map the rows to match the projected headers.
+  // replace table ID's with corresponding values
+
+  return rows;
+  // let rs = await Promise.all(rows.map(async row => {
+  //   let mappedRow = [];
+  //   let query, result, cellData;
+
+  //   for (let header of projection) {
+  //     // if the header is a string, use that as the prop
+  //     if (typeof header === 'string') {
+  //       cellData = row[header];
+  //     }
+
+  //     // if it's not a string, need to retrieve the value from DB
+  //     else {
+  //       const id = row[header.name];
+
+  //       // get matching picklist item
+  //       if (header.url === 'picklist') {
+  //         query = {_id: id};
+  //         await BackendService.searchPicklist(query)
+  //         .then(result => {
+  //           if (result && result.length && 'valuedecode' in result[0]) {
+  //             console.log('picklist', result[0]['valuedecode']);
+  //             cellData = result[0]['valuedecode'];
+  //           }
+
+  //           // fallback if no matching id
+  //           else {
+  //             cellData = row[header.name];
+  //             console.log('picklist fallback');
+  //           }
+  //         });
+  //       }
+
+  //       // get matching app data item
+  //       else {
+  //         console.log('app');
+  //         query = {
+  //           url: header.url,
+  //           data: query
+  //         };
+
+  //         result = BackendService.searchAppData(query);
+  //         if (result && 'valuedecode' in result) {
+  //           cellData = result['valuedecode'];
+  //         }
+
+  //         // fallback
+  //         else {
+  //           cellData = row[header.id];
+  //         }
+  //       }
+  //     }
+
+  //     // replace ISO dates with more human readable versions
+  //     let date = moment(cellData, moment.ISO_8601, true);
+  //     if (date._isValid) cellData = date.format('YYY-MM-DD');
+
+  //     mappedRow.push(cellData);
+  //   }
+
+  //   return mappedRow;
+  // }));
+
+  // return rs;
+}
 </script>
 
 <style>

@@ -121,7 +121,7 @@ export default {
     },
     select(item) {
       if (this.legalentities) {
-        this.$store.commit('app/updateModel', item);
+        this.$store.commit('app/updateCurrentRecord', item);
       }
     },
     displayCountry(value) {
