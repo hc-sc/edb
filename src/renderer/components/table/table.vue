@@ -59,43 +59,46 @@ The table is used to display grid-like and/or tabular data. You can provide an a
         <vue-icon id='`${id}-add`' :label='$t("add")' v-if='addable' icon='add' @click.native='onAdd' position='left'></vue-icon>
       </span>
     </vue-toolbar>
-    <div class='table-filter'>
-      <div class='f-container f-middle' v-for='(filter, index) of filters' :key='index'>
-        <vue-select :id='`${id}-filter-select-${index}`' :label='$tc("title")' :options='["any", ...headers]' :displayValue='displayHeader' v-model='filters[index].prop'></vue-select>
-        <span class='f-gap'></span>
-        <vue-input type='text' :id='`${id}-filter-text-${index}`' :label='$tc("filter")' v-model='filters[index].value'></vue-input>
-        <vue-icon id='`${id}-filter-clear-${index}`' :label='$t("clear")' icon='clear' @click.native='deleteFilter(index)' position='left'></vue-icon>
+    <vue-progress v-if='loading'></vue-progress>
+    <template v-else>
+      <div class='table-filter'>
+        <div class='f-container f-middle' v-for='(filter, index) of filters' :key='index'>
+          <vue-select :id='`${id}-filter-select-${index}`' :label='$tc("title")' :options='["any", ...headers]' :displayValue='displayHeader' v-model='filters[index].prop'></vue-select>
+          <span class='f-gap'></span>
+          <vue-input type='text' :id='`${id}-filter-text-${index}`' :label='$tc("filter")' v-model='filters[index].value'></vue-input>
+          <vue-icon id='`${id}-filter-clear-${index}`' :label='$t("clear")' icon='clear' @click.native='deleteFilter(index)' position='left'></vue-icon>
+        </div>
       </div>
-    </div>
-    <div class='table-wrapper'>
-      <table class='table-table' v-if='!loading && rows.length !== 0'>
-        <thead>
-          <tr>
-            <th v-for='header of compHeaders' :key='header' @click='sort(header)' :class='[sortBy === header ? "selected" : "", {desc}]'>
-              {{displayHeader(header)}}
-              <span class='sort-icon'>↓</span>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for='(row, index) of rows' :key='index'>
-            <td v-for='(header, headerIndex) of headers' :key='headerIndex' @click='onSelect(index)'>{{row[header]}}</td>
-          </tr>
-        </tbody>
-      </table>
-      <p v-else-if='!loading'>No results!</p>
-      <vue-progress v-else></vue-progress>
-    </div>
-    <div v-if='pageable && rows.length > 0' class='table-pagination f-container f-middle'>
-      <vue-select :id='`${id}-pagesize`' label='Page Size' :options='["1", "5", "10", "20"]' v-model='pageSize'></vue-select>
-      <span @click='changeOffset(offset - 1)' :disabled='offset === 0'>
-        <i class='material-icons'>chevron_left</i>
-      </span>
-      <span class='page'>{{page}}</span>
-      <span @click='changeOffset(offset + 1)' :disabled='(this.offset + 1) * this.pageSize >= this.count'>
-        <i class='material-icons'>chevron_right</i>
-      </span>
-    </div>
+      <div class='table-wrapper'>
+        <table class='table-table' v-if='!loading && rows && rows.length'>
+          <thead>
+            <tr>
+              <th v-for='header of compHeaders' :key='header' @click='sort(header)' :class='[sortBy === header ? "selected" : "", {desc}]'>
+                {{displayHeader(header)}}
+                <span class='sort-icon'>↓</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for='(row, index) of rows' :key='index'>
+              <td v-for='(header, headerIndex) of headers' :key='headerIndex' @click='onSelect(index)'>{{row[header]}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <p v-else-if='!loading'>No results!</p>
+        <vue-progress v-else></vue-progress>
+      </div>
+      <div v-if='pageable && rows && rows.length' class='table-pagination f-container f-middle'>
+        <vue-select :id='`${id}-pagesize`' label='Page Size' :options='["1", "5", "10", "20"]' v-model='pageSize'></vue-select>
+        <span @click='changeOffset(offset - 1)' :disabled='offset === 0'>
+          <i class='material-icons'>chevron_left</i>
+        </span>
+        <span class='page'>{{page}}</span>
+        <span @click='changeOffset(offset + 1)' :disabled='(this.offset + 1) * this.pageSize >= this.count'>
+          <i class='material-icons'>chevron_right</i>
+        </span>
+      </div>
+    </template>
   </vue-card>
 </template>
 
@@ -109,6 +112,8 @@ import Toolbar from '@/components/toolbar/toolbar.vue';
 import Select from '@/components/select/select.vue';
 import Progress from '@/components/progress/progress.vue';
 import {debounce} from 'lodash';
+import moment from 'moment';
+import {BackendService} from '@/store/backend.service.js';
 import {sortByLocale, matchFilter} from '@/services/utils.service.js';
 
 export default {
@@ -193,94 +198,29 @@ export default {
         }
       });
     },
-    count() {
-      return this.queryResults.length;
-    },
-    queryResults() {
-      /* prop based tables use the data attributes to control which rows to show. fetch based tables use the getItems function to retrieve data and set the offset, count, sortBy, and desc fields */
-      // if (this.getItems) {
-      //   this.loading = true;
-      //   debounce(
-      //     this.getItems({
-      //       offset: this.offset,
-      //       pageSize: this.pageSize,
-      //       sortBy: this.sortBy,
-      //       desc: this.desc
-      //     })
-      //     .then(({count, items}) => {
-      //       this.count = count;
-      //       this.rows = items;
-      //       this.loading = false;
-      //     })
-      //     .catch(err => {
-      //       console.error(err);
-      //       this.rows = [];
-      //       this.loading = false;
-      //       // display normalized/translated error via snackbar
-      //     }),
-      //     300,
-      //     {leading: true}
-      //   );
-      // }
-      // else {
-      console.log('queryResult');
-      return this.items;
-    },
-    rows() {
-      let mappedRows = mapProjection(this.headers, this.queryResults);
-      return mappedRows;
-    },
     page() {
       return `${this.offset * this.pageSize + 1} - ${Math.min((this.offset + 1) * this.pageSize, this.count)} of ${this.count}`;
     }
   },
+
+  // REMEMBER: async function automatically wrap their return in a Promise
+  // for computed properties in Vue, need to use vue-async-computed for Promises
+  // if you're okay to just pass on the promise, you don't need to await
+  // if you can't call a method/property  without first having data, use await
+  asyncComputed: {
+    async count() {
+      return (await this.queryResults).length;
+    },
+    async queryResults() {
+      return this.items;
+    },
+    async rows() {
+      let mappedRows = await mapProjection(this.headers, this.queryResults);
+      console.log(mappedRows);
+      return mappedRows;
+    }
+  },
   methods: {
-    manageRows() {
-      let mappedRows = mapProjection(this.headers, this.items);
-      let sortedRows = sortByLocale(mappedRows.filter(row => {
-        let match = true;
-        this.filters.filter(f => {
-          return match && (match = (
-            matchFilter(f, 'prop', 'value', row)
-          ));
-        });
-        return match;
-      }),
-      this.desc,
-      this.sortBy);
-
-      return sortedRows.slice(
-        this.offset * this.pageSize, (this.offset + 1) * this.pageSize
-      );
-    },
-    projectedRows() {
-      console.log('projectedRows');
-      return this.queryResults;
-      // return await mapProjection(this.headers, this.queryResults);
-    },
-    sortedRows() {
-      console.log('sortedRows');
-      return this.projectedRows;
-      // console.log(this.projectedRows);
-      // return sortByLocale(this.queryResults.filter(row => {
-      //   let match = true;
-      //   this.filters.filter(f => {
-      //     return match && (match = (
-      //       matchFilter(f, 'prop', 'value', row)
-      //     ));
-      //   });
-      //   return match;
-      // }),
-      // this.desc,
-      // this.sortBy);
-    },
-    rows() {
-
-      this.rows = this.sortedRows.slice();
-      // return await this.sortedRows.slice(
-      //   this.offset * this.pageSize, (this.offset + 1) * this.pageSize
-      // );
-    },
     changeOffset(offset) {
       if (offset < 0 || offset * this.pageSize >= this.count) return;
       this.offset = offset;
@@ -338,74 +278,71 @@ export default {
  * @param {Array} rows - the rows to be mapped
  * @returns {Array} - the altered rows
  */
-function mapProjection(projection, rows = []) {
+async function mapProjection(projection, rows) {
   // map the rows to match the projected headers.
   // replace table ID's with corresponding values
+  return await Promise.all(rows.map(async row => {
+    let mappedRow = {};
+    let query, result, cellData;
 
-  return rows;
-  // let rs = await Promise.all(rows.map(async row => {
-  //   let mappedRow = [];
-  //   let query, result, cellData;
+    for (let header of projection) {
+      // if the header is a string, use that as the prop
+      if (typeof header === 'string') {
+        cellData = row[header];
+      }
 
-  //   for (let header of projection) {
-  //     // if the header is a string, use that as the prop
-  //     if (typeof header === 'string') {
-  //       cellData = row[header];
-  //     }
+      // if it's not a string, need to retrieve the value from DB
+      else {
+        const id = row[header.name];
 
-  //     // if it's not a string, need to retrieve the value from DB
-  //     else {
-  //       const id = row[header.name];
+        // get matching picklist item
+        if (header.url === 'picklist') {
+          console.log(header.url, header._id);
+          query = {_id: id};
+          await BackendService.searchPicklist(query)
+          .then(result => {
+            if (result && result.length && 'valuedecode' in result[0]) {
+              console.log('picklist', result[0]['valuedecode']);
+              cellData = result[0]['valuedecode'];
+            }
 
-  //       // get matching picklist item
-  //       if (header.url === 'picklist') {
-  //         query = {_id: id};
-  //         await BackendService.searchPicklist(query)
-  //         .then(result => {
-  //           if (result && result.length && 'valuedecode' in result[0]) {
-  //             console.log('picklist', result[0]['valuedecode']);
-  //             cellData = result[0]['valuedecode'];
-  //           }
+            // fallback if no matching id
+            else {
+              cellData = row[header.name];
+              console.log('picklist fallback');
+            }
+          });
+        }
 
-  //           // fallback if no matching id
-  //           else {
-  //             cellData = row[header.name];
-  //             console.log('picklist fallback');
-  //           }
-  //         });
-  //       }
+        // get matching app data item
+        else {
+          console.log('app');
+          query = {
+            url: header.url,
+            data: query
+          };
 
-  //       // get matching app data item
-  //       else {
-  //         console.log('app');
-  //         query = {
-  //           url: header.url,
-  //           data: query
-  //         };
+          result = await BackendService.searchAppData(query);
+          if (result && 'valuedecode' in result) {
+            cellData = result['valuedecode'];
+          }
 
-  //         result = BackendService.searchAppData(query);
-  //         if (result && 'valuedecode' in result) {
-  //           cellData = result['valuedecode'];
-  //         }
+          // fallback
+          else {
+            cellData = row[header.id];
+          }
+        }
+      }
 
-  //         // fallback
-  //         else {
-  //           cellData = row[header.id];
-  //         }
-  //       }
-  //     }
+      // replace ISO dates with more human readable versions
+      let date = moment(cellData, moment.ISO_8601, true);
+      if (date._isValid) cellData = date.format('YYY-MM-DD');
 
-  //     // replace ISO dates with more human readable versions
-  //     let date = moment(cellData, moment.ISO_8601, true);
-  //     if (date._isValid) cellData = date.format('YYY-MM-DD');
+      mappedRow[header] = cellData;
+    }
 
-  //     mappedRow.push(cellData);
-  //   }
-
-  //   return mappedRow;
-  // }));
-
-  // return rs;
+    return mappedRow;
+  }));
 }
 </script>
 
