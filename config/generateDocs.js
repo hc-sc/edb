@@ -83,28 +83,6 @@ getFiles(join(__dirname, '..', 'src', 'renderer', 'components'), /\.vue$/)
   });
 });
 
-// getDataFromFiles(
-//   join(__dirname, '..', 'src', 'renderer', 'components'),
-//   /\.vue$/,
-//   /<docs>([^]*)<\/docs>/
-// )
-// .then(fileData => {
-//   // fileData.map(file => console.log(file.file));
-//   // fileData.forEach(file => {
-//   //   const fileName = file.file.split('/').pop();
-//   //   console.log(fileName);
-//   //   try {
-//   //     fs.appendFile(join(__dirname, '..', 'index.md'), file.data[0], {encoding: 'utf8'});
-//   //   }
-//   //   catch(err) {
-//   //     console.error('Error appending to index file');
-//   //   }
-
-//   //   fs.writeFile(join(__dirname, '..', 'docs', fileName, file.data[0], () => console.error(`Error generating ${fileName}`)));
-//   // });
-// })
-// .catch(err => console.log(err));
-
 module.exports = {
   getFiles,
   getData,

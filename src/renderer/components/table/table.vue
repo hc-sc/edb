@@ -46,7 +46,7 @@ The table is used to display grid-like and/or tabular data. You can provide an a
       {{title}}
       <span slot='right'>
         <vue-icon id='`${id}-filter`' :label='$t("filter")' v-if='filterable' icon='filter_list' @click.native='addFilter'></vue-icon>
-        <vue-icon id='`${id}-add`' :label='$t("add")' v-if='addable' icon='add' @click.native='addItem' position='left'></vue-icon>
+        <vue-icon id='`${id}-add`' :label='$t("add")' v-if='addable' icon='add' @click.native='onAdd' position='left'></vue-icon>
       </span>
     </vue-toolbar>
     <div class='table-filter'>
