@@ -68,7 +68,7 @@
     "json-loader": "0.5.4",
     "jsonix": "^2.4.1",
     "jsonix-schema-compiler": "^2.3.9",
-    "node-uuid": "^1.4.7",
+    "node-uuid": "^1.4.8",
     "number-format.js": "^1.1.10",
     "postcss": "^6.0.1",
     "postcss-cssnext": "^2.11.0",

@@ -86,6 +86,11 @@ const picklists = {
 
     async updatePicklistItem({commit}, payload) {
       commit('updatePicklistItem', payload);
+    },
+
+    async newPicklistItem({dispatch}, picklistItem) {
+      await BackendService.createPicklist(picklistItem);
+      dispatch('getPicklists');
     }
   }
 };

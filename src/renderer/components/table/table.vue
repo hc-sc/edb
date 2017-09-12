@@ -216,7 +216,6 @@ export default {
     },
     async rows() {
       let mappedRows = await mapProjection(this.headers, this.queryResults);
-      console.log(mappedRows);
       return mappedRows;
     }
   },
@@ -297,26 +296,22 @@ async function mapProjection(projection, rows) {
 
         // get matching picklist item
         if (header.url === 'picklist') {
-          console.log(header.url, header._id);
           query = {_id: id};
           await BackendService.searchPicklist(query)
           .then(result => {
             if (result && result.length && 'valuedecode' in result[0]) {
-              console.log('picklist', result[0]['valuedecode']);
               cellData = result[0]['valuedecode'];
             }
 
             // fallback if no matching id
             else {
               cellData = row[header.name];
-              console.log('picklist fallback');
             }
           });
         }
 
         // get matching app data item
         else {
-          console.log('app');
           query = {
             url: header.url,
             data: query
