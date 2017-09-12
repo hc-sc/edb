@@ -24,11 +24,10 @@ const app = {
   actions: {
     async getAppDataAll({commit}, url) {
       try {
-        let appData = await BackendService.getAppDataAll(url);
-        commit('updateAppRecords', appData);
+        commit('updateAppRecords', await BackendService.getAppDataAll(url));
       }
       catch(err) {
-        console.error('Could not fetch data');
+        console.error('Could not fetch app data');
       }
     },
 
@@ -38,11 +37,11 @@ const app = {
         dispatch('getAppDataAll', url);
       }
       catch(err) {
-        console.error('Could not update data');
+        console.error('Could not update app data');
       }
     },
 
-    async newAppRecord({commit, dispatch}, {url}) {
+    async createAppData({commit, dispatch}, {url}) {
       try {
         await BackendService.createAppData(url, {});
         dispatch('getAppDataAll');

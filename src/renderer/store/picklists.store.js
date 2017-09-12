@@ -8,6 +8,10 @@ const picklists = {
   },
 
   getters: {
+    getPicklistItem: (state) => (id) => {
+      return state.picklists.filter(item => item._id === id)[0];
+    },
+
     adminnumbertype(state) {return state.picklists.filter(p => p.TYPE_NAME === 'EXTENSION_TYPE_ADMIN_NUMBER_TYPE');},
 
     applicationtype(state) {return state.picklists.filter(p => p.TYPE_NAME === 'EXTENSION_TYPE_APPLICATION_TYPE');},
@@ -88,7 +92,8 @@ const picklists = {
       commit('updatePicklistItem', payload);
     },
 
-    async newPicklistItem({dispatch}, picklistItem) {
+    async createPicklistItem({dispatch}, picklistItem) {
+      console.log(picklistItem);
       await BackendService.createPicklist(picklistItem);
       dispatch('getPicklists');
     }

@@ -111,8 +111,8 @@ import Input from '@/components/input/input.vue';
 import Toolbar from '@/components/toolbar/toolbar.vue';
 import Select from '@/components/select/select.vue';
 import Progress from '@/components/progress/progress.vue';
-import {debounce} from 'lodash';
 import moment from 'moment';
+import {mapGetters} from 'vuex';
 import {BackendService} from '@/store/backend.service.js';
 import {sortByLocale, matchFilter} from '@/services/utils.service.js';
 
@@ -200,7 +200,8 @@ export default {
     },
     page() {
       return `${this.offset * this.pageSize + 1} - ${Math.min((this.offset + 1) * this.pageSize, this.count)} of ${this.count}`;
-    }
+    },
+    ...mapGetters('picklists', ['getPicklistItem'])
   },
 
   // REMEMBER: async function automatically wrap their return in a Promise
@@ -215,7 +216,7 @@ export default {
       return this.items;
     },
     async rows() {
-      let mappedRows = await mapProjection(this.headers, this.queryResults);
+      let mappedRows = await this.mapProjection(this.headers, this.queryResults);
       return mappedRows;
     }
   },
@@ -245,6 +246,78 @@ export default {
     },
     deleteFilter(index) {
       this.filters.splice(index, 1);
+    },
+
+    /**
+     * mapProjection allows for mapping a collection of rows into new ones with
+     * only the desired headers. It can also replace cell data with a desired
+     * value
+     * @param {Array} projection - the desired columns. If it is
+     * just a string, will use as is. If it's an object of the form
+     * {id: String, url: String}, will replace the cell data with the
+     * result of the database query for the id at the url table, or
+     * fallback to the id
+     * @param {Array} rows - the rows to be mapped
+     * @returns {Array} - the altered rows
+     */
+    async mapProjection(projection, rows) {
+      // map the rows to match the projected headers.
+      // replace table ID's with corresponding values
+      return await Promise.all(rows.map(async row => {
+        let mappedRow = {};
+        let query, result, cellData;
+
+        for (let header of projection) {
+          // if the header is a string, use that as the prop
+          if (typeof header === 'string') {
+            cellData = row[header];
+          }
+
+          // if it's not a string, need to retrieve the value from DB
+          else {
+            const id = row[header.name];
+
+            // get matching picklist item from store
+            if (header.url === 'picklist') {
+              let item = this.getPicklistItem(id);
+              if (item != null) {
+                cellData = item.valuedecode;
+              }
+
+              // fallback if no matching id
+              else {
+                cellData = row[header.name];
+              }
+            }
+
+            // get matching app data item
+            else {
+              query = {
+                url: header.url,
+                data: query
+              };
+
+              result = await BackendService.searchAppData(query);
+              if (result && 'valuedecode' in result) {
+                cellData = result['valuedecode'];
+              }
+
+              // fallback
+              else {
+                cellData = row[header.id];
+              }
+            }
+          }
+
+          // replace ISO dates with more human readable versions
+          let date = moment(cellData, moment.ISO_8601, true);
+          if (date._isValid) cellData = date.format('YYY-MM-DD');
+
+          mappedRow[header] = cellData;
+        }
+
+        return mappedRow;
+      }));
     }
   },
   async created() {
@@ -264,81 +337,6 @@ export default {
     'vue-progress': Progress
   }
 };
-
-/**
- * mapProjection allows for mapping a collection of rows into new ones with
- * only the desired headers. It can also replace cell data with a desired
- * value
- * @param {Array} projection - the desired columns. If it is
- * just a string, will use as is. If it's an object of the form
- * {id: String, url: String}, will replace the cell data with the
- * result of the database query for the id at the url table, or
- * fallback to the id
- * @param {Array} rows - the rows to be mapped
- * @returns {Array} - the altered rows
- */
-async function mapProjection(projection, rows) {
-  // map the rows to match the projected headers.
-  // replace table ID's with corresponding values
-  return await Promise.all(rows.map(async row => {
-    let mappedRow = {};
-    let query, result, cellData;
-
-    for (let header of projection) {
-      // if the header is a string, use that as the prop
-      if (typeof header === 'string') {
-        cellData = row[header];
-      }
-
-      // if it's not a string, need to retrieve the value from DB
-      else {
-        const id = row[header.name];
-
-        // get matching picklist item
-        if (header.url === 'picklist') {
-          query = {_id: id};
-          await BackendService.searchPicklist(query)
-          .then(result => {
-            if (result && result.length && 'valuedecode' in result[0]) {
-              cellData = result[0]['valuedecode'];
-            }
-
-            // fallback if no matching id
-            else {
-              cellData = row[header.name];
-            }
-          });
-        }
-
-        // get matching app data item
-        else {
-          query = {
-            url: header.url,
-            data: query
-          };
-
-          result = await BackendService.searchAppData(query);
-          if (result && 'valuedecode' in result) {
-            cellData = result['valuedecode'];
-          }
-
-          // fallback
-          else {
-            cellData = row[header.id];
-          }
-        }
-      }
-
-      // replace ISO dates with more human readable versions
-      let date = moment(cellData, moment.ISO_8601, true);
-      if (date._isValid) cellData = date.format('YYY-MM-DD');
-
-      mappedRow[header] = cellData;
-    }
-
-    return mappedRow;
-  }));
-}
 </script>
 
 <style>

@@ -39,7 +39,7 @@ Allows for extending the collection of options in a select listbox.
         <vue-input id='value' :label='$tc("value")' v-model='newValue'></vue-input>
         <span class='spacer'></span>
         <vue-input id='valuedecode' :label='$tc("valuedecode")' v-model='newValueDecode' :max='255'></vue-input>
-        <vue-button display='flat' @click.native='onAdd(value)'>add</vue-button>
+        <vue-button display='flat' @click.native='onAdd()'>add</vue-button>
       </slot>
     </div>
   </div>
@@ -66,10 +66,18 @@ export default {
       type: Array,
       required: true
     },
+    typeName: {
+      type: String
+    },
     onAdd: {
       type: Function,
-      default(value) {
-        console.log('add new value', value);
+      default() {
+        this.$store.dispatch('picklists/createPicklistItem', {
+          TYPE_NAME: this.typeName,
+          value: this.newValue,
+          valuedecode: this.newValueDecode,
+          isExt: true
+        });
       }
     },
     displayValue: {

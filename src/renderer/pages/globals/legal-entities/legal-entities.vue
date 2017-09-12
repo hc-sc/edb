@@ -10,12 +10,12 @@
       <div slot='split-pane-2' class='pane'>
         <template v-if='legalentities && legalentities.length'>
           <div class='f-container f-cross-start'>
-            <vue-button class='input-prefix'>generate</vue-button>
+            <vue-button class='input-prefix' @click.native='generatePID("legalentitypid")'>generate</vue-button>
             <span class='f-gap'></span>
             <vue-input type='text' id='legalentitypid' :label='$t("legalentitypid")' v-model='model.legalentitypid' required disabled></vue-input>
           </div>
           <vue-input type='text' id='legalentityname' :label='$t("legalentityname")' required v-model='model.legalentityname' :max='255'></vue-input>
-          <vue-select-extensible id='legalentitytype' :label='$t("legalentitytype")' :value='model.legalentitytype' @input='model.legalentitytype = $event._id' :options='legalentitytype' :displayValue='displayPicklistItem' :matchValue='matchById'></vue-select-extensible>
+          <vue-select-extensible id='legalentitytype' :label='$t("legalentitytype")' typeName='EXTENSION_TYPE_LEGALENTITY_TYPE' :value='model.legalentitytype' @input='model.legalentitytype = $event._id' :options='legalentitytype' :displayValue='displayPicklistItem' :matchValue='matchById'></vue-select-extensible>
           <vue-chips deletable unique id='othername' :label='$tc("othername", 2)' v-model='model.othername'></vue-chips>
           <vue-table :title='$tc("legalentityidentifier", 2)' :items='model.legalentityidentifier' :headers='["identifier", {name: "legalentityidentifiertype", url: "picklist"}]' id='legalentityidentifier' :displayHeader='displayTranslation' addable @select='showDialog("legalentityidentifier", model.legalentityidentifier[$event], $event)' @add='addItem("legalentityidentifier")'></vue-table>
           <vue-fieldset :legend='$t("address")'>
