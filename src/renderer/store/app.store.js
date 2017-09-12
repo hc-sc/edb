@@ -41,10 +41,10 @@ const app = {
       }
     },
 
-    async createAppData({commit, dispatch}, {url}) {
+    async createAppData({commit, dispatch}, {url, model}) {
       try {
-        await BackendService.createAppData(url, {});
-        dispatch('getAppDataAll');
+        await BackendService.createAppData(url, model);
+        dispatch('getAppDataAll', url);
       }
       catch(err) {
         console.log('Could not create new record');
