@@ -95,7 +95,7 @@ module.exports = class ProductService extends BaseService {
         .then(rets => {
           products[index].dossier = JSON.parse(rets.data)._id.toString();
           // console.log(products[index].dossier);
-          return self.edb_post(products[index]);
+          return self.edb_put(products[index]);
         })
         .bind(index)
         .then(rets => {
