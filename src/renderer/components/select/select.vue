@@ -91,7 +91,7 @@ export default {
     matchValue: {
       type: Function,
       default(options, value) {
-        return options.findIndex(o => o === value);
+        return options.findIndex(o => o == value);
       }
     },
     getItems: {
@@ -217,7 +217,7 @@ export default {
         }
         else if (event.keyCode >= 65 && event.keyCode <= 90) {
           this.searchValue += event.key;
-          this.findBestMatch(true);
+          this.searchBestMatch(true);
         }
       }
       if (event.type === 'click') {
@@ -244,7 +244,7 @@ export default {
         else if (event.keyCode === 38) this.select(this.selected - 1);
         else if (event.keyCode >= 65 && event.keyCode <= 90) {
           this.searchValue += event.key;
-          this.findBestMatch();
+          this.searchBestMatch();
         }
       }
     },
@@ -257,7 +257,11 @@ export default {
       }
       else return `${this.id}-option-${this.selected}`;
     },
-    findBestMatch(shouldFocus) {
+    findMatchIndex() {
+      let match = this.matchValue(this.options, this.value);
+      if (match >= 0) this.selected = match;
+    },
+    searchBestMatch(shouldFocus) {
       const matchIndex = this.items.findIndex(item => {
         return isStringMatch(this.displayValue(item), this.searchValue);
       });
@@ -277,8 +281,7 @@ export default {
   },
   watch: {
     value() {
-      let match = this.matchValue(this.options, this.value);
-      if (match >= 0) this.selected = match;
+      this.findMatchIndex();
     },
   },
   mounted() {
@@ -293,6 +296,9 @@ export default {
       }
     `;
     this.$el.insertBefore(style, this.$el.firstChild);
+  },
+  created() {
+    this.findMatchIndex();
   },
   updated() {
     this.getFocusableNodes();
