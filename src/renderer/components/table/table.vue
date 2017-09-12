@@ -215,9 +215,32 @@ export default {
     async queryResults() {
       return this.items;
     },
-    async rows() {
-      let mappedRows = await this.mapProjection(this.headers, this.queryResults);
-      return mappedRows;
+    rows: {
+      async get() {
+        let tempRows = await this.mapProjection(this.headers, this.queryResults);
+
+        tempRows = sortByLocale(tempRows.filter((item) => {
+          let match = true;
+          this.filters.filter(f => {
+            return match && (match = (
+              matchFilter(f, 'prop', 'value', item)
+            ));
+          });
+          return match;
+        }),
+        this.desc,
+        this.sortBy);
+
+        tempRows = tempRows.slice(
+          this.offset * this.pageSize, (this.offset + 1) * this.pageSize
+        );
+
+        return tempRows;
+      },
+
+      watch() {
+        return [this.desc, this.sortBy, this.pageSize, this.offset, this.filters];
+      }
     }
   },
   methods: {
@@ -250,8 +273,7 @@ export default {
 
     /**
      * mapProjection allows for mapping a collection of rows into new ones with
-     * only the desired headers. It can also replace cell data with a desired
-     * value
+     * while replacing cell data with other values, such as table IDs
      * @param {Array} projection - the desired columns. If it is
      * just a string, will use as is. If it's an object of the form
      * {id: String, url: String}, will replace the cell data with the
@@ -263,10 +285,9 @@ export default {
     async mapProjection(projection, rows) {
       // map the rows to match the projected headers.
       // replace table ID's with corresponding values
-      return await Promise.all(rows.map(async row => {
+      return Promise.all(rows.map(async row => {
         let mappedRow = {};
         let query, result, cellData;
-
         for (let header of projection) {
           // if the header is a string, use that as the prop
           if (typeof header === 'string') {
@@ -284,7 +305,7 @@ export default {
                 cellData = item.valuedecode;
               }
 
-              // fallback if no matching id
+              // fallback to original value
               else {
                 cellData = row[header.name];
               }
@@ -302,7 +323,7 @@ export default {
                 cellData = result['valuedecode'];
               }
 
-              // fallback
+              // fallback to original value
               else {
                 cellData = row[header.id];
               }
