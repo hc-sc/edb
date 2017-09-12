@@ -180,15 +180,31 @@ var initDB = () => {
         let svrClass;
         let svr;
 
+        svrClass = require('./services/product.service');
+        svr = new svrClass('01.04.00');
+        qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/legalentity.service');
         svr = new svrClass('01.04.00');
         qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/substance.service');
         svr = new svrClass('01.04.00');
         qAry.push(svr.initDbfromTestData());
+        svrClass = require('./services/file.service');
+        svr = new svrClass('01.04.00');
+        qAry.push(svr.initDbfromTestData());
+        svrClass = require('./services/document.service');
+        svr = new svrClass('01.04.00');
+        qAry.push(svr.initDbfromTestData());
+        svrClass = require('./services/receiver.service');
+        svr = new svrClass('01.04.00');
+        qAry.push(svr.initDbfromTestData());
+        svrClass = require('./services/sender.service');
+        svr = new svrClass('01.04.00');
+        qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/toc.service');
         svr = new svrClass('01.04.00');
         qAry.push(svr.initDbfromTestData());
+        
         res(Q.all(qAry));
       }
     })
@@ -366,10 +382,10 @@ app.on('ready', function () {
   } else
     mainWindow.loadURL('file://' + __dirname + '/index.html');
 
-  mainWindow.setTitle('eDossier Builder (V1.5.0)');
+  mainWindow.setTitle('eDossier Builder (V1.5.1)');
   mainWindow.webContents.on('did-finish-load', function () {
     // TODO: setTitle is being deprecated, find and use alternative
-    mainWindow.setTitle('eDossier Builder (V1.5.0)');
+    mainWindow.setTitle('eDossier Builder (V1.5.1)');
     //if (configure.env.toString().toUpper() == 'DEV'){
     if (process.env.NODE_ENV === 'development')
       mainWindow.openDevTools();

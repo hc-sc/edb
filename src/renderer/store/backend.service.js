@@ -27,7 +27,7 @@ const BackendService = {
   },
 
   getGhstsAll: function () {
-    return handleIPC(BACKENDCONST.GHSTS_MSG_CHANNEL, 'get', {});
+    return handleIPC(BACKENDCONST.GHSTS_MSG_CHANNEL, 'get', undefined);
   },
 
   getGhsts: function (id) {
