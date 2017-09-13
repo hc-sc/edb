@@ -5,12 +5,12 @@
     <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
     <vue-split-pane>
       <div slot='split-pane-1'>
-        <vue-list-filter id='master-search' selectable @select='select' :items='legalentities' :displayValue='le => le.legalentityname' :label='$t("search")' sortByArgs='legalentityname'></vue-list-filter>
+        <vue-list-filter id='master-search' selectable @select='select' :items='appRecords' :displayValue='le => le.legalentityname' :label='$t("search")' sortByArgs='legalentityname'></vue-list-filter>
       </div>
       <div slot='split-pane-2' class='pane'>
-        <template v-if='legalentities && legalentities.length'>
+        <template v-if='appRecords && appRecords.length'>
           <div class='f-container f-cross-start'>
-            <vue-button class='input-prefix' @click.native='generatePID("legalentitypid")'>generate</vue-button>
+            <vue-button class='input-prefix' @click.native='assignPID("legalentitypid")'>generate</vue-button>
             <span class='f-gap'></span>
             <vue-input type='text' id='legalentitypid' :label='$t("legalentitypid")' v-model='model.legalentitypid' required disabled></vue-input>
           </div>
@@ -76,15 +76,6 @@ export default {
     };
   },
   computed: {
-    ...mapState(['loading']),
-    ...mapState('app', {
-      stateModel(state) {
-        return state.currentRecord;
-      },
-      legalentities(state) {
-        return state.appRecords;
-      }
-    }),
     ...mapGetters('picklists', [
       'country',
       'legalentitytype',
@@ -96,7 +87,6 @@ export default {
       this.$set(this, 'model', this.getEmptyModel('legalentity'));
     },
     addItem(ref) {
-      console.log('here');
       this.showDialog(ref);
     },
     showDialog(ref, model, index) {
@@ -119,11 +109,6 @@ export default {
     selectId(prop, item) {
       this.model[prop] = item._id;
     },
-    select(item) {
-      if (this.legalentities) {
-        this.$store.commit('app/updateCurrentRecord', item);
-      }
-    },
     displayCountry(value) {
       return `(${value.value}) - ${value.valuedecode}`;
     },
@@ -136,7 +121,7 @@ export default {
   },
   async created() {
     await this.$store.dispatch('app/getAppDataAll', 'legalentity');
-    this.select(this.legalentities[0]);
+    this.select(this.appRecords[0]);
     this.$store.commit('ready');
   },
   components: {

@@ -5,15 +5,15 @@
     <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
     <vue-split-pane>
       <div slot='split-pane-1'>
-        <vue-list-filter id='master-search' selectable @select='select' :items='senders' :displayValue='se => se.name' :label='$t("search")' sortByArgs='sender'></vue-list-filter>
+        <vue-list-filter id='master-search' selectable @select='select' :items='appRecords' :displayValue='displayDefaultFilterListItem' :label='$t("search")' sortByArgs='sender'></vue-list-filter>
       </div>
        <div slot='split-pane-2' class='pane'>
-         <template v-if='senders && senders.length'>
-          <h1>Senders</h1>
-         </template>
-         <template v-else>
-           {{$t('noitems')}}
-         </template>
+        <template v-if='appRecords && appRecords.length'>
+          <vue-select id='legalentities' :label='$tc("legalentity", 1)' :options='legalentities' :displayValue='v => v.legalentityname' @input='model.To_Legal_Entity_Id = $event._id'></vue-select>
+        </template>
+        <template v-else>
+          {{$t('noitems')}}
+        </template>
       </div>
     </vue-split-pane>
     <div class='bottom-float'>
@@ -31,33 +31,31 @@ import Dialog from '@/components/dialog/dialog.vue';
 import Icon from '@/components/icon/icon.vue';
 import ListFilter from '@/components/list-filter/list-filter.vue';
 import Progress from '@/components/progress/progress.vue';
+import Select from '@/components/select/select.vue';
 import SplitPane from '@/components/split-pane/split-pane.vue';
 import {mapState, mapGetters} from 'vuex';
 import {model} from '@/mixins/model.js';
+import {BackendService} from '@/store/backend.service.js';
 
 export default {
   name: 'Senders',
   mixins: [model],
-  computed: {
-    ...mapState(['loading']),
-    ...mapState('app', {
-      senders(state) {
-        return state.appRecords || [];
-      }
-    }),
-    ...mapGetters('picklists', [
-
-    ])
-  },
-  methods: {
-    select() {}
+  data() {
+    return {
+      legalentities: [],
+      model: {...this.getEmptyModel('sender')}
+    };
   },
   async beforeCreate() {
     this.$store.commit('loading');
   },
   async created() {
-    await this.$store.dispatch('app/getAppDataAll', 'sender');
-    this.select(this.senders[0]);
+    let [, les] = await Promise.all([
+      this.$store.dispatch('app/getAppDataAll', 'sender'),
+      BackendService.getAppData('legalentity')
+    ]);
+    this.legalentities = les;
+    this.select(this.appRecords[0]);
     this.$store.commit('ready');
   },
   components: {
@@ -65,6 +63,7 @@ export default {
     'vue-icon': Icon,
     'vue-list-filter': ListFilter,
     'vue-progress': Progress,
+    'vue-select': Select,
     'vue-split-pane': SplitPane
   }
 };

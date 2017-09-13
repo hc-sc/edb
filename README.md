@@ -11,7 +11,7 @@ It is built on [electron](https://github.com/atom/electron) using the [Applicati
  * Jsonix
  * Mongoose
  * TingoDB
- 
+
 ## Install dependencies
 
 After cloning the repo execute `npm install` in the cloned folder to install all dependencies.
@@ -23,7 +23,7 @@ After cloning the repo execute `npm install` in the cloned folder to install all
 
 ## Creating the eDB application installer
 
-Open a terminal and then type `npm run dist`, the final eDB application will be located as an executable file within the `prepublish` subfolder. 
+Open a terminal and then type `npm run dist`, the final eDB application will be located as an executable file within the `prepublish` subfolder.
 
 Run the executable file to install eDB application to start the application.
 
@@ -33,11 +33,11 @@ Run the executable file to install eDB application to start the application.
 
 The steps same as `Run the application`. When you change a source file in `src/renderer` folder and its subfolders and see webpack spit out the transpiled code, you can then refresh electron to see the changes
 
-### For Main and Renderer processes 
+### For Main and Renderer processes
 
-The fisrt step is the same as step 1 of `Run the application`. 
+The fisrt step is the same as step 1 of `Run the application`.
 
-Then goto Visual Studio Code debug panel, click `Debug` button when the drop down list displays `Launch`.   
+Then goto Visual Studio Code debug panel, click `Debug` button when the drop down list displays `Launch`.
 
 ## Diffrences Between Branches _DEV, _TEST, _PROD
 

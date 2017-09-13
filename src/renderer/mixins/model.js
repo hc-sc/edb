@@ -1,8 +1,27 @@
+/**
+ * @alexgagnon
+ * This is the mixin to include generic information that can be used by all or
+ * most entity screens that require a backing model. It uses Vuex to manage
+ * it's data
+ */
+
 import {ModelService} from '@/services/model.service.js';
 import {generatePID, getNestedProperty} from '@/services/utils.service.js';
 import {cloneDeep} from 'lodash';
+import {mapState} from 'vuex';
 
 const model = {
+  computed: {
+    ...mapState(['loading']),
+    ...mapState('app', {
+      stateModel(state) {
+        return state.currentRecord;
+      },
+      appRecords(state) {
+        return state.appRecords;
+      }
+    }),
+  },
   watch: {
     stateModel() {
       this.mapStateToModel();
@@ -19,7 +38,8 @@ const model = {
       this.mapStateToModel();
     },
 
-    // Save record in DB. If there is an _id prop, it's updating, if not it's a new record
+    // Save record in DB. If there is an _id prop, it's updating, if not it's a
+    // new record
     save(url) {
       // need to delete the reactive observer for db insertion/update
       let sendModel = cloneDeep(this.model);
@@ -32,7 +52,8 @@ const model = {
       }
     },
 
-    // Creates a new clone of the selected record so we can modify without commiting every change to vuex
+    // Creates a new clone of the selected record so we can modify without
+    // commiting every change to vuex
     mapStateToModel() {
       this.model = cloneDeep(this.stateModel);
     },
@@ -49,6 +70,18 @@ const model = {
       return value.valuedecode;
     },
 
+    // What to display in the List Filter pane of the Master-Detail screens
+    displayDefaultFilterListItem(obj) {
+      return obj.valuedecode;
+    },
+
+    // Updates the current page's state model
+    select(item) {
+      if (this.appRecords && this.appRecords.length) {
+        this.$store.commit('app/updateCurrentRecord', item);
+      }
+    },
+
     // Helper method for updating nested values
     assignNestedValue(ref, value) {
       let props = ref.split('.');
@@ -59,7 +92,9 @@ const model = {
       }
       this.$set(ref && ref.length ? ref : this.model, prop, value);
     },
-    generatePID(ref) {
+
+    // Assigns generated PIDs to a a specific field
+    assignPID(ref) {
       this.assignNestedValue(ref, generatePID());
     }
   }

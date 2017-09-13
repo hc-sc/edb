@@ -21,7 +21,7 @@ export default {
     pageNodes: function() {
       return [
         {
-          label: this.$tc('legalEntity', 2),
+          label: this.$tc('legalentity', 2),
           path: '/globals/legal-entities'
         },
         {

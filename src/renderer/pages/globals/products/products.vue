@@ -5,10 +5,10 @@
     <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
     <vue-split-pane>
       <div slot='split-pane-1'>
-        <vue-list-filter id='master-search' selectable @select='select' :items='products' :displayValue='se => se.name' :label='$t("search")' sortByArgs='product'></vue-list-filter>
+        <vue-list-filter id='master-search' selectable @select='select' :items='products' :displayValue='displayDefaultFilterListItem' :label='$t("search")' sortByArgs='product'></vue-list-filter>
       </div>
        <div slot='split-pane-2' class='pane'>
-         <template v-if='products && products.length'>
+        <template v-if='appRecords && appRecords.length'>
           <h1>products</h1>
          </template>
          <template v-else>
