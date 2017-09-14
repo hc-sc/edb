@@ -1,3 +1,11 @@
+/**
+ * @alexgagnon
+ * This file contains the mappings between the standard (schema), and the
+ * properties used in the application (i.e. those used as keys in the object
+ * once the XML -> JSON -> JS conversion is completed). These mappings are also
+ * used as the keys for the i18n translations. See src/renderer/i18n/*
+ */
+
 const elements = {
   ADMIN_NUMBER: 'ADMIN_NUMBER',
   ADMIN_NUMBER_TYPE: 'ADMIN_NUMBER_TYPE',
@@ -124,7 +132,7 @@ const elements = {
   SUBMISSION_VERSION_DATE: 'SUBMISSION_VERSION_DATE',
   SUBSTANCE: 'SUBSTANCE',
   SUBSTANCE_IDENTIFIER: 'SUBSTANCE_IDENTIFIER',
-  SUBSTANCE_IDENTIFIER_TYPE: 'SUBSTANCE_IDENTIFIER_TYPE',
+  SUBSTANCE_IDENTIFIER_TYPE: 'substanceidentifiertype',
   SUBSTANCE_NAME: 'SUBSTANCE_NAME',
   SUBSTANCE_PID: 'SUBSTANCE_PID',
   SUBSTANCES: 'SUBSTANCES',

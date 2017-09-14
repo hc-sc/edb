@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import Dialog from '@/components/dialog/dialog.vue';
 import Input from '@/components/input/input.vue';
 
 export default {
@@ -41,7 +40,6 @@ export default {
     }
   },
   components: {
-    'vue-dialog': Dialog,
     'vue-input': Input
   }
 };
