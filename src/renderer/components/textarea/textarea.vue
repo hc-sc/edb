@@ -30,19 +30,20 @@ Used for lengthy sections of text input. Has settings for required, disabled, ma
 
 ### Methods
 
+- inputEvent(value: String): calls cb and resize
 - resize(): resize the box to the height of the text content
 
 </docs>
 
 <template>
   <div class='textarea-group' @focusout='touched = true'>
-    <textarea class='textarea-field' :class='{empty, invalid}' :id='id' :name='compName' v-model='value' @input='resize' :required='required' :disabled='disabled'></textarea>
+    <textarea class='textarea-field' :class='{empty, invalid}' :id='id' :name='compName' :value='value' @input='inputEvent($event)' :required='required' :disabled='disabled'></textarea>
     <label :for='id' :class='{"error-text": invalid}'>
       {{label}}
       <span v-if='required' class='error-text'> *</span>
     </label>
     <div class='textarea-info'>
-      <small v-if='max' class='textarea-char-count' :class='[value.length > max ? "error-text" : ""]'>
+      <small v-if='max' class='textarea-info-right' :class='[value.length > max ? "error-text" : ""]'>
         {{value.length}}/{{max}}
       </small>
       <p class='error-text' v-if='required && touched && this.value.length === 0'>Required</p>
@@ -110,6 +111,10 @@ Used for lengthy sections of text input. Has settings for required, disabled, ma
       }
     },
     methods: {
+      inputEvent(event) {
+        this.resize(event);
+        this.cb(event.target.value);
+      },
       resize(event) {
         if (this.autoresize) {
           event.target.style.overflowY = 'hidden';
@@ -197,13 +202,21 @@ body:not(.js) .textarea-field:active:invalid {
   position: relative;
 }
 
-.textarea-char-count {
+.textarea-info-right, .textarea-info-left {
   position: absolute;
-  right: 3px;
   top: 0;
+  transition: .1s var(--fast-in-slow-out);
 }
 
-.textarea-char-count.error-text {
+.textarea-info-left {
+  left: 5px;
+}
+
+.textarea-info-right {
+  right: 5px;
+}
+
+.textarea-info small.error-text {
   animation: pop .2s;
   transform-origin: center center;
 }

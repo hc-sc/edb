@@ -37,7 +37,7 @@
     </vue-split-pane>
     <div class='bottom-float'>
       <vue-icon fab @click.native='save("legalentity")' id='save' :label='$t("save")' icon='save' position='top'></vue-icon>
-      <vue-icon fab id='add' :label='$t("add")' icon='add' position='top' @click.native='add'></vue-icon>
+      <vue-icon fab id='add' :label='$t("add")' icon='add' position='top' @click.native='add("legalentity")'></vue-icon>
       <vue-icon fab @click.native='revert' id='undo' :label='$t("revert")' icon='undo' position='top'>
       </vue-icon>
     </div>
@@ -54,16 +54,14 @@ import Fieldset from '@/components/fieldset/fieldset.vue';
 import Icon from '@/components/icon/icon.vue';
 import Input from '@/components/input/input.vue';
 import ListFilter from '@/components/list-filter/list-filter.vue';
-import Menu from '@/components/menu/menu.vue';
 import LegalEntityIdentifier from '@/pages/globals/legal-entities/legal-entity-identifier.vue';
 import Progress from '@/components/progress/progress.vue';
 import Select from '@/components/select/select.vue';
 import SelectExtensible from '@/components/select-extensible/select-extensible.vue';
 import SplitPane from '@/components/split-pane/split-pane.vue';
 import Table from '@/components/table/table.vue';
-import {mapState, mapGetters} from 'vuex';
+import {mapGetters} from 'vuex';
 import {model} from '@/mixins/model.js';
-import {cloneDeep} from 'lodash';
 
 export default {
   name: 'LegalEntities',
@@ -82,40 +80,6 @@ export default {
       'legalentityidentifiertype'
     ])
   },
-  methods: {
-    add() {
-      this.$set(this, 'model', this.getEmptyModel('legalentity'));
-    },
-    addItem(ref) {
-      this.showDialog(ref);
-    },
-    showDialog(ref, model, index) {
-      const dialog = this.$refs['dialog'];
-      const component = getComponent(ref);
-      dialog.show({
-        component,
-        model: model ? cloneDeep(model) : null
-      })
-      .then(result => {
-        if (index != null) this.$set(this.model[ref], index, result);
-        else this.model[ref].push(result);
-        dialog.close();
-      })
-      .catch(err => {
-        console.log(err);
-        dialog.close();
-      });
-    },
-    selectId(prop, item) {
-      this.model[prop] = item._id;
-    },
-    displayCountry(value) {
-      return `(${value.value}) - ${value.valuedecode}`;
-    },
-    displayTranslation(value) {
-      return this.$t(value);
-    }
-  },
   async beforeCreate() {
     this.$store.commit('loading');
   },
@@ -127,13 +91,11 @@ export default {
   components: {
     'vue-button': Button,
     'vue-chips': Chips,
-    'vue-contacts': Contacts,
     'vue-dialog': Dialog,
     'vue-fieldset': Fieldset,
     'vue-icon': Icon,
     'vue-input': Input,
     'vue-list-filter': ListFilter,
-    'vue-menu': Menu,
     'vue-progress': Progress,
     'vue-select-extensible': SelectExtensible,
     'vue-select': Select,
@@ -141,13 +103,4 @@ export default {
     'vue-table': Table
   }
 };
-
-function getComponent(ref) {
-  switch(ref) {
-    case 'contactperson':
-      return Contacts;
-    case 'legalentityidentifier':
-      return LegalEntityIdentifier;
-  }
-}
 </script>
