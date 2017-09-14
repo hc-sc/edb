@@ -33,6 +33,11 @@ const model = {
       return ModelService.getModel(model);
     },
 
+    // creates a new empty model
+    add(url) {
+      this.$set(this, 'model', this.getEmptyModel(url));
+    },
+
     // Reverts the current working model to what it is in vuex
     revert() {
       this.mapStateToModel();
@@ -75,6 +80,16 @@ const model = {
       return obj.valuedecode;
     },
 
+    // A default display function for countries
+    displayCountry(value) {
+      return `(${value.value}) - ${value.valuedecode}`;
+    },
+
+    // A default display function for translations
+    displayTranslation(value) {
+      return this.$t(value);
+    },
+
     // Updates the current page's state model
     select(item) {
       if (this.appRecords && this.appRecords.length) {
@@ -96,6 +111,34 @@ const model = {
     // Assigns generated PIDs to a a specific field
     assignPID(ref) {
       this.assignNestedValue(ref, generatePID());
+    },
+
+    // Adds a new item to tables via dialogs
+    addItem(ref) {
+      this.showDialog(ref);
+    },
+
+    // Shows a new dialog. There must be a dialog on the page with a ref of
+    // 'dialog'. It's a promise, so will resolve with the modal object, or
+    // reject with the error. NOTE: that to not have all the templates in
+    // memory at once, this.getComponent is defined in each with the modals
+    // they need
+    showDialog(ref, model, index) {
+      const dialog = this.$refs['dialog'];
+      const component = this.getComponent(ref);
+      dialog.show({
+        component,
+        model: model ? cloneDeep(model) : null
+      })
+      .then(result => {
+        if (index != null) this.$set(this.model[ref], index, result);
+        else this.model[ref].push(result);
+        dialog.close();
+      })
+      .catch(err => {
+        console.log(err);
+        dialog.close();
+      });
     }
   }
 };

@@ -80,6 +80,16 @@ export default {
       'legalentityidentifiertype'
     ])
   },
+  methods: {
+    getComponent(ref) {
+      switch(ref) {
+        case 'contactperson':
+          return Contacts;
+        case 'legalentityidentifier':
+          return LegalEntityIdentifier;
+      }
+    }
+  },
   async beforeCreate() {
     this.$store.commit('loading');
   },
