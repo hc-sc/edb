@@ -10,6 +10,9 @@
        <div slot='split-pane-2' class='pane'>
         <template v-if='appRecords && appRecords.length'>
           <vue-select id='legalentities' :label='$tc("legalentity", 1)' :options='legalentities' :displayValue='v => v.legalentityname' @input='model.To_Legal_Entity_Id = $event._id'></vue-select>
+          <vue-input id='shortname' :label='$t("SHORT_NAME")' v-model='model._shortname' required></vue-input>
+          <vue-input id='companycontactregulatoryrole' :label='$t("COMPANY_CONTACT_REGULATORY_ROLE")' v-model='model.companycontactregulatoryrole'></vue-input>
+          <vue-input id='remark' :label='$t("REMARK")' v-model='model.remark'></vue-input>
         </template>
         <template v-else>
           {{$t('noitems')}}
@@ -29,11 +32,11 @@
 <script>
 import Dialog from '@/components/dialog/dialog.vue';
 import Icon from '@/components/icon/icon.vue';
+import Input from '@/components/input/input.vue';
 import ListFilter from '@/components/list-filter/list-filter.vue';
 import Progress from '@/components/progress/progress.vue';
 import Select from '@/components/select/select.vue';
 import SplitPane from '@/components/split-pane/split-pane.vue';
-import {mapState, mapGetters} from 'vuex';
 import {model} from '@/mixins/model.js';
 import {BackendService} from '@/store/backend.service.js';
 
@@ -61,6 +64,7 @@ export default {
   components: {
     'vue-dialog': Dialog,
     'vue-icon': Icon,
+    'vue-input': Input,
     'vue-list-filter': ListFilter,
     'vue-progress': Progress,
     'vue-select': Select,
