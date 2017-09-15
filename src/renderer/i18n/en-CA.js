@@ -1,6 +1,14 @@
 import {elements, attributes, types} from '../../constants/names.js';
 
 export default {
+  pageleft: 'Page Left',
+  pageright: 'Page Right',
+  delete: 'Delete',
+  view: 'View',
+  edit: 'Edit',
+
+
+
   add: 'Add',
   address: 'Address',
   any: 'Any',

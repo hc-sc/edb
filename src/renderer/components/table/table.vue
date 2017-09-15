@@ -8,7 +8,11 @@ The table is used to display grid-like and/or tabular data. You can provide an a
 #### Props
 
 - addable (Boolean, default = false): if an add button should be displayed
+- deletable(Boolean, default = false): if an item should display a delete icon
+- onDelete(Function, default = $emit('action', {'delete', index}): emitted event
 - displayHeader (Function, default = header.label || header): controls how to display the header, for instance a translation function, or retrieving a property from an object
+- editable(Boolean, default = false): if an item should display an edit icon
+- onEdit(Function, default = $emit('action', {'edit', index}): emitted event
 - filterable (Boolean, default = true): allows for filtering of data
 - getItems(Function): if defined will override items and retrieves rows from the given function
 - header (Array, default = []): array of header columns
@@ -20,6 +24,8 @@ The table is used to display grid-like and/or tabular data. You can provide an a
 - selectable (Boolean, default = true): emits an event on select
 - sortable (Boolean, default = true): allows for sorting of data
 - title (String, required): the title of the table
+- deletable(Boolean, default = false): if an item should display a view icon
+- onDelete(Function, default = $emit('action', {'view', index}): emitted event
 
 #### Data
 
@@ -73,6 +79,9 @@ The table is used to display grid-like and/or tabular data. You can provide an a
         <table class='table-table' v-if='!loading && rows && rows.length'>
           <thead>
             <tr>
+              <th v-if='deletable' class='icon-cell'></th>
+              <th v-if='editable' class='icon-cell'></th>
+              <th v-if='viewable' class='icon-cell'></th>
               <th v-for='header of compHeaders' :key='header' @click='sort(header)' :class='[sortBy === header ? "selected" : "", {desc}]'>
                 {{displayHeader(header)}}
                 <span class='sort-icon'>↓</span>
@@ -81,6 +90,15 @@ The table is used to display grid-like and/or tabular data. You can provide an a
           </thead>
           <tbody>
             <tr v-for='(row, index) of rows' :key='index'>
+              <td v-if='deletable' class='icon-cell'>
+                <vue-icon :id='`${id}-row-${index}-delete`' icon='delete' :label='$t("delete")' @click.native='onDelete(row)' :disabled='!row.deletable || false' position='right'></vue-icon>
+              </td>
+              <td v-if='editable' class='icon-cell'>
+                <vue-icon :id='`${id}-row-${index}-edit`' icon='edit' :label='$t("edit")' @click.native='onEdit(row)' :disabled='!row.editable || false' position='right'></vue-icon>
+              </td>
+              <td v-if='viewable' class='icon-cell'>
+                <vue-icon :id='`${id}-row-${index}-view`' icon='view' :label='$t("view")' @click.native='onView(row)' :disabled='!row.viewable || false'></vue-icon>
+              </td>
               <td v-for='(header, headerIndex) of compHeaders' :key='headerIndex' @click='onSelect(index)'>{{row[header]}}</td>
             </tr>
           </tbody>
@@ -90,13 +108,9 @@ The table is used to display grid-like and/or tabular data. You can provide an a
       </div>
       <div v-if='pageable && rows && rows.length' class='table-pagination f-container f-middle'>
         <vue-select :id='`${id}-pagesize`' label='Page Size' :options='["1", "5", "10", "20"]' v-model='pageSize'></vue-select>
-        <span @click='changeOffset(offset - 1)' :disabled='offset === 0'>
-          <i class='material-icons'>chevron_left</i>
-        </span>
+        <vue-icon icon='chevron_left' :label='$t("pageleft")' :id='`${id}-pageleft`' @click.native='changeOffset(offset - 1)' :disabled='offset === 0'></vue-icon>
         <span class='page'>{{page}}</span>
-        <span @click='changeOffset(offset + 1)' :disabled='(this.offset + 1) * this.pageSize >= this.count'>
-          <i class='material-icons'>chevron_right</i>
-        </span>
+        <vue-icon icon='chevron_right' :label='$t("pageright")' :id='`${id}-pageright`' @click.native='changeOffset(offset + 1)' :disabled='(this.offset + 1) * this.pageSize >= this.count'></vue-icon>
       </div>
     </template>
   </vue-card>
@@ -158,6 +172,36 @@ export default {
     pageable: {
       type: Boolean,
       default: false
+    },
+    deletable: {
+      type: Boolean,
+      default: true
+    },
+    onDelete: {
+      type: Function,
+      default(value) {
+        this.$emit('action', {type: 'delete', value});
+      }
+    },
+    editable: {
+      type: Boolean,
+      default: false
+    },
+    onEdit: {
+      type: Function,
+      default(value) {
+        this.$emit('action', {type: 'edit', value});
+      }
+    },
+    viewable: {
+      type: Boolean,
+      default: false
+    },
+    onView: {
+      type: Function,
+      default(value) {
+        this.$emit('action', {type: 'view', value});
+      }
     },
     headers: {
       type: Array,
@@ -284,7 +328,9 @@ export default {
      * just a string, will use as is. If it's an object of the form
      * {name: String, url: String}, will replace the cell data with the
      * result of the database query for the name at the url table, or
-     * fallback to the name
+     * fallback to the name. To enable control of actions, need to provide
+     * some additional properties to the row so can be used to filter in the
+     * parent
      * @param {Array} rows - the rows to be mapped
      * @returns {Array} - the altered rows
      */
@@ -294,7 +340,7 @@ export default {
       // replace table ID's with corresponding values
       return Promise.all(rows.map(async row => {
         let mappedRow = {};
-        let query, result, cellData;
+        let result, cellData;
         for (let header of projection) {
           // if the header is a string, use that as the prop
           if (typeof header === 'string') {
@@ -320,20 +366,20 @@ export default {
 
             // get matching app data item
             else {
-              // query = {
-              //   url: header.url,
-              //   data: {_id: row[header.name]}
-              // };
+              try {
+                result = await BackendService.searchAppData(header.url, {_id: row[header.name]});
+                if (result && 'valuedecode' in result) {
+                  cellData = result['valuedecode'];
+                }
 
-              result = await BackendService.searchAppData(header.url, {_id: row[header.name]});
-              // if (result && 'valuedecode' in result) {
-              //   cellData = result['valuedecode'];
-              // }
-
-              // // fallback to original value
-              // else {
-              //   cellData = row[header.id];
-              // }
+                // fallback to original value
+                else {
+                  cellData = row[header.name];
+                }
+              }
+              catch(err) {
+                cellData = row[header.name];
+              }
             }
           }
 
@@ -341,7 +387,12 @@ export default {
           let date = moment(cellData, moment.ISO_8601, true);
           if (date._isValid) cellData = date.format('YYYY-MM-DD');
 
-          console.log(header, cellData);
+          // MUST add these keys to allow for CSS and parent handling of actions
+          mappedRow._id = row._id;
+          mappedRow.selected = row.selected;
+          mappedRow.deletable = row.deletable;
+          mappedRow.editable = row.editable;
+          mappedRow.viewable = row.viewable;
 
           mappedRow[typeof header === 'object' ? header.name : header] = cellData;
         }

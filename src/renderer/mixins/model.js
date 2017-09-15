@@ -139,6 +139,23 @@ const model = {
         console.log(err);
         dialog.close();
       });
+    },
+
+    // Handles table events
+    handleAction(items, event) {
+      switch(event.type) {
+        case 'delete':
+          console.log(items);
+          let index = items.findIndex(item => item._id != event.value._id);
+          items.splice(index, 1);
+          break;
+        case 'edit':
+          console.log('handle edit');
+          break;
+        case 'view':
+          console.log('handle view');
+          break;
+      }
     }
   }
 };
