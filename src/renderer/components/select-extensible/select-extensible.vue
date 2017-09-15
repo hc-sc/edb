@@ -9,6 +9,7 @@ Allows for extending the collection of options in a select listbox.
 
 - all of the same as Select
 - onAdd (Function): defines what to do when adding
+- typeName (String): the string describing what type it is
 
 #### Data
 
