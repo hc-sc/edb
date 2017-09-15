@@ -320,13 +320,12 @@ export default {
 
             // get matching app data item
             else {
-              query = {
-                url: header.url,
-                data: {_id: row[header.name]}
-              };
-              cellData = id;
+              // query = {
+              //   url: header.url,
+              //   data: {_id: row[header.name]}
+              // };
 
-              // result = await BackendService.searchAppData(query);
+              result = await BackendService.searchAppData(header.url, {_id: row[header.name]});
               // if (result && 'valuedecode' in result) {
               //   cellData = result['valuedecode'];
               // }
