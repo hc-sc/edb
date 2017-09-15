@@ -133,7 +133,6 @@ export default {
   methods: {
     show(config) {
       const {component, model} = config;
-      console.log(component, model);
       return new Promise((resolve, reject) => {
         if (component) {
           this.component = component;

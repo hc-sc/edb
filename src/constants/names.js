@@ -163,7 +163,7 @@ const attributes = {
   TO_FILE_ID: 'To_File_Id',
   TO_LEGAL_ENTITY_ID: 'To_Legal_Entity_Id',
   TO_SPECIFIC_FOR_RA: 'To_Specific_for_RA_Id',
-  TO_SUBSTANCE_ID: 'To_Substance_Id'
+  TO_SUBSTANCE_ID: 'toSubstanceId'
 };
 
 const urls = {

@@ -27,6 +27,7 @@ export default {
   methods: {
     getEmptyModel() {
       return {
+        toSubstanceId: '',
         quantity: 0,
         unit: {}
       };

@@ -81,7 +81,7 @@ The table is used to display grid-like and/or tabular data. You can provide an a
           </thead>
           <tbody>
             <tr v-for='(row, index) of rows' :key='index'>
-              <td v-for='(header, headerIndex) of headers' :key='headerIndex' @click='onSelect(index)'>{{row[header]}}</td>
+              <td v-for='(header, headerIndex) of compHeaders' :key='headerIndex' @click='onSelect(index)'>{{row[header]}}</td>
             </tr>
           </tbody>
         </table>
@@ -182,7 +182,11 @@ export default {
       filters: [],
       offset: 0,
       pageSize: 5,
-      sortBy: this.headers[0],
+
+      // NOTE: this cannot be defined now. If it is, such as this.headers[0],
+      // that value will be converted to a reactive object, screwing up the map
+      // projection function!
+      sortBy: undefined,
       desc: false,
       loading: true,
     };
@@ -198,6 +202,12 @@ export default {
         }
       });
     },
+    count() {
+      return this.queryResults.length;
+    },
+    queryResults() {
+      return this.items;
+    },
     page() {
       return `${this.offset * this.pageSize + 1} - ${Math.min((this.offset + 1) * this.pageSize, this.count)} of ${this.count}`;
     },
@@ -209,15 +219,11 @@ export default {
   // if you're okay to just pass on the promise, you don't need to await
   // if you can't call a method/property  without first having data, use await
   asyncComputed: {
-    async count() {
-      return (await this.queryResults).length;
-    },
-    async queryResults() {
-      return this.items;
-    },
     rows: {
       async get() {
         let tempRows = await this.mapProjection(this.headers, this.queryResults);
+
+        console.log(tempRows);
 
         tempRows = sortByLocale(tempRows.filter((item) => {
           let match = true;
@@ -276,13 +282,14 @@ export default {
      * while replacing cell data with other values, such as table IDs
      * @param {Array} projection - the desired columns. If it is
      * just a string, will use as is. If it's an object of the form
-     * {id: String, url: String}, will replace the cell data with the
-     * result of the database query for the id at the url table, or
-     * fallback to the id
+     * {name: String, url: String}, will replace the cell data with the
+     * result of the database query for the name at the url table, or
+     * fallback to the name
      * @param {Array} rows - the rows to be mapped
      * @returns {Array} - the altered rows
      */
     async mapProjection(projection, rows) {
+
       // map the rows to match the projected headers.
       // replace table ID's with corresponding values
       return Promise.all(rows.map(async row => {
@@ -307,7 +314,7 @@ export default {
 
               // fallback to original value
               else {
-                cellData = row[header.name];
+                cellData = id;
               }
             }
 
@@ -315,26 +322,29 @@ export default {
             else {
               query = {
                 url: header.url,
-                data: query
+                data: {_id: row[header.name]}
               };
+              cellData = id;
 
-              result = await BackendService.searchAppData(query);
-              if (result && 'valuedecode' in result) {
-                cellData = result['valuedecode'];
-              }
+              // result = await BackendService.searchAppData(query);
+              // if (result && 'valuedecode' in result) {
+              //   cellData = result['valuedecode'];
+              // }
 
-              // fallback to original value
-              else {
-                cellData = row[header.id];
-              }
+              // // fallback to original value
+              // else {
+              //   cellData = row[header.id];
+              // }
             }
           }
 
           // replace ISO dates with more human readable versions
           let date = moment(cellData, moment.ISO_8601, true);
-          if (date._isValid) cellData = date.format('YYY-MM-DD');
+          if (date._isValid) cellData = date.format('YYYY-MM-DD');
 
-          mappedRow[header] = cellData;
+          console.log(header, cellData);
+
+          mappedRow[typeof header === 'object' ? header.name : header] = cellData;
         }
 
         return mappedRow;

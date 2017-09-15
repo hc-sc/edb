@@ -121,7 +121,7 @@ const model = {
     // Shows a new dialog. There must be a dialog on the page with a ref of
     // 'dialog'. It's a promise, so will resolve with the modal object, or
     // reject with the error. NOTE: that to not have all the templates in
-    // memory at once, this.getComponent is defined in each with the modals
+    // memory at once, this.getComponent is defined in each page with the modals
     // they need
     showDialog(ref, model, index) {
       const dialog = this.$refs['dialog'];
@@ -131,7 +131,6 @@ const model = {
         model: model ? cloneDeep(model) : null
       })
       .then(result => {
-        console.log(result, ref, model, index);
         if (index != null) this.$set(this.model[ref], index, result);
         else this.model[ref].push(result);
         dialog.close();
