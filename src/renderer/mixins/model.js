@@ -131,6 +131,7 @@ const model = {
         model: model ? cloneDeep(model) : null
       })
       .then(result => {
+        console.log(result, ref, model, index);
         if (index != null) this.$set(this.model[ref], index, result);
         else this.model[ref].push(result);
         dialog.close();

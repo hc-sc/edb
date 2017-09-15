@@ -149,7 +149,7 @@ export default {
     },
     filterable: {
       type: Boolean,
-      default: true
+      default: false
     },
     sortable: {
       type: Boolean,
@@ -157,7 +157,7 @@ export default {
     },
     pageable: {
       type: Boolean,
-      default: true
+      default: false
     },
     headers: {
       type: Array,

@@ -9,7 +9,7 @@
 import Input from '@/components/input/input.vue';
 import SelectExtensible from '@/components/select-extensible/select-extensible.vue';
 import {mapGetters} from 'vuex';
-import {model} from '@/mixins/model.js'
+import {model} from '@/mixins/model.js';
 
 export default {
   name: 'SubstanceIdentifier',
