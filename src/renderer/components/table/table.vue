@@ -91,19 +91,21 @@ The table is used to display grid-like and/or tabular data. You can provide an a
           <tbody>
             <tr v-for='(row, index) of rows' :key='index'>
               <td v-if='deletable' class='icon-cell'>
-                <vue-icon :id='`${id}-row-${index}-delete`' icon='delete' :label='$t("delete")' @click.native='onDelete(row)' :disabled='!row.deletable || false' position='right'></vue-icon>
+                <vue-icon :id='`${id}-row-${index}-delete`' icon='delete' :label='$t("delete")' @click.native='onDelete(row.index)' :disabled='!row.deletable || false' position='right'></vue-icon>
               </td>
               <td v-if='editable' class='icon-cell'>
-                <vue-icon :id='`${id}-row-${index}-edit`' icon='edit' :label='$t("edit")' @click.native='onEdit(row)' :disabled='!row.editable || false' position='right'></vue-icon>
+                <vue-icon :id='`${id}-row-${index}-edit`' icon='edit' :label='$t("edit")' @click.native='onEdit(row.index)' :disabled='!row.editable || false' position='right'></vue-icon>
               </td>
               <td v-if='viewable' class='icon-cell'>
-                <vue-icon :id='`${id}-row-${index}-view`' icon='view' :label='$t("view")' @click.native='onView(row)' :disabled='!row.viewable || false'></vue-icon>
+                <vue-icon :id='`${id}-row-${index}-view`' icon='view' :label='$t("view")' @click.native='onView(row.index)' :disabled='!row.viewable || false'></vue-icon>
               </td>
-              <td v-for='(header, headerIndex) of compHeaders' :key='headerIndex' @click='onSelect(index)'>{{row[header]}}</td>
+              <td v-for='(header, headerIndex) of compHeaders' :key='headerIndex' @click='onSelect(row.index)'>{{row[header]}}</td>
             </tr>
           </tbody>
         </table>
-        <p v-else-if='!loading'>No results!</p>
+        <p v-else-if='!loading'>
+          <span v-if='required' :class='{"error-text": required}'>{{required ? $t('requireoneitem') : $t('noitems')}}</span>
+        </p>
         <vue-progress v-else></vue-progress>
       </div>
       <div v-if='pageable && rows && rows.length' class='table-pagination f-container f-middle'>
@@ -179,8 +181,8 @@ export default {
     },
     onDelete: {
       type: Function,
-      default(value) {
-        this.$emit('action', {type: 'delete', value});
+      default(index) {
+        this.$emit('action', {type: 'delete', index});
       }
     },
     editable: {
@@ -219,6 +221,10 @@ export default {
       default(value) {
         return value.label || value;
       }
+    },
+    required: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -338,7 +344,7 @@ export default {
 
       // map the rows to match the projected headers.
       // replace table ID's with corresponding values
-      return Promise.all(rows.map(async row => {
+      return Promise.all(rows.map(async (row, index) => {
         let mappedRow = {};
         let result, cellData;
         for (let header of projection) {
@@ -388,11 +394,16 @@ export default {
           if (date._isValid) cellData = date.format('YYYY-MM-DD');
 
           // MUST add these keys to allow for CSS and parent handling of actions
-          mappedRow._id = row._id;
           mappedRow.selected = row.selected;
           mappedRow.deletable = row.deletable;
           mappedRow.editable = row.editable;
           mappedRow.viewable = row.viewable;
+
+          // with the hash, we can determine which item to delete
+
+
+          // with the index, we can easily configure deleting
+          mappedRow.index = index;
 
           mappedRow[typeof header === 'object' ? header.name : header] = cellData;
         }
@@ -514,5 +525,9 @@ export default {
 .table-pagination > span[disabled] i {
   color: var(--disabled-color);
   cursor: not-allowed;
+}
+
+.icon-cell {
+  width: 44px;
 }
 </style>

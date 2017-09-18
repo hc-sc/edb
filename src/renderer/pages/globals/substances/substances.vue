@@ -55,7 +55,7 @@ export default {
     };
   },
   methods: {
-    getComponent(ref) {
+    getComponent() {
       return SubstanceIdentifier;
     }
   },

@@ -142,13 +142,12 @@ const model = {
     },
 
     // Handles table events
-    handleAction(items, event) {
+    handleAction(event, items) {
       switch(event.type) {
-        case 'delete':
-          console.log(items);
-          let index = items.findIndex(item => item._id != event.value._id);
-          items.splice(index, 1);
+        case 'delete': {
+          items.splice(event.index);
           break;
+        }
         case 'edit':
           console.log('handle edit');
           break;
