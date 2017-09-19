@@ -59,7 +59,7 @@ export default {
     ...mapGetters('picklists', ['formulationtype'])
   },
   methods: {
-    getComponent(ref) {
+    getComponent() {
       return Ingredients;
     }
   },

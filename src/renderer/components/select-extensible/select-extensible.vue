@@ -79,6 +79,7 @@ export default {
           valuedecode: this.newValueDecode,
           isExt: true
         });
+        this.adding = false;
       }
     },
     displayValue: {

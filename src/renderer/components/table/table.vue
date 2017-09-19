@@ -91,7 +91,7 @@ The table is used to display grid-like and/or tabular data. You can provide an a
           <tbody>
             <tr v-for='(row, index) of rows' :key='index'>
               <td v-if='deletable' class='icon-cell'>
-                <vue-icon :id='`${id}-row-${index}-delete`' icon='delete' :label='$t("delete")' @click.native='onDelete(row.index)' :disabled='!row.deletable || false' position='right'></vue-icon>
+                <vue-icon :id='`${id}-row-${index}-delete`' icon='delete' :label='$t("delete")' @click.native='onDelete(row.index)' :disabled='row.deletable || false' position='right'></vue-icon>
               </td>
               <td v-if='editable' class='icon-cell'>
                 <vue-icon :id='`${id}-row-${index}-edit`' icon='edit' :label='$t("edit")' @click.native='onEdit(row.index)' :disabled='!row.editable || false' position='right'></vue-icon>
@@ -185,6 +185,12 @@ export default {
         this.$emit('action', {type: 'delete', index});
       }
     },
+    isDeletable: {
+      type: Function,
+      default() {
+        return true;
+      }
+    },
     editable: {
       type: Boolean,
       default: false
@@ -195,6 +201,12 @@ export default {
         this.$emit('action', {type: 'edit', value});
       }
     },
+    isEditable: {
+      type: Function,
+      default() {
+        return true;
+      }
+    },
     viewable: {
       type: Boolean,
       default: false
@@ -203,6 +215,12 @@ export default {
       type: Function,
       default(value) {
         this.$emit('action', {type: 'view', value});
+      }
+    },
+    isViewable: {
+      type: Function,
+      default() {
+        return true;
       }
     },
     headers: {

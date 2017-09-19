@@ -24,13 +24,13 @@
             <vue-input type='text' id='zipcode' :label='$t("zipcode")' v-model='model.contactaddress.zipcode' :max='255'></vue-input>
             <vue-input type='text' id='city' :label='$t("city")' v-model='model.contactaddress.city' :max='255'></vue-input>
             <vue-input type='text' id='state' :label='$t("state")' v-model='model.contactaddress.state' :max='255'></vue-input>
-            <vue-select-extensible id='country' :label='$tc("country", 2)' :value='model.contactaddress.country' @input='model.contactaddress.country = $event._id' :options='country' :displayValue='displayCountry' :matchValue='matchById'></vue-select-extensible>
+            <vue-select-extensible id='country' :label='$tc("country", 2)' :value='model.contactaddress.country' @input='model.contactaddress.country = $event._id' :options='country' :displayValue='displayCountry' :matchValue='matchById' typeName='EXTENSION_TYPE_COUNTRY'></vue-select-extensible>
             <vue-input type='text' id='phone' :label='$t("phone")' v-model='model.contactaddress.phone' :max='255'></vue-input>
             <vue-input type='text' id='fax' :label='$t("fax")' v-model='model.contactaddress.fax' :max='255'></vue-input>
             <vue-input type='text' id='email' :label='$t("email")' v-model='model.contactaddress.email' :max='255'></vue-input>
             <vue-input type='text' id='website' :label='$t("website")' v-model='model.contactaddress.website'></vue-input>
           </vue-fieldset>
-          <vue-table :title='$tc("contact", 2)' :items='model.contactperson' id='contact' :headers='["lastname", "firstname", "title", "email"]' :displayHeader='displayTranslation' addable @select='showDialog("contactperson", model.contactperson[$event], $event)' @add='addItem("contactperson")' @action='handleAction(model.contactperson, $event)' required></vue-table>
+          <vue-table :title='$tc("contact", 2)' :items='model.contactperson' id='contact' :headers='["lastname", "firstname", "title", "email"]' :displayHeader='displayTranslation' addable @select='showDialog("contactperson", model.contactperson[$event], $event)' @add='addItem("contactperson")' @action='handleAction($event, model.contactperson)' required></vue-table>
         </template>
         <template v-else>{{$t('noitems')}}</template>
       </div>
