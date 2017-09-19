@@ -13,13 +13,12 @@ Used to indicate to the user when an event has happened via a small message on t
 </docs>
 
 <template>
-  <div class='snackbar' aria-live='assertive' aria-atomic='true' :aria-hidden='!snackbarShowing'>
+  <div class='snackbar' aria-live='assertive' aria-atomic='true' :aria-hidden='!message'>
     <slot name='message'>
-      <span class='snackbar-text'>Hello</span>
+      <span class='snackbar-text'>{{message}}</span>
     </slot>
     <slot name='actions'>
       <span class='snackbar-actions'>
-        <vue-button v-if='undoable' @click.native='undo'>undo</vue-button>
         <vue-button display='flat' @click.native='snackbarShowing = false'>okay</vue-button>
       </span>
     </slot>
@@ -31,34 +30,14 @@ Used to indicate to the user when an event has happened via a small message on t
   Code modified from https://material-components-web.appspot.com/snackbar.html
 */
 import Button from '@/components/button/button.vue';
+import {mapState} from 'vuex';
 
 export default {
   name: 'Snackbar',
-  props: {
-    message: {
-      type: String
-    },
-    undoable: {
-      type: Boolean,
-      default: false
-    },
-    delay: {
-      type: Number,
-      default: 2000
-    }
-  },
-  data() {
-    return {
-      snackbarShowing: false
-    };
-  },
-  methods: {
-    show() {
-      this.snackbarShowing = true;
-      window.setTimout(function() {
-        this.snackbarShowing = false;
-      }, this.delay);
-    }
+  computed: {
+    ...mapState({
+      'message': 'app/message'
+    })
   },
   components: {
     'vue-button': Button

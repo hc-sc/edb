@@ -46,11 +46,13 @@ const model = {
     // Save record in DB. If there is an _id prop, it's updating, if not it's a
     // new record
     save(url) {
+      this.$emit('notify');
       // need to delete the reactive observer for db insertion/update
       let sendModel = cloneDeep(this.model);
       delete sendModel.__ob__;
       if ('_id' in sendModel) {
-        this.$store.dispatch('app/updateAppData', {url, model: sendModel});
+        this.$store.dispatch('app/updateAppData', {url, model: sendModel})
+        .then(() => this.$emit('notify', {type: 'alert', message: 'Success'}));
       }
       else {
         this.$store.dispatch('app/createAppData', {url, model: sendModel});

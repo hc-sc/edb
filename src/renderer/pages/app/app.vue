@@ -1,17 +1,29 @@
 <template>
   <div>
+    <vue-snackbar ref='snackbar' @notify='notify($event)'></vue-snackbar>
     <router-view class='main-view'></router-view>
   </div>
 </template>
 
 <script>
+import Snackbar from '@/components/snackbar/snackbar.vue';
 import {mapActions} from 'vuex';
 
 export default {
   name: 'App',
-  actions: mapActions('picklists', ['getPicklists']),
+  methods: {
+    ...mapActions({
+      'getPicklists': 'picklists/getPicklists',
+      'notify': 'app/notify'
+    })
+  },
   created: function() {
-    this.$store.dispatch('picklists/getPicklists');
+    this.getPicklists().then(() => {
+      this.notify('Picklists loaded');
+    });
+  },
+  components: {
+    'vue-snackbar': Snackbar
   }
 };
 </script>

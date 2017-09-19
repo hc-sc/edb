@@ -6,7 +6,8 @@ const app = {
   state: {
     appRecords: [],
     currentRecord: {},
-    currentUrl: ''
+    currentUrl: '',
+    message: undefined,
   },
 
   mutations: {
@@ -18,10 +19,22 @@ const app = {
     },
     updateCurrentUrl(state, url) {
       state.currentUrl = url;
+    },
+    setMessage(state, message) {
+      console.log(message);
+      state.message = message;
+      console.log(state);
     }
   },
 
   actions: {
+    notify({commit}, message) {
+      commit('setMessage', message);
+      // setTimeout(() => {
+      //   commit('setMessage', '');
+      // }, 2000);
+    },
+
     async getAppDataAll({commit}, url) {
       try {
         commit('updateAppRecords', await BackendService.getAppDataAll(url));
