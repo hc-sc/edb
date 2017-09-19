@@ -18,6 +18,7 @@ The wrapper for all input types, including text, password, email, tel, date, etc
 - pattern (RegExp): the pattern the value must meet
 - required (Boolean): if the field must be filled
 - showErrors (Boolean): whether to show any error messages
+- tabindex (Number): the tab index of the input
 - type (String, default = 'text'): the type of the input field
 - value (String | Boolean | Number | Date): the value of the input field
 
@@ -53,7 +54,7 @@ The wrapper for all input types, including text, password, email, tel, date, etc
     <div class='input-group'>
       <template v-if='isTextField'>
         <div>
-          <input class='input-field' :class='{empty, invalid}' :type='type' :id='id' :name='compName' @input='cb($event.target.value)' :value='value' :required='required' :disabled='disabled'>
+          <input class='input-field' :class='{empty, invalid}' :type='type' :id='id' :name='compName' @input='cb($event.target.value)' :value='value' :required='required' :disabled='disabled' :tabindex='tabindex'>
           <label :for='id'>
             <slot>
               {{label}}
@@ -72,7 +73,7 @@ The wrapper for all input types, including text, password, email, tel, date, etc
       </template>
 
       <template v-else-if='type === "number"'>
-        <input type='number' :id='id' :name='compName' class='input-field' @input='cb($event.target.value)' :value='value' :class='{empty}' :min='min' :max='max'>
+        <input type='number' :id='id' :name='compName' class='input-field' @input='cb($event.target.value)' :value='value' :class='{empty}' :min='min' :max='max' :tabindex='tabindex'>
         <label :for='id'>{{label}}</label>
         <div class='input-info' v-if='showErrors'>
           <p class='error-text' v-if='required && touched && this.value.length === 0'>Required</p>
@@ -83,7 +84,7 @@ The wrapper for all input types, including text, password, email, tel, date, etc
       <template v-else-if='type === "range"'>
         <div class='input-range'>
           <div class='input-range-group'>
-            <input type='range' :id='id' :name='compName' class='input-field' @input='cb($event.target.value)' :value='value' :min='min || 0' :max='max || 100' :required='required' :disabled='disabled'>
+            <input type='range' :id='id' :name='compName' class='input-field' @input='cb($event.target.value)' :value='value' :min='min || 0' :max='max || 100' :required='required' :disabled='disabled' :tabindex='tabindex'>
             <label :for='id'>{{label}}</label>
             <div class='input-info'>
               <small class='input-info-left'>{{min || 0}}</small>
@@ -97,18 +98,18 @@ The wrapper for all input types, including text, password, email, tel, date, etc
       </template>
 
       <template v-else-if='type === "checkbox"'>
-        <input type='checkbox' :id='id' :name='compName' @change='cb(!value)' :value='value' :required='required' :disabled='disabled'>
+        <input type='checkbox' :id='id' :name='compName' @change='cb(!value)' :value='value' :required='required' :disabled='disabled' :tabindex='compTab'>
         <label :for='id'>{{label}}</label>
       </template>
 
       <template v-else-if='type === "radio"'>
-        <input type='radio' :id='id' :name='compName' @change='cb(id)' :value='id' :required='required' :disabled='disabled'>
+        <input type='radio' :id='id' :name='compName' @change='cb(id)' :value='id' :required='required' :disabled='disabled' :tabindex='compTab'>
         <div class='radio-button'></div>
         <label :for='id'>{{label}}</label>
       </template>
 
       <template v-else-if='type === "date"'>
-        <input type='date' :id='id' :name='compName' class='input-field' @input='cb($event.target.value)' :value='value' :min='toDate(Date.now())' :max='toDate(max)' :required='required' :disabled='disabled'>
+        <input type='date' :id='id' :name='compName' class='input-field' @input='cb($event.target.value)' :value='value' :min='toDate(Date.now())' :max='toDate(max)' :required='required' :disabled='disabled' :tabindex='compTab'>
         <label :for='id'>{{label}}</label>
       </template>
     </div>
@@ -169,6 +170,9 @@ export default {
       default(value) {
         this.$emit('input', value);
       }
+    },
+    tabindex: {
+      type: Number
     }
   },
   data() {
@@ -179,6 +183,9 @@ export default {
   computed: {
     compName() {
       return this.name || this.id;
+    },
+    compTab() {
+      return this.tabindex === 0 ? false : this.tabindex;
     },
     isTextField() {
       return (

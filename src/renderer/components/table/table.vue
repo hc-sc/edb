@@ -291,8 +291,6 @@ export default {
       async get() {
         let tempRows = await this.mapProjection(this.headers, this.queryResults);
 
-        console.log(tempRows);
-
         tempRows = sortByLocale(tempRows.filter((item) => {
           let match = true;
           this.filters.filter(f => {

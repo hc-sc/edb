@@ -145,7 +145,7 @@ const model = {
     handleAction(event, items) {
       switch(event.type) {
         case 'delete': {
-          items.splice(event.index);
+          items.splice(event.index, 1);
           break;
         }
         case 'edit':

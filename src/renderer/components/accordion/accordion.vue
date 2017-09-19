@@ -33,11 +33,19 @@ Presents multiple panels of content. If no JS is present, the content panels def
   <ul class='accordion' :id='id'>
     <slot name='accordion-items'>
       <li class='accordion-item' v-for='(item, index) of items' :key='index' :aria-expanded='expanded[index]'>
-        <div class='accordion-item-title'  @click='toggle(index)'>
-          <slot name='accordion-item-title'>
-            {{item[titleProp]}}
-          </slot>
-        </div>
+        <button type='button' class='accordion-item-title'  @click='toggle(index)'>
+          <vue-toolbar color='none'>
+            <span slot='left'>
+              <slot name='left'></slot>
+            </span>
+            <span slot='middle'>
+              {{item[titleProp]}}
+            </span>
+            <span slot='right'>
+              <slot name='right'></slot>
+            </span>
+          </vue-toolbar>
+        </button>
         <div class='accordion-item-content' :id='`${id}-${index}`'>
           <slot name='accordion-item-content'>
             <span>{{item[contentProp]}}</span>
@@ -49,6 +57,8 @@ Presents multiple panels of content. If no JS is present, the content panels def
 </template>
 
 <script>
+import Toolbar from '@/components/toolbar/toolbar.vue';
+
 export default {
   name: 'Accordion',
   props: {
@@ -75,39 +85,22 @@ export default {
   },
   data() {
     return {
-      expanded: this.items.map(() => false)
+      expanded: this.items.map(() => true)
     };
   },
   methods: {
     toggle(index) {
       this.expanded = this.expanded.map((item, itemIndex) => {
         return index === itemIndex ?
-          !item : this.autocollapse ?
-            false : item;
+          !item : (this.autocollapse ? false : item);
       });
     }
   },
-  mounted() {
-    const nodes = this.$el.querySelectorAll('.accordion-item');
-    for (let i = 0; i < nodes.length; ++i) {
-      const item = nodes[i];
-      const content = item.querySelector('.accordion-item-content > span');
-      const height = content.getBoundingClientRect().height;
-      const style = document.createElement('style');
-      style.textContent = `
-        .js #${this.id + '-' + i} {
-          height: 0;
-          opacity: .2;
-        }
-
-        .js [aria-expanded] #${this.id + '-' + i} {
-          height: ${height + 5}px;
-          opacity: 1;
-        }
-      `;
-
-      item.insertBefore(style, item.firstChild);
-    }
+  created() {
+    this.expanded = this.items.map(() => false);
+  },
+  components: {
+    'vue-toolbar': Toolbar
   }
 };
 </script>
@@ -126,31 +119,52 @@ export default {
 }
 
 .accordion-item-title {
+  width: 100%;
+  text-align: left;
   display: block;
   cursor: pointer;
   min-height: 3rem;
   line-height: 3rem;
   padding: 0 1rem;
   background-color: inherit;
+  border: none;
   border-bottom: 1px solid var(--divider);
 }
 
 .accordion-item-content {
   display: block;
+  opacity: 0;
   overflow: hidden;
   border-bottom: 1px solid var(--divider);
   transition: .2s var(--fast-out-slow-in);
+  max-height: 0;
+  transition: max-height .2s ease, opacity .1s .05s ease;
 }
 
-.js .accordion-item-content > span {
-  margin: 2rem;
+.accordion-item-title {
+  outline: none;
 }
 
-.js .accordion-item:last-of-type .accordion-item-content {
-  border: none;
+.accordion-item-title:hover {
+  background-color: rgba(0, 0, 0, .1);
 }
 
-.js .accordion-item:last-of-type:not([aria-expanded]) .accordion-item-title, .js .accordion-item:not([aria-expanded]) .accordion-item-content {
-  border: none;
+.accordion-item-title:focus {
+  background-color: var(--primary-color);
+  color: var(--primary-text);
 }
+
+.accordion-item-title span:first-child {
+  transition: transform .2s ease;
+}
+
+.accordion-item-title[aria-expanded] span:first-child {
+  transform: rotate(90deg);
+}
+
+.accordion-item-title[aria-expanded] + .accordion-item-content {
+  opacity: 1;
+  max-height: none;
+}
+
 </style>
