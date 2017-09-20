@@ -67,7 +67,7 @@ export default {
     this.$store.commit('loading');
   },
   async created() {
-    await this.$store.dispatch('app/getAppDataAll', 'product'),
+    await this.$store.dispatch('app/getAppDataAll', {url: 'product', sortBy: 'genericproductname'});
     this.select(this.appRecords[0]);
     this.$store.commit('ready');
   },

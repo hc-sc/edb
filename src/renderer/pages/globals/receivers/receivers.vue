@@ -55,7 +55,6 @@ export default {
       BackendService.getAppData('legalentity')
     ]);
     this.legalentities = les;
-    console.log(this.appRecords);
     this.select(this.appRecords[0]);
     this.$store.commit('ready');
   },

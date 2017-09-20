@@ -371,18 +371,18 @@ export default {
 
           // if it's not a string, need to retrieve the value from DB
           else {
-            const id = row[header.name];
+            const name = row[header.name];
 
             // get matching picklist item from store
             if (header.url === 'picklist') {
-              let item = this.getPicklistItem(id);
+              let item = this.getPicklistItem(name);
               if (item != null) {
                 cellData = item.valuedecode;
               }
 
               // fallback to original value
               else {
-                cellData = id;
+                cellData = name;
               }
             }
 
@@ -405,6 +405,8 @@ export default {
             }
           }
 
+          if (cellData && cellData.constructor === Object) cellData = 'null';
+
           // replace ISO dates with more human readable versions
           let date = moment(cellData, moment.ISO_8601, true);
           if (date._isValid) cellData = date.format('YYYY-MM-DD');
@@ -414,9 +416,6 @@ export default {
           mappedRow.deletable = row.deletable;
           mappedRow.editable = row.editable;
           mappedRow.viewable = row.viewable;
-
-          // with the hash, we can determine which item to delete
-
 
           // with the index, we can easily configure deleting
           mappedRow.index = index;

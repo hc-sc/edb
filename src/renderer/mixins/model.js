@@ -8,19 +8,15 @@
 import {ModelService} from '@/services/model.service.js';
 import {generatePID, getNestedProperty} from '@/services/utils.service.js';
 import {cloneDeep} from 'lodash';
-import {mapState} from 'vuex';
+import {mapState, mapAction} from 'vuex';
 
 const model = {
   computed: {
-    ...mapState(['loading']),
-    ...mapState('app', {
-      stateModel(state) {
-        return state.currentRecord;
-      },
-      appRecords(state) {
-        return state.appRecords;
-      }
-    }),
+    ...mapState({
+      loading: state => state.loading,
+      stateModel: state => state.app.currentRecord,
+      appRecords: state => state.app.appRecords
+    })
   },
   watch: {
     stateModel() {
