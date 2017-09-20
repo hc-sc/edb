@@ -7,7 +7,7 @@
 
 import {ModelService} from '@/services/model.service.js';
 import {generatePID, getNestedProperty} from '@/services/utils.service.js';
-import {cloneDeep} from 'lodash';
+import {cloneDeep, merge} from 'lodash';
 import {mapState, mapAction} from 'vuex';
 
 const model = {
@@ -91,7 +91,7 @@ const model = {
     // Updates the current page's state model
     select(item) {
       if (this.appRecords && this.appRecords.length) {
-        this.$store.commit('app/updateCurrentRecord', item);
+        this.$store.commit('app/updateCurrentRecord', merge(this.getEmptyModel(this.modelName), item));
       }
     },
 

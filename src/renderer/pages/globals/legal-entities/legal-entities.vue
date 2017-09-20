@@ -68,6 +68,7 @@ export default {
   mixins: [model],
   data() {
     return {
+      modelName: 'legalentity',
       model: {
         ...this.getEmptyModel('legalentity')
       }

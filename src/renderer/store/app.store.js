@@ -48,7 +48,7 @@ const app = {
     async updateAppData({commit, dispatch}, {url, model}) {
       await BackendService.updateAppData(url, model);
       dispatch('getAppDataAll', {url})
-      .then(commit('updateCurrentRecord', model))
+      .then(commit('updateCurrentRecord', model));
     },
 
     async createAppData({commit, dispatch}, {url, model}) {
