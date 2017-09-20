@@ -42,13 +42,13 @@ TODO: clean up focusable
 </docs>
 
 <template>
-  <div class='select' :class='{disabled}'>
+  <div class='select' :class='{disabled}' @focusout='touched = true'>
     <div :id='id' class='select-dropdown' role='listbox' :aria-controls='id'>
       <input type='text' v-model='searchValue' hidden>
       <button type='button' class='select-button' aria-haspopup='true' :aria-expanded='expanded' @click='toggle' @keydown='handleButtonEvent'>
         <span :class='{selected: selectedValue}'>{{label}}</span>
         <span v-if='selectedValue'>{{selectedValue}}</span>
-        <span class='error-text' v-if='required'>(required)</span>
+        <span class='error-text' v-if='required'> *</span>
         <span class='a-right' aria-hidden>▼</span>
       </button>
       <ul class='select-list' ref='trap' role='listbox' @keydown.esc.capture='close()' @keydown.tab='close()' :aria-activedescendant='getActiveDescendant()'>
@@ -57,6 +57,7 @@ TODO: clean up focusable
           {{displayValue(option)}}
         </li>
       </ul>
+      <p class='error-text' v-if='required && touched && this.value == null'>Required</p>
     </div>
   </div>
 </template>
@@ -114,6 +115,7 @@ export default {
   },
   data() {
     return {
+      touched: false,
       loading: false,
       searchValue: '',
       expanded: false,
@@ -363,6 +365,8 @@ export default {
   width: 100%;
   position: relative;
   display: inline-block;
+  /* overflow-y: auto;
+  overflow-x: hidden; */
 }
 
 .select-list {
@@ -375,6 +379,7 @@ export default {
   min-width: 250px;
   max-height: 400px;
   overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 .js .select-dropdown.mounted .select-list {

@@ -58,12 +58,12 @@ Dialogs are used to present a windowed experience. Modal dialogs restrict intera
             <div class='dialog-actions'>
               <vue-button ref='cancel' v-if='type === "confirm"' display='flat'>
                 <slot name='cancel-text'>
-                  cancel
+                  {{$t('cancel')}}
                 </slot>
               </vue-button>
               <vue-button ref='confirm' display='flat'>
                 <slot name='confirm-text'>
-                  confirm
+                  {{$t('confirm')}}
                 </slot>
               </vue-button>
             </div>
@@ -194,7 +194,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 99;
+  z-index: 99999;
   background: rgba(0, 0, 0, .2);
   /* animation: .2s var(--out) 0 0 reverse forward play fade; */
 }
@@ -208,7 +208,7 @@ export default {
 .dialog-popup {
   opacity: 0;
   display: none;
-  z-index: 100;
+  z-index: 100000;
   background: white;
   min-width: 280px;
   width: 100%;

@@ -75,6 +75,8 @@ export default {
   valuedecode: 'Display Value',
   website: 'Website',
   zipcode: 'Zip/Postal Code',
+  confirm: 'okay',
+  cancel: 'cancel',
 
   [elements.ADMIN_NUMBER]: 'Admin Number',
   [elements.ADMIN_NUMBER_TYPE]: 'Admin Number Type',

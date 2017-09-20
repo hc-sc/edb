@@ -221,8 +221,11 @@ export default {
   methods: {
     toDate(value) {
       if (!moment(value, [moment.ISO_8601], true).isValid()) return;
-
       return moment(value).format('YYYY-MM-DD');
+    },
+    reset() {
+      this.cb('');
+      this.touched = false;
     }
   },
   filters: {

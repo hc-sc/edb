@@ -31,16 +31,16 @@ Allows for extending the collection of options in a select listbox.
 <template>
   <div class='select-extensible'>
     <div class='f-container f-middle'>
-      <vue-select @input='$emit("input", $event)' :value='value' class='flex' :id='id' :label='label' :options='options' :displayValue='displayValue' :matchValue='matchValue'></vue-select>
+      <vue-select @input='$emit("input", $event)' :value='value' class='flex' :id='id' :label='label' :options='options' :displayValue='displayValue' :matchValue='matchValue' :required='required'></vue-select>
       <vue-icon id='`${id}-add`' :label='$t("add")' icon='add' @click.native='toggleAdd' v-if='!adding' position='left'></vue-icon>
       <vue-icon id='`${id}-clear`' :label='$t("clear")' icon='clear' @click.native='toggleAdd' v-else position='left'></vue-icon>
     </div>
     <div class='f-container f-middle' v-show='adding'>
       <slot name='add-fields'>
-        <vue-input id='value' :label='$tc("value")' v-model='newValue'></vue-input>
+        <vue-input id='value' :label='$tc("value")' v-model='newValue' required :max='255'></vue-input>
         <span class='spacer'></span>
         <vue-input id='valuedecode' :label='$tc("valuedecode")' v-model='newValueDecode' :max='255'></vue-input>
-        <vue-button display='flat' @click.native='onAdd()'>add</vue-button>
+        <vue-icon :id='`${id}-save`' :label='$t("save")' icon='save' position='left' @click.native='onAdd()'></vue-icon>
       </slot>
     </div>
   </div>
@@ -76,9 +76,10 @@ export default {
         this.$store.dispatch('picklists/createPicklistItem', {
           TYPE_NAME: this.typeName,
           value: this.newValue,
-          valuedecode: this.newValueDecode,
+          valuedecode: this.newValueDecode || this.newValue,
           isExt: true
         });
+        this.clear();
         this.adding = false;
       }
     },
