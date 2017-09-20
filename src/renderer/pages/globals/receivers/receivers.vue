@@ -46,18 +46,16 @@ export default {
       model: {...this.getEmptyModel('receiver')}
     };
   },
-  methods: {
-    select() {}
-  },
   async beforeCreate() {
     this.$store.commit('loading');
   },
   async created() {
     let [, les] = await Promise.all([
-      this.$store.dispatch('app/getAppDataAll', 'receiver'),
+      this.$store.dispatch('app/getAppDataAll', {url: 'receiver', sortBy: 'shortname'}),
       BackendService.getAppData('legalentity')
     ]);
     this.legalentities = les;
+    console.log(this.appRecords);
     this.select(this.appRecords[0]);
     this.$store.commit('ready');
   },

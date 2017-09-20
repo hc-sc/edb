@@ -53,7 +53,7 @@ export default {
   },
   async created() {
     let [, les] = await Promise.all([
-      this.$store.dispatch('app/getAppDataAll', 'sender'),
+      this.$store.dispatch('app/getAppDataAll', {url: 'sender', sortBy: '_shortname'}),
       BackendService.getAppData('legalentity')
     ]);
     this.legalentities = les;

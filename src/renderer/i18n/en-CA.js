@@ -6,9 +6,6 @@ export default {
   delete: 'Delete',
   view: 'View',
   edit: 'Edit',
-
-
-
   add: 'Add',
   address: 'Address',
   any: 'Any',
@@ -43,7 +40,7 @@ export default {
   legalentityname: 'Legal Entity Name',
   legalentitypid: 'Legal Entity PID',
   legalentitytype: 'Legal Entity Type',
-  manageApplication: 'Manage Application',
+  manageApplication: 'Manage Application Data',
   manageDossier: 'Manage Dossier | Manage Dossiers',
   mobile: 'Mobile',
   noitems: 'There are no items. Start by creating a new one',

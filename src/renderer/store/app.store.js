@@ -1,4 +1,6 @@
 import {BackendService} from '@/store/backend.service.js';
+import {sortByLocale} from '@/services/utils.service.js';
+
 
 const app = {
   namespaced: true,
@@ -35,33 +37,22 @@ const app = {
       // }, 2000);
     },
 
-    async getAppDataAll({commit}, url) {
-      try {
-        commit('updateAppRecords', await BackendService.getAppDataAll(url));
+    async getAppDataAll({commit}, {url, sortBy, desc = false}) {
+      let records = await BackendService.getAppDataAll(url);
+      if (sortBy != null) {
+        records = sortByLocale(records.slice(), desc, sortBy);
       }
-      catch(err) {
-        console.error('Could not fetch app data');
-      }
+      commit('updateAppRecords', records);
     },
 
     async updateAppData({dispatch}, {url, model}) {
-      try {
-        await BackendService.updateAppData(url, model);
-        dispatch('getAppDataAll', url);
-      }
-      catch(err) {
-        console.error('Could not update app data');
-      }
+      await BackendService.updateAppData(url, model);
+      dispatch('getAppDataAll', url);
     },
 
     async createAppData({commit, dispatch}, {url, model}) {
-      try {
-        await BackendService.createAppData(url, model);
-        dispatch('getAppDataAll', url);
-      }
-      catch(err) {
-        console.log('Could not create new record');
-      }
+      await BackendService.createAppData(url, model);
+      dispatch('getAppDataAll', url);
     }
   }
 };

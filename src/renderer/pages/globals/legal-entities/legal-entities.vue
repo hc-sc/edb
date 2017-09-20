@@ -94,8 +94,7 @@ export default {
     this.$store.commit('loading');
   },
   async created() {
-    await this.$store.dispatch('app/getAppDataAll', 'legalentity');
-    // sort this first
+    await this.$store.dispatch('app/getAppDataAll', {url: 'legalentity', sortBy: 'legalentityname'});
     this.select(this.appRecords[0]);
     this.$store.commit('ready');
   },

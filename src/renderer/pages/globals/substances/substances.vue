@@ -63,7 +63,7 @@ export default {
     this.$store.commit('loading');
   },
   async created() {
-    await this.$store.dispatch('app/getAppDataAll', 'substance'),
+    await this.$store.dispatch('app/getAppDataAll', {url: 'substance', sortBy: 'substancename'}),
     this.select(this.appRecords[0]);
     this.$store.commit('ready');
   },
