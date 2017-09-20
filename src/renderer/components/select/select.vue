@@ -45,10 +45,12 @@ TODO: clean up focusable
   <div class='select' :class='{disabled}' @focusout='touched = true'>
     <div :id='id' class='select-dropdown' role='listbox' :aria-controls='id'>
       <input type='text' v-model='searchValue' hidden>
-      <button type='button' class='select-button' aria-haspopup='true' :aria-expanded='expanded' @click='toggle' @keydown='handleButtonEvent'>
-        <span :class='{selected: selectedValue}'>{{label}}</span>
+      <button type='button' class='select-button' aria-haspopup='true' :aria-expanded='expanded' @click='toggle' @keydown='handleButtonEvent' :class='{invalid}'>
+        <span :class='{selected: selectedValue}'>
+          {{label}}
+          <span class='error-text' v-if='required'> *</span>
+        </span>
         <span v-if='selectedValue'>{{selectedValue}}</span>
-        <span class='error-text' v-if='required'> *</span>
         <span class='a-right' aria-hidden>▼</span>
       </button>
       <ul class='select-list' ref='trap' role='listbox' @keydown.esc.capture='close()' @keydown.tab='close()' :aria-activedescendant='getActiveDescendant()'>
@@ -57,8 +59,8 @@ TODO: clean up focusable
           {{displayValue(option)}}
         </li>
       </ul>
-      <p class='error-text' v-if='required && touched && this.value == null'>Required</p>
     </div>
+    <p class='error-text' v-if='invalid'>Required</p>
   </div>
 </template>
 
@@ -149,6 +151,9 @@ export default {
         if (matchIndex >= 0) val = this.displayValue(this.options[matchIndex]);
       }
       return val;
+    },
+    invalid() {
+      return this.required && this.touched && (this.value == null || this.value.length === 0);
     }
   },
   methods: {
@@ -345,6 +350,18 @@ export default {
   transition: var(--in);
 }
 
+.select-button.invalid, .select-button.invalid {
+  border-bottom: 1px solid var(--error-color);
+  box-shadow: none;
+  transition: var(--out);
+}
+
+
+.select-button.invalid:focus, .select-button.invalid:active {
+  box-shadow: 0 1px 0 0 var(--error-color);
+  transition: var(--in);
+}
+
 .select-button > span {
   padding-bottom: 2px;
 }
@@ -379,7 +396,6 @@ export default {
   min-width: 250px;
   max-height: 400px;
   overflow-y: hidden;
-  overflow-x: hidden;
 }
 
 .js .select-dropdown.mounted .select-list {

@@ -38,7 +38,7 @@ export default {
   language: 'Language | Languages',
   lastname: 'Last Name',
   legalentity: 'Legal Entity | Legal Entities',
-  legalentityidentifier: 'Legal Entity Identifier | Legal Entity Identifiers',
+  legalentityidentifier: 'Other Identifier | Other Identifiers',
   legalentityidentifiertype: 'Identifier Type',
   legalentityname: 'Legal Entity Name',
   legalentitypid: 'Legal Entity PID',
