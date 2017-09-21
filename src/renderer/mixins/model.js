@@ -90,6 +90,10 @@ const model = {
 
     // Updates the current page's state model
     select(item) {
+      // if (this.isDirty(this.stateModel, this.model)) {
+      //   console.log('DIRTY!');
+      // }
+      this.$dialog.show();
       if (this.appRecords && this.appRecords.length) {
         this.$store.commit('app/updateCurrentRecord', merge(this.getEmptyModel(this.modelName), item));
       }
@@ -153,7 +157,17 @@ const model = {
           console.log('handle view');
           break;
       }
+    },
+
+    // Until we handle validation in real time, call this function
+    // to determine whether a select or route change should occur
+    isDirty(init, curr) {
+      return JSON.stringify(init) === JSON.stringify(curr);
     }
+  },
+
+  beforeRouteLeave(to, from, next) {
+    next(this.isDirty(this.stateModel, this.model));
   }
 };
 
