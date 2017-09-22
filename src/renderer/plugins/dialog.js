@@ -1,11 +1,22 @@
-const Dialog = {
-  install(Vue, options) {
+import Dialog from '@/components/dialog/dialog.vue';
+
+const Plugin = {
+  install(Vue) {
+    if (this.installed) return;
+    this.installed = true;
+
+
     Vue.prototype.$dialog = {
       show() {
-        console.log(Vue, options);
+        console.log('hello');
+      },
+      hide() {
+
       }
     };
+
+    const Ctor = Vue.component('vue-dialog', Dialog);
   }
 };
 
-export default Dialog;
+export default Plugin;

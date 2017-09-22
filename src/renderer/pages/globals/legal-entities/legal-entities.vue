@@ -2,7 +2,7 @@
   <main>
     <vue-progress v-if='loading'></vue-progress>
     <template v-else>
-    <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
+    <!-- <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog> -->
     <vue-split-pane>
       <div slot='split-pane-1'>
         <vue-list-filter id='master-search' selectable @select='select' :items='appRecords' :displayValue='le => le.legalentityname' :label='$t("search")' sortByArgs='legalentityname'></vue-list-filter>
@@ -49,7 +49,6 @@
 import Button from '@/components/button/button.vue';
 import Chips from '@/components/chips/chips.vue';
 import Contacts from '@/pages/globals/legal-entities/contacts.vue';
-import Dialog from '@/components/dialog/dialog.vue';
 import Fieldset from '@/components/fieldset/fieldset.vue';
 import Icon from '@/components/icon/icon.vue';
 import Input from '@/components/input/input.vue';
@@ -102,7 +101,6 @@ export default {
   components: {
     'vue-button': Button,
     'vue-chips': Chips,
-    'vue-dialog': Dialog,
     'vue-fieldset': Fieldset,
     'vue-icon': Icon,
     'vue-input': Input,

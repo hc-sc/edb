@@ -16,7 +16,7 @@ import Nav from '@/components/nav/nav.vue';
 import {mapState} from 'vuex';
 
 export default {
-  name: 'Submission',
+  name: 'Submissions',
   computed: {
     ...mapState({
       title: state => state.dossier.title || '!!!'

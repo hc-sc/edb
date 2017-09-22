@@ -6,13 +6,14 @@ import Globals from '@/pages/globals/globals.vue';
 import Settings from '@/pages/settings/settings.vue';
 import Help from '@/pages/help/help.vue';
 import Page404 from '@/pages/404/404.vue';
-import Submission from '@/pages/submission/submission.vue';
-import SendersReceivers from '@/pages/submission/senders-receivers/senders-receivers.vue';
-import Dossier from '@/pages/submission/dossier/dossier.vue';
-import Product from '@/pages/submission/product/product.vue';
-import Files from '@/pages/submission/files/files.vue';
-import Documents from '@/pages/submission/documents/documents.vue';
-import TOC from '@/pages/submission/toc/toc.vue';
+import Submissions from '@/pages/submissions/submissions.vue';
+import Submission from '@/pages/submissions/submission/submission.vue';
+import SendersReceivers from '@/pages/submissions/senders-receivers/senders-receivers.vue';
+import Dossier from '@/pages/submissions/dossier/dossier.vue';
+import Product from '@/pages/submissions/product/product.vue';
+import Files from '@/pages/submissions/files/files.vue';
+import Documents from '@/pages/submissions/documents/documents.vue';
+import TOC from '@/pages/submissions/toc/toc.vue';
 import LegalEntities from '@/pages/globals/legal-entities/legal-entities.vue';
 import Senders from '@/pages/globals/senders/senders.vue';
 import Receivers from '@/pages/globals/receivers/receivers.vue';
@@ -27,9 +28,9 @@ const routes = [
   {path: '/dossiers', component: Dossiers},
   {
     path: '/submission',
-    component: Submission,
+    component: Submissions,
     children: [
-      // {path: '/', component: SubmissionNode},
+      {path: '/', component: Submission},
       {path: 'senders-receivers', component: SendersReceivers},
       {path: 'dossier', component: Dossier},
       {path: 'product', component: Product},
