@@ -13,13 +13,13 @@ Used to indicate to the user when an event has happened via a small message on t
 </docs>
 
 <template>
-  <div class='snackbar' aria-live='assertive' aria-atomic='true' :aria-hidden='!message'>
+  <div class='snackbar' aria-live='assertive' aria-atomic='true' :aria-hidden='isHidden'>
     <slot name='message'>
-      <span class='snackbar-text'>{{message}}</span>
+      <span class='snackbar-text'>Hello</span>
     </slot>
     <slot name='actions'>
       <span class='snackbar-actions'>
-        <vue-button display='flat' @click.native='snackbarShowing = false'>okay</vue-button>
+        <vue-button display='flat'>okay</vue-button>
       </span>
     </slot>
   </div>
@@ -30,14 +30,22 @@ Used to indicate to the user when an event has happened via a small message on t
   Code modified from https://material-components-web.appspot.com/snackbar.html
 */
 import Button from '@/components/button/button.vue';
-import {mapState} from 'vuex';
+import {bus} from '@/plugins/plugin-event-bus.js';
 
 export default {
   name: 'Snackbar',
-  computed: {
-    ...mapState({
-      'message': 'app/message'
-    })
+  data() {
+    return {
+      isHidden: true
+    };
+  },
+  mounted() {
+    bus.$on('addSnackbar', () => {
+      this.isHidden = false;
+      setTimeout(() => {
+        this.isHidden = true;
+      }, 1000);
+    });
   },
   components: {
     'vue-button': Button

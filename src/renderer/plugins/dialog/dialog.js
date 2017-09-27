@@ -1,22 +1,20 @@
 import Dialog from '@/components/dialog/dialog.vue';
+import {bus} from '@/plugins/plugin-event-bus.js';
 
-const Plugin = {
+export default {
   install(Vue) {
     if (this.installed) return;
     this.installed = true;
 
-
+    Vue.component('vue-dialog', Dialog);
     Vue.prototype.$dialog = {
-      show() {
-        console.log('hello');
+      show(params) {
+        bus.$emit('addDialog', params);
       },
       hide() {
 
       }
     };
 
-    const Ctor = Vue.component('vue-dialog', Dialog);
   }
 };
-
-export default Plugin;

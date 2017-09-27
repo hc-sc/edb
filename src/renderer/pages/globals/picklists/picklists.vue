@@ -64,7 +64,7 @@ export default {
     isTabbable(index) {
       return !this.expanded[index];
     },
-    updatePicklist(event, item) {
+    updatePicklist() {
       // this.$store.dispatch('picklists/updatePicklistItem', {
       //   id: item._id,
       //   item: Object.assign({}, item, {status: event ? 'disabled' : 'enabled'})

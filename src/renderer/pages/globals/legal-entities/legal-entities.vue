@@ -94,6 +94,7 @@ export default {
     this.$store.commit('loading');
   },
   async created() {
+    console.log(this.$root);
     await this.$store.dispatch('app/getAppDataAll', {url: 'legalentity', sortBy: 'legalentityname'});
     this.select(this.appRecords[0]);
     this.$store.commit('ready');

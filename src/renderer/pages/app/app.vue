@@ -1,12 +1,12 @@
 <template>
   <div>
-    <vue-snackbar ref='snackbar' @notify='notify($event)'></vue-snackbar>
+    <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
+    <vue-snackbar ref='snackbar'></vue-snackbar>
     <router-view class='main-view'></router-view>
   </div>
 </template>
 
 <script>
-import Snackbar from '@/components/snackbar/snackbar.vue';
 import {mapActions} from 'vuex';
 
 export default {
@@ -14,16 +14,10 @@ export default {
   methods: {
     ...mapActions({
       'getPicklists': 'picklists/getPicklists',
-      'notify': 'app/notify'
     })
   },
   created: function() {
-    this.getPicklists().then(() => {
-      this.notify('Picklists loaded');
-    });
-  },
-  components: {
-    'vue-snackbar': Snackbar
+    this.getPicklists().catch(() => console.log('Error loading picklists'));
   }
 };
 </script>

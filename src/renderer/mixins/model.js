@@ -8,7 +8,8 @@
 import {ModelService} from '@/services/model.service.js';
 import {generatePID, getNestedProperty} from '@/services/utils.service.js';
 import {cloneDeep, merge} from 'lodash';
-import {mapState, mapAction} from 'vuex';
+import {mapState} from 'vuex';
+import {bus} from '@/plugins/plugin-event-bus.js';
 
 const model = {
   computed: {
@@ -48,10 +49,13 @@ const model = {
       delete sendModel.__ob__;
       if ('_id' in sendModel) {
         this.$store.dispatch('app/updateAppData', {url, model: sendModel})
-        .then(() => this.$emit('notify', {type: 'alert', message: 'Success'}));
+        .then(() => bus.$emit('addSnackbar', 'updated!'))
+        .catch(() => bus.$emit('addSnackbar', 'failed!'));
       }
       else {
-        this.$store.dispatch('app/createAppData', {url, model: sendModel});
+        this.$store.dispatch('app/createAppData', {url, model: sendModel})
+        .then(() => bus.$emit('addSnackbar', 'saved!'))
+        .catch(() => bus.$emit('addSnackbar', 'FAILED!'));
       }
     },
 
@@ -89,11 +93,11 @@ const model = {
     },
 
     // Updates the current page's state model
-    select(item) {
-      // if (this.isDirty(this.stateModel, this.model)) {
-      //   console.log('DIRTY!');
-      // }
-      this.$dialog.show();
+    select(item, dirtyCheck = true) {
+      if (dirtyCheck && this.isDirty(this.stateModel, this.model)) {
+        console.log('DIRTY!');
+        return;
+      }
       if (this.appRecords && this.appRecords.length) {
         this.$store.commit('app/updateCurrentRecord', merge(this.getEmptyModel(this.modelName), item));
       }
