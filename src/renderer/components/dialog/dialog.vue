@@ -50,7 +50,7 @@ Dialogs are used to present a windowed experience. Modal dialogs restrict intera
         <section class='dialog-content' :id='`${id}-dialog-content`' :style='{maxHeight: `${height}`}'>
           <slot>
             <component v-if='component' :is='component' ref='component'></component>
-            <span v-else>{{content}}</span>
+            <span v-else>{{content || 'undefined'}}</span>
           </slot>
         </section>
         <footer>
@@ -133,7 +133,7 @@ export default {
   },
   methods: {
     show(config) {
-      const {component, model} = config;
+      const {component, model, message} = config;
       return new Promise((resolve, reject) => {
         if (component) {
           this.component = component;
@@ -142,6 +142,10 @@ export default {
               this.$set(this.$refs['component'], 'model', model);
             }
           });
+        }
+
+        else if (message) {
+          this.content = message;
         }
 
         this.expanded = true;
@@ -167,9 +171,10 @@ export default {
     },
     close() {
       this.expanded = false;
-      if (this.component) {
-        this.$set(this.$refs['component'], 'model', this.$refs['component'].getEmptyModel());
-      }
+      this.component = undefined;
+      // if (this.component) {
+      //   this.$set(this.$refs['component'], 'model', this.$refs['component'].getEmptyModel());
+      // }
     }
   },
   mounted() {

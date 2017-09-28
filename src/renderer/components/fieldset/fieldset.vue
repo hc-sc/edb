@@ -49,7 +49,6 @@ export default {
 .fieldset {
   border: none;
   outline: none;
-  overflow: hidden;
 }
 
 .fieldset-items {

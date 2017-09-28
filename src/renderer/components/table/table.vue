@@ -458,7 +458,6 @@ export default {
 
 .table-wrapper {
   overflow-x: auto;
-  overflow-y: hidden;
 }
 
 .table-table {
@@ -466,7 +465,6 @@ export default {
   border-spacing: 0;
   border: none;
   width: 100%;
-  overflow: hidden;
 }
 
 .table tbody tr {

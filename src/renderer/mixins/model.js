@@ -12,6 +12,11 @@ import {mapState} from 'vuex';
 import {bus} from '@/plugins/plugin-event-bus.js';
 
 const model = {
+  data() {
+    return {
+      dialog: undefined
+    }
+  },
   computed: {
     ...mapState({
       loading: state => state.loading,
@@ -93,19 +98,45 @@ const model = {
     },
 
     // Updates the current page's state model
-    select(item, dirtyCheck = true) {
+    selectListItem(item, dirtyCheck = true) {
       if (this.appRecords && this.appRecords.length) {
         if (dirtyCheck && !isEqual(this.stateModel, this.model)) {
-          this.showDialog();
-          // .then(() => {
-          //   this.$store.commit('app/updateCurrentRecord', merge(this.getEmptyModel(this.modelName), item));
-          // })
-          // .catch(() => {return;});
+          this.showDialog({message: 'testing'})
+          .then(() => {
+            this.$store.commit('app/updateCurrentRecord', merge(this.getEmptyModel(this.modelName), item));
+          })
+          .catch(() => {return;})
+          .then(() => this.dialog.close());
         }
         else {
           this.$store.commit('app/updateCurrentRecord', merge(this.getEmptyModel(this.modelName), item));
         }
       }
+    },
+
+    selectTableItem(componentName, model, index) {
+      this.showDialog(componentName, model)
+      .then(result => {
+        if (index != null) this.$set(this.model[componentName], index, result);
+        else this.model[componentName].push(result);
+        this.dialog.close();
+      })
+      .catch(err => {
+        console.log(err);
+        this.dialog.close();
+      });
+    },
+
+    // Shows a new dialog. There must be a dialog on the page with a ref of
+    // 'dialog'. It's a promise, so will resolve with the modal object, or
+    // reject with the error. NOTE: this.getComponent is defined in each page // with the modals they need
+    showDialog(componentName, model) {
+      this.dialog = this.$refs['dialog'];
+      const component = this.getComponent(componentName);
+      return this.dialog.show({
+        component,
+        model: model ? cloneDeep(model) : null
+      });
     },
 
     // Helper method for updating nested values
@@ -127,27 +158,6 @@ const model = {
     // Adds a new item to tables via dialogs
     addItem(ref) {
       this.showDialog(ref);
-    },
-
-    // Shows a new dialog. There must be a dialog on the page with a ref of
-    // 'dialog'. It's a promise, so will resolve with the modal object, or
-    // reject with the error. NOTE: this.getComponent is defined in each page // with the modals they need
-    showDialog(ref, model, index) {
-      const dialog = this.$refs['dialog'];
-      const component = this.getComponent(ref);
-      dialog.show({
-        component,
-        model: model ? cloneDeep(model) : null
-      })
-      .then(result => {
-        if (index != null) this.$set(this.model[ref], index, result);
-        else this.model[ref].push(result);
-        dialog.close();
-      })
-      .catch(err => {
-        console.log(err);
-        dialog.close();
-      });
     },
 
     // Handles table events
