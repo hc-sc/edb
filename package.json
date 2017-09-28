@@ -38,7 +38,6 @@
     "vue-async-computed": "^3.3.1",
     "vue-i18n": "^7.0.5",
     "vue-router": "^2.7.0",
-    "vue-toasted": "^1.1.19",
     "vuex": "^2.3.1"
   },
   "devDependencies": {
