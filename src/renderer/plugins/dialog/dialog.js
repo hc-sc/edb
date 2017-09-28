@@ -12,7 +12,7 @@ export default {
         bus.$emit('addDialog', params);
       },
       hide() {
-
+        bus.$emit('hideDialog');
       }
     };
 

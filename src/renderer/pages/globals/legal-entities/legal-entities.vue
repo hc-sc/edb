@@ -2,7 +2,7 @@
   <main>
     <vue-progress v-if='loading'></vue-progress>
     <template v-else>
-    <!-- <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog> -->
+    <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
     <vue-split-pane>
       <div slot='split-pane-1'>
         <vue-list-filter id='master-search' selectable @select='select' :items='appRecords' :displayValue='le => le.legalentityname' :label='$t("search")' sortByArgs='legalentityname'></vue-list-filter>
@@ -94,9 +94,8 @@ export default {
     this.$store.commit('loading');
   },
   async created() {
-    console.log(this.$root);
     await this.$store.dispatch('app/getAppDataAll', {url: 'legalentity', sortBy: 'legalentityname'});
-    this.select(this.appRecords[0]);
+    this.select(this.appRecords[0], false);
     this.$store.commit('ready');
   },
   components: {

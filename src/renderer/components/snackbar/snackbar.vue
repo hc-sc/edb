@@ -7,7 +7,6 @@ Used to indicate to the user when an event has happened via a small message on t
 
 ### Slots
 
-- message: the snackbar message
 - actions: the snackbar actions
 
 </docs>
@@ -15,11 +14,11 @@ Used to indicate to the user when an event has happened via a small message on t
 <template>
   <div class='snackbar' aria-live='assertive' aria-atomic='true' :aria-hidden='isHidden'>
     <slot name='message'>
-      <span class='snackbar-text'>Hello</span>
+      <span class='snackbar-text'>{{message}}</span>
     </slot>
     <slot name='actions'>
       <span class='snackbar-actions'>
-        <vue-button display='flat'>okay</vue-button>
+        <vue-button display='flat' @click.native='hide'>okay</vue-button>
       </span>
     </slot>
   </div>
@@ -36,15 +35,29 @@ export default {
   name: 'Snackbar',
   data() {
     return {
-      isHidden: true
+      isHidden: true,
+      message: ''
     };
   },
-  mounted() {
-    bus.$on('addSnackbar', () => {
+  methods: {
+    show({message}) {
+      this.message = message;
       this.isHidden = false;
       setTimeout(() => {
         this.isHidden = true;
       }, 1000);
+    },
+    hide() {
+      this.isHidden = true;
+      this.message = '';
+    }
+  },
+  mounted() {
+    bus.$on('addSnackbar', params => {
+      this.show(params);
+    });
+    bus.$on('hideSnackbar', () => {
+      this.hide();
     });
   },
   components: {

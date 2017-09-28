@@ -75,6 +75,11 @@ export default {
   confirm: 'okay',
   cancel: 'cancel',
 
+  SAVE_SUCCESS: 'Save successful',
+  SAVE_FAILURE: 'Save failed',
+  UPDATE_SUCCESS: 'Update succesful',
+  UPDATE_FAILURE: 'Update failure',
+
   [elements.ADMIN_NUMBER]: 'Admin Number',
   [elements.ADMIN_NUMBER_TYPE]: 'Admin Number Type',
   [elements.ALREADY_SUBMITTED]: 'Already Submitted',

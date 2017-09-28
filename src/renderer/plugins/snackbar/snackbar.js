@@ -9,9 +9,11 @@ export default {
     Vue.component('vue-snackbar', Snackbar);
 
     Vue.prototype.$snackbar = {
-      show(params = 'testing') {
-        console.log(this);
-        bus.$emit('addSnackbarItem', params);
+      show(params) {
+        if (params) bus.$emit('addSnackbarItem', params);
+      },
+      hide() {
+        bus.$emit('hideDialog');
       }
     };
   }

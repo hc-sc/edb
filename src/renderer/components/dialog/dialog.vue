@@ -78,6 +78,7 @@ Dialogs are used to present a windowed experience. Modal dialogs restrict intera
 <script>
 import Button from '@/components/button/button.vue';
 import Toolbar from '@/components/toolbar/toolbar.vue';
+import {bus} from '@/plugins/plugin-event-bus.js';
 
 export default {
   name: 'Dialog',
@@ -170,6 +171,14 @@ export default {
         this.$set(this.$refs['component'], 'model', this.$refs['component'].getEmptyModel());
       }
     }
+  },
+  mounted() {
+    bus.$on('addDialog', params => {
+      this.show(params);
+    });
+    bus.$on('hideDialog', () => {
+      this.hide();
+    });
   },
   components: {
     'vue-button': Button,

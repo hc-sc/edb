@@ -7,7 +7,7 @@
 
 import {ModelService} from '@/services/model.service.js';
 import {generatePID, getNestedProperty} from '@/services/utils.service.js';
-import {cloneDeep, merge} from 'lodash';
+import {cloneDeep, merge, isEqual} from 'lodash';
 import {mapState} from 'vuex';
 import {bus} from '@/plugins/plugin-event-bus.js';
 
@@ -49,13 +49,13 @@ const model = {
       delete sendModel.__ob__;
       if ('_id' in sendModel) {
         this.$store.dispatch('app/updateAppData', {url, model: sendModel})
-        .then(() => bus.$emit('addSnackbar', 'updated!'))
-        .catch(() => bus.$emit('addSnackbar', 'failed!'));
+        .then(() => bus.$emit('addSnackbar', {message: this.$t('UPDATE_SUCCESS')}))
+        .catch(() => bus.$emit('addSnackbar', {message: this.$t('UPDATE_FAILURE')}));
       }
       else {
         this.$store.dispatch('app/createAppData', {url, model: sendModel})
-        .then(() => bus.$emit('addSnackbar', 'saved!'))
-        .catch(() => bus.$emit('addSnackbar', 'FAILED!'));
+        .then(() => bus.$emit('addSnackbar', {message: this.$t('SAVE_SUCCESS')}))
+        .catch(() => bus.$emit('addSnackbar', {message: this.$t('SAVE_FAILURE')}));
       }
     },
 
@@ -94,12 +94,17 @@ const model = {
 
     // Updates the current page's state model
     select(item, dirtyCheck = true) {
-      if (dirtyCheck && this.isDirty(this.stateModel, this.model)) {
-        console.log('DIRTY!');
-        return;
-      }
       if (this.appRecords && this.appRecords.length) {
-        this.$store.commit('app/updateCurrentRecord', merge(this.getEmptyModel(this.modelName), item));
+        if (dirtyCheck && !isEqual(this.stateModel, this.model)) {
+          this.showDialog();
+          // .then(() => {
+          //   this.$store.commit('app/updateCurrentRecord', merge(this.getEmptyModel(this.modelName), item));
+          // })
+          // .catch(() => {return;});
+        }
+        else {
+          this.$store.commit('app/updateCurrentRecord', merge(this.getEmptyModel(this.modelName), item));
+        }
       }
     },
 
@@ -126,9 +131,7 @@ const model = {
 
     // Shows a new dialog. There must be a dialog on the page with a ref of
     // 'dialog'. It's a promise, so will resolve with the modal object, or
-    // reject with the error. NOTE: that to not have all the templates in
-    // memory at once, this.getComponent is defined in each page with the modals
-    // they need
+    // reject with the error. NOTE: this.getComponent is defined in each page // with the modals they need
     showDialog(ref, model, index) {
       const dialog = this.$refs['dialog'];
       const component = this.getComponent(ref);
@@ -161,12 +164,6 @@ const model = {
           console.log('handle view');
           break;
       }
-    },
-
-    // Until we handle validation in real time, call this function
-    // to determine whether a select or route change should occur
-    isDirty(init, curr) {
-      return JSON.stringify(init) === JSON.stringify(curr);
     }
   },
 
