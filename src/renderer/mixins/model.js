@@ -15,7 +15,7 @@ const model = {
   data() {
     return {
       dialog: undefined
-    }
+    };
   },
   computed: {
     ...mapState({
@@ -35,9 +35,14 @@ const model = {
       return ModelService.getModel(model);
     },
 
+    // required to deal with empty fields from the DB
+    mergeModelAndRecord(model, record) {
+      return merge(model, record);
+    },
+
     // creates a new empty model
-    add(url) {
-      this.$set(this, 'model', this.getEmptyModel(url));
+    add(model) {
+      this.$set(this, 'model', this.getEmptyModel(model));
     },
 
     // Reverts the current working model to what it is in vuex
@@ -100,8 +105,8 @@ const model = {
     // Updates the current page's state model
     selectListItem(item, dirtyCheck = true) {
       if (this.appRecords && this.appRecords.length) {
-        if (dirtyCheck && !isEqual(this.stateModel, this.model)) {
-          this.showDialog({message: 'testing'})
+        if (dirtyCheck && this.isDirty(this.stateModel, this.model)) {
+          this.dialog.show({message: this.$t('DISCARD_CHANGES')})
           .then(() => {
             this.$store.commit('app/updateCurrentRecord', merge(this.getEmptyModel(this.modelName), item));
           })
@@ -115,7 +120,7 @@ const model = {
     },
 
     selectTableItem(componentName, model, index) {
-      this.showDialog(componentName, model)
+      this.showFormDialog(componentName, merge(this.getEmptyModel(componentName), model))
       .then(result => {
         if (index != null) this.$set(this.model[componentName], index, result);
         else this.model[componentName].push(result);
@@ -127,10 +132,14 @@ const model = {
       });
     },
 
+    isDirty(init, curr) {
+      return !isEqual(init, curr);
+    },
+
     // Shows a new dialog. There must be a dialog on the page with a ref of
     // 'dialog'. It's a promise, so will resolve with the modal object, or
     // reject with the error. NOTE: this.getComponent is defined in each page // with the modals they need
-    showDialog(componentName, model) {
+    showFormDialog(componentName, model) {
       this.dialog = this.$refs['dialog'];
       const component = this.getComponent(componentName);
       return this.dialog.show({
@@ -157,7 +166,16 @@ const model = {
 
     // Adds a new item to tables via dialogs
     addItem(ref) {
-      this.showDialog(ref);
+      this.showDialog(ref)
+      .then(() => {
+        console.log('returned');
+      })
+      .catch(() => {
+
+      })
+      .then(() => {
+        this.dialog.close();
+      });
     },
 
     // Handles table events
@@ -178,7 +196,10 @@ const model = {
   },
 
   beforeRouteLeave(to, from, next) {
-    next(this.isDirty(this.stateModel, this.model));
+    if(this.isDirty(this.stateModel, this.model)) {
+      this.dialog.show();
+    }
+    next();
   }
 };
 

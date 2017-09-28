@@ -75,6 +75,7 @@ export default {
   confirm: 'okay',
   cancel: 'cancel',
 
+  DISCARD_CHANGES: 'You have unsaved changes. Discard?',
   SAVE_SUCCESS: 'Save successful',
   SAVE_FAILURE: 'Save failed',
   UPDATE_SUCCESS: 'Update succesful',

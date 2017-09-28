@@ -30,13 +30,6 @@ const app = {
   },
 
   actions: {
-    notify({commit}, message) {
-      commit('setMessage', message);
-      // setTimeout(() => {
-      //   commit('setMessage', '');
-      // }, 2000);
-    },
-
     async getAppDataAll({commit}, {url, sortBy, desc = false}) {
       let records = await BackendService.getAppDataAll(url);
       if (sortBy != null) {

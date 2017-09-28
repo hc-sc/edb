@@ -87,12 +87,6 @@ export default {
       type: String,
       required: true
     },
-    title: {
-      type: String
-    },
-    content: {
-      type: String
-    },
     width: {
       type: String,
       default: '80%'
@@ -128,7 +122,9 @@ export default {
   data() {
     return {
       expanded: false,
-      component: null
+      component: null,
+      title: '',
+      content: '',
     };
   },
   methods: {
@@ -172,9 +168,6 @@ export default {
     close() {
       this.expanded = false;
       this.component = undefined;
-      // if (this.component) {
-      //   this.$set(this.$refs['component'], 'model', this.$refs['component'].getEmptyModel());
-      // }
     }
   },
   mounted() {
