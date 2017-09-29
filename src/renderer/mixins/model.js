@@ -205,6 +205,12 @@ const model = {
       this.showMessageDialog({message: this.$t('DISCARD_CHANGES')})
       .then(() => {
         next();
+      })
+      .catch(() => {
+
+      })
+      .then(() => {
+        this.$dialog.close();
       });
     }
     else {
