@@ -200,6 +200,8 @@ const model = {
     }
   },
 
+  // Make sure to clean up before leaving, and prompt user if
+  // unsaved changes
   beforeRouteLeave(to, from, next) {
     if(this.isDirty(this.stateModel, this.model)) {
       this.showMessageDialog({message: this.$t('DISCARD_CHANGES')})
@@ -207,7 +209,7 @@ const model = {
         next();
       })
       .catch(() => {
-
+        console.error('Error changing routes');
       })
       .then(() => {
         this.$dialog.close();
