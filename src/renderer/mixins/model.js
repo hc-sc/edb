@@ -14,7 +14,7 @@ import {bus} from '@/plugins/plugin-event-bus.js';
 const model = {
   data() {
     return {
-      dialog: undefined
+      $dialog: null
     };
   },
   computed: {
@@ -53,7 +53,6 @@ const model = {
     // Save record in DB. If there is an _id prop, it's updating, if not it's a
     // new record
     save(url) {
-      this.$emit('notify');
       // need to delete the reactive observer for db insertion/update
       let sendModel = cloneDeep(this.model);
       delete sendModel.__ob__;
@@ -106,12 +105,12 @@ const model = {
     selectListItem(item, dirtyCheck = true) {
       if (this.appRecords && this.appRecords.length) {
         if (dirtyCheck && this.isDirty(this.stateModel, this.model)) {
-          this.dialog.show({message: this.$t('DISCARD_CHANGES')})
+          this.showMessageDialog({message: this.$t('DISCARD_CHANGES')})
           .then(() => {
             this.$store.commit('app/updateCurrentRecord', merge(this.getEmptyModel(this.modelName), item));
           })
           .catch(() => {return;})
-          .then(() => this.dialog.close());
+          .then(() => this.$dialog.close());
         }
         else {
           this.$store.commit('app/updateCurrentRecord', merge(this.getEmptyModel(this.modelName), item));
@@ -120,15 +119,16 @@ const model = {
     },
 
     selectTableItem(componentName, model, index) {
-      this.showFormDialog(componentName, merge(this.getEmptyModel(componentName), model))
+      this.showFormDialog(componentName, merge(this.getEmptyModel(componentName), model), index)
       .then(result => {
         if (index != null) this.$set(this.model[componentName], index, result);
         else this.model[componentName].push(result);
-        this.dialog.close();
       })
       .catch(err => {
         console.log(err);
-        this.dialog.close();
+      })
+      .then(() => {
+        this.$dialog.close();
       });
     },
 
@@ -140,12 +140,17 @@ const model = {
     // 'dialog'. It's a promise, so will resolve with the modal object, or
     // reject with the error. NOTE: this.getComponent is defined in each page // with the modals they need
     showFormDialog(componentName, model) {
-      this.dialog = this.$refs['dialog'];
+      this.$dialog = this.$refs['dialog'];
       const component = this.getComponent(componentName);
-      return this.dialog.show({
+      return this.$dialog.show({
         component,
         model: model ? cloneDeep(model) : null
       });
+    },
+
+    showMessageDialog({message}) {
+      this.$dialog = this.$refs['dialog'];
+      return this.$dialog.show({message});
     },
 
     // Helper method for updating nested values
@@ -166,15 +171,15 @@ const model = {
 
     // Adds a new item to tables via dialogs
     addItem(ref) {
-      this.showDialog(ref)
-      .then(() => {
-        console.log('returned');
+      this.showFormDialog(ref)
+      .then(result => {
+        this.model[ref].push(result);
       })
       .catch(() => {
-
+        this.$snackbar.show({message: this.$t('ADD_ITEM_FAILURE')});
       })
       .then(() => {
-        this.dialog.close();
+        this.$dialog.close();
       });
     },
 
@@ -197,9 +202,14 @@ const model = {
 
   beforeRouteLeave(to, from, next) {
     if(this.isDirty(this.stateModel, this.model)) {
-      this.dialog.show();
+      this.showMessageDialog({message: this.$t('DISCARD_CHANGES')})
+      .then(() => {
+        next();
+      });
     }
-    next();
+    else {
+      next();
+    }
   }
 };
 
