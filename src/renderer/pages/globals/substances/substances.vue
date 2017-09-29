@@ -5,7 +5,7 @@
     <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
     <vue-split-pane>
       <div slot='split-pane-1'>
-        <vue-list-filter id='master-search' selectable @select='select' :items='appRecords' :displayValue='displayDefaultFilterListItem' :label='$t("search")' sortByArgs='substancename'></vue-list-filter>
+        <vue-list-filter id='master-search' selectable @select='selectListItem' :items='appRecords' :displayValue='displayDefaultFilterListItem' :label='$t("search")' sortByArgs='substancename'></vue-list-filter>
       </div>
        <div slot='split-pane-2' class='pane'>
         <template v-if='appRecords && appRecords.length'>
@@ -15,7 +15,7 @@
             <vue-input type='text' id='substancepid' :label='$t("SUBSTANCE_PID")' v-model='model.substancepid' required disabled></vue-input>
           </div>
           <vue-textarea id='substancename' :label='$t("SUBSTANCE_NAME")' v-model='model.substancename' required :max='2000'></vue-textarea>
-          <vue-table id='substanceidentifier' :title='$t("SUBSTANCE_IDENTIFIER")' :items='model.substanceidentifier' :headers='[{name: "substanceidentifiertype", url: "picklist"}, "identifier"]' :displayHeader='displayTranslation' @select='showDialog("substanceidentifier", model.substanceidentifier[$event], $event)' addable @add='addItem("substanceidentifier")'></vue-table>
+          <vue-table id='substanceidentifier' :title='$t("SUBSTANCE_IDENTIFIER")' :items='model.substanceidentifier' :headers='[{name: "substanceidentifiertype", url: "picklist"}, "identifier"]' :displayHeader='displayTranslation' @select='selectTableItem("substanceidentifier", model.substanceidentifier[$event], $event)' addable @add='addItem("substanceidentifier")'></vue-table>
         </template>
         <template v-else>
           {{$t('noitems')}}
@@ -64,7 +64,7 @@ export default {
   },
   async created() {
     await this.$store.dispatch('app/getAppDataAll', {url: 'substance', sortBy: 'substancename'}),
-    this.select(this.appRecords[0]);
+    this.selectListItem(this.appRecords[0], false);
     this.$store.commit('ready');
   },
   components: {

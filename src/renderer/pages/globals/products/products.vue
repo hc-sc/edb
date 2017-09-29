@@ -5,7 +5,7 @@
     <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
     <vue-split-pane>
       <div slot='split-pane-1'>
-        <vue-list-filter id='master-search' selectable @select='select' :items='appRecords' :displayValue='displayDefaultFilterListItem' :label='$t("search")' sortByArgs='genericproductname'></vue-list-filter>
+        <vue-list-filter id='master-search' selectable @select='selectListItem' :items='appRecords' :displayValue='displayDefaultFilterListItem' :label='$t("search")' sortByArgs='genericproductname'></vue-list-filter>
       </div>
        <div slot='split-pane-2' class='pane'>
         <template v-if='appRecords && appRecords.length'>
@@ -16,7 +16,7 @@
           </div>
           <vue-input id='genericproductname' :label='$t("GENERIC_PRODUCT_NAME")' v-model='model.genericproductname' required :max='255'></vue-input>
           <vue-select-extensible id='formulationtype' :label='$t("FORMULATION_TYPE")' :options='formulationtype' :value='model.formulationtype' @input='model.formulationtype = $event._id' :matchValue='matchById' typeName='EXTENSION_TYPE_FORMULATION_TYPE' :displayValue='displayPicklistItem'></vue-select-extensible>
-          <vue-table id='ingredients' :title='$t("INGREDIENTS")' :items='model.ingredients.ingredient' :headers='[{name: "toSubstanceId", url: "substance"}, "quantity", {name: "unit", url: "picklist"}]' :displayHeader='displayTranslation' @select='showDialog("ingredients", model.ingredients.ingredient[$event], $event)' addable @add='addItem("ingredients")'></vue-table>
+          <vue-table id='ingredients' :title='$t("INGREDIENTS")' :items='model.ingredients.ingredient' :headers='[{name: "toSubstanceId", url: "substance"}, "quantity", {name: "unit", url: "picklist"}]' :displayHeader='displayTranslation' @select='selectTableItem("ingredients", model.ingredients.ingredient[$event], $event)' addable @add='addItem("ingredients")'></vue-table>
         </template>
         <template v-else>
           {{$t('noitems')}}
@@ -68,7 +68,7 @@ export default {
   },
   async created() {
     await this.$store.dispatch('app/getAppDataAll', {url: 'product', sortBy: 'genericproductname'});
-    this.select(this.appRecords[0]);
+    this.selectListItem(this.appRecords[0], false);
     this.$store.commit('ready');
   },
   components: {

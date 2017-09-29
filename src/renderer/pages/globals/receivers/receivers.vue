@@ -4,7 +4,7 @@
     <template v-else>
     <vue-split-pane>
       <div slot='split-pane-1'>
-        <vue-list-filter id='master-search' selectable @select='select' :items='appRecords' :displayValue='displayDefaultFilterListItem' :label='$t("search")' sortByArgs='shortname'></vue-list-filter>
+        <vue-list-filter id='master-search' selectable @select='selectListItem' :items='appRecords' :displayValue='displayDefaultFilterListItem' :label='$t("search")' sortByArgs='shortname'></vue-list-filter>
       </div>
        <div slot='split-pane-2' class='pane'>
         <template v-if='appRecords && appRecords.length'>
@@ -55,7 +55,7 @@ export default {
       BackendService.getAppData('legalentity')
     ]);
     this.legalentities = les;
-    this.select(this.appRecords[0]);
+    this.selectListItem(this.appRecords[0], false);
     this.$store.commit('ready');
   },
   components: {
