@@ -119,13 +119,11 @@ const ModelService = {
       case 'dossiercontext':
         return _.merge({}, Object.assign(modelDossiercontext.fields));
 
-
       case 'documentgeneric.documentnumber':
         return _.merge({}, Object.assign(modelDocumentNumber.fields));
 
       case 'documentnumber':
         return _.merge({}, Object.assign(modelDocumentNumber.fields));
-
 
       // case 'documentgeneric.documentcontentstatushistory':
       //     model = _.merge({}, Object.assign(modelDocumentContentStatusHistory.fields));
@@ -155,6 +153,14 @@ const ModelService = {
         model = _.merge({}, Object.assign(modelReceiver.fields));
         delete model.sender;
         return model;
+
+      case 'submission':
+        return {
+          submissiontitle: '',
+          submissionnumber: '',
+          submissionversiondate: '',
+          incremental: undefined
+        };
     }
   }
 };

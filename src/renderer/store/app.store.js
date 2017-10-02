@@ -6,10 +6,17 @@ const app = {
   namespaced: true,
 
   state: {
-    appRecords: [],
+    dossier: {},
+    submission: {},
+    Records: [],
     currentRecord: {},
     currentUrl: '',
-    message: undefined,
+  },
+
+  getters: {
+    submissions(state) {
+      return state.dossier.submission;
+    }
   },
 
   mutations: {
@@ -22,11 +29,12 @@ const app = {
     updateCurrentUrl(state, url) {
       state.currentUrl = url;
     },
-    setMessage(state, message) {
-      console.log(message);
-      state.message = message;
-      console.log(state);
-    }
+    updateCurrentDossier(state, dossier) {
+      state.dossier = dossier;
+    },
+    updateCurrentSubmission(state, submission) {
+      state.submission = submission;
+    },
   },
 
   actions: {

@@ -68,9 +68,7 @@ export default {
   data() {
     return {
       modelName: 'legalentity',
-      model: {
-        ...this.getEmptyModel('legalentity')
-      }
+      model: this.getEmptyModel('legalentity')
     };
   },
   computed: {
