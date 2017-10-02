@@ -2,6 +2,7 @@
   <main>
     <vue-progress v-if='loading'></vue-progress>
     <template v-else>
+    <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
     <vue-split-pane>
       <div slot='split-pane-1'>
         <vue-list-filter id='master-search' selectable @select='selectListItem' :items='appRecords' :displayValue='displayDefaultFilterListItem' :label='$t("search")' sortByArgs='shortname'></vue-list-filter>

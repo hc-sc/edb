@@ -81,6 +81,14 @@ const model = {
       });
     },
 
+    matchBy(propName) {
+      return (options, value) => {
+        return options.findIndex(o => {
+          return o[propName] === value;
+        });
+      };
+    },
+
     // The default mechanism for displaying picklist items
     displayPicklistItem(value) {
       return value.valuedecode;

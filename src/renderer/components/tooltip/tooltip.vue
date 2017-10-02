@@ -76,7 +76,8 @@ export default {
 }
 
 [role=tooltip].right {
-  right: -100%;
+  right: -200%;
+  top: 0;
 }
 
 [role=tooltip].top {
