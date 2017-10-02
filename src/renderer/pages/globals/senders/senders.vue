@@ -9,7 +9,7 @@
       </div>
        <div slot='split-pane-2' class='pane'>
         <template v-if='appRecords && appRecords.length'>
-          <vue-select id='legalentities' :label='$tc("legalentity", 1)' :options='legalentities' :value='model.legalentity' :displayValue='v => v.legalentityname' @input='model.To_Legal_Entity_Id = $event._id' :matchValue='matchBy("_id")'></vue-select>
+          <vue-select id='legalentities' :label='$tc("legalentity", 1)' :options='legalentities' :value='model.toLegalEntityId' :displayValue='v => v.legalentityname' @input='model.toLegalEntityId = $event._id' :matchValue='matchById'></vue-select>
           <vue-input id='shortname' :label='$t("SHORT_NAME")' v-model='model._shortname' required :max='20'></vue-input>
           <vue-input id='companycontactregulatoryrole' :label='$t("COMPANY_CONTACT_REGULATORY_ROLE")' v-model='model.companycontactregulatoryrole' :max='255'></vue-input>
           <vue-textarea id='remark' :label='$t("REMARK")' v-model='model.remark' :max='2000'></vue-textarea>

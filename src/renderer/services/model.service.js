@@ -79,6 +79,11 @@ const ModelService = {
       case 'adminnumber':
         return _.merge({}, Object.assign(modelAdminnumber.fields));
 
+      // this is to allow reactivity for vuex in ghsts.store.js
+      case 'dossier':
+        return {
+        };
+
       case 'dossierra':
         return _.merge({}, Object.assign(modelDossierRA.fields));
       case 'referenceddossier':

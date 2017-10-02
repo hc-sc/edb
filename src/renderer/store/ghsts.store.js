@@ -1,16 +1,27 @@
-// import {BackendService} from '@/store/backend.service.js';
+import {BackendService} from '@/store/backend.service.js';
 
 const ghsts = {
   namespaced: true,
 
   state: {
-    dossier: {},
-    submission: {},
+    dossier: null,
+    submission: null,
+  },
+
+  getters: {
+    submissions(state) {
+      return state.dossier.submission;
+    }
   },
 
   mutations: {
-    updateCurrentDossier() {},
-    updateCurrentSubmission() {},
+    updateCurrentDossier(state, dossier) {
+      console.log(dossier);
+      state.dossier = dossier;
+    },
+    updateCurrentSubmission(state, submission) {
+      state.submission = submission;
+    },
   }
 };
 
