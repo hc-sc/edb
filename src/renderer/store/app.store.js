@@ -8,7 +8,7 @@ const app = {
   state: {
     dossier: {},
     submission: {},
-    Records: [],
+    records: [],
     currentRecord: {},
     currentUrl: '',
   },
@@ -24,7 +24,7 @@ const app = {
       state.currentRecord = record;
     },
     updateAppRecords(state, payload) {
-      state.appRecords = payload;
+      state.records = payload;
     },
     updateCurrentUrl(state, url) {
       state.currentUrl = url;

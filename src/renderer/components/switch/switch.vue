@@ -1,37 +1,20 @@
-<docs>
-## Switch
-
-An accessible checkbox like widget that is more visually indicative for on/off true/false states.
-
-### Values
-
-#### Props
-
-- id (String, required): the id
-- label (String, required): the label
-- value
-- show (Boolean, default = false): whether to include the on/off values
-- 'on-value' (String, default = 'on'): which value to display for on/true states
-- 'off-value' (String, default = 'off'): inverse of 'on-value';
-- value (Boolean): the provided data
-- cb (Function, default = $emit('input', !value)): event emitter
-
-</docs>
-
 <template>
   <div class='switch'>
-    <label :for='id'>{{label}}</label>
     <div class='switch-group'>
-      <input v-model='value' type='checkbox' class='switch-checkbox' :id='id'>
-      <div class='switch-background'>
-        <div class='switch-knob'></div>
-      </div>
-      <span v-if='show'>{{displayValue}}</span>
+      <input :value='value' type='checkbox' class='switch-checkbox' :id='id' @keydown.space='cb(value)' :disabled='disabled'>
+      <label :for='id' @click='cb(value)' >
+        <div class='switch-background' aria-hidden='true'>
+          <div class='switch-knob'></div>
+        </div>
+        {{label}}
+        <span v-if='show'>({{displayValue}})</span>
+      </label>
     </div>
   </div>
 </template>
 
 <script>
+/** Based off of https://material-components-web.appspot.com/switch.html */
 export default {
   name: 'Switch',
   props: {
@@ -55,8 +38,13 @@ export default {
       type: String,
       default: 'off'
     },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
     value: {
-      type: Boolean
+      type: Boolean,
+      required: true
     },
     cb: {
       type: Function,
@@ -127,13 +115,17 @@ https://material-components-web.appspot.com/switch.html
   transition: .09s var(--fast-out-slow-in);
 }
 
-.switch-checkbox:checked ~ .switch-background {
+.switch-checkbox[disabled] + label {
+  color: var(--disabled-color);
+}
+
+.switch-checkbox:checked + label .switch-background {
   background-color: var(--primary-color);
   opacity: 1;
   transition: opacity .09s var(--fast-out-slow-in), background-color .09s var(--fast-out-slow-in);
 }
 
-.switch-checkbox:checked ~ .switch-background::before {
+.switch-checkbox:checked + label .switch-background::before {
   opacity: 0;
   transition: .09s var(--fast-out-slow-in);
 }
@@ -153,12 +145,33 @@ https://material-components-web.appspot.com/switch.html
   transition: .2s var(--fast-out-slow-in);
 }
 
-.switch-checkbox:checked ~ .switch-background > .switch-knob {
+.switch-checkbox + label .switch-knob::before {
+  content: '';
+  position: absolute;
+  top: -14px;
+  left: -14px;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  background-color: transparent;
+  opacity: .2;
+  transform: scale(0);
+  transition: var(--toggle);
+}
+
+.switch-checkbox:focus + label .switch-knob::before {
+  opacity: 1;
+  transform: scale(1);
+  background-color: rgba(0, 0, 0, .12);
+  transition: var(--toggle);
+}
+
+.switch-checkbox:checked + label .switch-background > .switch-knob {
   transform: translateX(15px);
   transition: .2s var(--fast-out-slow-in);
 }
 
-.switch-checkbox:active ~ .switch-background > .switch-knob {
+.switch-checkbox:active + label .switch-background > .switch-knob {
   box-shadow: var(--depth-3);
 }
 

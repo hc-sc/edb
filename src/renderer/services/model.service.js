@@ -159,7 +159,7 @@ const ModelService = {
           submissiontitle: '',
           submissionnumber: '',
           submissionversiondate: '',
-          incremental: undefined
+          incremental: false
         };
     }
   }
