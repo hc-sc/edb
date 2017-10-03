@@ -5,12 +5,12 @@
     <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
     <vue-split-pane>
       <div slot='split-pane-1'>
-        <vue-list-filter id='master-search' selectable @select='selectListItem' :items='appRecords' :displayValue='le => le.legalentityname' :label='$t("search")' sortByArgs='legalentityname'></vue-list-filter>
+        <vue-list-filter id='master-search' selectable @select='selectListItem' :items='records' :displayValue='le => le.legalentityname' :label='$t("search")' sortByArgs='legalentityname'></vue-list-filter>
       </div>
       <div slot='split-pane-2' class='pane'>
-        <template v-if='appRecords && appRecords.length'>
+        <template v-if='records && records.length'>
           <div class='f-container f-cross-start'>
-            <vue-button class='input-prefix' @click.native='assignPID("legalentitypid")'>generate</vue-button>
+            <vue-button class='input-prefix' @click.native='assignPID("legalentitypid")'>{{$t('generatepid')}}</vue-button>
             <span class='f-gap'></span>
             <vue-input type='text' id='legalentitypid' :label='$t("legalentitypid")' v-model='model.legalentitypid' required></vue-input>
           </div>
@@ -93,7 +93,7 @@ export default {
   },
   async created() {
     await this.$store.dispatch('app/getAppDataAll', {url: 'legalentity', sortBy: 'legalentityname'});
-    this.selectListItem(this.appRecords[0], false);
+    this.selectListItem(this.records[0], false);
     this.$store.commit('ready');
   },
   components: {

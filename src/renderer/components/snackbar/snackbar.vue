@@ -45,7 +45,7 @@ export default {
       this.isHidden = false;
       setTimeout(() => {
         this.isHidden = true;
-      }, 1000);
+      }, 5000);
     },
     hide() {
       this.isHidden = true;

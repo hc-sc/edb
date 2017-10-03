@@ -293,16 +293,16 @@ export default {
   },
   mounted() {
     this.getFocusableNodes();
-    const content = this.$refs['trap'];
-    const height = content.getBoundingClientRect().height;
     this.$el.firstChild.classList.add('mounted');
-    const style = document.createElement('style');
-    style.textContent = `
-      .js #${this.id}.mounted [aria-expanded] + .select-list {
-        height: ${height}px;
-      }
-    `;
-    this.$el.insertBefore(style, this.$el.firstChild);
+    // const content = this.$refs['trap'];
+    // const height = content.getBoundingClientRect().height;
+    // const style = document.createElement('style');
+    // style.textContent = `
+    //   .js #${this.id}.mounted [aria-expanded] + .select-list {
+    //     height: ${height}px;
+    //   }
+    // `;
+    // this.$el.insertBefore(style, this.$el.firstChild);
   },
   created() {
     this.findMatchIndex();
@@ -382,8 +382,6 @@ export default {
   width: 100%;
   position: relative;
   display: inline-block;
-  /* overflow-y: auto;
-  overflow-x: hidden; */
 }
 
 .select-list {
@@ -399,12 +397,13 @@ export default {
 }
 
 .js .select-dropdown.mounted .select-list {
-  height: 0;
+  max-height: 0;
   opacity: .2;
   transition: var(--out);
 }
 
 .js .select-dropdown.mounted [aria-expanded] + .select-list {
+  max-height: 500px;
   overflow-y: scroll;
   opacity: 1;
   transition: var(--in);

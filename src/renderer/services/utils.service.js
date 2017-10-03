@@ -89,6 +89,19 @@ export function matchFilter(filter, filterKey, filterValue, item) {
 }
 
 /**
+ * Match By - returns a function that returns the index of the first match
+ * @param {String} propName: the property to match on
+ * @returns {Number} the index of the first match, or -1
+ */
+export function matchBy(propName) {
+  return (options, value) => {
+    return options.findIndex(o => {
+      return o[propName] === value;
+    });
+  };
+}
+
+/**
  * generatePID produces a new PID with a custom prefix
  * @param {String} prefix - the prefix to append
  * @returns {String} the PID

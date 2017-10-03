@@ -60,6 +60,7 @@ The table is used to display grid-like and/or tabular data. You can provide an a
   <vue-card class='table' :class='{selectable, sortable, pageable, filterable}' @select='select' @sort='sort' @changeOffset='changeOffset'>
     <vue-toolbar>
       {{title}}
+      <span v-if='required'> *</span>
       <span slot='right'>
         <vue-icon id='`${id}-filter`' :label='$t("filter")' v-if='filterable' icon='filter_list' @click.native='addFilter'></vue-icon>
         <vue-icon id='`${id}-add`' :label='$t("add")' v-if='addable' icon='add' @click.native='onAdd' position='left'></vue-icon>
@@ -486,6 +487,7 @@ export default {
 
 .table th, .table td {
   text-align: left;
+  white-space: nowrap;
   padding: .5rem 1rem;
   border-bottom: 1px solid var(--divider);
 }

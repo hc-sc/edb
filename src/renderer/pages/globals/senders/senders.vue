@@ -5,10 +5,10 @@
     <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
     <vue-split-pane>
       <div slot='split-pane-1'>
-        <vue-list-filter id='master-search' selectable @select='selectListItem' :items='appRecords' :displayValue='displayDefaultFilterListItem' :label='$t("search")' sortByArgs='_shortname'></vue-list-filter>
+        <vue-list-filter id='master-search' selectable @select='selectListItem' :items='records' :displayValue='displayDefaultFilterListItem' :label='$t("search")' sortByArgs='_shortname'></vue-list-filter>
       </div>
        <div slot='split-pane-2' class='pane'>
-        <template v-if='appRecords && appRecords.length'>
+        <template v-if='records && records.length'>
           <vue-select id='legalentities' :label='$tc("legalentity", 1)' :options='legalentities' :value='model.toLegalEntityId' :displayValue='v => v.legalentityname' @input='model.toLegalEntityId = $event._id' :matchValue='matchById'></vue-select>
           <vue-input id='shortname' :label='$t("SHORT_NAME")' v-model='model._shortname' required :max='20'></vue-input>
           <vue-input id='companycontactregulatoryrole' :label='$t("COMPANY_CONTACT_REGULATORY_ROLE")' v-model='model.companycontactregulatoryrole' :max='255'></vue-input>
@@ -58,7 +58,7 @@ export default {
       BackendService.getAppData('legalentity')
     ]);
     this.legalentities = les;
-    this.selectListItem(this.appRecords[0], false);
+    this.selectListItem(this.records[0], false);
     this.$store.commit('ready');
   },
   components: {

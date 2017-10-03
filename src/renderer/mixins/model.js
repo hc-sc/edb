@@ -21,7 +21,7 @@ const model = {
     ...mapState({
       loading: state => state.loading,
       stateModel: state => state.app.currentRecord,
-      appRecords: state => state.app.appRecords
+      records: state => state.app.records
     })
   },
   watch: {
@@ -101,7 +101,7 @@ const model = {
 
     // A default display function for countries
     displayCountry(value) {
-      return `(${value.value}) - ${value.valuedecode}`;
+      return `${value.valuedecode} (${value.value})`;
     },
 
     // A default display function for translations
@@ -111,7 +111,7 @@ const model = {
 
     // Updates the current page's state model
     selectListItem(item, dirtyCheck = true) {
-      if (this.appRecords && this.appRecords.length) {
+      if (this.records && this.records.length) {
         if (dirtyCheck && this.isDirty(this.stateModel, this.model)) {
           this.showMessageDialog({message: this.$t('DISCARD_CHANGES')})
           .then(() => {

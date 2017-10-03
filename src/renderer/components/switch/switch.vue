@@ -115,8 +115,11 @@ https://material-components-web.appspot.com/switch.html
   transition: .09s var(--fast-out-slow-in);
 }
 
-.switch-checkbox[disabled] + label {
+.switch-checkbox,
+.switch-checkbox[disabled] + label,
+.switch-checkbox[disabled] + label .switch-background {
   color: var(--disabled-color);
+  cursor: not-allowed;
 }
 
 .switch-checkbox:checked + label .switch-background {

@@ -84,7 +84,6 @@ function handleIPC(msgChannel, method, query) {
         if (args.err) {
           handleError(args.err);
         } else {
-          console.log(args);
           res(JSON.parse(args.data));
         }
       });

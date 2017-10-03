@@ -82,12 +82,17 @@ export default {
   confirm: 'okay',
   cancel: 'cancel',
 
+  ADD_TO_BEGIN: 'Add a new Receiver to begin',
   DISCARD_CHANGES: 'You have unsaved changes. Discard?',
   NO_DOSSIER_SELECTED: 'Select a Dossier to review Submissions',
   SAVE_SUCCESS: 'Save successful',
   SAVE_FAILURE: 'Save failed',
-  UPDATE_SUCCESS: 'Update succesful',
+  SELECT_TO_BEGIN: 'Select a Receiver to Review Senders',
+  UPDATE_SUCCESS: 'Update successful',
   UPDATE_FAILURE: 'Update failure',
+
+  REGULATORY_AUTHORITY_DOSSIER_TYPE: 'Regulatory Authority Dossier Type',
+  REGULATORY_AUTHORITY_FILE_INFORMATION: 'Regulatory Authority File Information',
 
   [elements.ADMIN_NUMBER]: 'Admin Number',
   [elements.ADMIN_NUMBER_TYPE]: 'Admin Number Type',
@@ -126,7 +131,7 @@ export default {
   [elements.DOCUMENT_VOLUME]: 'Document Volume',
   [elements.DOCUMENT_YEAR]: 'Document Years',
   [elements.DOSSIER]: 'Dossier',
-  [elements.DOSSIER_COMP_ID]: 'Dossier Comp Id',
+  [elements.DOSSIER_COMP_ID]: 'Dossier Company Id',
   [elements.DOSSIER_CONTEXT]: 'Dossier Context',
   [elements.DOSSIER_DESCRIPTION_TITLE]: 'Dossier Title',
   [elements.DOSSIER_NUMBER]: 'Dossier Number',
