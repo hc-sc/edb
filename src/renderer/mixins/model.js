@@ -8,19 +8,19 @@
 import {ModelService} from '@/services/model.service.js';
 import {generatePID, getNestedProperty} from '@/services/utils.service.js';
 import {cloneDeep, merge, isEqual} from 'lodash';
-import {mapState} from 'vuex';
+import {mapState, mapMutations, mapActions} from 'vuex';
 import {bus} from '@/plugins/plugin-event-bus.js';
 
 const model = {
   data() {
     return {
-      $dialog: null
+      $dialog: null,
     };
   },
   computed: {
     ...mapState({
       loading: state => state.loading,
-      stateModel: state => state.app.currentRecord,
+      currentRecord: state => state.app.currentRecord,
       records: state => state.app.records
     })
   },
@@ -30,6 +30,10 @@ const model = {
     }
   },
   methods: {
+    // pull these out so we can directly call them. Actions can be thennable
+    ...mapMutations('app', ['updateCurrentRecord']),
+    ...mapActions('app', ['updateAppData', 'createAppData', 'getAppDataAll']),
+
     // Returns a default empty model
     getEmptyModel(model) {
       return ModelService.getModel(model);
@@ -40,9 +44,15 @@ const model = {
       return merge(model, record);
     },
 
+    // whether to paint the forms fields or not
+    shouldShowFields() {
+      return this.currentRecord != null;
+    },
+
     // creates a new empty model
     add(model) {
-      this.$set(this, 'model', this.getEmptyModel(model));
+      this.updateCurrentRecord(this.getEmptyModel(model));
+      this.$set(this, 'model', cloneDeep(this.currentRecord));
     },
 
     // Reverts the current working model to what it is in vuex
@@ -53,17 +63,28 @@ const model = {
     // Save record in DB. If there is an _id prop, it's updating, if not it's a
     // new record
     save(url) {
+      if (this.currentRecord == null) return;
+
       // need to delete the reactive observer for db insertion/update
       let sendModel = cloneDeep(this.model);
       delete sendModel.__ob__;
       if ('_id' in sendModel) {
-        this.$store.dispatch('app/updateAppData', {url, model: sendModel})
-        .then(() => bus.$emit('addSnackbar', {message: this.$t('UPDATE_SUCCESS')}))
-        .catch(() => bus.$emit('addSnackbar', {message: this.$t('UPDATE_FAILURE')}));
+        this.updateAppData({url, model: sendModel})
+        .then(() => {
+          bus.$emit('addSnackbar', {message: this.$t('UPDATE_SUCCESS')});
+        })
+        .catch(() => {
+          bus.$emit('addSnackbar', {message: this.$t('UPDATE_FAILURE')});
+        });
       }
       else {
-        this.$store.dispatch('app/createAppData', {url, model: sendModel})
-        .then(() => bus.$emit('addSnackbar', {message: this.$t('SAVE_SUCCESS')}))
+        this.createAppData({url, model: sendModel})
+        .then(record => {
+          this.updateCurrentRecord(record);
+          this.mapStateToModel();
+          bus.$emit('addSnackbar', {message: this.$t('SAVE_SUCCESS')});
+        })
+        .then(() => this.getAppDataAll({url}))
         .catch(() => bus.$emit('addSnackbar', {message: this.$t('SAVE_FAILURE')}));
       }
     },
@@ -71,7 +92,7 @@ const model = {
     // Creates a new clone of the selected record so we can modify without
     // commiting every change to vuex
     mapStateToModel() {
-      this.model = cloneDeep(this.stateModel);
+      this.model = cloneDeep(this.currentRecord);
     },
 
     // Defines how to match items. Used in the Select component to match on IDs
@@ -112,16 +133,16 @@ const model = {
     // Updates the current page's state model
     selectListItem(item, dirtyCheck = true) {
       if (this.records && this.records.length) {
-        if (dirtyCheck && this.isDirty(this.stateModel, this.model)) {
+        if (dirtyCheck && this.isDirty(this.currentRecord, this.model)) {
           this.showMessageDialog({message: this.$t('DISCARD_CHANGES')})
           .then(() => {
-            this.$store.commit('app/updateCurrentRecord', merge(this.getEmptyModel(this.modelName), item));
+            this.updateCurrentRecord(merge(this.getEmptyModel(this.modelName), item));
           })
           .catch(() => {return;})
           .then(() => this.$dialog.close());
         }
         else {
-          this.$store.commit('app/updateCurrentRecord', merge(this.getEmptyModel(this.modelName), item));
+          this.updateCurrentRecord(merge(this.getEmptyModel(this.modelName), item));
         }
       }
     },
@@ -211,7 +232,10 @@ const model = {
   // Make sure to clean up before leaving, and prompt user if
   // unsaved changes
   beforeRouteLeave(to, from, next) {
-    if(this.isDirty(this.stateModel, this.model)) {
+    // clean up records
+    this.updateCurrentRecord(null);
+
+    if(this.isDirty(this.currentRecord, this.model)) {
       this.showMessageDialog({message: this.$t('DISCARD_CHANGES')})
       .then(() => {
         next();

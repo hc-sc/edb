@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id='app'>
     <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
     <vue-snackbar ref='snackbar'></vue-snackbar>
     <router-view class='main-view'></router-view>

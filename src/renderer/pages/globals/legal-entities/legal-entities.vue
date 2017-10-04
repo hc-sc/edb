@@ -8,7 +8,7 @@
         <vue-list-filter id='master-search' selectable @select='selectListItem' :items='records' :displayValue='le => le.legalentityname' :label='$t("search")' sortByArgs='legalentityname'></vue-list-filter>
       </div>
       <div slot='split-pane-2' class='pane'>
-        <template v-if='records && records.length'>
+        <template v-if='shouldShowFields()'>
           <div class='f-container f-cross-start'>
             <vue-button class='input-prefix' @click.native='assignPID("legalentitypid")'>{{$t('generatepid')}}</vue-button>
             <span class='f-gap'></span>
@@ -36,7 +36,7 @@
       </div>
     </vue-split-pane>
     <div class='bottom-float'>
-      <vue-icon fab @click.native='save("legalentity")' id='save' :label='$t("save")' icon='save' position='top'></vue-icon>
+      <vue-icon fab @click.native='save("legalentity")' id='save' :label='$t("save")' icon='save' position='top' :disabled='currentRecord == null'></vue-icon>
       <vue-icon fab id='add' :label='$t("add")' icon='add' position='top' @click.native='add("legalentity")'></vue-icon>
       <vue-icon fab @click.native='revert' id='undo' :label='$t("revert")' icon='undo' position='top'>
       </vue-icon>
@@ -67,7 +67,6 @@ export default {
   mixins: [model],
   data() {
     return {
-      modelName: 'legalentity',
       model: this.getEmptyModel('legalentity')
     };
   },
@@ -92,7 +91,7 @@ export default {
     this.$store.commit('loading');
   },
   async created() {
-    await this.$store.dispatch('app/getAppDataAll', {url: 'legalentity', sortBy: 'legalentityname'});
+    await this.getAppDataAll({url: 'legalentity', sortBy: 'legalentityname'});
     this.selectListItem(this.records[0], false);
     this.$store.commit('ready');
   },

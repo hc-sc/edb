@@ -180,31 +180,31 @@ var initDB = () => {
         let svrClass;
         let svr;
 
-        svrClass = require('./services/product.service');
-        svr = new svrClass('01.04.00');
-        qAry.push(svr.initDbfromTestData());
-        svrClass = require('./services/legalentity.service');
-        svr = new svrClass('01.04.00');
-        qAry.push(svr.initDbfromTestData());
-        svrClass = require('./services/substance.service');
-        svr = new svrClass('01.04.00');
-        qAry.push(svr.initDbfromTestData());
-        svrClass = require('./services/file.service');
-        svr = new svrClass('01.04.00');
-        qAry.push(svr.initDbfromTestData());
-        svrClass = require('./services/document.service');
-        svr = new svrClass('01.04.00');
-        qAry.push(svr.initDbfromTestData());
-        svrClass = require('./services/receiver.service');
-        svr = new svrClass('01.04.00');
-        qAry.push(svr.initDbfromTestData());
-        svrClass = require('./services/sender.service');
-        svr = new svrClass('01.04.00');
-        qAry.push(svr.initDbfromTestData());
+        // svrClass = require('./services/product.service');
+        // svr = new svrClass('01.04.00');
+        // qAry.push(svr.initDbfromTestData());
+        // svrClass = require('./services/legalentity.service');
+        // svr = new svrClass('01.04.00');
+        // qAry.push(svr.initDbfromTestData());
+        // svrClass = require('./services/substance.service');
+        // svr = new svrClass('01.04.00');
+        // qAry.push(svr.initDbfromTestData());
+        // svrClass = require('./services/file.service');
+        // svr = new svrClass('01.04.00');
+        // qAry.push(svr.initDbfromTestData());
+        // svrClass = require('./services/document.service');
+        // svr = new svrClass('01.04.00');
+        // qAry.push(svr.initDbfromTestData());
+        // svrClass = require('./services/receiver.service');
+        // svr = new svrClass('01.04.00');
+        // qAry.push(svr.initDbfromTestData());
+        // svrClass = require('./services/sender.service');
+        // svr = new svrClass('01.04.00');
+        // qAry.push(svr.initDbfromTestData());
         svrClass = require('./services/toc.service');
         svr = new svrClass('01.04.00');
         qAry.push(svr.initDbfromTestData());
-        
+
         res(Q.all(qAry));
       }
     })

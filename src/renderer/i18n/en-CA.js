@@ -47,7 +47,7 @@ export default {
   manageDossier: 'Manage Dossier | Manage Dossiers',
   metadatastatus: 'Status',
   mobile: 'Mobile',
-  noitems: 'There are no items. Start by creating a new one',
+  noitems: 'There are no items. Create a new one to begin',
   requireoneitem: 'Must provide at least one value',
   organization: 'Organization',
   otheridentifiers: 'Other Identifiers',
@@ -91,8 +91,10 @@ export default {
   UPDATE_SUCCESS: 'Update successful',
   UPDATE_FAILURE: 'Update failure',
 
+  FILE_SOURCE: 'File Source',
   REGULATORY_AUTHORITY_DOSSIER_TYPE: 'Regulatory Authority Dossier Type',
   REGULATORY_AUTHORITY_FILE_INFORMATION: 'Regulatory Authority File Information',
+  REGULATORY_AUTHORITY_DOCUMENT_INFORMATION: 'Regulatory Authority Document Information',
 
   [elements.ADMIN_NUMBER]: 'Admin Number',
   [elements.ADMIN_NUMBER_TYPE]: 'Admin Number Type',
@@ -148,7 +150,7 @@ export default {
   [elements.FILENAME]: 'Filename',
   [elements.FILE_PID]: 'File PID',
   [elements.FILE_RA]: 'File RA',
-  [elements.FILES]: 'Files',
+  [elements.FILES]: 'Associated Files',
   [elements.FILE_TYPE]: 'Files Type',
   [elements.FIRSTNAME]: 'Firstname',
   [elements.FORMAT_COMMENT]: 'Format Comment',

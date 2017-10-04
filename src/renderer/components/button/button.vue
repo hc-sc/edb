@@ -68,6 +68,7 @@ export default {
 @import '../../assets/css/animations.css';
 
 .btn {
+  white-space: nowrap;
   border: none;
   outline: none;
   cursor: pointer;

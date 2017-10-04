@@ -24,7 +24,7 @@ Used anywhere that a combination of header and action tools are used, for exampl
     <span class='toolbar-left'>
       <slot name='left'></slot>
     </span>
-    <span class='toolbar-middle'>
+    <span :class='[headerLevel]' class='toolbar-middle'>
       <slot>
         <span>{{title}}</span>
       </slot>
@@ -54,6 +54,18 @@ export default {
       default: 'normal',
       validator(value) {
         return ['main', 'normal', 'status'].includes(value);
+      }
+    }
+  },
+  computed: {
+    headerLevel() {
+      switch(this.display) {
+        case 'main':
+          return 'h1';
+        case 'normal':
+          return 'h4';
+        default:
+          return false;
       }
     }
   }
