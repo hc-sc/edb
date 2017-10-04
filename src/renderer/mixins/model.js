@@ -21,6 +21,7 @@ const model = {
     ...mapState({
       loading: state => state.loading,
       currentRecord: state => state.app.currentRecord,
+      currentUrl: state => state.app.currentUrl,
       records: state => state.app.records
     })
   },
@@ -31,7 +32,7 @@ const model = {
   },
   methods: {
     // pull these out so we can directly call them. Actions can be thennable
-    ...mapMutations('app', ['updateCurrentRecord']),
+    ...mapMutations('app', ['updateCurrentRecord', 'updateCurrentUrl']),
     ...mapActions('app', ['updateAppData', 'createAppData', 'getAppDataAll']),
 
     // Returns a default empty model
@@ -52,7 +53,7 @@ const model = {
     // creates a new empty model
     add(model) {
       this.updateCurrentRecord(this.getEmptyModel(model));
-      this.$set(this, 'model', cloneDeep(this.currentRecord));
+      this.mapStateToModel();
     },
 
     // Reverts the current working model to what it is in vuex
@@ -132,17 +133,20 @@ const model = {
 
     // Updates the current page's state model
     selectListItem(item, dirtyCheck = true) {
+      console.log(this.records);
       if (this.records && this.records.length) {
         if (dirtyCheck && this.isDirty(this.currentRecord, this.model)) {
           this.showMessageDialog({message: this.$t('DISCARD_CHANGES')})
           .then(() => {
-            this.updateCurrentRecord(merge(this.getEmptyModel(this.modelName), item));
+            this.updateCurrentRecord(merge(this.getEmptyModel(this.currentUrl), item));
+            this.mapStateToModel();
           })
           .catch(() => {return;})
           .then(() => this.$dialog.close());
         }
         else {
-          this.updateCurrentRecord(merge(this.getEmptyModel(this.modelName), item));
+          this.updateCurrentRecord(merge(this.getEmptyModel(this.currentUrl), item));
+          this.mapStateToModel();
         }
       }
     },
@@ -233,11 +237,11 @@ const model = {
   // unsaved changes
   beforeRouteLeave(to, from, next) {
     // clean up records
-    this.updateCurrentRecord(null);
-
     if(this.isDirty(this.currentRecord, this.model)) {
       this.showMessageDialog({message: this.$t('DISCARD_CHANGES')})
       .then(() => {
+        this.updateCurrentRecord(null);
+        this.updateAppRecords([]);
         next();
       })
       .catch(() => {

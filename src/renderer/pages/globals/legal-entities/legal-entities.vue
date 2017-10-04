@@ -91,6 +91,7 @@ export default {
     this.$store.commit('loading');
   },
   async created() {
+    this.updateCurrentUrl('legalentity');
     await this.getAppDataAll({url: 'legalentity', sortBy: 'legalentityname'});
     this.selectListItem(this.records[0], false);
     this.$store.commit('ready');
