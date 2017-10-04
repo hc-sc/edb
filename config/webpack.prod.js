@@ -141,7 +141,8 @@ module.exports = {
     }),
 
     new ExtractTextPlugin({
-      filename: join(ASSETS_PATH_REL, 'css', 'style.[contenthash].css'),
+      filename: 'style.[contenthash].css',
+      // filename: join(ASSETS_PATH_REL, 'css', 'style.[contenthash].css'),
       allChunks: true,
       ignoreOrder: true
     }),

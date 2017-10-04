@@ -18,7 +18,7 @@ Used to wrap forms (or nested form models) in a fieldset
 <template>
   <vue-card>
     <fieldset class='fieldset'>
-      <legend class='fieldset-legend h4'>{{legend}}</legend>
+      <legend class='h4 fieldset-legend'>{{legend}}</legend>
       <div class='fieldset-items'>
         <slot></slot>
       </div>
@@ -51,11 +51,11 @@ export default {
   outline: none;
 }
 
-.fieldset-items {
+.fieldset .fieldset-items {
   padding: 5px;
 }
 
-.fieldset-legend {
+.fieldset .fieldset-legend {
   padding: 0 1rem;
   width: 100%;
   background: var(--primary-color);
