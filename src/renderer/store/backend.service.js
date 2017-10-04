@@ -27,27 +27,138 @@ const BackendService = {
   },
 
   getGhstsAll: function () {
-    return handleIPC(BACKENDCONST.GHSTS_MSG_CHANNEL, 'get', undefined);
+    return handleIPC(BACKENDCONST.GHSTS_MSG_CHANNEL, 'get');
   },
 
-  getGhsts: function (id) {
-    return handleIPC(BACKENDCONST.GHSTS_MSG_CHANNEL,'get', {_id: id});
+  // ************************
+  //Paramater "obj"
+  // ************************
+  // 
+  //For get ghsts
+  //  _url: ['ghsts/'(optional)]'ghstsid'
+  //
+  //For get receivers of the submission
+  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'receiver' 
+  //
+  //For get documents of the dossier
+  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'document' 
+  // 
+  //For get files of the dossier 
+  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'file' 
+  // 
+  //For get toc of the dossier
+  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'toc' 
+  // 
+  // ********************************************
+  getGhsts: function (obj) {
+    if (typeof obj === 'string')
+      return handleIPC(BACKENDCONST.GHSTS_MSG_CHANNEL,'get', {_id: obj});
+    else
+      return handleIPC(BACKENDCONST.GHSTS_MSG_CHANNEL,'get', obj);
   },
 
-  deleteGhsts: function (id) {
-    return handleIPC('delete', {id});
+  // ************************
+  //Paramater "obj"
+  // ************************
+  //
+  //For delete ghsts
+  //  obj: (string) the ghsts id
+  // 
+  //For delete submission 
+  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'submission'
+  //
+  //For remove receivers from ghsts
+  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'receiver' 
+  //
+  //For remove document from one toc node
+  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'toc' 
+  //  data: {
+  //    tocnodepid: the toc node PID
+  //    docid:      the document id
+  //    }
+  //  }
+  // ********************************************
+  deleteGhsts: function (obj) {
+    if (typeof obj === 'string')
+      return handleIPC(BACKENDCONST.GHSTS_MSG_CHANNEL, 'delete', {_id: obj});
+    else
+      return handleIPC(BACKENDCONST.GHSTS_MSG_CHANNEL, 'delete', obj);
   },
 
-  createGhsts: function (name) {
-    return handleIPC('create', {name});
+  // ************************
+  //Paramater "obj"
+  // ************************
+  // 
+  //For create ghsts(submission 01)
+  //  dossiertitle: the dossier title
+  //  product:      the product id
+  //  tocId:        the toc id
+  //
+  //For create ghsts(submission other than number 01)
+  //  dossierid:    the dossier id
+  //
+  //For link receiver to ghsts
+  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'receiver/receiverid' 
+  //
+  //For link sender to receiver
+  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'receiver/receiverid/sender/senderid' 
+  //
+  //For create document at Dossier Screen
+  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'document' 
+  //  data: the new document object
+  // 
+  //For create file at Dossier Screen 
+  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'file' 
+  //  data: the new file object
+  // 
+  //For add document to one toc node
+  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'toc' 
+  //  data: {
+  //    tocnodepid: the toc node PID
+  //    document: {
+  //      _id:            the document id
+  //      documenttitle:  the document title
+  //    }
+  //  }
+  // ********************************************
+  createGhsts: function (obj) {
+    return handleIPC(BACKENDCONST.GHSTS_MSG_CHANNEL, 'post', obj);
   },
 
-  updateGhsts: function (item) {
-    return handleIPC('update', {item});
+  // ************************
+  //Paramater "obj"
+  // ************************
+  // 
+  //For update receiver
+  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'receiver'
+  //  data: all receivers for the submission
+  //
+  //For update document at Dossier Screen
+  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'document' 
+  //  data: the new document object
+  // 
+  //For update file at Dossier Screen 
+  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'file' 
+  //  data: the new file object
+  // 
+  // ********************************************
+  updateGhsts: function (obj) {
+    return handleIPC(BACKENDCONST.GHSTS_MSG_CHANNEL, 'put', obj);
   },
 
-  searchGhsts: function (term) {
-    return handleIPC('search', term);
+  packageGhsts: function () {
+    return handleIPC(BACKENDCONST.GHSTS_MSG_CHANNEL, 'package');
+  },
+
+  validateGhsts: function () {
+    return handleIPC(BACKENDCONST.GHSTS_MSG_CHANNEL, 'validation');
+  },
+  openViewerGhsts: function (submissionid) {
+    return handleIPC(BACKENDCONST.GHSTS_MSG_CHANNEL, 'openViewer', {submissionid});
+  },
+
+  searchGhsts: function (cont) {
+    return handleIPC(BACKENDCONST.GHSTS_MSG_CHANNEL, 'get', {where: cont});
   },
 
   getPicklists: function () {
