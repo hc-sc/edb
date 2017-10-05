@@ -5,10 +5,10 @@
     <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
     <vue-split-pane>
       <div slot='split-pane-1'>
-        <vue-list-filter id='master-search' selectable @select='selectListItem' :items='records' :displayValue='displayDefaultFilterListItem' :label='$t("search")' sortByArgs='substancename'></vue-list-filter>
+        <vue-list-filter id='master-search' selectable @select='selectListItem' :items='records' :displayValue='displayDefaultFilterListItem' :label='$t("search")' sortByArgs='substancename' :selectedItem='currentRecord'></vue-list-filter>
       </div>
        <div slot='split-pane-2' class='pane'>
-        <template v-if='records && records.length'>
+        <template v-if='shouldShowFields()'>
           <div class='f-container f-cross-start'>
             <vue-button class='input-prefix' @click.native='assignPID("substancepid")'>generate</vue-button>
             <span class='f-gap'></span>
@@ -63,6 +63,7 @@ export default {
     this.$store.commit('loading');
   },
   async created() {
+    this.resetForm('substance');
     await this.$store.dispatch('app/getAppDataAll', {url: 'substance', sortBy: 'substancename'}),
     this.selectListItem(this.records[0], false);
     this.$store.commit('ready');

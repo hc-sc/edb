@@ -32,7 +32,7 @@ const model = {
   },
   methods: {
     // pull these out so we can directly call them. Actions can be thennable
-    ...mapMutations('app', ['updateCurrentRecord', 'updateCurrentUrl']),
+    ...mapMutations('app', ['updateCurrentRecord', 'updateCurrentUrl', 'updateAppRecords']),
     ...mapActions('app', ['updateAppData', 'createAppData', 'getAppDataAll']),
 
     // Returns a default empty model
@@ -45,6 +45,13 @@ const model = {
       return merge(model, record);
     },
 
+    // clears form for next node
+    resetForm(url) {
+      this.updateCurrentUrl(url);
+      this.updateCurrentRecord(null);
+      this.updateAppRecords([]);
+    },
+
     // whether to paint the forms fields or not
     shouldShowFields() {
       return this.currentRecord != null;
@@ -52,7 +59,6 @@ const model = {
 
     // creates a new empty model
     add(model) {
-      console.log('here');
       this.updateCurrentRecord(this.getEmptyModel(model));
       this.mapStateToModel();
     },
@@ -240,8 +246,6 @@ const model = {
     if(this.currentRecord != null && this.isDirty(this.currentRecord, this.model)) {
       this.showMessageDialog({message: this.$t('DISCARD_CHANGES')})
       .then(() => {
-        // this.updateCurrentRecord(null);
-        // this.updateAppData([]);
         next();
       })
       .catch(() => {

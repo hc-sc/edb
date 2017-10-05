@@ -65,7 +65,6 @@ export default {
     matchSelected: {
       type: Function,
       default(item) {
-        console.log(item);
         if (item != null && item._id && this.selectedItem != null && this.selectedItem._id) {
           return item._id == this.selectedItem._id;
         }
