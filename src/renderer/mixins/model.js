@@ -212,7 +212,19 @@ const model = {
       console.log(ref);
       this.showFormDialog(ref)
       .then(result => {
-        getNestedProperty(this.model, ref).push(result);
+        ref = getNestedProperty(this.model, ref);
+
+        // if it's a duplicate, fail
+        if (ref && ref.length && ref.findIndex(item => {
+          return Object.keys(item).filter(prop => {
+            return (isEqual(item[prop], result[prop]));
+          }).length === Object.keys(item).length;
+        }) > 0) {
+          this.$snackbar.show({message: this.$t('DUPLICATE')});
+        }
+        else {
+          ref.push(result);
+        }
       })
       .catch(() => {
         this.$snackbar.show({message: this.$t('ADD_ITEM_FAILURE')});
