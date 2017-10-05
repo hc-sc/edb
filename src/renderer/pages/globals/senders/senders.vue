@@ -53,7 +53,8 @@ export default {
     this.$store.commit('loading');
   },
   async created() {
-    this.resetForm('sender');
+    this.updateCurrentUrl('sender');
+    this.resetForm();
     let [, les] = await Promise.all([
       this.getAppDataAll({url: 'sender', sortBy: '_shortname'}),
       BackendService.getAppData('legalentity')

@@ -304,9 +304,10 @@ export default {
         this.desc,
         this.sortBy);
 
-        tempRows = tempRows.slice(
-          this.offset * this.pageSize, (this.offset + 1) * this.pageSize
-        );
+        // uncomment when ready for pagination
+        // tempRows = tempRows.slice(
+        //   this.offset * this.pageSize, (this.offset + 1) * this.pageSize
+        // );
 
         return tempRows;
       },
@@ -391,8 +392,9 @@ export default {
             else {
               try {
                 result = await BackendService.searchAppData(header.url, {_id: row[header.name]});
-                if (result && 'valuedecode' in result) {
-                  cellData = result['valuedecode'];
+                console.log(result[0]);
+                if (result[0] && 'valuedecode' in result[0]) {
+                  cellData = result[0]['valuedecode'];
                 }
 
                 // fallback to original value

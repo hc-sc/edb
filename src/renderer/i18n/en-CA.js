@@ -83,6 +83,7 @@ export default {
   cancel: 'cancel',
 
   ADD_TO_BEGIN: 'Add a new Receiver to begin',
+  ADD_ITEM_FAILURE: 'Failed to add new item',
   DISCARD_CHANGES: 'You have unsaved changes. Discard?',
   NO_DOSSIER_SELECTED: 'Select a Dossier to review Submissions',
   SAVE_SUCCESS: 'Save successful',

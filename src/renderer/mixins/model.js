@@ -46,8 +46,7 @@ const model = {
     },
 
     // clears form for next node
-    resetForm(url) {
-      this.updateCurrentUrl(url);
+    resetForm() {
       this.updateCurrentRecord(null);
       this.updateAppRecords([]);
     },
@@ -210,9 +209,10 @@ const model = {
 
     // Adds a new item to tables via dialogs
     addItem(ref) {
+      console.log(ref);
       this.showFormDialog(ref)
       .then(result => {
-        this.model[ref].push(result);
+        getNestedProperty(this.model, ref).push(result);
       })
       .catch(() => {
         this.$snackbar.show({message: this.$t('ADD_ITEM_FAILURE')});

@@ -63,7 +63,8 @@ export default {
     this.$store.commit('loading');
   },
   async created() {
-    this.resetForm('substance');
+    this.updateCurrentUrl('substance');
+    this.resetForm();
     await this.$store.dispatch('app/getAppDataAll', {url: 'substance', sortBy: 'substancename'}),
     this.selectListItem(this.records[0], false);
     this.$store.commit('ready');
