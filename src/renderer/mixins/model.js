@@ -52,6 +52,7 @@ const model = {
 
     // creates a new empty model
     add(model) {
+      console.log('here');
       this.updateCurrentRecord(this.getEmptyModel(model));
       this.mapStateToModel();
     },
@@ -133,7 +134,6 @@ const model = {
 
     // Updates the current page's state model
     selectListItem(item, dirtyCheck = true) {
-      console.log(this.records);
       if (this.records && this.records.length) {
         if (dirtyCheck && this.isDirty(this.currentRecord, this.model)) {
           this.showMessageDialog({message: this.$t('DISCARD_CHANGES')})
@@ -141,7 +141,7 @@ const model = {
             this.updateCurrentRecord(merge(this.getEmptyModel(this.currentUrl), item));
             this.mapStateToModel();
           })
-          .catch(() => {return;})
+          .catch(err => console.error(err))
           .then(() => this.$dialog.close());
         }
         else {
@@ -237,11 +237,11 @@ const model = {
   // unsaved changes
   beforeRouteLeave(to, from, next) {
     // clean up records
-    if(this.isDirty(this.currentRecord, this.model)) {
+    if(this.currentRecord != null && this.isDirty(this.currentRecord, this.model)) {
       this.showMessageDialog({message: this.$t('DISCARD_CHANGES')})
       .then(() => {
-        this.updateCurrentRecord(null);
-        this.updateAppRecords([]);
+        // this.updateCurrentRecord(null);
+        // this.updateAppData([]);
         next();
       })
       .catch(() => {

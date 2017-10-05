@@ -5,7 +5,7 @@
     <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
     <vue-split-pane>
       <div slot='split-pane-1'>
-        <vue-list-filter id='master-search' selectable @select='selectListItem' :items='records' :displayValue='le => le.legalentityname' :label='$t("search")' sortByArgs='legalentityname'></vue-list-filter>
+        <vue-list-filter id='master-search' selectable @select='selectListItem' :items='records' :displayValue='le => le.legalentityname' :label='$t("search")' sortByArgs='legalentityname' :selectedItem='currentRecord'></vue-list-filter>
       </div>
       <div slot='split-pane-2' class='pane'>
         <template v-if='shouldShowFields()'>

@@ -21,6 +21,7 @@ const app = {
 
   mutations: {
     updateCurrentRecord(state, record) {
+      console.log(record);
       state.currentRecord = record;
     },
     updateAppRecords(state, payload) {

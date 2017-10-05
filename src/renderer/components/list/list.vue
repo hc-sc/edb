@@ -24,7 +24,7 @@ Used to display a list of items in a list-like traditional manner (for small ite
 <template>
   <ul class='list' :class='{selectable}'>
     <slot name='list-items'>
-      <li class='list-item' v-for='(item, index) of items' :key='index' @click='onSelect(item)'>
+      <li class='list-item' v-for='(item, index) of items' :key='index' @click='onSelect(item)' :class='{selected: matchSelected(item)}'>
         <slot name='prefix'></slot>
         <slot name='content'>
           <div class='list-item-content'>
@@ -59,11 +59,29 @@ export default {
         if (this.selectable) this.$emit('select', value);
       }
     },
+    selectedItem: {
+      type: Object,
+    },
+    matchSelected: {
+      type: Function,
+      default(item) {
+        console.log(item);
+        if (item != null && item._id && this.selectedItem != null && this.selectedItem._id) {
+          return item._id == this.selectedItem._id;
+        }
+        return false;
+      }
+    },
     displayValue: {
       type: Function,
       default(value) {
         return value.label || value;
       }
+    }
+  },
+  methods: {
+    isSelected(item) {
+
     }
   }
 };
@@ -93,6 +111,11 @@ export default {
 
 .list-item:not(:last-child) {
   border-bottom: 1px solid var(--divider);
+}
+
+.list-item.selected {
+  background-color: var(--primary-color);
+  color: var(--primary-text);
 }
 
 .list-item-content {
