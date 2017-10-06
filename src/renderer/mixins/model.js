@@ -209,25 +209,43 @@ const model = {
 
     // Adds a new item to tables via dialogs
     addItem(ref) {
-      console.log(ref);
       this.showFormDialog(ref)
       .then(result => {
         ref = getNestedProperty(this.model, ref);
 
         // if it's a duplicate, fail
-        if (ref && ref.length && ref.findIndex(item => {
-          return Object.keys(item).filter(prop => {
-            return (isEqual(item[prop], result[prop]));
-          }).length === Object.keys(item).length;
-        }) > 0) {
-          this.$snackbar.show({message: this.$t('DUPLICATE')});
+        // need to for every item, check each non DB prop
+        if (ref && Array.isArray(ref)) {
+          let rowMatch = false;
+
+          // row items, use 'result' and not 'item' since 'item' has DB fields
+          for (let item of ref) {
+            let propMatch = true;
+            for (let prop of Object.keys(result)) {
+              if (!isEqual(item[prop], result[prop])) {
+                propMatch = false;
+                break;
+              }
+            }
+            if (propMatch) {
+              rowMatch = true;
+              break;
+            }
+          }
+
+          if (rowMatch) {
+            bus.$emit('addSnackbar', {message: this.$t('DUPLICATE_ITEM')});
+          }
+          else {
+            ref.push(result);
+          }
         }
-        else {
-          ref.push(result);
-        }
+      }, err => {
+        console.error(err);
+        bus.$emit('addSnackbar', {message: this.$t('ADD_ITEM_FAILURE')});
       })
       .catch(() => {
-        this.$snackbar.show({message: this.$t('ADD_ITEM_FAILURE')});
+
       })
       .then(() => {
         this.$dialog.close();

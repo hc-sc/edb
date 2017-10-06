@@ -10,6 +10,7 @@ export default {
 
     Vue.prototype.$snackbar = {
       show(params) {
+        console.log('here');
         if (params) bus.$emit('addSnackbarItem', params);
       },
       hide() {
