@@ -75,9 +75,6 @@ export default {
       return NewDossier;
     }
   },
-  created() {
-    this.resetForm();
-  },
   updated() {
     this.resetForm();
   },
@@ -92,6 +89,7 @@ export default {
     }
   },
   async created() {
+    this.resetForm();
     this.dossiers = await BackendService.getGhstsAll();
     this.dossiers = this.dossiers.map(dossier => {
       dossier.productname = dossier.product[0].genericproductname;
