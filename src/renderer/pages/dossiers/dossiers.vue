@@ -21,32 +21,28 @@ import NewDossier from '@/pages/dossiers/new-dossier.vue';
 import Table from '@/components/table/table.vue';
 import {BackendService} from '@/store/backend.service.js';
 import {model} from '@/mixins/model.js';
-import {bus} from '@/plugins/plugin-event-bus.js';
-import {mapState, mapMutations} from 'vuex';
+import {mapMutations} from 'vuex';
 
 export default {
   name: 'Dossiers',
   mixins: [model],
   data() {
     return {
+      dossier: null,
       dossiers: [],
       submissions: []
     };
   },
-  computed: {
-    ...mapState('app', ['dossier', 'submission']),
-  },
   methods: {
     ...mapMutations('app', ['updateCurrentDossier', 'updateCurrentSubmission']),
     addDossier() {
-          // Adds a new item to tables via dialogs
       this.showFormDialog(NewDossier)
       .then(({dossiertitle, tocId, product}) => {
         if (dossiertitle && dossiertitle.length && tocId && product) {
           BackendService.createGhsts({dossiertitle, tocId, product})
-          .then(async (dossier) => {
-            console.log(dossier);
-            // this.updateCurrentSubmission(await this.getAppData);
+          .then(async ({dossierid, submissionid}) => {
+            this.updateCurrentDossier(dossierid);
+            this.updateCurrentSubmission(submissionid);
           })
           .catch(() => {
             this.showMessage(this.$t('SAVE_FAILURE'));
@@ -69,15 +65,21 @@ export default {
       console.log('adding submission');
     },
     selectDossier(index) {
-      this.updateCurrentDossier(this.dossiers[index]);
+      this.dossier = this.dossiers[index];
     },
     selectSubmission(index) {
-      this.updateCurrentSubmission(this.submissions[index]);
+      this.updateCurrentSubmission(this.submissions[index].id);
       this.$router.push('submission');
     },
     getComponent() {
       return NewDossier;
     }
+  },
+  created() {
+    this.resetForm();
+  },
+  updated() {
+    this.resetForm();
   },
   watch: {
     dossier() {

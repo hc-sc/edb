@@ -22,7 +22,9 @@ const model = {
       loading: state => state.loading,
       currentRecord: state => state.app.currentRecord,
       currentUrl: state => state.app.currentUrl,
-      records: state => state.app.records
+      records: state => state.app.records,
+      submissionid: state => state.app.submissionid,
+      dossierid: state => state.app.dossierid
     })
   },
   watch: {
@@ -182,7 +184,7 @@ const model = {
 
     // shows messages via the snackbar
     showMessage(message, confirm = true) {
-      bus.$emit('addSnackbar', {message});
+      bus.$emit('addSnackbar', {message, confirm});
     },
 
     // Shows a new dialog. There must be a dialog on the page with a ref of

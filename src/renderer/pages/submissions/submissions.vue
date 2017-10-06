@@ -19,7 +19,7 @@ export default {
   name: 'Submissions',
   computed: {
     ...mapState({
-      title: state => state.app.dossier.dossierdescriptiontitle
+      title: state => state.app.dossiertitle
     }),
     pageNodes: function() {
       return [

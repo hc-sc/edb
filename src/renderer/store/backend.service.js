@@ -26,6 +26,7 @@ const BackendService = {
     return handleIPC(BACKENDCONST.APP_DATA_MSG_CHANNEL, 'get', {_url: url, data: term});
   },
 
+  // returns all dossiers
   getGhstsAll: function () {
     return handleIPC(BACKENDCONST.GHSTS_MSG_CHANNEL, 'get');
   },

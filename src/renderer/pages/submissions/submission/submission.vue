@@ -22,7 +22,8 @@ import Input from '@/components/input/input.vue';
 import Progress from '@/components/progress/progress.vue';
 import Switch from '@/components/switch/switch.vue';
 import {model} from '@/mixins/model.js';
-import {mapState, mapMutations} from 'vuex';
+import {BackendService} from '@/store/backend.service.js';
+import {mapMutations} from 'vuex';
 
 export default {
   name: 'Submission',
@@ -32,22 +33,29 @@ export default {
       model: this.getEmptyModel('submission'),
     };
   },
-  computed: {
-    ...mapState('app', ['submission'])
-  },
   methods: {
     ...mapMutations('app', ['updateCurrentRecord'])
   },
   watch: {
     submission() {
-      this.model = this.submission;
+      this.model = {};
     }
   },
   beforeCreate() {
     this.$store.commit('loading');
   },
-  created() {
-    this.updateCurrentRecord(this.mergeModelAndRecord(this.getEmptyModel('submission'), this.submission));
+  async created() {
+    this.updateCurrentUrl('submission');
+    try {
+      let model = await BackendService.getGhstsAll({_submissionid: this.submissionid});
+      model = model[0].submission[0];
+      this.updateCurrentRecord(this.mergeModelAndRecord(this.getEmptyModel('submission'), model));
+      this.mapStateToModel();
+    }
+    catch(err) {
+      this.showMessage('ERROR');
+    }
+    // this.updateCurrentRecord(this.mergeModelAndRecord(this.getEmptyModel('submission'), this.submission));
     this.$store.commit('ready');
   },
   components: {
