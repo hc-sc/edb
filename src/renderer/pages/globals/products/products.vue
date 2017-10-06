@@ -69,7 +69,7 @@ export default {
   async created() {
     this.updateCurrentUrl('product');
     this.resetForm();
-    await this.$store.dispatch('app/getAppDataAll', {url: 'product', sortBy: 'genericproductname'});
+    await this.getAppDataAll({url: 'product', sortBy: 'genericproductname'});
     this.selectListItem(this.records[0], false);
     this.$store.commit('ready');
   },

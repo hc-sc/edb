@@ -33,22 +33,22 @@ const BackendService = {
   // ************************
   //Paramater "obj"
   // ************************
-  // 
+  //
   //For get ghsts
   //  _url: ['ghsts/'(optional)]'ghstsid'
   //
   //For get receivers of the submission
-  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'receiver' 
+  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'receiver'
   //
   //For get documents of the dossier
-  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'document' 
-  // 
-  //For get files of the dossier 
-  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'file' 
-  // 
+  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'document'
+  //
+  //For get files of the dossier
+  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'file'
+  //
   //For get toc of the dossier
-  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'toc' 
-  // 
+  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'toc'
+  //
   // ********************************************
   getGhsts: function (obj) {
     if (typeof obj === 'string')
@@ -63,15 +63,15 @@ const BackendService = {
   //
   //For delete ghsts
   //  obj: (string) the ghsts id
-  // 
-  //For delete submission 
+  //
+  //For delete submission
   //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'submission'
   //
   //For remove receivers from ghsts
-  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'receiver' 
+  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'receiver'
   //
   //For remove document from one toc node
-  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'toc' 
+  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'toc'
   //  data: {
   //    tocnodepid: the toc node PID
   //    docid:      the document id
@@ -88,7 +88,7 @@ const BackendService = {
   // ************************
   //Paramater "obj"
   // ************************
-  // 
+  //
   //For create ghsts(submission 01)
   //  dossiertitle: the dossier title
   //  product:      the product id
@@ -98,21 +98,21 @@ const BackendService = {
   //  dossierid:    the dossier id
   //
   //For link receiver to ghsts
-  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'receiver/receiverid' 
+  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'receiver/receiverid'
   //
   //For link sender to receiver
-  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'receiver/receiverid/sender/senderid' 
+  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'receiver/receiverid/sender/senderid'
   //
   //For create document at Dossier Screen
-  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'document' 
+  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'document'
   //  data: the new document object
-  // 
-  //For create file at Dossier Screen 
-  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'file' 
+  //
+  //For create file at Dossier Screen
+  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'file'
   //  data: the new file object
-  // 
+  //
   //For add document to one toc node
-  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'toc' 
+  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'toc'
   //  data: {
   //    tocnodepid: the toc node PID
   //    document: {
@@ -128,19 +128,19 @@ const BackendService = {
   // ************************
   //Paramater "obj"
   // ************************
-  // 
+  //
   //For update receiver
   //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'receiver'
   //  data: all receivers for the submission
   //
   //For update document at Dossier Screen
-  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'document' 
+  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'document'
   //  data: the new document object
-  // 
-  //For update file at Dossier Screen 
-  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'file' 
+  //
+  //For update file at Dossier Screen
+  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'file'
   //  data: the new file object
-  // 
+  //
   // ********************************************
   updateGhsts: function (obj) {
     return handleIPC(BACKENDCONST.GHSTS_MSG_CHANNEL, 'put', obj);
@@ -195,7 +195,12 @@ function handleIPC(msgChannel, method, query) {
         if (args.err) {
           handleError(args.err);
         } else {
-          res(JSON.parse(args.data));
+          try {
+            res(JSON.parse(args.data));
+          }
+          catch(err) {
+            res(args.data);
+          }
         }
       });
       ipc.send(msgChannel, _msg_envelope(method, query, timestamp));

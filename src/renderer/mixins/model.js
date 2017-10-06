@@ -78,10 +78,10 @@ const model = {
       if ('_id' in sendModel) {
         this.updateAppData({url, model: sendModel})
         .then(() => {
-          bus.$emit('addSnackbar', {message: this.$t('UPDATE_SUCCESS')});
+          this.showMessage(this.$t('UPDATE_SUCCESS'));
         })
         .catch(() => {
-          bus.$emit('addSnackbar', {message: this.$t('UPDATE_FAILURE')});
+          this.showMessage(this.$t('UPDATE_FAILURE'));
         });
       }
       else {
@@ -89,10 +89,13 @@ const model = {
         .then(record => {
           this.updateCurrentRecord(record);
           this.mapStateToModel();
-          bus.$emit('addSnackbar', {message: this.$t('SAVE_SUCCESS')});
+          this.showMessage(this.$t('SAVE_SUCCESS'));
         })
         .then(() => this.getAppDataAll({url}))
-        .catch(() => bus.$emit('addSnackbar', {message: this.$t('SAVE_FAILURE')}));
+        .catch(err => {
+          console.error(err);
+          this.showMessage(this.$t('SAVE_FAILURE'));
+        });
       }
     },
 
@@ -161,9 +164,12 @@ const model = {
       .then(result => {
         if (index != null) this.$set(this.model[componentName], index, result);
         else this.model[componentName].push(result);
+      }, err => {
+        console.err(err);
+        this.showMessage(this.$t('ADD_ITEM_FAILURE'));
       })
-      .catch(err => {
-        console.log(err);
+      .catch(() => {
+
       })
       .then(() => {
         this.$dialog.close();
@@ -174,9 +180,14 @@ const model = {
       return !isEqual(init, curr);
     },
 
+    // shows messages via the snackbar
+    showMessage(message, confirm = true) {
+      bus.$emit('addSnackbar', {message});
+    },
+
     // Shows a new dialog. There must be a dialog on the page with a ref of
     // 'dialog'. It's a promise, so will resolve with the modal object, or
-    // reject with the error. NOTE: this.getComponent is defined in each page // with the modals they need
+    // reject with the error. NOTE: this.getComponent MUST be  defined in each // page with the modals they need!
     showFormDialog(componentName, model) {
       this.$dialog = this.$refs['dialog'];
       const component = this.getComponent(componentName);
@@ -221,6 +232,7 @@ const model = {
           // row items, use 'result' and not 'item' since 'item' has DB fields
           for (let item of ref) {
             let propMatch = true;
+
             for (let prop of Object.keys(result)) {
               if (!isEqual(item[prop], result[prop])) {
                 propMatch = false;
@@ -234,7 +246,7 @@ const model = {
           }
 
           if (rowMatch) {
-            bus.$emit('addSnackbar', {message: this.$t('DUPLICATE_ITEM')});
+            this.showMessage(this.$t('DUPLICATE_ITEM'));
           }
           else {
             ref.push(result);
@@ -242,7 +254,7 @@ const model = {
         }
       }, err => {
         console.error(err);
-        bus.$emit('addSnackbar', {message: this.$t('ADD_ITEM_FAILURE')});
+        this.showMessage(this.$t('ADD_ITEM_FAILURE'));
       })
       .catch(() => {
 

@@ -6,7 +6,7 @@
     </vue-header>
     <main class='pane'>
       <vue-dialog ref='dialog' id='dialog'></vue-dialog>
-      <vue-table id='dossiers' :title='$tc("dossier", 2)' addable @addItem='addDossier' :items='dossiers' :headers='["dossierdescriptiontitle", "productname", "metadatastatus", "created", "lastmodified"]' :displayHeader='$t' @select='selectDossier($event)' editable></vue-table>
+      <vue-table id='dossiers' :title='$tc("dossier", 2)' addable @addItem='addDossier' :items='dossiers' :headers='["dossierdescriptiontitle", "productname", "metadatastatus", "created", "lastmodified"]' :displayHeader='$t' @select='selectDossier($event)' editable @add='addDossier'></vue-table>
       <vue-table v-if='dossier' id='submissions' :title='$tc("submission", 2)' @addItem='addSubmission' @select='selectSubmission($event)' :items='submissions || []' :headers='["submissiontitle", "submissionnumber", "metadatastatus", "created", "lastmodified"]':displayHeader ='$t'></vue-table>
       <p v-else>{{$t('NO_DOSSIER_SELECTED')}}</p>
     </main>
@@ -17,12 +17,16 @@
 import Dialog from '@/components/dialog/dialog.vue';
 import Header from '@/components/header/header.vue';
 import History from '@/components/history/history.vue';
+import NewDossier from '@/pages/dossiers/new-dossier.vue';
 import Table from '@/components/table/table.vue';
 import {BackendService} from '@/store/backend.service.js';
+import {model} from '@/mixins/model.js';
+import {bus} from '@/plugins/plugin-event-bus.js';
 import {mapState, mapMutations} from 'vuex';
 
 export default {
   name: 'Dossiers',
+  mixins: [model],
   data() {
     return {
       dossiers: [],
@@ -35,7 +39,31 @@ export default {
   methods: {
     ...mapMutations('app', ['updateCurrentDossier', 'updateCurrentSubmission']),
     addDossier() {
-      console.log('adding dossier');
+          // Adds a new item to tables via dialogs
+      this.showFormDialog(NewDossier)
+      .then(({dossiertitle, tocId, product}) => {
+        if (dossiertitle && dossiertitle.length && tocId && product) {
+          BackendService.createGhsts({dossiertitle, tocId, product})
+          .then(async (dossier) => {
+            console.log(dossier);
+            // this.updateCurrentSubmission(await this.getAppData);
+          })
+          .catch(() => {
+            this.showMessage(this.$t('SAVE_FAILURE'));
+          });
+        }
+        else {
+          this.showMessage(this.$t('MISSING_DOSSIER_FIELDS'));
+        }
+      }, err => {
+        console.error(err);
+      })
+      .catch(() => {
+        this.showMessage(this.$t('ADD_ITEM_FAILURE'));
+      })
+      .then(() => {
+        this.$dialog.close();
+      });
     },
     addSubmission() {
       console.log('adding submission');
@@ -46,6 +74,9 @@ export default {
     selectSubmission(index) {
       this.updateCurrentSubmission(this.submissions[index]);
       this.$router.push('submission');
+    },
+    getComponent() {
+      return NewDossier;
     }
   },
   watch: {
