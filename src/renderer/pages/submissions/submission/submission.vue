@@ -47,8 +47,7 @@ export default {
   async created() {
     this.updateCurrentUrl('submission');
     try {
-      let model = await BackendService.getGhstsAll({_submissionid: this.submissionid});
-      model = model[0].submission[0];
+      let model = (await BackendService.getGhstsAll({_submissionid: this.submissionid}))[0].submission[0];
       this.updateCurrentRecord(this.mergeModelAndRecord(this.getEmptyModel('submission'), model));
       this.mapStateToModel();
     }

@@ -28,7 +28,7 @@ import SplitPane from '@/components/split-pane/split-pane.vue';
 import Switch from '@/components/switch/switch.vue';
 import Table from '@/components/table/table.vue';
 import {model} from '@/mixins/model.js';
-import {mapActions} from 'vuex';
+import {BackendService} from '@/store/backend.service.js';
 
 export default {
   name: 'SendersReceivers',
@@ -36,6 +36,7 @@ export default {
   data() {
     return {
       receivers: [],
+      senders: [],
       selectedReceiver: null,
       model: this.getEmptyModel('receiver')
     };
@@ -59,6 +60,10 @@ export default {
     getComponent(name) {
       return name === 'receiver' ? Receiver : Sender;
     }
+  },
+  async created() {
+    let recs = await BackendService.getGhsts();
+    console.log(recs);
   },
   components: {
     'vue-icon': Icon,

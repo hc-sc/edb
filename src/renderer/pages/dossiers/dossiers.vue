@@ -43,6 +43,7 @@ export default {
           .then(async ({dossierid, submissionid}) => {
             this.updateCurrentDossier(dossierid);
             this.updateCurrentSubmission(submissionid);
+            this.$router.push('/submission');
           })
           .catch(() => {
             this.showMessage(this.$t('SAVE_FAILURE'));

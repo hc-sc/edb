@@ -24,7 +24,7 @@
       </div>
     </vue-split-pane>
     <div class='bottom-float'>
-      <vue-icon fab @click.native='save("product")' id='save' :label='$t("save")' icon='save' position='top'></vue-icon>
+      <vue-icon fab @click.native='save("product")' id='save' :label='$t("save")' icon='save' position='top' :disabled='currentRecord == null'></vue-icon>
       <vue-icon fab id='add' :label='$t("add")' icon='add' position='top' @click.native='add("product")'></vue-icon>
       <vue-icon fab @click.native='revert' id='undo' :label='$t("revert")' icon='undo' position='top'>
       </vue-icon>
