@@ -4,8 +4,8 @@
     <vue-progress v-if='loading'></vue-progress>
     <template v-else>
       <vue-table :title='$t("RECEIVERS")' id='receivers' required addable
-      @add='addReceiver($event)'></vue-table>
-      <vue-table v-if='receivers && receivers.length' :title='$t("SENDERS")' id='senders' required addable @add='addSender($event)'></vue-table>
+      @add='addReceiver' :headers='["legalentityname", "shortname", "role"]' :items='receivers'></vue-table>
+      <vue-table v-if='receivers && receivers.length' :title='$t("SENDER")' id='senders' required addable @add='addSender($event)'></vue-table>
       <p v-if='receivers && receivers.length && selectedReceiver'>{{$t('SELECT_TO_BEGIN')}}</p>
       <p v-else>{{$t('ADD_TO_BEGIN')}}</p>
       <div class='bottom-float'>
@@ -44,17 +44,18 @@ export default {
   methods: {
     addReceiver() {
       this.showFormDialog('receiver')
-      .then(result => {
+      .then(async ({toLegalEntityId}) => {
+        console.log(toLegalEntityId);
+        const result = await BackendService.getAppData('receiver', );
         console.log(result);
+        this.receivers.push(result);
       })
       .catch(err => {
-        console.log(err);
+        console.error(err);
       })
-      .then(() => {
-        this.$dialog.close();
-      });
+      .then(() => this.$dialog.close());
     },
-    addSender(event) {
+    addSender() {
       this.showFormDialog('sender');
     },
     getComponent(name) {
@@ -62,8 +63,7 @@ export default {
     }
   },
   async created() {
-    let recs = await BackendService.getGhsts();
-    console.log(recs);
+    this.receivers = (await BackendService.getGhsts({_submissionid: this.submissionid}))[0]._receiver;
   },
   components: {
     'vue-icon': Icon,

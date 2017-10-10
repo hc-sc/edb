@@ -40,7 +40,9 @@ export default {
       .then(({dossiertitle, tocId, product}) => {
         if (dossiertitle && dossiertitle.length && tocId && product) {
           BackendService.createGhsts({dossiertitle, tocId, product})
-          .then(async ({dossierid, submissionid}) => {
+          .then(async (ghsts) => {
+            console.log(ghsts);
+            let {dossierid, submissionid} = ghsts;
             this.updateCurrentDossier(dossierid);
             this.updateCurrentSubmission(submissionid);
             this.$router.push('/submission');
@@ -69,8 +71,9 @@ export default {
       this.dossier = this.dossiers[index];
     },
     selectSubmission(index) {
-      this.updateCurrentSubmission(this.submissions[index].id);
-      this.$router.push('submission');
+      console.log(BackendService.getGhsts(this.submissions[index]._id));
+      this.updateCurrentSubmission(this.submissions[index]._id);
+      this.$router.push('/submission');
     },
     getComponent() {
       return NewDossier;

@@ -6,12 +6,39 @@ const app = {
   namespaced: true,
 
   state: {
-    dossiertitle: '',
+    // these are dossier level data
+    dossiertitle: '', // the dossiers title
     dossierid: '',
     submissionid: '',
-    records: [],
-    currentRecord: null,
-    currentUrl: '',
+    submission: {}, // the dossier/submission metadata, via getGhsts
+
+    // these are used by all node screens
+    records: [], // used for any master/detail screen (i.e. legalentities)
+    currentRecord: null, // the currently selected record, which is cloned and used for revert and dirty check
+    currentUrl: '', // used to set the current pages table
+  },
+
+  getters: {
+    receivers(state) {
+      return state.submission._receiver;
+    },
+    senders(state, getters) {
+      return id => {
+        return getters.receivers.find(receiver => receiver._id === id);
+      };
+    },
+    dossier(state) {
+      return state.submission.dossier;
+    },
+    files(state) {
+      return state.submission.files;
+    },
+    documents(state) {
+      return state.submission.documents;
+    },
+    toc(state) {
+      return state.submission.toc;
+    }
   },
 
   mutations: {
@@ -28,7 +55,10 @@ const app = {
       state.dossierid = dossier;
     },
     updateCurrentSubmission(state, submission) {
-      state.submissionid = submission;
+      state.submission = submission;
+    },
+    updateCurrentSubmissionId(state, id) {
+      state.submissionid = id;
     },
     updateDossierTitle(state, title) {
       state.dossiertitle = title;
@@ -52,7 +82,12 @@ const app = {
 
     async createAppData({commit, dispatch}, {url, model}) {
       return await BackendService.createAppData(url, model);
-    }
+    },
+
+    // async updateSubmission({commit}, {url, model}) {
+    //   let submission = await BackendService.updateGhsts({});
+    //   commit('updateCurrentSubmission', submission);
+    // }
   }
 };
 

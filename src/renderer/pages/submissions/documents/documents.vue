@@ -1,5 +1,6 @@
 <template>
-  <main class='pane'>
+  <main>
+    <div class='pane'>
     <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
     <vue-progress v-if='loading'></vue-progress>
     <template v-else>
@@ -19,14 +20,15 @@
       <vue-switch id='testedonvertebrate' :label='$t("TESTED_ON_VERTEBRATE")' :value='false'></vue-switch>
       <vue-table id='testlaboratory' :title='$t("TEST_LABORATORY")' :items='[]' required addable></vue-table>
       <vue-table id='referenceddocument' :title='$t("REFERENCED_DOCUMENT")' :items='[]' required addable></vue-table>
-      <!-- <vue-table id='relatedtosubstance' :title='$t("RELATED_TO_SUBSTANCE")' :items='[]' required addable></vue-table>
-      <vue-table id='documentnumber' :title='$t("DOCUMENT_NUMBER")' :items='[]' required addable></vue-table> -->
+      <vue-table id='relatedtosubstance' :title='$t("RELATED_TO_SUBSTANCE")' :items='[]' required addable></vue-table>
+      <vue-table id='documentnumber' :title='$t("DOCUMENT_NUMBER")' :items='[]' required addable></vue-table>
       <div class='bottom-float'>
         <vue-icon fab @click.native='save("submission")' id='save' :label='$t("save")' icon='save' position='top'></vue-icon>
         <vue-icon fab @click.native='revert' id='undo' :label='$t("revert")' icon='undo' position='top'>
         </vue-icon>
       </div>
     </template>
+    </div>
   </main>
 </template>
 
