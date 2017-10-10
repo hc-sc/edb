@@ -190,9 +190,9 @@ const model = {
     // Shows a new dialog. There must be a dialog on the page with a ref of
     // 'dialog'. It's a promise, so will resolve with the modal object, or
     // reject with the error. NOTE: this.getComponent MUST be  defined in each // page with the modals they need!
-    showFormDialog(componentName, model) {
+    showFormDialog(componentName, model, comp) {
       this.$dialog = this.$refs['dialog'];
-      const component = this.getComponent(componentName);
+      const component = comp ? comp : this.getComponent(componentName);
       return this.$dialog.show({
         component,
         model: model ? cloneDeep(model) : null
@@ -224,6 +224,7 @@ const model = {
     addItem(ref) {
       this.showFormDialog(ref)
       .then(result => {
+        console.log(ref, result);
         ref = getNestedProperty(this.model, ref);
 
         // if it's a duplicate, fail

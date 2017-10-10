@@ -77,11 +77,6 @@ export default {
         return value.label || value;
       }
     }
-  },
-  methods: {
-    isSelected(item) {
-
-    }
   }
 };
 </script>

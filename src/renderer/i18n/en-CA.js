@@ -91,7 +91,9 @@ export default {
   REGULATORY_CONTENTS: 'Regulatory Contents',
   SAVE_SUCCESS: 'Save successful',
   SAVE_FAILURE: 'Save failed',
+  SEARCH_TREE: 'Search Tree',
   SELECT_TO_BEGIN: 'Select a Receiver to Review Senders',
+  TOC_DATA: 'TOC Data',
   UPDATE_SUCCESS: 'Update successful',
   UPDATE_FAILURE: 'Update failure',
 

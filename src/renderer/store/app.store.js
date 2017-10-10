@@ -9,6 +9,7 @@ const app = {
     dossiertitle: '',
     dossierid: '',
     submissionid: '',
+    submission: '',
     records: [],
     currentRecord: null,
     currentUrl: '',
@@ -28,7 +29,10 @@ const app = {
       state.dossierid = dossier;
     },
     updateCurrentSubmission(state, submission) {
-      state.submissionid = submission;
+      state.submission = submission;
+    },
+    updateCurrentSubmissionId(state, id) {
+      state.submissionid = id;
     },
     updateDossierTitle(state, title) {
       state.dossiertitle = title;

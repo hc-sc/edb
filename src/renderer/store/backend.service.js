@@ -35,6 +35,8 @@ const BackendService = {
   //Paramater "obj"
   // ************************
   //
+  // _id is for ghstsid
+  //
   //For get ghsts
   //  _url: ['ghsts/'(optional)]'ghstsid'
   //
@@ -50,6 +52,7 @@ const BackendService = {
   //For get toc of the dossier
   //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'toc'
   //
+  // ex: _url: '<ghsts/<ghstsid>>/toc'
   // ********************************************
   getGhsts: function (obj) {
     if (typeof obj === 'string')

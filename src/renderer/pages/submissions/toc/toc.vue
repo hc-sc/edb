@@ -1,34 +1,38 @@
 <template>
-  <main class='pane'>
-    <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
-    <vue-progress v-if='loading'></vue-progress>
-    <template v-else>
-      <vue-tree :tree='toc'></vue-tree>
-      <div class='bottom-float'>
-        <vue-icon fab @click.native='save("toc")' id='save' :label='$t("save")' icon='save' position='top'></vue-icon>
-        <vue-icon fab @click.native='revert' id='undo' :label='$t("revert")' icon='undo' position='top'>
-        </vue-icon>
-      </div>
-    </template>
+  <main>
+    <div class='pane'>
+      <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
+      <vue-progress v-if='loading'></vue-progress>
+      <template v-else>
+        <vue-select id='treefilter' :label='$t("SEARCH_TREE")' :options='[]' :displayValue='o => o.nodeName' :matchValue='o => o.nodeName' ></vue-select>
+        <vue-tree :tree='toc'></vue-tree>
+        <div class='bottom-float'>
+          <!-- <vue-icon fab @click.native='save("toc")' id='save' :label='$t("save")' icon='save' position='top'></vue-icon>
+          <vue-icon fab @click.native='revert' id='undo' :label='$t("revert")' icon='undo' position='top'>
+          </vue-icon> -->
+          <vue-button type='button' @click.native='showTOCData'>{{$t('TOC_DATA')}}</vue-button>
+        </div>
+      </template>
+    </div>
   </main>
 </template>
 
 <script>
+import Button from '@/components/button/button.vue';
 import Icon from '@/components/icon/icon.vue';
 import Input from '@/components/input/input.vue';
-import Receiver from '@/pages/submissions/senders-receivers/receiver.vue';
 import Select from '@/components/select/select.vue';
 import SelectExtensible from '@/components/select-extensible/select-extensible.vue';
-import Sender from '@/pages/submissions/senders-receivers/sender.vue';
 import SplitPane from '@/components/split-pane/split-pane.vue';
 import Switch from '@/components/switch/switch.vue';
 import Table from '@/components/table/table.vue';
+import TOCData from '@/pages/submissions/toc/toc-data.vue';
 import Tree from '@/components/tree/tree.vue';
 import {model} from '@/mixins/model.js';
 import {BackendService} from '@/store/backend.service.js';
 
 export default {
-  name: 'SendersReceivers',
+  name: 'TOC',
   mixins: [model],
   data() {
     return {
@@ -36,30 +40,23 @@ export default {
     };
   },
   methods: {
-    addReceiver() {
-      this.showFormDialog('receiver')
-      .then(result => {
-        console.log(result);
-      })
-      .catch(err => {
-        console.log(err);
-      })
-      .then(() => {
-        this.$dialog.close();
-      });
+    getComponent() {
+      return TOCData;
     },
-    addSender(event) {
-      this.showFormDialog('sender');
-    },
-    getComponent(name) {
-      return name === 'receiver' ? Receiver : Sender;
+    showTOCData() {
+      this.showFormDialog(null, {}, TOCData)
+      .then(result => {console.log(result);})
+      .catch(err => {console.error(err);})
+      .then(this.$dialog.close());
     }
   },
   async created() {
-    let toc = await BackendService.getGhsts({url: '/toc'});
-    console.log(toc);
+    this.toc = (await BackendService.getGhsts({url: '/toc'}))[0].toc;
+    this.tree = this.toc.structure;
+
   },
   components: {
+    'vue-button': Button,
     'vue-icon': Icon,
     'vue-input': Input,
     'vue-select': Select,
