@@ -1,5 +1,5 @@
 <template>
-  <vue-select id='receiver' :options='receivers' :label='$tc("receiver", 2)' :displayValue='o => o.shortname' :value='model.receiver.toLegalEntityId' @input='model.receiver.toLegalEntityId = $event._id' :matchValue='matchBy("_id")'></vue-select>
+  <vue-select id='receiver' :options='receivers' :label='$tc("receiver", 2)' :displayValue='o => o.shortname' :value='model.receiver.toLegalEntityId' @input='model.receiver = $event' :matchValue='matchBy("_id")'></vue-select>
 </template>
 
 <script>

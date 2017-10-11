@@ -135,7 +135,7 @@ const BackendService = {
   // ************************
   //Paramater "obj"
   // ************************
-  //
+  //Call ghsts 'put' to put the whole object
   //For update receiver
   //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'receiver'
   //  data: all receivers for the submission

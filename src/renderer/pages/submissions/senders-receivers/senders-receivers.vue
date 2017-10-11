@@ -4,9 +4,9 @@
     <vue-progress v-if='loading'></vue-progress>
     <template v-else>
       <vue-table :title='$t("RECEIVERS")' id='receivers' required addable
-      @add='addReceiver' :headers='["legalentityname", "shortname", "role"]' :items='receivers'></vue-table>
-      <vue-table v-if='receivers && receivers.length' :title='$t("SENDER")' id='senders' required addable @add='addSender($event)'></vue-table>
-      <p v-if='receivers && receivers.length && selectedReceiver'>{{$t('SELECT_TO_BEGIN')}}</p>
+      @add='addReceiver' :headers='["legalentityname", "shortname", "role"]' :items='receiversData' @select='selectReceiver'></vue-table>
+      <vue-table v-if='selectedReceiver' :title='$t("SENDER")' id='senders' required addable @add='addSender($event)'></vue-table>
+      <p v-if='receiversData && receiversData.length'>{{$t('SELECT_TO_BEGIN')}}</p>
       <p v-else>{{$t('ADD_TO_BEGIN')}}</p>
       <div class='bottom-float'>
         <vue-icon fab @click.native='save("receivers")' id='save' :label='$t("save")' icon='save' position='top'></vue-icon>
@@ -29,26 +29,27 @@ import Switch from '@/components/switch/switch.vue';
 import Table from '@/components/table/table.vue';
 import {model} from '@/mixins/model.js';
 import {BackendService} from '@/store/backend.service.js';
+import {mapGetters} from 'vuex';
 
 export default {
   name: 'SendersReceivers',
   mixins: [model],
   data() {
     return {
-      receivers: [],
-      senders: [],
+      receiversData: [],
+      sendersData: [],
       selectedReceiver: null,
       model: this.getEmptyModel('receiver')
     };
   },
+  computed: {
+    ...mapGetters('app', ['receivers', 'senders']),
+  },
   methods: {
     addReceiver() {
       this.showFormDialog('receiver')
-      .then(async ({toLegalEntityId}) => {
-        console.log(toLegalEntityId);
-        const result = await BackendService.getAppData('receiver', );
-        console.log(result);
-        this.receivers.push(result);
+      .then(async (result) => {
+        this.receiversData.push(result.receiver);
       })
       .catch(err => {
         console.error(err);
@@ -58,12 +59,41 @@ export default {
     addSender() {
       this.showFormDialog('sender');
     },
+    selectReceiver(index) {
+      this.selectedReceiver = this.receiversData[index];
+    },
     getComponent(name) {
       return name === 'receiver' ? Receiver : Sender;
     }
   },
+  watch: {
+    async selectedReceiver() {
+      try {
+        this.sendersData = await BackendService.getAppData('sender', {where: this.selectedReceiver['sender']});
+      }
+      catch(err) {
+        console.log(err);
+      }
+    }
+  },
   async created() {
-    this.receivers = (await BackendService.getGhsts({_submissionid: this.submissionid}))[0]._receiver;
+    this.updateCurrentUrl('receiver');
+    try {
+      let ids = [];
+      if (this.receivers && this.receivers.length) {
+        ids = this.receivers.map(receiverData => receiverData.receiver);
+      }
+      if (ids && ids.length) {
+        this.receiversData = this.getAppData('receiver', {where: ids});
+      }
+      console.log(this.receiversData);
+      // this.updateCurrentRecord(this.mergeModelAndRecord(this.getEmptyModel('submission'), model));
+      // this.mapStateToModel();
+    }
+    catch(err) {
+      this.showMessage('ERROR');
+    }
+    this.$store.commit('ready');
   },
   components: {
     'vue-icon': Icon,

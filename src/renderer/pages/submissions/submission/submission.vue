@@ -57,7 +57,6 @@ export default {
     catch(err) {
       this.showMessage('ERROR');
     }
-    // this.updateCurrentRecord(this.mergeModelAndRecord(this.getEmptyModel('submission'), this.submission));
     this.$store.commit('ready');
   },
   components: {
