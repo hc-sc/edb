@@ -50,7 +50,7 @@ module.exports = {
         test: /\.(webp|png|jpe?g|gif|svg)$/,
         loader: 'file-loader',
         options: {
-          name: join(ASSETS_PATH_REL, 'images', '[name].[ext]'),
+          name: 'assets/images/[name].[ext]',
           // publicPath: '../../'
         }
       },
@@ -58,8 +58,9 @@ module.exports = {
         test: /\.(woff2?|eot|ttf|otf)$/,
         loader: 'file-loader',
         options: {
-          name: join(ASSETS_PATH_REL, 'fonts', '[name].[ext]'),
-          // publicPath: '../../'
+          // name: '[name].[ext]'
+          name: 'assets/fonts/[name].[ext]',
+          // publicPath: './'
         }
       }
     ]

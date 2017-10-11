@@ -63,7 +63,7 @@ module.exports = {
         loader: 'file-loader',
         options: {
           // limit: URL_LOADER_LIMIT, // if using url-loader
-          name: join(ASSETS_PATH_REL, 'images', '[name].[hash:7].[ext]'),
+          name: 'assets/images/[name].[ext]',
           // publicPath: '../../'
         }
       },
@@ -72,8 +72,8 @@ module.exports = {
         loader: 'file-loader',
         options: {
           // limit: URL_LOADER_LIMIT // if using url-loader
-          name: join(ASSETS_PATH_REL, 'fonts', '[name].[hash:7].[ext]'),
-          // publicPath: '../../'
+          // name: join(ASSETS_PATH_REL, 'fonts', '[name].[hash:7].[ext]'),
+          name: 'assets/fonts/[name].[ext]',
         }
       }
     ]
