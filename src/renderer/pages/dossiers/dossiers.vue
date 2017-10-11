@@ -42,12 +42,10 @@ export default {
           BackendService.createGhsts({dossiertitle, tocId, product})
           .then(async (ghsts) => {
             console.log(ghsts);
-            let {dossierid, submissionid} = ghsts;
-            this.updateCurrentDossier(dossierid);
-            this.updateCurrentSubmission(submissionid);
-            this.$router.push('/submission');
+            this.goToSubmission();
           })
-          .catch(() => {
+          .catch(err => {
+            console.log(err);
             this.showMessage(this.$t('SAVE_FAILURE'));
           });
         }
@@ -70,9 +68,13 @@ export default {
     selectDossier(index) {
       this.dossier = this.dossiers[index];
     },
-    selectSubmission(index) {
-      console.log(BackendService.getGhsts(this.submissions[index]._id));
-      this.updateCurrentSubmission(this.submissions[index]._id);
+    async selectSubmission(index) {
+      this.submission = (await BackendService.getGhsts({_submissionid: this.submissions[index]._id}))[0];
+      this.goToSubmission();
+    },
+    goToSubmission() {
+      this.updateCurrentSubmission(this.submission);
+      this.updateCurrentDossier(this.dossier);
       this.$router.push('/submission');
     },
     getComponent() {

@@ -228,7 +228,7 @@ const model = {
         ref = getNestedProperty(this.model, ref);
 
         // if it's a duplicate, fail
-        // need to for every item, check each non DB prop
+        // need to: for every item, check each non DB prop
         if (ref && Array.isArray(ref)) {
           let rowMatch = false;
 
@@ -294,7 +294,7 @@ const model = {
         next();
       })
       .catch(() => {
-        console.error('Error changing routes');
+        console.log('Route change cancelled');
       })
       .then(() => {
         this.$dialog.close();
