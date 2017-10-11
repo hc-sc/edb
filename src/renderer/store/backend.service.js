@@ -39,7 +39,10 @@ const BackendService = {
   //
   //For get ghsts
   //  _url: ['ghsts/'(optional)]'ghstsid'
-  //_dossier _submissionid
+  //
+  //For get ghsts by submission id
+  // _submissionid: the submission id
+  //
   //For get receivers of the submission
   //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'receiver'
   //
