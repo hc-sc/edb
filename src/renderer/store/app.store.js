@@ -53,6 +53,7 @@ const app = {
     },
     updateCurrentDossier(state, dossier) {
       state.dossierid = dossier;
+      state.dossiertitle = dossier.dossierdescriptiontitle;
     },
     updateCurrentSubmission(state, submission) {
       state.submission = submission;
