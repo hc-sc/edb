@@ -34,14 +34,15 @@ export default {
     };
   },
   methods: {
-    ...mapMutations('app', ['updateCurrentDossier', 'updateCurrentSubmission']),
+    ...mapMutations('app', ['updateDossierData', 'updateCurrentSubmission']),
     addDossier() {
       this.showFormDialog(NewDossier)
       .then(({dossiertitle, tocId, product}) => {
         if (dossiertitle && dossiertitle.length && tocId && product) {
           BackendService.createGhsts({dossiertitle, tocId, product})
-          .then(async (ghsts) => {
-            console.log(ghsts);
+          .then(async ({dossierid, dossiertitle, submissionid}) => {
+            this.updateDossierData({dossierid, dossiertitle});
+            this.submission = (await BackendService.getGhsts({_submissionid: submissionid}))[0];
             this.goToSubmission();
           })
           .catch(err => {
@@ -74,7 +75,6 @@ export default {
     },
     goToSubmission() {
       this.updateCurrentSubmission(this.submission);
-      this.updateCurrentDossier(this.dossier);
       this.$router.push('/submission');
     },
     getComponent() {

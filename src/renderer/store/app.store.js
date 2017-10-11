@@ -28,16 +28,22 @@ const app = {
       };
     },
     dossier(state) {
-      return state.submission.dossier;
+      return state.submission._dossier;
+    },
+    product(state) {
+      return state.submission._product;
     },
     files(state) {
-      return state.submission.files;
+      return state.submission._files;
     },
     documents(state) {
-      return state.submission.documents;
+      return state.submission._documents;
     },
     toc(state) {
-      return state.submission.toc;
+      return state.submission._toc;
+    },
+    tocdescription(state) {
+      return state.submission._tocdescription;
     }
   },
 
@@ -51,18 +57,15 @@ const app = {
     updateCurrentUrl(state, url) {
       state.currentUrl = url;
     },
-    updateCurrentDossier(state, dossier) {
-      state.dossierid = dossier;
-      state.dossiertitle = dossier.dossierdescriptiontitle;
-    },
     updateCurrentSubmission(state, submission) {
       state.submission = submission;
     },
     updateCurrentSubmissionId(state, id) {
       state.submissionid = id;
     },
-    updateDossierTitle(state, title) {
-      state.dossiertitle = title;
+    updateDossierData(state, {dossiertitle, dossierid}) {
+      state.dossiertitle = dossiertitle;
+      state.dossierid = dossierid;
     }
   },
 

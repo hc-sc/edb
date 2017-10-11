@@ -63,7 +63,7 @@ module.exports = {
         loader: 'file-loader',
         options: {
           // limit: URL_LOADER_LIMIT, // if using url-loader
-          name: 'assets/images/[name].[ext]',
+          name: 'assets/images/[name].[hash:7].[ext]',
           // publicPath: '../../'
         }
       },
@@ -73,7 +73,7 @@ module.exports = {
         options: {
           // limit: URL_LOADER_LIMIT // if using url-loader
           // name: join(ASSETS_PATH_REL, 'fonts', '[name].[hash:7].[ext]'),
-          name: 'assets/fonts/[name].[ext]',
+          name: 'assets/fonts/[name].[hash:7].[ext]',
         }
       }
     ]

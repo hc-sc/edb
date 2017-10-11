@@ -23,7 +23,7 @@ import Progress from '@/components/progress/progress.vue';
 import Switch from '@/components/switch/switch.vue';
 import {model} from '@/mixins/model.js';
 import {BackendService} from '@/store/backend.service.js';
-import {mapMutations} from 'vuex';
+import {mapState, mapMutations} from 'vuex';
 
 export default {
   name: 'Submission',
@@ -32,6 +32,9 @@ export default {
     return {
       model: this.getEmptyModel('submission'),
     };
+  },
+  computed: {
+    ...mapState('app', ['submission'])
   },
   methods: {
     ...mapMutations('app', ['updateCurrentRecord'])
@@ -47,7 +50,7 @@ export default {
   async created() {
     this.updateCurrentUrl('submission');
     try {
-      let model = (await BackendService.getGhstsAll({_submissionid: this.submissionid}))[0].submission[0];
+      let model = (await BackendService.getAppData('submission', this.submission._submissionid))[0];
       this.updateCurrentRecord(this.mergeModelAndRecord(this.getEmptyModel('submission'), model));
       this.mapStateToModel();
     }
