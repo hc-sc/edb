@@ -544,7 +544,8 @@ export default {
   cursor: not-allowed;
 }
 
-.icon-cell {
+.table .icon-cell {
   width: 44px;
+  padding: 0;
 }
 </style>
