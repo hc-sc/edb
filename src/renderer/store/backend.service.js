@@ -41,10 +41,8 @@ const BackendService = {
   //  _url: ['ghsts/'(optional)]'ghstsid'
   //
   //For get ghsts by submission id
-  // { 
-  //  _submissionid: the submission id
-  // }
-  //
+  // _submissionid: the submission id
+  //   
   //For get receivers of the submission
   //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'receiver'
   //
