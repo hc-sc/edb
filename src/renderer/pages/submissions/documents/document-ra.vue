@@ -1,0 +1,9 @@
+<template>
+  <div>
+    <p>dataprotection</p>
+    <p>datarequirement</p>
+    <p>toSpecificForRAId</p>
+    <p>documentcomment</p>
+    <p>othernationalguideline</p>
+  </div>
+</template>

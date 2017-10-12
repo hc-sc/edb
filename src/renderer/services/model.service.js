@@ -12,7 +12,7 @@ import modelProduct from '../view-models/gen/product.json';
 import modelProductRA from '../view-models/gen/productra.json';
 import modelIngredient from '../view-models/gen/ingredient.json';
 import modelAdminnumber from '../view-models/gen/adminnumber.json';
-
+import modelDossier from '../view-models/gen/dossier.json';
 import modelDossierRA from '../view-models/gen/dossierra.json';
 import modelReferencedDossier from '../view-models/gen/referenceddossier.json';
 
@@ -81,8 +81,7 @@ const ModelService = {
 
       // this is to allow reactivity for vuex in ghsts.store.js
       case 'dossier':
-        return {
-        };
+        return modelDossier.fields;
 
       case 'dossierra':
         return _.merge({}, Object.assign(modelDossierRA.fields));

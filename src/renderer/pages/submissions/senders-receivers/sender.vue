@@ -1,31 +1,29 @@
 <template>
-  <vue-select id='receiver' :options='receivers' :label='$tc("receiver", 2)' :displayValue='o => o._shortname' :value='model.receiver' @input='model.toLegalEntityId = $event._id' :matchValue='getMatch'></vue-select>
-
-  <!-- <vue-select-extensible id='legalentitytype' :label='$t("legalentitytype")' typeName='EXTENSION_TYPE_LEGALENTITY_TYPE' :value='model.legalentitytype' @input='model.legalentitytype = $event._id' :options='legalentitytype' :displayValue='displayPicklistItem' :matchValue='matchById' required></vue-select-extensible> -->
+  <vue-select id='sender' :options='senders' :label='$tc("sender", 2)' :displayValue='o => o._shortname' :value='model.sender._id' @input='model.sender = $event' :matchValue='matchBy("_id")'></vue-select>
 </template>
 
 <script>
 import Select from '@/components/select/select.vue';
+import {model} from '@/mixins/model.js';
 import {BackendService} from '@/store/backend.service.js';
 import {matchBy} from '@/services/utils.service.js';
 
 export default {
   name: 'SenderSelect',
+  mixins: [model],
   data() {
     return {
       model: {
-        receiver: ''
+        sender: this.getEmptyModel('sender')
       },
-      receivers: []
+      senders: []
     };
   },
   methods: {
-    getMatch() {
-      return matchBy('_id');
-    }
+    matchBy
   },
   async created() {
-    this.receivers = await BackendService.getAppData('sender');
+    this.senders = await BackendService.getAppDataAll('sender');
   },
   components: {
     'vue-select': Select

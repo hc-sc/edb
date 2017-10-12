@@ -9,10 +9,10 @@
           <span class='f-gap'></span>
           <vue-input type='text' id='dossierpid' :label='$t("DOSSIER_PID")' v-model='model.dossierpid' required disabled></vue-input>
         </div>
-        <vue-input id='dossiercompid' :label='$t("DOSSIER_COMP_ID")' v-model='model.companydossierid' required></vue-input>
-        <vue-input id='dossiertitle' :label='$t("DOSSIER_DESCRIPTION_TITLE")' v-model='model.dossiertitle' required></vue-input>
-        <vue-table id='radossiertype' :title='$t("REGULATORY_AUTHORITY_DOSSIER_TYPE")' :items='[]' required></vue-table>
-        <vue-table id='referenceddossier' :title='$t("REFERENCED_DOSSIER")' :items='[]' required></vue-table>
+        <vue-input id='dossiercompid' :label='$t("DOSSIER_COMP_ID")' v-model='model.dossiercompid' required></vue-input>
+        <vue-input id='dossierdescriptiontitle' :label='$t("DOSSIER_DESCRIPTION_TITLE")' v-model='model.dossierdescriptiontitle' required></vue-input>
+        <vue-table id='radossiertype' :title='$t("REGULATORY_AUTHORITY_DOSSIER_TYPE")' :items='model.dossierra' required addable @add='addItem("dossierra")'></vue-table>
+        <vue-table id='referenceddossier' :title='$t("REFERENCED_DOSSIER")' :items='model.referenceddossier' required addable @add='addItem("dossierra")'></vue-table>
         <div class='bottom-float'>
           <vue-icon fab @click.native='save("dossier")' id='save' :label='$t("save")' icon='save' position='top'></vue-icon>
           <vue-icon fab @click.native='revert' id='undo' :label='$t("revert")' icon='undo' position='top'>
@@ -25,8 +25,10 @@
 
 <script>
 import Button from '@/components/button/button.vue';
+import DossierRA from '@/pages/submissions/dossier/dossier-ra.vue';
 import Icon from '@/components/icon/icon.vue';
 import Input from '@/components/input/input.vue';
+import ReferencedDossier from '@/pages/submissions/dossier/referenced-dossier.vue';
 import Table from '@/components/table/table.vue';
 import {model} from '@/mixins/model.js';
 
@@ -35,12 +37,22 @@ export default {
   mixins: [model],
   data() {
     return {
-      model: this.getEmptyModel('dossier'),
+      model: this.getEmptyModel('dossier')
     };
   },
-  created() {
-    this.resetForm();
+  methods: {
+    getComponent(compName) {
+      return compName === 'dossierra' ? DossierRA : ReferencedDossier;
+    }
+  },
+  beforeCreated() {
+    this.$store.commit('loading');
+  },
+  async created() {
     this.updateCurrentUrl('dossier');
+    this.resetForm();
+    this.updateCurrentRecord();
+    this.$store.commit('ready');
   },
   components: {
     'vue-button': Button,

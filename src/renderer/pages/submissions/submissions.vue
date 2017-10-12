@@ -36,6 +36,10 @@ export default {
           path: '/submission/dossier'
         },
         {
+          label: this.$tc('product', 1),
+          path: '/submission/product'
+        },
+        {
           label: this.$tc('file', 2),
           path: '/submission/files'
         },

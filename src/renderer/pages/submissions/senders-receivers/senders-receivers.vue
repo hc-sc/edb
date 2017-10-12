@@ -5,9 +5,9 @@
     <template v-else>
       <vue-table :title='$t("RECEIVERS")' id='receivers' required addable
       @add='addReceiver' :headers='["legalentityname", "shortname", "role"]' :items='receiversData' @select='selectReceiver'></vue-table>
-      <vue-table v-if='selectedReceiver' :title='$t("SENDER")' id='senders' required addable @add='addSender($event)'></vue-table>
-      <p v-if='receiversData && receiversData.length'>{{$t('SELECT_TO_BEGIN')}}</p>
-      <p v-else>{{$t('ADD_TO_BEGIN')}}</p>
+      <vue-table v-if='selectedReceiver' :title='$t("SENDER")' id='senders' required addable @add='addSender($event)' :items='sendersData' :headers='[]'></vue-table>
+      <p v-if='receiversData && receiversData.length && selectedReceiver == null'>{{$t('SELECT_TO_BEGIN')}}</p>
+      <p v-else-if='selectedReceiver == null'>{{$t('ADD_TO_BEGIN')}}</p>
       <div class='bottom-float'>
         <vue-icon fab @click.native='save("receivers")' id='save' :label='$t("save")' icon='save' position='top'></vue-icon>
         <vue-icon fab @click.native='revert' id='undo' :label='$t("revert")' icon='undo' position='top'>
@@ -48,8 +48,8 @@ export default {
   methods: {
     addReceiver() {
       this.showFormDialog('receiver')
-      .then(async (result) => {
-        this.receiversData.push(result.receiver);
+      .then(async ({receiver}) => {
+        this.receiversData.push(receiver);
       })
       .catch(err => {
         console.error(err);
@@ -57,7 +57,14 @@ export default {
       .then(() => this.$dialog.close());
     },
     addSender() {
-      this.showFormDialog('sender');
+      this.showFormDialog('sender')
+      .then(({sender}) => {
+        this.sendersData.push(sender);
+      })
+      .catch(err => {
+        console.error(err);
+      })
+      .then(() => this.$dialog.close());
     },
     selectReceiver(index) {
       this.selectedReceiver = this.receiversData[index];
@@ -69,7 +76,8 @@ export default {
   watch: {
     async selectedReceiver() {
       try {
-        this.sendersData = await BackendService.getAppData('sender', {where: this.selectedReceiver['sender']});
+        this.sendersData = [];
+        // this.sendersData = await BackendService.getAppData('sender', {where: this.selectedReceiver['sender']});
       }
       catch(err) {
         console.log(err);
