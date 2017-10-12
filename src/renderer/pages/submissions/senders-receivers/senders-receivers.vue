@@ -3,9 +3,9 @@
     <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
     <vue-progress v-if='loading'></vue-progress>
     <template v-else>
-      <vue-table :title='$t("RECEIVERS")' id='receivers' required addable
-      @add='addReceiver' :headers='["legalentityname", "shortname", "role"]' :items='receiversData' @select='selectReceiver'></vue-table>
-      <vue-table v-if='selectedReceiver' :title='$t("SENDER")' id='senders' required addable @add='addSender($event)' :items='sendersData' :headers='[]'></vue-table>
+      <vue-table :title='$t("receivers")' id='receivers' required addable
+      @add='addReceiver' :headers='["legalentityname", "shortname", "role"]' :displayHeader='displayTranslation' :items='receiversData' @select='selectReceiver'></vue-table>
+      <vue-table v-if='selectedReceiver' :title='$t("sender")' id='senders' required addable @add='addSender($event)' :items='sendersData' :headers='["legalentityname", "shortname", "companycontactregulatoryrole", "remark"]' :displayHeader='displayTranslation'></vue-table>
       <p v-if='receiversData && receiversData.length && selectedReceiver == null'>{{$t('SELECT_TO_BEGIN')}}</p>
       <p v-else-if='selectedReceiver == null'>{{$t('ADD_TO_BEGIN')}}</p>
       <div class='bottom-float'>
@@ -28,7 +28,6 @@ import SplitPane from '@/components/split-pane/split-pane.vue';
 import Switch from '@/components/switch/switch.vue';
 import Table from '@/components/table/table.vue';
 import {model} from '@/mixins/model.js';
-import {BackendService} from '@/store/backend.service.js';
 import {mapGetters} from 'vuex';
 
 export default {

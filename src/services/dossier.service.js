@@ -10,7 +10,7 @@ module.exports = class DossierService extends BaseService {
     this.referencedBy = {refName: 'product', field: 'dossier'};
     this.pidField = 'dossierpid';
   }
-  
+
   edb_delete(id) {
     return new Q((res, rej) => {
       let self = this;
@@ -35,8 +35,8 @@ module.exports = class DossierService extends BaseService {
   edb_put(obj) {
     let dossierInDB = DossierService.edb_getSync({_id: obj._id})[0];
     if (dossierInDB._state === obj._state)
-      return super.edb_post(obj);
-    else 
+      return super.edb_put(obj);
+    else
       return this._change_state(obj);
   }
 

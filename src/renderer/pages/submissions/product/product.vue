@@ -3,22 +3,16 @@
     <vue-progress v-if='loading'></vue-progress>
     <template v-else>
     <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
-    <!-- <vue-split-pane>
-      <div slot='split-pane-1'>
-        <vue-list-filter id='master-search' selectable @select='selectListItem' :items='records' :displayValue='displayDefaultFilterListItem' :label='$t("search")' sortByArgs='genericproductname' :selectedItem='currentRecord'></vue-list-filter>
+      <div class='f-container f-cross-start'>
+        <vue-button class='input-prefix' @click.native='assignPID("productpid")'>generate</vue-button>
+        <span class='f-gap'></span>
+        <vue-input type='text' id='productpid' :label='$t("productpid")' v-model='model.productpid' required disabled></vue-input>
       </div>
-      <div slot='split-pane-2' class='pane'> -->
-        <div class='f-container f-cross-start'>
-          <vue-button class='input-prefix' @click.native='assignPID("productpid")'>generate</vue-button>
-          <span class='f-gap'></span>
-          <vue-input type='text' id='productpid' :label='$t("PRODUCT_PID")' v-model='model.productpid' required disabled></vue-input>
-        </div>
-        <vue-input id='genericproductname' :label='$t("GENERIC_PRODUCT_NAME")' v-model='model.genericproductname' required :max='255'></vue-input>
-        <vue-select-extensible id='formulationtype' :label='$t("FORMULATION_TYPE")' :options='formulationtype' :value='model.formulationtype' @input='model.formulationtype = $event._id' :matchValue='matchById' typeName='EXTENSION_TYPE_FORMULATION_TYPE' :displayValue='displayPicklistItem'></vue-select-extensible>
-        <vue-table id='ingredients' :title='$t("INGREDIENTS")' :items='model.ingredients.ingredient' :headers='[{name: "toSubstanceId", url: "substance"}, "quantity", {name: "unit", url: "picklist"}]' :displayHeader='displayTranslation' @select='selectTableItem("ingredient", model.ingredients.ingredient[$event], $event)' addable @add='addItem("ingredients.ingredient")'></vue-table>
-        <vue-table id='productras' :title='$t("PRODUCT_RA")' :items='model.productra' :headers='[]' :displayHeader='displayTranslation' @select='selectTableItem("productra", model.productra[$event], $event)' addable @add='addItem("productra")'></vue-table>
-      </div>
-    <!-- </vue-split-pane> -->
+      <vue-input id='genericproductname' :label='$t("genericproductname")' v-model='model.genericproductname' required :max='255'></vue-input>
+      <vue-select-extensible id='formulationtype' :label='$t("formulationtype")' :options='formulationtype' :value='model.formulationtype' @input='model.formulationtype = $event._id' :matchValue='matchById' typeName='EXTENSION_TYPE_FORMULATION_TYPE' :displayValue='displayPicklistItem'></vue-select-extensible>
+      <vue-table id='ingredients' :title='$t("ingredients")' :items='model.ingredients.ingredient' :headers='[{name: "toSubstanceId", url: "substance"}, "quantity", {name: "unit", url: "picklist"}]' :displayHeader='displayTranslation' @select='selectTableItem("ingredient", model.ingredients.ingredient[$event], $event)' addable @add='addItem("ingredients.ingredient")'></vue-table>
+      <vue-table id='productras' :title='$t("productra")' :items='model.productra' :headers='[]' :displayHeader='displayTranslation' @select='selectTableItem("productra", model.productra[$event], $event)' addable @add='addItem("productra")'></vue-table>
+    </div>
     <div class='bottom-float'>
       <vue-icon fab @click.native='save("product")' id='save' :label='$t("save")' icon='save' position='top' :disabled='currentRecord == null'></vue-icon>
       <vue-icon fab id='add' :label='$t("add")' icon='add' position='top' @click.native='add("product")'></vue-icon>

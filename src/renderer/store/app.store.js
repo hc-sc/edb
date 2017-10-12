@@ -10,7 +10,7 @@ const app = {
     dossiertitle: '', // the dossiers title
     dossierid: '',
     submissionid: '',
-    submission: {}, // the dossier/submission metadata, via getGhsts
+    ghsts: {}, // the dossier/submission metadata, via getGhsts
 
     // these are used by all node screens
     records: [], // used for any master/detail screen (i.e. legalentities)
@@ -20,7 +20,7 @@ const app = {
 
   getters: {
     receivers(state) {
-      return state.submission._receiver;
+      return state.ghsts._receiver;
     },
     senders(state, getters) {
       return id => {
@@ -28,22 +28,22 @@ const app = {
       };
     },
     dossier(state) {
-      return state.submission._dossier;
+      return state.ghsts._dossier;
     },
     product(state) {
-      return state.submission._product;
+      return state.ghsts._product;
     },
     files(state) {
-      return state.submission._files;
+      return state.ghsts._files;
     },
     documents(state) {
-      return state.submission._documents;
+      return state.ghsts._documents;
     },
     toc(state) {
-      return state.submission._toc;
+      return state.ghsts._toc;
     },
     tocdescription(state) {
-      return state.submission._tocdescription;
+      return state.ghsts._tocdescription;
     }
   },
 
@@ -57,8 +57,8 @@ const app = {
     updateCurrentUrl(state, url) {
       state.currentUrl = url;
     },
-    updateCurrentSubmission(state, submission) {
-      state.submission = submission;
+    updateCurrentGhsts(state, ghsts) {
+      state.ghsts = ghsts;
     },
     updateCurrentSubmissionId(state, id) {
       state.submissionid = id;

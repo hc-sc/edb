@@ -5,14 +5,14 @@
       <vue-progress v-if='loading'></vue-progress>
       <template v-else>
         <div class='f-container f-cross-start'>
-          <vue-button class='input-prefix' @click.native='assignPID("dossierpid")'>generate</vue-button>
+          <vue-button class='input-prefix' @click.native='assignPID("dossierpid")'>{{$t("generatepid")}}</vue-button>
           <span class='f-gap'></span>
-          <vue-input type='text' id='dossierpid' :label='$t("DOSSIER_PID")' v-model='model.dossierpid' required disabled></vue-input>
+          <vue-input type='text' id='dossierpid' :label='$t("dossierpid")' v-model='model.dossierpid' required disabled></vue-input>
         </div>
-        <vue-input id='dossiercompid' :label='$t("DOSSIER_COMP_ID")' v-model='model.dossiercompid' required></vue-input>
-        <vue-input id='dossierdescriptiontitle' :label='$t("DOSSIER_DESCRIPTION_TITLE")' v-model='model.dossierdescriptiontitle' required></vue-input>
-        <vue-table id='radossiertype' :title='$t("REGULATORY_AUTHORITY_DOSSIER_TYPE")' :items='model.dossierra' required addable @add='addItem("dossierra")'></vue-table>
-        <vue-table id='referenceddossier' :title='$t("REFERENCED_DOSSIER")' :items='model.referenceddossier' required addable @add='addItem("dossierra")'></vue-table>
+        <vue-input id='dossiercompid' :label='$t("dossiercompid")' v-model='model.dossiercompid' required></vue-input>
+        <vue-input id='dossierdescriptiontitle' :label='$t("dossierdescriptiontitle")' v-model='model.dossierdescriptiontitle' required></vue-input>
+        <vue-table id='radossiertype' :title='$t("REGULATORY_AUTHORITY_DOSSIER_TYPE")' :items='model.dossierra' :headers='[{name: "toSpecificForRAId", url: "legalentity"}, {name: "applicationtype", url: "picklist"}, {name: "regulatorytype", url: "picklist"}]' :displayHeader='displayTranslation' required addable @add='addItem("dossierra")' @select='selectTableItem("dossierra", model.dossierra[$event], $event)'></vue-table>
+        <vue-table id='referenceddossier' :title='$t("referenceddossier")' :items='model.referenceddossier' :headers='["referenceddossiernumber", "referenceddossierreason"]' :displayHeader='displayTranslation' required addable @add='addItem("referenceddossier")' @select='selectTableItem("referenceddossier", model.referenceddossier[$event], $event)'></vue-table>
         <div class='bottom-float'>
           <vue-icon fab @click.native='save("dossier")' id='save' :label='$t("save")' icon='save' position='top'></vue-icon>
           <vue-icon fab @click.native='revert' id='undo' :label='$t("revert")' icon='undo' position='top'>
@@ -31,6 +31,7 @@ import Input from '@/components/input/input.vue';
 import ReferencedDossier from '@/pages/submissions/dossier/referenced-dossier.vue';
 import Table from '@/components/table/table.vue';
 import {model} from '@/mixins/model.js';
+import {BackendService} from '@/store/backend.service.js';
 
 export default {
   name: 'Dossier',
@@ -43,6 +44,14 @@ export default {
   methods: {
     getComponent(compName) {
       return compName === 'dossierra' ? DossierRA : ReferencedDossier;
+    },
+    save() {
+      delete this.model.__ob__;
+      BackendService.updateAppData('dossier', this.model)
+      .then(result => {
+        console.log(result);
+      })
+      .catch(err => console.error(err));
     }
   },
   beforeCreated() {
@@ -51,7 +60,14 @@ export default {
   async created() {
     this.updateCurrentUrl('dossier');
     this.resetForm();
-    this.updateCurrentRecord();
+    try {
+      let model = (await BackendService.getAppData('dossier', this.dossierid))[0];
+      this.updateCurrentRecord(this.mergeModelAndRecord(this.getEmptyModel('dossier'), model));
+      this.mapStateToModel();
+    }
+    catch(err) {
+      this.showMessage('ERROR');
+    }
     this.$store.commit('ready');
   },
   components: {

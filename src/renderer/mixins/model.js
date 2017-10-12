@@ -24,6 +24,7 @@ const model = {
       currentUrl: state => state.app.currentUrl,
       records: state => state.app.records,
       submissionid: state => state.app.submissionid,
+      ghsts: state => state.app.ghsts,
       dossierid: state => state.app.dossierid
     })
   },
@@ -60,8 +61,18 @@ const model = {
 
     // creates a new empty model
     add(model) {
-      this.updateCurrentRecord(this.getEmptyModel(model));
-      this.mapStateToModel();
+      if(this.currentRecord != null && this.isDirty(this.currentRecord, this.model)) {
+        this.showMessageDialog({message: this.$t('DISCARD_CHANGES')})
+        .then(() => {
+          this.updateCurrentRecord(this.getEmptyModel(model));
+          this.mapStateToModel();
+        })
+        .catch(() => {
+        })
+        .then(() => {
+          this.$dialog.close();
+        });
+      }
     },
 
     // Reverts the current working model to what it is in vuex
@@ -162,7 +173,7 @@ const model = {
     },
 
     selectTableItem(componentName, model, index) {
-      this.showFormDialog(componentName, merge(this.getEmptyModel(componentName), model), index)
+      this.showFormDialog(componentName, merge(this.getEmptyModel(componentName), model))
       .then(result => {
         if (index != null) this.$set(this.model[componentName], index, result);
         else this.model[componentName].push(result);
@@ -190,9 +201,9 @@ const model = {
     // Shows a new dialog. There must be a dialog on the page with a ref of
     // 'dialog'. It's a promise, so will resolve with the modal object, or
     // reject with the error. NOTE: this.getComponent MUST be  defined in each // page with the modals they need!
-    showFormDialog(componentName, model, comp) {
+    showFormDialog(componentName, model) {
       this.$dialog = this.$refs['dialog'];
-      const component = comp ? comp : this.getComponent(componentName);
+      const component = this.getComponent(componentName);
       return this.$dialog.show({
         component,
         model: model ? cloneDeep(model) : null
@@ -221,8 +232,9 @@ const model = {
     },
 
     // Adds a new item to tables via dialogs
-    addItem(ref) {
-      this.showFormDialog(ref)
+    addItem(ref, compName) {
+      compName = compName == null ? ref : compName;
+      this.showFormDialog(compName)
       .then(result => {
         console.log(ref, result);
         ref = getNestedProperty(this.model, ref);

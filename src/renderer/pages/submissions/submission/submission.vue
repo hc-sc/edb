@@ -3,10 +3,10 @@
     <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
     <vue-progress v-if='loading'></vue-progress>
     <template v-else>
-      <vue-input required id='submissiontitle' :label='$t("SUBMISSION_TITLE")' v-model='model.submissiontitle'></vue-input>
-      <vue-input type='number' required id='submissionnumber' disabled v-model='model.submissionnumber' :label='$t("SUBMISSION_NUMBER")'></vue-input>
-      <vue-input type='date' required id='submissionversiondate' v-model='model.submissionversiondate' :label='$t("SUBMISSION_VERSION_DATE")'></vue-input>
-      <vue-switch id='incremental' v-model='model.incremental' :label='$t("INCREMENTAL")' :disabled='model.submissionnumber == 1'></vue-switch>
+      <vue-input required id='submissiontitle' :label='$t("submissiontitle")' v-model='model.submissiontitle'></vue-input>
+      <vue-input type='number' required id='submissionnumber' disabled v-model='model.submissionnumber' :label='$t("submissionnumber")'></vue-input>
+      <vue-input type='date' required id='submissionversiondate' v-model='model.submissionversiondate' :label='$t("submissionversiondate")'></vue-input>
+      <vue-switch id='incremental' v-model='model.incremental' :label='$t("incremental")' :disabled='model.submissionnumber == 1'></vue-switch>
       <div class='bottom-float'>
         <vue-icon fab @click.native='save("submission")' id='save' :label='$t("save")' icon='save' position='top'></vue-icon>
         <vue-icon fab @click.native='revert' id='undo' :label='$t("revert")' icon='undo' position='top'>
@@ -23,7 +23,7 @@ import Progress from '@/components/progress/progress.vue';
 import Switch from '@/components/switch/switch.vue';
 import {model} from '@/mixins/model.js';
 import {BackendService} from '@/store/backend.service.js';
-import {mapState, mapMutations} from 'vuex';
+import {mapMutations} from 'vuex';
 
 export default {
   name: 'Submission',
@@ -33,29 +33,22 @@ export default {
       model: this.getEmptyModel('submission'),
     };
   },
-  computed: {
-    ...mapState('app', ['submission'])
-  },
   methods: {
     ...mapMutations('app', ['updateCurrentRecord'])
-  },
-  watch: {
-    submission() {
-      this.model = {};
-    }
   },
   beforeCreate() {
     this.$store.commit('loading');
   },
   async created() {
     this.updateCurrentUrl('submission');
+    this.resetForm();
     try {
-      let model = (await BackendService.getAppData('submission', this.submission._submissionid))[0];
+      let model = (await BackendService.getAppData('submission', this.ghsts._submissionid))[0];
       this.updateCurrentRecord(this.mergeModelAndRecord(this.getEmptyModel('submission'), model));
       this.mapStateToModel();
     }
     catch(err) {
-      this.showMessage('ERROR');
+      this.showMessage(this.$t('ERROR_LOADING'));
     }
     this.$store.commit('ready');
   },

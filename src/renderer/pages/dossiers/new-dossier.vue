@@ -1,8 +1,8 @@
 <template>
   <div>
-    <vue-input type='text' id='dossiertitle' :label='$t("DOSSIER_DESCRIPTION_TITLE")' v-model='model.dossiertitle' required></vue-input>
+    <vue-input type='text' id='dossiertitle' :label='$t("dossierdescriptiontitle")' v-model='model.dossiertitle' required></vue-input>
     <vue-select id='regulatorycontents' :label='$t("REGULATORY_CONTENTS")' :options='tocs' :displayValue='o => o.tocshortname' :matchValue='matchById' @input='model.tocId = $event._id' :value='model.tocId' required></vue-select>
-    <vue-select id='product' :label='$t("PRODUCT")' :options='products' :displayValue='o => o.genericproductname' :matchValue='matchById' @input='model.product = $event._id' :value='model.product' required></vue-select>
+    <vue-select id='product' :label='$t("product")' :options='products' :displayValue='o => o.genericproductname' :matchValue='matchById' @input='model.product = $event._id' :value='model.product' required></vue-select>
   </div>
 </template>
 

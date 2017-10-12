@@ -30,11 +30,12 @@ export default {
     return {
       dossier: null,
       dossiers: [],
+      sub: null,
       submissions: []
     };
   },
   methods: {
-    ...mapMutations('app', ['updateDossierData', 'updateCurrentSubmission']),
+    ...mapMutations('app', ['updateDossierData', 'updateCurrentGhsts']),
     addDossier() {
       this.showFormDialog(NewDossier)
       .then(({dossiertitle, tocId, product}) => {
@@ -42,7 +43,7 @@ export default {
           BackendService.createGhsts({dossiertitle, tocId, product})
           .then(async ({dossierid, dossiertitle, submissionid}) => {
             this.updateDossierData({dossierid, dossiertitle});
-            this.submission = (await BackendService.getGhsts({_submissionid: submissionid}))[0];
+            this.sub = (await BackendService.getGhsts({_submissionid: submissionid}))[0];
             this.goToSubmission();
           })
           .catch(err => {
@@ -70,11 +71,12 @@ export default {
       this.dossier = this.dossiers[index];
     },
     async selectSubmission(index) {
-      this.submission = (await BackendService.getGhsts({_submissionid: this.submissions[index]._id}))[0];
+      this.updateDossierData({dossiertitle: this.dossier.dossierdescriptiontitle, dossierid: this.dossier._id});
+      this.sub = (await BackendService.getGhsts({_submissionid: this.submissions[index]._id}))[0];
       this.goToSubmission();
     },
     goToSubmission() {
-      this.updateCurrentSubmission(this.submission);
+      this.updateCurrentGhsts(this.sub);
       this.$router.push('/submission');
     },
     getComponent() {

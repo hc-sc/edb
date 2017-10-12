@@ -20,22 +20,24 @@
           <vue-input type='text' id='documentauthor' :label='$t("DOCUMENT_AUTHOR")' v-model='model.documentgeneric.documentauthor'></vue-input>
           <vue-input type='date' id='documentissuedate' :label='$t("DOCUMENT_ISSUE_DATE")' v-model='model.documentgeneric.documentissuedate'></vue-input>
           <vue-table id='documentinformation' :title='$t("REGULATORY_AUTHORITY_DOCUMENT_INFORMATION")' :items='model.documentra' required addable  @add='addItem("documentra")' @select='selectTableItem("documentra", model.documentra[$event], $event)'></vue-table>
+          <vue-table id='referencedtofile' :title='$t("REFERENCED_TO_FILE")' :items='model.documentgeneric.referencedtofiles' required addable @add='addItem("documentgeneric.referencedtofile")' @select='selectTableItem("referencedtofile", model.documentgeneric.referencedtofiles[$event], $event)'></vue-table>
           <vue-table id='documentowner' :title='$t("DOCUMENT_OWNER")' :items='model.documentgeneric.documentowner' required addable @add='addItem("documentgeneric.documentowner")' @select='selectTableItem("documentgeneric.documentowner", model.documentra[$event], $event)'></vue-table>
           <vue-fieldset :legend='$t("DOCUMENT_SOURCE")'>
-            <vue-switch id='documentsource' :label='$t("DOCUMENT_SOURCE")' :value='model.documentgeneric.documentsource' @input='model.documentgeneric.documentsource = $event'></vue-switch>
-            <div v-if='model.documentgeneric.documentsource'>
+            <vue-switch id='isCompleteSource' :label='$t("COMPLETE_DOCUMENT_SOURCE")' :value='isCompleteSource' @input='isCompleteSource = $event'></vue-switch>
+            <div v-if='isCompleteSource'>
               <vue-input type='text' id='completedocumentsource' :label='$t("COMPLETE_DOCUMENT_SOURCE")' v-model='model.documentgeneric.completedocumentsource' required></vue-input>
             </div>
             <div v-else>
+              <vue-input type='text' id='documentsource' :label='$t("DOCUMENT_SOURCE")' v-model='model.documentgeneric.documentsource'></vue-input>
               <vue-input type='text' id='documentyear' :label='$t("DOCUMENT_YEAR")' v-model='model.documentgeneric.documentyear' required></vue-input>
               <vue-input type='text' id='documentissue' :label='$t("DOCUMENT_ISSUE")' v-model='model.documentgeneric.documentissue' required></vue-input>
               <vue-input type='text' id='documentvolume' :label='$t("DOCUMENT_VOLUME")' v-model='model.documentgeneric.documentvolume' required></vue-input>
               <vue-input type='text' id='documentpages' :label='$t("DOCUMENT_PAGES")' v-model='model.documentgeneric.documentpages' required></vue-input>
             </div>
           </vue-fieldset>
-          <vue-switch id='publishedindicator' :label='$t("PUBLISHED_INDICATOR")' :value='model.documentgeneric.publishedindicator' @input='model.documentgeneric.publishedindicator = $event'></vue-switch>
-          <vue-switch id='gxpindicator' :label='$t("GXP_INDICATOR")' :value='model.documentgeneric.gxpindicator' @input='model.documentgeneric.gxpindicator = $event'></vue-switch>
-          <vue-switch id='testedonvertebrate' :label='$t("TESTED_ON_VERTEBRATE")' :value='model.documentgeneric.testedonvertebrate' @input='model.documentgeneric.testedonvertebrate = $event'></vue-switch>
+          <vue-switch id='publishedindicator' :label='$t("PUBLISHED_INDICATOR")' :value='model.documentgeneric.publishedindicator' @input='model.documentgeneric.publishedindicator = $event' style='display: block'></vue-switch>
+          <vue-switch id='gxpindicator' :label='$t("GXP_INDICATOR")' :value='model.documentgeneric.gxpindicator' @input='model.documentgeneric.gxpindicator = $event' style='display: block'></vue-switch>
+          <vue-switch id='testedonvertebrate' :label='$t("TESTED_ON_VERTEBRATE")' :value='model.documentgeneric.testedonvertebrate' @input='model.documentgeneric.testedonvertebrate = $event' style='display: block'></vue-switch>
           <vue-table id='testlaboratory' :title='$t("TEST_LABORATORY")' :items='[]' required addable></vue-table>
           <vue-table id='referenceddocument' :title='$t("REFERENCED_DOCUMENT")' :items='[]' required addable></vue-table>
           <vue-table id='relatedtosubstance' :title='$t("RELATED_TO_SUBSTANCE")' :items='[]' required addable></vue-table>
@@ -59,6 +61,7 @@ import Fieldset from '@/components/fieldset/fieldset.vue';
 import Icon from '@/components/icon/icon.vue';
 import Input from '@/components/input/input.vue';
 import ListFilter from '@/components/list-filter/list-filter.vue';
+import ReferencedToFile from '@/pages/submissions/documents/referenced-to-file.vue';
 import Select from '@/components/select/select.vue';
 import SelectExtensible from '@/components/select-extensible/select-extensible.vue';
 import SplitPane from '@/components/split-pane/split-pane.vue';
@@ -71,7 +74,8 @@ export default {
   mixins: [model],
   data() {
     return {
-      model: this.getEmptyModel('document')
+      model: this.getEmptyModel('document'),
+      isCompleteSource: false
     };
   },
   methods: {
@@ -79,8 +83,8 @@ export default {
       switch(compName) {
         case 'documentra':
           return DocumentRA;
-        // case '':
-        //   return
+        case 'documentgeneric.referencedtofile':
+          return ReferencedToFile;
         // case '':
         //   return
         // case '':
