@@ -16,7 +16,7 @@ export default {
   mixins: [model],
   data() {
     return {
-      model: this.getEmptyModel()
+      model: this.getEmptyModel('substanceidentifier')
     };
   },
   computed: {

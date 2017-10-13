@@ -15,7 +15,7 @@
             <vue-input type='text' id='substancepid' :label='$t("substancepid")' v-model='model.substancepid' required disabled></vue-input>
           </div>
           <vue-textarea id='substancename' :label='$t("substancename")' v-model='model.substancename' required :max='2000'></vue-textarea>
-          <vue-table id='substanceidentifier' :title='$t("substanceidentifier")' :items='model.substanceidentifier' :headers='[{name: "substanceidentifiertype", url: "picklist"}, "identifier"]' :displayHeader='displayTranslation' @select='selectTableItem("substanceidentifier", model.substanceidentifier[$event], $event)' addable @add='addItem("substanceidentifier")'></vue-table>
+          <vue-table id='substanceidentifier' :title='$t("substanceidentifier")' :items='model.substanceidentifier' :headers='[{name: "substanceidentifiertype", url: "picklist"}, "identifier"]' :displayHeader='displayTranslation' @select='selectTableItem("substanceidentifier", model.substanceidentifier[$event], $event)' addable @add='addTableItem("substanceidentifier")'></vue-table>
         </template>
         <template v-else>
           {{$t('noitems')}}

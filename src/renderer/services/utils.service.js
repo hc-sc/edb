@@ -23,7 +23,7 @@ export function isStringMatch(word, test, noCase = true, global = true) {
  */
 export function getNestedProperty(obj, propStrings) {
   let ref = obj;
-  propStrings.forEach(prop => {
+  propStrings.split('.').forEach(prop => {
     ref = ref[prop];
   });
   return ref;

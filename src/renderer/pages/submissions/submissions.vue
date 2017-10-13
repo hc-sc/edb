@@ -4,6 +4,10 @@
       <vue-history slot='left'></vue-history>
       {{title}}
       <vue-nav id='submission-nav' slot='subheader' :navs='pageNodes'></vue-nav>
+      <div slot='right'>
+        <i class='material-icons' @click='validate'>check</i>
+        <i class='material-icons' @click='package'>archive</i>
+      </div>
     </vue-header>
     <router-view></router-view>
   </div>
@@ -14,6 +18,7 @@ import Header from '@/components/header/header.vue';
 import History from '@/components/history/history.vue';
 import Nav from '@/components/nav/nav.vue';
 import {mapState} from 'vuex';
+import {BackendService} from '@/store/backend.service.js';
 
 export default {
   name: 'Submissions',
@@ -51,6 +56,24 @@ export default {
           path: '/submission/toc'
         },
       ];
+    }
+  },
+  methods: {
+    async validate() {
+      try {
+        let result = BackendService.validateGhsts();
+      }
+      catch(err) {
+        console.log(err);
+      }
+    },
+    async package() {
+      try {
+        let result = BackendService.packageGhsts();
+      }
+      catch(err) {
+        console.log(err);
+      }
     }
   },
   components: {

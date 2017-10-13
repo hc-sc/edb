@@ -1,6 +1,6 @@
 <template>
   <div class='page' id='substanceidentifier' ref='substanceidentifier'>
-    <vue-select id='substance' :label='$t("substance")' :options='substances' :value='model.toSubstanceId' @input='model.toSubstanceId = $event._id' :displayValue='i => i.valuedecode' :matchValue='matchById'></vue-select>
+    <vue-select id='substance' :label='$t("substance")' :options='substances' :value='model.toSubstanceId' @input='model.toSubstanceId = $event._id' :displayValue='i => i.substancename' :matchValue='matchById'></vue-select>
     <vue-input type='number' id='quantity' :label='$t("quantity")' v-model='model.quantity' required></vue-input>
     <vue-select-extensible id='unit' :label='$t("unit")' :options='unit' :value='model.unit' @input='model.unit = $event._id' typeName='EXTENSION_TYPE_UNIT' :matchValue='matchById' :displayValue='displayPicklistItem'></vue-select-extensible>
   </div>
@@ -19,7 +19,7 @@ export default {
   mixins: [model],
   data() {
     return {
-      model: this.getEmptyModel(),
+      model: this.getEmptyModel('ingredient'),
       substances: []
     };
   },
@@ -27,8 +27,10 @@ export default {
     ...mapGetters('picklists', ['unit'])
   },
   async created() {
-    let subs = await BackendService.getAppDataAll('substance');
-    this.substances = subs && subs.length ? subs : [];
+    try {
+      this.substances = await BackendService.getAppDataAll('substance');
+    }
+    catch(err) {console.log(err);}
   },
   methods: {
     getEmptyModel() {

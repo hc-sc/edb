@@ -26,9 +26,9 @@
 
           <vue-input type='date' id='documentissuedate' :label='$t("documentissuedate")' v-model='model.documentgeneric.documentissuedate' required></vue-input>
 
-          <vue-table id='referencedtofile' :title='$t("referencedtofile")' :items='model.documentgeneric.referencedtofiles' required addable @add='addItem("documentgeneric.referencedtofile")' @select='selectTableItem("referencedtofile", model.documentgeneric.referencedtofiles[$event], $event)' @action='handleAction($event, model.documentgeneric.referencedtofiles)'></vue-table>
+          <vue-table id='referencedtofile' :title='$t("referencedtofile")' :items='model.documentgeneric.referencedtofiles' required addable @add='addTableItem("documentgeneric.referencedtofile")' @select='selectTableItem("referencedtofile", model.documentgeneric.referencedtofiles[$event], $event)' @action='handleAction($event, model.documentgeneric.referencedtofiles)'></vue-table>
 
-          <vue-table id='documentinformation' :title='$t("REGULATORY_AUTHORITY_DOCUMENT_INFORMATION")' :items='model.documentra' required addable  @add='addItem("documentra")' @select='selectTableItem("documentra", model.documentra[$event], $event)' @action='handleAction($event, model.documentra)'></vue-table>
+          <vue-table id='documentinformation' :title='$t("REGULATORY_AUTHORITY_DOCUMENT_INFORMATION")' :items='model.documentra' required addable  @add='addTableItem("documentra")' @select='selectTableItem("documentra", model.documentra[$event], $event)' @action='handleAction($event, model.documentra)'></vue-table>
 
           <vue-fieldset :legend='$t("documentsource")'>
             <vue-switch id='isCompleteSource' :label='$t("completedocumentsource")' :value='isCompleteSource' @input='isCompleteSource = $event'></vue-switch>
@@ -60,11 +60,11 @@
 
           <vue-chips deletable unique id='testlaboratory' :label='$t("testlaboratory")' v-model='model.documentgeneric.testlaboratory'></vue-chips>
 
-          <vue-table id='referenceddocument' :title='$t("referenceddocument")' :items='model.documentgeneric.referenceddocument' required addable @add='addItem("documentgeneric.referenceddocument")' @action='handleAction($event, model.documentgeneric.referenceddocument)'></vue-table>
+          <vue-table id='referenceddocument' :title='$t("referenceddocument")' :items='model.documentgeneric.referenceddocument' required addable @add='addTableItem("documentgeneric.referenceddocument")' @action='handleAction($event, model.documentgeneric.referenceddocument)'></vue-table>
 
-          <vue-table id='relatedtosubstance' :title='$t("relatedtosubstance")' :items='model.documentgeneric.relatedtosubstance' :headers='[{name: "toSubstanceId", url: "substance"}]' :displayHeader='displayTranslation' required addable @add='addItem("documentgeneric.relatedtosubstance")' @select='selectTableItem("documentgeneric.relatedtosubstance", mode.documentgeneric.relatedtosubstance[$event], $event)' @action='handleAction("documentgeneric.relatedtosubstance", $event)'></vue-table>
+          <vue-table id='relatedtosubstance' :title='$t("relatedtosubstance")' :items='model.documentgeneric.relatedtosubstance' :headers='[{name: "toSubstanceId", url: "substance"}]' :displayHeader='displayTranslation' required addable @add='addTableItem("documentgeneric.relatedtosubstance")' @select='selectTableItem("documentgeneric.relatedtosubstance", mode.documentgeneric.relatedtosubstance[$event], $event)' @action='handleAction("documentgeneric.relatedtosubstance", $event)'></vue-table>
 
-          <vue-table id='documentnumber' :title='$t("documentnumber")' :items='model.documentgeneric.documentnumber' :headers='[{name: "documentnumbertype", url: "picklist"}, "identifier"]' :displayHeader='displayTranslation' required addable @add='addItem("documentgeneric.documentnumber")' @action='handleAction($event, model.documentgeneric.documentnumber)'></vue-table>
+          <vue-table id='documentnumber' :title='$t("documentnumber")' :items='model.documentgeneric.documentnumber' :headers='[{name: "documentnumbertype", url: "picklist"}, "identifier"]' :displayHeader='displayTranslation' required addable @add='addTableItem("documentgeneric.documentnumber")' @action='handleAction($event, model.documentgeneric.documentnumber)'></vue-table>
 
           <div class='bottom-float'>
             <vue-icon fab @click.native='save("document")' id='save' :label='$t("save")' icon='save' position='top'></vue-icon>

@@ -16,7 +16,7 @@
           </div>
           <vue-input id='genericproductname' :label='$t("genericproductname")' v-model='model.genericproductname' required :max='255'></vue-input>
           <vue-select-extensible id='formulationtype' :label='$t("formulationtype")' :options='formulationtype' :value='model.formulationtype' @input='model.formulationtype = $event._id' :matchValue='matchById' typeName='EXTENSION_TYPE_FORMULATION_TYPE' :displayValue='displayPicklistItem' required></vue-select-extensible>
-          <vue-table id='ingredients' :title='$t("ingredients")' :items='model.ingredients.ingredient' :headers='[{name: "toSubstanceId", url: "substance"}, "quantity", {name: "unit", url: "picklist"}]' :displayHeader='displayTranslation' @select='selectTableItem("ingredient", model.ingredients.ingredient[$event], $event)' addable @add='addItem("ingredients.ingredient")' required></vue-table>
+          <vue-table id='ingredients' :title='$t("ingredients")' :items='model.ingredients.ingredient' :headers='[{name: "toSubstanceId", url: "substance"}, "quantity", {name: "unit", url: "picklist"}]' :displayHeader='displayTranslation' @select='selectTableItem("ingredients.ingredient", model.ingredients.ingredient[$event], $event)' addable @add='addTableItem("ingredients.ingredient")' required></vue-table>
         </template>
         <template v-else>
           {{$t('noitems')}}

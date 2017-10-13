@@ -32,12 +32,14 @@ A recursive component that allows for nested children, such as a directory struc
       <li class='tree-item'>
         <div @click='toggle'>
           <span>
-            <span @click='add'>+</span>
+            <i class='material-icons tree-icon' v-if='hasChildren' :class='{open}'>chevron_right</i>
+            <i class='material-icons tree-icon' v-if='addable(tree)' @click='onAdd(tree)'>add</i>
+            <!-- <i class='material-icons tree-icon' v-if='deletable(tree)'>delete</i> -->
           </span>
           {{label}}
         </div>
         <div v-if='hasChildren' v-show='open'>
-          <vue-tree v-for='(child, index) of children' :key='index' :tree='child' :getChildren='getChildren' :getLabel='getLabel'>
+          <vue-tree v-for='(child, index) of children' :key='index' :tree='child' :getChildren='getChildren' :getLabel='getLabel' :addable='addable' :onAdd='onAdd'>
           </vue-tree>
         </div>
       </li>
@@ -46,6 +48,9 @@ A recursive component that allows for nested children, such as a directory struc
 </template>
 
 <script>
+import Icon from '@/components/icon/icon.vue';
+import {BackendService} from '@/store/backend.service.js';
+
 /** Modified from VueJS examples page
  * http://optimizely.github.io/vuejs.org/examples/tree-view.html
  */
@@ -59,10 +64,28 @@ export default {
       type: Object,
       required: true
     },
+    addable: {
+      type: Function,
+      default() {
+        return true;
+      }
+    },
     onAdd: {
       type: Function,
       default(value) {
         this.$emit('add', value);
+      }
+    },
+    deletable: {
+      type: Function,
+      default() {
+        return true;
+      }
+    },
+    onDelete: {
+      type: Function,
+      default(tree, index) {
+        this.getChildren(tree).splice(index, 1);
       }
     },
     getChildren: {
@@ -96,10 +119,21 @@ export default {
   },
   methods: {
     toggle() {
-      this.open = !this.open;
+      this.open ? this.collapse() : this.expand();
     },
-    add() {
-      this.$emit('add');
+    expand() {
+      if (this.hasChildren) this.open = true;
+    },
+    collapse() {
+      this.open = false;
+    },
+    expandAll() {
+      this.$children.forEach(child => child.expandAll());
+      this.expand();
+    },
+    collapseAll() {
+      this.$children.forEach(child => child.collapseAll());
+      this.collapse();
     }
   },
 
@@ -109,6 +143,17 @@ export default {
       this.$options.components['vue-tree'] = require('./tree.vue');
     }
   },
+
+  async created() {
+    try {
+      this.documents = await BackendService.getAppData('document');
+    }
+    catch(err) {console.log(err);}
+  },
+
+  components: {
+    'vue-icon': Icon
+  }
 };
 </script>
 
@@ -121,5 +166,15 @@ export default {
   padding-left: 1rem;
   line-height: 1.5rem;
   list-style-type: none;
+}
+
+.tree-icon {
+  vertical-align: bottom;
+  transform: rotate(0);
+  transition: .1s ease;
+}
+
+.tree-icon.open {
+  transform: rotate(90deg);
 }
 </style>

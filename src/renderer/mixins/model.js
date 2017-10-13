@@ -216,12 +216,13 @@ const model = {
     },
 
     // Helper method for updating nested values
+    // NOTE: getNestedProperty gets the last reference, but
+    // to assign we want the second last!
     assignNestedValue(ref, value) {
       let props = ref.split('.');
-      let prop = props[props.length - 1];
-      ref = props.slice(0, props.length - 1);
-      if (ref && ref.length) {
-        ref = getNestedProperty(this.model, ref);
+      let prop = props.pop();
+      if (props && props.length) {
+        ref = getNestedProperty(this.model, props.join('.'));
       }
       console.log(ref);
       this.$set(props.length > 1 ? ref : this.model, prop, value);
@@ -233,12 +234,15 @@ const model = {
     },
 
     // Adds a new item to tables via dialogs
-    addItem(ref, compName) {
-      compName = compName == null ? ref : compName;
-      this.showFormDialog(compName)
+    // ref is used to retrieve the corrent component and
+    // then to assign
+    addTableItem(ref) {
+      this.showFormDialog(ref)
       .then(result => {
-        console.log(ref, result);
+        console.log('here', result);
         ref = getNestedProperty(this.model, ref);
+
+        console.log('after getNested', ref);
 
         // if it's a duplicate, fail
         // need to: for every item, check each non DB prop

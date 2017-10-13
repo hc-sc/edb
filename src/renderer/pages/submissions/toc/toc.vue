@@ -1,16 +1,16 @@
 <template>
-  <main>
-    <div class='pane'>
-      <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
-      <vue-progress v-if='loading'></vue-progress>
-      <template v-else>
-        <vue-select id='treefilter' :label='$t("SEARCH_TREE")' :options='[]' :displayValue='o => o.nodeName' :matchValue='o => o.nodeName' ></vue-select>
-        <vue-tree :tree='tree' :getChildren='tree => tree.tocnode' :getLabel='tree => tree.nodename'></vue-tree>
-        <div class='bottom-float'>
-          <vue-button type='button' @click.native='showTOCData'>{{$t('TOC_DATA')}}</vue-button>
-        </div>
-      </template>
-    </div>
+  <main class='pane'>
+    <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
+    <vue-progress v-if='loading'></vue-progress>
+    <template v-else>
+      <vue-select id='treefilter' :label='$t("SEARCH_TREE")' :options='[]' :displayValue='o => o.nodeName' :matchValue='o => o.nodeName' ></vue-select>
+
+      <vue-tree :tree='currentTree' :getChildren='tree => tree.tocnode' :getLabel='tree => tree.nodename' :addable='addable' :onAdd='addNode'></vue-tree>
+
+      <div class='bottom-float'>
+        <vue-button type='button' @click.native='showTOCData'>{{$t('TOC_DATA')}}</vue-button>
+      </div>
+    </template>
   </main>
 </template>
 
@@ -34,9 +34,9 @@ export default {
   data() {
     return {
       toc: {label: 'TOC', children: []},
-      tree: {},
-      documents: [],
-      selectedNode: null
+      fullTree: {},
+      currentTree: {},
+      documents: []
     };
   },
   methods: {
@@ -48,6 +48,15 @@ export default {
       .then(result => {console.log(result);})
       .catch(err => {console.error(err);})
       .then(this.$dialog.close());
+    },
+    addNode(tree) {
+      if (!tree.tocnode || !tree.tocnode.length) {
+        this.$set(tree, 'tocnode', []);
+      }
+      tree.tocnode.push({nodename: 'hello'});
+    },
+    addable(tree) {
+      return tree.documentreferences;
     }
   },
   beforeCreated() {
@@ -57,7 +66,7 @@ export default {
     this.updateCurrentUrl('toc');
     this.resetForm();
     this.toc = (await BackendService.getAppData('toc'))[0];
-    this.tree = {nodename: 'TOC', tocnode: this.toc.structure.tocnode};
+    this.currentTree = {nodename: 'TOC', tocnode: this.toc.structure.tocnode};
     this.$store.commit('ready');
   },
   components: {

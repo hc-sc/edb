@@ -6,8 +6,8 @@
     </vue-header>
     <main class='pane'>
       <vue-dialog ref='dialog' id='dialog'></vue-dialog>
-      <vue-table id='dossiers' :title='$tc("dossier", 2)' addable @addItem='addDossier' :items='dossiers' :headers='["dossierdescriptiontitle", "productname", "metadatastatus", "created", "lastmodified"]' :displayHeader='$t' @select='selectDossier($event)' editable @add='addDossier'></vue-table>
-      <vue-table v-if='dossier' id='submissions' :title='$tc("submission", 2)' @addItem='addSubmission' @select='selectSubmission($event)' :items='submissions || []' :headers='["submissiontitle", "submissionnumber", "metadatastatus", "created", "lastmodified"]':displayHeader ='$t'></vue-table>
+      <vue-table id='dossiers' :title='$tc("dossier", 2)' addable @addTableItem='addDossier' :items='dossiers' :headers='["dossierdescriptiontitle", "productname", "metadatastatus", "created", "lastmodified"]' :displayHeader='$t' @select='selectDossier($event)' editable @add='addDossier'></vue-table>
+      <vue-table v-if='dossier' id='submissions' :title='$tc("submission", 2)' @addTableItem='addSubmission' @select='selectSubmission($event)' :items='submissions || []' :headers='["submissiontitle", "submissionnumber", "metadatastatus", "created", "lastmodified"]':displayHeader ='$t'></vue-table>
       <p v-else>{{$t('NO_DOSSIER_SELECTED')}}</p>
     </main>
   </div>
