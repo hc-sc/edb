@@ -74,7 +74,9 @@ The wrapper for all input types, including text, password, email, tel, date, etc
 
       <template v-else-if='type === "number"'>
         <input type='number' :id='id' :name='compName' class='input-field' @input='cb($event.target.value)' :value='value' :class='{empty}' :min='min' :max='max' :tabindex='tabindex' :disabled='disabled'>
-        <label :for='id'>{{label}}</label>
+        <label :for='id'>
+          {{label}}<span v-if='required' class='error-text'> *</span>
+        </label>
         <div class='input-info' v-if='showErrors'>
           <p class='error-text' v-if='required && touched && this.value.length === 0'>Required</p>
           <p class='error-text' v-if='touched && !validBounds'>Invalid value</p>
@@ -104,13 +106,14 @@ The wrapper for all input types, including text, password, email, tel, date, etc
 
       <template v-else-if='type === "radio"'>
         <input type='radio' :id='id' :name='compName' @change='cb(id)' :value='id' :required='required' :disabled='disabled' :tabindex='compTab'>
-        <div class='radio-button'></div>
         <label :for='id'>{{label}}</label>
       </template>
 
       <template v-else-if='type === "date"'>
         <input type='date' :id='id' :name='compName' class='input-field' @input='cb($event.target.value)' :value='toDate(value)' :min='toDate(min)' :max='toDate(max)' :required='required' :disabled='disabled' :tabindex='compTab'>
-        <label :for='id'>{{label}}</label>
+        <label :for='id'>
+          {{label}}<span v-if='required' class='error-text'> *</span>
+        </label>
       </template>
     </div>
   </div>

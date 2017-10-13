@@ -70,11 +70,12 @@ export default {
 https://material-components-web.appspot.com/switch.html
  */
 .switch {
-  display: inline-block;
+  display: block;
 }
 
 .switch-group {
   position: relative;
+  padding: .5rem 0 1rem 10px;
 }
 
 .switch-checkbox {
