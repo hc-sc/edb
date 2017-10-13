@@ -35,6 +35,7 @@ import SelectExtensible from '@/components/select-extensible/select-extensible.v
 import SplitPane from '@/components/split-pane/split-pane.vue';
 import Table from '@/components/table/table.vue';
 import {model} from '@/mixins/model.js';
+import {BackendService} from '@/store/backend.service.js';
 import {mapGetters} from 'vuex';
 
 export default {
@@ -60,8 +61,12 @@ export default {
   async created() {
     this.updateCurrentUrl('product');
     this.resetForm();
-    // await this.getAppDataAll({url: 'product', sortBy: 'genericproductname'});
-    this.selectListItem(this.records[0], false);
+    try {
+      let model = (await BackendService.getAppData('product', {_id: this.ghsts._product}))[0];
+      this.updateCurrentRecord(this.mergeModelAndRecord(this.getEmptyModel('product'), model));
+      this.mapStateToModel();
+    }
+    catch(err) {console.log(err);}
     this.$store.commit('ready');
   },
   components: {

@@ -23,7 +23,7 @@ module.exports = class FileService extends BaseService {
       });
     } else {
       this._beforeSave(obj);
-      return super.edb_put(obj);
+      return super.edb_post(obj);
     }
   }
 
@@ -34,7 +34,7 @@ module.exports = class FileService extends BaseService {
       });
     } else {
       this._beforeSave(obj);
-      return super.edb_post(obj);
+      return super.edb_put(obj);
     }
   }
 
@@ -70,7 +70,7 @@ module.exports = class FileService extends BaseService {
           entity._filereallocation = selFile[0];
           entity.filegeneric.md5CHECKSUM = md5;
           if (entity._id) {
-            self.edb_post(entity)
+            self.edb_put(entity)
               .then(ret => {
                 res(ret);
               })
@@ -78,7 +78,7 @@ module.exports = class FileService extends BaseService {
                 rej(err);
               });
           } else {
-            self.edb_put(entity)
+            self.edb_post(entity)
               .then(ret => {
                 res(ret);
               })
@@ -99,7 +99,7 @@ module.exports = class FileService extends BaseService {
     let self = this;
 
     ///
-    /// Commented out as 01-04-00 removed CONTENTSTATUS from File element 
+    /// Commented out as 01-04-00 removed CONTENTSTATUS from File element
     ///
     // let defContentStatusId = PicklistService.edb_getSync({
     //   TYPE_NAME: 'TYPE_CONTENT_STATUS',
@@ -114,10 +114,10 @@ module.exports = class FileService extends BaseService {
     let confStatu = false;
 
     ///
-    /// Commented out as 01-04-00 removed CONTENTSTATUS from File element 
+    /// Commented out as 01-04-00 removed CONTENTSTATUS from File element
     ///
     // obj.filegeneric.contentstatus = obj.filegeneric.contentstatus ? obj.filegeneric.contentstatus : defContentStatusId;
-    
+
     obj.filegeneric.filetype = obj.filegeneric.filetype ? obj.filegeneric.filetype : mainFileTypeId;
     obj._secondLvlDir = (obj.filegeneric.filetype === mainFileTypeId) ? BACKEND_CONST.FILE_MAIN_DIR_NAME : BACKEND_CONST.FILE_ATTAC_DIR_NAME;
     if (obj.filera && obj.filera.length > 0) {

@@ -64,6 +64,7 @@ const ModelService = {
         return _.merge({}, Object.assign(modelSubstanceIdentifier.fields));
       case 'file':
         model = _.merge({}, Object.assign(modelFile.fields));
+        model._filereallocation = '';
         model.filegeneric = _.merge({}, Object.assign(modelFileGeneric.fields));
         model._url = prop;
         return model;

@@ -290,6 +290,9 @@ export default {
     value() {
       this.findMatchIndex();
     },
+    options() {
+      this.findMatchIndex();
+    }
   },
   mounted() {
     this.getFocusableNodes();

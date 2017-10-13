@@ -61,7 +61,9 @@ const model = {
 
     // creates a new empty model
     add(model) {
-      if(this.currentRecord != null && this.isDirty(this.currentRecord, this.model)) {
+      console.log(this.currentRecord, this.model);
+      if (this.currentRecord != null && this.isDirty(this.currentRecord, this.model)) {
+        console.log('here');
         this.showMessageDialog({message: this.$t('DISCARD_CHANGES')})
         .then(() => {
           this.updateCurrentRecord(this.getEmptyModel(model));
@@ -72,6 +74,9 @@ const model = {
         .then(() => {
           this.$dialog.close();
         });
+      }
+      else {
+        this.updateCurrentRecord(this.getEmptyModel(model));
       }
     },
 
@@ -88,6 +93,13 @@ const model = {
       // need to delete the reactive observer for db insertion/update
       let sendModel = cloneDeep(this.model);
       delete sendModel.__ob__;
+
+      // for items with their own table that are within a dossier
+      // need to append the dossier id
+      if (url === 'file' || url === 'document') {
+        sendModel._dossier = this.dossierid;
+      }
+
       if ('_id' in sendModel) {
         this.updateAppData({url, model: sendModel})
         .then(() => {
