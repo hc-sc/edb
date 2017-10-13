@@ -1,6 +1,6 @@
 <template>
   <div>
-    <vue-select id='referencedtofile' :label='$t("filename")' :options='files' :displayValue='file => file.filename' :matchValue='matchById' :value='model.file' @input='model.file = $event._id'></vue-select>
+    <vue-select id='referencedtofile' :label='$t("filename")' :options='files' :displayValue='getFilename' :matchValue='matchById' :value='model.file' @input='model.file = $event._id'></vue-select>
   </div>
 </template>
 
@@ -19,6 +19,11 @@ export default {
       },
       files: []
     };
+  },
+  methods: {
+    getFilename(file) {
+      return file.filegeneric.filename.split('/').pop();
+    }
   },
   async created() {
     try {

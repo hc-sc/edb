@@ -6,8 +6,6 @@
 
     <vue-input type='text' id='documentpid' :label='$t("documentpid")' v-model='model.documentpid' required></vue-input>
 
-    <!-- <vue-select-extensible id='documentnumbertype' :label='$t("documentnumbertype")' :options='documentnumbertype' :displayValue='displayPicklistItem' :matchValue='matchById' :value='model.documentnumbertype' @input='model.documentnumbertype = $event._id' typeName='EXTENSION_TYPE_DOCUMENT_NUMBER_TYPE' required></vue-select-extensible> -->
-
     <vue-input type='text' id='identifier' :label='$t("identifier")' v-model='model.identifier' required></vue-input>
   </div>
 </template>

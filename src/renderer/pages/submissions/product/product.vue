@@ -15,7 +15,6 @@
     </div>
     <div class='bottom-float'>
       <vue-icon fab @click.native='save("product")' id='save' :label='$t("save")' icon='save' position='top' :disabled='currentRecord == null'></vue-icon>
-      <vue-icon fab id='add' :label='$t("add")' icon='add' position='top' @click.native='add("product")'></vue-icon>
       <vue-icon fab @click.native='revert' id='undo' :label='$t("revert")' icon='undo' position='top'>
       </vue-icon>
     </div>
@@ -61,7 +60,7 @@ export default {
   async created() {
     this.updateCurrentUrl('product');
     this.resetForm();
-    await this.getAppDataAll({url: 'product', sortBy: 'genericproductname'});
+    // await this.getAppDataAll({url: 'product', sortBy: 'genericproductname'});
     this.selectListItem(this.records[0], false);
     this.$store.commit('ready');
   },

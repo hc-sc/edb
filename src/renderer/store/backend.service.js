@@ -192,6 +192,9 @@ const BackendService = {
     return handleIPC(BACKENDCONST.PICKLIST_MSG_CHANNEL, 'get', {where: cont});
   },
 
+  callMethod: function(url, method, data) {
+    return handleIPC(BACKENDCONST.APP_DATA_MSG_CHANNEL, method, {_url: url, data});
+  }
 };
 
 function handleIPC(msgChannel, method, query) {

@@ -1,5 +1,5 @@
 <template>
-  <main class='pane'>
+  <main>
     <vue-progress v-if='loading'></vue-progress>
     <template v-else>
       <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
@@ -26,6 +26,7 @@
           <vue-table id='fileinformation' :title='$t("REGULATORY_AUTHORITY_FILE_INFORMATION")' :items='model.filera'  :headers='[{name: "toSpecificForRAId", url: "legalentity"}, "cbidesignation", "filecomment"]' :displayHeader='displayTranslation' addable @add='addItem("filera")' @select='selectTableItem("filera", model.filera[$event], $event)' @action='handleAction($event, model.filera)'></vue-table>
           <div class='bottom-float'>
             <vue-icon fab @click.native='save("submission")' id='save' :label='$t("save")' icon='save' position='top'></vue-icon>
+            <vue-icon fab id='add' :label='$t("add")' icon='add' position='top' @click.native='add("legalentity")'></vue-icon>
             <vue-icon fab @click.native='revert' id='undo' :label='$t("revert")' icon='undo' position='top'>
             </vue-icon>
           </div>
@@ -62,8 +63,8 @@ export default {
     ...mapGetters('picklists', ['filetype'])
   },
   methods: {
-    selectFile() {
-      console.log('select file');
+    async selectFile() {
+      this.model = await BackendService.callMethod('file', 'selectFile', this.model);
     },
     getComponent() {
       return FileRA;

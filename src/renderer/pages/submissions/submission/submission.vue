@@ -4,8 +4,8 @@
     <vue-progress v-if='loading'></vue-progress>
     <template v-else>
       <vue-input required id='submissiontitle' :label='$t("submissiontitle")' v-model='model.submissiontitle'></vue-input>
-      <vue-input type='number' required id='submissionnumber' disabled v-model='model.submissionnumber' :label='$t("submissionnumber")'></vue-input>
-      <vue-input type='date' required id='submissionversiondate' v-model='model.submissionversiondate' :label='$t("submissionversiondate")'></vue-input>
+      <vue-input type='number' required id='submissionnumber' disabled v-model='model.submissionnumber' :label='$t("submissionnumber")' required></vue-input>
+      <vue-input type='date' required id='submissionversiondate' v-model='model.submissionversiondate' :label='$t("submissionversiondate")' required></vue-input>
       <vue-switch id='incremental' v-model='model.incremental' :label='$t("incremental")' :disabled='model.submissionnumber == 1'></vue-switch>
       <div class='bottom-float'>
         <vue-icon fab @click.native='save("submission")' id='save' :label='$t("save")' icon='save' position='top'></vue-icon>

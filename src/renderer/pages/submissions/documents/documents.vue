@@ -7,30 +7,28 @@
         <div slot='split-pane-1'>
           <vue-list-filter id='master-search' selectable @select='selectListItem' :items='records' :displayValue='doc => doc.documenttitle' :label='$t("search")' sortByArgs='documenttitle' :selectedItem='currentRecord'></vue-list-filter>
         </div>
-        <div slot='split-pane-2'>
+        <div slot='split-pane-2' class='pane'>
           <div class='f-container f-cross-start'>
             <vue-button class='input-prefix' @click.native='assignPID("documentgeneric.documentpid")'>{{$t('generatepid')}}</vue-button>
             <span class='f-gap'></span>
             <vue-input type='text' id='documentpid' :label='$t("documentpid")' v-model='model.documentgeneric.documentpid'></vue-input>
           </div>
 
-          <vue-input type='text' id='documentfamilypid' :label='$t("documentfamilypid")' v-model='model.documentgeneric.documentfamilypid'></vue-input>
+          <vue-input type='text' id='documentfamilypid' :label='$t("documentfamilypid")' v-model='model.documentgeneric.documentfamilypid' required></vue-input>
 
-          <vue-input type='text' id='documentcompanyid' :label='$t("documentcompanyid")' v-model='model.documentgeneric.documentcompanyid'></vue-input>
+          <vue-input type='text' id='documentcompanyid' :label='$t("documentcompanyid")' v-model='model.documentgeneric.documentcompanyid' required></vue-input>
 
-          <vue-input type='text' id='documentfamily' :label='$t("documentfamily")' v-model='model.documentgeneric.documentfamily'></vue-input>
+          <vue-input type='text' id='documentfamily' :label='$t("documentfamily")' v-model='model.documentgeneric.documentfamily' required></vue-input>
 
-          <vue-input type='text' id='documenttitle' :label='$t("documenttitle")' v-model='model.documentgeneric.documenttitle'></vue-input>
+          <vue-input type='text' id='documenttitle' :label='$t("documenttitle")' v-model='model.documentgeneric.documenttitle' required></vue-input>
 
-          <vue-input type='text' id='documentauthor' :label='$t("documentauthor")' v-model='model.documentgeneric.documentauthor'></vue-input>
+          <vue-input type='text' id='documentauthor' :label='$t("documentauthor")' v-model='model.documentgeneric.documentauthor' required></vue-input>
 
-          <vue-input type='date' id='documentissuedate' :label='$t("documentissuedate")' v-model='model.documentgeneric.documentissuedate'></vue-input>
+          <vue-input type='date' id='documentissuedate' :label='$t("documentissuedate")' v-model='model.documentgeneric.documentissuedate' required></vue-input>
 
           <vue-table id='referencedtofile' :title='$t("referencedtofile")' :items='model.documentgeneric.referencedtofiles' required addable @add='addItem("documentgeneric.referencedtofile")' @select='selectTableItem("referencedtofile", model.documentgeneric.referencedtofiles[$event], $event)' @action='handleAction($event, model.documentgeneric.referencedtofiles)'></vue-table>
 
           <vue-table id='documentinformation' :title='$t("REGULATORY_AUTHORITY_DOCUMENT_INFORMATION")' :items='model.documentra' required addable  @add='addItem("documentra")' @select='selectTableItem("documentra", model.documentra[$event], $event)' @action='handleAction($event, model.documentra)'></vue-table>
-
-          <vue-table id='documentowner' :title='$t("documentowner")' :items='model.documentgeneric.documentowner' required addable @add='addItem("documentgeneric.documentowner")' @select='selectTableItem("documentgeneric.documentowner", model.documentowner[$event], $event)' @action='handleAction($event, model.documentowner)'></vue-table>
 
           <vue-fieldset :legend='$t("documentsource")'>
             <vue-switch id='isCompleteSource' :label='$t("completedocumentsource")' :value='isCompleteSource' @input='isCompleteSource = $event'></vue-switch>
@@ -58,16 +56,19 @@
 
           <vue-switch id='testedonvertebrate' :label='$t("testedonvertebrate")' :value='model.documentgeneric.testedonvertebrate' @input='model.documentgeneric.testedonvertebrate = $event' style='display: block'></vue-switch>
 
-          <vue-table id='testlaboratory' :title='$t("testlaboratory")' :items='[]' required addable></vue-table>
+          <vue-chips deletable unique id='documentowner' :label='$t("documentowner")' v-model='model.documentgeneric.documentowner'></vue-chips>
+
+          <vue-chips deletable unique id='testlaboratory' :label='$t("testlaboratory")' v-model='model.documentgeneric.testlaboratory'></vue-chips>
 
           <vue-table id='referenceddocument' :title='$t("referenceddocument")' :items='model.documentgeneric.referenceddocument' required addable @add='addItem("documentgeneric.referenceddocument")' @action='handleAction($event, model.documentgeneric.referenceddocument)'></vue-table>
 
-          <vue-table id='relatedtosubstance' :title='$t("relatedtosubstance")' :items='[]' required addable></vue-table>
+          <vue-table id='relatedtosubstance' :title='$t("relatedtosubstance")' :items='model.documentgeneric.relatedtosubstance' :headers='[{name: "toSubstanceId", url: "substance"}]' :displayHeader='displayTranslation' required addable @add='addItem("documentgeneric.relatedtosubstance")' @select='selectTableItem("documentgeneric.relatedtosubstance", mode.documentgeneric.relatedtosubstance[$event], $event)' @action='handleAction("documentgeneric.relatedtosubstance", $event)'></vue-table>
 
           <vue-table id='documentnumber' :title='$t("documentnumber")' :items='model.documentgeneric.documentnumber' :headers='[{name: "documentnumbertype", url: "picklist"}, "identifier"]' :displayHeader='displayTranslation' required addable @add='addItem("documentgeneric.documentnumber")' @action='handleAction($event, model.documentgeneric.documentnumber)'></vue-table>
 
           <div class='bottom-float'>
             <vue-icon fab @click.native='save("document")' id='save' :label='$t("save")' icon='save' position='top'></vue-icon>
+            <vue-icon fab id='add' :label='$t("add")' icon='add' position='top' @click.native='add("legalentity")'></vue-icon>
             <vue-icon fab @click.native='revert' id='undo' :label='$t("revert")' icon='undo' position='top'>
             </vue-icon>
           </div>
@@ -80,6 +81,7 @@
 
 <script>
 import Button from '@/components/button/button.vue';
+import Chips from '@/components/chips/chips.vue';
 import DocumentNumber from '@/pages/submissions/documents/document-number.vue';
 import DocumentRA from '@/pages/submissions/documents/document-ra.vue';
 import Fieldset from '@/components/fieldset/fieldset.vue';
@@ -88,6 +90,7 @@ import Input from '@/components/input/input.vue';
 import ListFilter from '@/components/list-filter/list-filter.vue';
 import ReferencedDocument from '@/pages/submissions/documents/referenced-document.vue';
 import ReferencedToFile from '@/pages/submissions/documents/referenced-to-file.vue';
+import RelatedToSubstance from '@/pages/submissions/documents/related-to-substance.vue';
 import Select from '@/components/select/select.vue';
 import SelectExtensible from '@/components/select-extensible/select-extensible.vue';
 import SplitPane from '@/components/split-pane/split-pane.vue';
@@ -115,11 +118,14 @@ export default {
           return DocumentNumber;
         case 'documentgeneric.referenceddocument':
           return ReferencedDocument;
+        case 'documentgeneric.relatedtosubstance':
+          return RelatedToSubstance;
       }
     }
   },
   components: {
     'vue-button': Button,
+    'vue-chips': Chips,
     'vue-fieldset': Fieldset,
     'vue-icon': Icon,
     'vue-input': Input,

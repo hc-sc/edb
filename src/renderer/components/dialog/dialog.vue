@@ -40,8 +40,8 @@ Dialogs are used to present a windowed experience. Modal dialogs restrict intera
 
 <template>
   <div class='dialog' :aria-expanded='expanded'>
-    <aside class='dialog-popup' :id='id' role='alertdialog' :aria-labelledby='`${id}-dialog-title`' :aria-describedby='`${id}-dialog-content`' :style='{width: `${width}`}'>
-      <div class='dialog-popup'>
+    <aside :id='id' role='alertdialog' :aria-labelledby='`${id}-dialog-title`' :aria-describedby='`${id}-dialog-content`'>
+      <div class='dialog-popup' :style='{width: `${width}`}'>
         <vue-toolbar color='none' class='dialog-title'>
           <span :id='`${id}-dialog-title`'>
             <slot name='title'>{{title}}</slot>
@@ -203,11 +203,9 @@ export default {
   height: 100%;
   z-index: 99999;
   background: rgba(0, 0, 0, .2);
-  /* animation: .2s var(--out) 0 0 reverse forward play fade; */
 }
 
 .dialog[aria-expanded] .dialog-cloak, .dialog[aria-expanded] .dialog-popup {
-  /* animation: .2s var(--in) 0 0 normal forward play fade; */
   display: block;
   opacity: 1;
 }
@@ -224,6 +222,8 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
   box-shadow: var(--depth-6);
+  max-height: 80%;
+  overflow-y: auto;
 }
 
 .dialog-title {
@@ -239,21 +239,5 @@ export default {
 
 .dialog-actions {
   float: right;
-}
-
-@keyframes fade {
-  0% {
-    display: none;
-    opacity: 0;
-  }
-
-  .001% {
-    display: block;
-  }
-
-  100% {
-    opacity: 1;
-    display: block;
-  }
 }
 </style>
