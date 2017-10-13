@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class='pane'>
     <vue-progress v-if='loading'></vue-progress>
     <template v-else>
     <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
@@ -10,8 +10,8 @@
       </div>
       <vue-input id='genericproductname' :label='$t("genericproductname")' v-model='model.genericproductname' required :max='255'></vue-input>
       <vue-select-extensible id='formulationtype' :label='$t("formulationtype")' :options='formulationtype' :value='model.formulationtype' @input='model.formulationtype = $event._id' :matchValue='matchById' typeName='EXTENSION_TYPE_FORMULATION_TYPE' :displayValue='displayPicklistItem'></vue-select-extensible>
-      <vue-table id='ingredients' :title='$t("ingredients")' :items='model.ingredients.ingredient' :headers='[{name: "toSubstanceId", url: "substance"}, "quantity", {name: "unit", url: "picklist"}]' :displayHeader='displayTranslation' @select='selectTableItem("ingredient", model.ingredients.ingredient[$event], $event)' addable @add='addItem("ingredients.ingredient")'></vue-table>
-      <vue-table id='productras' :title='$t("productra")' :items='model.productra' :headers='[]' :displayHeader='displayTranslation' @select='selectTableItem("productra", model.productra[$event], $event)' addable @add='addItem("productra")'></vue-table>
+      <vue-table id='ingredients' :title='$t("ingredients")' :items='model.ingredients.ingredient' :headers='[{name: "toSubstanceId", url: "substance"}, "quantity", {name: "unit", url: "picklist"}]' :displayHeader='displayTranslation' @select='selectTableItem("ingredient", model.ingredients.ingredient[$event], $event)' addable @add='addItem("ingredients.ingredient")' @action='handleAction($event, model.ingredients.ingredient)'></vue-table>
+      <vue-table id='productras' :title='$t("productra")' :items='model.productra' :headers='[{name: "toSpecificForRAId", url: "legalentity"}, "productname"]' :displayHeader='displayTranslation' @select='selectTableItem("productra", model.productra[$event], $event)' addable @add='addItem("productra")' @action='handleAction($event, model.productra)'></vue-table>
     </div>
     <div class='bottom-float'>
       <vue-icon fab @click.native='save("product")' id='save' :label='$t("save")' icon='save' position='top' :disabled='currentRecord == null'></vue-icon>
@@ -51,7 +51,8 @@ export default {
   },
   methods: {
     getComponent(compName) {
-      return compName === 'ingredients' ? Ingredients : ProductRA;
+      console.log(compName);
+      return compName === 'productra' ? ProductRA : Ingredients;
     }
   },
   async beforeCreate() {

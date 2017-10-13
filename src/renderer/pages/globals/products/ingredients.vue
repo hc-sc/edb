@@ -1,6 +1,6 @@
 <template>
   <div class='page' id='substanceidentifier' ref='substanceidentifier'>
-    <vue-select id='substance' :label='$t("SUBSTANCE")' :options='substances' :value='model.toSubstanceId' @input='model.toSubstanceId = $event._id' :displayValue='i => i.valuedecode' :matchValue='matchById'></vue-select>
+    <vue-select id='substance' :label='$t("substance")' :options='substances' :value='model.toSubstanceId' @input='model.toSubstanceId = $event._id' :displayValue='i => i.valuedecode' :matchValue='matchById'></vue-select>
     <vue-input type='number' id='quantity' :label='$t("quantity")' v-model='model.quantity' required></vue-input>
     <vue-select-extensible id='unit' :label='$t("unit")' :options='unit' :value='model.unit' @input='model.unit = $event._id' typeName='EXTENSION_TYPE_UNIT' :matchValue='matchById' :displayValue='displayPicklistItem'></vue-select-extensible>
   </div>

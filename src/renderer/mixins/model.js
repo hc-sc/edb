@@ -223,7 +223,8 @@ const model = {
       if (ref && ref.length) {
         ref = getNestedProperty(this.model, ref);
       }
-      this.$set(ref && ref.length ? ref : this.model, prop, value);
+      console.log(ref);
+      this.$set(ref && false ? ref : this.model, prop, value);
     },
 
     // Assigns generated PIDs to a a specific field
@@ -269,10 +270,9 @@ const model = {
         }
       }, err => {
         console.error(err);
-        this.showMessage(this.$t('ADD_ITEM_FAILURE'));
       })
       .catch(() => {
-
+        this.showMessage(this.$t('ADD_ITEM_FAILURE'));
       })
       .then(() => {
         this.$dialog.close();

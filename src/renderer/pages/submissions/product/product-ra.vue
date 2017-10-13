@@ -1,12 +1,12 @@
 <template>
   <div>
-    <vue-select id='productra' :label='$t("REGULATORY_AUTHORITY")' :options='ras' :displayValue='ra => ra.shortname' :matchValue='matchById' :value='model.toSpecificForRAId' @input='model.toSpecificForRAId = $event._id'></vue-select>
+    <vue-select id='productra' :label='$tc("REGULATORY_AUTHORITY", 1)' :options='ras' :displayValue='ra => ra.legalentityname' :matchValue='matchById' :value='model.toSpecificForRAId' @input='model.toSpecificForRAId = $event._id'></vue-select>
     <vue-input type='text' id='productname' :label='$t("productname")' v-model='model.productname' required></vue-input>
-    <vue-fieldset :legend='$t("adminnumber")'>
+    <vue-toolbar :legend='$t("adminnumber")'>
       <div v-for='(item, index) of model.adminnumber' :key='index'>
         <vue-select id='adminnumbertype' :label='$t("adminnumbertype")' :options='ras' :displayValue='ra => ra.shortname' :matchValue='matchById' :value='model.toSpecificForRAId' @input='model.toSpecificForRAId = $event._id'></vue-select>
       </div>
-    </vue-fieldset>
+    </vue-toolbar>
   </div>
 </template>
 

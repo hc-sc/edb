@@ -47,6 +47,7 @@ export default {
   ADD_ITEM_FAILURE: 'Failed to add new item',
   DISCARD_CHANGES: 'You have unsaved changes. Discard?',
   DUPLICATE_ITEM: 'Duplicate items',
+  FILE_SOURCE: 'File Source',
   MISSING_DOSSIER_FIELDS: 'You must fill in the required fields',
   NO_DOSSIER_SELECTED: 'Select a Dossier to review Submissions',
   REGULATORY_AUTHORITY: 'Regulatory Authority | Regulatory Authorities',

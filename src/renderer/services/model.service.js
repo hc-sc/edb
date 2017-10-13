@@ -6,6 +6,7 @@ import modelContactPerson from '../view-models/gen/contactperson.json';
 import modelSubstance from '../view-models/gen/substance.json';
 import modelSubstanceIdentifier from '../view-models/gen/substanceidentifier.json';
 import modelFile from '../view-models/gen/file.json';
+import modelFileGeneric from '../view-models/gen/filegeneric.json';
 import modelFileRA from '../view-models/gen/filera.json';
 
 import modelProduct from '../view-models/gen/product.json';
@@ -60,6 +61,7 @@ const ModelService = {
         return _.merge({}, Object.assign(modelSubstanceIdentifier.fields));
       case 'file':
         model = _.merge({}, Object.assign(modelFile.fields));
+        model.filegeneric = _.merge({}, Object.assign(modelFileGeneric.fields));
         model._url = prop;
         return model;
       case 'filera':

@@ -21,9 +21,9 @@ export function isStringMatch(word, test, noCase = true, global = true) {
  * @param propString String the period separated nested property names
  * @returns Reference a reference to the nested property
  */
-export function getNestedProperty(obj, propString) {
+export function getNestedProperty(obj, propStrings) {
   let ref = obj;
-  propString.split('.').forEach(prop => {
+  propStrings.forEach(prop => {
     ref = ref[prop];
   });
   return ref;

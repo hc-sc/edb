@@ -9,17 +9,21 @@
         </div>
         <div slot='split-pane-2' class='pane'>
           <div class='f-container f-cross-start'>
-            <vue-button class='input-prefix' @click.native='selectFile'>{{$t('FILE')}}</vue-button>
+            <vue-button class='input-prefix' @click.native='selectFile'>{{$t('file')}}</vue-button>
             <span class='f-gap'></span>
             <vue-input type='text' id='filesource' :label='$t("FILE_SOURCE")' v-model='model.filegeneric.filesource' required></vue-input>
           </div>
-          <vue-input type='text' id='filepid' :label='$t("FILE_PID")'></vue-input>
-          <vue-input type='text' id='companyfileid' :label='$t("FILE_COMPANY_ID")'></vue-input>
-          <vue-input type='text' id='filetype' :label='$t("FILE_TYPE")'></vue-input>
-          <vue-input type='text' id='formatcomment' :label='$t("FORMAT_COMMENT")'></vue-input>
-          <vue-input type='text' id='md5checksum' :label='$t("MD5CHECKSUM")'></vue-input>
-          <vue-input type='text' id='submissionfilename' :label='$t("FILENAME")'></vue-input>
-          <vue-table id='fileinformation' :title='$t("REGULATORY_AUTHORITY_FILE_INFORMATION")' :items='model.filera'  :headers='[]' :displayHeader='displayTranslation' addable @add='addItem("filera")' @action='handleAction($event, model.filera)' @select='selectTableItem("filera", model.filera[$event], $event)' ></vue-table>
+          <div class='f-container f-cross-start'>
+            <vue-button class='input-prefix' @click.native='assignPID("filegeneric.filepid")'>{{$t('generatepid')}}</vue-button>
+            <span class='f-gap'></span>
+            <vue-input type='text' id='filepid' :label='$t("filepid")' v-model='model.filegeneric.filepid'></vue-input>
+          </div>
+          <vue-input type='text' id='filecompanyid' :label='$t("filecompanyid")' v-model='model.filegeneric.filecompanyid'></vue-input>
+          <vue-select id='filetype' :label='$t("filetype")' :value='model.filegeneric.filetype' @input='model.filegeneric.filetype = $event._id' :options='filetype' :displayValue='displayPicklistItem' :matchValue='matchById'></vue-select>
+          <vue-input type='text' id='formatcomment' :label='$t("formatcomment")' v-model='model.filegeneric.formatcomment'></vue-input>
+          <vue-input type='text' id='md5checksum' :label='$t("md5checksum")' v-model='model.filegeneric.md5CHECKSUM'></vue-input>
+          <vue-input type='text' id='filename' :label='$t("filename")' v-model='model.filegeneric.filename'></vue-input>
+          <vue-table id='fileinformation' :title='$t("REGULATORY_AUTHORITY_FILE_INFORMATION")' :items='model.filera'  :headers='[{name: "toSpecificForRAId", url: "legalentity"}, "cbidesignation", "filecomment"]' :displayHeader='displayTranslation' addable @add='addItem("filera")' @select='selectTableItem("filera", model.filera[$event], $event)' @action='handleAction($event, model.filera)'></vue-table>
           <div class='bottom-float'>
             <vue-icon fab @click.native='save("submission")' id='save' :label='$t("save")' icon='save' position='top'></vue-icon>
             <vue-icon fab @click.native='revert' id='undo' :label='$t("revert")' icon='undo' position='top'>
@@ -43,6 +47,8 @@ import SplitPane from '@/components/split-pane/split-pane.vue';
 import Switch from '@/components/switch/switch.vue';
 import Table from '@/components/table/table.vue';
 import {model} from '@/mixins/model.js';
+import {BackendService} from '@/store/backend.service.js';
+import {mapGetters} from 'vuex';
 
 export default {
   name: 'Files',
@@ -52,6 +58,9 @@ export default {
       model: this.getEmptyModel('file'),
     };
   },
+  computed: {
+    ...mapGetters('picklists', ['filetype'])
+  },
   methods: {
     selectFile() {
       console.log('select file');
@@ -60,7 +69,20 @@ export default {
       return FileRA;
     }
   },
-  created() {
+  beforeCreated() {
+    this.$store.commit('loading');
+  },
+  async created() {
+    this.updateCurrentUrl('file');
+    this.resetForm();
+    try {
+      // let model = (await BackendService.getAppData('file', {_submissionid: this.ghsts._submissionid}))[0];
+      // this.updateCurrentRecord(this.mergeModelAndRecord(this.getEmptyModel('file'), model));
+      // this.mapStateToModel();
+    }
+    catch(err) {
+      this.showMessage('ERROR');
+    }
     this.$store.commit('ready');
   },
   components: {
