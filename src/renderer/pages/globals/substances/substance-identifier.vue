@@ -1,7 +1,7 @@
 <template>
   <div class='page' id='substanceidentifier' ref='substanceidentifier'>
     <vue-select-extensible id='substanceidentifiertype' :label='$t("substanceidentifiertype")' :options='substanceidentifiertype' :value='model.substanceidentifiertype' @input='model.substanceidentifiertype = $event._id' :matchValue='matchById' typeName='EXTENSION_TYPE_SUBSTANCE_IDENTIFIER_TYPE' :displayValue='displayPicklistItem'></vue-select-extensible>
-    <vue-input id='identifier' :label='$t("SUBSTANCE_IDENTIFIER")' v-model='model.identifier' :max='255'></vue-input>
+    <vue-input id='identifier' :label='$t("substanceidentifier")' v-model='model.identifier' :max='255'></vue-input>
   </div>
 </template>
 

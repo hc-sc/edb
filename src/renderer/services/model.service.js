@@ -26,7 +26,7 @@ import modelDocumentNumber from '../view-models/gen/documentnumber.json';
 // import modelDocumentContentStatus from '../view-models/gen/documentcontentstatus.json';
 
 import modelReferencedDocument from '../view-models/gen/referenceddocument.json';
-import modelReLatedToSubstance from '../view-models/gen/relatedtosubstance.json';
+import modelRelatedToSubstance from '../view-models/gen/relatedtosubstance.json';
 import modelReferencedToFile from '../view-models/gen/referencedtofile.json';
 import modelOtherNationalGuideLine from '../view-models/gen/othernationalguideline.json';
 
@@ -36,6 +36,9 @@ import modelRaDocumentNumber from '../view-models/gen/radocumentnumber.json';
 
 import modelSender from '../view-models/gen/sender.json';
 import modelReceiver from '../view-models/gen/receiver.json';
+
+import modelTOC from '../view-models/gen/toc.json';
+import modelStandardTOCReference from '../view-models/gen/standardtocreference.json';
 import _ from 'lodash';
 
 const ModelService = {
@@ -144,7 +147,7 @@ const ModelService = {
         return model;
 
       case 'documentgeneric.relatedtosubstance':
-        return _.merge({}, Object.assign(modelReLatedToSubstance.fields));
+        return _.merge({}, Object.assign(modelRelatedToSubstance.fields));
 
       case 'documentgeneric.referencedtofile':
         return _.merge({}, Object.assign(modelReferencedToFile.fields));
@@ -166,6 +169,15 @@ const ModelService = {
           submissionversiondate: '',
           incremental: false
         };
+
+      case 'toc':
+        model = _.merge({}, Object.assign(modelTOC));
+        model.standardtocreference = this.getModel('standardtocreference');
+        return model;
+
+      case 'standardtocreference':
+        model = _.merge({}, Object.assign(modelStandardTOCReference));
+        return model;
     }
   }
 };

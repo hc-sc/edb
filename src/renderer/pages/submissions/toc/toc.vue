@@ -5,11 +5,8 @@
       <vue-progress v-if='loading'></vue-progress>
       <template v-else>
         <vue-select id='treefilter' :label='$t("SEARCH_TREE")' :options='[]' :displayValue='o => o.nodeName' :matchValue='o => o.nodeName' ></vue-select>
-        <vue-tree :tree='toc'></vue-tree>
+        <vue-tree :tree='tree' :getChildren='tree => tree.tocnode' :getLabel='tree => tree.nodename'></vue-tree>
         <div class='bottom-float'>
-          <!-- <vue-icon fab @click.native='save("toc")' id='save' :label='$t("save")' icon='save' position='top'></vue-icon>
-          <vue-icon fab @click.native='revert' id='undo' :label='$t("revert")' icon='undo' position='top'>
-          </vue-icon> -->
           <vue-button type='button' @click.native='showTOCData'>{{$t('TOC_DATA')}}</vue-button>
         </div>
       </template>
@@ -36,7 +33,10 @@ export default {
   mixins: [model],
   data() {
     return {
-      toc: {label: 'TOC', children: []}
+      toc: {label: 'TOC', children: []},
+      tree: {},
+      documents: [],
+      selectedNode: null
     };
   },
   methods: {
@@ -44,16 +44,21 @@ export default {
       return TOCData;
     },
     showTOCData() {
-      this.showFormDialog(null, {}, TOCData)
+      this.showFormDialog('toc')
       .then(result => {console.log(result);})
       .catch(err => {console.error(err);})
       .then(this.$dialog.close());
     }
   },
+  beforeCreated() {
+    this.$store.commit('loading');
+  },
   async created() {
-    this.toc = (await BackendService.getGhsts({url: '/toc'}))[0].toc;
-    this.tree = this.toc.structure;
-
+    this.updateCurrentUrl('toc');
+    this.resetForm();
+    this.toc = (await BackendService.getAppData('toc'))[0];
+    this.tree = {nodename: 'TOC', tocnode: this.toc.structure.tocnode};
+    this.$store.commit('ready');
   },
   components: {
     'vue-button': Button,

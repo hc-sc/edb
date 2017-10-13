@@ -7,7 +7,7 @@
     <vue-input id='email' :label='$t("email")' v-model='model.email' :max='255' :pattern='/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/' message='Invalid email'></vue-input>
     <vue-input id='mobile' :label='$t("mobile")' v-model='model.mobile' :max='255'></vue-input>
     <vue-input id='fax' :label='$t("fax")' v-model='model.fax' :max='255'></vue-input>
-    <vue-input id='organisation' :label='$t("ORGANISATION")' v-model='model.organisation' :max='255'></vue-input>
+    <vue-input id='organisation' :label='$t("organisation")' v-model='model.organisation' :max='255'></vue-input>
     <vue-input id='department' :label='$t("department")' v-model='model.department' :max='255'></vue-input>
   </div>
 </template>

@@ -9,9 +9,9 @@
       </div>
        <div slot='split-pane-2' class='pane'>
         <template v-if='shouldShowFields()'>
-          <vue-select id='legalentities' :label='$tc("legalentity", 1)' :options='legalentities' :value='model.toLegalEntityId' :matchValue='matchById' :displayValue='v => v.legalentityname' @input='model.toLegalEntityId = $event._id'></vue-select>
-          <vue-input id='shortname' :label='$t("SHORT_NAME")' v-model='model.shortname' required :max='20'></vue-input>
-          <vue-input id='role' :label='$t("ROLE")' v-model='model.role' :max='255'></vue-input>
+          <vue-select id='legalentities' :label='$t("legalentities")' :options='legalentities' :value='model.toLegalEntityId' :matchValue='matchById' :displayValue='v => v.legalentityname' @input='model.toLegalEntityId = $event._id'></vue-select>
+          <vue-input id='shortname' :label='$t("shortname")' v-model='model.shortname' required :max='20'></vue-input>
+          <vue-input id='role' :label='$t("role")' v-model='model.role' :max='255'></vue-input>
         </template>
         <template v-else>
           {{$t('noitems')}}

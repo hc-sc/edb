@@ -12,10 +12,10 @@
           <div class='f-container f-cross-start'>
             <vue-button class='input-prefix' @click.native='assignPID("substancepid")'>generate</vue-button>
             <span class='f-gap'></span>
-            <vue-input type='text' id='substancepid' :label='$t("SUBSTANCE_PID")' v-model='model.substancepid' required disabled></vue-input>
+            <vue-input type='text' id='substancepid' :label='$t("substancepid")' v-model='model.substancepid' required disabled></vue-input>
           </div>
-          <vue-textarea id='substancename' :label='$t("SUBSTANCE_NAME")' v-model='model.substancename' required :max='2000'></vue-textarea>
-          <vue-table id='substanceidentifier' :title='$t("SUBSTANCE_IDENTIFIER")' :items='model.substanceidentifier' :headers='[{name: "substanceidentifiertype", url: "picklist"}, "identifier"]' :displayHeader='displayTranslation' @select='selectTableItem("substanceidentifier", model.substanceidentifier[$event], $event)' addable @add='addItem("substanceidentifier")'></vue-table>
+          <vue-textarea id='substancename' :label='$t("substancename")' v-model='model.substancename' required :max='2000'></vue-textarea>
+          <vue-table id='substanceidentifier' :title='$t("substanceidentifier")' :items='model.substanceidentifier' :headers='[{name: "substanceidentifiertype", url: "picklist"}, "identifier"]' :displayHeader='displayTranslation' @select='selectTableItem("substanceidentifier", model.substanceidentifier[$event], $event)' addable @add='addItem("substanceidentifier")'></vue-table>
         </template>
         <template v-else>
           {{$t('noitems')}}

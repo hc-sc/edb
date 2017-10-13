@@ -48,7 +48,7 @@ export default {
       return this.all == null || !Array.isArray(this.all) ?
         [] : this.all.map(picklist => {
           return {
-            title: picklist[0] ? this.$t(picklist[0].TYPE_NAME) : 'undefined',
+            title: picklist[0] ? this.$t(picklist[0].TYPE_NAME.toLowerCase().replace(/_/g, '')) : 'undefined',
             content: picklist
           };
         });

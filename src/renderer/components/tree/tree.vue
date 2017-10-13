@@ -16,6 +16,8 @@ A recursive component that allows for nested children, such as a directory struc
 
 #### Computed
 
+- label (String): function to retrieve the name of the node
+- children (Array): function to retrieve the array of children
 - hasChildren (Boolean): if the tree has children
 
 ### Methods
@@ -32,10 +34,10 @@ A recursive component that allows for nested children, such as a directory struc
           <span>
             <span @click='add'>+</span>
           </span>
-          {{tree.label}}
+          {{label}}
         </div>
         <div v-if='hasChildren' v-show='open'>
-          <vue-tree v-for='(child, index) of tree.children' :key='index' :tree='child'>
+          <vue-tree v-for='(child, index) of children' :key='index' :tree='child' :getChildren='getChildren' :getLabel='getLabel'>
           </vue-tree>
         </div>
       </li>
@@ -56,6 +58,24 @@ export default {
     tree: {
       type: Object,
       required: true
+    },
+    onAdd: {
+      type: Function,
+      default(value) {
+        this.$emit('add', value);
+      }
+    },
+    getChildren: {
+      type: Function,
+      default(tree) {
+        return tree.children;
+      }
+    },
+    getLabel: {
+      type: Function,
+      default(tree) {
+        return tree.label;
+      }
     }
   },
   data() {
@@ -64,8 +84,14 @@ export default {
     };
   },
   computed: {
+    children() {
+      return this.getChildren(this.tree) || [];
+    },
+    label() {
+      return this.getLabel(this.tree);
+    },
     hasChildren() {
-      return !!(this.tree.children && this.tree.children.length);
+      return !!(this.children && this.children.length);
     }
   },
   methods: {
@@ -76,11 +102,13 @@ export default {
       this.$emit('add');
     }
   },
+
+  // for recursive components, need to load the reference
   beforeCreate() {
     if(!this.$options.components['vue-tree']) {
       this.$options.components['vue-tree'] = require('./tree.vue');
     }
-  }
+  },
 };
 </script>
 

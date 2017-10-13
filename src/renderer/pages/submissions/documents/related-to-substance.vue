@@ -12,7 +12,7 @@ export default {
   mixins: [model],
   data() {
     return {
-      model: this.getEmptyModel('relatedtosubstance'),
+      model: this.getEmptyModel('documentgeneric.relatedtosubstance'),
       substances: []
     };
   },

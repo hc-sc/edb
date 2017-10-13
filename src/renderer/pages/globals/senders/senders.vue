@@ -9,10 +9,10 @@
       </div>
        <div slot='split-pane-2' class='pane'>
         <template v-if='shouldShowFields()'>
-          <vue-select id='legalentities' :label='$tc("legalentity", 1)' :options='legalentities' :value='model.toLegalEntityId' :displayValue='v => v.legalentityname' @input='model.toLegalEntityId = $event._id' :matchValue='matchById'></vue-select>
-          <vue-input id='shortname' :label='$t("SHORT_NAME")' v-model='model._shortname' required :max='20'></vue-input>
-          <vue-input id='companycontactregulatoryrole' :label='$t("COMPANY_CONTACT_REGULATORY_ROLE")' v-model='model.companycontactregulatoryrole' :max='255'></vue-input>
-          <vue-textarea id='remark' :label='$t("REMARK")' v-model='model.remark' :max='2000'></vue-textarea>
+          <vue-select id='legalentities' :label='$t("legalentities")' :options='legalentities' :value='model.toLegalEntityId' :displayValue='v => v.legalentityname' @input='model.toLegalEntityId = $event._id' :matchValue='matchById'></vue-select>
+          <vue-input id='shortname' :label='$t("shortname")' v-model='model._shortname' required :max='20'></vue-input>
+          <vue-input id='companycontactregulatoryrole' :label='$t("companycontactregulatoryrole")' v-model='model.companycontactregulatoryrole' :max='255'></vue-input>
+          <vue-textarea id='remark' :label='$t("remark")' v-model='model.remark' :max='2000'></vue-textarea>
         </template>
         <template v-else>
           {{$t('noitems')}}
