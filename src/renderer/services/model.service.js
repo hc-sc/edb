@@ -109,6 +109,10 @@ const ModelService = {
         model.datarequirement = '';
         return model;
 
+      case 'referenceddocument':
+        model = _.merge({}, Object.assign(modelReferencedDocument.fields));
+        return model;
+
       case 'othernationalguideline':
         return _.merge({}, Object.assign(modelOtherNationalGuideLine.fields));
 

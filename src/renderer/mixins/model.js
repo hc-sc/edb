@@ -224,7 +224,7 @@ const model = {
         ref = getNestedProperty(this.model, ref);
       }
       console.log(ref);
-      this.$set(ref && false ? ref : this.model, prop, value);
+      this.$set(props.length > 1 ? ref : this.model, prop, value);
     },
 
     // Assigns generated PIDs to a a specific field

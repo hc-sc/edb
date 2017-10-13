@@ -1,5 +1,7 @@
 <template>
-  <vue-select id='referencedtofile' :label='$t("FILENAME")' :options='files' :displayValue='file => file.filename' :matchValue='matchById'></vue-select>
+  <div>
+    <vue-select id='referencedtofile' :label='$t("filename")' :options='files' :displayValue='file => file.filename' :matchValue='matchById' :value='model.file' @input='model.file = $event._id'></vue-select>
+  </div>
 </template>
 
 <script>
