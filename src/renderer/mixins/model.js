@@ -61,7 +61,6 @@ const model = {
 
     // creates a new empty model
     add(model) {
-      console.log(this.currentRecord, this.model);
       if (this.currentRecord != null && this.isDirty(this.currentRecord, this.model)) {
         console.log('here');
         this.showMessageDialog({message: this.$t('DISCARD_CHANGES')})
@@ -185,6 +184,7 @@ const model = {
     },
 
     selectTableItem(componentName, model, index) {
+      console.log(arguments);
       this.showFormDialog(componentName, merge(this.getEmptyModel(componentName), model))
       .then(result => {
         if (index != null) this.$set(this.model[componentName], index, result);
@@ -247,14 +247,13 @@ const model = {
 
     // Adds a new item to tables via dialogs
     // ref is used to retrieve the corrent component and
-    // then to assign
+    // then to assign the new record to it
     addTableItem(ref) {
       this.showFormDialog(ref)
       .then(result => {
-        console.log('here', result);
         ref = getNestedProperty(this.model, ref);
 
-        console.log('after getNested', ref);
+        console.log(ref);
 
         // if it's a duplicate, fail
         // need to: for every item, check each non DB prop
@@ -281,6 +280,7 @@ const model = {
             this.showMessage(this.$t('DUPLICATE_ITEM'));
           }
           else {
+            console.log(result);
             ref.push(result);
           }
         }

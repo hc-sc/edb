@@ -392,7 +392,6 @@ export default {
             else {
               try {
                 result = await BackendService.searchAppData(header.url, {_id: row[header.name]});
-                console.log(result[0]);
                 if (result[0] && 'valuedecode' in result[0]) {
                   cellData = result[0]['valuedecode'];
                 }
