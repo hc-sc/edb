@@ -4,12 +4,12 @@
     <vue-progress v-if='loading'></vue-progress>
     <template v-else>
       <vue-table :title='$t("receivers")' id='receivers' required addable
-      @add='addReceiver' :headers='["legalentityname", "shortname", "role"]' :displayHeader='displayTranslation' :items='receiversData' @select='selectReceiver'></vue-table>
-      <vue-table v-if='selectedReceiver' :title='$t("sender")' id='senders' required addable @add='addSender($event)' :items='sendersData' :headers='["legalentityname", "shortname", "companycontactregulatoryrole", "remark"]' :displayHeader='displayTranslation'></vue-table>
+      @add='addReceiver' :headers='[{name: "toLegalEntityId", url: "legalentity"}, "shortname", "role"]' :displayHeader='displayTranslation' :items='receiversData' @select='selectReceiver'></vue-table>
+      <vue-table v-if='selectedReceiver' :title='$t("sender")' id='senders' required addable @add='addSender($event)' :items='sendersData' :headers='[{name: "toLegalEntityId", url: "legalentity"}, "shortname", "companycontactregulatoryrole", "remark"]' :displayHeader='displayTranslation'></vue-table>
       <p v-if='receiversData && receiversData.length && selectedReceiver == null'>{{$t('SELECT_TO_BEGIN')}}</p>
       <p v-else-if='selectedReceiver == null'>{{$t('ADD_TO_BEGIN')}}</p>
       <div class='bottom-float'>
-        <vue-icon fab @click.native='save("receivers")' id='save' :label='$t("save")' icon='save' position='top'></vue-icon>
+        <vue-icon fab @click.native='saveReceiver' id='save' :label='$t("save")' icon='save' position='top'></vue-icon>
         <vue-icon fab @click.native='revert' id='undo' :label='$t("revert")' icon='undo' position='top'>
         </vue-icon>
       </div>
@@ -70,6 +70,9 @@ export default {
     },
     getComponent(name) {
       return name === 'receiver' ? Receiver : Sender;
+    },
+    saveReceiver() {
+      console.log('saving');
     }
   },
   watch: {

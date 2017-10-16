@@ -27,7 +27,7 @@
 
             <vue-input type='date' id='documentissuedate' :label='$t("documentissuedate")' v-model='model.documentgeneric.documentissuedate' required></vue-input>
 
-            <vue-table id='referencedtofile' :title='$t("referencedtofile")' :items='model.documentgeneric.referencedtofile' :headers='[{name: "toFileId", url: "file"}]' :displayHeader='displayTranslation' required addable @add='addTableItem("documentgeneric.referencedtofile")' @select='selectTableItem("referencedtofile", model.documentgeneric.referencedtofile[$event], $event)' @action='handleAction($event, model.documentgeneric.referencedtofiles)'></vue-table>
+            <vue-table id='referencedtofile' :title='$t("referencedtofile")' :items='model.documentgeneric.referencedtofile' :headers='[{name: "toFileId", url: "file"}]' :displayHeader='displayTranslation' required addable @add='addTableItem("documentgeneric.referencedtofile")' @select='selectTableItem("documentgeneric.referencedtofile", model.documentgeneric.referencedtofile[$event], $event)' @action='handleAction($event, model.documentgeneric.referencedtofile)'></vue-table>
 
             <vue-table id='documentinformation' :title='$t("REGULATORY_AUTHORITY_DOCUMENT_INFORMATION")' :items='model.documentra' :headers='[{name: "toSpecificForRAId", url: "legalentity"}]' :displayHeader='displayTranslation' required addable @add='addTableItem("documentra")' @select='selectTableItem("documentra", model.documentra[$event], $event)' @action='handleAction($event, model.documentra)'></vue-table>
 

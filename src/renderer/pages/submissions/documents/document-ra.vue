@@ -26,7 +26,10 @@
 
     <vue-fieldset :legend='$t("radocumentnumber")'>
       <vue-select-extensible id='radocumentnumber' :label='$t("radocumentnumbertype")' :options='radocumentnumbertype' :displayValue='displayPicklistItem' :matchValue='matchById' :value='model.radocumentnumber.radocumentnumbertype' @input='model.radocumentnumber.radocumentnumbertype = $event._id' typeName='EXTENSION_TYPE_RA_DOCUMENT_NUMBER_TYPE' required></vue-select-extensible>
+
       <vue-input type='text' id='identifier' :label='$t("identifier")' v-model='model.radocumentnumber.identifier' required></vue-input>
+
+      <vue-switch id='alreadysubmitted' :label='$t("alreadysubmitted")' :value='model.radocumentnumber.alreadysubmitted' @input='model.radocumentnumber.alreadysubmitted = $event'></vue-switch>
 
       <vue-toolbar>
         {{$t('dossiercontext')}}
@@ -53,6 +56,7 @@ import Input from '@/components/input/input.vue';
 import List from '@/components/list/list.vue';
 import Select from '@/components/select/select.vue';
 import SelectExtensible from '@/components/select-extensible/select-extensible.vue';
+import Switch from '@/components/switch/switch.vue';
 import Toolbar from '@/components/toolbar/toolbar.vue';
 import {model} from '@/mixins/model.js';
 import {BackendService} from '@/store/backend.service.js';
@@ -72,13 +76,13 @@ export default {
   },
   methods: {
     addOtherNationalGuideline() {
-      this.model.othernationalguideline.push(this.getEmptyModel('othernationalguideline'));
+      this.model.othernationalguideline.push(this.getEmptyModel('documentra.othernationalguideline'));
     },
     deleteOtherNationalGuideline(index) {
       this.model.othernationalguideline.splice(index, 1);
     },
     addDossierContext() {
-      this.model.radocumentnumber.dossiercontext.push(this.getEmptyModel('dossiercontext'));
+      this.model.radocumentnumber.dossiercontext.push(this.getEmptyModel('documentra.radocumentnumber.dossiercontext'));
     },
     deleteDossierContext(index) {
       this.model.radocumentnumber.dossiercontext.splice(index, 1);
@@ -98,6 +102,7 @@ export default {
     'vue-list': List,
     'vue-select': Select,
     'vue-select-extensible': SelectExtensible,
+    'vue-switch': Switch,
     'vue-toolbar': Toolbar
   }
 };

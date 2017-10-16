@@ -6,7 +6,9 @@
 
     <vue-input type='text' id='documentpid' :label='$t("documentpid")' v-model='model.documentpid' required></vue-input>
 
-    <vue-input type='text' id='identifier' :label='$t("identifier")' v-model='model.identifier' required></vue-input>
+    <vue-select id='documentnumbertype' :label='$t("documentnumbertype")' :options='documentnumbertype' :displayValue='displayPicklistItem' :matchValue='matchById' :value='model.documentnumber.documentnumbertype' @input='model.documentnumber.documentnumbertype = $event._id' required></vue-select>
+
+    <vue-input type='text' id='identifier' :label='$t("identifier")' v-model='model.documentnumber.identifier' required></vue-input>
   </div>
 </template>
 
@@ -23,7 +25,7 @@ export default {
   mixins: [model],
   data() {
     return {
-      model: this.getEmptyModel('referenceddocument')
+      model: this.getEmptyModel('documentgeneric.referenceddocument')
     };
   },
   computed: {

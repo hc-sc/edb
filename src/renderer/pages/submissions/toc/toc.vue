@@ -86,26 +86,26 @@ export default {
       if ('tocnode' in tree) tree.tocnode.forEach(node => this.mapNodes(list, node));
     }
   },
-  // beforeCreate() {
-  //   this.$store.commit('loading');
-  // },
-  // async created() {
-  //   this.updateCurrentUrl('toc');
-  //   this.resetForm();
-  //   [this.toc, this.documents] = await Promise.all([
-  //     (await BackendService.getAppData('toc'))[0],
-  //     BackendService.callMethod('document', 'get', {_dossier: this.dossierid})
-  //   ]);
-  //   this.fullTree = this.currentTree = {nodename: 'TOC', tocnode: this.toc.structure.tocnode};
-  //   this.$nextTick(() => {
-  //     this.$store.commit('ready');
-  //   });
-  // },
-  // watch: {
-  //   fullTree() {
-  //     this.nodes = this.mapNodes(this.nodes = [], this.fullTree);
-  //   }
-  // },
+  beforeCreate() {
+    this.$store.commit('loading');
+  },
+  async created() {
+    this.updateCurrentUrl('toc');
+    this.resetForm();
+    [this.toc, this.documents] = await Promise.all([
+      (await BackendService.getAppData('toc'))[0],
+      BackendService.callMethod('document', 'get', {_dossier: this.dossierid})
+    ]);
+    this.fullTree = this.currentTree = {nodename: 'TOC', tocnode: this.toc.structure.tocnode};
+    this.$nextTick(() => {
+      this.$store.commit('ready');
+    });
+  },
+  watch: {
+    fullTree() {
+      this.nodes = this.mapNodes(this.nodes = [], this.fullTree);
+    }
+  },
   components: {
     'vue-button': Button,
     'vue-icon': Icon,

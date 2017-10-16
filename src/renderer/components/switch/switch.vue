@@ -1,7 +1,7 @@
 <template>
   <div class='switch'>
     <div class='switch-group'>
-      <input :value='value' type='checkbox' class='switch-checkbox' :id='id' @keydown.space='cb(value)' :disabled='disabled'>
+      <input type='checkbox' class='switch-checkbox' :id='id' @keydown.space='cb(value)'  :value='value' :disabled='disabled'>
       <label :for='id' @click='cb(value)' >
         <div class='switch-background' aria-hidden='true'>
           <div class='switch-knob'></div>

@@ -62,7 +62,6 @@ const model = {
     // creates a new empty model
     add(model) {
       if (this.currentRecord != null && this.isDirty(this.currentRecord, this.model)) {
-        console.log('here');
         this.showMessageDialog({message: this.$t('DISCARD_CHANGES')})
         .then(() => {
           this.updateCurrentRecord(this.getEmptyModel(model));
@@ -76,6 +75,7 @@ const model = {
       }
       else {
         this.updateCurrentRecord(this.getEmptyModel(model));
+        this.mapStateToModel();
       }
     },
 
@@ -183,24 +183,6 @@ const model = {
       }
     },
 
-    selectTableItem(componentName, model, index) {
-      console.log(arguments);
-      this.showFormDialog(componentName, merge(this.getEmptyModel(componentName), model))
-      .then(result => {
-        if (index != null) this.$set(this.model[componentName], index, result);
-        else this.model[componentName].push(result);
-      }, err => {
-        console.err(err);
-        this.showMessage(this.$t('ADD_ITEM_FAILURE'));
-      })
-      .catch(() => {
-
-      })
-      .then(() => {
-        this.$dialog.close();
-      });
-    },
-
     isDirty(init, curr) {
       return !isEqual(init, curr);
     },
@@ -236,7 +218,6 @@ const model = {
       if (props && props.length) {
         ref = getNestedProperty(this.model, props.join('.'));
       }
-      console.log(ref);
       this.$set(props.length >= 1 ? ref : this.model, prop, value);
     },
 
@@ -252,8 +233,6 @@ const model = {
       this.showFormDialog(ref)
       .then(result => {
         ref = getNestedProperty(this.model, ref);
-
-        console.log(ref);
 
         // if it's a duplicate, fail
         // need to: for every item, check each non DB prop
@@ -280,7 +259,6 @@ const model = {
             this.showMessage(this.$t('DUPLICATE_ITEM'));
           }
           else {
-            console.log(result);
             ref.push(result);
           }
         }
@@ -289,6 +267,30 @@ const model = {
       })
       .catch(() => {
         this.showMessage(this.$t('ADD_ITEM_FAILURE'));
+      })
+      .then(() => {
+        this.$dialog.close();
+      });
+    },
+
+    // allows for updating a table item
+    selectTableItem(componentName, model, index) {
+      this.showFormDialog(componentName, merge(this.getEmptyModel(componentName), model))
+      .then(result => {
+        let ref = getNestedProperty(this.model, componentName);
+        console.log(ref);
+        if (index != null) this.$set(
+          ref,
+          index,
+          result
+        );
+        else ref.push(result);
+      }, err => {
+        console.err('made it here', err);
+        this.showMessage(this.$t('ADD_ITEM_FAILURE'));
+      })
+      .catch(err => {
+        console.log(err);
       })
       .then(() => {
         this.$dialog.close();

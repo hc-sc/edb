@@ -4,7 +4,7 @@
     <template v-else>
     <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
       <div class='f-container f-cross-start'>
-        <vue-button class='input-prefix' @click.native='assignPID("productpid")'>generate</vue-button>
+        <vue-button class='input-prefix' @click.native='assignPID("productpid")'>{{$t('generatepid')}}</vue-button>
         <span class='f-gap'></span>
         <vue-input type='text' id='productpid' :label='$t("productpid")' v-model='model.productpid' required disabled></vue-input>
       </div>

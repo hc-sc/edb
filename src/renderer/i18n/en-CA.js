@@ -60,6 +60,8 @@ export default {
   REGULATORY_AUTHORITY_FILE_INFORMATION: 'Regulatory Authority File Information',
   REGULATORY_AUTHORITY_DOCUMENT_INFORMATION: 'Regulatory Authority Document Information',
 
+  legalentities: 'Legal Entity | Legal Entities',
+
   [elements.ADMIN_NUMBER]: 'Admin Number',
   [elements.ADMIN_NUMBER_TYPE]: 'Admin Number Type',
   [elements.ALREADY_SUBMITTED]: 'Already Submitted',
@@ -131,7 +133,7 @@ export default {
   [elements.INTERNAL]: 'Internal',
   [elements.LASTNAME]: 'Lastname',
   [elements.LEGAL_ENTITIES]: 'Legal Entities',
-  [elements.LEGAL_ENTITY]: 'Legal Entity',
+  [elements.LEGAL_ENTITY]: 'Legal Entity | Legal Entities',
   [elements.LEGALENTITY_IDENTIFIER]: 'Legal Entity Identifier',
   [elements.LEGALENTITY_IDENTIFIER_TYPE]: 'Legal Entity Identifier Type',
   [elements.LEGALENTITY_NAME]: 'Legal Entity Name',
@@ -149,6 +151,7 @@ export default {
   [elements.OTHER_NATIONAL_GUIDELINE]: 'Other National Guideline',
   [elements.PHONE]: 'Phone',
   [elements.PRODUCT]: 'Product',
+  products: 'Products',
   [elements.PRODUCT_NAME]: 'Product Name',
   [elements.PRODUCT_PID]: 'Product PID',
   [elements.PRODUCT_RA]: 'Product RA',

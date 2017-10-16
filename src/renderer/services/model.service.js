@@ -100,8 +100,12 @@ const ModelService = {
 
       case 'dossierra':
         return _.merge({}, Object.assign(modelDossierRA.fields));
+
       case 'referenceddossier':
         return _.merge({}, Object.assign(modelReferencedDossier.fields));
+
+      case 'dossiercontext':
+        return _.merge({}, Object.assign(modelDossiercontext.fields));
 
       case 'document':
         model = _.merge({}, Object.assign(modelDocument.fields));
@@ -110,38 +114,40 @@ const ModelService = {
         model._docsourcetype = false;
         return model;
 
+      case 'documentra':
+        model = _.merge({}, Object.assign(modelDocumentRA.fields));
+        model.radocumentnumber = this.getModel('documentra.radocumentnumber');
+        return model;
+
+      case 'documentra.othernationalguideline':
+        return _.merge({}, Object.assign(modelOtherNationalGuideLine.fields));
+
+      case 'documentra.radocumentnumber':
+        model = _.merge({}, Object.assign(modelRaDocumentNumber.fields));
+        // model.dossiercontext = [];
+        return model;
+
+      case 'documentra.radocumentnumber.dossiercontext':
+        return _.merge({}, Object.assign(modelDossiercontext.fields));
+
       case 'documentgeneric':
         model = _.merge({}, Object.assign(modelDocumentGeneric.fields));
         model.documentissuedate = '';
         return model;
 
-      case 'documentra':
-        model = _.merge({}, Object.assign(modelDocumentRA.fields));
-        model.radocumentnumber = this.getModel('radocumentnumber');
-        model.dataprotection = '';
-        model.datarequirement = '';
-        return model;
-
-      case 'referenceddocument':
+      case 'documentgeneric.referenceddocument':
         model = _.merge({}, Object.assign(modelReferencedDocument.fields));
+        model.documentnumber = this.getModel('documentgeneric.documentnumber');
         return model;
-
-      case 'othernationalguideline':
-        return _.merge({}, Object.assign(modelOtherNationalGuideLine.fields));
-
-      case 'radocumentnumber':
-        model = _.merge({}, Object.assign(modelRaDocumentNumber.fields));
-        model.dossiercontext = [];
-        return model;
-
-      case 'dossiercontext':
-        return _.merge({}, Object.assign(modelDossiercontext.fields));
 
       case 'documentgeneric.documentnumber':
         return _.merge({}, Object.assign(modelDocumentNumber.fields));
 
-      case 'documentnumber':
-        return _.merge({}, Object.assign(modelDocumentNumber.fields));
+      case 'documentgeneric.relatedtosubstance':
+        return _.merge({}, Object.assign(modelRelatedToSubstance.fields));
+
+      case 'documentgeneric.referencedtofile':
+        return _.merge({}, Object.assign(modelReferencedToFile.fields));
 
       // case 'documentgeneric.documentcontentstatushistory':
       //     model = _.merge({}, Object.assign(modelDocumentContentStatusHistory.fields));
@@ -150,17 +156,6 @@ const ModelService = {
 
       // case 'documentcontentstatus':
       //   return _.merge({}, Object.assign(modelDocumentContentStatus.fields));
-
-      case 'documentgeneric.referenceddocument':
-        model =  _.merge({}, Object.assign(modelReferencedDocument.fields));
-        model.documentnumber = this.getModel('documentnumber');
-        return model;
-
-      case 'documentgeneric.relatedtosubstance':
-        return _.merge({}, Object.assign(modelRelatedToSubstance.fields));
-
-      case 'documentgeneric.referencedtofile':
-        return _.merge({}, Object.assign(modelReferencedToFile.fields));
 
       case 'sender':
         model = _.merge({}, Object.assign(modelSender.fields));

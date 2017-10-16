@@ -21,27 +21,27 @@ export default {
     pageNodes: function() {
       return [
         {
-          label: this.$tc('legalentity', 2),
+          label: this.$t('legalentities'),
           path: '/globals/legal-entities'
         },
         {
-          label: this.$tc('sender', 2),
+          label: this.$t('senders'),
           path: '/globals/senders'
         },
         {
-          label: this.$tc('receiver', 2),
+          label: this.$t('receivers'),
           path: '/globals/receivers'
         },
         {
-          label: this.$tc('substance', 2),
+          label: this.$t('substances'),
           path: '/globals/substances'
         },
         {
-          label: this.$tc('product', 2),
+          label: this.$t('products'),
           path: '/globals/products'
         },
         {
-          label: this.$tc('picklist', 2), path: '/globals/picklists'
+          label: this.$t('picklists', 2), path: '/globals/picklists'
         }
       ];
     }
