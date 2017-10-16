@@ -1,3 +1,0 @@
-{"k":"0000000103","o":"0000000445","v":"001"}
-{"_id":"59d7bd8aadfd32936d3951e5","_uid":1,"_dt":1507310986392,"_s":"26abe813f00f8d332cb6c98a9c11fc4d"}
-{"TYPE_NAME":"GHSTS.RECEIVERS.RECEIVER.SENDER","_id":{"$wrap":"$oid","v":"59d7bd8aadfd32936d3951e5"},"_url":"sender","_version":"","_state":"active","_created":{"$wrap":"$date","v":1507310986390,"h":"2017-10-06T17:29:46.390Z"},"_shortname":"fdsa","companycontactregulatoryrole":"","remark":"","toLegalEntityId":{"$wrap":"$oid","v":"59d7bce7a6880f90cace8ee5"},"_lastMod":{"$wrap":"$date","v":1507310986391,"h":"2017-10-06T17:29:46.391Z"},"__v":0}
