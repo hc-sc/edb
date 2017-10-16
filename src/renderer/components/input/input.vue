@@ -196,7 +196,7 @@ export default {
       );
     },
     empty() {
-      return this.value.length === 0;
+      return this.value == null || this.value.length === 0;
     },
     invalid() {
       return this.touched && (

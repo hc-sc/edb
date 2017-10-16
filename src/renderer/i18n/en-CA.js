@@ -95,7 +95,7 @@ export default {
   [elements.DOCUMENT_SOURCE]: 'Document Source',
   [elements.DOCUMENT_TITLE]: 'Document Title',
   [elements.DOCUMENT_VOLUME]: 'Document Volume',
-  [elements.DOCUMENT_YEAR]: 'Document Years',
+  [elements.DOCUMENT_YEAR]: 'Document Year',
   [elements.DOSSIER]: 'Dossier',
   [elements.DOSSIER_COMP_ID]: 'Dossier Company Id',
   [elements.DOSSIER_CONTEXT]: 'Dossier Context',

@@ -5,7 +5,7 @@
       <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
       <vue-split-pane>
         <div slot='split-pane-1'>
-          <vue-list-filter id='master-search' selectable @select='selectListItem' :items='records' :displayValue='doc => doc.documenttitle' :label='$t("search")' sortByArgs='documenttitle' :selectedItem='currentRecord'></vue-list-filter>
+          <vue-list-filter id='master-search' selectable @select='selectListItem' :items='records' :displayValue='doc => doc.documentgeneric.documenttitle' :label='$t("search")' sortByArgs='documenttitle' :selectedItem='currentRecord'></vue-list-filter>
         </div>
         <div slot='split-pane-2' class='pane'>
           <template v-if='shouldShowFields()'>
@@ -29,7 +29,7 @@
 
             <vue-table id='referencedtofile' :title='$t("referencedtofile")' :items='model.documentgeneric.referencedtofile' :headers='[{name: "toFileId", url: "file"}]' :displayHeader='displayTranslation' required addable @add='addTableItem("documentgeneric.referencedtofile")' @select='selectTableItem("referencedtofile", model.documentgeneric.referencedtofile[$event], $event)' @action='handleAction($event, model.documentgeneric.referencedtofiles)'></vue-table>
 
-            <vue-table id='documentinformation' :title='$t("REGULATORY_AUTHORITY_DOCUMENT_INFORMATION")' :items='model.documentra' :headers='[{name: "REGULATORY_AUTHORITY", url: "legalentity"}]' :displayHeader='displayTranslation' required addable @add='addTableItem("documentra")' @select='selectTableItem("documentra", model.documentra[$event], $event)' @action='handleAction($event, model.documentra)'></vue-table>
+            <vue-table id='documentinformation' :title='$t("REGULATORY_AUTHORITY_DOCUMENT_INFORMATION")' :items='model.documentra' :headers='[{name: "toSpecificForRAId", url: "legalentity"}]' :displayHeader='displayTranslation' required addable @add='addTableItem("documentra")' @select='selectTableItem("documentra", model.documentra[$event], $event)' @action='handleAction($event, model.documentra)'></vue-table>
 
             <vue-fieldset :legend='$t("documentsource")'>
               <vue-switch id='isCompleteSource' :label='$t("completedocumentsource")' :value='isCompleteSource' @input='isCompleteSource = $event'></vue-switch>
@@ -39,9 +39,9 @@
               </div>
 
               <div v-else>
-                <vue-input type='text' id='documentsource' :label='$t("documentsource")' v-model='model.documentgeneric.documentsource'></vue-input>
+                <vue-input type='text' id='documentsource' :label='$t("documentsource")' v-model='model.documentgeneric.documentsource' required></vue-input>
 
-                <vue-input type='text' id='documentyear' :label='$t("documentyear")' v-model='model.documentgeneric.documentyear' required></vue-input>
+                <vue-input type='number' id='documentyear' :label='$t("documentyear")' v-model='model.documentgeneric.documentyear' required :min='1900'></vue-input>
 
                 <vue-input type='text' id='documentissue' :label='$t("documentissue")' v-model='model.documentgeneric.documentissue' required></vue-input>
 

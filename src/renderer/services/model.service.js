@@ -47,35 +47,44 @@ const ModelService = {
     switch(prop) {
       case 'contactaddress':
         return _.merge({}, Object.assign(modelContactAddress.fields));
+
       case 'legalentityidentifier':
         return _.merge({}, Object.assign(modelLegalEntityIdentifier.fields));
+
       case 'contactperson':
         return _.merge({}, Object.assign(modelContactPerson.fields));
+
       case 'legalentity':
         model = _.merge({}, Object.assign(modelLegalEntity.fields));
         model.contactaddress = this.getModel('contactaddress');
         model._url = 'legalentity';
         return model;
+
       case 'substance':
         model = _.merge({}, Object.assign(modelSubstance.fields));
         model._url = prop;
         return model;
+
       case 'substanceidentifier':
         return _.merge({}, Object.assign(modelSubstanceIdentifier.fields));
+
       case 'file':
         model = _.merge({}, Object.assign(modelFile.fields));
         model._filereallocation = '';
         model.filegeneric = _.merge({}, Object.assign(modelFileGeneric.fields));
         model._url = prop;
         return model;
+
       case 'filera':
         return _.merge({}, Object.assign(modelFileRA.fields));
+
       case 'product':
         model = _.merge({}, Object.assign(modelProduct.fields));
         delete model.dossier;
         model.ingredients = {ingredient: []};
         model._url = 'product';
         return model;
+
       case 'productra':
         return _.merge({}, Object.assign(modelProductRA.fields));
 
@@ -174,6 +183,7 @@ const ModelService = {
       case 'toc':
         model = _.merge({}, Object.assign(modelTOC));
         model.standardtocreference = this.getModel('standardtocreference');
+        console.log(model);
         return model;
 
       case 'standardtocreference':
