@@ -32,7 +32,7 @@
             <vue-table id='documentinformation' :title='$t("REGULATORY_AUTHORITY_DOCUMENT_INFORMATION")' :items='model.documentra' :headers='[{name: "toSpecificForRAId", url: "legalentity"}]' :displayHeader='displayTranslation' required addable @add='addTableItem("documentra")' @select='selectTableItem("documentra", model.documentra[$event], $event)' @action='handleAction($event, model.documentra)'></vue-table>
 
             <vue-fieldset :legend='$t("documentsource")'>
-              <vue-switch id='isCompleteSource' :label='$t("completedocumentsource")' :value='isCompleteSource' @input='isCompleteSource = $event'></vue-switch>
+              <vue-switch id='isCompleteSource' :label='$t("completedocumentsource")' v-model='isCompleteSource'></vue-switch>
 
               <div v-if='isCompleteSource'>
                 <vue-input type='text' id='completedocumentsource' :label='$t("completedocumentsource")' v-model='model.documentgeneric.completedocumentsource' required></vue-input>

@@ -8,7 +8,7 @@
       <vue-tree :tree='currentTree' :getChildren='tree => tree.tocnode' :getLabel='tree => tree.nodename' :addable='addable' :onAdd='addNode'></vue-tree>
 
       <div class='bottom-float'>
-        <vue-button type='button' @click.native='showTOCData'>{{$t('TOC_DATA')}}</vue-button>
+        <vue-button type='button' @click.native='showTOCData()'>{{$t('TOC_DATA')}}</vue-button>
       </div>
     </template>
   </main>
@@ -31,11 +31,11 @@ import {model} from '@/mixins/model.js';
 import {BackendService} from '@/store/backend.service.js';
 
 export default {
-  name: 'TOC',
+  name: 'Toc',
   mixins: [model],
   data() {
     return {
-      toc: {label: 'TOC', children: []},
+      toc: {},
       fullTree: {},
       currentTree: {},
       documents: [],
@@ -47,10 +47,10 @@ export default {
       return ref === 'tocdata' ? TOCData : DocumentSelect;
     },
     showTOCData() {
-      this.showFormDialog('tocdata')
+      this.showFormDialog('tocdata', this.toc)
       .then(result => {console.log(result);})
       .catch(err => {console.error(err);})
-      .then(this.$dialog.close());
+      .then(() => this.$dialog.close());
     },
     addNode(tree) {
       if (!tree.tocnode || !tree.tocnode.length) {
@@ -61,7 +61,7 @@ export default {
         tree.tocnode.push({nodename: 'hello'});
       })
       .catch(err => console.log(err))
-      .then(this.$dialog.close());
+      .then(() => this.$dialog.close());
     },
     addable(tree) {
       return tree.documentreferences;
@@ -101,11 +101,11 @@ export default {
       this.$store.commit('ready');
     });
   },
-  watch: {
-    fullTree() {
-      this.nodes = this.mapNodes(this.nodes = [], this.fullTree);
-    }
-  },
+  // watch: {
+  //   fullTree() {
+  //     this.nodes = this.mapNodes(this.nodes = [], this.fullTree);
+  //   }
+  // },
   components: {
     'vue-button': Button,
     'vue-icon': Icon,

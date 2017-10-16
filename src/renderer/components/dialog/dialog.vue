@@ -133,10 +133,12 @@ export default {
       return new Promise((resolve, reject) => {
         if (component) {
           this.component = component;
+          console.log('this.component', this.component);
           this.$nextTick(() => {
             if (model) {
               this.$set(this.$refs['component'], 'model', model);
             }
+            this.expanded = true;
           });
         }
 
@@ -144,7 +146,7 @@ export default {
           this.content = message;
         }
 
-        this.expanded = true;
+        console.log('here');
 
         this.$refs['confirm'].$el.addEventListener('click', () => {
           resolve(this.confirm(this));
@@ -177,6 +179,11 @@ export default {
     bus.$on('hideDialog', () => {
       this.hide();
     });
+  },
+  watch: {
+    component(comp) {
+      this.component = comp;
+    }
   },
   components: {
     'vue-button': Button,

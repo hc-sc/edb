@@ -198,6 +198,7 @@ const model = {
     showFormDialog(componentName, model) {
       this.$dialog = this.$refs['dialog'];
       const component = this.getComponent(componentName);
+      console.log(this.$dialog, component);
       return this.$dialog.show({
         component,
         model: model ? cloneDeep(model) : null
