@@ -318,7 +318,6 @@ const model = {
   // Make sure to clean up before leaving, and prompt user if
   // unsaved changes
   beforeRouteLeave(to, from, next) {
-    console.log('here');
     // clean up records
     if(this.currentRecord != null && this.isDirty(this.currentRecord, this.model)) {
       console.log('is dirty');

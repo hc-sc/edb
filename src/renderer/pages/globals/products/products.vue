@@ -10,7 +10,7 @@
        <div slot='split-pane-2' class='pane'>
         <template v-if='shouldShowFields()'>
           <div class='f-container f-cross-start'>
-            <vue-button class='input-prefix' @click.native='assignPID("productpid")'>generate</vue-button>
+            <vue-button class='input-prefix' @click.native='assignPID("productpid")'>{{$t('generatepid')}}</vue-button>
             <span class='f-gap'></span>
             <vue-input type='text' id='productpid' :label='$t("productpid")' v-model='model.productpid' required disabled></vue-input>
           </div>

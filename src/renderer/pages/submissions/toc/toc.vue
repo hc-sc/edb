@@ -60,6 +60,7 @@ export default {
       }
       this.showFormDialog('document')
       .then(result => {
+        console.log(result);
         tree.tocnode.push({nodename: 'hello'});
       })
       .catch(err => console.log(err))

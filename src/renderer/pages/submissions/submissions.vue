@@ -29,27 +29,28 @@ export default {
     pageNodes: function() {
       return [
         {
-          label: this.$tc('submission', 1),
+          label: this.$t('submission'),
           path: '/submission'
         },
         {
-          label: `${this.$tc('sender', 2)}/${this.$tc('receiver', 2)}`,
+          label: `${this.$t('senders')}/${this.$t('receivers')}`,
           path: '/submission/senders-receivers'
         },
         {
-          label: this.$tc('dossier', 1),
+          label: this.$t('dossier'),
           path: '/submission/dossier'
         },
         {
-          label: this.$tc('product', 1),
+          label: this.$t('product'),
           path: '/submission/product'
         },
         {
-          label: this.$tc('file', 2),
+          label: this.$t('files'),
           path: '/submission/files'
         },
         {
-          label: this.$tc('document', 2), path: '/submission/documents'
+          label: this.$t('documents'),
+          path: '/submission/documents'
         },
         {
           label: this.$t('toc'),

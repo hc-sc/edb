@@ -41,7 +41,8 @@ export default {
           path: '/globals/products'
         },
         {
-          label: this.$t('picklists', 2), path: '/globals/picklists'
+          label: this.$tc('picklist', 2),
+          path: '/globals/picklists'
         }
       ];
     }
