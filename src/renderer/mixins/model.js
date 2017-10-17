@@ -198,7 +198,6 @@ const model = {
     showFormDialog(componentName, model) {
       this.$dialog = this.$refs['dialog'];
       const component = this.getComponent(componentName);
-      console.log(this.$dialog, component);
       return this.$dialog.show({
         component,
         model: model ? cloneDeep(model) : null
@@ -206,6 +205,7 @@ const model = {
     },
 
     showMessageDialog({message}) {
+      console.log('showing');
       this.$dialog = this.$refs['dialog'];
       return this.$dialog.show({message});
     },
@@ -318,16 +318,19 @@ const model = {
   // Make sure to clean up before leaving, and prompt user if
   // unsaved changes
   beforeRouteLeave(to, from, next) {
+    console.log('here');
     // clean up records
     if(this.currentRecord != null && this.isDirty(this.currentRecord, this.model)) {
+      console.log('is dirty');
       this.showMessageDialog({message: this.$t('DISCARD_CHANGES')})
       .then(() => {
         next();
-      })
+      }, err => console.error(err))
       .catch(() => {
         console.log('Route change cancelled');
       })
       .then(() => {
+        console.log('closing');
         this.$dialog.close();
       });
     }

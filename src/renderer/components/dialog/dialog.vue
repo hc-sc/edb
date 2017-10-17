@@ -133,12 +133,10 @@ export default {
       return new Promise((resolve, reject) => {
         if (component) {
           this.component = component;
-          console.log('this.component', this.component);
           this.$nextTick(() => {
             if (model) {
               this.$set(this.$refs['component'], 'model', model);
             }
-            this.expanded = true;
           });
         }
 
@@ -146,7 +144,9 @@ export default {
           this.content = message;
         }
 
-        console.log('here');
+        // since message dialogs don't need components, need to expand
+        // here
+        this.expanded = true;
 
         this.$refs['confirm'].$el.addEventListener('click', () => {
           resolve(this.confirm(this));

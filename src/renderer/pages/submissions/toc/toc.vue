@@ -3,7 +3,7 @@
     <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
     <vue-progress v-if='loading'></vue-progress>
     <template v-else>
-      <vue-select id='treefilter' :label='$t("SEARCH_TREE")' :options='nodes' :displayValue='o => o.name' :matchValue='o => o._id' ></vue-select>
+      <vue-select id='treefilter' :label='$t("SEARCH_TREE")' :options='nodes' :displayValue='o => o.name' :matchValue='matchBy("_id")' ></vue-select>
 
       <vue-tree :tree='currentTree' :getChildren='tree => tree.tocnode' :getLabel='tree => tree.nodename' :addable='addable' :onAdd='addNode'></vue-tree>
 
@@ -29,6 +29,7 @@ import TOCData from '@/pages/submissions/toc/toc-data.vue';
 import Tree from '@/components/tree/tree.vue';
 import {model} from '@/mixins/model.js';
 import {BackendService} from '@/store/backend.service.js';
+import {matchBy} from '@/services/utils.service.js';
 
 export default {
   name: 'Toc',
@@ -43,6 +44,7 @@ export default {
     };
   },
   methods: {
+    matchBy,
     getComponent(ref) {
       return ref === 'tocdata' ? TOCData : DocumentSelect;
     },
