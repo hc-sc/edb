@@ -9,9 +9,9 @@
         <vue-input type='text' id='productpid' :label='$t("productpid")' v-model='model.productpid' required disabled></vue-input>
       </div>
       <vue-input id='genericproductname' :label='$t("genericproductname")' v-model='model.genericproductname' required :max='255'></vue-input>
-      <vue-select-extensible id='formulationtype' :label='$t("formulationtype")' :options='formulationtype' :value='model.formulationtype' @input='model.formulationtype = $event._id' :matchValue='matchById' typeName='EXTENSION_TYPE_FORMULATION_TYPE' :displayValue='displayPicklistItem'></vue-select-extensible>
+      <vue-select-extensible id='formulationtype' :label='$t("formulationtype")' :options='formulationtype' :value='model.formulationtype' @input='model.formulationtype = $event._id' :matchValue='matchById' typeName='EXTENSION_TYPE_FORMULATION_TYPE' :displayValue='displayPicklistItem' required></vue-select-extensible>
       <vue-table id='ingredients' :title='$t("ingredients")' :items='model.ingredients.ingredient' :headers='[{name: "toSubstanceId", url: "substance"}, "quantity", {name: "unit", url: "picklist"}]' :displayHeader='displayTranslation' @select='selectTableItem("ingredient", model.ingredients.ingredient[$event], $event)' addable @add='addTableItem("ingredients.ingredient")' @action='handleAction($event, model.ingredients.ingredient)'></vue-table>
-      <vue-table id='productras' :title='$t("productra")' :items='model.productra' :headers='[{name: "toSpecificForRAId", url: "legalentity"}, "productname"]' :displayHeader='displayTranslation' @select='selectTableItem("productra", model.productra[$event], $event)' addable @add='addTableItem("productra")' @action='handleAction($event, model.productra)'></vue-table>
+      <vue-table id='productras' :title='$t("REGULATORY_AUTHORITY_PRODUCT_INFORMATION")' :items='model.productra' :headers='[{name: "toSpecificForRAId", url: "legalentity"}, "productname"]' :displayHeader='displayTranslation' @select='selectTableItem("productra", model.productra[$event], $event)' addable @add='addTableItem("productra")' @action='handleAction($event, model.productra)'></vue-table>
     </div>
     <div class='bottom-float'>
       <vue-icon fab @click.native='save("product")' id='save' :label='$t("save")' icon='save' position='top' :disabled='currentRecord == null'></vue-icon>

@@ -32,11 +32,20 @@ A recursive component that allows for nested children, such as a directory struc
       <li class='tree-item'>
         <div @click='toggle'>
           <span>
-            <i class='material-icons tree-icon' v-if='hasChildren' :class='{open}'>chevron_right</i>
-            <i class='material-icons tree-icon' v-if='addable(tree)' @click='onAdd(tree)'>add</i>
+            <i class='material-icons tree-icon' v-show='hasChildren' :class='{open}'>chevron_right</i>
+            <i class='material-icons tree-icon' v-show='addable(tree)' @click='addDoc'>add</i>
           </span>
           {{label}}
+          <span v-if='hasDocs'> ({{docs.length}})</span>
         </div>
+        <ul v-if='hasDocs' class='docs'>
+          <li v-for='(doc, index) of docs' :key='index'>
+            <div class='flex flex-row'>
+              <i class='material-icons tree-icon' @click='deleteDoc(index)'>delete</i>
+              <span>{{doc.documentgeneric.documenttitle}}</span>
+            </div>
+          </li>
+        </ul>
         <div v-if='hasChildren' v-show='open'>
           <vue-tree v-for='(child, index) of children' :key='index' :tree='child' :getChildren='getChildren' :getLabel='getLabel' :addable='addable' :onAdd='onAdd'>
           </vue-tree>
@@ -48,7 +57,6 @@ A recursive component that allows for nested children, such as a directory struc
 
 <script>
 import Icon from '@/components/icon/icon.vue';
-import {BackendService} from '@/store/backend.service.js';
 
 /** Modified from VueJS examples page
  * http://optimizely.github.io/vuejs.org/examples/tree-view.html
@@ -114,6 +122,12 @@ export default {
     },
     hasChildren() {
       return !!(this.children && this.children.length);
+    },
+    docs() {
+      return this.tree.toc2doc;
+    },
+    hasDocs() {
+      return !!(this.docs && this.docs.length);
     }
   },
   methods: {
@@ -133,21 +147,21 @@ export default {
     collapseAll() {
       this.$children.forEach(child => child.collapseAll());
       this.collapse();
+    },
+    deleteDoc(index) {
+      this.tree.toc2doc.splice(index, 1);
+    },
+    addDoc() {
+      this.onAdd(this.tree);
+      this.expand();
     }
   },
 
   // for recursive components, need to load the reference
   beforeCreate() {
     if(!this.$options.components['vue-tree']) {
-      this.$options.components['vue-tree'] = require('./tree.vue');
+      this.$options.components['vue-tree'] = require('./tree-toc.vue');
     }
-  },
-
-  async created() {
-    try {
-      this.documents = await BackendService.getAppData('document');
-    }
-    catch(err) {console.log(err);}
   },
 
   components: {
@@ -175,5 +189,10 @@ export default {
 
 .tree-icon.open {
   transform: rotate(90deg);
+}
+
+.docs {
+  margin-left: 20px;
+  list-style: none;
 }
 </style>

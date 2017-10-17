@@ -26,7 +26,7 @@ import Switch from '@/components/switch/switch.vue';
 import Progress from '@/components/progress/progress.vue';
 import Table from '@/components/table/table.vue';
 import TOCData from '@/pages/submissions/toc/toc-data.vue';
-import Tree from '@/components/tree/tree.vue';
+import Tree from '@/components/tree-toc/tree-toc.vue';
 import {model} from '@/mixins/model.js';
 import {BackendService} from '@/store/backend.service.js';
 import {matchBy} from '@/services/utils.service.js';
@@ -45,36 +45,77 @@ export default {
   },
   methods: {
     matchBy,
+
     getComponent(ref) {
       return ref === 'tocdata' ? TOCData : DocumentSelect;
     },
+
     showTOCData() {
       this.showFormDialog('tocdata', this.toc)
       .then(result => {console.log(result);})
       .catch(err => {console.error(err);})
       .then(() => this.$dialog.close());
     },
+
+    addable(tree) {
+      return tree.documentreferences;
+    },
+
     addNode(tree) {
-      if (!tree.tocnode || !tree.tocnode.length) {
-        this.$set(tree, 'tocnode', []);
+      if (!tree.toc2doc) {
+        this.$set(tree, 'toc2doc', []);
       }
       this.showFormDialog('document')
-      .then(result => {
-        console.log(result);
-        tree.tocnode.push({nodename: 'hello'});
+      .then(async result => {
+        if (result) {
+          let document = this.documents.find(doc => result.documentid == doc._id);
+
+          // don't allow duplicates
+          if (tree.toc2doc.findIndex(doc => doc._id === document._id) >= 0) {
+            this.showMessage(this.$t('DUPLICATE_DOCUMENTS'));
+          }
+          else {
+            try {
+              console.log(document._id, document.documentgeneric.documenttitle);
+              let thing = await BackendService.createGhsts({
+                _url: 'toc',
+                data: {
+                  tocnodepid: tree.tocnodepid,
+                  document: {
+                    _id: document._id,
+                    documenttitle: document.documentgeneric.documenttitle
+                  }
+                }
+              });
+              console.log(thing);
+              tree.toc2doc.push(document);
+            }
+            catch(err) {
+              this.showMessage(this.$t('SAVE_ERROR'));
+              console.error(err);
+            }
+          }
+        }
       })
       .catch(err => console.log(err))
       .then(() => this.$dialog.close());
     },
-    addable(tree) {
-      return tree.documentreferences;
+
+    deletable() {
+      return true;
     },
+
+    deleteNode(tree, index) {
+
+    },
+
     setTree(node) {
       const tree = this.findNode(this.fullTree, node.tocnodepid);
       if (tree != null) {
         this.currentTree = tree;
       }
     },
+
     findNode(tree, pid) {
       if (tree.tocnodepid && tree.tocnodepid === pid) return tree;
       if (!('tocnode' in tree)) return null;
@@ -84,17 +125,23 @@ export default {
       }
       return null;
     },
+
     mapNodes(list, tree) {
       list.push({name: tree.nodename, _id: tree.tocnodepid});
       if ('tocnode' in tree) tree.tocnode.forEach(node => this.mapNodes(list, node));
     }
   },
+
   beforeCreate() {
     this.$store.commit('loading');
   },
+
   async created() {
     this.updateCurrentUrl('toc');
     this.resetForm();
+
+    // NOTE: remove documents from here, unless we pass it into the
+    // documents dialog
     [this.toc, this.documents] = await Promise.all([
       (await BackendService.getAppData('toc'))[0],
       BackendService.callMethod('document', 'get', {_dossier: this.dossierid})
@@ -104,11 +151,7 @@ export default {
       this.$store.commit('ready');
     });
   },
-  // watch: {
-  //   fullTree() {
-  //     this.nodes = this.mapNodes(this.nodes = [], this.fullTree);
-  //   }
-  // },
+
   components: {
     'vue-button': Button,
     'vue-icon': Icon,

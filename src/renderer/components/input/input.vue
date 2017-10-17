@@ -223,8 +223,10 @@ export default {
   },
   methods: {
     toDate(value) {
+      if (value == null) return false;
+      console.log(value);
       if (!moment(value, [moment.ISO_8601], true).isValid()) return;
-      return moment(value).format('YYYY-MM-DD');
+      return moment.utc(value).format('YYYY-MM-DD');
     },
     reset() {
       this.cb('');
@@ -303,7 +305,6 @@ export default {
 }
 
 .input-field.invalid,
-.input-field[type=date]:invalid,
 .input-field[type=number]:invalid,
 body:not(.js) .input-field:invalid {
   border-bottom: 1px solid var(--error-color);

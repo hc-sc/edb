@@ -1,5 +1,5 @@
 <template>
-  <vue-select id='documents' :label='$t("documents")' :options='documents' :displayValue='o => o.documentgeneric.documenttitle' :matchValue='matchBy("_id")' :value='documentpid' @input='documentpid = $event._id' required></vue-select>
+  <vue-select id='documents' :label='$t("documents")' :options='documents' :displayValue='o => o.documentgeneric.documenttitle' :matchValue='matchBy("_id")' :value='model.documentid' @input='model.documentid = $event._id' required></vue-select>
 </template>
 
 <script>
@@ -11,7 +11,9 @@ export default {
   name: 'Document',
   data() {
     return {
-      documentpid: '',
+      model: {
+        documentid: '',
+      },
       documents: []
     };
   },

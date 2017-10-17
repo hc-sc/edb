@@ -100,7 +100,7 @@ The table is used to display grid-like and/or tabular data. You can provide an a
               <td v-if='viewable' class='icon-cell'>
                 <vue-icon :id='`${id}-row-${index}-view`' icon='view' :label='$t("view")' @click.native='onView(row.index)' :disabled='!row.viewable || false'></vue-icon>
               </td>
-              <td v-for='(header, headerIndex) of compHeaders' :key='headerIndex' @click='onSelect(row.index)'>{{row[header]}}</td>
+              <td v-for='(header, headerIndex) of headerKeys' :key='headerIndex' @click='onSelect(row.index)'>{{row[header]}}</td>
             </tr>
           </tbody>
         </table>
@@ -260,12 +260,12 @@ export default {
   computed: {
     compHeaders() {
       return this.headers.map(header => {
-        if (typeof header === 'string') {
-          return header;
-        }
-        else if ('name' in header) {
-          return header.name || header;
-        }
+        return header.name || header;
+      });
+    },
+    headerKeys() {
+      return this.headers.map(header => {
+        return header.key || header.name || header;
       });
     },
     count() {

@@ -5,7 +5,7 @@
     <template v-else>
       <vue-table :title='$t("receivers")' id='receivers' required addable
       @add='addReceiver' :headers='[{name: "toLegalEntityId", url: "legalentity"}, "shortname", "role"]' :displayHeader='displayTranslation' :items='receiversData' @select='selectReceiver'></vue-table>
-      <vue-table v-if='selectedReceiver' :title='$t("sender")' id='senders' required addable @add='addSender($event)' :items='sendersData' :headers='[{name: "toLegalEntityId", url: "legalentity"}, "shortname", "companycontactregulatoryrole", "remark"]' :displayHeader='displayTranslation'></vue-table>
+      <vue-table v-if='selectedReceiver' :title='$t("sender")' id='senders' required addable @add='addSender($event)' :items='sendersData' :headers='[{key: "toLegalEntityId", name: "legalentity", url: "legalentity"}, "shortname", "companycontactregulatoryrole", "remark"]' :displayHeader='displayTranslation' @select='selectSender($event)' @action='handleAction($event, sendersData)'></vue-table>
       <p v-if='receiversData && receiversData.length && selectedReceiver == null'>{{$t('SELECT_TO_BEGIN')}}</p>
       <p v-else-if='selectedReceiver == null'>{{$t('ADD_TO_BEGIN')}}</p>
       <div class='bottom-float'>
@@ -55,6 +55,9 @@ export default {
       })
       .then(() => this.$dialog.close());
     },
+    selectReceiver(index) {
+      this.selectedReceiver = this.receiversData[index];
+    },
     addSender() {
       this.showFormDialog('sender')
       .then(({sender}) => {
@@ -65,8 +68,15 @@ export default {
       })
       .then(() => this.$dialog.close());
     },
-    selectReceiver(index) {
-      this.selectedReceiver = this.receiversData[index];
+    selectSender(index) {
+      this.showFormDialog('sender')
+      .then(({sender}) => {
+        this.$set(this.sendersData, index, sender);
+      })
+      .catch(err => {
+        console.error(err);
+      })
+      .then(() => this.$dialog.close());
     },
     getComponent(name) {
       return name === 'receiver' ? Receiver : Sender;
