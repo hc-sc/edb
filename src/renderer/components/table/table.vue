@@ -366,48 +366,56 @@ export default {
         let mappedRow = {};
         let result, cellData;
         for (let header of projection) {
+          // we can pass either a string or an object as headers
+          // if it's a string, just use it as the key and header
+          // if it's an object, need to use:
+          // the 'key' prop is used for value retrieval from items
+          // the 'name' prop is used with displayHeader to control it's look,
+          // or as both if 'key' is not present
+          const key = header.key || header.name || header;
+
           // if the header is a string, use that as the prop
           if (typeof header === 'string') {
-            cellData = row[header];
+            cellData = row[key];
           }
 
           // if it's not a string, need to retrieve the value from DB
           else {
-            const name = row[header.name];
+            const value = row[key];
 
             // get matching picklist item from store
             if (header.url === 'picklist') {
-              let item = this.getPicklistItem(name);
+              let item = this.getPicklistItem(value);
               if (item != null) {
                 cellData = item.valuedecode;
               }
 
-              // fallback to original value
+              // fallback
               else {
-                cellData = name;
+                cellData = undefined;
               }
             }
 
             // get matching app data item
             else {
               try {
-                result = await BackendService.searchAppData(header.url, {_id: row[header.name]});
+                result = await BackendService.searchAppData(header.url, {_id: value});
                 if (result[0] && 'valuedecode' in result[0]) {
                   cellData = result[0]['valuedecode'];
                 }
 
-                // fallback to original value
+                // fallback
                 else {
-                  cellData = row[header.name];
+                  cellData = undefined;
                 }
               }
               catch(err) {
-                cellData = row[header.name];
+                cellData = undefined;
               }
             }
           }
 
-          if (cellData && cellData.constructor === Object) cellData = 'null';
+          if (cellData && cellData.constructor === Object) cellData = null;
 
           // replace ISO dates with more human readable versions
           let date = moment(cellData, moment.ISO_8601, true);
@@ -415,14 +423,14 @@ export default {
 
           // MUST add these keys to allow for CSS and parent handling of actions
           mappedRow.selected = row.selected;
-          mappedRow.deletable = row.deletable;
-          mappedRow.editable = row.editable;
-          mappedRow.viewable = row.viewable;
+          mappedRow.deletable = this.isDeletable(row);
+          mappedRow.editable = this.isEditable(row);
+          mappedRow.viewable = this.isViewable(row);
 
           // with the index, we can easily configure deleting
           mappedRow.index = index;
 
-          mappedRow[typeof header === 'object' ? header.name : header] = cellData;
+          mappedRow[key] = cellData;
         }
 
         return mappedRow;
