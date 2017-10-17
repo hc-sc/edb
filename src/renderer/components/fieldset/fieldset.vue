@@ -18,7 +18,10 @@ Used to wrap forms (or nested form models) in a fieldset
 <template>
   <vue-card>
     <fieldset class='fieldset'>
-      <legend class='h4 fieldset-legend'>{{legend}}</legend>
+      <legend class='h4 fieldset-legend'>
+        {{legend}}
+        <span v-if='required'> *</span>
+      </legend>
       <div class='fieldset-items'>
         <slot></slot>
       </div>
@@ -34,6 +37,12 @@ export default {
   props: {
     legend: {
       type: String
+    },
+    required: {
+      type: Boolean,
+      default() {
+        return false;
+      }
     }
   },
   components: {

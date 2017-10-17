@@ -77,7 +77,7 @@ The table is used to display grid-like and/or tabular data. You can provide an a
         </div>
       </div>
       <div class='table-wrapper'>
-        <table class='table-table' v-if='!loading && rows && rows.length'>
+        <table class='table-table'>
           <thead>
             <tr>
               <th v-if='deletable' class='icon-cell'></th>
@@ -104,10 +104,7 @@ The table is used to display grid-like and/or tabular data. You can provide an a
             </tr>
           </tbody>
         </table>
-        <p v-else-if='!loading'>
-          <span v-if='required' :class='{"error-text": required}'>{{required ? $t('requireoneitem') : $t('noitems')}}</span>
-        </p>
-        <vue-progress v-else></vue-progress>
+        <span v-if='!loading && (rows == null || rows.length === 0) && required' :class='{"error-text": required}'>{{required ? $t('requireoneitem') : $t('noitems')}}</span>
       </div>
       <div v-if='pageable && rows && rows.length' class='table-pagination f-container f-middle'>
         <vue-select :id='`${id}-pagesize`' label='Page Size' :options='["1", "5", "10", "20"]' v-model='pageSize'></vue-select>
