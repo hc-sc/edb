@@ -79,6 +79,7 @@ export default {
               _url: 'toc',
               data: {
                 tocnodepid: tree.tocnodepid,
+                docid: document._id,
                 document: {
                   _id: document._id,
                   documenttitle: document.documentgeneric.documenttitle
