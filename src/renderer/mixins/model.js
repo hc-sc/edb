@@ -28,11 +28,13 @@ const model = {
       dossierid: state => state.app.dossierid
     })
   },
-  watch: {
-    stateModel() {
-      this.mapStateToModel();
-    }
-  },
+
+  // MIGHT NOT BE NEEDED
+  // watch: {
+  //   stateModel() {
+  //     this.mapStateToModel();
+  //   }
+  // },
   methods: {
     // pull these out so we can directly call them. Actions can be thennable
     ...mapMutations('app', ['updateCurrentRecord', 'updateCurrentUrl', 'updateAppRecords']),
