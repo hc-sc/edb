@@ -4,12 +4,12 @@
     <vue-progress v-if='loading'></vue-progress>
     <template v-else>
       <vue-table :title='$t("receivers")' id='receivers' required addable
-      @add='addReceiver' :headers='[{name: "toLegalEntityId", url: "legalentity"}, "shortname", "role"]' :displayHeader='displayTranslation' :items='receiversData' @select='selectReceiver'></vue-table>
-      <vue-table v-if='selectedReceiver' :title='$t("sender")' id='senders' required addable @add='addSender($event)' :items='sendersData' :headers='[{key: "toLegalEntityId", name: "legalentity", url: "legalentity"}, "shortname", "companycontactregulatoryrole", "remark"]' :displayHeader='displayTranslation' @select='selectSender($event)' @action='handleAction($event, sendersData)'></vue-table>
-      <p v-if='receiversData && receiversData.length && selectedReceiver == null'>{{$t('SELECT_TO_BEGIN')}}</p>
+      @add='addReceiver' :headers='[{name: "toLegalEntityId", url: "legalentity"}, "shortname", "role"]' :displayHeader='displayTranslation' :items='model' @select='selectReceiver' @action='handleAction($event, model)'></vue-table>
+      <vue-table v-if='selectedReceiver' :title='$t("sender")' id='senders' required addable @add='addSender($event)' :items='selectedReceiver._senders' :headers='[{key: "toLegalEntityId", name: "legalentity", url: "legalentity"}, "shortname", "companycontactregulatoryrole", "remark"]' :displayHeader='displayTranslation' @select='selectSender($event)' @action='handleAction($event, selectedReceiver._senders)'></vue-table>
+      <p v-if='receivers && receivers.length && selectedReceiver == null'>{{$t('SELECT_TO_BEGIN')}}</p>
       <p v-else-if='selectedReceiver == null'>{{$t('ADD_TO_BEGIN')}}</p>
       <div class='bottom-float'>
-        <vue-icon fab @click.native='saveReceiver' id='save' :label='$t("save")' icon='save' position='top'></vue-icon>
+        <vue-icon fab @click.native='save' id='save' :label='$t("save")' icon='save' position='top'></vue-icon>
         <vue-icon fab @click.native='revert' id='undo' :label='$t("revert")' icon='undo' position='top'>
         </vue-icon>
       </div>
@@ -20,6 +20,7 @@
 <script>
 import Icon from '@/components/icon/icon.vue';
 import Input from '@/components/input/input.vue';
+import Progress from '@/components/progress/progress.vue';
 import Receiver from '@/pages/submissions/senders-receivers/receiver.vue';
 import Select from '@/components/select/select.vue';
 import SelectExtensible from '@/components/select-extensible/select-extensible.vue';
@@ -28,96 +29,144 @@ import SplitPane from '@/components/split-pane/split-pane.vue';
 import Switch from '@/components/switch/switch.vue';
 import Table from '@/components/table/table.vue';
 import {model} from '@/mixins/model.js';
-import {mapGetters} from 'vuex';
+import {BackendService} from '@/store/backend.service.js';
+import {mapState, mapGetters, mapActions} from 'vuex';
+import {cloneDeep} from 'lodash';
 
 export default {
   name: 'SendersReceivers',
   mixins: [model],
   data() {
     return {
-      receiversData: [],
-      sendersData: [],
+      model: [],
+      receivers: [],
+      ghstsReceivers: [],
       selectedReceiver: null,
-      model: this.getEmptyModel('receiver')
     };
   },
   computed: {
-    ...mapGetters('app', ['receivers', 'senders']),
+    ...mapState('app', ['ghsts']),
+    ...mapGetters('app', ['senders'])
   },
   methods: {
+    ...mapActions('app', ['updateCurrentGhsts']),
+
     addReceiver() {
       this.showFormDialog('receiver')
-      .then(async ({receiver}) => {
-        this.receiversData.push(receiver);
+      .then(async (receiver) => {
+        this.$set(receiver, '_senders', []);
+        this.model.push(receiver);
       })
       .catch(err => {
         console.error(err);
       })
       .then(() => this.$dialog.close());
     },
+
     selectReceiver(index) {
-      this.selectedReceiver = this.receiversData[index];
+      this.selectedReceiver = this.model[index];
     },
+
     addSender() {
       this.showFormDialog('sender')
-      .then(({sender}) => {
-        this.sendersData.push(sender);
+      .then(sender => {
+        this.selectedReceiver._senders.push(sender);
+        console.log('here');
       })
       .catch(err => {
         console.error(err);
       })
       .then(() => this.$dialog.close());
     },
+
     selectSender(index) {
-      this.showFormDialog('sender')
-      .then(({sender}) => {
-        this.$set(this.sendersData, index, sender);
+      this.showFormDialog('sender', this.selectedReceiver._senders[index])
+      .then(sender => {
+        console.log(sender);
+        this.$set(this.selectedReceiver._senders, index, sender);
       })
       .catch(err => {
         console.error(err);
       })
       .then(() => this.$dialog.close());
     },
+
     getComponent(name) {
       return name === 'receiver' ? Receiver : Sender;
     },
-    saveReceiver() {
-      console.log('saving');
+
+    save() {
+      let newGhsts = cloneDeep(this.ghsts);
+      newGhsts._receiver = this.model.map(receiver => {
+        return {
+          receiver: receiver._id,
+          sender: receiver._senders.map(sender => sender._id)
+        };
+      });
+
+      console.log(newGhsts);
+      this.updateCurrentGhsts(newGhsts)
+      .then(async () => {
+        this.updateCurrentRecord(await this.initReceivers());
+        this.mapStateToModel();
+      })
+      .catch(err => {
+        this.showMessage(this.$t('ERROR'));
+        console.error(err);
+      });
+    },
+
+    // used to convert the ghsts structure of
+    // _receivers: {
+    //   receiver: <id>
+    //   sender: [<id>]
+    // }
+    // into
+    // this.receivers: {
+    //   ...receiverData
+    //   _senders: [<id>]
+    // }
+    // so we can populate the table data and manage senders.
+    // This is cloned to be able to revert.
+    async initReceivers() {
+      console.log(this.ghsts._receiver);
+      let receivers = await Promise.all(this.ghsts._receiver.map(async receiver => {
+        let obj = {};
+        obj = (await BackendService.getAppData('receiver', receiver.receiver))[0];
+        obj._senders = await this.initSenders(receiver.sender);
+        return obj;
+      }));
+      return receivers;
+    },
+
+    async initSenders(senderIds) {
+      return await BackendService.searchAppData('sender', {where: senderIds});
     }
   },
   watch: {
-    async selectedReceiver() {
-      try {
-        this.sendersData = [];
-        // this.sendersData = await BackendService.getAppData('sender', {where: this.selectedReceiver['sender']});
-      }
-      catch(err) {
-        console.log(err);
+    // need to remove the selectedReceiver if was deleted
+    model() {
+      if (this.selectedReceiver != null &&
+          !this.model.find(receiver => receiver._id === this.selectedReceiver._id
+        )) {
+        this.selectedReceiver = null;
       }
     }
   },
+  beforeCreate() {
+    this.$store.commit('loading');
+  },
   async created() {
     this.updateCurrentUrl('receiver');
-    try {
-      let ids = [];
-      if (this.receivers && this.receivers.length) {
-        ids = this.receivers.map(receiverData => receiverData.receiver);
-      }
-      if (ids && ids.length) {
-        this.receiversData = this.getAppData('receiver', {where: ids});
-      }
-      console.log(this.receiversData);
-      // this.updateCurrentRecord(this.mergeModelAndRecord(this.getEmptyModel('submission'), model));
-      // this.mapStateToModel();
-    }
-    catch(err) {
-      this.showMessage('ERROR');
-    }
+    this.resetForm();
+    this.updateCurrentRecord(await this.initReceivers());
+    this.mapStateToModel();
     this.$store.commit('ready');
   },
   components: {
     'vue-icon': Icon,
     'vue-input': Input,
+    'vue-progress': Progress,
     'vue-select': Select,
     'vue-select-extensible': SelectExtensible,
     'vue-split-pane': SplitPane,

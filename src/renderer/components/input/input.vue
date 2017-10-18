@@ -224,8 +224,7 @@ export default {
   methods: {
     toDate(value) {
       if (value == null) return false;
-      console.log(value);
-      if (!moment(value, [moment.ISO_8601], true).isValid()) return;
+      if (!moment(value, [moment.ISO_8601], true).isValid()) return false;
       return moment.utc(value).format('YYYY-MM-DD');
     },
     reset() {

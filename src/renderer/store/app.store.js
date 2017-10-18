@@ -66,9 +66,17 @@ const app = {
     updateDossierData(state, {dossiertitle, dossierid}) {
       state.dossiertitle = dossiertitle;
       state.dossierid = dossierid;
+    },
+    addReceiver(state, receiver) {
+      state.ghsts._receiver.push(receiver);
+    },
+    addSender(state, {receiver, sender}) {
+      let rec = state.ghsts._receiver.find(r => r._id === receiver._id);
+      rec.push(sender);
     }
   },
 
+  // don't try/catch these so we can .catch them where they are used
   actions: {
     async getAppDataAll({commit}, {url, sortBy, desc = false}) {
       let records = await BackendService.getAppDataAll(url);
@@ -88,10 +96,9 @@ const app = {
       return await BackendService.createAppData(url, model);
     },
 
-    // async updateSubmission({commit}, {url, model}) {
-    //   let submission = await BackendService.updateGhsts({});
-    //   commit('updateCurrentSubmission', submission);
-    // }
+    async updateCurrentGhsts({commit}, ghsts) {
+      commit('updateCurrentGhsts', await BackendService.updateGhsts(ghsts));
+    }
   }
 };
 

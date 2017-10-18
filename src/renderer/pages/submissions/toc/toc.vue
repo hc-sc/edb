@@ -75,20 +75,21 @@ export default {
             this.showMessage(this.$t('DUPLICATE_DOCUMENTS'));
           }
           else {
-            try {
-              console.log(document._id, document.documentgeneric.documenttitle);
-              let thing = await BackendService.createGhsts({
-                _url: 'toc',
-                data: {
-                  tocnodepid: tree.tocnodepid,
-                  document: {
-                    _id: document._id,
-                    documenttitle: document.documentgeneric.documenttitle
-                  }
+            let nodeData = {
+              _url: 'toc',
+              data: {
+                tocnodepid: tree.tocnodepid,
+                document: {
+                  _id: document._id,
+                  documenttitle: document.documentgeneric.documenttitle
                 }
-              });
-              console.log(thing);
-              tree.toc2doc.push(document);
+              }
+            };
+
+            try {
+              console.log(nodeData);
+              await BackendService.createGhsts(nodeData);
+              // tree.toc2doc.push(document);
             }
             catch(err) {
               this.showMessage(this.$t('SAVE_ERROR'));

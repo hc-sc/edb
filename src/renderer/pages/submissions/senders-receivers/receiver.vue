@@ -1,5 +1,5 @@
 <template>
-  <vue-select id='receiver' :options='receivers' :label='$tc("receiver", 2)' :displayValue='o => o.shortname' :value='model.receiver._id' @input='model.receiver = $event' :matchValue='matchBy("_id")'></vue-select>
+  <vue-select id='receiver' :options='receivers' :label='$tc("receiver", 2)' :displayValue='o => o.shortname' :value='model._id' @input='model = $event' :matchValue='matchBy("_id")'></vue-select>
 </template>
 
 <script>
@@ -13,9 +13,7 @@ export default {
   mixins: [model],
   data() {
     return {
-      model: {
-        receiver: this.getEmptyModel('receiver')
-      },
+      model: this.getEmptyModel('receiver'),
       receivers: []
     };
   },

@@ -7,7 +7,7 @@
         <div class='f-container f-cross-start'>
           <vue-button class='input-prefix' @click.native='assignPID("dossierpid")'>{{$t("generatepid")}}</vue-button>
           <span class='f-gap'></span>
-          <vue-input type='text' id='dossierpid' :label='$t("dossierpid")' v-model='model.dossierpid' required disabled></vue-input>
+          <vue-input type='text' id='dossierpid' :label='$t("dossierpid")' v-model='model.dossierpid' required></vue-input>
         </div>
         <vue-input id='dossiercompid' :label='$t("dossiercompid")' v-model='model.dossiercompid' required></vue-input>
         <vue-input id='dossierdescriptiontitle' :label='$t("dossierdescriptiontitle")' v-model='model.dossierdescriptiontitle' required></vue-input>
