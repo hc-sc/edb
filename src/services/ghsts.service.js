@@ -695,7 +695,7 @@ module.exports = class GhstsService extends BaseService {
             rej(new RVHelper('EDB12014'));
           else if (svr) {
             obj._ghsts = self.ghsts[0]._id;
-            svr.edb_put(obj)
+            svr.edb_post(obj)
               .then(ret => {
                 res(ret);
               })
@@ -703,7 +703,7 @@ module.exports = class GhstsService extends BaseService {
                 rej(err);
               });
           } else if (needUpdate) {
-            super.edb_post(self.ghsts[0])
+            super.edb_put(self.ghsts[0])
               .then(ret => {
                 res(new RVHelper('EDB00000', self.ghsts[0]));
               })
@@ -751,11 +751,11 @@ module.exports = class GhstsService extends BaseService {
           });
           if (svr) {
             if (obj._ghsts === self.ghsts[0]._id)
-              res(svr.edb_post(obj));
+              res(svr.edb_put(obj));
             else {
               obj._ghsts = self.ghsts[0]._id;
               delete obj._id;
-              res(svr.edb_put(obj));
+              res(svr.edb_post(obj));
             }
           } else {
             if (subUrlObj.senderId) {
@@ -771,7 +771,7 @@ module.exports = class GhstsService extends BaseService {
               curProp[curEntityIndex][subUrlObj.subUrl] = obj._id.toString();
               curMdsProp[curMdsIndex]['elementid'] = obj._id.toString();
             }
-            res(self.edb_post(self.ghsts[0]));
+            res(self.edb_put(self.ghsts[0]));
           }
         } else {
           rej(new RVHelper('EDB12013'));
@@ -856,7 +856,7 @@ module.exports = class GhstsService extends BaseService {
             if (subUrlObj.subUrl === 'submission')
               res(self._deleteSubmission(obj));
             else
-              res(super.edb_post(self.ghsts[0]));
+              res(super.edb_put(self.ghsts[0]));
           } else
             res(new RVHelper('EDB00000'));
         } else {
@@ -1259,7 +1259,7 @@ module.exports = class GhstsService extends BaseService {
             rej(err);
           });
       } else
-        res(super.edb_post(obj));
+        res(super.edb_put(obj));
     });
   }
 
@@ -1289,7 +1289,7 @@ module.exports = class GhstsService extends BaseService {
         })
         .then(() => {
           dosObj.submission.splice(dosObj.submission.length - 1, 1);
-          return dossierService.edb_post(dosObj);
+          return dossierService.edb_put(dosObj);
         })
         .then(dossierRet => {
           res(dossierRet);
