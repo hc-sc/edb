@@ -137,9 +137,8 @@ const BackendService = {
   // ************************
   //Call ghsts 'put' to put the whole object
   //For update receiver
-  //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'receiver'
-  //  data: all receivers for the submission
-  //
+  //  the ghsts obj
+  //  
   //For update document at Dossier Screen
   //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'document'
   //  data: the new document object
