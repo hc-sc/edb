@@ -19,7 +19,7 @@
 
           <vue-select-extensible id='legalentitytype' :label='$t("legalentitytype")' typeName='EXTENSION_TYPE_LEGALENTITY_TYPE' :value='model.legalentitytype' @input='model.legalentitytype = $event._id' :options='legalentitytype' :displayValue='displayPicklistItem' :matchValue='matchById' required></vue-select-extensible>
 
-          <vue-chips deletable unique id='othername' :label='$tc("othername", 1)' v-model='model.othername'></vue-chips>
+          <vue-chips deletable unique id='othername' :label='$tc("othername", 1)' v-model='model.othername' :max='2' :maxLength='2'></vue-chips>
 
           <vue-table :title='$t("legalentityidentifier")' :items='model.legalentityidentifier' :headers='[{name: "legalentityidentifiertype", url: "picklist"}, "identifier"]' id='legalentityidentifier' :displayHeader='displayTranslation' addable @select='selectTableItem("legalentityidentifier", model.legalentityidentifier[$event], $event)' @add='addTableItem("legalentityidentifier")' @action='handleAction($event, model.legalentityidentifier)'></vue-table>
 

@@ -53,8 +53,11 @@ export default {
     this.updateCurrentUrl('dossier');
     this.resetForm();
     try {
-      let model = (await BackendService.getAppData('dossier', this.dossierid))[0];
-      this.updateCurrentRecord(this.mergeModelAndRecord(this.getEmptyModel('dossier'), model));
+      // check this line
+      console.log(this.getEmptyModel('dossier'));
+      let model = await BackendService.getAppData('dossier', this.dossierid);
+      console.log(model, this.getEmptyModel('dossier'), this.model);
+      this.updateCurrentRecord(this.mergeModelAndRecord(this.getEmptyModel('dossier'), model[0]));
       this.mapStateToModel();
     }
     catch(err) {

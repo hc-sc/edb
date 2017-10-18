@@ -65,7 +65,7 @@ Chips are method of displaying simple lists, including the options to add and re
         </li>
         <li class='chips-input-group'>
           <label :for='`${id}-input`' class='v-hidden'>{{label}}</label>
-          <input :id='`${id}-input`' ref='input' :name='compName' class='chips-input' :placeholder='label' @focus='focusedIndex = focusable.length - 1' @keydown.enter.prevent.stop='addItem' v-model='currValue' :autocomplete='autocomplete' :list='`${id}-options`' :disabled='disabled' :max='maxChipLength'>
+          <input :id='`${id}-input`' ref='input' :name='compName' class='chips-input' :placeholder='label' @focus='focusedIndex = focusable.length - 1' @keydown.enter.prevent.stop='addItem' v-model='currValue' :autocomplete='autocomplete' :list='`${id}-options`' :disabled='disabled'>
         </li>
       </ul>
       <div class='chips-actions' v-if='!disabled' :aria-controls='id'>
@@ -154,10 +154,10 @@ export default {
       type: Boolean,
       default: false
     },
-    maxChips: {
+    max: {
       type: Number
     },
-    maxChipLength: {
+    maxLength: {
       type: Number
     }
   },
@@ -181,7 +181,7 @@ export default {
       }
     },
     addItem() {
-      if (this.maxChips != null && this.chips.length >= this.maxChips) return;
+      if (this.max != null && this.chips.length >= this.max) return;
       if (this.disabled) return;
       const text = this.currValue.trim();
       if (text.length === 0) return;

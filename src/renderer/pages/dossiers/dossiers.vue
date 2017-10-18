@@ -72,7 +72,8 @@ export default {
     },
     async selectSubmission(index) {
       this.updateDossierData({dossiertitle: this.dossier.dossierdescriptiontitle, dossierid: this.dossier._id});
-      this.sub = (await BackendService.getGhsts({_submissionid: this.submissions[index]._id}))[0];
+      this.sub = await BackendService.getGhsts({_submissionid: this.submissions[index]._id});
+      this.sub = this.sub[0];
       this.goToSubmission();
     },
     goToSubmission() {
