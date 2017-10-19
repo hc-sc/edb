@@ -115,6 +115,10 @@ img {
   flex: 1;
 }
 
+.flex-row {
+  flex-direction: row;
+}
+
 /* Block Elements */
 .b-center {
   margin: 0 auto;

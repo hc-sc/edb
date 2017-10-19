@@ -6,39 +6,50 @@
     </vue-header>
     <main class='pane'>
       <vue-select id='language' :label='$tc("language", 1)' v-model='locale' :options='languages'></vue-select>
+      <vue-input id='pidprefix' :label='$t("PID_PREFIX")' v-model='pidprefix' disabled></vue-input>
+      <!-- <div class=' flex flex-row'>
+        <vue-button type='button' @click.native='selectFolder("packagelocation")'>{{$t('PACKAGE_LOCATION')}}</vue-button>
+        <vue-input id='packagelocation' :label='$t("FILE_PATH")' v-model='packagelocation'></vue-input>
+      </div> -->
     </main>
   </div>
-  <!-- <div class='container'>
-    <vue-header :title='$t("settings")'></vue-header>
-    <label for='locale'>{{$tc('language', 1)}}</label>
-    <select name='locale' v-model='locale'>
-      <option value='en-CA'>English</option>
-      <option value='fr-CA'>Français</option>
-      <option value='de-DE' disabled>Deutsch</option>
-      <option value='jp-JP' disabled>日本語</option>
-    </select>
-  </div> -->
 </template>
 
 <script>
+import Button from '@/components/button/button.vue';
+import Input from '@/components/input/input.vue';
 import Header from '@/components/header/header.vue';
 import History from '@/components/history/history.vue';
 import Select from '@/components/select/select.vue';
 import {navigation} from '@/mixins/navigation.js';
+import {BackendService} from '@/store/backend.service.js';
 
 export default {
   name: 'Settings',
   mixins: [navigation],
   data() {
     return {
+      pidprefix: 'ghsts',
+      packagelocation: '',
       locale: this.$i18n.locale,
       languages: [
         {label: 'English', value: 'en-CA'},
-        {label: 'Francais', value: 'fr-CA'},
+        {label: 'Francais', value: 'fr-CA', disabled: true},
         {label: '日本語', value: 'jp-JP', disabled: true},
         {label: 'Deutsch', value: 'de-DE', disabled: true}
       ]
     };
+  },
+  methods: {
+    selectFolder(item) {
+      BackendService.callMethod('file', 'selectFolder')
+      .then(result => {
+
+      })
+      .catch(err => {
+        console.error(err);
+      });
+    }
   },
   watch: {
     locale(item) {
@@ -46,6 +57,8 @@ export default {
     }
   },
   components: {
+    'vue-button': Button,
+    'vue-input': Input,
     'vue-header': Header,
     'vue-history': History,
     'vue-select': Select
