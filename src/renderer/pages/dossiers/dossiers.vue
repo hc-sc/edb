@@ -6,8 +6,8 @@
     </vue-header>
     <main class='pane'>
       <vue-dialog ref='dialog' id='dialog'></vue-dialog>
-      <vue-table id='dossiers' :title='$tc("dossier", 2)' addable @addTableItem='addDossier' :items='mappedDossiers' :headers='["dossierdescriptiontitle", "productname", "metadatastatus", {key: "_created", name: "created"}, "lastmodified"]' :displayHeader='$t' initialSortBy='dossierdescriptiontitle' :initialDesc='true' @select='selectDossier($event)' editable @add='addDossier' @action='handleAction($event, dossiers)' :isEditable='e => e.editable' :isDeletable='e => e.deletable'></vue-table>
-      <vue-table v-if='dossier' id='submissions' :title='$tc("submission", 2)' addable @addTableItem='addSubmission' @select='selectSubmission($event)' :items='dossier.submission' :headers='["submissiontitle", "submissionnumber", "metadatastatus", "_created", "lastmodified"]':displayHeader ='$t' editable viewable @action='handleAction($event, dossier)'></vue-table>
+      <vue-table id='dossiers' :title='$tc("dossier", 2)' addable :items='mappedDossiers' :headers='["dossierdescriptiontitle", "productname", {key: "_state", name: "DOSSIER_STATUS"}, {key: "_created", name: "created"}, {key: "_lastMod", name: "lastmodified"}]' :displayHeader='$t' initialSortBy='_lastMod' :initialDesc='true' @select='selectDossier($event)' editable @add='addDossier' @action='handleAction($event, dossiers, "dossier")' :isEditable='e => e.editable' :isDeletable='e => e.deletable'></vue-table>
+      <vue-table v-if='dossier' id='submissions' :title='$tc("submission", 2)' addable @add='addSubmission' @select='selectSubmission($event)' :items='mappedSubmissions' :headers='["submissiontitle", "submissionnumber", {key: "_state", name: "SUBMISSION_STATUS"}, {key: "packagetype", name: "PACKAGE_TYPE"}, {key: "_created", name: "created"}, {key: "_lastMod", name: "lastmodified"}]' :displayHeader ='$t' editable viewable @action='handleAction($event, dossier, "submission")' :IsDeletable='s => s.deletable' :isEditable='s => s.editable' :isViewable='s => s.viewable'></vue-table>
       <p v-else>{{$t('NO_DOSSIER_SELECTED')}}</p>
     </main>
   </div>
@@ -24,6 +24,14 @@ import Table from '@/components/table/table.vue';
 import {BackendService} from '@/store/backend.service.js';
 import {model} from '@/mixins/model.js';
 import {mapMutations} from 'vuex';
+import {cloneDeep} from 'lodash';
+import {
+  DOSSIER_STATUS_OPEN,
+  DOSSIER_STATUS_CLOSED,
+  SUBMISSION_STATUS_IN_PROGRESS,
+  SUBMISSION_STATUS_PACKAGED,
+  SUBMISSION_STATUS_SENT
+} from '../../../constants/shared.js';
 
 export default {
   name: 'Dossiers',
@@ -32,22 +40,30 @@ export default {
     return {
       dossier: null,
       dossiers: [],
-      sub: null,
+      sub: null
     };
   },
   computed: {
     mappedDossiers() {
-      return this.dossiers.map(dossier => {
+      return this.dossiers.map((dossier, index) => {
+        dossier = cloneDeep(dossier);
         dossier.productname = dossier.product[0].genericproductname;
-        dossier.deletable = this.canDeleteDossier(dossier);
-        dossier.editable = this.canEditDossier(dossier);
-        dossier.submission = dossier.submission.map(submission => {
-          submission.deletable = this.canDeleteSubmission(submission);
-          submission.editable = this.canEditSubmission(submission);
-          submission.viewable = this.canViewSubmission(submission);
-          return submission;
-        });
+        dossier._state = this.$t(dossier._state);
+        dossier.deletable = this.canDeleteDossier(index);
+        dossier.editable = this.canEditDossier(index);
         return dossier;
+      });
+    },
+
+    mappedSubmissions() {
+      return this.dossier.submission.map((submission, index) => {
+        submission = cloneDeep(submission);
+        submission.packagetype = submission.incremental ? this.$t('incremental') : this.$t('FULL');
+        submission._state = this.$t(submission._state);
+        submission.deletable = this.canDeleteSubmission(index);
+        submission.editable = this.canEditSubmission(index);
+        submission.viewable = this.canViewSubmission(index);
+        return submission;
       });
     }
   },
@@ -65,13 +81,16 @@ export default {
       }
     },
 
-    handleAction(event, model) {
+    handleAction(event, model, compName) {
+      console.log(arguments);
       switch(event.type) {
         case 'delete':
-          model.splice(event.value, 1);
+          if (compName === 'dossier') this.deleteDossier(event.index);
+          else if (compName === 'submission') this.deleteSubmission(event.index);
           break;
         case 'edit':
-          this.editDossier(event.value);
+          if (compName === 'dossier') this.editDossier(event.index);
+          else if (compName === 'submission') this.editSubmission(event.index);
           break;
         case 'view':
           console.log('viewing');
@@ -80,9 +99,19 @@ export default {
     },
 
     addDossier() {
-      this.showFormDialog(NewDossier)
+      console.log('here');
+      this.showFormDialog('newdossier')
       .then(({dossiertitle, tocId, product}) => {
         if (dossiertitle && dossiertitle.length && tocId && product) {
+          // check for duplicates, 'product' is really a product id
+          if (this.dossiers.find(dossier => {
+            return dossiertitle === dossier.dossierdescriptiontitle &&
+                    product === dossier.product[0]._id;
+          })) {
+            this.showMessage(this.$t('DUPLICATE_DOSSIERS'));
+            return;
+          }
+
           BackendService.createGhsts({dossiertitle, tocId, product})
           .then(async ({dossierid, dossiertitle, submissionid}) => {
             this.updateDossierData({dossierid, dossiertitle});
@@ -98,6 +127,7 @@ export default {
           this.showMessage(this.$t('MISSING_DOSSIER_FIELDS'));
         }
       }, err => {
+        this.showMessage(this.$t('ERROR'));
         console.error(err);
       })
       .catch(() => {
@@ -109,49 +139,108 @@ export default {
     },
 
     addSubmission() {
-      console.log('adding submission');
+      // current business rules
+      if (this.dossier && this.dossier['_state'] === DOSSIER_STATUS_OPEN) {
+        // find the highest numbered submission version
+        let lastSubmission = this.dossier.submission.reduce(
+          (highest, submission) => {
+            return highest.submissionnumber > submission.submissionnumber ? highest : submission;
+          }, this.dossier.submission[0]);
+
+        if (!lastSubmission || lastSubmission._state === SUBMISSION_STATUS_SENT) {
+          BackendService.createGhsts({dossierid: this.dossier._id})
+          .then(sub => {
+            this.sub = sub;
+            this.goToSubmission();
+          })
+          .catch(err => {
+            this.showMessage(this.$t('ERROR'));
+            console.error(err);
+          });
+        }
+        else {
+          this.showMessage('NON_SENT_SUBMISSION');
+        }
+      }
     },
 
     selectDossier(index) {
-      this.dossier = this.mappedDossiers[index];
+      this.dossier = this.dossiers[index];
     },
 
-    canEditDossier(event) {
-      return true;
+    canEditDossier(index) {
+      const dossier = this.dossiers[index];
+      const state = new RegExp(this.dossiers[index]._state, 'i');
+      if (state.test(DOSSIER_STATUS_OPEN)) {
+        if (!dossier.submission.find(sub => sub._state != SUBMISSION_STATUS_SENT)) return false;
+        return (dossier.submission && dossier.submission.length > 0);
+      }
+      return false;
     },
 
-    editDossier(dossier) {
-      console.log(dossier);
-      // this.showFormDialog('editdossier', this.dossiers[index])
-      // .then(result => {
-      //   console.log(result);
-      // })
-      // .catch(err => {
-      //   console.error(err);
-      // })
-      // .then(() => {
-      //   this.$dialog.close();
-      // });
+    editDossier(index) {
+      // pass the whole dossier, so if in the future we want
+      // to edit more fields
+      this.showFormDialog('editdossier', this.dossiers[index])
+      .then(dossier => {
+        this.$set(this.dossiers, index, dossier);
+      })
+      .catch(err => {
+        console.error(err);
+      })
+      .then(() => {
+        this.$dialog.close();
+      });
     },
 
-    canDeleteDossier(dossier) {},
-
-    deleteDossier(index) {},
-
-    newSubmission() {
-
+    canDeleteDossier(index) {
+      const dossier = this.dossiers[index];
+      return (dossier.submission && dossier.submission.length === 0);
     },
 
-    canViewSubmission(submission) {},
+    async deleteDossier(index) {
+      console.log(this.dossiers[index]);
+      try {
+        // await BackendService.deleteGhsts(this.dossiers[index]._id);
+        // await BackendService.deleteAppData({
+        //   url: 'dossier',
+        //   data: {_id: this.dossiers[index]._id}
+        // });
+        // this.dossiers.splice(index, 1);
+      }
+      catch(err) {
+        this.showMessage('ERROR');
+        console.error(err);
+      }
+    },
 
-    viewSubmission(index) {},
+    canViewSubmission(index) {
+      const state = new RegExp(this.dossier.submission[index]._state, 'i');
+      return (state.test(SUBMISSION_STATUS_SENT) ||
+              state.test(SUBMISSION_STATUS_PACKAGED));
+    },
 
-    canEditSubmission(submission) {},
+    viewSubmission(index) {
+      if (this.canViewSubmission(index)) {
+        this.showMessageDialog(this.$t('OPEN_VIEWER'))
+        .then(() => {
+          BackendService.openViewerGhsts(this.dossier.submission[index]._id);
+        });
+      }
+      else {
+        this.showMessage(this.$t('CANNOT_VIEW'));
+      }
+    },
+
+    canEditSubmission(index) {
+      const state = new RegExp(this.dossier.submission[index]._state, 'i');
+      return (state.test(SUBMISSION_STATUS_PACKAGED));
+    },
 
     editSubmission(index) {
-      this.showFormDialog('editdossier', this.dossiers[index])
-      .then(result => {
-        console.log(result);
+      this.showFormDialog('editsubmission', this.dossier.submission[index])
+      .then(submission => {
+        this.$set(this.dossier.submission, index, submission);
       })
       .catch(err => {
         console.error(err);
@@ -162,30 +251,59 @@ export default {
     },
 
     canDeleteSubmission(submission) {
-
+      const state = new RegExp(submission._state, 'i');
+      return (state.test(SUBMISSION_STATUS_IN_PROGRESS || state.test(SUBMISSION_STATUS_PACKAGED)));
     },
 
-    deleteSubmission(index) {},
+    deleteSubmission(index) {
+      console.log(index, this.dossier, this.dossier.submission);
+      this.showMessageDialog({message: this.$t('CONFIRM_DELETE_SUBMISSION')})
+      .then(async () => {
+        try {
+          await BackendService.deleteGhsts({
+            _url: 'submission',
+            submissionId: this.dossier.submission[index]._id,
+            dossierId: this.dossier._id
+          });
+          this.dossier.submission.splice(index, 1);
+        }
+        catch(err) {
+          this.showMessage(this.$t('ERROR_DELETING'));
+          console.error(err);
+        }
+      })
+      .catch(() => {
+
+      })
+      .then(() => this.$dialog.close());
+    },
 
     async selectSubmission(index) {
+      if (this.dossier.submission[index]._state !== SUBMISSION_STATUS_IN_PROGRESS) {
+        this.showMessage('CANNOT_OPEN_SENT_OR_PACKAGED');
+      }
       this.updateDossierData({dossiertitle: this.dossier.dossierdescriptiontitle, dossierid: this.dossier._id});
       this.sub = await BackendService.getGhsts({_submissionid: this.dossier.submission[index]._id});
       this.sub = this.sub[0];
       this.goToSubmission();
     },
 
+    // set global ghsts object, and then navigate to submission screen
     goToSubmission() {
       this.updateCurrentGhsts(this.sub);
       this.$router.push('/submission');
     }
   },
+
   updated() {
     this.resetForm();
   },
+
   async created() {
     this.resetForm();
     this.dossiers = await BackendService.getGhstsAll();
   },
+
   components: {
     'vue-dialog': Dialog,
     'vue-header': Header,

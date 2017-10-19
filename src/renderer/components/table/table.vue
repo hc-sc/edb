@@ -92,15 +92,15 @@ The table is used to display grid-like and/or tabular data. You can provide an a
           <tbody>
             <tr v-for='(row, index) of rows' :key='index'>
               <td v-if='deletable' class='icon-cell'>
-                <vue-icon :id='`${id}-row-${index}-delete`' icon='delete' :label='$t("delete")' @click.native='onDelete(row.index)' :disabled='row.deletable || false' position='right'></vue-icon>
+                <vue-icon :id='`${id}-row-${index}-delete`' icon='delete' :label='$t("delete")' @click.native='onDelete(row.__index)' :disabled='!row.deletable' position='right'></vue-icon>
               </td>
               <td v-if='editable' class='icon-cell'>
-                <vue-icon :id='`${id}-row-${index}-edit`' icon='edit' :label='$t("edit")' @click.native='onEdit(row)' :disabled='!row.editable || false' position='right'></vue-icon>
+                <vue-icon :id='`${id}-row-${index}-edit`' icon='edit' :label='$t("edit")' @click.native='onEdit(row.__index)' :disabled='!row.editable' position='right'></vue-icon>
               </td>
               <td v-if='viewable' class='icon-cell'>
-                <vue-icon :id='`${id}-row-${index}-view`' icon='visibility' :label='$t("view")' @click.native='onView(row)' :disabled='!row.viewable || false' position='right'></vue-icon>
+                <vue-icon :id='`${id}-row-${index}-view`' icon='visibility' :label='$t("view")' @click.native='onView(row.__index)' :disabled='!row.viewable' position='right'></vue-icon>
               </td>
-              <td v-for='(header, headerIndex) of headerKeys' :key='headerIndex' @click='onSelect(row)'>{{row[header]}}</td>
+              <td v-for='(header, headerIndex) of headerKeys' :key='headerIndex' @click='onSelect(row.__index)'>{{row[header]}}</td>
             </tr>
           </tbody>
         </table>
@@ -157,9 +157,9 @@ export default {
     },
     onSelect: {
       type: Function,
-      default(value) {
-        if (this.selectable && this.isSelectable(value)) {
-          this.$emit('select', value.index);
+      default(index) {
+        if (this.selectable && this.isSelectable(this.rows[index])) {
+          this.$emit('select', index);
         }
       }
     },
@@ -175,8 +175,12 @@ export default {
     },
     onDelete: {
       type: Function,
-      default(value) {
-        if (this.deletable && this.isDeletable(value)) this.$emit('action', {type: 'delete', index: value.index});
+      default(index) {
+        if (this.deletable && this.isDeletable(this.rows[index])) this.$emit('action', {
+          type: 'delete',
+          index,
+          value: this.items[index]
+        });
       }
     },
     isDeletable: {
@@ -191,9 +195,13 @@ export default {
     },
     onEdit: {
       type: Function,
-      default(value) {
-        if (this.editable && this.isEditable(value)) {
-          this.$emit('action', {type: 'edit', value: this.items[value.index]});
+      default(index) {
+        if (this.editable && this.isEditable(this.rows[index])) {
+          this.$emit('action', {
+            type: 'edit',
+            index,
+            value: this.items[index]
+          });
         }
       }
     },
@@ -209,9 +217,13 @@ export default {
     },
     onView: {
       type: Function,
-      default(value) {
-        if (this.viewable && this.isViewable(value)) {
-          this.$emit('action', {type: 'view', value});
+      default(index) {
+        if (this.viewable && this.isViewable(this.rows[index])) {
+          this.$emit('action', {
+            type: 'view',
+            index,
+            value: this.items[index]
+          });
         }
       }
     },
@@ -448,7 +460,7 @@ export default {
           mappedRow.viewable = this.isViewable(row);
 
           // with the index, we can easily configure deleting
-          mappedRow.index = index;
+          mappedRow.__index = index;
 
           mappedRow[key] = cellData;
         }

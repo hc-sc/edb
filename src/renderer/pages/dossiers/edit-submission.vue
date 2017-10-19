@@ -1,11 +1,16 @@
 <template>
   <div class='pane'>
-    <vue-select id='status' :label='$t("SUBMISSION_STATUS")' :options='submissionStatuses' :value='model.status' @input='model.status = $event' :displayValue='o => $t(o)'></vue-select>
+    <vue-select id='status' :label='$t("SUBMISSION_STATUS")' :options='submissionStatuses' :value='model._state' @input='model._state = $event' :displayValue='o => $t(o)'></vue-select>
   </div>
 </template>
 
 <script>
 import Select from '@/components/select/select.vue';
+import {
+  SUBMISSION_STATUS_IN_PROGRESS,
+  SUBMISSION_STATUS_PACKAGED,
+  SUBMISSION_STATUS_SENT
+} from '../../../constants/shared.js';
 
 export default {
   name: 'EditSubmission',
@@ -15,9 +20,9 @@ export default {
         status: ''
       },
       submissionStatuses: [
-        'IN_PROGRESS',
-        'PACKAGED',
-        'SENT'
+        SUBMISSION_STATUS_IN_PROGRESS,
+        SUBMISSION_STATUS_PACKAGED,
+        SUBMISSION_STATUS_SENT
       ]
     };
   },
