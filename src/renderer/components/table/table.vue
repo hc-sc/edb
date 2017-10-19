@@ -95,12 +95,12 @@ The table is used to display grid-like and/or tabular data. You can provide an a
                 <vue-icon :id='`${id}-row-${index}-delete`' icon='delete' :label='$t("delete")' @click.native='onDelete(row.index)' :disabled='row.deletable || false' position='right'></vue-icon>
               </td>
               <td v-if='editable' class='icon-cell'>
-                <vue-icon :id='`${id}-row-${index}-edit`' icon='edit' :label='$t("edit")' @click.native='onEdit(row.index)' :disabled='!row.editable || false' position='right'></vue-icon>
+                <vue-icon :id='`${id}-row-${index}-edit`' icon='edit' :label='$t("edit")' @click.native='onEdit(row)' :disabled='!row.editable || false' position='right'></vue-icon>
               </td>
               <td v-if='viewable' class='icon-cell'>
-                <vue-icon :id='`${id}-row-${index}-view`' icon='view' :label='$t("view")' @click.native='onView(row.index)' :disabled='!row.viewable || false'></vue-icon>
+                <vue-icon :id='`${id}-row-${index}-view`' icon='visibility' :label='$t("view")' @click.native='onView(row)' :disabled='!row.viewable || false' position='right'></vue-icon>
               </td>
-              <td v-for='(header, headerIndex) of headerKeys' :key='headerIndex' @click='onSelect(row.index)'>{{row[header]}}</td>
+              <td v-for='(header, headerIndex) of headerKeys' :key='headerIndex' @click='onSelect(row)'>{{row[header]}}</td>
             </tr>
           </tbody>
         </table>
@@ -148,7 +148,7 @@ export default {
     onAdd: {
       type: Function,
       default() {
-        this.$emit('add', {id: this.id});
+        if (this.addable) this.$emit('add', {id: this.id});
       }
     },
     selectable: {
@@ -157,21 +157,17 @@ export default {
     },
     onSelect: {
       type: Function,
-      default(index) {
-        this.$emit('select', index);
+      default(value) {
+        if (this.selectable && this.isSelectable(value)) {
+          this.$emit('select', value.index);
+        }
       }
     },
-    filterable: {
-      type: Boolean,
-      default: false
-    },
-    sortable: {
-      type: Boolean,
-      default: true
-    },
-    pageable: {
-      type: Boolean,
-      default: false
+    isSelectable: {
+      type: Function,
+      default() {
+        return true;
+      }
     },
     deletable: {
       type: Boolean,
@@ -179,8 +175,8 @@ export default {
     },
     onDelete: {
       type: Function,
-      default(index) {
-        this.$emit('action', {type: 'delete', index});
+      default(value) {
+        if (this.deletable && this.isDeletable(value)) this.$emit('action', {type: 'delete', index: value.index});
       }
     },
     isDeletable: {
@@ -196,7 +192,9 @@ export default {
     onEdit: {
       type: Function,
       default(value) {
-        this.$emit('action', {type: 'edit', value});
+        if (this.editable && this.isEditable(value)) {
+          this.$emit('action', {type: 'edit', value: this.items[value.index]});
+        }
       }
     },
     isEditable: {
@@ -212,7 +210,9 @@ export default {
     onView: {
       type: Function,
       default(value) {
-        this.$emit('action', {type: 'view', value});
+        if (this.viewable && this.isViewable(value)) {
+          this.$emit('action', {type: 'view', value});
+        }
       }
     },
     isViewable: {
@@ -238,6 +238,24 @@ export default {
         return value.label || value;
       }
     },
+    filterable: {
+      type: Boolean,
+      default: false
+    },
+    sortable: {
+      type: Boolean,
+      default: true
+    },
+    initialSortBy: {
+      type: String,
+    },
+    initialDesc: {
+      type: Boolean
+    },
+    pageable: {
+      type: Boolean,
+      default: false
+    },
     required: {
       type: Boolean,
       default: false
@@ -252,12 +270,13 @@ export default {
       // NOTE: this cannot be defined now. If it is, such as this.headers[0],
       // that value will be converted to a reactive object, screwing up the map
       // projection function!
-      sortBy: undefined,
-      desc: false,
+      sortBy: this.initialSortBy,
+      desc: this.initialDesc,
       loading: true,
     };
   },
   computed: {
+    ...mapGetters('picklists', ['getPicklistItem']),
     compHeaders() {
       return this.headers.map(header => {
         return header.name || header;
@@ -277,7 +296,6 @@ export default {
     page() {
       return `${this.offset * this.pageSize + 1} - ${Math.min((this.offset + 1) * this.pageSize, this.count)} of ${this.count}`;
     },
-    ...mapGetters('picklists', ['getPicklistItem'])
   },
 
   // REMEMBER: async function automatically wrap their return in a Promise
@@ -394,7 +412,7 @@ export default {
             }
 
             // get matching app data item
-            else {
+            else if ('url' in header) {
               try {
                 result = await BackendService.searchAppData(header.url, {_id: value});
                 if (result[0] && 'valuedecode' in result[0]) {
@@ -409,6 +427,11 @@ export default {
               catch(err) {
                 cellData = undefined;
               }
+            }
+
+            // if there's no URL, just use whatever is at row[key]
+            else {
+              cellData = value;
             }
           }
 
@@ -549,7 +572,6 @@ export default {
 }
 
 .table .icon-cell {
-  width: 44px;
   padding: 0;
 }
 </style>

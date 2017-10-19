@@ -301,15 +301,14 @@ const model = {
     },
 
     // Handles table events
-    handleAction(event, items) {
+    handleAction(event, items, compName) {
       switch(event.type) {
         case 'delete': {
           items.splice(event.index, 1);
           break;
         }
         case 'edit':
-          console.log('handle edit');
-          break;
+          return this.showFormDialog(compName);
         case 'view':
           console.log('handle view');
           break;

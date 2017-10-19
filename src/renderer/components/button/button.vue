@@ -45,11 +45,8 @@ export default {
       type: String,
       default: 'raised',
       validator(value) {
-        return ['flat', 'raised'].includes(value);
+        return ['flat', 'raised', 'fab'].includes(value);
       }
-    },
-    disabled: {
-      type: Boolean
     },
     color: {
       type: String,
@@ -57,6 +54,9 @@ export default {
       validator(value) {
         return ['primary', 'accent', 'info', 'warn', 'error'].includes(value);
       }
+    },
+    disabled: {
+      type: Boolean
     }
   }
 };
@@ -128,5 +128,10 @@ export default {
   box-shadow: none;
   background-color: var(--disabled-color);
   color: var(--disabled-text);
+}
+
+.btn.fab {
+  border-radius: 50%;
+  padding: 0;
 }
 </style>

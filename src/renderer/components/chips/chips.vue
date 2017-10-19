@@ -65,7 +65,7 @@ Chips are method of displaying simple lists, including the options to add and re
         </li>
         <li class='chips-input-group'>
           <label :for='`${id}-input`' class='v-hidden'>{{label}}</label>
-          <input :id='`${id}-input`' ref='input' :name='compName' class='chips-input' :placeholder='label' @focus='focusedIndex = focusable.length - 1' @keydown.enter.prevent.stop='addItem' v-model='currValue' :autocomplete='autocomplete' :list='`${id}-options`' :disabled='disabled'>
+          <input :id='`${id}-input`' ref='input' :name='compName' class='chips-input' :placeholder='label' @focus='focusedIndex = focusable.length - 1' @keydown.enter.prevent.stop='addItem' :value='currValue' @input='updateCurrValue($event.target.value)' :autocomplete='autocomplete' :list='`${id}-options`' :disabled='disabled' :maxlength='maxLength'>
         </li>
       </ul>
       <div class='chips-actions' v-if='!disabled' :aria-controls='id'>
@@ -180,6 +180,18 @@ export default {
         this.$emit('input', this.chips.slice(0, index).concat(this.chips.slice(index + 1)));
       }
     },
+
+    updateCurrValue(value) {
+      if (this.maxLength == null || value.length > this.maxLength) {
+        value = value.splice(this.maxLength);
+        console.log(typeof value);
+        this.currValue = '' + value;
+      }
+      else {
+        this.currValue = value;
+      }
+    },
+
     addItem() {
       if (this.max != null && this.chips.length >= this.max) return;
       if (this.disabled) return;
