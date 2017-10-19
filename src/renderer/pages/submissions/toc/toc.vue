@@ -31,6 +31,7 @@ import {model} from '@/mixins/model.js';
 import {BackendService} from '@/store/backend.service.js';
 import {matchBy} from '@/services/utils.service.js';
 
+
 export default {
   name: 'Toc',
   mixins: [model],
@@ -68,7 +69,13 @@ export default {
       this.showFormDialog('document')
       .then(async result => {
         if (result) {
-          let document = this.documents.find(doc => result.documentid == doc._id);
+          let document = this.documents.find(doc => result._id == doc._id);
+
+          if (!document) {
+            this.showMessage(this.$t('ERROR'));
+            console.err('Couldn\'t find matching document');
+            return;
+          }
 
           // don't allow duplicates
           if (tree.toc2doc.findIndex(doc => doc._id === document._id) >= 0) {
@@ -80,17 +87,17 @@ export default {
               data: {
                 tocnodepid: tree.tocnodepid,
                 docid: document._id,
-                document: {
-                  _id: document._id,
-                  documenttitle: document.documentgeneric.documenttitle
-                }
+                // document: {
+                //   _id: document._id,
+                //   documenttitle: document.documentgeneric.documenttitle
+                // }
               }
             };
 
             try {
               console.log(nodeData);
               await BackendService.createGhsts(nodeData);
-              // tree.toc2doc.push(document);
+              tree.toc2doc.push(document);
             }
             catch(err) {
               this.showMessage(this.$t('SAVE_ERROR'));
@@ -146,7 +153,7 @@ export default {
     // documents dialog
     [this.toc, this.documents] = await Promise.all([
       (await BackendService.getAppData('toc'))[0],
-      BackendService.callMethod('document', 'get', {_dossier: this.dossierid})
+      await BackendService.callMethod('document', 'get', {_dossier: this.dossierid})
     ]);
     this.fullTree = this.currentTree = {nodename: 'TOC', tocnode: this.toc.structure.tocnode};
     this.$nextTick(() => {

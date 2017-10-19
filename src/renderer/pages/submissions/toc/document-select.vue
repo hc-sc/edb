@@ -1,21 +1,24 @@
 <template>
-  <vue-select id='documents' :label='$t("documents")' :options='documents' :displayValue='o => o.documentgeneric.documenttitle' :matchValue='matchBy("_id")' :value='model.documentid' @input='model.documentid = $event._id' required></vue-select>
+  <vue-select id='documents' :label='$t("documents")' :options='documents' :displayValue='o => o.documentgeneric.documenttitle' :matchValue='matchBy("_id")' :value='model._id' @input='model = $event' required></vue-select>
 </template>
 
 <script>
 import Select from '@/components/select/select.vue';
 import {BackendService} from '@/store/backend.service.js';
 import {matchBy} from '@/services/utils.service.js';
+import {ModelService} from '@/services/model.service.js';
+import {mapState} from 'vuex';
 
 export default {
   name: 'Document',
   data() {
     return {
-      model: {
-        documentid: '',
-      },
+      model: ModelService.getModel('document'),
       documents: []
     };
+  },
+  computed: {
+    ...mapState('app', ['dossierid'])
   },
   methods: {
     matchBy

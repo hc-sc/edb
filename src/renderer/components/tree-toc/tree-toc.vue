@@ -27,18 +27,18 @@ A recursive component that allows for nested children, such as a directory struc
 </docs>
 
 <template>
-  <ul :id='tree' class='tree-list'>
+  <ul :id='name' class='tree-list'>
     <slot>
       <li class='tree-item'>
         <div @click='toggle'>
           <span>
-            <i class='material-icons tree-icon' v-show='hasChildren' :class='{open}'>chevron_right</i>
+            <i class='material-icons tree-icon' v-show='hasChildren || hasDocs' :class='{open}'>chevron_right</i>
             <i class='material-icons tree-icon' v-show='addable(tree)' @click='addDoc'>add</i>
           </span>
           {{label}}
           <span v-if='hasDocs'> ({{docs.length}})</span>
         </div>
-        <ul v-if='hasDocs' class='docs'>
+        <ul v-if='hasDocs' class='docs' v-show='open'>
           <li v-for='(doc, index) of docs' :key='index'>
             <div class='flex flex-row'>
               <i class='material-icons tree-icon' @click='deleteDoc(index)'>delete</i>
@@ -114,6 +114,14 @@ export default {
     };
   },
   computed: {
+    name() {
+      return this.tree.nodename.replace(' ', '').toLowerCase();
+    },
+    // numDocs() {
+    //   return this.docs.length + this.$children.reduce((total, child) => {
+    //     return child.docs ? child.numDocs.length : 0;
+    //   }, 0);
+    // },
     children() {
       return this.getChildren(this.tree) || [];
     },
@@ -124,7 +132,7 @@ export default {
       return !!(this.children && this.children.length);
     },
     docs() {
-      return this.tree.toc2doc;
+      return this.tree.toc2doc || [];
     },
     hasDocs() {
       return !!(this.docs && this.docs.length);
@@ -135,7 +143,7 @@ export default {
       this.open ? this.collapse() : this.expand();
     },
     expand() {
-      if (this.hasChildren) this.open = true;
+      if (this.hasChildren || this.hasDocs) this.open = true;
     },
     collapse() {
       this.open = false;
