@@ -109,6 +109,7 @@ export default {
       .then(async () => {
         this.updateCurrentRecord(await this.initReceivers());
         this.mapStateToModel();
+        this.showMessage(this.$t('UPDATE_SUCCESS'));
       })
       .catch(err => {
         this.showMessage(this.$t('ERROR'));

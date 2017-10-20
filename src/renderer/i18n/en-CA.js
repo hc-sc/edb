@@ -58,6 +58,7 @@ export default {
   DUPLICATE_ITEM: 'Duplicate items',
   FILE_SOURCE: 'File Source',
   FULL: 'Full',
+  INVALID_PID: 'Invalid PID',
   MISSING_DOSSIER_FIELDS: 'You must fill in the required fields',
   NO_DOSSIER_SELECTED: 'Select a Dossier to review Submissions',
   OPEN: 'Open',

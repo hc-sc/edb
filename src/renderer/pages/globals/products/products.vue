@@ -12,7 +12,7 @@
           <div class='f-container f-cross-start'>
             <vue-button class='input-prefix' @click.native='assignPID("productpid")'>{{$t('generatepid')}}</vue-button>
             <span class='f-gap'></span>
-            <vue-input type='text' id='productpid' :label='$t("productpid")' v-model='model.productpid' required disabled></vue-input>
+            <vue-input type='text' id='productpid' :label='$t("productpid")' v-model='model.productpid' required :pattern='getValidPIDRegExp()'></vue-input>
           </div>
           <vue-input id='genericproductname' :label='$t("genericproductname")' v-model='model.genericproductname' required :max='255'></vue-input>
           <vue-select-extensible id='formulationtype' :label='$t("formulationtype")' :options='formulationtype' :value='model.formulationtype' @input='model.formulationtype = $event._id' :matchValue='matchById' typeName='EXTENSION_TYPE_FORMULATION_TYPE' :displayValue='displayPicklistItem' required></vue-select-extensible>
