@@ -172,7 +172,7 @@ export default {
       const dossier = this.dossiers[index];
       const state = new RegExp(this.dossiers[index]._state, 'i');
       if (state.test(DOSSIER_STATUS_OPEN)) {
-        if (!dossier.submission.find(sub => sub._state != SUBMISSION_STATUS_SENT)) return false;
+        if (dossier.submission.find(sub => sub._state != SUBMISSION_STATUS_SENT)) return false;
         return (dossier.submission && dossier.submission.length > 0);
       }
       return false;

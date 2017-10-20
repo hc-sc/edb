@@ -61,20 +61,26 @@ export default {
   },
   methods: {
     async validate() {
+      this.$store.commit('loading');
       try {
-        let result = BackendService.validateGhsts();
+        let result = await BackendService.validateGhsts();
+        console.log(result);
       }
       catch(err) {
         console.log(err);
       }
+      this.$store.commit('ready');
     },
     async package() {
+      this.$store.commit('loading');
       try {
-        let result = BackendService.packageGhsts();
+        let result = await BackendService.packageGhsts();
+        console.log(result);
       }
       catch(err) {
         console.log(err);
       }
+      this.$store.commit('ready');
     }
   },
   components: {

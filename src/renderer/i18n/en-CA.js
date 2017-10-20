@@ -61,6 +61,7 @@ export default {
   INVALID_PID: 'Invalid PID',
   MISSING_DOSSIER_FIELDS: 'You must fill in the required fields',
   NO_DOSSIER_SELECTED: 'Select a Dossier to review Submissions',
+  NON_SENT_SUBMISSION: '',
   OPEN: 'Open',
   PACKAGE_LOCATION: 'Package Location',
   PACKAGE_TYPE: 'Package Type',

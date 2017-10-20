@@ -45,6 +45,7 @@ import FileRA from '@/pages/submissions/files/file-ra.vue';
 import Icon from '@/components/icon/icon.vue';
 import Input from '@/components/input/input.vue';
 import ListFilter from '@/components/list-filter/list-filter.vue';
+import Progress from '@/components/progress/progress.vue';
 import Select from '@/components/select/select.vue';
 import SelectExtensible from '@/components/select-extensible/select-extensible.vue';
 import SplitPane from '@/components/split-pane/split-pane.vue';
@@ -74,7 +75,7 @@ export default {
       return FileRA;
     }
   },
-  beforeCreated() {
+  beforeCreate() {
     this.$store.commit('loading');
   },
   async created() {
@@ -95,6 +96,7 @@ export default {
     'vue-icon': Icon,
     'vue-input': Input,
     'vue-list-filter': ListFilter,
+    'vue-progress': Progress,
     'vue-select': Select,
     'vue-select-extensible': SelectExtensible,
     'vue-split-pane': SplitPane,

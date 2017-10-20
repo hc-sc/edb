@@ -42,12 +42,12 @@ A recursive component that allows for nested children, such as a directory struc
           <li v-for='(doc, index) of docs' :key='index'>
             <div class='flex flex-row'>
               <i class='material-icons tree-icon' @click='deleteDoc(index)'>delete</i>
-              <span>{{doc.documentgeneric.documenttitle}}</span>
+              <span>{{doc.document.documenttitle}}</span>
             </div>
           </li>
         </ul>
         <div v-if='hasChildren' v-show='open'>
-          <vue-tree v-for='(child, index) of children' :key='index' :tree='child' :getChildren='getChildren' :getLabel='getLabel' :addable='addable' :onAdd='onAdd'>
+          <vue-tree v-for='(child, index) of children' :key='index' :tree='child' :getChildren='getChildren' :getLabel='getLabel' :addable='addable' :onAdd='onAdd' :onDelete='onDelete'>
           </vue-tree>
         </div>
       </li>
@@ -157,11 +157,14 @@ export default {
       this.collapse();
     },
     deleteDoc(index) {
+      this.onDelete(this.tree, index),
       this.tree.toc2doc.splice(index, 1);
     },
     addDoc() {
       this.onAdd(this.tree);
-      this.expand();
+      this.$nextTick(() => {
+        this.expand();
+      });
     }
   },
 

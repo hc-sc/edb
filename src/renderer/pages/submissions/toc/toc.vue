@@ -5,7 +5,7 @@
     <template v-else>
       <vue-select id='treefilter' :label='$t("SEARCH_TREE")' :options='nodes' :displayValue='o => o.name' :matchValue='matchBy("_id")' ></vue-select>
 
-      <vue-tree :tree='currentTree' :getChildren='tree => tree.tocnode' :getLabel='tree => tree.nodename' :addable='addable' :onAdd='addNode'></vue-tree>
+      <vue-tree :tree='currentTree' :getChildren='tree => tree.tocnode' :getLabel='tree => tree.nodename' :addable='addable' :onAdd='addNode' :onDelete='deleteNode'></vue-tree>
 
       <div class='bottom-float'>
         <vue-button type='button' @click.native='showTOCData()'>{{$t('TOC_DATA')}}</vue-button>
@@ -86,18 +86,18 @@ export default {
               _url: 'toc',
               data: {
                 tocnodepid: tree.tocnodepid,
-                docid: document._id,
-                // document: {
-                //   _id: document._id,
-                //   documenttitle: document.documentgeneric.documenttitle
-                // }
+                docid: document._id
               }
             };
 
             try {
-              console.log(nodeData);
               await BackendService.createGhsts(nodeData);
-              tree.toc2doc.push(document);
+              tree.toc2doc.push({
+                document: {
+                  _id: document._id,
+                  documenttitle: document.documentgeneric.documenttitle
+                }
+              });
             }
             catch(err) {
               this.showMessage(this.$t('SAVE_ERROR'));
@@ -114,8 +114,21 @@ export default {
       return true;
     },
 
-    deleteNode(tree, index) {
-
+    async deleteNode(tree, index) {
+      try {
+        let result = await BackendService.deleteGhsts({
+          url: 'toc',
+          data: {
+            tocnodepid: tree.tocnodepid,
+            docid: tree.toc2doc._id
+          }
+        });
+        tree.toc2doc.splice(index, 1);
+      }
+      catch(err) {
+        this.showMessage(this.$t('SAVE_ERROR'));
+        console.error(err);
+      }
     },
 
     setTree(node) {
@@ -152,7 +165,7 @@ export default {
     // NOTE: remove documents from here, unless we pass it into the
     // documents dialog
     [this.toc, this.documents] = await Promise.all([
-      (await BackendService.getAppData('toc'))[0],
+      (await BackendService.getGhsts({url: 'toc'}))[0],
       await BackendService.callMethod('document', 'get', {_dossier: this.dossierid})
     ]);
     this.fullTree = this.currentTree = {nodename: 'TOC', tocnode: this.toc.structure.tocnode};
