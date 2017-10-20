@@ -148,7 +148,7 @@ export default {
           }, this.dossier.submission[0]);
 
         if (!lastSubmission || lastSubmission._state === SUBMISSION_STATUS_SENT) {
-          BackendService.createGhsts({dossierid: this.dossier._id})
+          BackendService.createGhsts({dossierId: this.dossier._id, submissionid: lastSubmission._id})
           .then(sub => {
             this.sub = sub;
             this.goToSubmission();
@@ -202,13 +202,9 @@ export default {
       console.log(this.dossiers[index]);
       try {
         // await BackendService.deleteGhsts(this.dossiers[index]._id);
-        // await BackendService.deleteAppData({
-        //   url: 'dossier',
-        //   data: {_id: this.dossiers[index]._id}
-        // });
-        // this.dossiers.splice(index, 1);
-      }
-      catch(err) {
+        await BackendService.deleteAppData('dossier', this.dossiers[index]._id);
+        this.dossiers.splice(index, 1);
+      } catch(err) {
         this.showMessage('ERROR');
         console.error(err);
       }
@@ -239,7 +235,13 @@ export default {
 
     editSubmission(index) {
       this.showFormDialog('editsubmission', this.dossier.submission[index])
-      .then(submission => {
+      .then(async submission => {
+        console.log(submission);
+        let curGhsts = await BackendService.getGhsts({_submissionid: submission._id});
+
+        curGhsts[0]._state = submission._state; //SUBMISSION_STATUS_SENT;
+        console.log(curGhsts[0]);
+        await BackendService.updateGhsts(curGhsts[0]);
         this.$set(this.dossier.submission, index, submission);
       })
       .catch(err => {
