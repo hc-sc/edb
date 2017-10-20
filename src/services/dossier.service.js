@@ -14,14 +14,15 @@ module.exports = class DossierService extends BaseService {
   edb_delete(id) {
     return new Q((res, rej) => {
       let self = this;
-      let dossierInDB = DossierService.edb_getSync({_id: id})[0];
+      let strId = (typeof id === 'string') ? id : id._id;
+      let dossierInDB =  DossierService.edb_getSync({_id: strId})[0];
       let curProd = _.merge({}, ProductService.edb_getSync({_id: dossierInDB.product[0]})[0]);
       let proSvr = new ProductService(self.version);
       curProd.dossier = undefined;
 
-      super.edb_delete(id)
+      super.edb_delete(strId)
       .then(() => {
-        return proSvr.edb_post(curProd)
+        return proSvr.edb_put(curProd);
       })
       .then(proRet => {
         res(proRet);
