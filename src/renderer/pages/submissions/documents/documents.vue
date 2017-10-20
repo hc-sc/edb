@@ -12,7 +12,7 @@
             <div class='f-container f-cross-start'>
               <vue-button class='input-prefix' @click.native='assignPID("documentgeneric.documentpid")'>{{$t('generatepid')}}</vue-button>
               <span class='f-gap'></span>
-              <vue-input type='text' id='documentpid' :label='$t("documentpid")' v-model='model.documentgeneric.documentpid'></vue-input>
+              <vue-input type='text' id='documentpid' :label='$t("documentpid")' v-model='model.documentgeneric.documentpid' :pattern='getValidPIDRegExp()'></vue-input>
             </div>
 
             <vue-input type='text' id='documentfamilypid' :label='$t("documentfamilypid")' v-model='model.documentgeneric.documentfamilypid' required></vue-input>

@@ -12,7 +12,7 @@
           <div class='f-container f-cross-start'>
             <vue-button class='input-prefix' @click.native='assignPID("substancepid")'>{{$t('generatepid')}}</vue-button>
             <span class='f-gap'></span>
-            <vue-input type='text' id='substancepid' :label='$t("substancepid")' v-model='model.substancepid' required disabled></vue-input>
+            <vue-input type='text' id='substancepid' :label='$t("substancepid")' v-model='model.substancepid' required :pattern='getValidPIDRegExp()'></vue-input>
           </div>
           <vue-textarea id='substancename' :label='$t("substancename")' v-model='model.substancename' required :max='2000'></vue-textarea>
           <vue-table id='substanceidentifier' :title='$t("substanceidentifier")' :items='model.substanceidentifier' :headers='[{name: "substanceidentifiertype", url: "picklist"}, "identifier"]' :displayHeader='displayTranslation' @select='selectTableItem("substanceidentifier", model.substanceidentifier[$event], $event)' addable @add='addTableItem("substanceidentifier")' @action='handleAction($event, model.substanceidentifier)'></vue-table>

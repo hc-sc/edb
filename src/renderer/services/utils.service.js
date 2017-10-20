@@ -110,6 +110,10 @@ export function generatePID(prefix = 'ghsts') {
   return `urn:${prefix}:${v4()}`;
 }
 
+const uuidString = '[0-9a-f]{8}-?[0-9a-f]{4}-?[0-5][0-9a-f]{3}-?[089ab][0-9a-f]{3}-?[0-9a-f]{12}';
+export const validUUID = new RegExp(`^${uuidString}$`, 'i');
+export const validPID = new RegExp(`^urn:[a-z]{1, 5}:${uuidString}$`, 'i');
+
 /**
  * validatePID ensures a correct v4 uuid. It will generate a new one if it is
  * invalid.
@@ -118,24 +122,37 @@ export function generatePID(prefix = 'ghsts') {
  * @returns {String} a valid UUID
  */
 export function validatePID(pid = null, prefix = 'ghsts') {
-  const validPID = new RegExp(/^[0-9a-f]{8}-?[0-9a-f]{4}-?[0-5][0-9a-f]{3}-?[089ab][0-9a-f]{3}-?[0-9a-f]{12}$/i);
   if (pid == null) return generatePID(prefix);
   pid.replace(/ /g, '');
+
+  // if there is no prefix, append one
   if (pid.indexOf(':') === -1) {
-    if (pid.match(validPID)) {
-      return `urn:${prefix}:pid`;
+    if (isValidUUID(pid)) {
+      return `urn:${prefix}:${pid}`;
     }
     else return generatePID(prefix);
   }
+
+  // otherwise check just the uuid
   else {
-    const strings = pid.split(':');
-    if (
-      strings.length === 3 &&
-      strings[0] === 'urn' &&
-      strings[1] === prefix &&
-      strings[2].match(validPID)
-    ) return pid;
+    if (isValidPID(pid, prefix)) return pid;
     else return generatePID(prefix);
   }
+}
+
+/**
+ * isValidPID is used to determine if the uuid portion of a pid is valid
+ * @param {String} pid - the pid to check. Can be with or without prefix
+ */
+export function isValidPID(pid, prefix = 'ghsts') {
+  return pid.match(getValidPIDRegExp(prefix));
+}
+
+export function isValidUUID(pid) {
+  return pid.match(validUUID);
+}
+
+export function getValidPIDRegExp(prefix = 'ghsts') {
+  return new RegExp(`^urn:${prefix}:${uuidString}$`, 'i');
 }
 

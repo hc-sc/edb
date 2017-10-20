@@ -17,7 +17,7 @@
             <div class='f-container f-cross-start'>
               <vue-button class='input-prefix' @click.native='assignPID("filegeneric.filepid")'>{{$t('generatepid')}}</vue-button>
               <span class='f-gap'></span>
-              <vue-input type='text' id='filepid' :label='$t("filepid")' v-model='model.filegeneric.filepid' required></vue-input>
+              <vue-input type='text' id='filepid' :label='$t("filepid")' v-model='model.filegeneric.filepid' required :pattern='getValidPIDRegExp()'></vue-input>
             </div>
             <vue-input type='text' id='filecompanyid' :label='$t("filecompanyid")' v-model='model.filegeneric.filecompanyid'></vue-input>
             <vue-select id='filetype' :label='$t("filetype")' :value='model.filegeneric.filetype' @input='model.filegeneric.filetype = $event._id' :options='filetype' :displayValue='displayPicklistItem' :matchValue='matchById' required></vue-select>
