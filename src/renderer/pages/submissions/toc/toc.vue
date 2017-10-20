@@ -1,16 +1,21 @@
 <template>
-  <main class='pane'>
-    <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
-    <vue-progress v-if='loading'></vue-progress>
-    <template v-else>
-      <vue-select id='treefilter' :label='$t("SEARCH_TREE")' :options='nodes' :displayValue='o => o.name' :matchValue='matchBy("_id")' ></vue-select>
+  <main>
+    <div class='pane'>
+      <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
+      <vue-progress v-if='loading'></vue-progress>
+      <template v-else>
+        <div class='f-container f-cross-center filter'>
+          <vue-select id='treefilter' :label='$t("SEARCH_TREE")' :options='nodes' :displayValue='o => o.name' :matchValue='matchBy("_id")' :value='currentTree.tocnodepid' @input='setTree($event)'></vue-select>
+          <vue-button type='button' @click.native='clear'>{{$t('clear')}}</vue-button>
+        </div>
 
-      <vue-tree :tree='currentTree' :getChildren='tree => tree.tocnode' :getLabel='tree => tree.nodename' :addable='addable' :onAdd='addNode' :onDelete='deleteNode'></vue-tree>
+        <vue-tree :tree='currentTree' :getChildren='tree => tree.tocnode' :getLabel='tree => tree.nodename' :addable='addable' :onAdd='addNode' :onDelete='deleteNode'></vue-tree>
 
-      <div class='bottom-float'>
-        <vue-button type='button' @click.native='showTOCData()'>{{$t('TOC_DATA')}}</vue-button>
-      </div>
-    </template>
+        <div class='bottom-float'>
+          <vue-button type='button' @click.native='showTOCData()'>{{$t('TOC_DATA')}}</vue-button>
+        </div>
+      </template>
+    </div>
   </main>
 </template>
 
@@ -131,8 +136,17 @@ export default {
       }
     },
 
-    setTree(node) {
-      const tree = this.findNode(this.fullTree, node.tocnodepid);
+    clear() {
+      this.$store.commit('loading');
+      this.currentTree = this.fullTree;
+      this.$nextTick(() => {
+        this.$store.commit('ready');
+      });
+    },
+
+    setTree(event, node) {
+      console.log(event);
+      const tree = this.findNode(this.fullTree, event._id);
       if (tree != null) {
         this.currentTree = tree;
       }
@@ -169,6 +183,10 @@ export default {
       await BackendService.callMethod('document', 'get', {_dossier: this.dossierid})
     ]);
     this.fullTree = this.currentTree = {nodename: 'TOC', tocnode: this.toc.structure.tocnode};
+
+    // extract list of nodes for use in search
+    this.mapNodes(this.nodes, this.fullTree);
+
     this.$nextTick(() => {
       this.$store.commit('ready');
     });

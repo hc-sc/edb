@@ -324,6 +324,7 @@ export default {
 .select {
   min-height: 2.5rem;
   min-width: 100px;
+  width: 100%;
   padding: 1.2rem 0 1rem 0;
 }
 

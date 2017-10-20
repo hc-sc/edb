@@ -62,25 +62,28 @@ export default {
   methods: {
     async validate() {
       this.$store.commit('loading');
-      try {
-        let result = await BackendService.validateGhsts();
+      BackendService.validateGhsts()
+      .then(result => {
         console.log(result);
-      }
-      catch(err) {
-        console.log(err);
-      }
-      this.$store.commit('ready');
+      })
+      .catch(err => {
+        this.$snackbar.show({message: this.$tc('VALIDATATION_ERROR')});
+        console.error(err);
+      })
+      .then(() => this.$store.commit('ready'));
     },
+
     async package() {
       this.$store.commit('loading');
-      try {
-        let result = await BackendService.packageGhsts();
-        console.log(result);
-      }
-      catch(err) {
-        console.log(err);
-      }
-      this.$store.commit('ready');
+      BackendService.packageGhsts()
+      .then(() => {
+        console.log('all good!');
+      })
+      .catch(err => {
+        this.$snackbar.show({message: this.$tc('PACKAGE_ERROR')});
+        console.error(err);
+      })
+      .then(() => this.$store.commit('ready'));
     }
   },
   components: {
