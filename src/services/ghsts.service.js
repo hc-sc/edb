@@ -294,14 +294,18 @@ module.exports = class GhstsService extends BaseService {
             retVal.product = self._get_xml_jsonix(result._product);
             delete retVal.product.dossier.product;
 
-            retVal.product.dossier.dossierra.map(ra => {
-              ra.toSpecificForRAId = BACKEND_CONST.ID_PREFIX.receiver + ra.toSpecificForRAId;
-            });
-                        
-            retVal.product.dossier.submission.map(sub => {
-              sub.submissionversiondate =
-                DateTimeProc.dateToJsonixObj(sub.submissionversiondate);
-            });
+            if (retVal.product.dossier.dossierra && retVal.product.dossier.dossierra.length > 0) {
+              retVal.product.dossier.dossierra.map(ra => {
+                ra.toSpecificForRAId = BACKEND_CONST.ID_PREFIX.receiver + ra.toSpecificForRAId;
+              });
+            }
+            
+            if (retVal.product.dossier.submission && retVal.product.dossier.submission.length > 0) {
+              retVal.product.dossier.submission.map(sub => {
+                sub.submissionversiondate =
+                  DateTimeProc.dateToJsonixObj(sub.submissionversiondate);
+              });
+            }
 
             // For Document            
             if (result._document && result._document.length > 0) {
