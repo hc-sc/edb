@@ -55,10 +55,11 @@
 
 /* --- TYPOGRAPHY --- */
 /* --- SMOOTHING --- */
-p, span, h1, h2, h3, h4, h5, h6 {
+p, span, h1, h2, h3, h4, h5, h6, label {
   -webkit-font-smoothing: antialiased;
   transform: translateZ(0);
   filter: blur(0.0000000001);
+  text-rendering: optimizeLegibility;
 }
 
 h1, .h1,

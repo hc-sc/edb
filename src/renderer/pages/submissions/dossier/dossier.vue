@@ -7,7 +7,7 @@
         <div class='f-container f-cross-start'>
           <vue-button class='input-prefix' @click.native='assignPID("dossierpid")'>{{$t("generatepid")}}</vue-button>
           <span class='f-gap'></span>
-          <vue-input type='text' id='dossierpid' :label='$t("dossierpid")' v-model='model.dossierpid' required></vue-input>
+          <vue-input type='text' id='dossierpid' :label='$t("dossierpid")' v-model='model.dossierpid' required :pattern='getValidPIDRegExp()'></vue-input>
         </div>
         <vue-input id='dossiercompid' :label='$t("dossiercompid")' v-model='model.dossiercompid' required></vue-input>
         <vue-input id='dossierdescriptiontitle' :label='$t("dossierdescriptiontitle")' v-model='model.dossierdescriptiontitle' required></vue-input>
@@ -28,6 +28,7 @@ import Button from '@/components/button/button.vue';
 import DossierRA from '@/pages/submissions/dossier/dossier-ra.vue';
 import Icon from '@/components/icon/icon.vue';
 import Input from '@/components/input/input.vue';
+import Progress from '@/components/progress/progress.vue';
 import ReferencedDossier from '@/pages/submissions/dossier/referenced-dossier.vue';
 import Table from '@/components/table/table.vue';
 import {model} from '@/mixins/model.js';
@@ -46,7 +47,7 @@ export default {
       return compName === 'dossierra' ? DossierRA : ReferencedDossier;
     }
   },
-  beforeCreated() {
+  beforeCreate() {
     this.$store.commit('loading');
   },
   async created() {
@@ -69,6 +70,7 @@ export default {
     'vue-button': Button,
     'vue-icon': Icon,
     'vue-input': Input,
+    'vue-progress': Progress,
     'vue-table': Table
   }
 };

@@ -17,7 +17,7 @@
             <div class='f-container f-cross-start'>
               <vue-button class='input-prefix' @click.native='assignPID("filegeneric.filepid")'>{{$t('generatepid')}}</vue-button>
               <span class='f-gap'></span>
-              <vue-input type='text' id='filepid' :label='$t("filepid")' v-model='model.filegeneric.filepid' required></vue-input>
+              <vue-input type='text' id='filepid' :label='$t("filepid")' v-model='model.filegeneric.filepid' required :pattern='getValidPIDRegExp()'></vue-input>
             </div>
             <vue-input type='text' id='filecompanyid' :label='$t("filecompanyid")' v-model='model.filegeneric.filecompanyid'></vue-input>
             <vue-select id='filetype' :label='$t("filetype")' :value='model.filegeneric.filetype' @input='model.filegeneric.filetype = $event._id' :options='filetype' :displayValue='displayPicklistItem' :matchValue='matchById' required></vue-select>
@@ -45,6 +45,7 @@ import FileRA from '@/pages/submissions/files/file-ra.vue';
 import Icon from '@/components/icon/icon.vue';
 import Input from '@/components/input/input.vue';
 import ListFilter from '@/components/list-filter/list-filter.vue';
+import Progress from '@/components/progress/progress.vue';
 import Select from '@/components/select/select.vue';
 import SelectExtensible from '@/components/select-extensible/select-extensible.vue';
 import SplitPane from '@/components/split-pane/split-pane.vue';
@@ -74,7 +75,7 @@ export default {
       return FileRA;
     }
   },
-  beforeCreated() {
+  beforeCreate() {
     this.$store.commit('loading');
   },
   async created() {
@@ -95,6 +96,7 @@ export default {
     'vue-icon': Icon,
     'vue-input': Input,
     'vue-list-filter': ListFilter,
+    'vue-progress': Progress,
     'vue-select': Select,
     'vue-select-extensible': SelectExtensible,
     'vue-split-pane': SplitPane,

@@ -6,7 +6,7 @@
  */
 
 import {ModelService} from '@/services/model.service.js';
-import {generatePID, getNestedProperty} from '@/services/utils.service.js';
+import {generatePID, getNestedProperty, getValidPIDRegExp} from '@/services/utils.service.js';
 import {cloneDeep, merge, isEqual} from 'lodash';
 import {mapState, mapMutations, mapActions} from 'vuex';
 import {bus} from '@/plugins/plugin-event-bus.js';
@@ -14,7 +14,7 @@ import {bus} from '@/plugins/plugin-event-bus.js';
 const model = {
   data() {
     return {
-      $dialog: null,
+      $dialog: null
     };
   },
   computed: {
@@ -29,16 +29,12 @@ const model = {
     })
   },
 
-  // MIGHT NOT BE NEEDED
-  // watch: {
-  //   stateModel() {
-  //     this.mapStateToModel();
-  //   }
-  // },
   methods: {
-    // pull these out so we can directly call them. Actions can be thennable
+    // pull these out so we can directly call them. Actions are thennable
     ...mapMutations('app', ['updateCurrentRecord', 'updateCurrentUrl', 'updateAppRecords']),
     ...mapActions('app', ['updateAppData', 'createAppData', 'getAppDataAll']),
+
+    getValidPIDRegExp,
 
     // Returns a default empty model
     getEmptyModel(model) {
@@ -79,6 +75,9 @@ const model = {
         this.updateCurrentRecord(this.getEmptyModel(model));
         this.mapStateToModel();
       }
+
+      // autogenerate PIDs for appropriate models (product, dossier, etc.)
+      this.autofillPID(model);
     },
 
     // Reverts the current working model to what it is in vuex
@@ -222,6 +221,29 @@ const model = {
         ref = getNestedProperty(this.model, props.join('.'));
       }
       this.$set(props.length >= 1 ? ref : this.model, prop, value);
+    },
+
+    autofillPID(ref) {
+      switch (ref) {
+        case 'legalentity':
+          this.assignPID('legalentitypid');
+          break;
+        case 'substance':
+          this.assignPID('substancepid');
+          break;
+        case 'product':
+          this.assignPID('productpid');
+          break;
+        case 'dossier':
+          this.assignPID('dossierpid');
+          break;
+        case 'file':
+          this.assignPID('filegeneric.filepid');
+          break;
+        case 'document':
+          this.assignPID('documentgeneric.documentpid');
+          break;
+      }
     },
 
     // Assigns generated PIDs to a a specific field

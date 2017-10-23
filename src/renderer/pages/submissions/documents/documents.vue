@@ -12,7 +12,7 @@
             <div class='f-container f-cross-start'>
               <vue-button class='input-prefix' @click.native='assignPID("documentgeneric.documentpid")'>{{$t('generatepid')}}</vue-button>
               <span class='f-gap'></span>
-              <vue-input type='text' id='documentpid' :label='$t("documentpid")' v-model='model.documentgeneric.documentpid'></vue-input>
+              <vue-input type='text' id='documentpid' :label='$t("documentpid")' v-model='model.documentgeneric.documentpid' :pattern='getValidPIDRegExp()'></vue-input>
             </div>
 
             <vue-input type='text' id='documentfamilypid' :label='$t("documentfamilypid")' v-model='model.documentgeneric.documentfamilypid' required></vue-input>
@@ -90,6 +90,7 @@ import Fieldset from '@/components/fieldset/fieldset.vue';
 import Icon from '@/components/icon/icon.vue';
 import Input from '@/components/input/input.vue';
 import ListFilter from '@/components/list-filter/list-filter.vue';
+import Progress from '@/components/progress/progress.vue';
 import ReferencedDocument from '@/pages/submissions/documents/referenced-document.vue';
 import ReferencedToFile from '@/pages/submissions/documents/referenced-to-file.vue';
 import RelatedToSubstance from '@/pages/submissions/documents/related-to-substance.vue';
@@ -126,7 +127,7 @@ export default {
       }
     }
   },
-  beforeCreated() {
+  beforeCreate() {
     this.$store.commit('loading');
   },
   async created() {
@@ -149,6 +150,7 @@ export default {
     'vue-icon': Icon,
     'vue-input': Input,
     'vue-list-filter': ListFilter,
+    'vue-progress': Progress,
     'vue-select': Select,
     'vue-select-extensible': SelectExtensible,
     'vue-split-pane': SplitPane,
