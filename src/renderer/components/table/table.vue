@@ -58,26 +58,33 @@ The table is used to display grid-like and/or tabular data. You can provide an a
 
 <template>
   <vue-card class='table' :class='{selectable, sortable, pageable, filterable}' @select='select' @sort='sort' @changeOffset='changeOffset'>
-    <vue-toolbar>
-      {{title}}
-      <span v-if='required'> *</span>
+    <vue-toolbar v-show='!searching'>
+      <span>
+        {{title}}
+        <span v-if='required'> *</span>
+      </span>
       <span slot='right'>
-        <vue-icon id='`${id}-filter`' :label='$t("filter")' v-if='filterable' icon='filter_list' @click.native='addFilter'></vue-icon>
-        <vue-icon id='`${id}-add`' :label='$t("add")' v-if='addable' icon='add' @click.native='onAdd' position='left'></vue-icon>
+        <!-- <vue-icon id='`${id}-filter`' :label='$t("filter")' v-if='filterable' icon='filter_list' @click.native='addFilter'></vue-icon> -->
+        <vue-icon :id='`${id}-search`' :label='$t("search")' icon='search' @click.native='search' position='left'></vue-icon>
+        <vue-icon :id='`${id}-add`' :label='$t("add")' v-if='addable' icon='add' @click.native='onAdd' position='left'></vue-icon>
       </span>
     </vue-toolbar>
-    <vue-progress v-if='loading'></vue-progress>
-    <template v-else>
+    <div class='search-toolbar' role='toolbar' v-show='searching' :aria-controls='id'>
+      <vue-input :id='`${id}-search-input`' type='text' :label='$t("search")' v-model='searchTerm' ref='searchInput'></vue-input>
+      <vue-icon :id='`${id}-clear`' :label='$t("clear")' icon='clear' @click.native='clearSearch' position='left'></vue-icon>
+      </span>
+    </div>
+    <template>
       <div class='table-filter'>
         <div class='f-container f-middle' v-for='(filter, index) of filters' :key='index'>
           <vue-select :id='`${id}-filter-select-${index}`' :label='$tc("title")' :options='["any", ...headers]' :displayValue='displayHeader' v-model='filters[index].prop'></vue-select>
           <span class='f-gap'></span>
           <vue-input type='text' :id='`${id}-filter-text-${index}`' :label='$tc("filter")' v-model='filters[index].value'></vue-input>
-          <vue-icon id='`${id}-filter-clear-${index}`' :label='$t("clear")' icon='clear' @click.native='deleteFilter(index)' position='left'></vue-icon>
+          <vue-icon :id='`${id}-filter-clear-${index}`' :label='$t("clear")' icon='clear' @click.native='deleteFilter(index)' position='left'></vue-icon>
         </div>
       </div>
       <div class='table-wrapper'>
-        <table class='table-table'>
+        <table class='table-table' :id='id'>
           <thead>
             <tr>
               <th v-if='deletable' class='icon-cell'></th>
@@ -106,12 +113,14 @@ The table is used to display grid-like and/or tabular data. You can provide an a
         </table>
         <span v-if='!loading && (rows == null || rows.length === 0) && required' :class='{"error-text": required}'>{{required ? $t('requireoneitem') : $t('noitems')}}</span>
       </div>
-      <div v-if='pageable && rows && rows.length' class='table-pagination f-container f-middle'>
-        <vue-select :id='`${id}-pagesize`' label='Page Size' :options='["1", "5", "10", "20"]' v-model='pageSize'></vue-select>
+      <vue-pagination :count='count' :pageSize='pageSize' :offset='offset' :label='$t("rows")' @pageChange='changeOffset' @sizeChange='changeSize'></vue-pagination>
+      <!-- <div v-if='pageable' class='table-pagination f-container f-end'>
+        Rows:
+        <vue-select :id='`${id}-pagesize`' label='' :options='["1", "5", "10", "20"]' v-model='pageSize'></vue-select>
         <vue-icon icon='chevron_left' :label='$t("pageleft")' :id='`${id}-pageleft`' @click.native='changeOffset(offset - 1)' :disabled='offset === 0'></vue-icon>
         <span class='page'>{{page}}</span>
         <vue-icon icon='chevron_right' :label='$t("pageright")' :id='`${id}-pageright`' @click.native='changeOffset(offset + 1)' :disabled='(this.offset + 1) * this.pageSize >= this.count'></vue-icon>
-      </div>
+      </div> -->
     </template>
   </vue-card>
 </template>
@@ -124,6 +133,7 @@ import Icon from '@/components/icon/icon.vue';
 import Input from '@/components/input/input.vue';
 import Toolbar from '@/components/toolbar/toolbar.vue';
 import Select from '@/components/select/select.vue';
+import Pagination from '@/components/pagination/pagination.vue';
 import Progress from '@/components/progress/progress.vue';
 import moment from 'moment';
 import {mapGetters} from 'vuex';
@@ -266,7 +276,7 @@ export default {
     },
     pageable: {
       type: Boolean,
-      default: false
+      default: true
     },
     required: {
       type: Boolean,
@@ -275,13 +285,11 @@ export default {
   },
   data() {
     return {
+      searchTerm: '',
+      searching: false,
       filters: [],
       offset: 0,
       pageSize: 5,
-
-      // NOTE: this cannot be defined now. If it is, such as this.headers[0],
-      // that value will be converted to a reactive object, screwing up the map
-      // projection function!
       sortBy: this.initialSortBy,
       desc: this.initialDesc,
       loading: true,
@@ -319,6 +327,14 @@ export default {
       async get() {
         let tempRows = await this.mapProjection(this.headers, this.queryResults);
 
+        // if (this.searchTerm) {
+        //   tempRows = tempRows.filter(row => {
+        //     for (let [key, value] of Object.entries(row)) {
+        //       console.log(key, value);
+        //     }
+        //   });
+        // }
+
         tempRows = sortByLocale(tempRows.filter((item) => {
           let match = true;
           this.filters.filter(f => {
@@ -332,9 +348,9 @@ export default {
         this.sortBy);
 
         // uncomment when ready for pagination
-        // tempRows = tempRows.slice(
-        //   this.offset * this.pageSize, (this.offset + 1) * this.pageSize
-        // );
+        tempRows = tempRows.slice(
+          this.offset * this.pageSize, (this.offset + 1) * this.pageSize
+        );
 
         return tempRows;
       },
@@ -349,11 +365,17 @@ export default {
       if (offset < 0 || offset * this.pageSize >= this.count) return;
       this.offset = offset;
     },
+
+    changeSize(size) {
+      this.pageSize = size;
+    },
+
     select(index) {
       if (this.selectable) {
         this.onSelect(index);
       }
     },
+
     sort(header) {
       if (!this.sortable) return;
       this.offset = 0;
@@ -365,9 +387,23 @@ export default {
         this.desc = false;
       }
     },
+
+    search() {
+      this.searching = true;
+      this.$nextTick(() => {
+        this.$refs.searchInput.$el.focus();
+      });
+    },
+
+    clearSearch() {
+      this.searchTerm = '';
+      this.searching = false;
+    },
+
     addFilter() {
       this.filters.push({prop: '', value: ''});
     },
+
     deleteFilter(index) {
       this.filters.splice(index, 1);
     },
@@ -475,6 +511,7 @@ export default {
     }
     this.loading = false;
   },
+
   components: {
     'vue-button': Button,
     'vue-card': Card,
@@ -483,6 +520,7 @@ export default {
     'vue-input': Input,
     'vue-toolbar': Toolbar,
     'vue-select': Select,
+    'vue-pagination': Pagination,
     'vue-progress': Progress
   }
 };
@@ -585,5 +623,12 @@ export default {
 
 .table .icon-cell {
   padding: 0;
+}
+
+.table .search-toolbar {
+  padding: 0 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 </style>

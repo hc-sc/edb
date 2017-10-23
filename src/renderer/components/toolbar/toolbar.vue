@@ -83,6 +83,7 @@ export default {
   font-size: var(--h4-size);
   line-height: var(--h4-line);
   font-weight: 300;
+  width: 100%;
 }
 
 .toolbar > span {
@@ -92,6 +93,7 @@ export default {
 
 .toolbar > span:last-child {
   margin-left: auto;
+  text-align: right;
 }
 
 .toolbar-middle {

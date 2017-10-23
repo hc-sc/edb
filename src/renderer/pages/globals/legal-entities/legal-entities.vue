@@ -42,7 +42,8 @@
 
             <vue-input type='text' id='email' :label='$t("email")' v-model='model.contactaddress.email' :max='255' :pattern='/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/' message='Invalid email'></vue-input>
 
-            <vue-input type='text' id='website' :label='`${$t("website")} ${$t("websiteExtended")}`' v-model='model.contactaddress.website'></vue-input>
+            <vue-input type='text' id='website' :label='`${$t("website")}`'
+            :pattern='/^https?:\/\//' :message='$t("VALID_WEBSITE")' v-model='model.contactaddress.website'></vue-input>
           </vue-fieldset>
 
           <vue-table :title='$t("contactperson")' :items='model.contactperson' id='contact' :headers='["lastname", "firstname", "title", "email"]' :displayHeader='displayTranslation' addable @select='selectTableItem("contactperson", model.contactperson[$event], $event)' @add='addTableItem("contactperson")' @action='handleAction($event, model.contactperson)'></vue-table>

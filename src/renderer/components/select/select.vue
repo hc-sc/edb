@@ -46,7 +46,7 @@ TODO: clean up focusable
     <div :id='id' class='select-dropdown' role='listbox' :aria-controls='id'>
       <input type='text' v-model='searchValue' hidden>
       <button type='button' class='select-button' aria-haspopup='true' :aria-expanded='expanded' @click='toggle' @keydown='handleButtonEvent' :class='{invalid}'>
-        <span :class='{selected: selectedValue}'>
+        <span :class='{selected: selectedValue}' v-if='label'>
           {{label}}
           <span class='error-text' v-if='required'> *</span>
         </span>
@@ -76,7 +76,6 @@ export default {
     },
     label: {
       type: String,
-      required: true
     },
     options: {
       type: Array,
