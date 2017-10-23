@@ -36,10 +36,14 @@ export function getNestedProperty(obj, propStrings) {
  * @param propName String if the arrays items are objects, which property to key off of
  * @returns Array the sorted array
  */
-export function sortByLocale(array, desc = false, propName) {
+export function sortByLocale(array, desc = false, propName = null) {
   return array.sort((a, b) => {
-    let comp;
-    let x = a[propName], y = b[propName];
+    let comp, x = a, y = b;
+
+    if (propName != null) {
+      x = a[propName];
+      y = b[propName];
+    }
 
     const xtype = x === null ? 'null' : typeof x;
     const ytype = y === null ? 'null' : typeof y;

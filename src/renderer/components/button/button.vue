@@ -20,7 +20,7 @@ Buttons are used for dynamic activity on the page (non-navigation). They can be 
 </docs>
 
 <template>
-    <button :type='type' class='btn' :class='[display, color]' :disabled='disabled'>
+    <button :type='type' class='btn' :class='[{icon}, display, color]' :disabled='disabled'>
       <slot>
         {{label}}
       </slot>
@@ -38,6 +38,10 @@ export default {
         return ['button', 'submit', 'reset'].includes(value);
       }
     },
+    icon: {
+      type: Boolean,
+      default: false
+    },
     label: {
       type: String
     },
@@ -52,7 +56,7 @@ export default {
       type: String,
       default: 'primary',
       validator(value) {
-        return ['primary', 'accent', 'info', 'warn', 'error'].includes(value);
+        return ['primary', 'accent', 'info', 'warn', 'error', 'none'].includes(value);
       }
     },
     disabled: {
@@ -75,8 +79,13 @@ export default {
   line-height: 36px;
   padding: 0 1rem;
   text-transform: uppercase;
-  transition: var(--out);
   border: 2px solid transparent;
+  transition: var(--out);
+}
+
+.btn.icon {
+  padding: 0;
+  line-height: 0;
 }
 
 .btn.flat, .btn.raised {
@@ -84,9 +93,7 @@ export default {
 }
 
 .btn.flat {
-  background-color: inherit;
   box-shadow: var(--depth-0);
-  color: inherit;
 }
 
 .btn.flat:hover {
@@ -133,5 +140,11 @@ export default {
 .btn.fab {
   border-radius: 50%;
   padding: 0;
+}
+
+.btn.none {
+  background-color: inherit;
+  color: inherit;
+  transition: none;
 }
 </style>

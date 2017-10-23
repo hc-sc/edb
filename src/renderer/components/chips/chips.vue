@@ -1,23 +1,47 @@
 <template>
-  <div class='chip-container' @click='applyInputFocus'>
-    <vue-chip v-for='(chip, index) in chips' :key='index' :id='`${id}-chip-${index}`' :editable='editable' :deletable='deletable' :disabled='disabled' @edit='editChip(chip)' @delete='deleteChip(chip)'>
-      <slot name='chip' :value='chip'>{{chip}}</slot>
-    </vue-chip>
-    <input :id='id' v-model='currentChip'  :name='compName' :disabled='disabled' @keydown.delete='deleteLastChip' @keydown.prevent.enter='addChip' @keydown.prevent.186='addChip' tabindex='0' maxlength='maxChipLength' ref='input'>
+  <div class='chips' @click='applyInputFocus'>
+    <div class='chip-list'>
+      <vue-chip v-for='(chip, index) in chips' :key='index' :id='`${id}-chip-${index}`' :editable='editable' :deletable='deletable' :disabled='disabled' @select='selectChip(chip)' @edit='editChip(chip)' @delete='deleteChip(chip)'>
+        <slot name='chip' :value='chip'>{{chip}}</slot>
+      </vue-chip>
+      <label :for='`${id}-input`' class='v-hidden'>{{label}}</label>
+      <input :id='`${id}-input`' class='chip-input' v-model='currentChip'  :name='compName' :disabled='disabled' @keydown.delete.stop='deleteLastChip' @keydown.prevent.enter='addChip' @keydown.prevent.186='addChip' tabindex='0' :maxlength='maxChipLength' :novalidate='novalidate' ref='input' :placeholder='compLabel'>
+    </div>
     <slot></slot>
+    <div class='chip-actions' v-if='!disabled' :aria-controls='id' role='toolbar'>
+      <slot name='actions'>
+        <vue-button v-if='sortable' @click.native='onSort' display='flat' color='none' icon>
+          <i class='material-icons'>sort</i>
+        </vue-button>
+        <vue-button @click.native='onClear' display='flat' icon color='none'>
+          <i class='material-icons'>clear</i>
+        </vue-button>
+      </slot>
+    </div>
+    <slot name='options'>
+      <datalist :id='`${id}-options`' v-if='autocomplete'>
+        <option v-for='(option, index) of options' :key='index'>{{option}}</option>
+      </datalist>
+    </slot>
   </div>
 </template>
 
 <script>
 /** Modified from vue-material chips https://github.com/vuematerial/vue-material/blob/master/src/components/mdChips/mdChips.vue */
+
 import Button from '@/components/button/button.vue';
 import Chip from '@/components/chips/chip.vue';
+import {sortByLocale} from '@/services/utils.service.js';
 
 export default {
   name: 'Chips',
   props: {
     id: {
-      type: String
+      type: String,
+      required: true
+    },
+    required: {
+      type: Boolean,
     },
     value: {
       type: Array,
@@ -39,6 +63,39 @@ export default {
       type: Boolean,
       default: true
     },
+    sortable: {
+      type: Boolean,
+      default: true
+    },
+    onSort: {
+      type: Function,
+      default() {
+        console.log(this.chips);
+        this.$emit('change', sortByLocale(this.chips));
+      }
+    },
+    clearable: {
+      type: Boolean,
+      default: true
+    },
+    onClear: {
+      type: Function,
+      default() {
+        console.log('clearing');
+        this.$emit('change', this.chips = []);
+      }
+    },
+    autocomplete: {
+      type: String,
+      default: 'off',
+      validator(value) {
+        return ['on', 'off'].includes(value);
+      }
+    },
+    options: {
+      type: Array,
+      default: () => []
+    },
     type: {
       type: String,
       default: 'text',
@@ -46,10 +103,10 @@ export default {
         return ['text', 'number', 'email', 'date', 'tel'].includes(value);
       }
     },
-    validate: {
+    novalidate: {
       type: Boolean,
       default() {
-        return false;
+        return true;
       }
     },
     label: {
@@ -68,11 +125,16 @@ export default {
     return {
       currentChip: null,
       chips: this.value,
+      selectedIndex: -1
     };
   },
   computed: {
     compName() {
       return this.name || this.id;
+    },
+
+    compLabel() {
+      return this.label + (this.required ? ' *' : '');
     }
   },
   methods: {
@@ -81,6 +143,7 @@ export default {
         this.$refs.input.focus();
       });
     },
+
     addChip() {
       if (this.currentChip && this.chips.length < this.maxChips) {
         const value = this.currentChip.trim();
@@ -94,6 +157,7 @@ export default {
         }
       }
     },
+
     deleteChip(chip) {
       let index = this.getIndex(chip);
       if (index >= 0) {
@@ -102,6 +166,7 @@ export default {
       this.$emit('change', this.chips);
       this.applyInputFocus();
     },
+
     editChip(chip) {
       let index = this.getIndex(chip);
       if (index >= 0) {
@@ -111,6 +176,7 @@ export default {
       this.$emit('change', this.chips);
       this.applyInputFocus();
     },
+
     deleteLastChip() {
       if (!this.currentChip) {
         this.chips.pop();
@@ -118,6 +184,7 @@ export default {
         this.applyInputFocus();
       }
     },
+
     getIndex(chip) {
       return this.chips.indexOf(chip);
     }
@@ -133,3 +200,48 @@ export default {
   }
 };
 </script>
+
+<style>
+@import '../../assets/css/shadows.css';
+
+.chips {
+  width: 100%;
+  box-shadow: none;
+  outline: none;
+  padding-bottom: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  transition: .2s ease-in;
+  min-height: 2rem;
+}
+
+.chip-list {
+  width: 100%;
+  list-style-type: none;
+  margin-bottom: 3px;
+  box-shadow: none;
+  padding-bottom: 3px;
+  border-bottom: 1px solid var(--divider);
+}
+
+.chip-list.focused {
+  border-bottom: 1px solid var(--primary-color);
+  box-shadow: 0 1px 0 0 var(--primary-color);
+  transition: var(--toggle);
+}
+
+.chip-actions {
+  display: flex;
+  flex-direction: flex-row;
+  flex-wrap: nowrap;
+}
+
+.chip-input {
+  padding-top: 6px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  background-color: inherit;
+}
+</style>
