@@ -29,7 +29,7 @@
 
       <vue-input type='text' id='identifier' :label='$t("identifier")' v-model='model.radocumentnumber.identifier' required></vue-input>
 
-      <vue-switch id='alreadysubmitted' :label='$t("alreadysubmitted")' :value='model.radocumentnumber.alreadysubmitted' @input='model.radocumentnumber.alreadysubmitted = $event'></vue-switch>
+      <vue-switch id='alreadysubmitted' :label='$t("alreadysubmitted")' v-model='model.radocumentnumber.alreadysubmitted'></vue-switch>
 
       <vue-toolbar>
         {{$t('dossiercontext')}}

@@ -1,13 +1,13 @@
 <template>
   <div class='switch'>
     <div class='switch-group'>
-      <input type='checkbox' class='switch-checkbox' :id='id' @keydown.space='cb(value)'  :value='value' :disabled='disabled'>
-      <label :for='id' @click='cb(value)' >
+      <input type='checkbox' class='switch-checkbox' :id='id' @keydown.space='cb(value)'  :value='value' :disabled='disabled' :checked='checked' @change='cb()'>
+      <label :for='id'>
         <div class='switch-background' aria-hidden='true'>
           <div class='switch-knob'></div>
         </div>
         {{label}}
-        <span v-if='show'>({{displayValue}})</span>
+        <span v-if='showValues'>({{displayValue}})</span>
       </label>
     </div>
   </div>
@@ -17,6 +17,10 @@
 /** Based off of https://material-components-web.appspot.com/switch.html */
 export default {
   name: 'Switch',
+  model: {
+    prop: 'checked',
+    event: 'change'
+  },
   props: {
     id: {
       type: String,
@@ -26,7 +30,11 @@ export default {
       type: String,
       required: true
     },
-    show: {
+    checked: {
+      type: Boolean,
+      required: true
+    },
+    showValues: {
       type: Boolean,
       default: false
     },
@@ -43,19 +51,28 @@ export default {
       default: false
     },
     value: {
-      type: Boolean,
-      required: true
+      type: String,
     },
     cb: {
       type: Function,
-      default(value) {
-        this.$emit('input', !value);
+      default() {
+        this.$emit('change', !this.checked);
       }
     }
+  },
+  data() {
+    return {
+      on: this.checked
+    };
   },
   computed: {
     displayValue() {
       return this.value ? this.onValue : this.offValue;
+    }
+  },
+  watch: {
+    value() {
+      this.checked = this.value;
     }
   }
 };

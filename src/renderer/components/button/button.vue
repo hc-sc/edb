@@ -107,6 +107,7 @@ export default {
 
 .btn.flat.primary {
   color: var(--primary-color);
+  background-color: var(--primary-text);
 }
 
 .btn.raised {

@@ -6,7 +6,8 @@
       <vue-input required id='submissiontitle' :label='$t("submissiontitle")' v-model='model.submissiontitle'></vue-input>
       <vue-input type='number' required id='submissionnumber' disabled v-model='model.submissionnumber' :label='$t("submissionnumber")' required></vue-input>
       <vue-input type='date' required id='submissionversiondate' v-model='model.submissionversiondate' :label='$t("submissionversiondate")' required></vue-input>
-      <vue-switch id='incremental' v-model='model.incremental' :label='$t("incremental")' :disabled='model.submissionnumber == 1'></vue-switch>
+      <!-- <vue-switch id='incremental' v-model='model.incremental' :label='$t("incremental")' :disabled='model.submissionnumber == 1'></vue-switch> -->
+      <vue-switch id='incremental' v-model='model.incremental' :label='$t("incremental")'></vue-switch>
       <div class='bottom-float'>
         <vue-icon fab @click.native='save("submission")' id='save' :label='$t("save")' icon='save' position='top'></vue-icon>
         <vue-icon fab @click.native='revert' id='undo' :label='$t("revert")' icon='undo' position='top'>

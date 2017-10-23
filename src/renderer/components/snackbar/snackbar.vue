@@ -18,7 +18,7 @@ Used to indicate to the user when an event has happened via a small message on t
     </slot>
     <slot name='actions'>
       <span class='snackbar-actions'>
-        <vue-button display='flat' @click.native='hide'>okay</vue-button>
+        <vue-button display='flat' color='none' @click.native='hide'>okay</vue-button>
       </span>
     </slot>
   </div>

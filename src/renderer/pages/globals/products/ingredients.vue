@@ -12,6 +12,7 @@ import Select from '@/components/select/select.vue';
 import SelectExtensible from '@/components/select-extensible/select-extensible.vue';
 import {mapGetters} from 'vuex';
 import {BackendService} from '@/store/backend.service.js';
+import {ModelService} from '@/services/model.service.js';
 import {model} from '@/mixins/model.js';
 
 export default {
@@ -19,7 +20,7 @@ export default {
   mixins: [model],
   data() {
     return {
-      model: this.getEmptyModel('ingredient'),
+      model: this.getEmptyModel('ingredients.ingredient'),
       substances: []
     };
   },
@@ -31,15 +32,6 @@ export default {
       this.substances = await BackendService.getAppDataAll('substance');
     }
     catch(err) {console.log(err);}
-  },
-  methods: {
-    getEmptyModel() {
-      return {
-        toSubstanceId: '',
-        quantity: 0,
-        unit: {}
-      };
-    }
   },
   components: {
     'vue-input': Input,

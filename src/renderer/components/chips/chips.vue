@@ -5,7 +5,7 @@
         <slot name='chip' :value='chip'>{{chip}}</slot>
       </vue-chip>
       <label :for='`${id}-input`' class='v-hidden'>{{label}}</label>
-      <input :id='`${id}-input`' class='chip-input' v-model='currentChip'  :name='compName' :disabled='disabled' @keydown.delete.stop='deleteLastChip' @keydown.prevent.enter='addChip' @keydown.prevent.186='addChip' tabindex='0' :maxlength='maxChipLength' :novalidate='novalidate' ref='input' :placeholder='compLabel'>
+      <input :id='`${id}-input`' class='chip-input' v-model='currentChip'  :name='compName' :disabled='disabled' @keydown.delete.stop='deleteLastChip' @keydown.prevent.stop.enter='addChip' @keydown.prevent.186='addChip' tabindex='0' :maxlength='maxChipLength' :novalidate='novalidate' ref='input' :placeholder='compLabel'>
     </div>
     <slot></slot>
     <div class='chip-actions' v-if='!disabled' :aria-controls='id' role='toolbar'>

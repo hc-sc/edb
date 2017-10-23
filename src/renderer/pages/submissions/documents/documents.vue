@@ -51,11 +51,11 @@
               </div>
             </vue-fieldset>
 
-            <vue-switch id='publishedindicator' :label='$t("publishedindicator")' :value='model.documentgeneric.publishedindicator' @input='model.documentgeneric.publishedindicator = $event' style='display: block'></vue-switch>
+            <vue-switch id='publishedindicator' :label='$t("publishedindicator")' v-model='model.documentgeneric.publishedindicator'></vue-switch>
 
-            <vue-switch id='gxpindicator' :label='$t("gxpindicator")' :value='model.documentgeneric.gxpindicator' @input='model.documentgeneric.gxpindicator = $event' style='display: block'></vue-switch>
+            <vue-switch id='gxpindicator' :label='$t("gxpindicator")' v-model='model.documentgeneric.gxpindicator'></vue-switch>
 
-            <vue-switch id='testedonvertebrate' :label='$t("testedonvertebrate")' :value='model.documentgeneric.testedonvertebrate' @input='model.documentgeneric.testedonvertebrate = $event' style='display: block'></vue-switch>
+            <vue-switch id='testedonvertebrate' :label='$t("testedonvertebrate")' v-model='model.documentgeneric.testedonvertebrate'></vue-switch>
 
             <vue-chips deletable unique id='documentowner' :label='$t("documentowner")' v-model='model.documentgeneric.documentowner'></vue-chips>
 

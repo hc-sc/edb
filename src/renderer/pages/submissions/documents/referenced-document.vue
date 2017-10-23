@@ -2,7 +2,7 @@
   <div>
     <vue-select id='referencetype' :label='$t("referencetype")' :options='referencetype' :displayValue='displayPicklistItem' :matchValue='matchById' :value='model.referencetype' @input='model.referencetype = $event._id' required></vue-select>
 
-    <vue-switch id='internal' :label='$t("internal")' :value='model.internal' @input='model.internal = $event' style='display: block'></vue-switch>
+    <vue-switch id='internal' :label='$t("internal")' v-model='model.internal'></vue-switch>
 
     <vue-input type='text' id='documentpid' :label='$t("documentpid")' v-model='model.documentpid' required></vue-input>
 
