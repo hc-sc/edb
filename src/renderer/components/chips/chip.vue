@@ -92,4 +92,8 @@ export default {
   background-color: var(--primary-color);
   color: var(--primary-text);
 }
+
+.chip i {
+  font-size: 1.2em;
+}
 </style>

@@ -191,7 +191,7 @@ export default {
   },
   watch: {
     value(value) {
-      this.selectedChip = value;
+      this.chips = value;
     }
   },
   components: {
