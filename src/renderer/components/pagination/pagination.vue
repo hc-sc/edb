@@ -8,7 +8,7 @@
       </option>
     </select>
     <vue-icon icon='chevron_left' :label='$t("pageleft")' @click.native='onPage(-1)' :id='`${id}-page-left`' position='left'></vue-icon>
-    <span class='page'>{{page}}</span>
+    <span>{{message}}</span>
     <vue-icon icon='chevron_right' :label='$t("pageright")' @click.native='onPage(1)' :id='`${id}-page-right`' position='left'></vue-icon>
   </div>
 </template>
@@ -30,7 +30,7 @@ export default {
       type: Array,
       default: () => [1, 5, 10, 20]
     },
-    page: {
+    message: {
       type: String,
     },
     pageSize: {

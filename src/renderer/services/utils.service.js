@@ -70,8 +70,10 @@ export function sortByLocale(array, desc = false, propName = null) {
 
 /**
  * Match Filter - used for further specific matching parameters
- * @param filter Object the filter object
- * @param item Object the item to compare against
+ * @param {Object} filter the filter object
+ * @param {String} filterKey the prop of the filter to compare with
+ * @param {String} filterValue the prop of the item to compare with
+ * @param {Object} item the item used to compare
  */
 export function matchFilter(filter, filterKey, filterValue, item) {
   if (filter == null || filter[filterKey] == null || filter[filterValue] == null || filter[filterKey] === '') {

@@ -113,7 +113,7 @@ The table is used to display grid-like and/or tabular data. You can provide an a
         </table>
         <span v-if='!loading && (rows == null || rows.length === 0) && required' :class='{"error-text": required}'>{{required ? $t('requireoneitem') : $t('noitems')}}</span>
       </div>
-      <vue-pagination :count='count' :pageSize='pageSize' :offset='offset' :label='$t("rows")' @pageChange='changeOffset' @sizeChange='changeSize'></vue-pagination>
+      <vue-pagination :count='count' :pageSize='pageSize' :offset='offset' :label='$t("rows")' @pageChange='changeOffset' @sizeChange='changeSize' :message='message'></vue-pagination>
       <!-- <div v-if='pageable' class='table-pagination f-container f-end'>
         Rows:
         <vue-select :id='`${id}-pagesize`' label='' :options='["1", "5", "10", "20"]' v-model='pageSize'></vue-select>
@@ -138,7 +138,7 @@ import Progress from '@/components/progress/progress.vue';
 import moment from 'moment';
 import {mapGetters} from 'vuex';
 import {BackendService} from '@/store/backend.service.js';
-import {sortByLocale, matchFilter} from '@/services/utils.service.js';
+import {sortByLocale, matchFilter, isStringMatch} from '@/services/utils.service.js';
 
 export default {
   name: 'Table',
@@ -313,9 +313,6 @@ export default {
     queryResults() {
       return this.items;
     },
-    page() {
-      return `${this.offset * this.pageSize + 1} - ${Math.min((this.offset + 1) * this.pageSize, this.count)} of ${this.count}`;
-    },
   },
 
   // REMEMBER: async function automatically wrap their return in a Promise
@@ -327,25 +324,30 @@ export default {
       async get() {
         let tempRows = await this.mapProjection(this.headers, this.queryResults);
 
-        // if (this.searchTerm) {
-        //   tempRows = tempRows.filter(row => {
-        //     for (let [key, value] of Object.entries(row)) {
-        //       console.log(key, value);
-        //     }
-        //   });
-        // }
-
-        tempRows = sortByLocale(tempRows.filter((item) => {
-          let match = true;
-          this.filters.filter(f => {
-            return match && (match = (
-              matchFilter(f, 'prop', 'value', item)
-            ));
+        if (this.searchTerm && this.searchTerm.length) {
+          tempRows = tempRows.filter(row => {
+            for (let key in row) {
+              if (typeof row[key] === 'string' && isStringMatch(row[key], this.searchTerm)) {
+                return true;
+              }
+            }
+            return false;
           });
-          return match;
-        }),
-        this.desc,
-        this.sortBy);
+        }
+
+        tempRows = sortByLocale(tempRows, this.desc, this.sortBy);
+
+        // tempRows = sortByLocale(tempRows.filter((item) => {
+        //   let match = true;
+        //   this.filters.filter(f => {
+        //     return match && (match = (
+        //       matchFilter(f, 'prop', 'value', item)
+        //     ));
+        //   });
+        //   return match;
+        // }),
+        // this.desc,
+        // this.sortBy);
 
         // uncomment when ready for pagination
         tempRows = tempRows.slice(
@@ -356,9 +358,17 @@ export default {
       },
 
       watch() {
-        return [this.desc, this.sortBy, this.pageSize, this.offset, this.filters];
+        return [this.desc, this.sortBy, this.pageSize, this.offset, this.filters, this.searchTerm];
       }
-    }
+    },
+
+    size() {
+      return this.rows ? this.rows.length : 0;
+    },
+
+    message() {
+      return `${this.offset * this.pageSize + 1} - ${Math.min((this.offset + 1) * this.pageSize, this.size)} of ${this.size}`;
+    },
   },
   methods: {
     changeOffset(offset) {
