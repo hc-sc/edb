@@ -35,12 +35,12 @@ Allows for extending the collection of options in a select listbox.
       <vue-icon id='`${id}-add`' :label='$t("add")' icon='add' @click.native='toggleAdd' v-if='!adding' position='left'></vue-icon>
       <vue-icon id='`${id}-clear`' :label='$t("clear")' icon='clear' @click.native='toggleAdd' v-else position='left'></vue-icon>
     </div>
-    <div class='f-container f-middle' v-show='adding'>
+    <div class='f-container f-start' v-show='adding'>
       <slot name='add-fields'>
         <vue-input id='value' :label='$tc("value")' v-model='newValue' required :max='255'></vue-input>
         <span class='spacer'></span>
         <vue-input id='valuedecode' :label='$tc("valuedecode")' v-model='newValueDecode' :max='255'></vue-input>
-        <vue-icon :id='`${id}-save`' :label='$t("save")' icon='save' position='left' @click.native='onAdd()'></vue-icon>
+        <vue-icon :id='`${id}-save`' :label='$t("save")' icon='save' position='left' @click.native='onAdd()' style='align-self: center'></vue-icon>
       </slot>
     </div>
   </div>
