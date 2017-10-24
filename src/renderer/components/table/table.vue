@@ -97,7 +97,7 @@ The table is used to display grid-like and/or tabular data. You can provide an a
             </tr>
           </thead>
           <tbody>
-            <tr v-for='(row, index) of rows' :key='index'>
+            <tr v-for='(row, index) of pagedRows' :key='index'>
               <td v-if='deletable' class='icon-cell'>
                 <vue-icon :id='`${id}-row-${index}-delete`' icon='delete' :label='$t("delete")' @click.native='onDelete(row.__index)' :disabled='!row.deletable' position='right'></vue-icon>
               </td>
@@ -114,13 +114,6 @@ The table is used to display grid-like and/or tabular data. You can provide an a
         <span v-if='!loading && (rows == null || rows.length === 0) && required' :class='{"error-text": required}'>{{required ? $t('requireoneitem') : $t('noitems')}}</span>
       </div>
       <vue-pagination :count='count' :pageSize='pageSize' :offset='offset' :label='$t("rows")' @pageChange='changeOffset' @sizeChange='changeSize' :message='message'></vue-pagination>
-      <!-- <div v-if='pageable' class='table-pagination f-container f-end'>
-        Rows:
-        <vue-select :id='`${id}-pagesize`' label='' :options='["1", "5", "10", "20"]' v-model='pageSize'></vue-select>
-        <vue-icon icon='chevron_left' :label='$t("pageleft")' :id='`${id}-pageleft`' @click.native='changeOffset(offset - 1)' :disabled='offset === 0'></vue-icon>
-        <span class='page'>{{page}}</span>
-        <vue-icon icon='chevron_right' :label='$t("pageright")' :id='`${id}-pageright`' @click.native='changeOffset(offset + 1)' :disabled='(this.offset + 1) * this.pageSize >= this.count'></vue-icon>
-      </div> -->
     </template>
   </vue-card>
 </template>
@@ -138,7 +131,7 @@ import Progress from '@/components/progress/progress.vue';
 import moment from 'moment';
 import {mapGetters} from 'vuex';
 import {BackendService} from '@/store/backend.service.js';
-import {sortByLocale, matchFilter, isStringMatch} from '@/services/utils.service.js';
+import {sortByLocale, isStringMatch} from '@/services/utils.service.js';
 
 export default {
   name: 'Table',
@@ -253,6 +246,9 @@ export default {
     },
     getItems: {
       type: Function,
+      default() {
+        return this.items;
+      }
     },
     displayHeader: {
       type: Function,
@@ -285,6 +281,7 @@ export default {
   },
   data() {
     return {
+      rows: [],
       searchTerm: '',
       searching: false,
       filters: [],
@@ -307,11 +304,33 @@ export default {
         return header.key || header.name || header;
       });
     },
-    count() {
-      return this.queryResults.length;
+    filteredRows() {
+      if (this.searchTerm && this.searchTerm.length) {
+        return this.rows.filter(row => {
+          for (let key in row) {
+            if (typeof row[key] === 'string' && isStringMatch(row[key], this.searchTerm)) {
+              return true;
+            }
+          }
+          return false;
+        });
+      }
+      else return this.rows.slice();
     },
-    queryResults() {
-      return this.items;
+    sortedRows() {
+      return sortByLocale(this.filteredRows, this.desc, this.sortBy);
+    },
+    pagedRows() {
+      console.log('updates');
+      return this.sortedRows.slice(
+        this.offset * this.pageSize, (this.offset + 1) * this.pageSize
+      );
+    },
+    count() {
+      return this.filteredRows.length;
+    },
+    message() {
+      return `${this.offset * this.pageSize + 1} - ${Math.min((this.offset + 1) * this.pageSize, this.count)} of ${this.count}`;
     },
   },
 
@@ -320,55 +339,39 @@ export default {
   // if you're okay to just pass on the promise, you don't need to await
   // if you can't call a method/property  without first having data, use await
   asyncComputed: {
-    rows: {
-      async get() {
-        let tempRows = await this.mapProjection(this.headers, this.queryResults);
+    // rows: {
+    //   async get() {
+    //     let tempRows = await this.mapProjection(this.headers, this.queryResults);
 
-        if (this.searchTerm && this.searchTerm.length) {
-          tempRows = tempRows.filter(row => {
-            for (let key in row) {
-              if (typeof row[key] === 'string' && isStringMatch(row[key], this.searchTerm)) {
-                return true;
-              }
-            }
-            return false;
-          });
-        }
+    //     console.log('updating');
 
-        tempRows = sortByLocale(tempRows, this.desc, this.sortBy);
+    //     if (this.searchTerm && this.searchTerm.length) {
+    //       tempRows = tempRows.filter(row => {
+    //         for (let key in row) {
+    //           if (typeof row[key] === 'string' && isStringMatch(row[key], this.searchTerm)) {
+    //             return true;
+    //           }
+    //         }
+    //         return false;
+    //       });
+    //     }
 
-        // tempRows = sortByLocale(tempRows.filter((item) => {
-        //   let match = true;
-        //   this.filters.filter(f => {
-        //     return match && (match = (
-        //       matchFilter(f, 'prop', 'value', item)
-        //     ));
-        //   });
-        //   return match;
-        // }),
-        // this.desc,
-        // this.sortBy);
+    //     tempRows = sortByLocale(tempRows, this.desc, this.sortBy);
 
-        // uncomment when ready for pagination
-        tempRows = tempRows.slice(
-          this.offset * this.pageSize, (this.offset + 1) * this.pageSize
-        );
+    //     this.count = tempRows.length;
 
-        return tempRows;
-      },
+    //     // uncomment when ready for pagination
+    //     tempRows = tempRows.slice(
+    //       this.offset * this.pageSize, (this.offset + 1) * this.pageSize
+    //     );
 
-      watch() {
-        return [this.desc, this.sortBy, this.pageSize, this.offset, this.filters, this.searchTerm];
-      }
-    },
+    //     return tempRows;
+    //   },
 
-    size() {
-      return this.rows ? this.rows.length : 0;
-    },
-
-    message() {
-      return `${this.offset * this.pageSize + 1} - ${Math.min((this.offset + 1) * this.pageSize, this.size)} of ${this.size}`;
-    },
+    //   watch() {
+    //     return [this.desc, this.sortBy, this.pageSize, this.offset, this.filters, this.searchTerm];
+    //   }
+    // },
   },
   methods: {
     changeOffset(offset) {
@@ -378,6 +381,7 @@ export default {
 
     changeSize(size) {
       this.pageSize = size;
+      console.log(this.pageSize);
     },
 
     select(index) {
@@ -516,10 +520,14 @@ export default {
     }
   },
   async created() {
-    if (this.getItems) {
-      this.items = await this.getItems();
-    }
+    this.rows = await this.mapProjection(this.headers, await this.getItems());
     this.loading = false;
+  },
+
+  watch: {
+    async items() {
+      this.rows = await this.mapProjection(this.headers, await this.getItems());
+    }
   },
 
   components: {

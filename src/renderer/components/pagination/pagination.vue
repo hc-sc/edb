@@ -1,15 +1,15 @@
 <template>
-  <div class='pagination f-container f-end'>
-    {{label}}:
-    <select :value='size' @input='onChangeSize($event.target.value)'>
+  <div class='pagination f-container f-end f-cross-center'>
+    <span>{{label}}:</span>
+    <select :value='pageSize' @input='onChangeSize($event.target.value)'>
       <option disabled value=''>{{label}}</option>
       <option v-for='(option, index) of options' :key='index'>
         {{option}}
       </option>
     </select>
-    <vue-icon icon='chevron_left' :label='$t("pageleft")' @click.native='onPage(-1)' :id='`${id}-page-left`' position='left'></vue-icon>
+    <vue-icon icon='chevron_left' :label='$t("pageleft")' @click.native='onPage(-1)' :id='`${id}-page-left`' position='left' :disabled='offset === 0'></vue-icon>
     <span>{{message}}</span>
-    <vue-icon icon='chevron_right' :label='$t("pageright")' @click.native='onPage(1)' :id='`${id}-page-right`' position='left'></vue-icon>
+    <vue-icon icon='chevron_right' :label='$t("pageright")' @click.native='onPage(1)' :id='`${id}-page-right`' position='left' :disabled='(offset + 1) * pageSize >= count'></vue-icon>
   </div>
 </template>
 
@@ -71,6 +71,6 @@ export default {
 
 <style>
 .pagination {
-  padding: 5px 10px;
+  padding: 10px 20px;
 }
 </style>
