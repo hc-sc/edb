@@ -1,319 +1,135 @@
-<docs>
-## Chips
-
-Chips are method of displaying simple lists, including the options to add and remove elements. Additionally you can customize whether you can sort the items. On sort, emits a 'sort' event
-
-### Mixins
-
-- focusable
-
-### Values
-
-#### Props
-
-- autocomplete (String, default = 'off'): whether a data-list should be included to help with completing the items
-- deletable (Boolean): if you can delete chips
-- disabled (Boolean, default = false): the entire functioning of the chips is disabled (just displays the items)
-- displayValue (Function): defines how to display the value
-- getItems (Function): used to get the autocomplete values, `options` is used if this is left undefined
-- id (String, required): the id
-- label (String, required): the placeholder text for the input field
-- name (String): can be used to define the chips input field
-- onAdd(Function, default = $emit('input', value)): how to update the list on add.
-- options (Array, default = []): the items to include in the data-list, should it be used
-- sortable (Boolean, default = true): if you can sort the items
-- sortBy (Function, default = localeCompare): define how to sort
-- unique (Boolean): if you can include duplicates
-- value (Array, default = []): the array of items already in the chips
-
-#### Data
-
-- currValue (String): the chip input fields value
-
-#### Computed
-
-- chips (Array): the list of chips, keyed on `value` prop
-- compName (String): the name of the input field, keyed on either `id` or `name`
-- focused (Boolean): if the component has focus
-- items (Array): the list of options, keyed on `options` prop
-
-### Methods
-
-- addItem(value: String): the item to add
-- clear(): emits a new empty array
-- deleteItem(index: Number): the index of the item to remove
-- handleKeyBoardEvent(event: Event): handle keyboard presses
-- sort(): emits a new array with sorted values
-
-### Slots
-
-- deleteIcon: specifies what to display for delete
-- actions: replace the native 'sort' and 'clear' buttons
-- options: replace the data-list element
-
-</docs>
-
 <template>
-  <div class='chips'>
-    <div class='chips-group'>
-      <ul class='chips-list' :class='{focused}' @keydown='handleKeyboardEvent' @focusout='focusedIndex = null' :id='id'>
-        <li class='chips-item' :key='index' v-for='(chip, index) of chips' tabindex='-1' @click='focus(index)'>
-          {{chip}}
-          <span v-if='deletable && !disabled' class='chip-delete' @click='deleteItem(index)'>
-            <slot name='deleteIcon'>x</slot>
-          </span>
-        </li>
-        <li class='chips-input-group'>
-          <label :for='`${id}-input`' class='v-hidden'>{{label}}</label>
-          <input :id='`${id}-input`' ref='input' :name='compName' class='chips-input' :placeholder='label' @focus='focusedIndex = focusable.length - 1' @keydown.enter.prevent.stop='addItem' v-model='currValue' :autocomplete='autocomplete' :list='`${id}-options`' :disabled='disabled' :maxlength='maxLength'>
-        </li>
-      </ul>
-      <div class='chips-actions' v-if='!disabled' :aria-controls='id'>
-        <slot name='actions'>
-          <vue-button v-if='sortable' @click.native='sort' display='flat'>sort</vue-button>
-          <vue-button @click.native='clear' display='flat'>clear</vue-button>
-        </slot>
-      </div>
-      <slot name='options'>
-        <datalist :id='`${id}-options`'>
-          <option v-for='(option, index) of items' :key='index'>{{option}}</option>
-        </datalist>
-      </slot>
-    </div>
+  <div class='chip-container' @click='applyInputFocus'>
+    <vue-chip v-for='(chip, index) in chips' :key='index' :id='`${id}-chip-${index}`' :editable='editable' :deletable='deletable' :disabled='disabled' @edit='editChip(chip)' @delete='deleteChip(chip)'>
+      <slot name='chip' :value='chip'>{{chip}}</slot>
+    </vue-chip>
+    <input :id='id' v-model='currentChip'  :name='compName' :disabled='disabled' @keydown.delete='deleteLastChip' @keydown.prevent.enter='addChip' @keydown.prevent.186='addChip' tabindex='0' maxlength='maxChipLength' ref='input'>
+    <slot></slot>
   </div>
 </template>
 
 <script>
+/** Modified from vue-material chips https://github.com/vuematerial/vue-material/blob/master/src/components/mdChips/mdChips.vue */
 import Button from '@/components/button/button.vue';
-import {focusable} from '@/mixins/focusable.js';
+import Chip from '@/components/chips/chip.vue';
 
 export default {
   name: 'Chips',
-  mixins: [focusable],
   props: {
     id: {
-      type: String,
-      required: true
-    },
-    name: {
-      type: String,
-    },
-    label: {
-      type: String,
-      required: true
+      type: String
     },
     value: {
       type: Array,
       default: () => []
     },
-    onAdd: {
-      type: Function,
-      default(value) {
-        this.$emit('input', value);
-      }
-    },
-    autocomplete: {
-      type: String,
-      default: 'off',
-      validator(value) {
-        return ['on', 'off'].includes(value);
-      }
-    },
-    options: {
-      type: Array,
-      default: () => []
-    },
-    getItems: {
-      type: Function,
-    },
-    displayValue: {
-      type: Function,
-      default(value) {
-        return value;
-      }
-    },
-    unique: {
+    disabled: {
       type: Boolean,
-      default: true
+      default: false
     },
     deletable: {
       type: Boolean,
       default: true
     },
-    sortable: {
+    editable: {
       type: Boolean,
       default: true
     },
-    sortBy: {
-      type: Function,
-      default(a, b) {
-        return a.localeCompare(b.toLowerCase());
+    unique: {
+      type: Boolean,
+      default: true
+    },
+    type: {
+      type: String,
+      default: 'text',
+      validator(value) {
+        return ['text', 'number', 'email', 'date', 'tel'].includes(value);
       }
     },
-    disabled: {
+    validate: {
       type: Boolean,
-      default: false
+      default() {
+        return false;
+      }
     },
-    max: {
-      type: Number
+    label: {
+      type: String
     },
-    maxLength: {
-      type: Number
+    maxChips: {
+      type: Number,
+      default: Infinity
+    },
+    maxChipLength: {
+      type: Number,
+      default: Infinity
     }
   },
   data() {
     return {
-      currValue: '',
+      currentChip: null,
+      chips: this.value,
     };
   },
-  methods: {
-    deleteItem(index) {
-      if (
-        this.disabled
-         || !this.deletable ||
-        index == null ||
-        index < 0 ||
-        index >= this.chips.length
-      ) return;
-      if (this.chips.length === 1) this.clear();
-      else {
-        this.$emit('input', this.chips.slice(0, index).concat(this.chips.slice(index + 1)));
-      }
-    },
-
-    addItem() {
-      if (this.max != null && this.chips.length >= this.max) return;
-      if (this.disabled) return;
-      const text = this.currValue.trim();
-      if (text.length === 0) return;
-      if (this.unique && this.chips.some(item => {
-        return item.toLowerCase() === this.currValue.toLowerCase();
-      })) return;
-
-      this.onAdd(this.chips.concat(this.currValue));
-      ++this.focusedIndex;
-      this.currValue = '';
-    },
-    sort() {
-      this.$emit('input', this.chips.sort(this.sortBy));
-    },
-    clear() {
-      this.$emit('input', []);
-    },
-    handleKeyboardEvent(event) {
-      if (this.focusedIndex == null) this.focus(0);
-      else if (event.keyCode === 37) {
-        this.focus(this.focusedIndex - 1);
-      }
-      else if (event.keyCode === 39) {
-        this.focus(this.focusedIndex + 1);
-      }
-      else if (event.keyCode === 46) {
-        this.deleteItem(this.focusedIndex);
-      }
-    }
-  },
   computed: {
-    focused() {
-      return this.focusedIndex != null;
-    },
     compName() {
       return this.name || this.id;
+    }
+  },
+  methods: {
+    applyInputFocus() {
+      this.$nextTick(() => {
+        this.$refs.input.focus();
+      });
     },
-    chips() {
-      return this.value.slice();
-    },
-    items() {
-      if (this.getItems) {
-        this.getItems().then(items => {
-          this.loading = false;
-          return items;
-        });
+    addChip() {
+      if (this.currentChip && this.chips.length < this.maxChips) {
+        const value = this.currentChip.trim();
+
+        if (!this.unique || this.chips.indexOf(value) < 0) {
+          this.chips.push(value);
+          this.currentChip = null;
+          this.$emit('input', this.chips);
+          this.$emit('change', this.chips);
+          this.applyInputFocus();
+        }
       }
-      else return this.options;
+    },
+    deleteChip(chip) {
+      let index = this.getIndex(chip);
+      if (index >= 0) {
+        this.chips.splice(index, 1);
+      }
+      this.$emit('change', this.chips);
+      this.applyInputFocus();
+    },
+    editChip(chip) {
+      let index = this.getIndex(chip);
+      if (index >= 0) {
+        this.chips.splice(index, 1);
+      }
+      this.currentChip = chip;
+      this.$emit('change', this.chips);
+      this.applyInputFocus();
+    },
+    deleteLastChip() {
+      if (!this.currentChip) {
+        this.chips.pop();
+        this.$emit('change', this.chips);
+        this.applyInputFocus();
+      }
+    },
+    getIndex(chip) {
+      return this.chips.indexOf(chip);
     }
   },
   watch: {
-    chips() {
-      // this updates the DOM, need to wait
-      this.$nextTick(() => {
-        this.getFocusableNodes('.chips-item, input:not([disabled])');
-      });
+    value(value) {
+      this.selectedChip = value;
     }
   },
-  mounted() {
-    this.getFocusableNodes('.chips-item, input:not([disabled])');
-  },
   components: {
-    'vue-button': Button
+    'vue-button': Button,
+    'vue-chip': Chip,
   }
 };
 </script>
-
-<style>
-@import '../../assets/css/shadows.css';
-
-.chips {
-  width: 100%;
-  box-shadow: none;
-  outline: none;
-  padding-bottom: 5px;
-  transition: .2s ease-in;
-}
-
-.chips-group {
-  min-height: 1.75rem;
-}
-
-.chips-actions {
-  display: flex;
-  justify-content: flex-start;
-}
-
-.chips-list {
-  list-style-type: none;
-  margin-bottom: 3px;
-  box-shadow: none;
-  padding-bottom: 3px;
-  border-bottom: 1px solid var(--divider);
-}
-
-.chips-list.focused {
-  border-bottom: 1px solid var(--primary-color);
-  box-shadow: 0 1px 0 0 var(--primary-color);
-  transition: var(--toggle);
-}
-
-.chips-item {
-  outline: none;
-  display: inline-block;
-  line-height: 1.75rem;
-  padding: 0 12px;
-  margin: 0 2px;
-  border-radius: 16px;
-  background-color: #e4e4e4;
-}
-
-.chips-item:focus {
-  background-color: var(--primary-color);
-  color: var(--primary-text);
-}
-
-.chips-item > span {
-  padding-left: 5px;
-  cursor: pointer;
-}
-
-.chips-input-group {
-  display: inline-block;
-  line-height: 1.75rem;
-}
-
-.chips-input {
-  padding-top: 6px;
-  border: none;
-  outline: none;
-  font-size: 1rem;
-  background-color: inherit;
-}
-</style>
