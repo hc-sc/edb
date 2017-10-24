@@ -11,7 +11,7 @@ const app = {
     dossierid: '',
     submissionid: '',
     ghsts: {}, // the dossier/submission metadata, via getGhsts
-
+    isSubmission: false, // determines if we are in dossier management
     // these are used by all node screens
     records: [], // used for any master/detail screen (i.e. legalentities)
     currentRecord: null, // the currently selected record, which is cloned and used for revert and dirty check
@@ -44,6 +44,9 @@ const app = {
     },
     tocdescription(state) {
       return state.ghsts._tocdescription;
+    },
+    isSubmission(state) {
+      return state.isSubmission;
     }
   },
 
@@ -73,6 +76,9 @@ const app = {
     addSender(state, {receiver, sender}) {
       let rec = state.ghsts._receiver.find(r => r._id === receiver._id);
       rec.push(sender);
+    },
+    setSubmissionState(state, value) {
+      state.isSubmission = value;
     }
   },
 
@@ -86,10 +92,20 @@ const app = {
       commit('updateAppRecords', records);
     },
 
+    async getSubmissionDataAll({commit}, {url, dossierid, sortBy, desc = false}) {
+      let records = await BackendService.callMethod(url, 'get', {_dossier: dossierid});
+      if (sortBy != null) {
+        records = sortByLocale(records.slice(), desc, sortBy);
+      }
+      commit('updateAppRecords', records);
+    },
+
     async updateAppData({commit, dispatch}, {url, model}) {
-      await BackendService.updateAppData(url, model);
-      dispatch('getAppDataAll', {url})
-      .then(() => commit('updateCurrentRecord', model));
+      return await BackendService.updateAppData(url, model);
+
+      // await BackendService.updateAppData(url, model);
+      // dispatch('getAppDataAll', {url})
+      // .then(() => commit('updateCurrentRecord', model));
     },
 
     async createAppData({commit, dispatch}, {url, model}) {

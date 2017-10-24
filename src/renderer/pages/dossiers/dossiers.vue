@@ -283,7 +283,9 @@ export default {
     async selectSubmission(index) {
       if (this.dossier.submission[index]._state !== SUBMISSION_STATUS_IN_PROGRESS) {
         this.showMessage('CANNOT_OPEN_SENT_OR_PACKAGED');
+        return;
       }
+
       this.updateDossierData({dossiertitle: this.dossier.dossierdescriptiontitle, dossierid: this.dossier._id});
       this.sub = await BackendService.getGhsts({_submissionid: this.dossier.submission[index]._id});
       this.sub = this.sub[0];

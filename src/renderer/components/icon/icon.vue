@@ -22,6 +22,16 @@ Allows for definition of an icon, complete with appropriate tooltip.
 
 </docs>
 
+<new>
+<template>
+  <span>
+    <slot>
+      <i class='material-icons'>{{icon}}</i>
+    </slot>
+  </span>
+</template>
+</new>
+
 <template>
   <vue-tooltip class='icon' :id='id' :label='label' :position='position'>
     <button type='button' :disabled='disabled' :class='[{fab}, color]'>

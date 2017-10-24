@@ -138,7 +138,7 @@ const BackendService = {
   //Call ghsts 'put' to put the whole object
   //For update receiver
   //  the ghsts obj
-  //  
+  //
   //For update document at Dossier Screen
   //  _url: ['ghsts/'(optional)]['ghstsid/'(optional)]'document'
   //  data: the new document object
@@ -197,13 +197,19 @@ const BackendService = {
 };
 
 function handleIPC(msgChannel, method, query) {
-  return new Promise((res) => {
+  return new Promise((res, rej) => {
     if (ipc) {
       let timestamp = _getTimeStamp();
       ipc.once(msgChannel + BACKENDCONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, (event, args) => {
-        if (args.err) {
-          handleError(args.err);
-        } else {
+        console.log(args.err);
+        if (args.err && args.err.code !== 'EDB30002') {
+          rej(args.err);
+        }
+        // validation results!
+        else if (args.err && args.err.code === 'EDB30002') {
+          res(args.err.data);
+        }
+        else {
           try {
             res(JSON.parse(args.data));
           }
@@ -214,7 +220,7 @@ function handleIPC(msgChannel, method, query) {
       });
       ipc.send(msgChannel, _msg_envelope(method, query, timestamp));
     } else {
-      handleError('Error: Please run application in electron!');
+      rej('Error: Please run application in electron!');
     }
   });
 }

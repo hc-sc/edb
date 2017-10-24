@@ -6,6 +6,7 @@
  */
 
 import {ModelService} from '@/services/model.service.js';
+import {BackendService} from '@/store/backend.service.js';
 import {generatePID, getNestedProperty, getValidPIDRegExp} from '@/services/utils.service.js';
 import {cloneDeep, merge, isEqual} from 'lodash';
 import {mapState, mapMutations, mapActions} from 'vuex';
@@ -25,23 +26,32 @@ const model = {
       records: state => state.app.records,
       submissionid: state => state.app.submissionid,
       ghsts: state => state.app.ghsts,
-      dossierid: state => state.app.dossierid
+      dossierid: state => state.app.dossierid,
+      isSubmission: state => state.app.isSubmission
     })
   },
 
   methods: {
     // pull these out so we can directly call them. Actions are thennable
-    ...mapMutations('app', ['updateCurrentRecord', 'updateCurrentUrl', 'updateAppRecords']),
-    ...mapActions('app', ['updateAppData', 'createAppData', 'getAppDataAll']),
+    ...mapMutations('app', ['updateCurrentRecord', 'updateCurrentUrl', 'updateAppRecords', 'setSubmissionState']),
+    ...mapActions('app', [
+      'updateAppData',
+      'createAppData',
+      'getAppDataAll',
+      'getSubmissionDataAll'
+    ]),
 
     getValidPIDRegExp,
 
     // Returns a default empty model
     getEmptyModel(model) {
+      console.log(model);
       return ModelService.getModel(model);
     },
 
-    // required to deal with empty fields from the DB
+    // This takes an empty schema object and merges it with the record
+    // We need to do this because the DB doesn't store fields that are
+    // empty, but Vue needs to have the fields predefined or set to be reactive
     mergeModelAndRecord(model, record) {
       return merge(model, record);
     },
@@ -85,43 +95,99 @@ const model = {
       this.mapStateToModel();
     },
 
-    // Save record in DB. If there is an _id prop, it's updating, if not it's a
-    // new record
-    save(url) {
+    // Save record in DB
+    // This depends on whether we are currently in a submission or not.
+    // If its 'global' application data, we save to it's global URL. If it's
+    // dossier specific data, and depending on the URL, we may need to update
+    // the current GHSTS object, or the item in the table.
+    // If the record is new (no '_id' field), then we need to create and
+    // return a new entry, otherwise we update
+
+    // NOTE: that 'file' is actually created during the selectFolder function,
+    // so you actually 'update' rather than 'create' on the first save
+    async save(url) {
       if (this.currentRecord == null) return;
 
       // need to delete the reactive observer for db insertion/update
-      let sendModel = cloneDeep(this.model);
-      delete sendModel.__ob__;
+      let model = cloneDeep(this.model);
+      delete model.__ob__;
 
-      // for items with their own table that are within a dossier
-      // need to append the dossier id
-      if (url === 'file' || url === 'document') {
-        sendModel._dossier = this.dossierid;
+          // for items with their own table that are linked with a dossier
+          // need to append the dossier id for table joins
+      if (this.isSubmission && (url === 'file' || url === 'document' || url === 'dossier' )) {
+        model._dossier = this.dossierid;
       }
 
-      if ('_id' in sendModel) {
-        this.updateAppData({url, model: sendModel})
-        .then(() => {
-          this.showMessage(this.$t('UPDATE_SUCCESS'));
-        })
-        .catch(() => {
-          this.showMessage(this.$t('UPDATE_FAILURE'));
-        });
+      // updating an existing item
+      if ('_id' in model) {
+        if (this.isSubmission) {
+          try {
+            let result = await BackendService.updateAppData(url, model);
+            this.updateCurrentRecord(result);
+            if (url === 'file' || url === 'document') {
+              // set records that match this dossier
+              await this.getSubmissionDataAll({url, dossierid: this.dossierid});
+            }
+            this.mapStateToModel();
+            this.showMessage(this.$t('UPDATE_SUCCESS'));
+          }
+          catch(err) {
+            this.showMessage(this.$t('UPDATE_FAILURE'));
+          }
+        }
+
+        // global app data update
+        else {
+          try {
+            let result = await this.updateAppData({url, model});
+            this.updateCurrentRecord(result);
+            if (this.hasRecords(url)) {
+              this.getAppDataAll({url});
+            }
+            this.mapStateToModel();
+            this.showMessage(this.$t('UPDATE_SUCCESS'));
+          }
+          catch(err) {
+            this.showMessage(this.$t('UPDATE_FAILURE'));
+          }
+        }
       }
+
+      // else we need to create a new record
       else {
-        this.createAppData({url, model: sendModel})
+        // NOTE: if the model has a _dossierid field, it will be used to save
+        // to correct table
+        // if (this.isSubmission) {
+
+        // }
+        // else {
+
+        // }
+        this.createAppData({url, model})
         .then(record => {
           this.updateCurrentRecord(record);
           this.mapStateToModel();
           this.showMessage(this.$t('SAVE_SUCCESS'));
         })
-        .then(() => this.getAppDataAll({url}))
+        .then(async () => {
+          if (this.hasRecords(url)) {
+            await this.getAppDataAll({url});
+          }
+        })
         .catch(err => {
-          console.error(err);
           this.showMessage(this.$t('SAVE_FAILURE'));
         });
       }
+    },
+
+    hasRecords(url) {
+      return url === 'legalentity' ||
+        url === 'sender' ||
+        url === 'receiver' ||
+        url === 'substance' ||
+        (url === 'product' && !this.isSubmission) ||
+        url === 'file' ||
+        url === 'document';
     },
 
     // Creates a new clone of the selected record so we can modify without
@@ -343,20 +409,20 @@ const model = {
   beforeRouteLeave(to, from, next) {
     // clean up records
     if(this.currentRecord != null && this.isDirty(this.currentRecord, this.model)) {
-      console.log('is dirty');
       this.showMessageDialog({message: this.$t('DISCARD_CHANGES')})
       .then(() => {
+        this.setSubmissionState(to.path.startsWith('/submission'));
         next();
       }, err => console.error(err))
       .catch(() => {
         console.log('Route change cancelled');
       })
       .then(() => {
-        console.log('closing');
         this.$dialog.close();
       });
     }
     else {
+      this.setSubmissionState(to.path.startsWith('/submission'));
       next();
     }
   }
