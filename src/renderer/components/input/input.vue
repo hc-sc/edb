@@ -218,6 +218,9 @@ export default {
       if (this.isTextField && this.pattern) {
         return this.pattern.test(this.value);
       }
+      else if (this.type === 'number') {
+        return /^[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/.test(this.value);
+      }
       return true;
     }
   },
@@ -303,26 +306,17 @@ export default {
   box-shadow: 0 1px 0 0 var(--primary-color)
 }
 
-.input-field.invalid,
-.input-field[type=number]:invalid,
-body:not(.js) .input-field:invalid {
+.input-field.invalid {
   border-bottom: 1px solid var(--error-color);
 }
 
 .input-field.invalid:focus,
-.input-field[type=date]:invalid:focus,
-.input-field[type=number]:invalid:focus,
-.input-field.invalid:active,
-.input-field[type=date]:invalid:active,
-.input-field[type=number]:invalid:active,
-body:not(.js) .input-field:focus:invalid,
-body:not(.js) .input-field:active:invalid {
+.input-field.invalid:active {
   border-bottom: 1px solid var(--error-color);
   box-shadow: 0 1px 0 0 var(--error-color)
 }
 
-.input-field.invalid + label,
-.input-field[type=number]:invalid + label {
+.input-field.invalid + label {
   color: var(--error-color);
 }
 
@@ -331,8 +325,7 @@ body:not(.js) .input-field:active:invalid {
 }
 
 .js .input-field:focus + label,
-.js .input-field:not(.empty) + label,
-.input-field[type=number]:invalid + label {
+.js .input-field:not(.empty) + label {
   transform: scale(.7) translate3d(0, 0, 0);
 }
 
