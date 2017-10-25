@@ -213,7 +213,8 @@ export default {
 }
 
 .dialog[aria-expanded] .dialog-cloak, .dialog[aria-expanded] .dialog-popup {
-  display: block;
+  display: flex;
+  flex-direction: column;
   opacity: 1;
 }
 
@@ -230,7 +231,6 @@ export default {
   transform: translate(-50%, -50%);
   box-shadow: var(--depth-6);
   max-height: 80%;
-  overflow-y: auto;
 }
 
 .dialog-title {
@@ -242,9 +242,11 @@ export default {
 
 .dialog-content {
   padding: 1rem;
+  overflow-y: auto;
 }
 
 .dialog-actions {
   float: right;
+  padding: 5px;
 }
 </style>

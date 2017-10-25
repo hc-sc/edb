@@ -9,7 +9,7 @@
       </div>
        <div slot='split-pane-2' class='pane'>
         <template v-if='shouldShowFields()'>
-          <vue-select id='legalentities' :label='$t("legalentity")' :options='legalentities' :value='model.toLegalEntityId' :matchValue='matchById' :displayValue='v => v.legalentityname' @input='model.toLegalEntityId = $event._id' required></vue-select>
+          <vue-select id='legalentities' :label='$t("REGULATORY_AUTHORITY")' :options='legalentities' :value='model.toLegalEntityId' :matchValue='matchById' :displayValue='v => v.legalentityname' @input='model.toLegalEntityId = $event._id' required></vue-select>
           <vue-input id='shortname' :label='$t("shortname")' v-model='model.shortname' required :max='20'></vue-input>
           <vue-input id='role' :label='$t("role")' v-model='model.role' :max='255'></vue-input>
         </template>
@@ -37,6 +37,7 @@ import Select from '@/components/select/select.vue';
 import SplitPane from '@/components/split-pane/split-pane.vue';
 import {model} from '@/mixins/model.js';
 import {BackendService} from '@/store/backend.service.js';
+import {mapGetters} from 'vuex';
 
 export default {
   name: 'Receivers',
@@ -46,6 +47,9 @@ export default {
       legalentities: [],
       model: {...this.getEmptyModel('receiver')}
     };
+  },
+  computed: {
+    ...mapGetters('picklists', ['legalentitytype'])
   },
   async beforeCreate() {
     this.$store.commit('loading');
@@ -57,7 +61,11 @@ export default {
       this.$store.dispatch('app/getAppDataAll', {url: 'receiver', sortBy: 'shortname'}),
       BackendService.getAppData('legalentity')
     ]);
-    this.legalentities = les;
+
+    // need to retrieve the table ID of 'Regulatory Authorities' so we
+    // can filter the legal entities
+    let raId = this.legalentitytype.find(le => le.value === 'Regulatory Authority')._id;
+    this.legalentities = les.filter(le => le.legalentitytype === raId);
     this.selectListItem(this.records[0], false);
     this.$store.commit('ready');
   },

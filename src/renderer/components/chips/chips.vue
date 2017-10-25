@@ -10,12 +10,15 @@
     <slot></slot>
     <div class='chip-actions' v-if='!disabled' :aria-controls='id' role='toolbar'>
       <slot name='actions'>
-        <vue-button v-if='sortable' @click.native='onSort' display='flat' color='none' icon>
+
+        <vue-icon icon='sort' :label='$t("sort")' v-if='sortable' @click.native='onSort'position='left' :id='`${id}-sort`'></vue-icon>
+        <vue-icon icon='clear' :label='$t("clear")' @click.native='onClear' position='left' :id='`${id}-clear`'></vue-icon>
+        <!-- <vue-button v-if='sortable' @click.native='onSort' display='flat' color='none' icon>
           <i class='material-icons'>sort</i>
         </vue-button>
         <vue-button @click.native='onClear' display='flat' icon color='none'>
           <i class='material-icons'>clear</i>
-        </vue-button>
+        </vue-button> -->
       </slot>
     </div>
     <slot name='options'>
@@ -31,6 +34,7 @@
 
 import Button from '@/components/button/button.vue';
 import Chip from '@/components/chips/chip.vue';
+import Icon from '@/components/icon/icon.vue';
 import {sortByLocale} from '@/services/utils.service.js';
 
 export default {
@@ -197,6 +201,7 @@ export default {
   components: {
     'vue-button': Button,
     'vue-chip': Chip,
+    'vue-icon': Icon
   }
 };
 </script>

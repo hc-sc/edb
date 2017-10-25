@@ -5,7 +5,7 @@
     <template v-else>
       <vue-table :title='$t("receivers")' id='receivers' required addable
       @add='addReceiver' :headers='[{key: "toLegalEntityId", name: "legalentity", url: "legalentity"}, "shortname", "role"]' :displayHeader='displayTranslation' :items='model' @select='selectReceiver' @action='handleAction($event, model)'></vue-table>
-      <vue-table v-if='selectedReceiver' :title='$t("sender")' id='senders' required addable @add='addSender($event)' :items='selectedReceiver._senders' :headers='[{key: "toLegalEntityId", name: "legalentity", url: "legalentity"}, "shortname", "companycontactregulatoryrole", "remark"]' :displayHeader='displayTranslation' @select='selectSender($event)' @action='handleAction($event, selectedReceiver._senders)'></vue-table>
+      <vue-table v-if='selectedReceiver' :title='$t("sender")' id='senders' required addable @add='addSender($event)' :items='selectedReceiver._senders' :headers='[{key: "toLegalEntityId", name: "legalentity", url: "legalentity"}, {key: "_shortname", name: "shortname"}, "companycontactregulatoryrole", "remark"]' :displayHeader='displayTranslation' @select='selectSender($event)' @action='handleAction($event, selectedReceiver._senders)'></vue-table>
       <p v-if='receivers && receivers.length && selectedReceiver == null'>{{$t('SELECT_TO_BEGIN')}}</p>
       <p v-else-if='selectedReceiver == null'>{{$t('ADD_TO_BEGIN')}}</p>
       <div class='bottom-float'>
@@ -57,8 +57,8 @@ export default {
         this.$set(receiver, '_senders', []);
         this.model.push(receiver);
       })
-      .catch(err => {
-        console.error(err);
+      .catch(() => {
+        // dialog rejected (cancelled), no problems
       })
       .then(() => this.$dialog.close());
     },
@@ -71,7 +71,8 @@ export default {
       this.showFormDialog('sender')
       .then(sender => {
         this.selectedReceiver._senders.push(sender);
-        console.log('here');
+      }, () => {
+        // dialog rejected (cancelled), no problems
       })
       .catch(err => {
         console.error(err);
@@ -82,8 +83,9 @@ export default {
     selectSender(index) {
       this.showFormDialog('sender', this.selectedReceiver._senders[index])
       .then(sender => {
-        console.log(sender);
         this.$set(this.selectedReceiver._senders, index, sender);
+      }, () => {
+        // dialog rejected (cancelled), no problems
       })
       .catch(err => {
         console.error(err);
@@ -104,7 +106,6 @@ export default {
         };
       });
 
-      console.log(newGhsts);
       this.updateCurrentGhsts(newGhsts)
       .then(async () => {
         this.updateCurrentRecord(await this.initReceivers());
@@ -130,7 +131,6 @@ export default {
     // so we can populate the table data and manage senders.
     // This is cloned to be able to revert.
     async initReceivers() {
-      console.log(this.ghsts._receiver);
       let receivers = await Promise.all(this.ghsts._receiver.map(async receiver => {
         let obj = {};
         obj = (await BackendService.getAppData('receiver', receiver.receiver))[0];

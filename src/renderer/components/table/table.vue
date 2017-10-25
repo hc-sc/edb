@@ -57,7 +57,8 @@ The table is used to display grid-like and/or tabular data. You can provide an a
 </docs>
 
 <template>
-  <vue-card class='table' :class='{selectable, sortable, pageable, filterable}' @select='select' @sort='sort' @changeOffset='changeOffset'>
+<div class='table'>
+  <vue-card :class='{selectable, sortable, pageable, filterable}' @select='select' @sort='sort' @changeOffset='changeOffset'>
     <vue-toolbar v-show='!searching'>
       <span>
         {{title}}
@@ -111,11 +112,12 @@ The table is used to display grid-like and/or tabular data. You can provide an a
             </tr>
           </tbody>
         </table>
-        <span v-if='!loading && (rows == null || rows.length === 0) && required' :class='{"error-text": required}'>{{required ? $t('requireoneitem') : $t('noitems')}}</span>
       </div>
       <vue-pagination :count='count' :pageSize='pageSize' :offset='offset' :label='$t("rows")' @pageChange='changeOffset' @sizeChange='changeSize' :message='message'></vue-pagination>
     </template>
   </vue-card>
+  <span v-if='!loading && (rows == null || rows.length === 0) && required' :class='{"error-text": required}'>{{required ? $t('requireoneitem') : $t('noitems')}}</span>
+</div>
 </template>
 
 <script>
@@ -321,7 +323,6 @@ export default {
       return sortByLocale(this.filteredRows, this.desc, this.sortBy);
     },
     pagedRows() {
-      console.log('updates');
       return this.sortedRows.slice(
         this.offset * this.pageSize, (this.offset + 1) * this.pageSize
       );
@@ -498,6 +499,7 @@ export default {
           }
 
           if (cellData && cellData.constructor === Object) cellData = null;
+          if (Array.isArray(cellData)) cellData = cellData.join(', ');
 
           // replace ISO dates with more human readable versions
           let date = moment(cellData, moment.ISO_8601, true);
@@ -549,9 +551,15 @@ export default {
 @import '../../assets/css/colors.css';
 @import '../../assets/css/animations.css';
 
+
+
 .table {
   border: none;
   outline: none;
+}
+
+.table + .table {
+  margin-top: 15px;
 }
 
 .table-wrapper {

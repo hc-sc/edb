@@ -5,8 +5,8 @@
       {{title}}
       <vue-nav id='submission-nav' slot='subheader' :navs='pageNodes'></vue-nav>
       <div slot='right'>
-        <i class='material-icons' @click='validate'>check</i>
-        <i class='material-icons' @click='package'>archive</i>
+        <vue-icon icon='check' id='validate' @click.native='validate' :label='$t("VALIDATE")' position='left'></vue-icon>
+        <vue-icon icon='archive' id='package' @click.native='package' :label='$t("PACKAGE")' position='left'></vue-icon>
       </div>
     </vue-header>
     <router-view></router-view>
@@ -16,6 +16,7 @@
 <script>
 import Header from '@/components/header/header.vue';
 import History from '@/components/history/history.vue';
+import Icon from '@/components/icon/icon.vue';
 import Nav from '@/components/nav/nav.vue';
 import {mapState} from 'vuex';
 import {BackendService} from '@/store/backend.service.js';
@@ -89,6 +90,7 @@ export default {
   components: {
     'vue-header': Header,
     'vue-history': History,
+    'vue-icon': Icon,
     'vue-nav': Nav
   }
 };

@@ -70,7 +70,14 @@ export default {
 </script>
 
 <style>
+@import '../../assets/css/colors.css';
+
 .pagination {
   padding: 10px 20px;
+  border-top: 1px solid var(--divider);
+}
+
+.pagination > span:first-child {
+  padding-right: 5px;
 }
 </style>

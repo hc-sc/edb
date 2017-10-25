@@ -45,7 +45,6 @@ const model = {
 
     // Returns a default empty model
     getEmptyModel(model) {
-      console.log(model);
       return ModelService.getModel(model);
     },
 
@@ -353,8 +352,8 @@ const model = {
             ref.push(result);
           }
         }
-      }, err => {
-        console.error(err);
+      }, () => {
+        // dialog rejected (cancelled), no problems
       })
       .catch(() => {
         this.showMessage(this.$t('ADD_ITEM_FAILURE'));

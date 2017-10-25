@@ -50,6 +50,7 @@ export default {
 }
 
 .home-nav > a {
+  margin: 3px 6px;
   color: var(--primary-text-light);
   display: flex;
   flex-direction: column;

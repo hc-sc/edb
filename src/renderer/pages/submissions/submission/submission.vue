@@ -3,7 +3,7 @@
     <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
     <vue-progress v-if='loading'></vue-progress>
     <template v-else>
-      <vue-input required id='submissiontitle' :label='$t("submissiontitle")' v-model='model.submissiontitle'></vue-input>
+      <vue-textarea required id='submissiontitle' :label='$t("submissiontitle")' v-model='model.submissiontitle' :max='2000'></vue-textarea>
       <vue-input type='number' required id='submissionnumber' disabled v-model='model.submissionnumber' :label='$t("submissionnumber")' required></vue-input>
       <vue-input type='date' required id='submissionversiondate' v-model='model.submissionversiondate' :label='$t("submissionversiondate")' required></vue-input>
       <!-- <vue-switch id='incremental' v-model='model.incremental' :label='$t("incremental")' :disabled='model.submissionnumber == 1'></vue-switch> -->
@@ -22,6 +22,7 @@ import Icon from '@/components/icon/icon.vue';
 import Input from '@/components/input/input.vue';
 import Progress from '@/components/progress/progress.vue';
 import Switch from '@/components/switch/switch.vue';
+import Textarea from '@/components/textarea/textarea.vue';
 import {model} from '@/mixins/model.js';
 import {BackendService} from '@/store/backend.service.js';
 import {mapMutations} from 'vuex';
@@ -58,6 +59,7 @@ export default {
     'vue-input': Input,
     'vue-progress': Progress,
     'vue-switch': Switch,
+    'vue-textarea': Textarea
   }
 };
 </script>

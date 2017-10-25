@@ -9,9 +9,9 @@
           <span class='f-gap'></span>
           <vue-input type='text' id='dossierpid' :label='$t("dossierpid")' v-model='model.dossierpid' required :pattern='getValidPIDRegExp()'></vue-input>
         </div>
-        <vue-input id='dossiercompid' :label='$t("dossiercompid")' v-model='model.dossiercompid' required></vue-input>
-        <vue-input id='dossierdescriptiontitle' :label='$t("dossierdescriptiontitle")' v-model='model.dossierdescriptiontitle' required></vue-input>
-        <vue-table id='radossiertype' :title='$t("REGULATORY_AUTHORITY_DOSSIER_TYPE")' :items='model.dossierra' :headers='[{name: "toSpecificForRAId", url: "legalentity"}, {name: "applicationtype", url: "picklist"}, {name: "regulatorytype", url: "picklist"}]' :displayHeader='displayTranslation' required addable @add='addTableItem("dossierra")' @select='selectTableItem("dossierra", model.dossierra[$event], $event)' @action='handleAction($event, model.dossierra)'></vue-table>
+        <vue-input id='dossiercompid' :label='$t("dossiercompid")' v-model='model.dossiercompid' required :max='20'></vue-input>
+        <vue-textarea id='dossierdescriptiontitle' :label='$t("dossierdescriptiontitle")' v-model='model.dossierdescriptiontitle' required :max='2000'></vue-textarea>
+        <vue-table id='radossiertype' :title='$t("REGULATORY_AUTHORITY_DOSSIER_TYPE")' :items='model.dossierra' :headers='[{name: "toSpecificForRAId", url: "legalentity"}, {name: "applicationtype", url: "picklist"}, {name: "regulatorytype", url: "picklist"}, "projectidnumber"]' :displayHeader='displayTranslation' required addable @add='addTableItem("dossierra")' @select='selectTableItem("dossierra", model.dossierra[$event], $event)' @action='handleAction($event, model.dossierra)'></vue-table>
         <vue-table id='referenceddossier' :title='$t("referenceddossier")' :items='model.referenceddossier' :headers='["referenceddossiernumber", "referenceddossierreason"]' :displayHeader='displayTranslation' addable @add='addTableItem("referenceddossier")' @select='selectTableItem("referenceddossier", model.referenceddossier[$event], $event)' @action='handleAction($event, model.referenceddossier)'></vue-table>
         <div class='bottom-float'>
           <vue-icon fab @click.native='save("dossier")' id='save' :label='$t("save")' icon='save' position='top'></vue-icon>
@@ -31,6 +31,7 @@ import Input from '@/components/input/input.vue';
 import Progress from '@/components/progress/progress.vue';
 import ReferencedDossier from '@/pages/submissions/dossier/referenced-dossier.vue';
 import Table from '@/components/table/table.vue';
+import Textarea from '@/components/textarea/textarea.vue';
 import {model} from '@/mixins/model.js';
 import {BackendService} from '@/store/backend.service.js';
 
@@ -55,9 +56,7 @@ export default {
     this.resetForm();
     try {
       // check this line
-      console.log(this.getEmptyModel('dossier'));
       let model = (await BackendService.getAppData('dossier', this.dossierid))[0];
-      console.log(model, this.getEmptyModel('dossier'), this.model);
       this.updateCurrentRecord(this.mergeModelAndRecord(this.getEmptyModel('dossier'), model));
       this.mapStateToModel();
     }
@@ -71,7 +70,8 @@ export default {
     'vue-icon': Icon,
     'vue-input': Input,
     'vue-progress': Progress,
-    'vue-table': Table
+    'vue-table': Table,
+    'vue-textarea': Textarea
   }
 };
 </script>

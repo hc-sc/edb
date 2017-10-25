@@ -19,9 +19,9 @@
               <span class='f-gap'></span>
               <vue-input type='text' id='filepid' :label='$t("filepid")' v-model='model.filegeneric.filepid' required :pattern='getValidPIDRegExp()'></vue-input>
             </div>
-            <vue-input type='text' id='filecompanyid' :label='$t("filecompanyid")' v-model='model.filegeneric.filecompanyid'></vue-input>
+            <vue-input type='text' id='filecompanyid' :label='$t("filecompanyid")' v-model='model.filegeneric.filecompanyid' :max='255'></vue-input>
             <vue-select id='filetype' :label='$t("filetype")' :value='model.filegeneric.filetype' @input='model.filegeneric.filetype = $event._id' :options='filetype' :displayValue='displayPicklistItem' :matchValue='matchById' required></vue-select>
-            <vue-input type='text' id='formatcomment' :label='$t("formatcomment")' v-model='model.filegeneric.formatcomment'></vue-input>
+            <vue-input type='text' id='formatcomment' :label='$t("formatcomment")' v-model='model.filegeneric.formatcomment' :max='255'></vue-input>
             <vue-input type='text' id='md5checksum' :label='$t("md5checksum")' v-model='model.filegeneric.md5CHECKSUM' disabled></vue-input>
             <vue-input type='text' id='filename' :label='$t("filename")' v-model='model.filegeneric.filename' disabled></vue-input>
             <vue-table id='fileinformation' :title='$t("REGULATORY_AUTHORITY_FILE_INFORMATION")' :items='model.filera'  :headers='[{name: "toSpecificForRAId", url: "legalentity"}, "cbidesignation", "filecomment"]' :displayHeader='displayTranslation' addable @add='addTableItem("filera")' @select='selectTableItem("filera", model.filera[$event], $event)' @action='handleAction($event, model.filera)' required></vue-table>

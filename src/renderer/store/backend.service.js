@@ -201,7 +201,6 @@ function handleIPC(msgChannel, method, query) {
     if (ipc) {
       let timestamp = _getTimeStamp();
       ipc.once(msgChannel + BACKENDCONST.EDB_IPC_ASYNC_REPLAY_SUF + timestamp, (event, args) => {
-        console.log(args.err);
         if (args.err && args.err.code !== 'EDB30002') {
           rej(args.err);
         }

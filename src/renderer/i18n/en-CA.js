@@ -27,7 +27,7 @@ export default {
   lastmodified: 'Last Modified',
   manageApplication: 'Manage Application Data',
   manageDossier: 'Manage Dossier | Manage Dossiers',
-  noitems: 'There are no items. Create a new one to begin',
+  noitems: 'There are currently no items. Create a new one to begin',
   open: 'Open',
   packaged: 'Packaged',
   pageleft: 'Page Left',
@@ -41,6 +41,7 @@ export default {
   search: 'Search',
   sent: 'Sent',
   setting: 'Setting | Settings',
+  sort: 'Sort',
   tableofcontents: 'Table Of Contents',
   title: 'Title',
   view: 'View',
@@ -64,6 +65,7 @@ export default {
   NO_DOSSIER_SELECTED: 'Select a Dossier to review Submissions',
   NON_SENT_SUBMISSION: '',
   OPEN: 'Open',
+  PACKAGE: 'Package',
   PACKAGE_LOCATION: 'Package Location',
   PACKAGE_TYPE: 'Package Type',
   PID_PREFIX: 'PID Prefix',
@@ -84,6 +86,7 @@ export default {
   UPDATE_FAILURE: 'Update failure',
   UPDATE_SUCCESS: 'Update successful',
   VALID_WEBSITE: 'Must be a valid website (start with http:// or https://)',
+  VALIDATE: 'Validate',
 
   legalentities: 'Legal Entity | Legal Entities',
 

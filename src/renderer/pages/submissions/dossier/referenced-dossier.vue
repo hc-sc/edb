@@ -1,7 +1,7 @@
 <template>
   <div>
-    <vue-input type='text' id='referenceddossiernumber' :label='$t("referenceddossiernumber")' v-model='model.referenceddossiernumber' required></vue-input>
-    <vue-input type='text' id='referenceddossierreason' :label='$t("referenceddossierreason")' v-model='model.referenceddossierreason' required></vue-input>
+    <vue-input type='text' id='referenceddossiernumber' :label='$t("referenceddossiernumber")' v-model='model.referenceddossiernumber' required :max='255'></vue-input>
+    <vue-input type='text' id='referenceddossierreason' :label='$t("referenceddossierreason")' v-model='model.referenceddossierreason' required :max='255'></vue-input>
   </div>
 </template>
 

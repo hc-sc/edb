@@ -1,14 +1,14 @@
 <template>
   <div>
-    <vue-input type='text' id='dossiertitle' :label='$t("dossierdescriptiontitle")' v-model='model.dossiertitle' required></vue-input>
+    <vue-textarea type='text' id='dossiertitle' :label='$t("dossierdescriptiontitle")' v-model='model.dossiertitle' required :max='2000'></vue-textarea>
     <vue-select id='regulatorycontents' :label='$t("REGULATORY_CONTENTS")' :options='tocs' :displayValue='o => o.tocshortname' :matchValue='matchById' @input='model.tocId = $event._id' :value='model.tocId' required></vue-select>
     <vue-select id='product' :label='$t("product")' :options='products' :displayValue='o => o.genericproductname' :matchValue='matchById' @input='model.product = $event._id' :value='model.product' required></vue-select>
   </div>
 </template>
 
 <script>
-import Input from '@/components/input/input.vue';
 import Select from '@/components/select/select.vue';
+import Textarea from '@/components/textarea/textarea.vue';
 import {BackendService} from '@/store/backend.service.js';
 import {model} from '@/mixins/model.js';
 
@@ -31,8 +31,8 @@ export default {
     this.tocs = await BackendService.getAppDataAll('toc');
   },
   components: {
-    'vue-input': Input,
-    'vue-select': Select
+    'vue-select': Select,
+    'vue-textarea': Textarea
   }
 };
 </script>
