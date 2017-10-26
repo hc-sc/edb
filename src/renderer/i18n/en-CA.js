@@ -87,6 +87,7 @@ export default {
   UPDATE_SUCCESS: 'Update successful',
   VALID_WEBSITE: 'Must be a valid website (start with http:// or https://)',
   VALIDATE: 'Validate',
+  VALIDATION_ERROR: 'Error in validation',
 
   legalentities: 'Legal Entity | Legal Entities',
 

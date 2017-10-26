@@ -25,11 +25,12 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('picklists', ['regulatorytype', 'applicationtype'])
+    ...mapGetters('picklists', ['regulatorytype', 'applicationtype', 'raId'])
   },
   async created() {
     try {
-      this.ras = await BackendService.getAppData('legalentity');
+      let les = await BackendService.getAppData('legalentity');
+      this.ras = les.filter(le => le.legalentitytype === this.raId);
     }
     catch(err) {console.log(err);}
   },

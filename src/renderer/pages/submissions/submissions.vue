@@ -68,7 +68,7 @@ export default {
         console.log(result);
       })
       .catch(err => {
-        this.$snackbar.show({message: this.$tc('VALIDATATION_ERROR')});
+        this.$snackbar.show({message: this.$tc('VALIDATION_ERROR')});
         console.error(err);
       })
       .then(() => this.$store.commit('ready'));
@@ -78,10 +78,10 @@ export default {
       this.$store.commit('loading');
       BackendService.packageGhsts()
       .then(() => {
-        console.log('all good!');
+        this.$snackbar.show({message: this.$t('VALIDATION_SUCCESS')})
       })
       .catch(err => {
-        this.$snackbar.show({message: this.$tc('PACKAGE_ERROR')});
+        this.$snackbar.show({message: this.$t('PACKAGE_ERROR')});
         console.error(err);
       })
       .then(() => this.$store.commit('ready'));
