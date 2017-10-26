@@ -291,8 +291,8 @@ export default {
       filters: [],
       offset: 0,
       pageSize: 5,
-      sortBy: this.initialSortBy,
-      desc: this.initialDesc,
+      sortBy: undefined,
+      desc: false,
       loading: true,
     };
   },
@@ -528,6 +528,8 @@ export default {
   async created() {
     this.rows = await this.mapProjection(this.headers, await this.getItems());
     this.loading = false;
+    this.sortBy = this.initialSortBy || this.compHeaders[0];
+    this.desc = this.initialDesc || false;
   },
 
   watch: {
