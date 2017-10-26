@@ -5,17 +5,21 @@
       <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
       <vue-split-pane>
         <div slot='split-pane-1'>
-          <vue-list-filter id='master-search' selectable @select='selectListItem' :items='records' :displayValue='doc => doc.documentgeneric.documenttitle' :label='$t("search")' sortByArgs='documenttitle' :selectedItem='currentRecord'></vue-list-filter>
+          <vue-list-filter id='master-search' selectable @select='selectListItem' :items='records' :displayValue='doc => doc.documentgeneric.documenttitle' :label='$t("search")' sortByArgs='documentgeneric.documenttitle' :selectedItem='currentRecord'></vue-list-filter>
         </div>
         <div slot='split-pane-2' class='pane'>
           <template v-if='shouldShowFields()'>
             <div class='f-container f-cross-start'>
               <vue-button class='input-prefix' @click.native='assignPID("documentgeneric.documentpid")'>{{$t('generatepid')}}</vue-button>
               <span class='f-gap'></span>
-              <vue-input type='text' id='documentpid' :label='$t("documentpid")' v-model='model.documentgeneric.documentpid' :pattern='getValidPIDRegExp()'></vue-input>
+              <vue-input type='text' id='documentpid' :label='$t("documentpid")' v-model='model.documentgeneric.documentpid' required :pattern='getValidPIDRegExp()'></vue-input>
             </div>
 
-            <vue-input type='text' id='documentfamilypid' :label='$t("documentfamilypid")' v-model='model.documentgeneric.documentfamilypid' required></vue-input>
+            <div class='f-container f-cross-start'>
+              <vue-button class='input-prefix' @click.native='assignPID("documentgeneric.documentfamilypid")'>{{$t('generatepid')}}</vue-button>
+              <span class='f-gap'></span>
+              <vue-input type='text' id='documentfamilypid' :label='$t("documentfamilypid")' v-model='model.documentgeneric.documentfamilypid' required :pattern='getValidPIDRegExp()'></vue-input>
+            </div>
 
             <vue-input type='text' id='documentcompanyid' :label='$t("documentcompanyid")' v-model='model.documentgeneric.documentcompanyid' required></vue-input>
 
@@ -29,7 +33,7 @@
 
             <vue-table id='referencedtofile' :title='$t("referencedtofile")' :items='model.documentgeneric.referencedtofile' :headers='[{name: "toFileId", url: "file"}]' :displayHeader='displayTranslation' required addable @add='addTableItem("documentgeneric.referencedtofile")' @select='selectTableItem("documentgeneric.referencedtofile", model.documentgeneric.referencedtofile[$event], $event)' @action='handleAction($event, model.documentgeneric.referencedtofile)'></vue-table>
 
-            <vue-table id='documentinformation' :title='$t("REGULATORY_AUTHORITY_DOCUMENT_INFORMATION")' :items='model.documentra' :headers='[{name: "toSpecificForRAId", url: "legalentity"}]' :displayHeader='displayTranslation' required addable @add='addTableItem("documentra")' @select='selectTableItem("documentra", model.documentra[$event], $event)' @action='handleAction($event, model.documentra)'></vue-table>
+            <vue-table id='documentinformation' :title='$t("REGULATORY_AUTHORITY_DOCUMENT_INFORMATION")' :items='model.documentra' :headers='[{key: "toSpecificForRAId", name:"REGULATORY_AUTHORITY", url: "legalentity"}]' :displayHeader='displayTranslation' required addable @add='addTableItem("documentra")' @select='selectTableItem("documentra", model.documentra[$event], $event)' @action='handleAction($event, model.documentra)'></vue-table>
 
             <vue-fieldset :legend='$t("documentsource")'>
               <vue-switch id='isCompleteSource' :label='$t("completedocumentsource")' v-model='isCompleteSource'></vue-switch>

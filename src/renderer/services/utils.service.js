@@ -41,8 +41,8 @@ export function sortByLocale(array, desc = false, propName = null) {
     let comp, x = a, y = b;
 
     if (propName != null) {
-      x = a[propName];
-      y = b[propName];
+      x = getNestedProperty(a, propName);
+      y = getNestedProperty(b, propName);
     }
 
     const xtype = x === null ? 'null' : typeof x;

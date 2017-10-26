@@ -243,7 +243,7 @@ export default {
   [attributes.SPECIFICATION_NUMBER]: 'Specification Number',
   [attributes.SUBMISSION_NUMBER]: 'Submission Number',
   [attributes.TO_DOCUMENT_ID]: 'To Document ID',
-  [attributes.TO_FILE_ID]: 'To File ID',
+  [attributes.TO_FILE_ID]: 'File Name',
   [attributes.TO_LEGAL_ENTITY_ID]: 'To Legal Entity ID',
   [attributes.TO_SPECIFIC_FOR_RA]: 'Regulatory Authority',
   [attributes.TO_SUBSTANCE_ID]: 'Substance',

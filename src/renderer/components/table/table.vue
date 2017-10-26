@@ -58,7 +58,7 @@ The table is used to display grid-like and/or tabular data. You can provide an a
 
 <template>
 <div class='table'>
-  <vue-card :class='{selectable, sortable, pageable, filterable}' @select='select' @sort='sort' @changeOffset='changeOffset'>
+  <div :class='{selectable, sortable, pageable, filterable}' @select='select' @sort='sort' @changeOffset='changeOffset'>
     <vue-toolbar v-show='!searching'>
       <span>
         {{title}}
@@ -115,7 +115,7 @@ The table is used to display grid-like and/or tabular data. You can provide an a
       </div>
       <vue-pagination :count='count' :pageSize='pageSize' :offset='offset' :label='$t("rows")' @pageChange='changeOffset' @sizeChange='changeSize' :message='message'></vue-pagination>
     </template>
-  </vue-card>
+  </div>
   <span v-if='!loading && (rows == null || rows.length === 0) && required' :class='{"error-text": required}'>{{required ? $t('requireoneitem') : $t('noitems')}}</span>
 </div>
 </template>
@@ -331,7 +331,9 @@ export default {
       return this.filteredRows.length;
     },
     message() {
-      return `${this.offset * this.pageSize + 1} - ${Math.min((this.offset + 1) * this.pageSize, this.count)} of ${this.count}`;
+      let lowRow = this.offset * this.pageSize + 1;
+      lowRow = this.count === 0 ? 0 : lowRow;
+      return `${lowRow} - ${Math.min((this.offset + 1) * this.pageSize, this.count)} of ${this.count}`;
     },
   },
 
@@ -339,7 +341,7 @@ export default {
   // for computed properties in Vue, need to use vue-async-computed for Promises
   // if you're okay to just pass on the promise, you don't need to await
   // if you can't call a method/property  without first having data, use await
-  asyncComputed: {
+  // asyncComputed: {
     // rows: {
     //   async get() {
     //     let tempRows = await this.mapProjection(this.headers, this.queryResults);
@@ -373,7 +375,7 @@ export default {
     //     return [this.desc, this.sortBy, this.pageSize, this.offset, this.filters, this.searchTerm];
     //   }
     // },
-  },
+  // },
   methods: {
     changeOffset(offset) {
       if (offset < 0 || offset * this.pageSize >= this.count) return;
@@ -382,7 +384,6 @@ export default {
 
     changeSize(size) {
       this.pageSize = size;
-      console.log(this.pageSize);
     },
 
     select(index) {
@@ -556,6 +557,11 @@ export default {
 .table {
   border: none;
   outline: none;
+  margin-bottom: 12px;
+}
+
+.table > div {
+  box-shadow: var(--depth-1);
 }
 
 .table + .table {
@@ -649,6 +655,10 @@ export default {
 
 .table .icon-cell {
   padding: 0;
+}
+
+.table td.icon-cell {
+  max-width: 30px;
 }
 
 .table .search-toolbar {

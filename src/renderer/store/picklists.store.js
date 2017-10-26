@@ -8,6 +8,10 @@ const picklists = {
   },
 
   getters: {
+    raId(state, getters) {
+      return getters.legalentitytype.find(le => le.value === 'Regulatory Authority')._id;
+    },
+
     getPicklistItem: (state) => (id) => {
       return state.picklists.filter(item => item._id === id)[0];
     },

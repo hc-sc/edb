@@ -1,24 +1,24 @@
 <template>
   <div>
-    <vue-select id='regulatoryauthority' :label='$tc("REGULATORY_AUTHORITY", 1)' :options='ras' :displayValue='ra => ra.legalentityname' :matchValue='matchById' :value='model.toSpecificForRAId' @input='model.toSpecificForRAId = $event._id'></vue-select>
+    <vue-select id='regulatoryauthority' :label='$tc("REGULATORY_AUTHORITY", 1)' :options='ras' :displayValue='ra => ra.legalentityname' :matchValue='matchById' :value='model.toSpecificForRAId' @input='model.toSpecificForRAId = $event._id' required></vue-select>
 
-    <vue-select id='dataprotection' :label='$t("dataprotection")' :options='dataprotection' :displayValue='displayPicklistItem' :matchValue='matchById' :value='model.dataprotection' @input='model.dataprotection = $event._id'></vue-select>
+    <vue-select id='dataprotection' :label='$t("dataprotection")' :options='dataprotection' :displayValue='displayPicklistItem' :matchValue='matchById' :value='model.dataprotection' @input='model.dataprotection = $event._id' required></vue-select>
 
-    <vue-select id='datarequirement' :label='$t("datarequirement")' :options='datarequirement' :displayValue='displayPicklistItem' :matchValue='matchById' :value='model.datarequirement' @input='model.datarequirement = $event._id'></vue-select>
+    <vue-select id='datarequirement' :label='$t("datarequirement")' :options='datarequirement' :displayValue='displayPicklistItem' :matchValue='matchById' :value='model.datarequirement' @input='model.datarequirement = $event._id' required></vue-select>
 
     <vue-chips deletable unique id='documentcomment' :label='$t("documentcomment")' v-model='model.documentcomment'></vue-chips>
 
     <vue-toolbar>
       {{$t('othernationalguideline')}}
       <span slot='right'>
-        <vue-button @click.native='addOtherNationalGuideline'>add</vue-button>
+        <vue-icon icon='add' :label='$t("add")' id='othernationalguidelineadd' @click.native='addOtherNationalGuideline'></vue-icon>
       </span>
     </vue-toolbar>
     <ul>
       <li v-for='(item, index) of model.othernationalguideline' :key='index' class='list-item'>
-        <vue-button @click.native='deleteOtherNationalGuideline(index)'>delete</vue-button>
-        <vue-input type='text' :id='`guidelinenumber-${index}`' :label='$t("guidelinenumber")' v-model='item.guidelinenumber'></vue-input>
-        <vue-input type='text' :id='`guidelinesystem-${index}`' :label='$t("guidelinesystem")' v-model='item.guidelinesystem'></vue-input>
+        <vue-icon icon='delete' :label='$t("delete")' :id='`othernationalguidelinedelete-${index}`'@click.native='deleteOtherNationalGuideline(index)'></vue-icon>
+        <vue-input type='text' :id='`guidelinenumber-${index}`' :label='$t("guidelinenumber")' v-model='item.guidelinenumber' required></vue-input>
+        <vue-input type='text' :id='`guidelinesystem-${index}`' :label='$t("guidelinesystem")' v-model='item.guidelinesystem' required></vue-input>
       </li>
     </ul>
 
@@ -34,12 +34,12 @@
       <vue-toolbar>
         {{$t('dossiercontext')}}
         <span slot='right'>
-          <vue-button @click.native='addDossierContext'>add</vue-button>
+          <vue-icon icon='add' :label='$t("add")' id='adddossiercontent' @click.native='addDossierContext' position='left'></vue-icon>
         </span>
       </vue-toolbar>
       <ul>
         <li v-for='(item, index) of model.radocumentnumber.dossiercontext' :key='index' class='list-item'>
-          <vue-button @click.native='deleteDossierContext(index)'>delete</vue-button>
+          <vue-icon icon='delete' :label='$t("delete")' :id='`deletedossiercontext-${index}`' @click.native='deleteDossierContext(index)' position='right'></vue-icon>
           <vue-input type='text' :id='`dossierpid-${index}`' :label='$t("dossierpid")' v-model='item.dossierpid'></vue-input>
           <vue-input type='text' :id='`dossiernumber-${index}`' :label='$t("dossiernumber")' v-model='item.dossiernumber'></vue-input>
         </li>
@@ -52,6 +52,7 @@
 import Button from '@/components/button/button.vue';
 import Chips from '@/components/chips/chips.vue';
 import Fieldset from '@/components/fieldset/fieldset.vue';
+import Icon from '@/components/icon/icon.vue';
 import Input from '@/components/input/input.vue';
 import List from '@/components/list/list.vue';
 import Select from '@/components/select/select.vue';
@@ -72,7 +73,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('picklists', ['dataprotection', 'datarequirement', 'radocumentnumbertype'])
+    ...mapGetters('picklists', ['dataprotection', 'datarequirement', 'radocumentnumbertype', 'raId'])
   },
   methods: {
     addOtherNationalGuideline() {
@@ -90,7 +91,8 @@ export default {
   },
   async created() {
     try {
-      this.ras = await BackendService.getAppData('legalentity');
+      let les = await BackendService.getAppData('legalentity');
+      this.ras = les.filter(le => le.legalentitytype === this.raId);
     }
     catch(err) {console.log(err);}
   },
@@ -98,6 +100,7 @@ export default {
     'vue-button': Button,
     'vue-chips': Chips,
     'vue-fieldset': Fieldset,
+    'vue-icon': Icon,
     'vue-input': Input,
     'vue-list': List,
     'vue-select': Select,

@@ -83,7 +83,7 @@ export default {
       });
     },
     sortedItems() {
-      if (this.sortable) return sortByLocale(this.filteredItems.slice(), this.desc, this.sortByArgs);
+      if (this.sortable) return sortByLocale(this.filteredItems, this.desc, this.sortByArgs);
       else return this.filteredItems;
     }
   },
