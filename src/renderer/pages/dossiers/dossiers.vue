@@ -5,8 +5,10 @@
       {{$tc('dossier', 2)}}
     </vue-header>
     <main class='pane'>
-      <vue-dialog ref='dialog' id='dialog'></vue-dialog>
+      <vue-dialog ref='dialog' id='dialog' type='confirm'></vue-dialog>
+
       <vue-table id='dossiers' :title='$tc("dossier", 2)' addable :items='mappedDossiers' :headers='["dossierdescriptiontitle", "productname", {key: "_state", name: "DOSSIER_STATUS"}, {key: "_created", name: "created"}, {key: "_lastMod", name: "lastmodified"}]' :displayHeader='$t' initialSortBy='_lastMod' :initialDesc='true' @select='selectDossier($event)' editable @add='addDossier' @action='handleAction($event, dossiers, "dossier")' :isEditable='e => e.editable' :isDeletable='e => e.deletable'></vue-table>
+
       <vue-table v-if='dossier' id='submissions' :title='$tc("submission", 2)' addable @add='addSubmission' @select='selectSubmission($event)' :items='mappedSubmissions' :headers='["submissiontitle", "submissionnumber", {key: "_state", name: "SUBMISSION_STATUS"}, {key: "packagetype", name: "PACKAGE_TYPE"}, {key: "_created", name: "created"}, {key: "_lastMod", name: "lastmodified"}]' :displayHeader ='$t' editable viewable @action='handleAction($event, dossier, "submission")' :IsDeletable='s => s.deletable' :isEditable='s => s.editable' :isViewable='s => s.viewable'></vue-table>
       <p v-else>{{$t('NO_DOSSIER_SELECTED')}}</p>
     </main>
@@ -82,7 +84,6 @@ export default {
     },
 
     handleAction(event, model, compName) {
-      console.log(arguments);
       switch(event.type) {
         case 'delete':
           if (compName === 'dossier') this.deleteDossier(event.index);
@@ -93,13 +94,12 @@ export default {
           else if (compName === 'submission') this.editSubmission(event.index);
           break;
         case 'view':
-          console.log('viewing');
+          this.viewSubmission(event.index);
           break;
       }
     },
 
     addDossier() {
-      console.log('here');
       this.showFormDialog('newdossier')
       .then(({dossiertitle, tocId, product}) => {
         if (dossiertitle && dossiertitle.length && tocId && product) {
@@ -126,9 +126,8 @@ export default {
         else {
           this.showMessage(this.$t('MISSING_DOSSIER_FIELDS'));
         }
-      }, err => {
-        this.showMessage(this.$t('ERROR'));
-        console.error(err);
+      }, () => {
+        // no error, just cancelled dialog
       })
       .catch(() => {
         this.showMessage(this.$t('ADD_ITEM_FAILURE'));
@@ -159,7 +158,7 @@ export default {
           });
         }
         else {
-          this.showMessage('NON_SENT_SUBMISSION');
+          this.showMessage(this.$t('NON_SENT_SUBMISSION'));
         }
       }
     },
@@ -218,10 +217,18 @@ export default {
 
     viewSubmission(index) {
       if (this.canViewSubmission(index)) {
-        this.showMessageDialog(this.$t('OPEN_VIEWER'))
+        this.showMessageDialog({message: this.$t('OPEN_VIEWER'), confirm: false})
         .then(() => {
+          this.$dialog.close();
           BackendService.openViewerGhsts(this.dossier.submission[index]._id);
-        });
+        }, () => {
+          // rejection from dialog, no problems
+        })
+        .catch(err => {
+          this.showMessage(this.$t('ERROR'));
+          console.error(err);
+        })
+        .then(() => this.$dialog.close());
       }
       else {
         this.showMessage(this.$t('CANNOT_VIEW'));
@@ -282,7 +289,7 @@ export default {
 
     async selectSubmission(index) {
       if (this.dossier.submission[index]._state !== SUBMISSION_STATUS_IN_PROGRESS) {
-        this.showMessage('CANNOT_OPEN_SENT_OR_PACKAGED');
+        this.showMessage(this.$t('CANNOT_OPEN_SENT_OR_PACKAGED'));
         return;
       }
 

@@ -206,7 +206,7 @@ function handleIPC(msgChannel, method, query) {
         }
         // validation results!
         else if (args.err && args.err.code === 'EDB30002') {
-          res(args.err.data);
+          rej(args.err.data);
         }
         else {
           try {

@@ -57,8 +57,8 @@ The table is used to display grid-like and/or tabular data. You can provide an a
 </docs>
 
 <template>
-<div class='table'>
-  <div :class='{selectable, sortable, pageable, filterable}' @select='select' @sort='sort' @changeOffset='changeOffset'>
+<div class='table' :class='{selectable, sortable, pageable, filterable}' @changeOffset='changeOffset'>
+  <div>
     <vue-toolbar v-show='!searching'>
       <span>
         {{title}}
@@ -71,7 +71,7 @@ The table is used to display grid-like and/or tabular data. You can provide an a
       </span>
     </vue-toolbar>
     <div class='search-toolbar' role='toolbar' v-show='searching' :aria-controls='id'>
-      <vue-input :id='`${id}-search-input`' type='text' :label='$t("search")' v-model='searchTerm' ref='searchInput'></vue-input>
+      <vue-input class='search-input' :id='`${id}-search-input`' type='text' :label='$t("search")' v-model='searchTerm' ref='searchInput'></vue-input>
       <vue-icon :id='`${id}-clear`' :label='$t("clear")' icon='clear' @click.native='clearSearch' position='left'></vue-icon>
       </span>
     </div>
@@ -87,23 +87,25 @@ The table is used to display grid-like and/or tabular data. You can provide an a
       <div class='table-wrapper'>
         <table class='table-table' :id='id'>
           <thead>
-            <tr>
+            <tr  @sort='sort'>
               <th v-if='deletable' class='icon-cell'></th>
               <th v-if='editable' class='icon-cell'></th>
               <th v-if='viewable' class='icon-cell'></th>
               <th v-for='header of compHeaders' :key='header' @click='sort(header)' :class='[sortBy === header ? "selected" : "", {desc}]'>
                 {{displayHeader(header)}}
-                <span class='sort-icon'>↓</span>
+                <span class='sort-icon'>
+                  <i class='material-icons'>arrow_downward</i>
+                </span>
               </th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for='(row, index) of pagedRows' :key='index'>
+            <tr v-for='(row, index) of pagedRows' :key='index'  @select='select'>
               <td v-if='deletable' class='icon-cell'>
                 <vue-icon :id='`${id}-row-${index}-delete`' icon='delete' :label='$t("delete")' @click.native='onDelete(row.__index)' :disabled='!row.deletable' position='right'></vue-icon>
               </td>
               <td v-if='editable' class='icon-cell'>
-                <vue-icon :id='`${id}-row-${index}-edit`' icon='edit' :label='$t("edit")' @click.native='onEdit(row.__index)' :disabled='!row.editable' position='right'></vue-icon>
+                <vue-icon :id='`${id}-row-${index}-edit`' icon='forward' :label='$t("status")' @click.native='onEdit(row.__index)' :disabled='!row.editable' position='right'></vue-icon>
               </td>
               <td v-if='viewable' class='icon-cell'>
                 <vue-icon :id='`${id}-row-${index}-view`' icon='visibility' :label='$t("view")' @click.native='onView(row.__index)' :disabled='!row.viewable' position='right'></vue-icon>
@@ -307,7 +309,7 @@ export default {
       });
     },
     filteredRows() {
-      if (this.searchTerm && this.searchTerm.length) {
+      if (this.searchTerm && this.searchTerm.length >=2) {
         return this.rows.filter(row => {
           for (let key in row) {
             if (typeof row[key] === 'string' && isStringMatch(row[key], this.searchTerm)) {
@@ -393,6 +395,7 @@ export default {
     },
 
     sort(header) {
+      console.log(this.sortBy, header);
       if (!this.sortable) return;
       this.offset = 0;
       if (this.sortBy === header) {
@@ -407,7 +410,7 @@ export default {
     search() {
       this.searching = true;
       this.$nextTick(() => {
-        this.$refs.searchInput.$el.focus();
+        this.$refs.searchInput.focus();
       });
     },
 
@@ -619,6 +622,10 @@ export default {
 
 .table .sort-icon {
   display: none;
+}
+
+.table .sort-icon .material-icons {
+  font-size: .9rem;
 }
 
 .table.sortable .sort-icon {

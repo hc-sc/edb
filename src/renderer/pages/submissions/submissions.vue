@@ -1,5 +1,6 @@
 <template>
   <div>
+    <vue-dialog ref='dialog' id='validation' type='confirm'></vue-dialog>
     <vue-header>
       <vue-history slot='left'></vue-history>
       {{title}}
@@ -14,12 +15,14 @@
 </template>
 
 <script>
+import Dialog from '@/components/dialog/dialog.vue';
 import Header from '@/components/header/header.vue';
 import History from '@/components/history/history.vue';
 import Icon from '@/components/icon/icon.vue';
 import Nav from '@/components/nav/nav.vue';
 import {mapState} from 'vuex';
 import {BackendService} from '@/store/backend.service.js';
+import {bus} from '@/plugins/plugin-event-bus.js';
 
 export default {
   name: 'Submissions',
@@ -65,26 +68,38 @@ export default {
       this.$store.commit('loading');
       BackendService.validateGhsts()
       .then(result => {
+        this.$store.commit('ready');
+        bus.$emit('addSnackbar', {message: this.$tc('VALIDATION_SUCCESS')});
         console.log(result);
       })
       .catch(err => {
-        this.$snackbar.show({message: this.$tc('VALIDATION_ERROR')});
+        this.$store.commit('ready');
+        // bus.$emit('addSnackbar', {message: this.$tc('VALIDATION_ERROR')});
+        let $dialog = this.$refs['dialog'];
+        $dialog.show({message: 'Validation error'})
+        .then(() => {
+          $dialog.close();
+        });
         console.error(err);
-      })
-      .then(() => this.$store.commit('ready'));
+      });
     },
 
     async package() {
       this.$store.commit('loading');
       BackendService.packageGhsts()
       .then(() => {
-        this.$snackbar.show({message: this.$t('VALIDATION_SUCCESS')})
+        this.$store.commit('ready');
+        this.$nextTick(() => {
+          this.$snackbar.show({message: this.$t('VALIDATION_SUCCESS')});
+        });
       })
       .catch(err => {
-        this.$snackbar.show({message: this.$t('PACKAGE_ERROR')});
-        console.error(err);
-      })
-      .then(() => this.$store.commit('ready'));
+        this.$store.commit('ready');
+        this.$nextTick(() => {
+          this.$snackbar.show({message: this.$t('PACKAGE_ERROR')});
+          console.error(err);
+        });
+      });
     }
   },
   components: {

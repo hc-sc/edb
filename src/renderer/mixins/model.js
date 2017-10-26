@@ -271,7 +271,6 @@ const model = {
     },
 
     showMessageDialog({message}) {
-      console.log('showing');
       this.$dialog = this.$refs['dialog'];
       return this.$dialog.show({message});
     },
@@ -368,7 +367,6 @@ const model = {
       this.showFormDialog(componentName, merge(this.getEmptyModel(componentName), model))
       .then(result => {
         let ref = getNestedProperty(this.model, componentName);
-        console.log(ref);
         if (index != null) this.$set(
           ref,
           index,

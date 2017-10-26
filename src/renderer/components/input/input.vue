@@ -233,6 +233,9 @@ export default {
     reset() {
       this.cb('');
       this.touched = false;
+    },
+    focus() {
+      this.$el.querySelector('.input-field').focus();
     }
   },
   filters: {

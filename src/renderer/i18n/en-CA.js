@@ -42,6 +42,7 @@ export default {
   sent: 'Sent',
   setting: 'Setting | Settings',
   sort: 'Sort',
+  status: 'Status',
   tableofcontents: 'Table Of Contents',
   title: 'Title',
   view: 'View',
@@ -65,6 +66,7 @@ export default {
   NO_DOSSIER_SELECTED: 'Select a Dossier to review Submissions',
   NON_SENT_SUBMISSION: '',
   OPEN: 'Open',
+  OPEN_VIEWER: 'Open packaged submission in Viewer? The viewer must be closed to load properly.',
   PACKAGE: 'Package',
   PACKAGE_LOCATION: 'Package Location',
   PACKAGE_TYPE: 'Package Type',
@@ -87,7 +89,8 @@ export default {
   UPDATE_SUCCESS: 'Update successful',
   VALID_WEBSITE: 'Must be a valid website (start with http:// or https://)',
   VALIDATE: 'Validate',
-  VALIDATION_ERROR: 'Error in validation',
+  VALIDATION_ERROR: 'Validation Error',
+  VALIDATION_SUCCESS: 'Validation Successful!',
 
   legalentities: 'Legal Entity | Legal Entities',
 

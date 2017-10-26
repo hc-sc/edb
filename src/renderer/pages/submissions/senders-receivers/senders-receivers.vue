@@ -4,8 +4,8 @@
     <vue-progress v-if='loading'></vue-progress>
     <template v-else>
       <vue-table :title='$t("receivers")' id='receivers' required addable
-      @add='addReceiver' :headers='[{key: "toLegalEntityId", name: "legalentity", url: "legalentity"}, "shortname", "role"]' :displayHeader='displayTranslation' :items='model' @select='selectReceiver' @action='handleAction($event, model)'></vue-table>
-      <vue-table v-if='selectedReceiver' :title='$t("sender")' id='senders' required addable @add='addSender($event)' :items='selectedReceiver._senders' :headers='[{key: "toLegalEntityId", name: "legalentity", url: "legalentity"}, {key: "_shortname", name: "shortname"}, "companycontactregulatoryrole", "remark"]' :displayHeader='displayTranslation' @select='selectSender($event)' @action='handleAction($event, selectedReceiver._senders)'></vue-table>
+      @add='addReceiver' :headers='[{key: "toLegalEntityId", name: "REGULATORY_AUTHORITY", url: "legalentity"}, "shortname", "role"]' :displayHeader='displayTranslation' :items='model' @select='selectReceiver' @action='handleAction($event, model)'></vue-table>
+      <vue-table v-if='selectedReceiver' :title='$t("sender")' id='senders' required addable @add='addSender($event)' :items='selectedReceiver._senders' :headers='[{key: "toLegalEntityId", name: "REGULATORY_AUTHORITY", url: "legalentity"}, {key: "_shortname", name: "shortname"}, "companycontactregulatoryrole", "remark"]' :displayHeader='displayTranslation' @select='selectSender($event)' @action='handleAction($event, selectedReceiver._senders)'></vue-table>
       <p v-if='receivers && receivers.length && selectedReceiver == null'>{{$t('SELECT_TO_BEGIN')}}</p>
       <p v-else-if='selectedReceiver == null'>{{$t('ADD_TO_BEGIN')}}</p>
       <div class='bottom-float'>
