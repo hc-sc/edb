@@ -158,7 +158,7 @@ export function isValidUUID(pid) {
   return pid.match(validUUID);
 }
 
-export function getValidPIDRegExp(prefix = 'ghsts') {
+export function getValidPIDRegExp(prefix = '[a-z]{1, 5}') {
   return new RegExp(`^urn:${prefix}:${uuidString}$`, 'i');
 }
 
