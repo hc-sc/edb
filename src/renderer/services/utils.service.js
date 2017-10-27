@@ -118,7 +118,7 @@ export function generatePID(prefix = 'ghsts') {
 
 const uuidString = '[0-9a-f]{8}-?[0-9a-f]{4}-?[0-5][0-9a-f]{3}-?[089ab][0-9a-f]{3}-?[0-9a-f]{12}';
 export const validUUID = new RegExp(`^${uuidString}$`, 'i');
-export const validPID = new RegExp(`^urn:[a-z]{1, 5}:${uuidString}$`, 'i');
+export const validPID = new RegExp(`^urn:[a-z]{1,5}:${uuidString}$`, 'i');
 
 /**
  * validatePID ensures a correct v4 uuid. It will generate a new one if it is
@@ -158,7 +158,7 @@ export function isValidUUID(pid) {
   return pid.match(validUUID);
 }
 
-export function getValidPIDRegExp(prefix = '[a-z]{1, 5}') {
+export function getValidPIDRegExp(prefix = '[a-z]{1,5}') {
   return new RegExp(`^urn:${prefix}:${uuidString}$`, 'i');
 }
 

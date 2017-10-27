@@ -33,7 +33,7 @@
 
             <vue-table id='referencedtofile' :title='$t("referencedtofile")' :items='model.documentgeneric.referencedtofile' :headers='[{name: "toFileId", url: "file"}]' :displayHeader='displayTranslation' required addable @add='addTableItem("documentgeneric.referencedtofile")' @select='selectTableItem("documentgeneric.referencedtofile", model.documentgeneric.referencedtofile[$event], $event)' @action='handleAction($event, model.documentgeneric.referencedtofile)'></vue-table>
 
-            <vue-table id='documentinformation' :title='$t("REGULATORY_AUTHORITY_DOCUMENT_INFORMATION")' :items='model.documentra' :headers='[{key: "toSpecificForRAId", name:"REGULATORY_AUTHORITY", url: "legalentity"}]' :displayHeader='displayTranslation' required addable @add='addTableItem("documentra")' @select='selectTableItem("documentra", model.documentra[$event], $event)' @action='handleAction($event, model.documentra)'></vue-table>
+            <vue-table id='documentinformation' :title='$t("REGULATORY_AUTHORITY_DOCUMENT_INFORMATION")' :items='model.documentra' :headers='[{key: "toSpecificForRAId", name: "receiver", url: "receiver"}]' :displayHeader='displayTranslation' required addable @add='addTableItem("documentra")' @select='selectTableItem("documentra", model.documentra[$event], $event)' @action='handleAction($event, model.documentra)'></vue-table>
 
             <vue-fieldset :legend='$t("documentsource")'>
               <vue-switch id='isCompleteSource' :label='$t("completedocumentsource")' v-model='isCompleteSource'></vue-switch>

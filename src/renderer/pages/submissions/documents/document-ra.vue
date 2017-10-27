@@ -1,6 +1,6 @@
 <template>
   <div>
-    <vue-select id='regulatoryauthority' :label='$tc("REGULATORY_AUTHORITY", 1)' :options='ras' :displayValue='ra => ra.legalentityname' :matchValue='matchById' :value='model.toSpecificForRAId' @input='model.toSpecificForRAId = $event._id' required></vue-select>
+    <vue-select id='regulatoryauthority' :label='$t("receiver")' :options='ras' :displayValue='ra => ra.shortname' :matchValue='matchById' :value='model.toSpecificForRAId' @input='model.toSpecificForRAId = $event._id' required></vue-select>
 
     <vue-select id='dataprotection' :label='$t("dataprotection")' :options='dataprotection' :displayValue='displayPicklistItem' :matchValue='matchById' :value='model.dataprotection' @input='model.dataprotection = $event._id' required></vue-select>
 
@@ -60,8 +60,7 @@ import SelectExtensible from '@/components/select-extensible/select-extensible.v
 import Switch from '@/components/switch/switch.vue';
 import Toolbar from '@/components/toolbar/toolbar.vue';
 import {model} from '@/mixins/model.js';
-import {BackendService} from '@/store/backend.service.js';
-import {mapGetters} from 'vuex';
+import {mapGetters, mapActions} from 'vuex';
 
 export default {
   name: 'DocumentRA',
@@ -76,6 +75,7 @@ export default {
     ...mapGetters('picklists', ['dataprotection', 'datarequirement', 'radocumentnumbertype', 'raId'])
   },
   methods: {
+    ...mapActions('app', ['getSubmissionReceivers']),
     addOtherNationalGuideline() {
       this.model.othernationalguideline.push(this.getEmptyModel('documentra.othernationalguideline'));
     },
@@ -91,8 +91,12 @@ export default {
   },
   async created() {
     try {
-      let les = await BackendService.getAppData('legalentity');
-      this.ras = les.filter(le => le.legalentitytype === this.raId);
+      // use this if they only are required to be regulatory authorities
+      // let les = await BackendService.getAppData('legalentity');
+      // this.ras = les.filter(le => le.legalentitytype === this.raId);
+
+      // use this if they must also be receivers from this submission
+      this.ras = await this.getSubmissionReceivers();
     }
     catch(err) {console.log(err);}
   },

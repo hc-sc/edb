@@ -24,7 +24,7 @@
             <vue-input type='text' id='formatcomment' :label='$t("formatcomment")' v-model='model.filegeneric.formatcomment' :max='255'></vue-input>
             <vue-input type='text' id='md5checksum' :label='$t("md5checksum")' v-model='model.filegeneric.md5CHECKSUM' disabled></vue-input>
             <vue-input type='text' id='filename' :label='$t("filename")' v-model='model.filegeneric.filename' disabled></vue-input>
-            <vue-table id='fileinformation' :title='$t("REGULATORY_AUTHORITY_FILE_INFORMATION")' :items='model.filera'  :headers='[{name: "toSpecificForRAId", url: "legalentity"}, "cbidesignation", "filecomment"]' :displayHeader='displayTranslation' addable @add='addTableItem("filera")' @select='selectTableItem("filera", model.filera[$event], $event)' @action='handleAction($event, model.filera)' required></vue-table>
+            <vue-table id='fileinformation' :title='$t("REGULATORY_AUTHORITY_FILE_INFORMATION")' :items='model.filera'  :headers='[{key: "toSpecificForRAId", name: "receiver", url: "receiver"}, "cbidesignation", "filecomment"]' :displayHeader='displayTranslation' addable @add='addTableItem("filera")' @select='selectTableItem("filera", model.filera[$event], $event)' @action='handleAction($event, model.filera)' required></vue-table>
           </template>
           <template v-else>{{$t('noitems')}}</template>
           <div class='bottom-float'>

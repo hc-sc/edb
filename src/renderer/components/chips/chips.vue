@@ -128,7 +128,7 @@ export default {
   data() {
     return {
       currentChip: null,
-      chips: this.value,
+      chips: sortByLocale(this.value),
       selectedIndex: -1
     };
   },

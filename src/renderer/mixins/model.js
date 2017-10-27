@@ -124,6 +124,7 @@ const model = {
             let result = await BackendService.updateAppData(url, model);
             this.updateCurrentRecord(result);
             if (url === 'file' || url === 'document') {
+              console.log('here');
               // set records that match this dossier
               await this.getSubmissionDataAll({url, dossierid: this.dossierid});
             }
@@ -373,11 +374,11 @@ const model = {
           result
         );
         else ref.push(result);
-      }, err => {
-        console.err('made it here', err);
-        this.showMessage(this.$t('ADD_ITEM_FAILURE'));
+      }, () => {
+        // just cancelled dialog, no problems
       })
       .catch(err => {
+        this.showMessage(this.$t('ADD_ITEM_FAILURE'));
         console.log(err);
       })
       .then(() => {

@@ -114,6 +114,11 @@ const app = {
 
     async updateCurrentGhsts({commit}, ghsts) {
       commit('updateCurrentGhsts', await BackendService.updateGhsts(ghsts));
+    },
+
+    async getSubmissionReceivers({getters}) {
+      let reIds = getters.receivers.map(r => r.receiver);
+      return await BackendService.searchAppData('receiver', {where: reIds});
     }
   }
 };
