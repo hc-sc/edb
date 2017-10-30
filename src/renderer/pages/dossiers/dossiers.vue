@@ -29,7 +29,6 @@ import {mapMutations} from 'vuex';
 import {cloneDeep} from 'lodash';
 import {
   DOSSIER_STATUS_OPEN,
-  DOSSIER_STATUS_CLOSED,
   SUBMISSION_STATUS_IN_PROGRESS,
   SUBMISSION_STATUS_PACKAGED,
   SUBMISSION_STATUS_SENT

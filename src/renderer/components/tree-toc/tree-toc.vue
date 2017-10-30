@@ -36,7 +36,7 @@ A recursive component that allows for nested children, such as a directory struc
             <i class='material-icons tree-icon' v-show='addable(tree)' @click='addDoc'>add</i>
           </span>
           {{label}}
-          <span v-if='hasDocs'> ({{docs.length}})</span>
+          <span v-if='hasDocs'> [{{docs.length}}]</span>
         </div>
         <ul v-if='hasDocs' class='docs' v-show='open'>
           <li v-for='(doc, index) of docs' :key='index'>
@@ -117,11 +117,11 @@ export default {
     name() {
       return this.tree.nodename.replace(' ', '').toLowerCase();
     },
-    // numDocs() {
-    //   return this.docs.length + this.$children.reduce((total, child) => {
-    //     return child.docs ? child.numDocs.length : 0;
-    //   }, 0);
-    // },
+    numDocs() {
+      return this.docs.length + this.$children.reduce((total, child) => {
+        return child.numDocs != null ? child.numDocs : 0;
+      }, 0);
+    },
     children() {
       return this.getChildren(this.tree) || [];
     },
@@ -129,7 +129,7 @@ export default {
       return this.getLabel(this.tree);
     },
     hasChildren() {
-      return !!(this.children && this.children.length);
+      return this.children && this.children.length;
     },
     docs() {
       return this.tree.toc2doc || [];

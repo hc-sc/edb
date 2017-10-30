@@ -170,7 +170,10 @@ const model = {
           this.showMessage(this.$t('SAVE_SUCCESS'));
         })
         .then(async () => {
-          if (this.hasRecords(url)) {
+          if (this.isSubmission) {
+            await this.getSubmissionDataAll({url, dossierid: this.dossierid});
+          }
+          else if (this.hasRecords(url)) {
             await this.getAppDataAll({url});
           }
         })

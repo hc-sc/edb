@@ -41,7 +41,6 @@ The table is used to display grid-like and/or tabular data. You can provide an a
 - compHeaders (Array<String>): converts headers (which may be objects or strings), into just strings for use as table headers
 - count (Number): the total number of records
 - queryResults (Array): converts the given items (either by calling the getItems function or by providing them via props), into an array of rows
-- sortedRows (Array): sorts the rows via some function
 - projectedRows (Array): converts the items provided by queryResults into base data (i.e. converts Dates to human readable formats, replaces database ID's with their values, etc.)
 - rows (Array): the rows provided to the table with given page/offset values
 - page (String): the text string of page number, offset, and count
@@ -87,11 +86,11 @@ The table is used to display grid-like and/or tabular data. You can provide an a
       <div class='table-wrapper'>
         <table class='table-table' :id='id'>
           <thead>
-            <tr  @sort='sort'>
+            <tr @sort='sort'>
               <th v-if='deletable' class='icon-cell'></th>
               <th v-if='editable' class='icon-cell'></th>
               <th v-if='viewable' class='icon-cell'></th>
-              <th v-for='header of compHeaders' :key='header' @click='sort(header)' :class='[sortBy === header ? "selected" : "", {desc}]'>
+              <th v-for='(header, index) of compHeaders' :key='header' @click='sort(index)' :class='[sortBy === headerKeys[index] ? "selected" : "", {desc}]'>
                 {{displayHeader(header)}}
                 <span class='sort-icon'>
                   <i class='material-icons'>arrow_downward</i>
@@ -298,16 +297,19 @@ export default {
   },
   computed: {
     ...mapGetters('picklists', ['getPicklistItem']),
+
     compHeaders() {
       return this.headers.map(header => {
         return header.name || header;
       });
     },
+
     headerKeys() {
       return this.headers.map(header => {
         return header.key || header.name || header;
       });
     },
+
     filteredRows() {
       if (this.searchTerm && this.searchTerm.length >=2) {
         return this.rows.filter(row => {
@@ -321,63 +323,23 @@ export default {
       }
       else return this.rows.slice();
     },
-    sortedRows() {
-      return sortByLocale(this.filteredRows, this.desc, this.sortBy);
-    },
+
     pagedRows() {
-      return this.sortedRows.slice(
+      return sortByLocale(this.filteredRows, this.desc, this.sortBy).slice(
         this.offset * this.pageSize, (this.offset + 1) * this.pageSize
       );
     },
+
     count() {
       return this.filteredRows.length;
     },
+
     message() {
       let lowRow = this.offset * this.pageSize + 1;
       lowRow = this.count === 0 ? 0 : lowRow;
       return `${lowRow} - ${Math.min((this.offset + 1) * this.pageSize, this.count)} of ${this.count}`;
     },
   },
-
-  // REMEMBER: async function automatically wrap their return in a Promise
-  // for computed properties in Vue, need to use vue-async-computed for Promises
-  // if you're okay to just pass on the promise, you don't need to await
-  // if you can't call a method/property  without first having data, use await
-  // asyncComputed: {
-    // rows: {
-    //   async get() {
-    //     let tempRows = await this.mapProjection(this.headers, this.queryResults);
-
-    //     console.log('updating');
-
-    //     if (this.searchTerm && this.searchTerm.length) {
-    //       tempRows = tempRows.filter(row => {
-    //         for (let key in row) {
-    //           if (typeof row[key] === 'string' && isStringMatch(row[key], this.searchTerm)) {
-    //             return true;
-    //           }
-    //         }
-    //         return false;
-    //       });
-    //     }
-
-    //     tempRows = sortByLocale(tempRows, this.desc, this.sortBy);
-
-    //     this.count = tempRows.length;
-
-    //     // uncomment when ready for pagination
-    //     tempRows = tempRows.slice(
-    //       this.offset * this.pageSize, (this.offset + 1) * this.pageSize
-    //     );
-
-    //     return tempRows;
-    //   },
-
-    //   watch() {
-    //     return [this.desc, this.sortBy, this.pageSize, this.offset, this.filters, this.searchTerm];
-    //   }
-    // },
-  // },
   methods: {
     changeOffset(offset) {
       if (offset < 0 || offset * this.pageSize >= this.count) return;
@@ -394,8 +356,8 @@ export default {
       }
     },
 
-    sort(header) {
-      console.log(this.sortBy, header);
+    sort(index) {
+      let header = this.headerKeys[index];
       if (!this.sortable) return;
       this.offset = 0;
       if (this.sortBy === header) {
