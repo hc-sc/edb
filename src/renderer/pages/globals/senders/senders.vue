@@ -9,7 +9,7 @@
       </div>
        <div slot='split-pane-2' class='pane'>
         <template v-if='shouldShowFields()'>
-          <vue-select id='legalentities' :label='$t("REGULATORY_AUTHORITY")' :options='legalentities' :value='model.toLegalEntityId' :displayValue='v => v.legalentityname' @input='model.toLegalEntityId = $event._id' :matchValue='matchById' required></vue-select>
+          <vue-select id='legalentities' :label='$t("legalentity")' :options='legalentities' :value='model.toLegalEntityId' :displayValue='v => v.legalentityname' @input='model.toLegalEntityId = $event._id' :matchValue='matchById' required></vue-select>
           <vue-input id='shortname' :label='$t("shortname")' v-model='model._shortname' required :max='20'></vue-input>
           <vue-input id='companycontactregulatoryrole' :label='$t("companycontactregulatoryrole")' v-model='model.companycontactregulatoryrole' :max='255'></vue-input>
           <vue-textarea id='remark' :label='$t("remark")' v-model='model.remark' :max='2000'></vue-textarea>
@@ -59,15 +59,11 @@ export default {
   async created() {
     this.updateCurrentUrl('sender');
     this.resetForm();
-    let [, les] = await Promise.all([
+    [, this.legalentities] = await Promise.all([
       await this.getAppDataAll({url: 'sender', sortBy: '_shortname'}),
       BackendService.getAppData('legalentity')
     ]);
 
-    // need to retrieve the table ID of 'Regulatory Authorities' so we
-    // can filter the legal entities
-    let raId = this.legalentitytype.find(le => le.value === 'Regulatory Authority')._id;
-    this.legalentities = les.filter(le => le.legalentitytype === raId);
     this.selectListItem(this.records[0], false);
     this.$store.commit('ready');
   },

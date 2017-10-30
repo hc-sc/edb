@@ -7,7 +7,7 @@
       <vue-nav id='submission-nav' slot='subheader' :navs='pageNodes'></vue-nav>
       <div slot='right'>
         <vue-icon icon='check' id='validate' @click.native='validate' :label='$t("VALIDATE")' position='left'></vue-icon>
-        <vue-icon icon='archive' id='package' @click.native='package' :label='$t("PACKAGE")' position='left'></vue-icon>
+        <vue-icon icon='archive' id='package' @click.native='packageSubmission' :label='$t("PACKAGE")' position='left'></vue-icon>
       </div>
     </vue-header>
     <router-view></router-view>
@@ -15,11 +15,11 @@
 </template>
 
 <script>
-import Dialog from '@/components/dialog/dialog.vue';
 import Header from '@/components/header/header.vue';
 import History from '@/components/history/history.vue';
 import Icon from '@/components/icon/icon.vue';
 import Nav from '@/components/nav/nav.vue';
+import ValidationErrors from '@/pages/submissions/validation-errors.vue';
 import {mapState} from 'vuex';
 import {BackendService} from '@/store/backend.service.js';
 import {bus} from '@/plugins/plugin-event-bus.js';
@@ -66,39 +66,55 @@ export default {
   methods: {
     async validate() {
       this.$store.commit('loading');
-      BackendService.validateGhsts()
+      return await BackendService.validateGhsts()
       .then(result => {
         this.$store.commit('ready');
-        bus.$emit('addSnackbar', {message: this.$tc('VALIDATION_SUCCESS')});
-        console.log(result);
+        bus.$emit('addSnackbar', {message: this.$t('VALIDATION_SUCCESS')});
       })
       .catch(err => {
-        this.$store.commit('ready');
-        // bus.$emit('addSnackbar', {message: this.$tc('VALIDATION_ERROR')});
-        let $dialog = this.$refs['dialog'];
-        $dialog.show({message: 'Validation error'})
-        .then(() => {
-          $dialog.close();
+        // NOTE: that vast majority of schema errors stem from the required
+        // 'emptynode' property expected on TOC nodes, but there is no concensus
+        // on whether this node needs to be in the schema, so filter them out
+        let errors = err.filter(error => {
+          return !(error.params && error.params.missingProperty === 'emptynode');
         });
-        console.error(err);
+        this.$store.commit('ready');
+        bus.$emit('addSnackbar', {message: this.$t('VALIDATION_ERROR')});
+
+        // let $dialog = this.$refs['dialog'];
+        // $dialog.$set($dialog, 'component', ValidationErrors);
+        // this.$nextTick(() => {
+
+        //   $dialog.show()
+        //   .then(() => {
+        //     $dialog.close();
+        //   });
+        // });
       });
     },
 
-    async package() {
-      this.$store.commit('loading');
-      BackendService.packageGhsts()
+    async packageSubmission() {
+      this.validate()
       .then(() => {
-        this.$store.commit('ready');
-        this.$nextTick(() => {
-          this.$snackbar.show({message: this.$t('VALIDATION_SUCCESS')});
+        this.$store.commit('loading');
+        BackendService.packageGhsts()
+        .then(result => {
+          this.$store.commit('ready');
+          this.$nextTick(() => {
+            this.$snackbar.show({message: `${this.$t('PACKAGE_SUCCESS')} ${result.data}`});
+            this.$router.push('/dossiers');
+          });
+        })
+        .catch(err => {
+          this.$store.commit('ready');
+          this.$nextTick(() => {
+            this.$snackbar.show({message: this.$t('PACKAGE_ERROR')});
+            console.error(err);
+          });
         });
       })
-      .catch(err => {
-        this.$store.commit('ready');
-        this.$nextTick(() => {
-          this.$snackbar.show({message: this.$t('PACKAGE_ERROR')});
-          console.error(err);
-        });
+      .catch(() => {
+        // validation failed
       });
     }
   },

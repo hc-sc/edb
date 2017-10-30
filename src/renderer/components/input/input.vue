@@ -226,7 +226,7 @@ export default {
   },
   methods: {
     toDate(value) {
-      if (value == null) return false;
+      if (value == null) return undefined;
       if (!moment(value, [moment.ISO_8601], true).isValid()) return false;
       return moment.utc(value).format('YYYY-MM-DD');
     },

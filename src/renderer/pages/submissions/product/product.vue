@@ -51,7 +51,6 @@ export default {
   },
   methods: {
     getComponent(compName) {
-      console.log(compName);
       return compName === 'productra' ? ProductRA : Ingredients;
     }
   },

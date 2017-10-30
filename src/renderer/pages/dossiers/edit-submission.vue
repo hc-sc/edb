@@ -20,7 +20,6 @@ export default {
         status: ''
       },
       submissionStatuses: [
-        SUBMISSION_STATUS_IN_PROGRESS,
         SUBMISSION_STATUS_PACKAGED,
         SUBMISSION_STATUS_SENT
       ]

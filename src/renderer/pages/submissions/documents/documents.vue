@@ -65,7 +65,7 @@
 
             <vue-chips deletable unique id='testlaboratory' :label='$t("testlaboratory")' v-model='model.documentgeneric.testlaboratory'></vue-chips>
 
-            <vue-table id='referenceddocument' :title='$t("referenceddocument")' :items='model.documentgeneric.referenceddocument' :headers='[{name: "referencetype", url: "picklist"}, "internal", "documentpid"]' :displayHeader='displayTranslation' required addable @add='addTableItem("documentgeneric.referenceddocument")' @select='selectTableItem("documentgeneric.referenceddocument", model.documentgeneric.referenceddocument[$event], $event)' @action='handleAction($event, model.documentgeneric.referenceddocument)'></vue-table>
+            <vue-table id='referenceddocument' :title='$t("referenceddocument")' :items='model.documentgeneric.referenceddocument' :headers='[{name: "referencetype", url: "picklist"}, "internal", "documentpid"]' :displayHeader='displayTranslation' addable @add='addTableItem("documentgeneric.referenceddocument")' @select='selectTableItem("documentgeneric.referenceddocument", model.documentgeneric.referenceddocument[$event], $event)' @action='handleAction($event, model.documentgeneric.referenceddocument)'></vue-table>
 
             <vue-table id='relatedtosubstance' :title='$t("relatedtosubstance")' :items='model.documentgeneric.relatedtosubstance' :headers='[{name: "toSubstanceId", url: "substance"}]' :displayHeader='displayTranslation' required addable @add='addTableItem("documentgeneric.relatedtosubstance")' @select='selectTableItem("documentgeneric.relatedtosubstance", model.documentgeneric.relatedtosubstance[$event], $event)' @action='handleAction($event, model.documentgeneric.relatedtosubstance)'></vue-table>
 

@@ -624,12 +624,9 @@ export default {
   cursor: not-allowed;
 }
 
-.table .icon-cell {
-  padding: 0;
-}
-
 .table td.icon-cell {
-  max-width: 30px;
+  padding: 0;
+  width: 24px;
 }
 
 .table .search-toolbar {

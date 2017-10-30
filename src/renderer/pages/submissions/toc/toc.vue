@@ -1,6 +1,6 @@
 <template>
   <main>
-    <div class='pane'>
+    <div style='padding: 5px; overflow: auto;'>
       <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
       <vue-progress v-if='loading'></vue-progress>
       <template v-else>

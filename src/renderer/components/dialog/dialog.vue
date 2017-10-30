@@ -40,7 +40,7 @@ Dialogs are used to present a windowed experience. Modal dialogs restrict intera
 
 <template>
   <div class='dialog' :aria-expanded='expanded'>
-    <aside :id='id' role='alertdialog' :aria-labelledby='`${id}-dialog-title`' :aria-describedby='`${id}-dialog-content`'>
+    <aside :id='id' role='dialog' :aria-labelledby='`${id}-dialog-title`' :aria-describedby='`${id}-dialog-content`'>
       <div class='dialog-popup' :style='{width: `${width}`}'>
         <vue-toolbar color='none' class='dialog-title'>
           <span :id='`${id}-dialog-title`'>

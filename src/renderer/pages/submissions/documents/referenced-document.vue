@@ -4,7 +4,7 @@
 
     <vue-switch id='internal' :label='$t("internal")' v-model='model.internal'></vue-switch>
 
-    <vue-input type='text' id='documentpid' :label='$t("documentpid")' v-model='model.documentpid' required></vue-input>
+    <vue-input type='text' id='documentpid' :label='$t("documentpid")' v-model='model.documentpid' required :pattern='getValidPIDRegExp()'></vue-input>
 
     <vue-select id='documentnumbertype' :label='$t("documentnumbertype")' :options='documentnumbertype' :displayValue='displayPicklistItem' :matchValue='matchById' :value='model.documentnumber.documentnumbertype' @input='model.documentnumber.documentnumbertype = $event._id' required></vue-select>
 

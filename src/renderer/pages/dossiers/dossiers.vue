@@ -7,9 +7,9 @@
     <main class='pane'>
       <vue-dialog ref='dialog' id='dialog' type='confirm'></vue-dialog>
 
-      <vue-table id='dossiers' :title='$tc("dossier", 2)' addable :items='mappedDossiers' :headers='["dossierdescriptiontitle", "productname", {key: "_state", name: "DOSSIER_STATUS"}, {key: "_created", name: "created"}, {key: "_lastMod", name: "lastmodified"}]' :displayHeader='$t' initialSortBy='lastmodified' :initialDesc='true' @select='selectDossier($event)' editable @add='addDossier' @action='handleAction($event, dossiers, "dossier")' :isEditable='e => e.editable' :isDeletable='e => e.deletable'></vue-table>
+      <vue-table id='dossiers' :title='$tc("dossier", 2)' addable :items='mappedDossiers' :headers='["dossierdescriptiontitle", "productname", {key: "_state", name: "DOSSIER_STATUS"}, {key: "_created", name: "created"}, {key: "_lastMod", name: "lastmodified"}]' :displayHeader='$t' initialSortBy='_lastMod' :initialDesc='true' @select='selectDossier($event)' editable @add='addDossier' @action='handleAction($event, dossiers, "dossier")' :isEditable='e => e.editable' :isDeletable='e => e.deletable'></vue-table>
 
-      <vue-table v-if='dossier' id='submissions' :title='$tc("submission", 2)' addable @add='addSubmission' @select='selectSubmission($event)' :items='mappedSubmissions' :headers='["submissiontitle", "submissionnumber", {key: "_state", name: "SUBMISSION_STATUS"}, {key: "packagetype", name: "PACKAGE_TYPE"}, {key: "_created", name: "created"}, {key: "_lastMod", name: "lastmodified"}]' :displayHeader ='$t' editable viewable @action='handleAction($event, dossier, "submission")' :IsDeletable='s => s.deletable' :isEditable='s => s.editable' :isViewable='s => s.viewable' initialSortBy='submissionnumber' :initialDesc='true'></vue-table>
+      <vue-table v-if='dossier' id='submissions' :title='$tc("submission", 2)' addable @add='addSubmission' @select='selectSubmission($event)' :items='mappedSubmissions' :headers='["submissiontitle", "submissionnumber", {key: "_state", name: "SUBMISSION_STATUS"}, {key: "packagetype", name: "PACKAGE_TYPE"}, {key: "_created", name: "created"}, {key: "_lastMod", name: "lastmodified"}]' :displayHeader ='$t' editable viewable @action='handleAction($event, dossier, "submission")' :isDeletable='s => s.deletable' :isEditable='s => s.editable' :isViewable='s => s.viewable' initialSortBy='submissionnumber' :initialDesc='true'></vue-table>
       <p v-else>{{$t('NO_DOSSIER_SELECTED')}}</p>
     </main>
   </div>
@@ -147,18 +147,22 @@ export default {
 
         if (!lastSubmission || lastSubmission._state === SUBMISSION_STATUS_SENT) {
           BackendService.createGhsts({dossierId: this.dossier._id, submissionid: lastSubmission._id})
-          .then(sub => {
-            this.sub = sub;
+          .then(async sub => {
+            this.updateDossierData(sub);
+            this.sub = (await BackendService.getGhsts({_submissionid: sub.submissionid}))[0];
             this.goToSubmission();
           })
           .catch(err => {
-            this.showMessage(this.$t('ERROR'));
+            this.showMessage(this.$t('CREATE_SUBMISSION_FAILURE'));
             console.error(err);
           });
         }
         else {
           this.showMessage(this.$t('NON_SENT_SUBMISSION'));
         }
+      }
+      else {
+        this.showMessage(this.$t('DOSSIER_CLOSED'));
       }
     },
 
@@ -258,9 +262,9 @@ export default {
       });
     },
 
-    canDeleteSubmission(submission) {
-      const state = new RegExp(submission._state, 'i');
-      return (state.test(SUBMISSION_STATUS_IN_PROGRESS || state.test(SUBMISSION_STATUS_PACKAGED)));
+    canDeleteSubmission(index) {
+      const state = new RegExp(this.dossier.submission[index]._state, 'i');
+      return (state.test(SUBMISSION_STATUS_IN_PROGRESS) || state.test(SUBMISSION_STATUS_PACKAGED));
     },
 
     deleteSubmission(index) {
