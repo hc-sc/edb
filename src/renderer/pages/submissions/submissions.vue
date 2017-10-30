@@ -72,6 +72,7 @@ export default {
         bus.$emit('addSnackbar', {message: this.$t('VALIDATION_SUCCESS')});
       })
       .catch(err => {
+        console.log(err);
         // NOTE: that vast majority of schema errors stem from the required
         // 'emptynode' property expected on TOC nodes, but there is no concensus
         // on whether this node needs to be in the schema, so filter them out
