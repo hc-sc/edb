@@ -6,7 +6,7 @@
       {{title}}
       <vue-nav id='submission-nav' slot='subheader' :navs='pageNodes'></vue-nav>
       <div slot='right'>
-        <vue-icon icon='check' id='validate' @click.native='validate' :label='$t("VALIDATE")' position='left'></vue-icon>
+        <vue-icon icon='check' id='validate' @click.native='validateSubmission' :label='$t("VALIDATE")' position='left'></vue-icon>
         <vue-icon icon='archive' id='package' @click.native='packageSubmission' :label='$t("PACKAGE")' position='left'></vue-icon>
       </div>
     </vue-header>
@@ -64,9 +64,13 @@ export default {
     }
   },
   methods: {
-    async validate() {
+    validate() {
       this.$store.commit('loading');
-      return await BackendService.validateGhsts()
+      return BackendService.validateGhsts();
+    },
+
+    validateSubmission() {
+      this.validate()
       .then(result => {
         this.$store.commit('ready');
         bus.$emit('addSnackbar', {message: this.$t('VALIDATION_SUCCESS')});
@@ -101,7 +105,6 @@ export default {
     async packageSubmission() {
       this.validate()
       .then(() => {
-        this.$store.commit('loading');
         BackendService.packageGhsts()
         .then(result => {
           this.$store.commit('ready');
@@ -119,7 +122,8 @@ export default {
         });
       })
       .catch(() => {
-        // validation failed
+        this.$store.commit('ready');
+        bus.$emit('addSnackbar', {message: this.$t('VALIDATION_ERROR')});
       });
     }
   },

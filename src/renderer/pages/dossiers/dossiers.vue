@@ -136,16 +136,34 @@ export default {
       });
     },
 
-    addSubmission() {
+    async addSubmission() {
       // current business rules
       if (this.dossier && this.dossier['_state'] === DOSSIER_STATUS_OPEN) {
         // find the highest numbered submission version
-        let lastSubmission = this.dossier.submission.reduce(
-          (highest, submission) => {
-            return highest.submissionnumber > submission.submissionnumber ? highest : submission;
-          }, this.dossier.submission[0]);
+        let lastSubmission;
+        if (this.dossier.submission && this.dossier.submission.length) {
+          lastSubmission = this.dossier.submission.reduce(
+            (highest, submission) => {
+              return highest.submissionnumber > submission.submissionnumber ? highest : submission;
+            }, this.dossier.submission[0]);
+        }
 
-        if (!lastSubmission || lastSubmission._state === SUBMISSION_STATUS_SENT) {
+        // there are no previous submissions, so just create the first
+        if (lastSubmission == null) {
+          BackendService.createGhsts({dossierId: this.dossier._id})
+          .then(async sub => {
+            this.updateDossierData(sub);
+            this.sub = (await BackendService.getGhsts({_submissionid: sub.submissionid}))[0];
+            this.goToSubmission();
+          })
+          .catch(err => {
+            this.showMessage(this.$t('CREATE_SUBMISSION_FAILURE'));
+            console.error(err);
+          });
+        }
+
+        // there are previous submissions, but all are sent
+        else if (lastSubmission._state === SUBMISSION_STATUS_SENT) {
           BackendService.createGhsts({dossierId: this.dossier._id, submissionid: lastSubmission._id})
           .then(async sub => {
             this.updateDossierData(sub);
@@ -157,12 +175,14 @@ export default {
             console.error(err);
           });
         }
+
+        // the last submission is not sent
         else {
-          this.showMessage(this.$t('NON_SENT_SUBMISSION'));
+          this.showMessage(this.$t('CANNOT_ADD_SUBMISSION_NON_SENT'));
         }
       }
       else {
-        this.showMessage(this.$t('DOSSIER_CLOSED'));
+        this.showMessage(this.$t('CANNOT_ADD_SUBMISSION_DOSSIER_CLOSED'));
       }
     },
 
@@ -228,7 +248,7 @@ export default {
           // rejection from dialog, no problems
         })
         .catch(err => {
-          this.showMessage(this.$t('ERROR'));
+          this.showMessage(this.$t('ERROR_OPENING_VIEWER'));
           console.error(err);
         })
         .then(() => this.$dialog.close());
@@ -280,7 +300,7 @@ export default {
           this.dossier.submission.splice(index, 1);
         }
         catch(err) {
-          this.showMessage(this.$t('ERROR_DELETING'));
+          this.showMessage(this.$t('ERROR_DELETING_SUBMISSION'));
           console.error(err);
         }
       })
