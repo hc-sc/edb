@@ -624,7 +624,7 @@ export default {
   cursor: not-allowed;
 }
 
-.table td.icon-cell {
+.table .icon-cell {
   padding: 0;
   width: 24px;
 }
