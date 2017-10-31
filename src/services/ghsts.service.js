@@ -267,11 +267,14 @@ module.exports = class GhstsService extends BaseService {
               retVal.receivers.receiver = self._get_xml_jsonix(retVal.receivers.receiver);
               retVal.receivers.receiver = retVal.receivers.receiver.map(item => {
                 let ret = item.receiver;
-                ret.sender = item.sender.map(senderid => {
-                  return _.merge({}, SenderService.edb_getSync({
-                    _id: senderid
-                  })[0]);
-                });
+                if (Array.isArray(item.sender)) {
+                  ret.sender = item.sender.map(senderid => {
+                    return _.merge({}, SenderService.edb_getSync({
+                      _id: senderid
+                    })[0]);
+                  });
+                }
+                else ret.sender = [];
                 ret.sender = self._get_xml_jsonix(ret.sender);
                 ret.sender.map(sender => {
                   retVal.legalentities.legalentity.push(sender.toLegalEntityId);
@@ -299,7 +302,7 @@ module.exports = class GhstsService extends BaseService {
                 ra.toSpecificForRAId = BACKEND_CONST.ID_PREFIX.receiver + ra.toSpecificForRAId;
               });
             }
-            
+
             if (retVal.product.dossier.submission && retVal.product.dossier.submission.length > 0) {
               retVal.product.dossier.submission.map(sub => {
                 sub.submissionversiondate =
@@ -307,7 +310,7 @@ module.exports = class GhstsService extends BaseService {
               });
             }
 
-            // For Document            
+            // For Document
             if (result._document && result._document.length > 0) {
               retVal.documents.document = result._document.map(doc => {
                 let retDoc = _.merge({}, doc);
@@ -341,7 +344,7 @@ module.exports = class GhstsService extends BaseService {
                   delete retDoc.documentgeneric.documentissue;
                   delete retDoc.documentgeneric.documentvolume;
                   delete retDoc.documentgeneric.documentpages;
-                } else 
+                } else
                   delete retDoc.documentgeneric.completedocumentsource;
 
                 retDoc.documentgeneric.documentissuedate =
@@ -504,8 +507,8 @@ module.exports = class GhstsService extends BaseService {
             let curToc = TocService.edb_getSync({
               _id: self.ghsts[0]._tocid
             })[0];
-//TODO: template change for demo DACO in Paris meeting. Should be removed or modified to handle multiple TOCs.            
-            if (!curToc) 
+//TODO: template change for demo DACO in Paris meeting. Should be removed or modified to handle multiple TOCs.
+            if (!curToc)
               curToc = TocService.edb_getSync({
                 tocversion: '01.00.01'
               })[0];
@@ -673,7 +676,7 @@ module.exports = class GhstsService extends BaseService {
                 }
                 if (!curDCHProp[obj.docid] || curDCHProp[obj.docid].length <= 0) {
                   let subNumber = self.ghsts[0]._submissionnumber.toString();
-                  if (subNumber.length === 1) 
+                  if (subNumber.length === 1)
                     subNumber = '0' + subNumber;
                   curDCHProp[obj.docid] = [{
                     submissionNumber: subNumber,
@@ -1044,7 +1047,7 @@ module.exports = class GhstsService extends BaseService {
                 });
                 if (isErr.length > 1) { //documentsource and completedocumentsource both missing
                   let newErr = _.merge({}, isErr[0]);
-                  newErr.message = "should have required property 'documentsource' or 'completedocumentsource'"; 
+                  newErr.message = "should have required property 'documentsource' or 'completedocumentsource'";
                   newErr.params.missingProperty = 'documentsource and completedocumentsource';
                   errors.push(newErr);
                 }
@@ -1371,18 +1374,18 @@ module.exports = class GhstsService extends BaseService {
     let urlAry = inUrl.split('/');
     let curIndex = 0;
 
-    if (eDB_Urls.indexOf(urlAry[0]) >= 0) { ///It is sub-url 
+    if (eDB_Urls.indexOf(urlAry[0]) >= 0) { ///It is sub-url
       retVal.subUrl = urlAry[0];
       curIndex++;
-      if (urlAry[curIndex]) { /// It is sub-id(s), 
+      if (urlAry[curIndex]) { /// It is sub-id(s),
         retVal.subIds = urlAry[curIndex];
       }
       curIndex++;
-    } else { ///ghstsIdOrUrl is ghsts id and subSvrUrlOrId is sub-url  
+    } else { ///ghstsIdOrUrl is ghsts id and subSvrUrlOrId is sub-url
       retVal.ghstsId = urlAry[0];
       curIndex++;
       if (urlAry[curIndex]) {
-        if (eDB_Urls.indexOf(urlAry[curIndex]) >= 0) { ///It is sub-url  
+        if (eDB_Urls.indexOf(urlAry[curIndex]) >= 0) { ///It is sub-url
           retVal.subUrl = urlAry[curIndex];
           curIndex++;
           if (urlAry[curIndex]) { /// has subIds
@@ -1466,9 +1469,9 @@ module.exports = class GhstsService extends BaseService {
   }
 
   assignDCHJosnix(docid) {
-    if (!this.ghsts[0]._documentcontenthistory) 
+    if (!this.ghsts[0]._documentcontenthistory)
       return undefined;
-      
+
     let retVal = {
       TYPE_NAME: 'GHSTS.GHSTS.DOCUMENTS.DOCUMENT.DOCUMENTGENERIC.DOCUMENTCONTENTSTATUSHISTORY',
       documentcontentstatus: []

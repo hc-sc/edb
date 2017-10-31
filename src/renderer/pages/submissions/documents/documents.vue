@@ -36,9 +36,9 @@
             <vue-table id='documentinformation' :title='$t("REGULATORY_AUTHORITY_DOCUMENT_INFORMATION")' :items='model.documentra' :headers='[{key: "toSpecificForRAId", name: "receiver", url: "receiver"}]' :displayHeader='displayTranslation' required addable @add='addTableItem("documentra")' @select='selectTableItem("documentra", model.documentra[$event], $event)' @action='handleAction($event, model.documentra)'></vue-table>
 
             <vue-fieldset :legend='$t("documentsource")'>
-              <vue-switch id='isCompleteSource' :label='$t("completedocumentsource")' v-model='isCompleteSource'></vue-switch>
+              <vue-switch id='isCompleteSource' :label='$t("completedocumentsource")' v-model='model._docsourcetype'></vue-switch>
 
-              <div v-if='isCompleteSource'>
+              <div v-if='model._docsourcetype'>
                 <vue-input type='text' id='completedocumentsource' :label='$t("completedocumentsource")' v-model='model.documentgeneric.completedocumentsource' required></vue-input>
               </div>
 
@@ -61,15 +61,15 @@
 
             <vue-switch id='testedonvertebrate' :label='$t("testedonvertebrate")' v-model='model.documentgeneric.testedonvertebrate'></vue-switch>
 
-            <vue-chips deletable unique id='documentowner' :label='$t("documentowner")' v-model='model.documentgeneric.documentowner'></vue-chips>
+            <vue-chips deletable unique id='documentowner' :label='$t("documentowner")' v-model='model.documentgeneric.documentowner' required :maxChipLength='2000'></vue-chips>
 
-            <vue-chips deletable unique id='testlaboratory' :label='$t("testlaboratory")' v-model='model.documentgeneric.testlaboratory'></vue-chips>
+            <vue-chips deletable unique id='testlaboratory' :label='$t("testlaboratory")' v-model='model.documentgeneric.testlaboratory' :maxChipLength='2000'></vue-chips>
 
             <vue-table id='referenceddocument' :title='$t("referenceddocument")' :items='model.documentgeneric.referenceddocument' :headers='[{name: "referencetype", url: "picklist"}, "internal", "documentpid"]' :displayHeader='displayTranslation' addable @add='addTableItem("documentgeneric.referenceddocument")' @select='selectTableItem("documentgeneric.referenceddocument", model.documentgeneric.referenceddocument[$event], $event)' @action='handleAction($event, model.documentgeneric.referenceddocument)'></vue-table>
 
-            <vue-table id='relatedtosubstance' :title='$t("relatedtosubstance")' :items='model.documentgeneric.relatedtosubstance' :headers='[{name: "toSubstanceId", url: "substance"}]' :displayHeader='displayTranslation' required addable @add='addTableItem("documentgeneric.relatedtosubstance")' @select='selectTableItem("documentgeneric.relatedtosubstance", model.documentgeneric.relatedtosubstance[$event], $event)' @action='handleAction($event, model.documentgeneric.relatedtosubstance)'></vue-table>
+            <vue-table id='relatedtosubstance' :title='$t("relatedtosubstance")' :items='model.documentgeneric.relatedtosubstance' :headers='[{name: "toSubstanceId", url: "substance"}]' :displayHeader='displayTranslation' addable @add='addTableItem("documentgeneric.relatedtosubstance")' @select='selectTableItem("documentgeneric.relatedtosubstance", model.documentgeneric.relatedtosubstance[$event], $event)' @action='handleAction($event, model.documentgeneric.relatedtosubstance)'></vue-table>
 
-            <vue-table id='documentnumber' :title='$t("documentnumber")' :items='model.documentgeneric.documentnumber' :headers='[{name: "documentnumbertype", url: "picklist"}, "identifier"]' :displayHeader='displayTranslation' required addable @add='addTableItem("documentgeneric.documentnumber")' @select='selectTableItem("documentgeneric.documentnumber", model.documentgeneric.documentnumber[$event], $event)' @action='handleAction($event, model.documentgeneric.documentnumber)'></vue-table>
+            <vue-table id='documentnumber' :title='$t("documentnumber")' :items='model.documentgeneric.documentnumber' :headers='[{name: "documentnumbertype", url: "picklist"}, "identifier"]' :displayHeader='displayTranslation' addable @add='addTableItem("documentgeneric.documentnumber")' @select='selectTableItem("documentgeneric.documentnumber", model.documentgeneric.documentnumber[$event], $event)' @action='handleAction($event, model.documentgeneric.documentnumber)'></vue-table>
           </template>
           <template v-else>{{$t('noitems')}}</template>
           <div class='bottom-float'>

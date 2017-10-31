@@ -1,31 +1,33 @@
 <template>
-  <div class='chips' @click='applyInputFocus'>
-    <div class='chip-list'>
-      <vue-chip v-for='(chip, index) in chips' :key='index' :id='`${id}-chip-${index}`' :editable='editable' :deletable='deletable' :disabled='disabled' @select='selectChip(chip)' @edit='editChip(chip)' @delete='deleteChip(chip)'>
-        <slot name='chip' :value='chip'>{{chip}}</slot>
-      </vue-chip>
-      <label :for='`${id}-input`' class='v-hidden'>{{label}}</label>
-      <input :id='`${id}-input`' class='chip-input' v-model='currentChip'  :name='compName' :disabled='disabled' @keydown.delete.stop='deleteLastChip' @keydown.prevent.stop.enter='addChip' @keydown.prevent.186='addChip' tabindex='0' :maxlength='maxChipLength' :novalidate='novalidate' ref='input' :placeholder='compLabel'>
-    </div>
-    <slot></slot>
-    <div class='chip-actions' v-if='!disabled' :aria-controls='id' role='toolbar'>
-      <slot name='actions'>
-
-        <vue-icon icon='sort' :label='$t("sort")' v-if='sortable' @click.native='onSort'position='left' :id='`${id}-sort`'></vue-icon>
-        <vue-icon icon='clear' :label='$t("clear")' @click.native='onClear' position='left' :id='`${id}-clear`'></vue-icon>
-        <!-- <vue-button v-if='sortable' @click.native='onSort' display='flat' color='none' icon>
-          <i class='material-icons'>sort</i>
-        </vue-button>
-        <vue-button @click.native='onClear' display='flat' icon color='none'>
-          <i class='material-icons'>clear</i>
-        </vue-button> -->
+  <div @focusout='focusOut' class='chips-wrapper'>
+    <div class='chips' @click='applyInputFocus'>
+      <div class='chip-list' :class='{invalid, focused}'>
+        <vue-chip v-for='(chip, index) in chips' :key='index' :id='`${id}-chip-${index}`' :editable='editable' :deletable='deletable' :disabled='disabled' @select='selectChip(chip)' @edit='editChip(chip)' @delete='deleteChip(chip)'>
+          <slot name='chip' :value='chip'>{{chip}}</slot>
+        </vue-chip>
+        <label :for='`${id}-input`' class='v-hidden'>{{label}}</label>
+        <input :id='`${id}-input`' class='chip-input' v-model='currentChip'  :name='compName' :disabled='disabled' @keydown.delete.stop='deleteLastChip' @keydown.prevent.stop.enter='addChip' @keydown.prevent.186='addChip' tabindex='0' :maxlength='maxChipLength' :novalidate='novalidate' ref='input' :placeholder='compLabel'>
+      </div>
+      <slot></slot>
+      <div class='chip-actions' v-if='!disabled' :aria-controls='id' role='toolbar'>
+        <slot name='actions'>
+          <vue-icon icon='sort' :label='$t("sort")' v-if='sortable' @click.native='onSort'position='left' :id='`${id}-sort`'></vue-icon>
+          <vue-icon icon='clear' :label='$t("clear")' @click.native='onClear' position='left' :id='`${id}-clear`'></vue-icon>
+          <!-- <vue-button v-if='sortable' @click.native='onSort' display='flat' color='none' icon>
+            <i class='material-icons'>sort</i>
+          </vue-button>
+          <vue-button @click.native='onClear' display='flat' icon color='none'>
+            <i class='material-icons'>clear</i>
+          </vue-button> -->
+        </slot>
+      </div>
+      <slot name='options'>
+        <datalist :id='`${id}-options`' v-if='autocomplete'>
+          <option v-for='(option, index) of options' :key='index'>{{option}}</option>
+        </datalist>
       </slot>
     </div>
-    <slot name='options'>
-      <datalist :id='`${id}-options`' v-if='autocomplete'>
-        <option v-for='(option, index) of options' :key='index'>{{option}}</option>
-      </datalist>
-    </slot>
+    <p v-if='invalid' class='error-text'>Required</p>
   </div>
 </template>
 
@@ -129,10 +131,15 @@ export default {
     return {
       currentChip: null,
       chips: sortByLocale(this.value),
-      selectedIndex: -1
+      selectedIndex: -1,
+      touched: false,
+      focused: false
     };
   },
   computed: {
+    invalid() {
+      return this.touched && this.required && this.chips.length === 0;
+    },
     compName() {
       return this.name || this.id;
     },
@@ -143,6 +150,7 @@ export default {
   },
   methods: {
     applyInputFocus() {
+      this.focused = true;
       this.$nextTick(() => {
         this.$refs.input.focus();
       });
@@ -191,6 +199,11 @@ export default {
 
     getIndex(chip) {
       return this.chips.indexOf(chip);
+    },
+
+    focusOut() {
+      this.touched = true;
+      this.focused = false;
     }
   },
   watch: {
@@ -209,11 +222,15 @@ export default {
 <style>
 @import '../../assets/css/shadows.css';
 
+.chips-wrapper {
+  margin-bottom: 5px;
+}
+
 .chips {
   width: 100%;
   box-shadow: none;
   outline: none;
-  padding-bottom: 5px;
+  padding-bottom: px;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -233,6 +250,12 @@ export default {
 .chip-list.focused {
   border-bottom: 1px solid var(--primary-color);
   box-shadow: 0 1px 0 0 var(--primary-color);
+  transition: var(--toggle);
+}
+
+.chip-list.invalid {
+  border-bottom: 1px solid var(--error-color);
+  box-shadow: 0 1px 0 0 var(--error-color);
   transition: var(--toggle);
 }
 

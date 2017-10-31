@@ -110,7 +110,7 @@ The wrapper for all input types, including text, password, email, tel, date, etc
       </template>
 
       <template v-else-if='type === "date"'>
-        <input type='date' :id='id' :name='compName' class='input-field' @input='cb($event.target.value)' :value='toDate(value)' :min='toDate(min)' :max='toDate(max)' :required='required' :disabled='disabled' :tabindex='compTab'>
+        <input type='date' :id='id' :name='compName' class='input-field' @input='cb(toDate($event.target.value))' :value='toDate(value)' :min='toDate(min)' :max='toDate(max)' :required='required' :disabled='disabled' :tabindex='compTab'>
         <label :for='id'>
           {{label}}<span v-if='required' class='error-text'> *</span>
         </label>
