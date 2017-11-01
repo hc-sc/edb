@@ -96,7 +96,7 @@ const ModelService = {
 
       // this is to allow reactivity for vuex in ghsts.store.js
       case 'dossier':
-        return modelDossier.fields;
+        return _.merge({}, modelDossier.fields);
 
       case 'dossierra':
         return _.merge({}, Object.assign(modelDossierRA.fields));

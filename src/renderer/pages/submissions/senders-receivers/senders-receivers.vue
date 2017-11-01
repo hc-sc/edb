@@ -7,7 +7,7 @@
       <vue-table :title='$t("receivers")' id='receivers' required addable
       @add='addReceiver' :headers='[{key: "toLegalEntityId", name: "receiver", url: "legalentity"}, "shortname", "role"]' :displayHeader='displayTranslation' :items='model' @select='selectReceiver' @action='handleAction($event, model)'></vue-table>
 
-      <vue-table v-if='selectedReceiver' :title='$t("sender")' id='senders' required addable @add='addSender($event)' :items='selectedReceiver._senders' :headers='[{key: "toLegalEntityId", name: "sender", url: "legalentity"}, {key: "_shortname", name: "shortname"}, "companycontactregulatoryrole", "remark"]' :displayHeader='displayTranslation' @select='selectSender($event)' @action='handleAction($event, selectedReceiver._senders)'></vue-table>
+      <vue-table v-if='selectedReceiver' :title='$t("senders")' id='senders' required addable @add='addSender($event)' :items='selectedReceiver._senders' :headers='[{key: "toLegalEntityId", name: "sender", url: "legalentity"}, {key: "_shortname", name: "shortname"}, "companycontactregulatoryrole", "remark"]' :displayHeader='displayTranslation' @select='selectSender($event)' @action='handleAction($event, selectedReceiver._senders)'></vue-table>
 
       <p v-if='receivers && receivers.length && selectedReceiver == null'>{{$t('SELECT_TO_BEGIN')}}</p>
       <p v-else-if='selectedReceiver == null'>{{$t('ADD_TO_BEGIN')}}</p>

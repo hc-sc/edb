@@ -104,7 +104,7 @@ export default {
 }
 
 .icon [disabled] {
-  color: var(--disabled-text);
+  color: var(--disabled-color);
   cursor: not-allowed;
 }
 

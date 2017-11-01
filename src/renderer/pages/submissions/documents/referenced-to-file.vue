@@ -25,7 +25,7 @@ export default {
   },
   async created() {
     try {
-      this.files = await BackendService.getAppData('file');
+      this.files = await BackendService.callMethod('file', 'get', {_dossier: this.dossierid});
     }
     catch(err) {
       console.log(err);

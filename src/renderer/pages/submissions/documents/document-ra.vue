@@ -38,9 +38,9 @@
         </span>
       </vue-toolbar>
       <ul>
-        <li v-for='(item, index) of model.radocumentnumber.dossiercontext' :key='index' class='list-item'>
-          <vue-icon icon='delete' :label='$t("delete")' :id='`deletedossiercontext-${index}`' @click.native='deleteDossierContext(index)' position='right'></vue-icon>
-          <vue-input type='text' :id='`dossierpid-${index}`' :label='$t("dossierpid")' v-model='item.dossierpid'></vue-input>
+        <li v-for='(item, index) of model.radocumentnumber.dossiercontext' :key='index' class='list-item f-container f-start'>
+          <vue-icon icon='delete' :label='$t("delete")' :id='`deletedossiercontext-${index}`' @click.native='deleteDossierContext(index)' position='right' style='align-self: center'></vue-icon>
+          <vue-input type='text' :id='`dossierpid-${index}`' :label='$t("dossierpid")' v-model='item.dossierpid' :pattern='getValidPIDRegExp()'></vue-input>
           <vue-input type='text' :id='`dossiernumber-${index}`' :label='$t("dossiernumber")' v-model='item.dossiernumber'></vue-input>
         </li>
       </ul>
@@ -116,12 +116,6 @@ export default {
 </script>
 
 <style>
-.list-item {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
 .list-item:not:last-child {
   border-bottom: 1px solid lightgray;
 }

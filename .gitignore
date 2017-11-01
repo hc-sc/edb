@@ -11,3 +11,4 @@ resources/app/standards/**/jsondefinitions/
 desktop-viewer
 package-lock.json
 data-copy/
+jsondefinitions

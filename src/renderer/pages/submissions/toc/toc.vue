@@ -6,6 +6,7 @@
       <template v-else>
         <div class='f-container f-cross-center filter'>
           <vue-select id='treefilter' :label='$t("SEARCH_TREE")' :options='nodes' :displayValue='o => o.name' :matchValue='matchBy("_id")' :value='currentTree.tocnodepid' @input='setTree($event)'></vue-select>
+          <span class='f-gap'></span>
           <vue-button type='button' @click.native='clear'>{{$t('clear')}}</vue-button>
         </div>
 
@@ -144,7 +145,7 @@ export default {
       });
     },
 
-    setTree(event, node) {
+    setTree(event) {
       console.log(event);
       const tree = this.findNode(this.fullTree, event._id);
       if (tree != null) {

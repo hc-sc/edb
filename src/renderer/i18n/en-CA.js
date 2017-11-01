@@ -49,6 +49,7 @@ export default {
 
   ADD_ITEM_FAILURE: 'Failed to add new item',
   ADD_TO_BEGIN: 'Add a new Receiver to begin',
+  BUILD_VERSION: 'Build',
   CANNOT_ADD_SUBMISSION_DOSSIER_CLOSED: 'Cannot add a Submission for closed Dossier',
   CANNOT_ADD_SUBMISSION_NON_SENT: 'Cannot add a Submission if there are non Sent submissions',
   CANNOT_DELETE_DOSSIER: 'Cannot delete a Dossier that has packaged or sent submissions',
@@ -151,7 +152,7 @@ export default {
   [elements.FAX]: 'Fax',
   [elements.FILE]: 'File',
   [elements.FILE_COMMENT]: 'File Comment',
-  [elements.FILE_COMPANY_ID]: 'File Company ID',
+  [elements.FILE_COMPANY_ID]: 'Company File ID',
   [elements.FILE_CONTENT_STATUS]: 'File Content Status',
   [elements.FILE_GENERIC]: 'File Generic',
   [elements.FILENAME]: 'Submission File Name',

@@ -66,9 +66,10 @@ const app = {
     updateCurrentSubmissionId(state, id) {
       state.submissionid = id;
     },
-    updateDossierData(state, {dossiertitle, dossierid}) {
+    updateDossierData(state, {dossiertitle, dossierid, submissionid}) {
       state.dossiertitle = dossiertitle;
       state.dossierid = dossierid;
+      state.submissionid = submissionid;
     },
     addReceiver(state, receiver) {
       state.ghsts._receiver.push(receiver);

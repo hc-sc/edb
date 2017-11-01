@@ -305,8 +305,10 @@ module.exports = class GhstsService extends BaseService {
 
             if (retVal.product.dossier.submission && retVal.product.dossier.submission.length > 0) {
               retVal.product.dossier.submission.map(sub => {
-                sub.submissionversiondate =
-                  DateTimeProc.dateToJsonixObj(sub.submissionversiondate);
+                if (sub.submissionversiondate != null) {
+                  sub.submissionversiondate =
+                    DateTimeProc.dateToJsonixObj(sub.submissionversiondate);
+                }
               });
             }
 
@@ -347,8 +349,10 @@ module.exports = class GhstsService extends BaseService {
                 } else
                   delete retDoc.documentgeneric.completedocumentsource;
 
-                retDoc.documentgeneric.documentissuedate =
-                  DateTimeProc.dateToJsonixObj(retDoc.documentgeneric.documentissuedate);
+                if (retDoc.documentgeneric.documentissuedate != null) {
+                  retDoc.documentgeneric.documentissuedate =
+                    DateTimeProc.dateToJsonixObj(retDoc.documentgeneric.documentissuedate);
+                }
 
                 // Looking For Files and Substances in Document
                 let substances = doc.documentgeneric.relatedtosubstance;
@@ -1260,13 +1264,22 @@ module.exports = class GhstsService extends BaseService {
             return super._update(obj);
           })
           .then(ret => {
+            self.ghsts[0] = _.merge({}, GhstsService.edb_getSync({_id: obj._id})[0]);
             res(ret);
           })
           .catch(err => {
             rej(err);
           });
-      } else
-        res(super.edb_put(obj));
+      } else {
+        super.edb_put(obj)
+        .then(ret => {
+          self.ghsts[0] = _.merge({}, GhstsService.edb_getSync({_id: obj._id})[0]);
+          res(ret);
+        })
+        .catch(err => {
+          rej(err);
+        });
+      }
     });
   }
 

@@ -113,7 +113,7 @@ export default {
 
           BackendService.createGhsts({dossiertitle, tocId, product})
           .then(async ({dossierid, dossiertitle, submissionid}) => {
-            this.updateDossierData({dossierid, dossiertitle});
+            this.updateDossierData({dossierid, dossiertitle, submissionid});
             this.sub = (await BackendService.getGhsts({_submissionid: submissionid}))[0];
             this.goToSubmission();
           })
@@ -152,6 +152,7 @@ export default {
         if (lastSubmission == null) {
           BackendService.createGhsts({dossierId: this.dossier._id})
           .then(async sub => {
+            console.log(sub);
             this.updateDossierData(sub);
             this.sub = (await BackendService.getGhsts({_submissionid: sub.submissionid}))[0];
             this.goToSubmission();
@@ -316,8 +317,9 @@ export default {
         return;
       }
 
-      this.updateDossierData({dossiertitle: this.dossier.dossierdescriptiontitle, dossierid: this.dossier._id});
-      this.sub = await BackendService.getGhsts({_submissionid: this.dossier.submission[index]._id});
+      const submissionid = this.dossier.submission[index]._id;
+      this.updateDossierData({dossiertitle: this.dossier.dossierdescriptiontitle, dossierid: this.dossier._id, submissionid});
+      this.sub = await BackendService.getGhsts({_submissionid: submissionid});
       this.sub = this.sub[0];
       this.goToSubmission();
     },

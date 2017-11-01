@@ -2,11 +2,11 @@
 
   /* IT'S YOUR RESPONSIBILITY TO MAKE SURE THESE HAVE ENOUGH CONTRAST TO BE INCLUSIVE */
 
-  --primary-color-dark: #004c8c;
+  --primary-color-dark: darken(var(--primary-color));
   --primary-text-dark: rgba(255, 255, 255, .64);
-  --primary-color: #0277bd;
+  --primary-color: #29743D;
   --primary-text: rgba(255, 255, 255, .95);
-  --primary-color-light: #58a5f0;
+  --primary-color-light: lighten(var(--primary-color));
   --primary-text-light: rgba(0, 0, 0, .66);
   --accent-color-dark: #004c40;
   --accent-text-dark: rgba(255, 255, 255, .59);
@@ -18,7 +18,7 @@
   --info-color: #5bc0de;
   --warn-color: #f0ad4e;
   --error-color: #d9534f;
-  --disabled-text: rgba(0, 0, 0, .26);
+  --disabled-text: rgba(0, 0, 0, .55);
   --disabled-color: rgba(0, 0, 0, .12);
   --hover-color: rgba(0, 0, 0, .08);
   --background-color: white;

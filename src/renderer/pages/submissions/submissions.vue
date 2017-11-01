@@ -81,10 +81,13 @@ export default {
         // NOTE: that vast majority of schema errors stem from the required
         // 'emptynode' property expected on TOC nodes, but there is no concensus
         // on whether this node needs to be in the schema, so filter them out
-        let errors = err.filter(error => {
-          return !(error.params && error.params.missingProperty === 'emptynode');
-        });
-
+        let errors;
+        if (Array.isArray(err)) {
+          errors = err.filter(error => {
+            return !(error.params && error.params.missingProperty === 'emptynode');
+          });
+        }
+        else errors = err.message;
         console.log(errors);
 
         this.$store.commit('ready');

@@ -227,7 +227,7 @@ export default {
   methods: {
     toDate(value) {
       if (value == null) return undefined;
-      if (!moment(value, [moment.ISO_8601], true).isValid()) return false;
+      if (!moment(value, [moment.ISO_8601], true).isValid()) return undefined;
       return moment.utc(value).format('YYYY-MM-DD');
     },
     reset() {
@@ -295,7 +295,7 @@ export default {
 }
 
 .input-field[disabled] {
-  border-bottom: 1px dotted var(--divider);
+  border-bottom: 1px dashed var(--divider);
   cursor: not-allowed;
 }
 

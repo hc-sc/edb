@@ -1,7 +1,7 @@
 <template>
   <div @focusout='focusOut' class='chips-wrapper'>
     <div class='chips' @click='applyInputFocus'>
-      <div class='chip-list' :class='{invalid, focused}'>
+      <div class='chip-list' :class='{invalid, focused, disabled}'>
         <vue-chip v-for='(chip, index) in chips' :key='index' :id='`${id}-chip-${index}`' :editable='editable' :deletable='deletable' :disabled='disabled' @select='selectChip(chip)' @edit='editChip(chip)' @delete='deleteChip(chip)'>
           <slot name='chip' :value='chip'>{{chip}}</slot>
         </vue-chip>
@@ -256,6 +256,16 @@ export default {
 .chip-list.invalid {
   border-bottom: 1px solid var(--error-color);
   box-shadow: 0 1px 0 0 var(--error-color);
+  transition: var(--toggle);
+}
+
+.chip-list.disabled {
+  border-bottom: 1px dashed var(--disabled-color);
+  transition: var(--toggle);
+}
+
+.chip-list.disabled.invalid {
+  border-bottom: 1px dashed var(--error-color);
   transition: var(--toggle);
 }
 

@@ -108,7 +108,7 @@ export default {
 }
 
 .nav-item > a {
-  padding: 0 7px 0 5px;
+  padding: 0 12px;
   border-bottom: 2px solid transparent;
   display: block;
   width: 100%;

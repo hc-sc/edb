@@ -620,7 +620,6 @@ export default {
 }
 
 .table-pagination > span[disabled] i {
-  color: var(--disabled-color);
   cursor: not-allowed;
 }
 

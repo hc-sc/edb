@@ -36,7 +36,7 @@ A recursive component that allows for nested children, such as a directory struc
             <i class='material-icons tree-icon' v-show='addable(tree)' @click='addDoc'>add</i>
           </span>
           {{label}}
-          <span v-if='hasDocs'> [{{docs.length}}]</span>
+          <span v-if='numDocs > 0'> [{{numDocs}}]</span>
         </div>
         <ul v-if='hasDocs' class='docs' v-show='open'>
           <li v-for='(doc, index) of docs' :key='index'>
@@ -159,13 +159,12 @@ export default {
     deleteDoc(index) {
       this.onDelete(this.tree, index),
       this.tree.toc2doc.splice(index, 1);
+      this.$emit('delete');
     },
     addDoc() {
       this.onAdd(this.tree);
-      this.$nextTick(() => {
-        this.expand();
-      });
-    }
+      this.$emit('add');
+    },
   },
 
   // for recursive components, need to load the reference

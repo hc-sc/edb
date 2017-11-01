@@ -36,15 +36,15 @@ export default {
     },
     showValues: {
       type: Boolean,
-      default: false
+      default: true
     },
     'on-value': {
       type: String,
-      default: 'on'
+      default: 'true'
     },
     'off-value': {
       type: String,
-      default: 'off'
+      default: 'false'
     },
     disabled: {
       type: Boolean,
@@ -67,7 +67,7 @@ export default {
   },
   computed: {
     displayValue() {
-      return this.value ? this.onValue : this.offValue;
+      return this.checked ? this.onValue : this.offValue;
     }
   },
   watch: {

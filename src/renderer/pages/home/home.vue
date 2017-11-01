@@ -19,16 +19,26 @@
         {{$t('help')}}
       </router-link>
     </nav>
+    <p class='build-version'>
+      <img class='logo' src='../../assets/images/pmra_green_leaf.svg' alt='PMRA logo'>
+      {{`${$t('BUILD_VERSION')} ${version}`}}
+    </p>
   </div>
 </template>
 
 <script>
 import Icon from '@/components/icon/icon.vue';
 import {history} from '@/mixins/history.js';
+import {version} from '../../../package.json';
 
 export default {
   name: 'Home',
   mixins: [history],
+  data() {
+    return {
+      version
+    };
+  },
   components: {
     'vue-icon': Icon
   }
@@ -78,6 +88,7 @@ export default {
   font-size: inherit;
   font-size: 3rem;
   padding: 5px;
+  color: var(--primary-color);
 }
 
 @media screen and (max-width: 600px) {
@@ -96,5 +107,17 @@ export default {
     text-align: left;
     font-size: inherit;
   }
+}
+
+.build-version {
+  position: fixed;
+  bottom: 10px;
+}
+
+.build-version .logo {
+  display: inline-block;
+  width: 1.4rem;
+  vertical-align: bottom;
+  margin-left: 5px;
 }
 </style>

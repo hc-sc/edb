@@ -353,7 +353,7 @@ export default {
   transition: var(--in);
 }
 
-.select-button.invalid, .select-button.invalid {
+.select-button.invalid {
   border-bottom: 1px solid var(--error-color);
   box-shadow: none;
   transition: var(--out);
@@ -363,6 +363,17 @@ export default {
 .select-button.invalid:focus, .select-button.invalid:active {
   box-shadow: 0 1px 0 0 var(--error-color);
   transition: var(--in);
+}
+
+.select-button.disabled {
+  border-bottom: 1px dashed var(--disabled-color);
+  box-shadow: none;
+  transition: var(--out);
+}
+.select-button.disabled.invalid {
+  border-bottom: 1px dashed var(--error-color);
+  box-shadow: none;
+  transition: var(--out);
 }
 
 .select-button > span {
