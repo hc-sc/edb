@@ -18,10 +18,11 @@
   --info-color: #5bc0de;
   --warn-color: #f0ad4e;
   --error-color: #d9534f;
-  --disabled-text: rgba(0, 0, 0, .55);
+  --disabled-text: rgba(0, 0, 0, .45);
   --disabled-color: rgba(0, 0, 0, .12);
   --hover-color: rgba(0, 0, 0, .08);
   --background-color: white;
+  --label-text: rgba(0, 0, 0, .6);
 
   --divider: rgba(0, 0, 0, .12);
   --divider-dark: rgba(255, 255, 255, .12);

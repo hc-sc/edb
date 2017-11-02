@@ -281,5 +281,6 @@ export default {
   outline: none;
   font-size: 1rem;
   background-color: inherit;
+  color: var(--label-color);
 }
 </style>

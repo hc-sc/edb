@@ -284,6 +284,7 @@ export default {
 }
 
 .input-field + label {
+  color: var(--label-text);
   cursor: text;
   position: absolute;
   top: 0;

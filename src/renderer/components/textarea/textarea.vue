@@ -154,6 +154,7 @@ Used for lengthy sections of text input. Has settings for required, disabled, ma
 }
 
 .textarea-field + label {
+  color: var(--label-text);
   cursor: text;
   position: absolute;
   top: 0;

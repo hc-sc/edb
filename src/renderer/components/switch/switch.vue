@@ -136,7 +136,7 @@ https://material-components-web.appspot.com/switch.html
 .switch-checkbox,
 .switch-checkbox[disabled] + label,
 .switch-checkbox[disabled] + label .switch-background {
-  color: var(--disabled-color);
+  color: var(--disabled-text);
   cursor: not-allowed;
 }
 
