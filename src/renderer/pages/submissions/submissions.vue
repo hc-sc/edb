@@ -89,7 +89,6 @@ export default {
         // 'emptynode' property expected on TOC nodes, but there is no concensus
         // on whether this node needs to be in the schema, so filter them out
         this.errors = [];
-        console.log(err);
         if (Array.isArray(err)) {
           err.reduce((errors, error) => {
             if (!(error.params && error.params.missingProperty === 'emptynode')) {
@@ -102,8 +101,6 @@ export default {
 
         this.$store.commit('ready');
         bus.$emit('addSnackbar', {message: this.$t('VALIDATION_ERROR')});
-
-        console.log(this.errors);
 
         let $dialog = this.$refs['dialog'];
         this.$nextTick(() => {
@@ -148,7 +145,6 @@ export default {
 
     mapErrorMessage(error) {
       let node = error.dataPath.split('.').pop();
-      console.log(node);
 
       // if the node is 'value', it's a basic message, not attributed to a node
       node = node === 'value' ? '' : node;
@@ -161,8 +157,6 @@ export default {
         index = match[0].substr(1, match[0].length - 2);
         node = node.replace(indexRegExp, '');
       }
-
-      console.log(match, index, node);
 
       return `${node}${index.length ? ('[' + index + ']') : ' '}${node.length ? ' - ' : ' '}${error.message.charAt(0).toUpperCase() + error.message.slice(1)}`;
     }
