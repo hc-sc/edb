@@ -1,4 +1,4 @@
-let version = require('../package.json').version;
+let version = require('./package.json').version;
 
 'use strict';
 let ghstsLogger = require('./utils/file.logger');
