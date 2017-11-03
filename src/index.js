@@ -1,6 +1,7 @@
+let version = require('../package.json').version;
 
 'use strict';
-require('./utils/file.logger');
+let ghstsLogger = require('./utils/file.logger');
 const { dialog } = require('electron');
 process.on('uncaughtException', (err) => {
   ghstsLogger.error(err);
@@ -382,10 +383,10 @@ app.on('ready', function () {
   } else
     mainWindow.loadURL('file://' + __dirname + '/index.html');
 
-  mainWindow.setTitle('eDossier Builder (V1.5.7)');
+  mainWindow.setTitle(`eDossier Builder (v${version})`);
   mainWindow.webContents.on('did-finish-load', function () {
     // TODO: setTitle is being deprecated, find and use alternative
-    mainWindow.setTitle('eDossier Builder (V1.5.7)');
+    mainWindow.setTitle(`eDossier Builder (v${version})`);
     //if (configure.env.toString().toUpper() == 'DEV'){
     if (process.env.NODE_ENV === 'development')
       mainWindow.openDevTools();
