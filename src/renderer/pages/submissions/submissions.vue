@@ -1,6 +1,11 @@
 <template>
   <div>
-    <vue-dialog ref='dialog' id='validation' type='confirm'></vue-dialog>
+    <vue-dialog ref='dialog' id='validation' type='confirm'>
+      <span slot='title'>{{$t('VALIDATION_ERROR')}}</span>
+      <ul class='validation-errors'>
+        <li v-for='(error, index) of errors' :key='index'>{{error}}</li>
+      </ul>
+    </vue-dialog>
     <vue-header>
       <vue-history slot='left'></vue-history>
       {{title}}
@@ -19,13 +24,17 @@ import Header from '@/components/header/header.vue';
 import History from '@/components/history/history.vue';
 import Icon from '@/components/icon/icon.vue';
 import Nav from '@/components/nav/nav.vue';
-import ValidationErrors from '@/pages/submissions/validation-errors.vue';
 import {mapState} from 'vuex';
 import {BackendService} from '@/store/backend.service.js';
 import {bus} from '@/plugins/plugin-event-bus.js';
 
 export default {
   name: 'Submissions',
+  data() {
+    return {
+      errors: []
+    };
+  },
   computed: {
     ...mapState({
       title: state => state.app.dossiertitle
@@ -71,37 +80,44 @@ export default {
 
     validateSubmission() {
       this.validate()
-      .then(result => {
+      .then(() => {
         this.$store.commit('ready');
         bus.$emit('addSnackbar', {message: this.$t('VALIDATION_SUCCESS')});
       })
       .catch(err => {
-        console.log(err);
-
         // NOTE: that vast majority of schema errors stem from the required
         // 'emptynode' property expected on TOC nodes, but there is no concensus
         // on whether this node needs to be in the schema, so filter them out
-        let errors;
+        this.errors = [];
+        console.log(err);
         if (Array.isArray(err)) {
-          errors = err.filter(error => {
-            return !(error.params && error.params.missingProperty === 'emptynode');
-          });
+          err.reduce((errors, error) => {
+            if (!(error.params && error.params.missingProperty === 'emptynode')) {
+              errors.push(this.mapErrorMessage(error));
+            }
+            return errors;
+          }, this.errors);
         }
-        else errors = err.message;
-        console.log(errors);
+        else this.errors = [err.message];
 
         this.$store.commit('ready');
         bus.$emit('addSnackbar', {message: this.$t('VALIDATION_ERROR')});
 
-        // let $dialog = this.$refs['dialog'];
-        // $dialog.$set($dialog, 'component', ValidationErrors);
-        // this.$nextTick(() => {
+        console.log(this.errors);
 
-        //   $dialog.show()
-        //   .then(() => {
-        //     $dialog.close();
-        //   });
-        // });
+        let $dialog = this.$refs['dialog'];
+        this.$nextTick(() => {
+          $dialog.show({})
+          .then(() => {
+
+          })
+          .catch(() => {
+
+          })
+          .then(() => {
+            $dialog.close();
+          });
+        });
       });
     },
 
@@ -128,6 +144,27 @@ export default {
         this.$store.commit('ready');
         bus.$emit('addSnackbar', {message: this.$t('VALIDATION_ERROR')});
       });
+    },
+
+    mapErrorMessage(error) {
+      let node = error.dataPath.split('.').pop();
+      console.log(node);
+
+      // if the node is 'value', it's a basic message, not attributed to a node
+      node = node === 'value' ? '' : node;
+
+      // if there's an index, store it and remove it
+      // since we only capture the index number, need to also remove []
+      let match = indexRegExp.exec(node);
+      let index = '';
+      if (match != null) {
+        index = match[0].substr(1, match[0].length - 2);
+        node = node.replace(indexRegExp, '');
+      }
+
+      console.log(match, index, node);
+
+      return `${node}${index.length ? ('[' + index + ']') : ' '}${node.length ? ' - ' : ' '}${error.message.charAt(0).toUpperCase() + error.message.slice(1)}`;
     }
   },
   components: {
@@ -137,4 +174,17 @@ export default {
     'vue-nav': Nav
   }
 };
+
+const indexRegExp = /(\[[0-9]+\])$/i;
+
 </script>
+
+<style>
+.validation-errors {
+  list-style: none;
+}
+
+.validation-errors > li {
+  padding: 5px 10px;
+}
+</style>
