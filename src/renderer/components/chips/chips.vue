@@ -130,7 +130,7 @@ export default {
   data() {
     return {
       currentChip: null,
-      chips: sortByLocale(this.value),
+      chips: this.value,
       selectedIndex: -1,
       touched: false,
       focused: false
@@ -163,8 +163,8 @@ export default {
         if (!this.unique || this.chips.indexOf(value) < 0) {
           this.chips.push(value);
           this.currentChip = null;
-          this.$emit('input', this.chips);
-          this.$emit('change', this.chips);
+          // this.$emit('input', this.chips);
+          this.$emit('change', sortByLocale(this.chips));
           this.applyInputFocus();
         }
       }
