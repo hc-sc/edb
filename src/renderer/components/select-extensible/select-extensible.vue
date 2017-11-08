@@ -33,7 +33,7 @@ Allows for extending the collection of options in a select listbox.
     <div class='f-container f-middle'>
       <vue-select @input='$emit("input", $event)' :value='value' class='flex' :id='id' :label='label' :options='options' :displayValue='displayValue' :matchValue='matchValue' :required='required'></vue-select>
       <vue-icon id='`${id}-add`' :label='$t("add")' icon='add' @click.native='toggleAdd' v-if='!adding' position='left'></vue-icon>
-      <vue-icon id='`${id}-clear`' :label='$t("clear")' icon='clear' @click.native='toggleAdd' v-else position='left'></vue-icon>
+      <vue-icon id='`${id}-clear`' :label='$t("cancel")' icon='clear' @click.native='toggleAdd' v-else position='left'></vue-icon>
     </div>
     <div class='f-container f-start' v-show='adding'>
       <slot name='add-fields'>
