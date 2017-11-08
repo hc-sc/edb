@@ -58,11 +58,11 @@ export default {
 
 [role=tooltip] {
   position: absolute;
-  opacity: 0;
+  display: none;
   z-index: 100000;
   transform: scale(0);
   background-color: #555;
-  color: var(--background-color);
+  color: white;
   font-size: .8rem;
   border-radius: 5px;
   padding: 5px;
@@ -72,7 +72,8 @@ export default {
 }
 
 [role=tooltip].left {
-  left: -100%;
+  top: 0;
+  left: -200%;
 }
 
 [role=tooltip].right {
@@ -90,7 +91,7 @@ export default {
 
 button:hover + [role=tooltip],
 button:focus + [role=tooltip] {
-  opacity: 1;
+  display: inline-block;
   transform: scale(1);
   transition: var(--in);
 }

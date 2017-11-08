@@ -73,6 +73,7 @@ const model = {
         .then(() => {
           this.updateCurrentRecord(this.getEmptyModel(model));
           this.mapStateToModel();
+          this.autofillPID(model);
         })
         .catch(() => {
         })
@@ -83,10 +84,8 @@ const model = {
       else {
         this.updateCurrentRecord(this.getEmptyModel(model));
         this.mapStateToModel();
+        this.autofillPID(model);
       }
-
-      // autogenerate PIDs for appropriate models (product, dossier, etc.)
-      this.autofillPID(model);
     },
 
     // Reverts the current working model to what it is in vuex
@@ -179,6 +178,7 @@ const model = {
         })
         .catch(err => {
           this.showMessage(this.$t('SAVE_FAILURE'));
+          console.error(err);
         });
       }
     },

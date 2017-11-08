@@ -37,7 +37,7 @@ Used for lengthy sections of text input. Has settings for required, disabled, ma
 
 <template>
   <div class='textarea-group' @focusout='touched = true'>
-    <textarea class='textarea-field' :class='{empty, invalid}' :id='id' :name='compName' :value='value' @input='inputEvent($event)' :required='required' :disabled='disabled'></textarea>
+    <textarea ref='input' class='textarea-field' :class='{empty, invalid}' :id='id' :name='compName' :value='value' @input='inputEvent($event)' :required='required' :disabled='disabled'></textarea>
     <label :for='id' :class='{"error-text": invalid}'>
       {{label}}
       <span v-if='required' class='error-text'> *</span>
@@ -112,17 +112,24 @@ Used for lengthy sections of text input. Has settings for required, disabled, ma
     },
     methods: {
       inputEvent(event) {
-        this.resize(event);
         this.cb(event.target.value);
       },
-      resize(event) {
-        if (this.autoresize) {
-          event.target.style.overflowY = 'hidden';
-          event.target.style.height = 'auto';
-          event.target.style.height = event.target.scrollHeight + 'px';
-        }
+      resize() {
+        let input = this.$refs.input;
+        input.style.overflowY = 'hidden';
+        input.style.height = 'auto';
+        input.style.height = `${input.scrollHeight}px`;
       },
-
+      reset() {
+        this.touched = false;
+        if (this.autoresize) this.resize();
+      }
+    },
+    mounted() {
+      if (this.autoresize) this.resize();
+    },
+    updated() {
+      if (this.autoresize) this.resize();
     }
   };
 </script>

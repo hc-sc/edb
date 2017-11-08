@@ -71,7 +71,7 @@ The table is used to display grid-like and/or tabular data. You can provide an a
     </vue-toolbar>
     <div class='search-toolbar' role='toolbar' v-show='searching' :aria-controls='id'>
       <vue-input class='search-input' :id='`${id}-search-input`' type='text' :label='$t("search")' v-model='searchTerm' ref='searchInput'></vue-input>
-      <vue-icon :id='`${id}-clear`' :label='$t("clear")' icon='clear' @click.native='clearSearch' position='left'></vue-icon>
+      <vue-icon :id='`${id}-clear`' :label='$t("cancel")' icon='clear' @click.native='clearSearch' position='left'></vue-icon>
       </span>
     </div>
     <template>
