@@ -1,6 +1,6 @@
 <template>
   <main>
-    <div style='padding: 5px; overflow: auto;'>
+    <div style='padding: 5px; overflow: auto; flex-grow: 1'>
       <vue-dialog id='dialog' ref='dialog' type='confirm'></vue-dialog>
       <vue-progress v-if='loading'></vue-progress>
       <template v-else>
@@ -121,14 +121,16 @@ export default {
     },
 
     async deleteNode(tree, index) {
+      let query = {
+        url: 'toc',
+        data: {
+          tocnodepid: tree.tocnodepid,
+          docid: tree.toc2doc[index].document._id
+        }
+      };
+
       try {
-        let result = await BackendService.deleteGhsts({
-          url: 'toc',
-          data: {
-            tocnodepid: tree.tocnodepid,
-            docid: tree.toc2doc._id
-          }
-        });
+        await BackendService.deleteGhsts(query);
         tree.toc2doc.splice(index, 1);
       }
       catch(err) {

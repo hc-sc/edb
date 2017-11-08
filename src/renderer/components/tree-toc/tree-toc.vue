@@ -33,7 +33,7 @@ A recursive component that allows for nested children, such as a directory struc
         <div @click='toggle'>
           <span>
             <i class='material-icons tree-icon' v-show='hasChildren || hasDocs' :class='{open}'>chevron_right</i>
-            <i class='material-icons tree-icon' v-show='addable(tree)' @click='addDoc'>add</i>
+            <i class='material-icons tree-icon' :style='{visibility: addable(tree) ? "visible" : "hidden"}' @click='addDoc'>add</i>
           </span>
           {{label}}
           <span v-if='numDocs > 0'> [{{numDocs}}]</span>
@@ -47,7 +47,7 @@ A recursive component that allows for nested children, such as a directory struc
           </li>
         </ul>
         <div v-if='hasChildren' v-show='open'>
-          <vue-tree v-for='(child, index) of children' :key='index' :tree='child' :getChildren='getChildren' :getLabel='getLabel' :addable='addable' :onAdd='onAdd' :onDelete='onDelete'>
+          <vue-tree v-for='(child, index) of children' :key='index' :tree='child' :getChildren='getChildren' :getLabel='getLabel' :addable='addable' :onAdd='onAdd' :onDelete='onDelete' @update='updateNumDocs'>
           </vue-tree>
         </div>
       </li>
@@ -111,16 +111,12 @@ export default {
   data() {
     return {
       open: false,
+      numDocs: 0
     };
   },
   computed: {
     name() {
       return this.tree.nodename.replace(' ', '').toLowerCase();
-    },
-    numDocs() {
-      return this.docs.length + this.$children.reduce((total, child) => {
-        return child.numDocs != null ? child.numDocs : 0;
-      }, 0);
     },
     children() {
       return this.getChildren(this.tree) || [];
@@ -129,13 +125,13 @@ export default {
       return this.getLabel(this.tree);
     },
     hasChildren() {
-      return this.children && this.children.length;
+      return this.children && this.children.length > 0;
     },
     docs() {
       return this.tree.toc2doc || [];
     },
     hasDocs() {
-      return !!(this.docs && this.docs.length);
+      return this.docs && this.docs.length > 0;
     }
   },
   methods: {
@@ -157,13 +153,25 @@ export default {
       this.collapse();
     },
     deleteDoc(index) {
-      this.onDelete(this.tree, index),
-      this.tree.toc2doc.splice(index, 1);
-      this.$emit('delete');
+      this.onDelete(this.tree, index)
+      // .then(() => {
+        this.tree.toc2doc.splice(index, 1);
+        this.$emit('update');
+      // });
     },
     addDoc() {
       this.onAdd(this.tree);
-      this.$emit('add');
+      // .then(() => {
+        this.$emit('update');
+      // });
+    },
+    updateNumDocs() {
+      this.numDocs = this.docs.length;
+      let result = this.docs.length + this.$children.reduce((total, child) => {
+        return total = child.docs.length;
+      }, 0);
+      console.log(this.tree.nodename, result);
+      this.$emit('update');
     },
   },
 
