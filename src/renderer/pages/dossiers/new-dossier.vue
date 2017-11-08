@@ -28,7 +28,10 @@ export default {
   },
   async created() {
     this.products = await BackendService.getAppDataAll('product');
-    this.products = this.products.filter(product => !('dossier' in product));
+    this.products = this.products.filter(product => {
+      console.log(product);
+      return !('dossier' in product);
+    });
     this.tocs = await BackendService.getAppDataAll('toc');
   },
   components: {

@@ -49,9 +49,9 @@ module.exports = class DossierService extends BaseService {
       obj.product[0] = obj.product[0]._id;
 
       curProd.dossier = undefined;
-      super.edb_post(obj)
+      super.edb_put(obj)
       .then(() => {
-        return proSvr.edb_post(curProd);
+        return proSvr.edb_put(curProd);
       })
       .then(proRet => {
         res(proRet);

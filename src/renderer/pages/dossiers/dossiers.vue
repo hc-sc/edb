@@ -29,7 +29,7 @@ import NewDossier from '@/pages/dossiers/new-dossier.vue';
 import Table from '@/components/table/table.vue';
 import {BackendService} from '@/store/backend.service.js';
 import {model} from '@/mixins/model.js';
-import {mapMutations} from 'vuex';
+import {mapMutations, mapActions} from 'vuex';
 import {cloneDeep} from 'lodash';
 import {
   DOSSIER_STATUS_OPEN,
@@ -74,6 +74,9 @@ export default {
   },
   methods: {
     ...mapMutations('app', ['updateDossierData', 'updateCurrentGhsts']),
+    ...mapActions('app', {
+      updateGhstsBackend: 'updateCurrentGhsts'
+    }),
 
     getComponent(compName) {
       switch (compName) {
@@ -140,6 +143,62 @@ export default {
       });
     },
 
+    selectDossier(index) {
+      this.dossier = this.dossiers[index];
+    },
+
+    canEditDossier(index) {
+      const dossier = this.dossiers[index];
+      const state = new RegExp(this.dossiers[index]._state, 'i');
+      if (state.test(DOSSIER_STATUS_OPEN)) {
+        if (dossier.submission.find(sub => sub._state != SUBMISSION_STATUS_SENT)) return false;
+        return (dossier.submission && dossier.submission.length > 0);
+      }
+      return false;
+    },
+
+    editDossier(index) {
+      // pass the whole dossier, so if in the future we want
+      // to edit more fields
+      this.showFormDialog('editdossier', this.dossiers[index])
+      .then(async dossier => {
+        console.log(dossier);
+        delete dossier.__ob__;
+        try {
+          await BackendService.updateAppData('dossier', dossier);
+          // await this.updateGhstsBackend(dossier);
+          this.$set(this.dossiers, index, dossier);
+        }
+        catch(err) {
+          this.showMessage(this.$t('ERROR_UPDATING_DOSSIER'));
+          console.error(err);
+        }
+      })
+      .catch(err => {
+        console.error(err);
+      })
+      .then(() => {
+        this.$dialog.close();
+      });
+    },
+
+    canDeleteDossier(index) {
+      const dossier = this.dossiers[index];
+      return (dossier.submission && dossier.submission.length === 0);
+    },
+
+    async deleteDossier(index) {
+      console.log(this.dossiers[index]);
+      try {
+        // await BackendService.deleteGhsts(this.dossiers[index]._id);
+        await BackendService.deleteAppData('dossier', this.dossiers[index]._id);
+        this.dossiers.splice(index, 1);
+      } catch(err) {
+        this.showMessage('ERROR');
+        console.error(err);
+      }
+    },
+
     async addSubmission() {
       // current business rules
       if (this.dossier && this.dossier['_state'] === DOSSIER_STATUS_OPEN) {
@@ -188,52 +247,6 @@ export default {
       }
       else {
         this.showMessage(this.$t('CANNOT_ADD_SUBMISSION_DOSSIER_CLOSED'));
-      }
-    },
-
-    selectDossier(index) {
-      this.dossier = this.dossiers[index];
-    },
-
-    canEditDossier(index) {
-      const dossier = this.dossiers[index];
-      const state = new RegExp(this.dossiers[index]._state, 'i');
-      if (state.test(DOSSIER_STATUS_OPEN)) {
-        if (dossier.submission.find(sub => sub._state != SUBMISSION_STATUS_SENT)) return false;
-        return (dossier.submission && dossier.submission.length > 0);
-      }
-      return false;
-    },
-
-    editDossier(index) {
-      // pass the whole dossier, so if in the future we want
-      // to edit more fields
-      this.showFormDialog('editdossier', this.dossiers[index])
-      .then(dossier => {
-        this.$set(this.dossiers, index, dossier);
-      })
-      .catch(err => {
-        console.error(err);
-      })
-      .then(() => {
-        this.$dialog.close();
-      });
-    },
-
-    canDeleteDossier(index) {
-      const dossier = this.dossiers[index];
-      return (dossier.submission && dossier.submission.length === 0);
-    },
-
-    async deleteDossier(index) {
-      console.log(this.dossiers[index]);
-      try {
-        // await BackendService.deleteGhsts(this.dossiers[index]._id);
-        await BackendService.deleteAppData('dossier', this.dossiers[index]._id);
-        this.dossiers.splice(index, 1);
-      } catch(err) {
-        this.showMessage('ERROR');
-        console.error(err);
       }
     },
 
@@ -288,6 +301,7 @@ export default {
     },
 
     canDeleteSubmission(index) {
+      if (Array.isArray(this.dossier.submission) && this.dossier.submission.length <= 1) return false;
       const state = new RegExp(this.dossier.submission[index]._state, 'i');
       return (state.test(SUBMISSION_STATUS_IN_PROGRESS) || state.test(SUBMISSION_STATUS_PACKAGED));
     },
