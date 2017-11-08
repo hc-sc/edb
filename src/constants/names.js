@@ -197,7 +197,7 @@ const types = {
   TYPE_COUNTRY: 'country',
   TYPE_DATA_PROTECTION: 'typedataprotection',
   TYPE_DATA_REQUIREMENT: 'typedatarequirement',
-  TYPE_DOCUMENT_CONTENT_STATUS: 'documentcontentstatus',
+  TYPE_DOCUMENT_CONTENT_STATUS: 'typedocumentcontentstatus',
   TYPE_DOCUMENT_NUMBER_TYPE: 'documentnumbertype',
   TYPE_FILE_TYPE: 'typefiletype',
   TYPE_FORMULATION_TYPE: 'formulationtype',

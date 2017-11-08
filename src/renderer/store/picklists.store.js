@@ -26,6 +26,8 @@ const picklists = {
 
     datarequirement(state) {return state.picklists.filter(p => p.TYPE_NAME === 'TYPE_DATA_REQUIREMENT');},
 
+    documentcontentstatus(state) {return state.picklists.filter(p => p.TYPE_NAME === 'TYPE_DOCUMENT_CONTENT_STATUS');},
+
     documentnumbertype(state) {return state.picklists.filter(p => p.TYPE_NAME === 'EXTENSION_TYPE_DOCUMENT_NUMBER_TYPE');},
 
     filetype(state) {return state.picklists.filter(p => p.TYPE_NAME === 'TYPE_FILE_TYPE');},
@@ -58,6 +60,7 @@ const picklists = {
       getters.country,
       getters.dataprotection,
       getters.datarequirement,
+      getters.documentcontentstatus,
       getters.documentnumbertype,
       getters.filetype,
       getters.formulationtype,
