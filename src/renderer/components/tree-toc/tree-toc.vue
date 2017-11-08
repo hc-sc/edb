@@ -27,12 +27,12 @@ A recursive component that allows for nested children, such as a directory struc
 </docs>
 
 <template>
-  <ul :id='name' class='tree-list'>
+  <ul :id='name' class='tree-list' @update='updateNumDocs'>
     <slot>
       <li class='tree-item'>
         <div @click='toggle'>
           <span>
-            <i class='material-icons tree-icon' v-show='hasChildren || hasDocs' :class='{open}'>chevron_right</i>
+            <i class='material-icons tree-icon' :style='{visibility: hasChildren || hasDocs ? "visible" : "hidden"}' :class='{open}'>chevron_right</i>
             <i class='material-icons tree-icon' :style='{visibility: addable(tree) ? "visible" : "hidden"}' @click='addDoc'>add</i>
           </span>
           {{label}}
@@ -47,7 +47,7 @@ A recursive component that allows for nested children, such as a directory struc
           </li>
         </ul>
         <div v-if='hasChildren' v-show='open'>
-          <vue-tree v-for='(child, index) of children' :key='index' :tree='child' :getChildren='getChildren' :getLabel='getLabel' :addable='addable' :onAdd='onAdd' :onDelete='onDelete' @update='updateNumDocs'>
+          <vue-tree v-for='(child, index) of children' :key='index' :tree='child' :getChildren='getChildren' :getLabel='getLabel' :addable='addable' :onAdd='onAdd' :onDelete='onDelete'>
           </vue-tree>
         </div>
       </li>
@@ -153,24 +153,22 @@ export default {
       this.collapse();
     },
     deleteDoc(index) {
-      this.onDelete(this.tree, index)
+      this.onDelete(this.tree, index);
       // .then(() => {
-        this.tree.toc2doc.splice(index, 1);
-        this.$emit('update');
+      this.tree.toc2doc.splice(index, 1);
+      this.$emit('update');
       // });
     },
     addDoc() {
       this.onAdd(this.tree);
       // .then(() => {
-        this.$emit('update');
+      this.$emit('update');
       // });
     },
     updateNumDocs() {
-      this.numDocs = this.docs.length;
-      let result = this.docs.length + this.$children.reduce((total, child) => {
-        return total = child.docs.length;
-      }, 0);
-      console.log(this.tree.nodename, result);
+      this.numDocs = this.$children.reduce((total, child) => {
+        return total += child.docs.length;
+      }, this.docs.length);
       this.$emit('update');
     },
   },
@@ -180,6 +178,10 @@ export default {
     if(!this.$options.components['vue-tree']) {
       this.$options.components['vue-tree'] = require('./tree-toc.vue');
     }
+  },
+
+  beforeMount() {
+    this.updateNumDocs();
   },
 
   components: {

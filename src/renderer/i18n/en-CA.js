@@ -68,6 +68,7 @@ export default {
   DUPLICATE_ITEM: 'Duplicate items',
   ERROR_DELETING_SUBMISSION: 'There was error deleting the Submission',
   ERROR_OPENING_VIEWER: 'There was an error opening the viewer',
+  ERROR_UPDATING_DOSSIER: 'There was an error updating the dossier',
   FILE_SOURCE: 'File Source',
   FULL: 'Full',
   INVALID_PID: 'Invalid PID',
