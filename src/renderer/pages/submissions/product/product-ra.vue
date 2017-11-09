@@ -1,20 +1,20 @@
 <template>
   <div>
-    <vue-select id='productra' :label='$t("receiver")' :options='ras' :displayValue='ra => ra.shortname' :matchValue='matchById' :value='model.toSpecificForRAId' @input='model.toSpecificForRAId = $event._id'></vue-select>
+    <vue-select id='productra' :label='$t("receiver")' :options='ras' :displayValue='ra => ra.shortname' :matchValue='matchById' :value='model.toSpecificForRAId' @input='model.toSpecificForRAId = $event._id' required></vue-select>
     <vue-input type='text' id='productname' :label='$t("productname")' v-model='model.productname' required :max='255'></vue-input>
     <vue-toolbar>
       {{$t('adminnumber')}}
       <span slot='right'>
-        <vue-icon icon='add' :label='$t("add")' id='addadminnumber' @click.native='addAdminNumber'></vue-icon>
+        <vue-icon icon='add' :label='$t("add")' id='addadminnumber' @click.native='addAdminNumber' position='left'></vue-icon>
       </span>
     </vue-toolbar>
     <ul>
       <li v-for='(item, index) of model.adminnumber' :key='index' class='list-item'>
-        <vue-icon icon='delete' :label='$t("delete")' :id='`deleteadminnumber-${index}`'@click.native='deleteAdminNumber(index)'></vue-icon>
+        <vue-icon icon='delete' :label='$t("delete")' :id='`deleteadminnumber-${index}`'@click.native='deleteAdminNumber(index)' ></vue-icon>
 
         <vue-select-extensible :id='`adminnumbertype-${index}`' :label='$t("adminnumbertype")' typeName='EXTENSION_TYPE_ADMIN_NUMBER_TYPE' :value='item.adminnumbertype' @input='item.adminnumbertype = $event._id' :options='adminnumbertype' :displayValue='displayPicklistItem' :matchValue='matchById' required></vue-select-extensible>
 
-        <vue-input type='text' :id='`guidelinesystem-${index}`' :label='$t("guidelinesystem")' v-model='item.guidelinesystem' required></vue-input>
+        <vue-input type='text' :id='`identifier-${index}`' :label='$t("identifier")' v-model='item.identifier' required :max='255'></vue-input>
       </li>
     </ul>
   </div>

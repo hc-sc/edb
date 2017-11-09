@@ -21,17 +21,17 @@
               <vue-input type='text' id='documentfamilypid' :label='$t("documentfamilypid")' v-model='model.documentgeneric.documentfamilypid' required :pattern='getValidPIDRegExp()'></vue-input>
             </div>
 
-            <vue-input type='text' id='documentcompanyid' :label='$t("documentcompanyid")' v-model='model.documentgeneric.documentcompanyid' required></vue-input>
+            <vue-input type='text' id='documentcompanyid' :label='$t("documentcompanyid")' v-model='model.documentgeneric.documentcompanyid' required :max='20'></vue-input>
 
-            <vue-input type='text' id='documentfamily' :label='$t("documentfamily")' v-model='model.documentgeneric.documentfamily' required></vue-input>
+            <vue-input type='text' id='documentfamily' :label='$t("documentfamily")' v-model='model.documentgeneric.documentfamily' required :max='255'></vue-input>
 
-            <vue-input type='text' id='documenttitle' :label='$t("documenttitle")' v-model='model.documentgeneric.documenttitle' required></vue-input>
+            <vue-textarea type='text' id='documenttitle' :label='$t("documenttitle")' v-model='model.documentgeneric.documenttitle' required :max='2000'></vue-textarea>
 
-            <vue-input type='text' id='documentauthor' :label='$t("documentauthor")' v-model='model.documentgeneric.documentauthor' required></vue-input>
+            <vue-input type='text' id='documentauthor' :label='$t("documentauthor")' v-model='model.documentgeneric.documentauthor' required :max='255'></vue-input>
 
             <vue-input type='date' id='documentissuedate' :label='$t("documentissuedate")' v-model='model.documentgeneric.documentissuedate' required></vue-input>
 
-            <vue-table id='referencedtofile' :title='$t("referencedtofile")' :items='model.documentgeneric.referencedtofile' :headers='[{name: "toFileId", url: "file"}]' :displayHeader='displayTranslation' required addable @add='addTableItem("documentgeneric.referencedtofile")' @select='selectTableItem("documentgeneric.referencedtofile", model.documentgeneric.referencedtofile[$event], $event)' @action='handleAction($event, model.documentgeneric.referencedtofile)'></vue-table>
+            <vue-table id='referencedtofile' :title='$t("referencedtofile")' :items='model.documentgeneric.referencedtofile' :headers='[{key: "toFileId", name: "filename", url: "file"}]' :displayHeader='displayTranslation' required addable @add='addTableItem("documentgeneric.referencedtofile")' @select='selectTableItem("documentgeneric.referencedtofile", model.documentgeneric.referencedtofile[$event], $event)' @action='handleAction($event, model.documentgeneric.referencedtofile)'></vue-table>
 
             <vue-table id='documentinformation' :title='$t("REGULATORY_AUTHORITY_DOCUMENT_INFORMATION")' :items='model.documentra' :headers='[{key: "toSpecificForRAId", name: "receiver", url: "receiver"}]' :displayHeader='displayTranslation' required addable @add='addTableItem("documentra")' @select='selectTableItem("documentra", model.documentra[$event], $event)' @action='handleAction($event, model.documentra)'></vue-table>
 
@@ -39,19 +39,19 @@
               <vue-switch id='isCompleteSource' :label='$t("completedocumentsource")' v-model='model._docsourcetype' onValue='complete' offValue='partial'></vue-switch>
 
               <div v-if='model._docsourcetype'>
-                <vue-input type='text' id='completedocumentsource' :label='$t("completedocumentsource")' v-model='model.documentgeneric.completedocumentsource' required></vue-input>
+                <vue-textarea type='text' id='completedocumentsource' :label='$t("completedocumentsource")' v-model='model.documentgeneric.completedocumentsource' required :max='2000'></vue-textarea>
               </div>
 
               <div v-else>
-                <vue-input type='text' id='documentsource' :label='$t("documentsource")' v-model='model.documentgeneric.documentsource' required></vue-input>
+                <vue-textarea type='text' id='documentsource' :label='$t("documentsource")' v-model='model.documentgeneric.documentsource' required :max='2000'></vue-textarea>
 
-                <vue-input type='number' id='documentyear' :label='$t("documentyear")' v-model='model.documentgeneric.documentyear' required :min='1900'></vue-input>
+                <vue-input type='number' id='documentyear' :label='$t("documentyear")' v-model='model.documentgeneric.documentyear' ></vue-input>
 
-                <vue-input type='text' id='documentissue' :label='$t("documentissue")' v-model='model.documentgeneric.documentissue' required></vue-input>
+                <vue-input type='text' id='documentissue' :label='$t("documentissue")' v-model='model.documentgeneric.documentissue' :max='20'></vue-input>
 
-                <vue-input type='text' id='documentvolume' :label='$t("documentvolume")' v-model='model.documentgeneric.documentvolume' required></vue-input>
+                <vue-input type='text' id='documentvolume' :label='$t("documentvolume")' v-model='model.documentgeneric.documentvolume' :max='20'></vue-input>
 
-                <vue-input type='text' id='documentpages' :label='$t("documentpages")' v-model='model.documentgeneric.documentpages' required></vue-input>
+                <vue-input type='text' id='documentpages' :label='$t("documentpages")' v-model='model.documentgeneric.documentpages' :max='20'></vue-input>
               </div>
             </vue-fieldset>
 
@@ -67,7 +67,7 @@
 
             <vue-table id='referenceddocument' :title='$t("referenceddocument")' :items='model.documentgeneric.referenceddocument' :headers='[{name: "referencetype", url: "picklist"}, "internal", "documentpid"]' :displayHeader='displayTranslation' addable @add='addTableItem("documentgeneric.referenceddocument")' @select='selectTableItem("documentgeneric.referenceddocument", model.documentgeneric.referenceddocument[$event], $event)' @action='handleAction($event, model.documentgeneric.referenceddocument)'></vue-table>
 
-            <vue-table id='relatedtosubstance' :title='$t("relatedtosubstance")' :items='model.documentgeneric.relatedtosubstance' :headers='[{name: "toSubstanceId", url: "substance"}]' :displayHeader='displayTranslation' addable @add='addTableItem("documentgeneric.relatedtosubstance")' @select='selectTableItem("documentgeneric.relatedtosubstance", model.documentgeneric.relatedtosubstance[$event], $event)' @action='handleAction($event, model.documentgeneric.relatedtosubstance)'></vue-table>
+            <vue-table id='relatedtosubstance' :title='$t("relatedtosubstances")' :items='model.documentgeneric.relatedtosubstance' :headers='[{name: "toSubstanceId", url: "substance"}]' :displayHeader='displayTranslation' addable @add='addTableItem("documentgeneric.relatedtosubstance")' @select='selectTableItem("documentgeneric.relatedtosubstance", model.documentgeneric.relatedtosubstance[$event], $event)' @action='handleAction($event, model.documentgeneric.relatedtosubstance)'></vue-table>
 
             <vue-table id='documentnumber' :title='$t("documentnumber")' :items='model.documentgeneric.documentnumber' :headers='[{name: "documentnumbertype", url: "picklist"}, "identifier"]' :displayHeader='displayTranslation' addable @add='addTableItem("documentgeneric.documentnumber")' @select='selectTableItem("documentgeneric.documentnumber", model.documentgeneric.documentnumber[$event], $event)' @action='handleAction($event, model.documentgeneric.documentnumber)'></vue-table>
           </template>
@@ -103,6 +103,7 @@ import SelectExtensible from '@/components/select-extensible/select-extensible.v
 import SplitPane from '@/components/split-pane/split-pane.vue';
 import Switch from '@/components/switch/switch.vue';
 import Table from '@/components/table/table.vue';
+import Textarea from '@/components/textarea/textarea.vue';
 import {model} from '@/mixins/model.js';
 import {BackendService} from '@/store/backend.service.js';
 
@@ -159,7 +160,8 @@ export default {
     'vue-select-extensible': SelectExtensible,
     'vue-split-pane': SplitPane,
     'vue-switch': Switch,
-    'vue-table': Table
+    'vue-table': Table,
+    'vue-textarea': Textarea
   }
 };
 </script>

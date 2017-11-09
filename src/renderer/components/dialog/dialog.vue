@@ -243,6 +243,7 @@ export default {
 .dialog-content {
   padding: 1rem;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .dialog-actions {

@@ -1,5 +1,5 @@
 <template>
-  <vue-select id='tosubstanceid' :label='$t("toSubstanceId")' :options='substances' :displayValue='su => su.substancename' :matchValue='matchById' :value='model.toSubstanceId' @input='model.toSubstanceId = $event._id' required></vue-select>
+  <vue-select id='tosubstanceid' :label='$t("substancename")' :options='substances' :displayValue='su => su.substancename' :matchValue='matchById' :value='model.toSubstanceId' @input='model.toSubstanceId = $event._id' required></vue-select>
 </template>
 
 <script>

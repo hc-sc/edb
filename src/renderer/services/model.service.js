@@ -138,6 +138,7 @@ const ModelService = {
       case 'documentgeneric.referenceddocument':
         model = _.merge({}, Object.assign(modelReferencedDocument.fields));
         model.documentnumber = this.getModel('documentgeneric.documentnumber');
+        model._pidreference = false;
         return model;
 
       case 'documentgeneric.documentnumber':

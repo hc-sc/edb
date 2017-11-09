@@ -76,7 +76,6 @@ export default {
     onSort: {
       type: Function,
       default() {
-        console.log(this.chips);
         this.$emit('change', sortByLocale(this.chips));
       }
     },
@@ -163,8 +162,7 @@ export default {
         if (!this.unique || this.chips.indexOf(value) < 0) {
           this.chips.push(value);
           this.currentChip = null;
-          // this.$emit('input', this.chips);
-          this.$emit('change', sortByLocale(this.chips));
+          this.$emit('change', this.chips);
           this.applyInputFocus();
         }
       }

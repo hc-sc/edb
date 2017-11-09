@@ -12,7 +12,7 @@ Used to indicate to the user when an event has happened via a small message on t
 </docs>
 
 <template>
-  <div class='snackbar' aria-live='assertive' aria-atomic='true' :aria-hidden='isHidden'>
+  <div class='snackbar f-container f-middle' aria-live='assertive' aria-atomic='true' :aria-hidden='isHidden'>
     <slot name='message'>
       <span class='snackbar-text'>{{message}}</span>
     </slot>
@@ -70,7 +70,7 @@ export default {
 @import '../../assets/css/animations.css';
 
 .snackbar {
-  line-height: 48px;
+  line-height: 1.6em;
   padding: 0 1rem;
   width: 100%;
   color: var(--primary-text-dark);

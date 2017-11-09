@@ -15,10 +15,10 @@
       </span>
     </vue-toolbar>
     <ul>
-      <li v-for='(item, index) of model.othernationalguideline' :key='index' class='list-item'>
-        <vue-icon icon='delete' :label='$t("delete")' :id='`othernationalguidelinedelete-${index}`'@click.native='deleteOtherNationalGuideline(index)'></vue-icon>
-        <vue-input type='text' :id='`guidelinenumber-${index}`' :label='$t("guidelinenumber")' v-model='item.guidelinenumber' required></vue-input>
-        <vue-input type='text' :id='`guidelinesystem-${index}`' :label='$t("guidelinesystem")' v-model='item.guidelinesystem' required></vue-input>
+      <li v-for='(item, index) of model.othernationalguideline' :key='index' class='list-item f-container f-start'>
+        <vue-icon icon='delete' :label='$t("delete")' :id='`othernationalguidelinedelete-${index}`'@click.native='deleteOtherNationalGuideline(index)' style='align-self: center'></vue-icon>
+        <vue-input type='text' :id='`guidelinenumber-${index}`' :label='$t("guidelinenumber")' v-model='item.guidelinenumber' required :max='255'></vue-input>
+        <vue-input type='text' :id='`guidelinesystem-${index}`' :label='$t("guidelinesystem")' v-model='item.guidelinesystem' required :max='20'></vue-input>
       </li>
     </ul>
 
@@ -27,7 +27,7 @@
     <vue-fieldset :legend='$t("radocumentnumber")'>
       <vue-select-extensible id='radocumentnumber' :label='$t("radocumentnumbertype")' :options='radocumentnumbertype' :displayValue='displayPicklistItem' :matchValue='matchById' :value='model.radocumentnumber.radocumentnumbertype' @input='model.radocumentnumber.radocumentnumbertype = $event._id' typeName='EXTENSION_TYPE_RA_DOCUMENT_NUMBER_TYPE' required></vue-select-extensible>
 
-      <vue-input type='text' id='identifier' :label='$t("identifier")' v-model='model.radocumentnumber.identifier' required></vue-input>
+      <vue-input type='text' id='identifier' :label='$t("identifier")' v-model='model.radocumentnumber.identifier' required :max='255'></vue-input>
 
       <vue-switch id='alreadysubmitted' :label='$t("alreadysubmitted")' v-model='model.radocumentnumber.alreadysubmitted'></vue-switch>
 
@@ -40,8 +40,8 @@
       <ul>
         <li v-for='(item, index) of model.radocumentnumber.dossiercontext' :key='index' class='list-item f-container f-start'>
           <vue-icon icon='delete' :label='$t("delete")' :id='`deletedossiercontext-${index}`' @click.native='deleteDossierContext(index)' position='right' style='align-self: center'></vue-icon>
-          <vue-input type='text' :id='`dossierpid-${index}`' :label='$t("dossierpid")' v-model='item.dossierpid' :pattern='getValidPIDRegExp()'></vue-input>
-          <vue-input type='text' :id='`dossiernumber-${index}`' :label='$t("dossiernumber")' v-model='item.dossiernumber'></vue-input>
+          <vue-input type='text' :id='`dossierpid-${index}`' :label='$t("dossierpid")' v-model='item.dossierpid' :pattern='getValidPIDRegExp()' required></vue-input>
+          <vue-input type='text' :id='`dossiernumber-${index}`' :label='$t("dossiernumber")' v-model='item.dossiernumber' required :max='255'></vue-input>
         </li>
       </ul>
     </vue-fieldset>
