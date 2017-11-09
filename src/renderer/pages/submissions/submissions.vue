@@ -144,21 +144,30 @@ export default {
     },
 
     mapErrorMessage(error) {
-      let node = error.dataPath.split('.').pop();
+      // let node = error.dataPath.split('.').pop();
+      let node = error.dataPath.split('.').slice(2).join('-');
 
       // if the node is 'value', it's a basic message, not attributed to a node
-      node = node === 'value' ? '' : node;
+      // node = node[node.length -1] === 'value' ? '' : node;
 
       // if there's an index, store it and remove it
-      // since we only capture the index number, need to also remove []
-      let match = indexRegExp.exec(node);
-      let index = '';
+      // since we capture the index number, need to also remove []
+      // let match = indexRegExp.exec(node);
+      // let index = -1;
+      // if (match != null) {
+      //   console.log(match);
+      //   index = match[0].substr(1, match[0].length - 2);
+      //   node = node.replace(indexRegExp, '');
+      // }
+
+      let message = error.message;
+      let match = propNameRegExp.exec(message);
       if (match != null) {
-        index = match[0].substr(1, match[0].length - 2);
-        node = node.replace(indexRegExp, '');
+        message = message.replace(propNameRegExp, `'${this.$t(match[0].slice(1, match[0].length - 1))}'`);
       }
 
-      return `${node}${index.length ? ('[' + index + ']') : ' '}${node.length ? ' - ' : ' '}${error.message.charAt(0).toUpperCase() + error.message.slice(1)}`;
+      // return `${node}${index.length ? ('[' + index + ']') : ' '}${node.length ? ' - ' : ' '}${message}`;
+      return `${node}${node.length ? ': ' : ' '}${message}`;
     }
   },
   components: {
@@ -169,7 +178,8 @@ export default {
   }
 };
 
-const indexRegExp = /(\[[0-9]+\])$/i;
+const indexRegExp = /([a-z]*)(\[[0-9]+\])$/i;
+const propNameRegExp = /('[a-z]*')/i;
 
 </script>
 
