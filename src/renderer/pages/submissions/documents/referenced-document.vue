@@ -5,17 +5,17 @@
     <vue-switch id='internal' :label='$t("internal")' v-model='model.internal'></vue-switch>
 
     <vue-fieldset :legend='$t("REFERENCE_IDENTIFIER")'>
-      <vue-switch id='usePID' :label='$t("identifier")' v-model='model._pidreference' onValue='PID' offValue='document number'></vue-switch>
+      <!-- <vue-switch id='usePID' :label='$t("identifier")' v-model='model._pidreference' onValue='PID' offValue='document number'></vue-switch> -->
 
-      <div v-if='model._pidreference'>
+      <!-- <div v-if='model._pidreference'> -->
         <vue-input type='text' id='documentpid' :label='$t("documentpid")' v-model='model.documentpid' required :pattern='getValidPIDRegExp()'></vue-input>
-      </div>
+      <!-- </div> -->
 
-      <div v-else>
+      <!-- <div v-else> -->
         <vue-select-extensible id='documentnumbertype' :label='$t("documentnumbertype")' :options='documentnumbertype' :displayValue='displayPicklistItem' :matchValue='matchById' :value='model.documentnumber.documentnumbertype' @input='model.documentnumber.documentnumbertype = $event._id' required></vue-select-extensible>
 
         <vue-input type='text' id='identifier' :label='$t("identifier")' v-model='model.documentnumber.identifier' required :max='255'></vue-input>
-      </div>
+      <!-- </div> -->
     </vue-fieldset>
   </div>
 </template>
