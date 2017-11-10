@@ -182,6 +182,8 @@ var initDB = () => {
         let svrClass;
         let svr;
 
+        // NOTE: only true tombstone data will work here,
+        // you cannot have data that required references (i.e. toLegalEntityId)
         if (INCLUDE_SAMPLES) {
           // svrClass = require('./services/product.service');
           // svr = new svrClass('01.04.00');
@@ -193,7 +195,6 @@ var initDB = () => {
           svrClass = require('./services/substance.service');
           svr = new svrClass('01.04.00');
           qAry.push(svr.initDbfromTestData());
-
           // svrClass = require('./services/file.service');
           // svr = new svrClass('01.04.00');
           // qAry.push(svr.initDbfromTestData());
@@ -206,12 +207,15 @@ var initDB = () => {
           // svrClass = require('./services/sender.service');
           // svr = new svrClass('01.04.00');
           // qAry.push(svr.initDbfromTestData());
-          svrClass = require('./services/toc.service');
-          svr = new svrClass('01.04.00');
-          qAry.push(svr.initDbfromTestData());
-
-          res(Q.all(qAry));
         }
+
+        // NOTE: This is REQUIRED to have the OECD definition show up when
+        // creating a new dossier
+        svrClass = require('./services/toc.service');
+        svr = new svrClass('01.04.00');
+        qAry.push(svr.initDbfromTestData());
+
+        res(Q.all(qAry));
       }
     })
       .catch(err => {

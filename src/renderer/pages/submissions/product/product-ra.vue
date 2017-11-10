@@ -1,7 +1,9 @@
 <template>
   <div>
     <vue-select id='productra' :label='$t("receiver")' :options='ras' :displayValue='ra => ra.shortname' :matchValue='matchById' :value='model.toSpecificForRAId' @input='model.toSpecificForRAId = $event._id' required></vue-select>
-    <vue-input type='text' id='productname' :label='$t("productname")' v-model='model.productname' required :max='255'></vue-input>
+
+    <vue-textarea type='text' id='productname' :label='$t("productname")' v-model='model.productname' required :max='2000'></vue-textarea>
+
     <vue-toolbar>
       {{$t('adminnumbers')}}
       <span slot='right'>
@@ -25,6 +27,7 @@ import Icon from '@/components/icon/icon.vue';
 import Input from '@/components/input/input.vue';
 import Select from '@/components/select/select.vue';
 import SelectExtensible from '@/components/select-extensible/select-extensible.vue';
+import Textarea from '@/components/textarea/textarea.vue';
 import Toolbar from '@/components/toolbar/toolbar.vue';
 import {model} from '@/mixins/model.js';
 import {mapGetters, mapActions} from 'vuex';
@@ -66,6 +69,7 @@ export default {
     'vue-input': Input,
     'vue-select': Select,
     'vue-select-extensible': SelectExtensible,
+    'vue-textarea': Textarea,
     'vue-toolbar': Toolbar
   }
 };

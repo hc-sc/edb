@@ -99,6 +99,20 @@ export default {
         }
         else this.errors = [err.message];
 
+        let filesIndex, documentsIndex;
+        filesIndex = this.errors.findIndex(err => /'Files'$/i.test(err));
+        documentsIndex = this.errors.findIndex(err => /'Documents'$/i.test(err));
+
+        console.log(filesIndex, documentsIndex);
+
+        if (filesIndex >= 0 && documentsIndex >= 0) {
+          this.errors = this.errors.filter((err, index) => {
+            return !(index == filesIndex || index == documentsIndex);
+          });
+
+          this.errors.push('TOC must contain at least one document');
+        }
+
         this.$store.commit('ready');
         bus.$emit('addSnackbar', {message: this.$t('VALIDATION_ERROR')});
 
