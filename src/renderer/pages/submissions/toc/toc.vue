@@ -10,7 +10,7 @@
           <vue-button type='button' @click.native='clear'>{{$t('clear')}}</vue-button>
         </div>
 
-        <vue-tree :tree='currentTree' :getChildren='tree => tree.tocnode' :getLabel='tree => tree.nodename' :addable='addable' :onAdd='addNode' :onDelete='deleteNode'></vue-tree>
+        <vue-tree ref='tree' :tree='currentTree' :getChildren='tree => tree.tocnode' :getLabel='tree => tree.nodename' :addable='addable' :onAdd='addNode' :onDelete='deleteNode'></vue-tree>
 
         <div class='bottom-float'>
           <vue-button type='button' @click.native='showTOCData()'>{{$t('TOC_DATA')}}</vue-button>
@@ -68,23 +68,27 @@ export default {
       return tree.documentreferences;
     },
 
-    addNode(tree) {
+    async addNode(tree) {
       if (!tree.toc2doc) {
         this.$set(tree, 'toc2doc', []);
       }
-      this.showFormDialog('document')
+      return this.showFormDialog('document')
       .then(async result => {
         if (result) {
           let document = this.documents.find(doc => result._id == doc._id);
 
           if (!document) {
-            this.showMessage(this.$t('ERROR'));
+            this.showMessage(this.$t('SAVE_FAILURE'));
             console.err('Couldn\'t find matching document');
             return;
           }
 
           // don't allow duplicates
-          if (tree.toc2doc.findIndex(doc => doc._id === document._id) >= 0) {
+          if (tree.toc2doc.findIndex(doc => {
+            console.log(doc, document);
+            return doc._id === document._id;
+          }) >= 0) {
+            console.log(`duplicate`);
             this.showMessage(this.$t('DUPLICATE_DOCUMENTS'));
           }
           else {
@@ -134,7 +138,7 @@ export default {
         tree.toc2doc.splice(index, 1);
       }
       catch(err) {
-        this.showMessage(this.$t('SAVE_ERROR'));
+        this.showMessage(this.$t('SAVE_FAILURE'));
         console.error(err);
       }
     },
@@ -168,7 +172,7 @@ export default {
     mapNodes(list, tree) {
       list.push({name: tree.nodename, _id: tree.tocnodepid});
       if ('tocnode' in tree) tree.tocnode.forEach(node => this.mapNodes(list, node));
-    }
+    },
   },
 
   beforeCreate() {
@@ -185,7 +189,15 @@ export default {
       (await BackendService.getGhsts({url: 'toc'}))[0],
       await BackendService.callMethod('document', 'get', {_dossier: this.dossierid})
     ]);
-    this.fullTree = this.currentTree = {nodename: 'TOC', tocnode: this.toc.structure.tocnode};
+
+    // NOTE: 'this' component finishes mounting before the recursive tree is
+    // finished creating itself. We attach the 'isRoot' to the tree
+    // to allow signalling when it is done
+    this.fullTree = this.currentTree = {
+      nodename: 'TOC',
+      tocnode: this.toc.structure.tocnode,
+      isRoot: true
+    };
 
     // extract list of nodes for use in search
     this.mapNodes(this.nodes, this.fullTree);

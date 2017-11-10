@@ -27,7 +27,7 @@ A recursive component that allows for nested children, such as a directory struc
 </docs>
 
 <template>
-  <ul :id='name' class='tree-list' @update='updateNumDocs'>
+  <ul :id='name' class='tree-list'>
     <slot>
       <li class='tree-item'>
         <div @click='toggle'>
@@ -47,7 +47,7 @@ A recursive component that allows for nested children, such as a directory struc
           </li>
         </ul>
         <div v-if='hasChildren' v-show='open'>
-          <vue-tree v-for='(child, index) of children' :key='index' :tree='child' :getChildren='getChildren' :getLabel='getLabel' :addable='addable' :onAdd='onAdd' :onDelete='onDelete'>
+          <vue-tree v-for='(child, index) of children' :key='child.tocnodepid' :tree='child' :getChildren='getChildren' :getLabel='getLabel' :addable='addable' :onAdd='onAdd' :onDelete='onDelete' @increment='incrementNumDocs' @decrement='decrementNumDocs'>
           </vue-tree>
         </div>
       </li>
@@ -152,25 +152,59 @@ export default {
       this.$children.forEach(child => child.collapseAll());
       this.collapse();
     },
-    deleteDoc(index) {
-      this.onDelete(this.tree, index);
-      // .then(() => {
-      this.tree.toc2doc.splice(index, 1);
-      this.$emit('update');
-      // });
+
+    async deleteDoc(index) {
+      try {
+        await this.onDelete(this.tree, index);
+        if (this.docs.length === 0) this.collapse();
+        this.$emit('decrement');
+      }
+      catch(err) {
+        this.showMessage('SAVE_FAILURE');
+        console.log(err);
+      }
     },
-    addDoc() {
-      this.onAdd(this.tree);
-      // .then(() => {
-      this.$emit('update');
-      // });
+
+    async addDoc() {
+      try {
+        await this.onAdd(this.tree);
+        this.expand();
+        this.$emit('increment');
+      }
+      catch(err) {
+        console.error(err);
+      }
     },
-    updateNumDocs() {
+    incrementNumDocs() {
+      ++this.numDocs;
+      this.$emit('increment');
+    },
+    decrementNumDocs() {
+      --this.numDocs;
+      this.$emit('decrement');
+    },
+
+    initNumDocs() {
       this.numDocs = this.$children.reduce((total, child) => {
-        return total += child.docs.length;
+        return total += child.initNumDocs();
       }, this.docs.length);
-      this.$emit('update');
     },
+
+    getNumDocs() {
+      this.numDocs = this.$children.reduce((total, child) => {
+        return total += child.numDocs;
+      }, this.docs.length);
+    }
+  },
+
+  watch: {
+    'tree.tocname': () => {
+      console.log('here');
+      this.getNumDocs();
+    },
+    numDocs() {
+      this.getNumDocs();
+    }
   },
 
   // for recursive components, need to load the reference
@@ -180,8 +214,15 @@ export default {
     }
   },
 
-  beforeMount() {
-    this.updateNumDocs();
+  mounted() {
+    this.getNumDocs();
+    if (this.tree.isRoot) {
+      this.$emit('mounted');
+    }
+  },
+
+  updated() {
+    this.getNumDocs();
   },
 
   components: {
