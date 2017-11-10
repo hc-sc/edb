@@ -9,7 +9,7 @@
     <vue-chips deletable unique id='documentcomment' :label='$t("documentcomment")' v-model='model.documentcomment'></vue-chips>
 
     <vue-toolbar>
-      {{$t('othernationalguideline')}}
+      {{$t('othernationalguidelines')}}
       <span slot='right'>
         <vue-icon icon='add' :label='$t("add")' id='othernationalguidelineadd' @click.native='addOtherNationalGuideline'></vue-icon>
       </span>
@@ -32,7 +32,7 @@
       <vue-switch id='alreadysubmitted' :label='$t("alreadysubmitted")' v-model='model.radocumentnumber.alreadysubmitted'></vue-switch>
 
       <vue-toolbar>
-        {{$t('dossiercontext')}}
+        {{$t('dossiercontexts')}}
         <span slot='right'>
           <vue-icon icon='add' :label='$t("add")' id='adddossiercontent' @click.native='addDossierContext' position='left'></vue-icon>
         </span>

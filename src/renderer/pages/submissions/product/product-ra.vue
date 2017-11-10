@@ -3,7 +3,7 @@
     <vue-select id='productra' :label='$t("receiver")' :options='ras' :displayValue='ra => ra.shortname' :matchValue='matchById' :value='model.toSpecificForRAId' @input='model.toSpecificForRAId = $event._id' required></vue-select>
     <vue-input type='text' id='productname' :label='$t("productname")' v-model='model.productname' required :max='255'></vue-input>
     <vue-toolbar>
-      {{$t('adminnumber')}}
+      {{$t('adminnumbers')}}
       <span slot='right'>
         <vue-icon icon='add' :label='$t("add")' id='addadminnumber' @click.native='addAdminNumber' position='left'></vue-icon>
       </span>

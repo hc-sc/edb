@@ -21,7 +21,7 @@
 
           <vue-chips deletable unique id='othername' :label='$tc("othername", 1)' v-model='model.othername'></vue-chips>
 
-          <vue-table :title='$t("legalentityidentifier")' :items='model.legalentityidentifier' :headers='[{name: "legalentityidentifiertype", url: "picklist"}, "identifier"]' id='legalentityidentifier' :displayHeader='displayTranslation' addable @select='selectTableItem("legalentityidentifier", model.legalentityidentifier[$event], $event)' @add='addTableItem("legalentityidentifier")' @action='handleAction($event, model.legalentityidentifier)'></vue-table>
+          <vue-table :title='$t("legalentityidentifiers")' :items='model.legalentityidentifier' :headers='[{name: "legalentityidentifiertype", url: "picklist"}, "identifier"]' id='legalentityidentifier' :displayHeader='displayTranslation' addable @select='selectTableItem("legalentityidentifier", model.legalentityidentifier[$event], $event)' @add='addTableItem("legalentityidentifier")' @action='handleAction($event, model.legalentityidentifier)'></vue-table>
 
           <vue-fieldset :legend='$t("contactaddress")' required>
             <vue-input type='text' id='street1' :label='$t("street1")' v-model='model.contactaddress.street1' :max='255' required></vue-input>
@@ -46,7 +46,7 @@
             :pattern='/^https?:\/\//' :message='$t("VALID_WEBSITE")' v-model='model.contactaddress.website'></vue-input>
           </vue-fieldset>
 
-          <vue-table :title='$t("contactperson")' :items='model.contactperson' id='contact' :headers='["lastname", "firstname", "title", "email"]' :displayHeader='displayTranslation' addable @select='selectTableItem("contactperson", model.contactperson[$event], $event)' @add='addTableItem("contactperson")' @action='handleAction($event, model.contactperson)'></vue-table>
+          <vue-table :title='$t("contactpersons")' :items='model.contactperson' id='contact' :headers='["lastname", "firstname", "title", "email"]' :displayHeader='displayTranslation' addable @select='selectTableItem("contactperson", model.contactperson[$event], $event)' @add='addTableItem("contactperson")' @action='handleAction($event, model.contactperson)'></vue-table>
         </template>
         <template v-else>{{$t('noitems')}}</template>
       </div>
