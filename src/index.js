@@ -1,5 +1,5 @@
 let version = require('./package.json').version;
-const INCLUDE_SAMPLES = true;
+const INCLUDE_SAMPLES = false;
 
 'use strict';
 let ghstsLogger = require('./utils/file.logger');
