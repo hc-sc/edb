@@ -109,7 +109,11 @@ TODO: clean up focusable
         selected: null,
         focused: null,
         focusableOptions: [],
-        searchTerm: ''
+        searchTerm: '',
+        lastX: undefined,
+        lastY: undefined,
+        firstTransform: null,
+        scrollable: []
       };
     },
     computed: {
@@ -124,15 +128,33 @@ TODO: clean up focusable
       toggle() {
         this.expanded ? this.close() : this.open();
       },
+
       open() {
+        this.lastX = window.scrollX;
+        this.lastY = window.scrollY;
+        this.findContainers();
         this.setListboxPosition();
         this.expanded = true;
+
+        window.addEventListener('resize', this.setListboxPosition);
+        document.addEventListener('click', () => {
+          if (!this.$refs.listbox.contains(event.target) && !this.$refs.button.contains(event.target)) {
+            this.close();
+          }
+        }, {
+          once: true,
+          capture: true
+        });
       },
+
       close() {
         this.expanded = false;
       },
+
       isFocused() {},
+
       isSelected() {},
+
       isDisabled(option) {
         return option.disabled;
       },
@@ -141,25 +163,39 @@ TODO: clean up focusable
         this.displayValue(option);
       },
 
+      handleScroll() {
+        console.log('here');
+        window.scrollTo(0, this.lastY);
+      },
+
       setListboxPosition() {
         let dims = this.$refs.button.getBoundingClientRect();
-        let containerDims = this.findContainer().getBoundingClientRect();
+        let containerDims = this.firstTransform.getBoundingClientRect();
         let offsetX = (dims.x || dims.left) - (containerDims.x || containerDims.left);
         let offsetY = (dims.y || dims.top) - (containerDims.y || containerDims.top);
 
         this.$refs.listbox.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
       },
 
-      findContainer() {
+      findContainers() {
         let node = this.$el;
-        while(node != document.body) {
+        while (node != document.body) {
           let style = window.getComputedStyle(node);
-          if (style.transform != 'none' || style.perspective != 'none') {
-            return node;
+          if (
+            this.firstTransform == null &&
+            (
+              style.transform != 'none' ||
+              style.perspective != 'none'
+            )
+          ) {
+            this.firstTransform = node;
+          }
+          if (node.scrollHeight > parseFloat(style.height)) {
+            this.scrollable.push(node);
           }
           node = node.parentElement;
         }
-        return node;
+        if (this.firstTransform == null) this.firstTransform = document.body;
       }
     },
     watch: {
@@ -176,6 +212,7 @@ TODO: clean up focusable
 
 .select {
   position: relative;
+  width: 100%;
 }
 
 .select > button {
