@@ -27,7 +27,7 @@ export default {
   lastmodified: 'Last Modified',
   manageApplication: 'Manage Application Data',
   manageDossier: 'Manage Dossier | Manage Dossiers',
-  noitems: 'There are currently no items. Create a new one to begin',
+  noitems: 'There are currently no items. Create a new one to begin.',
   open: 'Open',
   packaged: 'Packaged',
   pageleft: 'Page Left',

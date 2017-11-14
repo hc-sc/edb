@@ -2,7 +2,7 @@
   <div>
     <vue-select id='regulatoryauthorityfield' :label='$t("receiver")' :options='ras' :displayValue='ra => ra.shortname' :matchValue='matchBy("_id")' :value='model.toSpecificForRAId' @input='model.toSpecificForRAId = $event._id' required></vue-select>
     <vue-switch id='cbidesignation' :label='$t("cbidesignation")' v-model='model.cbidesignation'></vue-switch>
-    <vue-input id='filecomment' :label='$t("filecomment")' v-model='model.filecomment'></vue-input>
+    <vue-textarea id='filecomment' :label='$t("filecomment")' v-model='model.filecomment' :max='2000'></vue-textarea>
   </div>
 </template>
 
@@ -10,6 +10,7 @@
 import Input from '@/components/input/input.vue';
 import Select from '@/components/select/select.vue';
 import Switch from '@/components/switch/switch.vue';
+import Textarea from '@/components/textarea/textarea.vue';
 import {model} from '@/mixins/model.js';
 import {mapActions} from 'vuex';
 
@@ -39,7 +40,8 @@ export default {
   components: {
     'vue-input': Input,
     'vue-select': Select,
-    'vue-switch': Switch
+    'vue-switch': Switch,
+    'vue-textarea': Textarea
   }
 };
 </script>

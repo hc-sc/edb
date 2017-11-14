@@ -242,6 +242,9 @@ export default {
     errorMessage(message) {
       return message ? message : 'Invalid pattern';
     }
+  },
+  created() {
+    if (this.value && this.value.length) this.touched = true;
   }
 };
 
