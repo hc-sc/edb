@@ -162,11 +162,11 @@ export default {
       // to edit more fields
       this.showFormDialog('editdossier', this.dossiers[index])
       .then(async dossier => {
-        console.log(dossier);
         delete dossier.__ob__;
         try {
           await BackendService.updateAppData('dossier', dossier);
           // await this.updateGhstsBackend(dossier);
+          this.dossier = dossier;
           this.$set(this.dossiers, index, dossier);
         }
         catch(err) {
@@ -201,6 +201,7 @@ export default {
 
     async addSubmission() {
       // current business rules
+      console.log(this.dossier);
       if (this.dossier && this.dossier['_state'] === DOSSIER_STATUS_OPEN) {
         // find the highest numbered submission version
         let lastSubmission;
