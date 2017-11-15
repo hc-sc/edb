@@ -230,7 +230,6 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
   box-shadow: var(--depth-6);
-  max-height: 80%;
 }
 
 .dialog-title {

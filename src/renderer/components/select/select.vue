@@ -48,7 +48,7 @@ TODO: clean up focusable
     <span aria-hidden>▼</span>
     <button ref='button' type='button' aria-haspopup='true' :aria-expanded='expanded' @click='toggle'>{{buttonLabel}}</button>
     <ul ref='listbox' role='listbox' :aria-labelledby='`${id}-label`' :aria-multiselectable='multiple' :aria-activedescendant='activeDescendant'>
-      <li v-for='(option, index) of options' :key='index' :id='`${id}-option-${index}`' role='option' :aria-selected='isSelected(option)' :disabled='isDisabled(option)' tabindex='-1' @keydown.stop.prevent='handleKeyPress'>{{getOptionLabel(option)}}</li>
+      <li v-for='(option, index) of options' :key='index' :id='`${id}-option-${index}`' role='option' :aria-selected='isSelected(option)' :disabled='isDisabled(option)' @keydown.stop.prevent='handleKeyPress'>{{getOptionLabel(option)}}</li>
     </ul>
   </div>
 </template>
