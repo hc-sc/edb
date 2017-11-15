@@ -327,12 +327,6 @@ export default {
   padding: 1.2rem 0 1rem 0;
 }
 
-.select [role=option] {
-  font-size: 1rem;
-  line-height: 1.75rem;
-  padding: 10px 5px;
-}
-
 .select-button {
   width: 100%;
   background: transparent;
@@ -411,6 +405,7 @@ export default {
   box-shadow: var(--depth-3);
   min-width: 250px;
   max-height: 400px;
+  overflow-x: hidden;
   overflow-y: hidden;
 }
 
@@ -439,7 +434,6 @@ export default {
   font-weight: 400;
   white-space: nowrap;
   background-color: var(--background-color);
-  line-height: 1.5rem;
 }
 
 .select-dropdown [role=option]:not([disabled]):not(:focus):hover {
