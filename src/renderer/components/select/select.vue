@@ -45,33 +45,31 @@ TODO: clean up focusable
   <div
     class='select'
     :id='id'
-    :class='{disabled, required}'
+    :class='{disabled, required, selected: selectedIndexes.length > 0}'
     @focusout='touched = true'>
-      <span
-        :id='`${id}-label`'
-        hidden>
-          {{label}}
-      </span>
       <input
         ref='search'
         type='search'
         role='search'
         hidden
         novalidate>
-      <span aria-hidden>▼</span>
       <button
         ref='button'
         type='button'
         aria-haspopup='true'
         :aria-expanded='expanded'
         @click='toggle'>
-          {{buttonLabel}}
+          <span
+            :id='`${id}-label}`'>
+              {{label}}
+          </span>
+          <span
+            :id='`${id}-label`'
+            aria-hidden>
+              {{selectedValues}}
+          </span>
+          <span aria-hidden>▼</span>
       </button>
-      <div
-        ref='overlay'
-        class='overlay'
-        @click.stop='close'>
-      </div>
       <ul
         ref='listbox'
         role='listbox'
@@ -90,6 +88,11 @@ TODO: clean up focusable
               {{getOptionLabel(option)}}
           </li>
       </ul>
+      <div
+        ref='overlay'
+        class='overlay'
+        @click.stop='close'>
+      </div>
   </div>
 </template>
 
@@ -152,6 +155,7 @@ TODO: clean up focusable
         touched: false,
         dirty: false,
         expanded: false,
+        nodes: [],
         focusedIndex: -1,
         selectedIndexes: [],
         searchTerm: '',
@@ -160,13 +164,12 @@ TODO: clean up focusable
     },
     computed: {
       invalid() {
-        return false;
+        return this.touched && this.required && this.selectedValues.lenght === 0;
       },
       activeDescendant() {
         return this.focusedIndex < 0 ? false : this.options[this.focusedIndex].id;
       },
-      buttonLabel() {
-        if (this.selectedIndexes == null || this.selectedIndexes.length === 0) return this.label;
+      selectedValues() {
         return this.selectedIndexes.map(index => {
           return this.getOptionLabel(this.options[index]);
         }).join(',');
@@ -188,8 +191,19 @@ TODO: clean up focusable
         this.setListboxProperties();
         this.expanded = true;
         this.$nextTick(() => {
-          let firstSelected = this.getFirstSelectedNode();
-          if (firstSelected) firstSelected.focus();
+          if (this.selectedIndexes.length) {
+            this.focusIndex(this.selectedIndexes[0]);
+            console.log(this.focusedIndex);
+          }
+          else {
+            for (let i = 0; i < this.$refs.listbox.children; ++i) {
+              console.log(this.$refs.listbox.children[i]);
+              if (!this.$refs.listbox.children[i].hasAttribute('disabled')) {
+                this.focusIndex(i);
+                break;
+              }
+            }
+          }
         });
 
         window.addEventListener('resize', this.setListboxProperties);
@@ -206,9 +220,20 @@ TODO: clean up focusable
       },
 
       setListboxProperties() {
+        let {width, height} = window.getComputedStyle(this.$refs.listbox);
+        width = parseInt(width);
+        height = parseInt(height);
         let dims = this.$refs.button.getBoundingClientRect();
-        let offsetX = (dims.x || dims.left) - (this.offsets.x);
-        let offsetY = (dims.y || dims.top) - (this.offsets.y);
+        let offsetX = dims.left - this.offsets.x;
+        let offsetY = dims.top - this.offsets.y;
+
+        if (dims.top + height > window.innerHeight) {
+          offsetY = offsetY - (Math.abs(dims.top - height));
+        }
+
+        if (dims.left + width > window.innerWidth) {
+          offsetX = offsetX - (Math.abs(dims.left - width));
+        }
 
         this.$refs.listbox.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
         this.$refs.listbox.style.width = `${dims.width}px`;
@@ -220,6 +245,7 @@ TODO: clean up focusable
 
       getContainerTranslationOffsets() {
         const dims = this.findContainers().firstTransform.getBoundingClientRect();
+
         return {
           x: dims.x || dims.left,
           y: dims.y || dims.top
@@ -259,7 +285,49 @@ TODO: clean up focusable
       },
 
       handleKeyPress(event, index) {
-        console.log(index);
+        const key = event.keyCode || event.which;
+
+        // up
+        if (key === 38) {
+          this.focusPrevious();
+          if (!this.multiple || event.shiftKey) this.selectIndex(this.focusedIndex);
+        }
+
+        // down
+        else if (key === 40) {
+          this.focusNext();
+          if (!this.multiple || event.shiftKey) this.selectIndex(this.focusedIndex);
+        }
+
+        // esc
+        else if (key === 27) {
+          this.close();
+          this.$refs.button.focus();
+        }
+
+        // tab
+        else if (key === 9) {
+          this.close();
+          this.$el.nextElementSibling.focus();
+
+          if (event.shiftKey) {
+            this.$refs.button.focus();
+          }
+        }
+
+        // space
+        else if (key === 32) {
+          if (this.multiple) this.toggleIndex(index);
+        }
+
+        // enter
+        else if (key === 13) {
+          if (!this.multiple) {
+            this.selectIndex(index);
+            this.close();
+            this.$refs.button.focus();
+          }
+        }
       },
 
       toggleIndex(option) {
@@ -280,14 +348,14 @@ TODO: clean up focusable
       },
 
       focusIndex(index) {
-        let option = this.options[index];
-        if (this.isDisabled(option)) return;
         this.focusedIndex = index;
         this.$refs.listbox.children[index].focus();
       },
 
-      focusNext(node, index) {
-        let curr = node;
+      focusNext() {
+        let index = this.focusedIndex + 1;
+        if (index >= this.options.length) return;
+        let curr = this.$refs.listbox.children[index];
         while (curr.hasAttribute('disabled')) {
           curr = curr.nextElementSibling;
           ++index;
@@ -296,10 +364,12 @@ TODO: clean up focusable
         this.focusIndex(index);
       },
 
-      focusPrevious(node, index) {
-        let curr = node;
+      focusPrevious() {
+        let index = this.focusedIndex - 1;
+        if (index < 0) return;
+        let curr = this.$refs.listbox.children[index];
         while (curr.hasAttribute('disabled')) {
-          curr = curr.nextElementSibling;
+          curr = curr.previousElementSibling;
           --index;
           if (index < 0) return;
         }
@@ -312,8 +382,8 @@ TODO: clean up focusable
 
       mapValuesToSelected() {
         let match = this.matchValue(this.options, this.value);
-        console.log(match);
         if (match >= 0) this.selectedIndexes = [match];
+        else this.selectedIndexes = [];
       }
     },
     watch: {
@@ -338,9 +408,92 @@ TODO: clean up focusable
 .select {
   position: relative;
   width: 100%;
+  min-height: 2.5rem;
+  min-width: 100px;
+  padding: 1.2rem 0 1rem 0;
 }
 
-.select > button + .overlay {
+.select > button {
+  cursor: pointer;
+  width: 100%;
+  min-height: 1rem;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid var(--divider);
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 1rem;
+  outline: none;
+  padding-bottom: 2px;
+}
+
+/* triangle */
+.select > button > span:last-of-type {
+  position: absolute;
+  top: 1rem;
+  right: 5px;
+}
+
+/* label */
+.select > button > span:first-of-type {
+  color: var(--label-text);
+  padding-bottom: 2px;
+  cursor: text;
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 1rem;
+  transform-origin: left;
+  transform: scale(1)  translateY(.9rem);
+  transition: var(--out);
+}
+
+.select.selected > button > span:first-of-type {
+  transform: scale(0.7);
+  transition: var(--in);
+}
+
+/* selected values */
+.select > button > span:nth-of-type(2) {
+  visibility: hidden;
+  z-index: -1;
+}
+
+.select.selected > button > span:nth-of-type(2) {
+  visibility: visible;
+}
+
+.select > button:focus, .select > button:active {
+  border-bottom: 1px solid var(--primary-color);
+  box-shadow: 0 1px 0 0 var(--primary-color);
+  transition: var(--in);
+}
+
+.select > button.invalid {
+  border-bottom: 1px solid var(--error-color);
+  box-shadow: none;
+  transition: var(--out);
+}
+
+.select > button.invalid:focus, .select > button.invalid:active {
+  box-shadow: 0 1px 0 0 var(--error-color);
+  transition: var(--in);
+}
+
+.select > button.disabled {
+  border-bottom: 1px dashed var(--disabled-color);
+  box-shadow: none;
+  transition: var(--out);
+}
+
+.select > button.disabled.invalid {
+  border-bottom: 1px dashed var(--error-color);
+  box-shadow: none;
+  transition: var(--out);
+}
+
+.select > button ~ .overlay {
   display: none;
   position: fixed;
   top: 0;
@@ -351,84 +504,61 @@ TODO: clean up focusable
   z-index: 9999;
 }
 
-.select > button[aria-expanded=true] + .overlay {
+.select > button[aria-expanded=true] ~ .overlay {
   display: block;
 }
 
-.select > button {
-  width: 100%;
-  padding: 5px;
-  border: 1px solid black;
-  background-color: inherit;
-}
-
-.select > button {
-  padding: 5px 2em 5px 5px;
-}
-
-.select > span {
-  position: absolute;
-  right: .2em;
-  top: .1em;
-  z-index: -1;
-}
-
-.select > button ~ [role=listbox] {
+.select > button + [role=listbox] {
   display: block;
   background-color: white;
+  line-height: 1.5rem;
+  padding: 14px 16px;
+  outline: none;
   position: fixed;
   top: 0;
   left: 0;
   min-width: 250px;
   z-index: 10000;
   list-style: none;
-  box-shadow: 1px 2px;
+  box-shadow: var(--depth-3);
   padding: 0;
   max-height: 400px;
-  overflow: hidden;;
+  overflow-x: hidden;
+  overflow-y: hidden;
   visibility: hidden;
   opacity: 0;
-  transform: scaleY(0);
-  transform-origin: top;
-  /* transition: .2s linear; */
-  display: none;
 }
 
-.select > button[aria-expanded=true] ~ [role=listbox] {
+.select > button[aria-expanded=true] + [role=listbox] {
   visibility: visible;
   overflow-y: auto;
   opacity: 1;
-  transform: scaleY(1);
-  /* transition: opacity .2s .1s linear, transform .4s; */
   display: block;
 }
 
-[role=option] {
+.select [role=option] {
   padding: 15px 5px;
   cursor: pointer;
   width: 100%;
   border: none;
   background: white;
   text-align: left;
+  outline: none;
 }
 
-[role=option]:not([disabled]):hover {
+.select [role=option]:not([disabled]):hover,
+.select [role=option]:not([disabled]):focus {
   background-color: lightgray;
 }
 
-[role=option]:not([disabled]):focus {
-  background-color: blue;
-  color: white;
+.select [role=option]:not([disabled]):active,
+.select [role=option]:not([disabled])[aria-selected=true] {
+  background-color: var(--primary-color);
+  color: var(--primary-text);
 }
 
-[role=option]:not([disabled]):active,
-[role=option][aria-selected=true] {
-  background-color: black;
-  color: white;
-}
-
-[role=option][disabled] {
-  color: lightgray;
+.select [role=option][disabled] {
+  color: var(--disabled-color);
   cursor: not-allowed;
 }
 </style>
