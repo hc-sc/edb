@@ -279,6 +279,17 @@ export default {
   outline: none;
   font-size: 1rem;
   background-color: inherit;
-  color: var(--label-color);
+}
+
+.chip-input::-webkit-placeholder {
+  color: var(--label-text);
+}
+
+.chip-input:-moz-placeholder {
+  color: var(--label-text);
+}
+
+.chip-input:-ms-input-placeholder {
+  color: var(--label-text);
 }
 </style>

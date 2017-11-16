@@ -42,277 +42,362 @@ TODO: clean up focusable
 </docs>
 
 <template>
-  <div class='select' :class='{disabled}' @focusout='touched = true'>
-    <div :id='id' class='select-dropdown' role='listbox' :aria-controls='id'>
-      <input type='text' v-model='searchValue' hidden>
-      <button type='button' class='select-button' aria-haspopup='true' :aria-expanded='expanded' @click='toggle' @keydown='handleButtonEvent' :class='{invalid}'>
-        <span class='label' :class='{selected: selectedValue}' v-if='label'>
-          {{label}}
-          <span class='error-text' v-if='required'> *</span>
-        </span>
-        <span v-if='selectedValue'>{{selectedValue}}</span>
-        <span class='a-right' aria-hidden>▼</span>
+  <div
+    class='select'
+    :id='id'
+    :class='{disabled, required, selected: selectedIndexes.length > 0}'
+    @focusout='touched = true'>
+      <input
+        ref='search'
+        type='search'
+        role='search'
+        hidden
+        novalidate>
+      <button
+        ref='button'
+        type='button'
+        aria-haspopup='true'
+        :aria-expanded='expanded'
+        @click='toggle'>
+          <span
+            :id='`${id}-label}`'>
+              {{label}}
+          </span>
+          <span
+            :id='`${id}-label`'
+            aria-hidden>
+              {{selectedValues}}
+          </span>
+          <span aria-hidden>▼</span>
       </button>
-      <ul class='select-list' ref='trap' role='listbox' @keydown.esc.capture='close()' @keydown.tab='close()' :aria-activedescendant='getActiveDescendant()'>
-        <li role='option' disabled>{{label}}</li>
-        <li role='option' v-for='(option, index) of options' :key='(index)' :id='`${id}-option-${index}`' :disabled='option.disabled' :tabindex='-1' @click='select(index)' :aria-selected='isSelected(index)' @keydown.down='focusNext' @keydown.up='focusPrevious'>
-          {{displayValue(option)}}
-        </li>
+      <ul
+        ref='listbox'
+        role='listbox'
+        :aria-labelledby='`${id}-label`'
+        :aria-multiselectable='multiple' :aria-activedescendant='activeDescendant'>
+          <li
+            v-for='(option, index) of options'
+            :key='index'
+            :id='`${id}-option-${index}`'
+            role='option'
+            :aria-selected='isSelected(index)'
+            :disabled='disabled || isDisabled(option)'
+            tabindex='-1'
+            @keydown.stop.prevent='handleKeyPress($event, index)'
+            @click.stop='handleClick($event, index)'>
+              {{getOptionLabel(option)}}
+          </li>
       </ul>
-    </div>
-    <p class='error-text' v-if='invalid'>Required</p>
+      <div
+        ref='overlay'
+        class='overlay'
+        @click.stop='close'>
+      </div>
   </div>
 </template>
 
 <script>
-import {isStringMatch} from '@/services/utils.service.js';
+  export default {
+    name: 'Select',
+    props: {
+      id: {
+        type: String,
+        required: true
+      },
+      label: {
+        type: String,
+        required: true
+      },
+      options: {
+        type: Array,
+        default: () => []
+      },
+      value: {
+        type: Array | String
+      },
+      displayValue: {
+        type: Function,
+        default(option) {
+          return option == null ? this.label : (option.label || option);
+        }
+      },
+      matchValue: {
+        type: Function,
+        default(options, value) {
+          return options.findIndex(o => o == value);
+        }
+      },
+      onSelect: {
+        type: Function,
+        default(option) {
+          this.$emit('input', option);
+        }
+      },
+      multiple: {
+        type: Boolean,
+        default: false
+      },
+      disabled: {
+        type: Boolean
+      },
+      isDisabled: {
+        type: Function,
+        default(option) {
+          return option.disabled;
+        }
+      },
+      required: {
+        type: Boolean
+      }
+    },
+    data() {
+      return {
+        touched: false,
+        dirty: false,
+        expanded: false,
+        nodes: [],
+        focusedIndex: -1,
+        selectedIndexes: [],
+        searchTerm: '',
+        offsets: {}
+      };
+    },
+    computed: {
+      invalid() {
+        return this.touched && this.required && this.selectedValues.lenght === 0;
+      },
+      activeDescendant() {
+        return this.focusedIndex < 0 ? false : this.options[this.focusedIndex].id;
+      },
+      selectedValues() {
+        return this.selectedIndexes.map(index => {
+          return this.getOptionLabel(this.options[index]);
+        }).join(',');
+      }
+    },
+    methods: {
+      isSelected(index) {
+        return this.selectedIndexes.includes(index);
+      },
 
-export default {
-  name: 'Select',
-  props: {
-    id: {
-      type: String,
-      required: true
-    },
-    label: {
-      type: String,
-    },
-    options: {
-      type: Array,
-      default: () => []
-    },
-    value: {
-      type: Array | String
-    },
-    displayValue: {
-      type: Function,
-      default(value) {
-        return value.label || value;
-      }
-    },
-    matchValue: {
-      type: Function,
-      default(options, value) {
-        return options.findIndex(o => o == value);
-      }
-    },
-    getItems: {
-      type: Function
-    },
-    onSelect: {
-      type: Function,
-      default(value) {
-        this.$emit('input', value);
-      }
-    },
-    disabled: {
-      type: Boolean,
-      default: false
-    },
-    required: {
-      type: Boolean,
-      default: false
-    }
-  },
-  data() {
-    return {
-      touched: false,
-      loading: false,
-      searchValue: '',
-      expanded: false,
-      selected: undefined,
-      previousFocusedNode: null,
-      focusable: [],
-      focusIndex: null,
-      timer: null
-    };
-  },
-  computed: {
-    compName() {return this.name || this.id;},
-    items() {
-      if (this.getItems) {
-        this.loading = true;
-        this.getItems().then(items => {
-          this.loading = false;
-          return items;
-        })
-        .catch(err => {
-          // show snackbar about error
-          console.log('error loading items', err);
-        });
-      }
-      else return this.options;
-    },
-    selectedValue() {
-      let val = '';
-      if (this.selected != null) {
-        let matchIndex = this.matchValue(this.options, this.value);
-        if (matchIndex >= 0) val = this.displayValue(this.options[matchIndex]);
-      }
-      return val;
-    },
-    invalid() {
-      return this.required && this.touched && (this.value == null || this.value.length === 0);
-    }
-  },
-  methods: {
-    isSelected(index) {
-      return this.selected === index;
-    },
-    toggle() {
-      if (this.expanded) this.close();
-      else this.open();
-    },
-    open() {
-      this.previousFocusedNode = document.activeElement;
-      this.expanded = true;
-      this.focusable = this.getFocusableNodes();
-      if (this.selected) {
-        this.focus(this.selected);
-      }
-      else {
-        this.focus(0);
-        this.select(0);
-      }
+      toggle() {
+        this.expanded ? this.close() : this.open();
+      },
 
-      document.addEventListener('keydown', this.handleListEvent, true);
-      document.addEventListener('click', this.handleListEvent, true);
-    },
-    close() {
-      document.removeEventListener('keydown', this.handleListEvent, true);
-      document.removeEventListener('click', this.handleListEvent, true);
-      this.expanded = false;
-      if (this.previousFocusedNode) this.previousFocusedNode.focus();
-    },
-    select(index) {
-      if (Number.isNaN(index)) index = 0;
-      if (index >= this.items.length || index < 0) return;
-      this.selected = index;
-      this.onSelect(this.options[index]);
-    },
-    focus(index) {
-      if (!Number.isNaN(index) && this.focusable && index >= 0 && index < this.focusable.length) {
-        this.focusIndex = index;
-        this.focusable[this.focusIndex].focus();
-      }
-    },
-    focusNext() {
-      this.select(this.focusIndex + 1);
-      this.focus(this.focusIndex + 1);
-    },
-    focusPrevious() {
-      this.select(this.focusIndex - 1);
-      this.focus(this.focusIndex - 1);
-    },
-    handleListEvent(event) {
-      event.preventDefault();
-      event.stopPropagation();
-      if (event.type === 'keydown') {
-        if (event.keyCode === 9 || event.keyCode === 27) {
-          this.close();
-        }
-        else if (event.keyCode === 40) {
-          this.focusNext();
-        }
-        else if (event.keyCode === 38) {
-          this.focusPrevious();
-        }
-        else if (event.keyCode === 13) {
-          this.select(this.focusIndex);
-          this.close();
-        }
-        else if (event.keyCode >= 65 && event.keyCode <= 90) {
-          this.searchValue += event.key;
-          this.searchBestMatch(true);
-        }
-      }
-      if (event.type === 'click') {
-        if (event.target.tagName !== 'LI') {
-          this.close();
-        }
-        else {
-          for (let i = 0; i < this.focusable.length; ++i) {
-            if (this.focusable[i] === event.target) {
-              this.select(i);
-              this.close();
+      open() {
+        this.selectedIndexes.sort();
+        this.offsets = this.getContainerTranslationOffsets();
+        this.setOverlayProperties();
+        this.setListboxProperties();
+        this.expanded = true;
+        this.$nextTick(() => {
+          if (this.selectedIndexes.length) {
+            this.focusIndex(this.selectedIndexes[0]);
+            console.log(this.focusedIndex);
+          }
+          else {
+            for (let i = 0; i < this.$refs.listbox.children; ++i) {
+              console.log(this.$refs.listbox.children[i]);
+              if (!this.$refs.listbox.children[i].hasAttribute('disabled')) {
+                this.focusIndex(i);
+                break;
+              }
             }
           }
-        }
-      }
-    },
-    handleButtonEvent(event) {
-      if (event.type === 'keydown') {
-        if (event.keyCode === 40 || event.keyCode === 38) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-        if (event.keyCode === 40) this.select(this.selected + 1);
-        else if (event.keyCode === 38) this.select(this.selected - 1);
-        else if (event.keyCode >= 65 && event.keyCode <= 90) {
-          this.searchValue += event.key;
-          this.searchBestMatch();
-        }
-      }
-    },
-    getFocusableNodes() {
-      return this.$refs['trap'].querySelectorAll('[role=option]:not([disabled])');
-    },
-    getActiveDescendant() {
-      if (this.selected == null) {
-        return false;
-      }
-      else return `${this.id}-option-${this.selected}`;
-    },
-    findMatchIndex() {
-      let match = this.matchValue(this.options, this.value);
-      if (match >= 0) this.selected = match;
-    },
-    searchBestMatch(shouldFocus) {
-      const matchIndex = this.items.findIndex(item => {
-        return isStringMatch(this.displayValue(item), this.searchValue);
-      });
-      if (matchIndex >= 0) {
-        this.select(matchIndex);
-        if (shouldFocus) this.focus(matchIndex);
-      }
+        });
 
-      if (this.timer == null) {
-        this.timer = setTimeout(() => {
-          this.searchValue = '';
-          clearTimeout(this.timer);
-          this.timer = null;
-        }, 1000);
+        window.addEventListener('resize', this.setListboxProperties);
+      },
+
+      close() {
+        window.removeEventListener('resize', this.setListboxProperties);
+        this.expanded = false;
+        this.focused = -1;
+      },
+
+      getOptionLabel(option) {
+        return this.displayValue(option);
+      },
+
+      setListboxProperties() {
+        let {width, height} = window.getComputedStyle(this.$refs.listbox);
+        width = parseInt(width);
+        height = parseInt(height);
+        let dims = this.$refs.button.getBoundingClientRect();
+        let offsetX = dims.left - this.offsets.x;
+        let offsetY = dims.top - this.offsets.y;
+
+        if (dims.top + height > window.innerHeight) {
+          offsetY = offsetY - (Math.abs(dims.top - height));
+        }
+
+        if (dims.left + width > window.innerWidth) {
+          offsetX = offsetX - (Math.abs(dims.left - width));
+        }
+
+        this.$refs.listbox.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+        this.$refs.listbox.style.width = `${dims.width}px`;
+      },
+
+      setOverlayProperties() {
+        this.$refs.overlay.style.transform = `translate(-${this.offsets.x}px, -${this.offsets.y}px)`;
+      },
+
+      getContainerTranslationOffsets() {
+        const dims = this.findContainers().firstTransform.getBoundingClientRect();
+
+        return {
+          x: dims.x || dims.left,
+          y: dims.y || dims.top
+        };
+      },
+
+      findContainers() {
+        let node = this.$el;
+        const result = {
+          firstTransform: document.body,
+        };
+        while (node != document.body) {
+          const style = window.getComputedStyle(node);
+          if (
+            style.transform != 'none' ||
+            style.perspective != 'none'
+          ) {
+            result.firstTransform = node;
+            break;
+          }
+          node = node.parentElement;
+        }
+        return result;
+      },
+
+      handleClick(event, index) {
+        if (this.isDisabled(this.options[index])) return;
+        this.focusIndex(index);
+        if (!this.multiple) {
+          this.selectIndex(index);
+          this.close();
+          this.$refs.button.focus();
+        }
+        else {
+          this.toggleIndex(index);
+        }
+      },
+
+      handleKeyPress(event, index) {
+        const key = event.keyCode || event.which;
+
+        // up
+        if (key === 38) {
+          this.focusPrevious();
+          if (!this.multiple || event.shiftKey) this.selectIndex(this.focusedIndex);
+        }
+
+        // down
+        else if (key === 40) {
+          this.focusNext();
+          if (!this.multiple || event.shiftKey) this.selectIndex(this.focusedIndex);
+        }
+
+        // esc
+        else if (key === 27) {
+          this.close();
+          this.$refs.button.focus();
+        }
+
+        // tab
+        else if (key === 9) {
+          this.close();
+          this.$el.nextElementSibling.focus();
+
+          if (event.shiftKey) {
+            this.$refs.button.focus();
+          }
+        }
+
+        // space
+        else if (key === 32) {
+          if (this.multiple) this.toggleIndex(index);
+        }
+
+        // enter
+        else if (key === 13) {
+          if (!this.multiple) {
+            this.selectIndex(index);
+            this.close();
+            this.$refs.button.focus();
+          }
+        }
+      },
+
+      toggleIndex(option) {
+        // emit the event to change
+        let index = this.selectedIndexes.indexOf(option);
+        if (index >= 0) this.selectedIndexes.splice(index, 1);
+        else this.selected.push(option);
+      },
+
+      selectIndex(index) {
+        // emit the event to change, NOTE right now expects single string
+        if (!this.multiple) {
+          this.onSelect(this.options[index]);
+        }
+        else {
+          this.toggleIndex(index);
+        }
+      },
+
+      focusIndex(index) {
+        this.focusedIndex = index;
+        this.$refs.listbox.children[index].focus();
+      },
+
+      focusNext() {
+        let index = this.focusedIndex + 1;
+        if (index >= this.options.length) return;
+        let curr = this.$refs.listbox.children[index];
+        while (curr.hasAttribute('disabled')) {
+          curr = curr.nextElementSibling;
+          ++index;
+          if (index >= this.options.length) return;
+        }
+        this.focusIndex(index);
+      },
+
+      focusPrevious() {
+        let index = this.focusedIndex - 1;
+        if (index < 0) return;
+        let curr = this.$refs.listbox.children[index];
+        while (curr.hasAttribute('disabled')) {
+          curr = curr.previousElementSibling;
+          --index;
+          if (index < 0) return;
+        }
+        this.focusIndex(index);
+      },
+
+      getFirstSelectedNode() {
+        return this.$refs.listbox.querySelector('[aria-selected=true]');
+      },
+
+      mapValuesToSelected() {
+        let match = this.matchValue(this.options, this.value);
+        if (match >= 0) this.selectedIndexes = [match];
+        else this.selectedIndexes = [];
       }
-    }
-  },
-  watch: {
-    value() {
-      this.findMatchIndex();
     },
-    options() {
-      this.findMatchIndex();
+    watch: {
+      value() {
+        this.mapValuesToSelected();
+      },
+      options() {
+        this.mapValuesToSelected();
+      }
+    },
+    created() {
+      this.mapValuesToSelected();
     }
-  },
-  mounted() {
-    this.getFocusableNodes();
-    this.$el.firstChild.classList.add('mounted');
-    // const content = this.$refs['trap'];
-    // const height = content.getBoundingClientRect().height;
-    // const style = document.createElement('style');
-    // style.textContent = `
-    //   .js #${this.id}.mounted [aria-expanded] + .select-list {
-    //     height: ${height}px;
-    //   }
-    // `;
-    // this.$el.insertBefore(style, this.$el.firstChild);
-  },
-  created() {
-    this.findMatchIndex();
-  },
-  updated() {
-    this.getFocusableNodes();
-  }
-};
+  };
 </script>
 
 <style>
@@ -321,132 +406,160 @@ export default {
 @import '../../assets/css/animations.css';
 
 .select {
+  position: relative;
+  width: 100%;
   min-height: 2.5rem;
   min-width: 100px;
-  width: 100%;
   padding: 1.2rem 0 1rem 0;
 }
 
-.select-button {
+
+.select > button {
+  cursor: pointer;
   width: 100%;
-  background: transparent;
+  min-height: 1rem;
+  background-color: transparent;
   border: none;
   border-bottom: 1px solid var(--divider);
-  padding-bottom: 2px;
   text-align: left;
   white-space: nowrap;
   overflow: hidden;
   font-size: 1rem;
   outline: none;
-  transition: var(--out);
-}
-
-.select-button:focus, .select-button:active {
-  border-bottom: 1px solid var(--primary-color);
-  box-shadow: 0 1px 0 0 var(--primary-color);
-  transition: var(--in);
-}
-
-.select-button.invalid {
-  border-bottom: 1px solid var(--error-color);
-  box-shadow: none;
-  transition: var(--out);
-}
-
-
-.select-button.invalid:focus, .select-button.invalid:active {
-  box-shadow: 0 1px 0 0 var(--error-color);
-  transition: var(--in);
-}
-
-.select-button.disabled {
-  border-bottom: 1px dashed var(--disabled-color);
-  box-shadow: none;
-  transition: var(--out);
-}
-.select-button.disabled.invalid {
-  border-bottom: 1px dashed var(--error-color);
-  box-shadow: none;
-  transition: var(--out);
-}
-
-.select-button > span {
   padding-bottom: 2px;
 }
 
-.select-button > span.selected {
+/* triangle */
+.select > button > span:last-of-type {
+  position: absolute;
+  top: 1rem;
+  right: 5px;
+}
+
+/* label */
+.select > button > span:first-of-type {
+  color: var(--label-text);
+  padding-bottom: 2px;
   cursor: text;
   position: absolute;
   top: 0;
   left: 0;
   font-size: 1rem;
-  transform: scale(0.7) translate3d(0, -2rem, 0);
   transform-origin: left;
-  transition: .2s var(--linear-out-slow-in);
-}
-
-.select-button > .label {
-  color: var(--label-text);
-}
-
-.select-dropdown {
-  display: none;
-  width: 100%;
-  position: relative;
-  display: inline-block;
-}
-
-.select-list {
-  z-index: 4;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  box-shadow: var(--depth-3);
-  min-width: 250px;
-  max-height: 400px;
-  overflow-x: hidden;
-  overflow-y: hidden;
-}
-
-.js .select-dropdown.mounted .select-list {
-  max-height: 0;
-  opacity: .2;
+  transform: scale(1)  translateY(.9rem);
   transition: var(--out);
 }
 
-.js .select-dropdown.mounted [aria-expanded] + .select-list {
-  max-height: 500px;
-  overflow-y: scroll;
-  opacity: 1;
+.select.selected > button > span:first-of-type {
+  transform: scale(0.7);
   transition: var(--in);
 }
 
-.select-dropdown [role^=option] {
-  position: relative;
-  text-align: left;
+/* selected values */
+.select > button > span:nth-of-type(2) {
+  visibility: hidden;
+  z-index: -1;
+}
+
+.select.selected > button > span:nth-of-type(2) {
+  visibility: visible;
+}
+
+.select > button:focus, .select > button:active {
+  border-bottom: 1px solid var(--primary-color);
+  box-shadow: 0 1px 0 0 var(--primary-color);
+  transition: var(--in);
+}
+
+.select > button.invalid {
+  border-bottom: 1px solid var(--error-color);
+  box-shadow: none;
+  transition: var(--out);
+}
+
+.select > button.invalid:focus, .select > button.invalid:active {
+  box-shadow: 0 1px 0 0 var(--error-color);
+  transition: var(--in);
+}
+
+.select > button.disabled {
+  border-bottom: 1px dashed var(--disabled-color);
+  box-shadow: none;
+  transition: var(--out);
+}
+
+.select > button.disabled.invalid {
+  border-bottom: 1px dashed var(--error-color);
+  box-shadow: none;
+  transition: var(--out);
+}
+
+.select > button ~ .overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: transparent;
+  z-index: 9999;
+}
+
+.select > button[aria-expanded=true] ~ .overlay {
   display: block;
+}
+
+.select > button + [role=listbox] {
+  display: block;
+  background-color: white;
   line-height: 1.5rem;
   padding: 14px 16px;
   outline: none;
-  border: none;
-  font-size: 1rem;
-  font-weight: 400;
-  white-space: nowrap;
-  background-color: var(--background-color);
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 250px;
+  z-index: 10000;
+  list-style: none;
+  box-shadow: var(--depth-3);
+  padding: 0;
+  max-height: 400px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  visibility: hidden;
+  opacity: 0;
 }
 
-.select-dropdown [role=option]:not([disabled]):not(:focus):hover {
-  background: lightgray;
+.select > button[aria-expanded=true] + [role=listbox] {
+  visibility: visible;
+  overflow-y: auto;
+  opacity: 1;
+  display: block;
+}
+
+.select [role=option] {
+  padding: 15px 5px;
   cursor: pointer;
+  width: 100%;
+  border: none;
+  background: white;
+  text-align: left;
+  outline: none;
 }
 
-.select-dropdown [role=option][disabled] {
-  color: var(--disabled-color);
+.select [role=option]:not([disabled]):hover,
+.select [role=option]:not([disabled]):focus {
+  background-color: lightgray;
 }
 
-.select-dropdown [role=option]:focus {
+.select [role=option]:not([disabled]):active,
+.select [role=option]:not([disabled])[aria-selected=true] {
   background-color: var(--primary-color);
   color: var(--primary-text);
+}
+
+.select [role=option][disabled] {
+  color: var(--disabled-color);
+  cursor: not-allowed;
 }
 </style>
