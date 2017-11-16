@@ -87,9 +87,7 @@ The table is used to display grid-like and/or tabular data. You can provide an a
         <table class='table-table' :id='id'>
           <thead>
             <tr @sort='sort'>
-              <th v-if='deletable' class='icon-cell'></th>
-              <th v-if='editable' class='icon-cell'></th>
-              <th v-if='viewable' class='icon-cell'></th>
+              <th v-if='deletable || editable || viewable' class='icon-cell'></th>
               <th v-for='(header, index) of compHeaders' :key='header' @click='sort(index)' :class='[sortBy === headerKeys[index] ? "selected" : "", {desc}]'>
                 {{displayHeader(header)}}
                 <span class='sort-icon'>
@@ -100,14 +98,10 @@ The table is used to display grid-like and/or tabular data. You can provide an a
           </thead>
           <tbody>
             <tr v-for='(row, index) of pagedRows' :key='index'  @select='select'>
-              <td v-if='deletable' class='icon-cell'>
-                <vue-icon :id='`${id}-row-${index}-delete`' icon='delete' :label='$t("delete")' @click.native='onDelete(row.__index)' :disabled='!row.deletable' position='right'></vue-icon>
-              </td>
-              <td v-if='editable' class='icon-cell'>
-                <vue-icon :id='`${id}-row-${index}-edit`' icon='forward' :label='$t("status")' @click.native='onEdit(row.__index)' :disabled='!row.editable' position='right'></vue-icon>
-              </td>
-              <td v-if='viewable' class='icon-cell'>
-                <vue-icon :id='`${id}-row-${index}-view`' icon='visibility' :label='$t("view")' @click.native='onView(row.__index)' :disabled='!row.viewable' position='right'></vue-icon>
+              <td v-if='deletable || editable || viewable' class='icon-cell'>
+                <vue-icon  v-if='deletable' :id='`${id}-row-${index}-delete`' icon='delete' :label='$t("delete")' @click.native='onDelete(row.__index)' :disabled='!row.deletable' position='right'></vue-icon>
+                <vue-icon v-if='editable' :id='`${id}-row-${index}-edit`' icon='forward' :label='$t("status")' @click.native='onEdit(row.__index)' :disabled='!row.editable' position='right'></vue-icon>
+                <vue-icon v-if='viewable' :id='`${id}-row-${index}-view`' icon='visibility' :label='$t("view")' @click.native='onView(row.__index)' :disabled='!row.viewable' position='right'></vue-icon>
               </td>
               <td v-for='(header, headerIndex) of headerKeys' :key='headerIndex' @click='onSelect(row.__index)'>{{row[header]}}</td>
             </tr>
