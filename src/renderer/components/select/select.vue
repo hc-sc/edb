@@ -100,338 +100,367 @@ TODO: clean up focusable
 </template>
 
 <script>
-  export default {
-    name: 'Select',
-    props: {
-      id: {
-        type: String,
-        required: true
-      },
-      label: {
-        type: String,
-        required: true
-      },
-      options: {
-        type: Array,
-        default: () => []
-      },
-      value: {
-        type: Array | String
-      },
-      displayValue: {
-        type: Function,
-        default(option) {
-          return option == null ? this.label : (option.label || option);
-        }
-      },
-      matchValue: {
-        type: Function,
-        default(options, value) {
-          return options.findIndex(o => o == value);
-        }
-      },
-      onSelect: {
-        type: Function,
-        default(option) {
-          this.$emit('input', option);
-        }
-      },
-      multiple: {
-        type: Boolean,
-        default: false
-      },
-      disabled: {
-        type: Boolean
-      },
-      isDisabled: {
-        type: Function,
-        default(option) {
-          return option.disabled;
-        }
-      },
-      required: {
-        type: Boolean
+import {isStringMatch} from '@/services/utils.service.js';
+export default {
+  name: 'Select',
+  props: {
+    id: {
+      type: String,
+      required: true
+    },
+    label: {
+      type: String,
+      required: true
+    },
+    options: {
+      type: Array,
+      default: () => []
+    },
+    value: {
+      type: Array | String
+    },
+    displayValue: {
+      type: Function,
+      default(option) {
+        return option == null ? this.label : (option.label || option);
       }
     },
-    data() {
-      return {
-        touched: false,
-        dirty: false,
-        expanded: false,
-        nodes: [],
-        focusedIndex: -1,
-        selectedIndexes: [],
-        searchTerm: '',
-        offsets: {}
-      };
-    },
-    computed: {
-      invalid() {
-        return this.touched && this.required && this.selectedValues.lenght === 0;
-      },
-      activeDescendant() {
-        return this.focusedIndex < 0 ? false : this.options[this.focusedIndex].id;
-      },
-      selectedValues() {
-        return this.selectedIndexes.map(index => {
-          return this.getOptionLabel(this.options[index]);
-        }).join(',');
+    matchValue: {
+      type: Function,
+      default(options, value) {
+        return options.findIndex(o => o == value);
       }
     },
-    methods: {
-      isSelected(index) {
-        return this.selectedIndexes.includes(index);
-      },
+    onSelect: {
+      type: Function,
+      default(option) {
+        this.$emit('input', option);
+      }
+    },
+    multiple: {
+      type: Boolean,
+      default: false
+    },
+    disabled: {
+      type: Boolean
+    },
+    isDisabled: {
+      type: Function,
+      default(option) {
+        return option.disabled;
+      }
+    },
+    required: {
+      type: Boolean
+    }
+  },
+  data() {
+    return {
+      touched: false,
+      dirty: false,
+      expanded: false,
+      nodes: [],
+      focusedIndex: -1,
+      selectedIndexes: [],
+      searchTerm: '',
+      offsets: {}
+    };
+  },
+  computed: {
+    invalid() {
+      return this.touched && this.required && this.selectedValues.length === 0;
+    },
+    activeDescendant() {
+      return this.focusedIndex < 0 ? false : this.options[this.focusedIndex].id;
+    },
+    selectedValues() {
+      return this.selectedIndexes.map(index => {
+        return this.getOptionLabel(this.options[index]);
+      }).join(',');
+    }
+  },
+  methods: {
+    isSelected(index) {
+      return this.selectedIndexes.includes(index);
+    },
 
-      toggle() {
-        this.expanded ? this.close() : this.open();
-      },
+    toggle() {
+      this.expanded ? this.close() : this.open();
+    },
 
-      open() {
-        this.selectedIndexes.sort();
-        this.offsets = this.getContainerTranslationOffsets();
-        this.setOverlayProperties();
-        this.setListboxProperties();
-        this.expanded = true;
-        this.$nextTick(() => {
-          if (this.selectedIndexes.length) {
-            this.focusIndex(this.selectedIndexes[0]);
-            console.log(this.focusedIndex);
-          }
-          else {
-            for (let i = 0; i < this.$refs.listbox.children; ++i) {
-              console.log(this.$refs.listbox.children[i]);
-              if (!this.$refs.listbox.children[i].hasAttribute('disabled')) {
-                this.focusIndex(i);
-                break;
-              }
+    open() {
+      this.selectedIndexes.sort();
+      this.offsets = this.getContainerTranslationOffsets();
+      this.setOverlayProperties();
+      this.setListboxProperties();
+      this.expanded = true;
+      this.$nextTick(() => {
+        if (this.selectedIndexes.length) {
+          this.focusIndex(this.selectedIndexes[0]);
+          console.log(this.focusedIndex);
+        }
+        else {
+          for (let i = 0; i < this.$refs.listbox.children; ++i) {
+            console.log(this.$refs.listbox.children[i]);
+            if (!this.$refs.listbox.children[i].hasAttribute('disabled')) {
+              this.focusIndex(i);
+              break;
             }
           }
-        });
-
-        window.addEventListener('resize', this.setListboxProperties);
-      },
-
-      close() {
-        window.removeEventListener('resize', this.setListboxProperties);
-        this.expanded = false;
-        this.focused = -1;
-      },
-
-      getOptionLabel(option) {
-        return this.displayValue(option);
-      },
-
-      setListboxProperties() {
-        let {width, height} = window.getComputedStyle(this.$refs.listbox);
-        width = parseInt(width);
-        height = parseInt(height);
-        let dims = this.$refs.button.getBoundingClientRect();
-        let offsetX = dims.left - this.offsets.x;
-        let offsetY = dims.top - this.offsets.y;
-
-        if (dims.top + height > window.innerHeight) {
-          offsetY = offsetY - (Math.abs(dims.top - height));
         }
+      });
 
-        if (dims.left + width > window.innerWidth) {
-          offsetX = offsetX - (Math.abs(dims.left - width));
+      window.addEventListener('resize', this.setListboxProperties);
+    },
+
+    close() {
+      window.removeEventListener('resize', this.setListboxProperties);
+      this.expanded = false;
+      this.focused = -1;
+    },
+
+    getOptionLabel(option) {
+      return this.displayValue(option);
+    },
+
+    setListboxProperties() {
+      let {width, height} = window.getComputedStyle(this.$refs.listbox);
+      width = parseInt(width);
+      height = parseInt(height);
+      let dims = this.$refs.button.getBoundingClientRect();
+      let offsetX = dims.left - this.offsets.x;
+      let offsetY = dims.top - this.offsets.y;
+
+      if (dims.top + height > window.innerHeight) {
+        offsetY = offsetY - (Math.abs(dims.top - height));
+      }
+
+      if (dims.left + width > window.innerWidth) {
+        offsetX = offsetX - (Math.abs(dims.left - width));
+      }
+
+      this.$refs.listbox.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+      this.$refs.listbox.style.width = `${dims.width}px`;
+    },
+
+    setOverlayProperties() {
+      this.$refs.overlay.style.transform = `translate(-${this.offsets.x}px, -${this.offsets.y}px)`;
+    },
+
+    getContainerTranslationOffsets() {
+      const dims = this.findContainers().firstTransform.getBoundingClientRect();
+
+      return {
+        x: dims.x || dims.left,
+        y: dims.y || dims.top
+      };
+    },
+
+    findContainers() {
+      let node = this.$el;
+      const result = {
+        firstTransform: document.body,
+      };
+      while (node != document.body) {
+        const style = window.getComputedStyle(node);
+        if (
+          style.transform != 'none' ||
+          style.perspective != 'none'
+        ) {
+          result.firstTransform = node;
+          break;
         }
+        node = node.parentElement;
+      }
+      return result;
+    },
 
-        this.$refs.listbox.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
-        this.$refs.listbox.style.width = `${dims.width}px`;
-      },
+    handleClick(event, index) {
+      if (this.isDisabled(this.options[index])) return;
+      this.focusIndex(index);
+      if (!this.multiple) {
+        this.selectIndex(index);
+        this.close();
+        this.$refs.button.focus();
+      }
+      else {
+        this.toggleIndex(index);
+      }
+    },
 
-      setOverlayProperties() {
-        this.$refs.overlay.style.transform = `translate(-${this.offsets.x}px, -${this.offsets.y}px)`;
-      },
+    handleKeyPress(event, index) {
+      const key = event.keyCode || event.which;
 
-      getContainerTranslationOffsets() {
-        const dims = this.findContainers().firstTransform.getBoundingClientRect();
+      // up
+      if (key === 38) {
+        this.focusPrevious();
+        if (!this.multiple || event.shiftKey) this.selectIndex(this.focusedIndex);
+      }
 
-        return {
-          x: dims.x || dims.left,
-          y: dims.y || dims.top
-        };
-      },
+      // down
+      else if (key === 40) {
+        this.focusNext();
+        if (!this.multiple || event.shiftKey) this.selectIndex(this.focusedIndex);
+      }
 
-      findContainers() {
-        let node = this.$el;
-        const result = {
-          firstTransform: document.body,
-        };
-        while (node != document.body) {
-          const style = window.getComputedStyle(node);
-          if (
-            style.transform != 'none' ||
-            style.perspective != 'none'
-          ) {
-            result.firstTransform = node;
-            break;
-          }
-          node = node.parentElement;
+      // esc
+      else if (key === 27) {
+        this.close();
+        this.$refs.button.focus();
+      }
+
+      // tab
+      else if (key === 9) {
+        this.close();
+        this.$el.nextElementSibling.focus();
+
+        if (event.shiftKey) {
+          this.$refs.button.focus();
         }
-        return result;
-      },
+      }
 
-      handleClick(event, index) {
-        if (this.isDisabled(this.options[index])) return;
-        this.focusIndex(index);
+      // space
+      else if (key === 32) {
+        if (this.multiple) this.toggleIndex(index);
+      }
+
+      // enter
+      else if (key === 13) {
         if (!this.multiple) {
           this.selectIndex(index);
           this.close();
           this.$refs.button.focus();
         }
-        else {
-          this.toggleIndex(index);
-        }
-      },
+      }
+      else if (key >= 65 && key <= 90) {
+        this.searchTerm += event.key;
+        this.searchBestMatch(true);
+      }
+    },
 
-      handleKeyPress(event, index) {
+    handleButtonKeyPress(event) {
+      if (!this.multiple) {
         const key = event.keyCode || event.which;
-
-        // up
-        if (key === 38) {
-          this.focusPrevious();
-          if (!this.multiple || event.shiftKey) this.selectIndex(this.focusedIndex);
+        if (key === 40 || key === 38) {
+          event.preventDefault();
+          event.stopPropagation();
         }
-
-        // down
-        else if (key === 40) {
-          this.focusNext();
-          if (!this.multiple || event.shiftKey) this.selectIndex(this.focusedIndex);
-        }
-
-        // esc
-        else if (key === 27) {
-          this.close();
-          this.$refs.button.focus();
-        }
-
-        // tab
-        else if (key === 9) {
-          this.close();
-          this.$el.nextElementSibling.focus();
-
-          if (event.shiftKey) {
-            this.$refs.button.focus();
+        if (key === 40) {
+          if (this.selectedIndexes.length) {
+            this.selectIndex(this.selectedIndexes[0] + 1);
           }
+          else this.selectIndex(0);
         }
-
-        // space
-        else if (key === 32) {
-          if (this.multiple) this.toggleIndex(index);
+        else if (key === 38) {
+          if (!this.selectedIndexes.length) return;
+          this.selectIndex(this.selectedIndexes[0] - 1);
         }
-
-        // enter
-        else if (key === 13) {
-          if (!this.multiple) {
-            this.selectIndex(index);
-            this.close();
-            this.$refs.button.focus();
-          }
+        else if (key >= 65 && key <= 90) {
+          this.searchTerm += event.key;
+          this.searchBestMatch();
         }
-      },
+      }
+    },
 
-      handleButtonKeyPress(event) {
-        if (!this.multiple) {
-          const key = event.keyCode || event.which;
-          if (key === 40 || key === 38) {
-            event.preventDefault();
-            event.stopPropagation();
-          }
-          if (key === 40) {
-            if (this.selectedIndexes.length) {
-              this.selectIndex(this.selectedIndexes[0] + 1);
-            }
-            else this.selectIndex(0);
-          }
-          else if (key === 38) {
-            if (!this.selectedIndexes.length) return;
-            this.selectIndex(this.selectedIndexes[0] - 1);
-          }
-        }
-      },
+    toggleIndex(option) {
+      // emit the event to change
+      let index = this.selectedIndexes.indexOf(option);
+      if (index >= 0) this.selectedIndexes.splice(index, 1);
+      else this.selected.push(option);
+    },
 
-      toggleIndex(option) {
-        // emit the event to change
-        let index = this.selectedIndexes.indexOf(option);
-        if (index >= 0) this.selectedIndexes.splice(index, 1);
-        else this.selected.push(option);
-      },
+    selectIndex(index) {
+      if (index < 0 || index >= this.options.length) return;
+      if (this.$refs.listbox.children[index].hasAttribute('disabled')) return;
+      // emit the event to change, NOTE right now expects single string
+      if (!this.multiple) {
+        this.onSelect(this.options[index]);
+      }
+      else {
+        this.toggleIndex(index);
+      }
+    },
 
-      selectIndex(index) {
-        if (index < 0 || index >= this.options.length) return;
-        if (this.$refs.listbox.children[index].hasAttribute('disabled')) return;
-        // emit the event to change, NOTE right now expects single string
-        if (!this.multiple) {
-          this.onSelect(this.options[index]);
-        }
-        else {
-          this.toggleIndex(index);
-        }
-      },
+    focusIndex(index) {
+      this.focusedIndex = index;
+      this.$refs.listbox.children[index].focus();
+    },
 
-      focusIndex(index) {
-        this.focusedIndex = index;
-        this.$refs.listbox.children[index].focus();
-      },
-
-      focusNext() {
-        let index = this.focusedIndex + 1;
+    focusNext() {
+      let index = this.focusedIndex + 1;
+      if (index >= this.options.length) return;
+      let curr = this.$refs.listbox.children[index];
+      while (curr.hasAttribute('disabled')) {
+        curr = curr.nextElementSibling;
+        ++index;
         if (index >= this.options.length) return;
-        let curr = this.$refs.listbox.children[index];
-        while (curr.hasAttribute('disabled')) {
-          curr = curr.nextElementSibling;
-          ++index;
-          if (index >= this.options.length) return;
-        }
-        this.focusIndex(index);
-      },
+      }
+      this.focusIndex(index);
+    },
 
-      focusPrevious() {
-        let index = this.focusedIndex - 1;
+    focusPrevious() {
+      let index = this.focusedIndex - 1;
+      if (index < 0) return;
+      let curr = this.$refs.listbox.children[index];
+      while (curr.hasAttribute('disabled')) {
+        curr = curr.previousElementSibling;
+        --index;
         if (index < 0) return;
-        let curr = this.$refs.listbox.children[index];
-        while (curr.hasAttribute('disabled')) {
-          curr = curr.previousElementSibling;
-          --index;
-          if (index < 0) return;
+      }
+      this.focusIndex(index);
+    },
+
+    getFirstSelectedNode() {
+      return this.$refs.listbox.querySelector('[aria-selected=true]');
+    },
+
+    getNextFocusableNode(node = this.$refs.listbox.children[0]) {
+      if (node == null) return;
+      let curr = node;
+      while (curr != null && curr.hasAttribute('disabled')) {
+        curr = curr.nextElementSibling;
+      }
+      return curr;
+    },
+
+    searchBestMatch(shouldFocus) {
+      if (!this.multiple) {
+        const matchIndex = this.options.findIndex(item => {
+          return isStringMatch(this.getOptionLabel(item), this.searchTerm, true, true, true);
+        });
+        if (matchIndex >= 0 && !this.isDisabled(this.options[matchIndex])) {
+          this.selectIndex(matchIndex);
+          if (shouldFocus) this.focusIndex(matchIndex);
         }
-        this.focusIndex(index);
-      },
 
-      getFirstSelectedNode() {
-        return this.$refs.listbox.querySelector('[aria-selected=true]');
-      },
-
-      getNextFocusableNode(node = this.$refs.listbox.children[0]) {
-        if (node == null) return;
-        let curr = node;
-        while (curr != null && curr.hasAttribute('disabled')) {
-          curr = curr.nextElementSibling;
+        if (this.timer == null) {
+          this.timer = setTimeout(() => {
+            this.searchTerm = '';
+            clearTimeout(this.timer);
+            this.timer = null;
+          }, 1500);
         }
-        return curr;
-      },
-
-      mapValuesToSelected() {
-        let match = this.matchValue(this.options, this.value);
-        if (match >= 0) this.selectedIndexes = [match];
-        else this.selectedIndexes = [];
       }
     },
-    watch: {
-      value() {
-        this.mapValuesToSelected();
-      },
-      options() {
-        this.mapValuesToSelected();
-      }
+
+    mapValuesToSelected() {
+      let match = this.matchValue(this.options, this.value);
+      if (match >= 0) this.selectedIndexes = [match];
+      else this.selectedIndexes = [];
+    }
+  },
+  watch: {
+    value() {
+      this.mapValuesToSelected();
     },
-    created() {
+    options() {
       this.mapValuesToSelected();
     }
-  };
+  },
+  created() {
+    this.mapValuesToSelected();
+  }
+};
 </script>
 
 <style>
