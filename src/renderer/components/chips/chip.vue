@@ -1,3 +1,29 @@
+<docs>
+## Chip
+
+A unit in a chips list
+
+### Values
+
+#### Props
+
+- disabled (Boolean): if the chip is disabled
+- selected (Boolean): if the chip is selected
+- deletable (Boolean): if the chip is deletable
+- isDeletable (Function): function to determine deletability
+- onDelete (Function): callback for 'delete'
+- selectable (Boolean): if chip is selectable
+- onSelect (Function): callback for 'select'
+- editable (Boolean): if chip is editable
+- isEditable (Function): function to determine editability
+- onEdit (Function): callback for edit
+
+### Methods
+
+- selectChip: focuses on the chip
+
+</docs>
+
 <template>
   <div tabindex='0' class='chip' :class='{deletable, editable, disabled, selected}' @keyup.delete.stop='onDelete()' @click.prevent.stop='selectChip'>
     <div @dblclick='onEdit()'>

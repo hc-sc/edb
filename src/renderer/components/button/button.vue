@@ -10,6 +10,7 @@ Buttons are used for dynamic activity on the page (non-navigation). They can be 
 - color (String, default = 'primary'): the theme of the button
 - disabled (Boolean, default = false): if the button should be non-interactive
 - display (String, default = 'raised'): whether the button should appear raised or not
+- icon (Boolean, default = false): if the button is an icon
 - label (String): the label of the button
 - type (String, default = 'button'): defines the type are 'button', 'submit', or 'reset'
 

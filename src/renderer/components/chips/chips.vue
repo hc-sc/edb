@@ -1,3 +1,58 @@
+<docs>
+## Chips
+
+For lists of short texts, with easy add, sort, and delete functionality
+
+### Values
+
+#### Props
+
+- id (String, required): the id
+- required (Boolean): if at least one chip is required
+- value (Array, default = []): the chips
+- disabled (Boolean, default = false): if you can edit the list
+- deletable (Boolean, default = true): if you can delete the chips
+- editable (Boolean, default = true): if you can edit the chips
+- unique (Boolean, default = true): can add more than one of the same chip
+- sortable (Boolean, default = true): can sort the chips
+- onSort (Function, default = sort): what to do when sort is activated
+- clearable (Boolean, default = true): can clear chips
+- onClear (Function): what to do when clear is activated
+- autocomplete (String, default = 'off'): whether to include a datalist of options
+- options (Array, default = []): the options to include in the datalist
+- type (String, default = 'text'): the type of input field
+- novalidate: (Boolean, default = true): whether the input field should be validatable
+- label (String): the label
+- maxChips (Number, default = Infinity): the maximum number of chips
+- maxChipLength (Number, default = Infinity): maxlength of the input
+
+#### Data
+
+- currentChip (String): the current text for an entering chip
+- chips (Array): copied array of the value props
+- selectedIndex (Number): the currently selected chip
+- touched (Boolean): if the chip has received focused
+- focused (Boolean): if the chip currently has focus
+
+#### Computed
+
+- invalid (Boolean): if the chip has been touched, and is valid
+- compName (String): the name or id
+- compLabel (String): the label
+
+### Methods
+
+- applyInputFocus: focused on the input field
+- addChip: adds a chip if valid
+- deleteChip: deletes a chip if valid
+- editChip: removes a chip, and enters its value into the input field
+- deleteLastChip: removes the last chip
+- getIndex: finds the index of the chip argument
+- focusOut: removes focus from the chip, and sets touched
+
+
+</docs>
+
 <template>
   <div @focusout='focusOut' class='chips-wrapper'>
     <div class='chips' @click='applyInputFocus'>
@@ -13,12 +68,6 @@
         <slot name='actions'>
           <vue-icon icon='sort' :label='$t("sort")' v-if='sortable' @click.native='onSort' position='left' :id='`${id}-sort`'></vue-icon>
           <vue-icon icon='clear' :label='$t("clear")' @click.native='onClear' position='left' :id='`${id}-clear`'></vue-icon>
-          <!-- <vue-button v-if='sortable' @click.native='onSort' display='flat' color='none' icon>
-            <i class='material-icons'>sort</i>
-          </vue-button>
-          <vue-button @click.native='onClear' display='flat' icon color='none'>
-            <i class='material-icons'>clear</i>
-          </vue-button> -->
         </slot>
       </div>
       <slot name='options'>
@@ -110,9 +159,7 @@ export default {
     },
     novalidate: {
       type: Boolean,
-      default() {
-        return true;
-      }
+      default: true
     },
     label: {
       type: String
@@ -139,6 +186,7 @@ export default {
     invalid() {
       return this.touched && this.required && this.chips.length === 0;
     },
+
     compName() {
       return this.name || this.id;
     },

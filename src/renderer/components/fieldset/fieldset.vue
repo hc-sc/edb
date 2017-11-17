@@ -8,6 +8,7 @@ Used to wrap forms (or nested form models) in a fieldset
 #### Props
 
 - legend (String): the legend of the fieldset
+- required (Boolean): if the nested inputs fields are required
 
 ### Slots
 

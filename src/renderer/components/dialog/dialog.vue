@@ -21,6 +21,8 @@ Dialogs are used to present a windowed experience. Modal dialogs restrict intera
 
 - component (Component): defines a custom component to render in the dialog
 - expanded (Boolean): whether the dialog is open
+- title (String): the title
+- content (String): the content
 
 ### Methods
 
