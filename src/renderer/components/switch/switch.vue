@@ -7,6 +7,7 @@
           <div class='switch-knob'></div>
         </div>
         {{label}}
+        <span class='error-text' v-if='required'> *</span>
         <span v-if='showValues'>({{displayValue}})</span>
       </label>
     </div>
@@ -58,6 +59,10 @@ export default {
       default() {
         this.$emit('change', !this.checked);
       }
+    },
+    required: {
+      type: Boolean,
+      default: false
     }
   },
   data() {

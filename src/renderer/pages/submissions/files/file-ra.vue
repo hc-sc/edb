@@ -1,7 +1,9 @@
 <template>
   <div>
     <vue-select id='regulatoryauthorityfield' :label='$t("receiver")' :options='ras' :displayValue='ra => ra.shortname' :matchValue='matchBy("_id")' :value='model.toSpecificForRAId' @input='model.toSpecificForRAId = $event._id' required></vue-select>
-    <vue-switch id='cbidesignation' :label='$t("cbidesignation")' v-model='model.cbidesignation'></vue-switch>
+
+    <vue-switch id='cbidesignation' :label='$t("cbidesignation")' v-model='model.cbidesignation' required></vue-switch>
+
     <vue-textarea id='filecomment' :label='$t("filecomment")' v-model='model.filecomment' :max='2000'></vue-textarea>
   </div>
 </template>
