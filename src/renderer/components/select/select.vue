@@ -200,7 +200,7 @@ export default {
         }
         else {
           let index = this.getNextFocusableNode();
-          this.selectIndex(index);
+          if (!this.multiple) this.selectIndex(index);
           this.focusIndex(index);
         }
       });
