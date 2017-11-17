@@ -266,7 +266,7 @@ export default {
   [elements.UNIT]: 'Unit',
   [elements.VALUE]: 'Value',
   [elements.VALUE_DECODE]: 'Display Value',
-  [elements.WEBSITE]: 'Website (must include prefix “http://” or “https://',
+  [elements.WEBSITE]: 'Website (must include prefix “http://” or “https://")',
   [elements.ZIPCODE]: 'Zip/Postal Code',
   [attributes.ID]: 'ID',
   [attributes.SPECIFICATION_NUMBER]: 'Specification Number',

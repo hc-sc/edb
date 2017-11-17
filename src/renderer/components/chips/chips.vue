@@ -206,7 +206,6 @@ export default {
   },
   watch: {
     value(value) {
-      console.log(value);
       this.chips = value;
     }
   },
