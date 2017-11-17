@@ -58,10 +58,12 @@ TODO: clean up focusable
         type='button'
         aria-haspopup='true'
         :aria-expanded='expanded'
+        @keydown='handleButtonKeyPress'
         @click='toggle'>
           <span
             :id='`${id}-label}`'>
               {{label}}
+              <span class='error-text' v-if='required'> *</span>
           </span>
           <span
             :id='`${id}-label`'
@@ -93,6 +95,7 @@ TODO: clean up focusable
         class='overlay'
         @click.stop='close'>
       </div>
+      <p class='error-text' v-if='invalid'>Required</p>
   </div>
 </template>
 
@@ -330,6 +333,26 @@ TODO: clean up focusable
         }
       },
 
+      handleButtonKeyPress(event) {
+        if (!this.multiple) {
+          const key = event.keyCode || event.which;
+          if (key === 40 || key === 38) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          if (key === 40) {
+            if (this.selectedIndexes.length) {
+              this.selectIndex(this.selectedIndexes[0] + 1);
+            }
+            else this.selectIndex(0);
+          }
+          else if (key === 38) {
+            if (!this.selectedIndexes.length) return;
+            this.selectIndex(this.selectedIndexes[0] - 1);
+          }
+        }
+      },
+
       toggleIndex(option) {
         // emit the event to change
         let index = this.selectedIndexes.indexOf(option);
@@ -338,6 +361,8 @@ TODO: clean up focusable
       },
 
       selectIndex(index) {
+        if (index < 0 || index >= this.options.length) return;
+        if (this.$refs.listbox.children[index].hasAttribute('disabled')) return;
         // emit the event to change, NOTE right now expects single string
         if (!this.multiple) {
           this.onSelect(this.options[index]);
@@ -378,6 +403,15 @@ TODO: clean up focusable
 
       getFirstSelectedNode() {
         return this.$refs.listbox.querySelector('[aria-selected=true]');
+      },
+
+      getNextFocusableNode(node = this.$refs.listbox.children[0]) {
+        if (node == null) return;
+        let curr = node;
+        while (curr != null && curr.hasAttribute('disabled')) {
+          curr = curr.nextElementSibling;
+        }
+        return curr;
       },
 
       mapValuesToSelected() {
