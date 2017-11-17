@@ -103,8 +103,6 @@ export default {
         filesIndex = this.errors.findIndex(err => /'Files'$/i.test(err));
         documentsIndex = this.errors.findIndex(err => /'Documents'$/i.test(err));
 
-        console.log(filesIndex, documentsIndex);
-
         if (filesIndex >= 0 && documentsIndex >= 0) {
           this.errors = this.errors.filter((err, index) => {
             return !(index == filesIndex || index == documentsIndex);
@@ -139,14 +137,14 @@ export default {
         .then(result => {
           this.$store.commit('ready');
           this.$nextTick(() => {
-            this.$snackbar.show({message: `${this.$t('PACKAGE_SUCCESS')} ${result.data}`});
             this.$router.push('/dossiers');
+            bus.$emit('addSnackbar', {message: `${this.$t('PACKAGE_SUCCESS')} ${result}`});
           });
         })
         .catch(err => {
           this.$store.commit('ready');
           this.$nextTick(() => {
-            this.$snackbar.show({message: this.$t('PACKAGE_ERROR')});
+            bus.$emit('addSnackbar', {message: this.$t('PACKAGE_ERROR')});
             console.error(err);
           });
         });
