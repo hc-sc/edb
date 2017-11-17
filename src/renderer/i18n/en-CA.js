@@ -50,7 +50,7 @@ export default {
   ADD_ITEM_FAILURE: 'Failed to add new item',
   ADD_TO_BEGIN: 'Add a new Receiver to begin',
   BUILD_VERSION: 'Build',
-  CANNOT_ADD_SUBMISSION_DOSSIER_CLOSED: 'Cannot add a Submission for closed Dossier',
+  CANNOT_ADD_SUBMISSION_DOSSIER_CLOSED: 'Cannot add a Submission to a closed Dossier',
   CANNOT_ADD_SUBMISSION_NON_SENT: 'A new Submission can only be added to a Dossier if the highest-numbered (latest) Submission has a Status of Sent',
   CANNOT_DELETE_DOSSIER: 'Cannot delete a Dossier that has packaged or sent submissions',
   CANNOT_DELETE_SUBMISSION: 'Cannot delete a Submission that has been Sent',
