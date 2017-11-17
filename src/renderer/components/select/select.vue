@@ -197,11 +197,9 @@ export default {
       this.$nextTick(() => {
         if (this.selectedIndexes.length) {
           this.focusIndex(this.selectedIndexes[0]);
-          console.log(this.focusedIndex);
         }
         else {
           for (let i = 0; i < this.$refs.listbox.children; ++i) {
-            console.log(this.$refs.listbox.children[i]);
             if (!this.$refs.listbox.children[i].hasAttribute('disabled')) {
               this.focusIndex(i);
               break;
