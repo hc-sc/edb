@@ -199,12 +199,9 @@ export default {
           this.focusIndex(this.selectedIndexes[0]);
         }
         else {
-          for (let i = 0; i < this.$refs.listbox.children; ++i) {
-            if (!this.$refs.listbox.children[i].hasAttribute('disabled')) {
-              this.focusIndex(i);
-              break;
-            }
-          }
+          let index = this.getNextFocusableNode();
+          this.selectIndex(index);
+          this.focusIndex(index);
         }
       });
 
@@ -412,13 +409,13 @@ export default {
       return this.$refs.listbox.querySelector('[aria-selected=true]');
     },
 
-    getNextFocusableNode(node = this.$refs.listbox.children[0]) {
+    getNextFocusableNode(node = this.$refs.listbox.children[0], index = 0) {
       if (node == null) return;
-      let curr = node;
-      while (curr != null && curr.hasAttribute('disabled')) {
-        curr = curr.nextElementSibling;
+      for (; index < this.$refs.listbox.children.length; ++index) {
+        if (!this.$refs.listbox.children[index].hasAttribute('disabled')) {
+          return index;
+        }
       }
-      return curr;
     },
 
     searchBestMatch(shouldFocus) {
