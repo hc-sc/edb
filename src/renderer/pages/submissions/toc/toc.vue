@@ -86,7 +86,7 @@ export default {
           // don't allow duplicates
           if (tree.toc2doc.findIndex(doc => {
             console.log(doc, document);
-            return doc._id === document._id;
+            return doc.document._id === document._id;
           }) >= 0) {
             console.log(`duplicate`);
             this.showMessage(this.$t('DUPLICATE_DOCUMENTS'));
