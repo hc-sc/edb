@@ -48,7 +48,7 @@ export default {
   view: 'View',
 
   ADD_ITEM_FAILURE: 'Failed to add new item',
-  ADD_TO_BEGIN: 'Add a new Receiver to begin',
+  ADD_RECEIVER: 'Add a new Receiver to begin',
   BUILD_VERSION: 'Build',
   CANNOT_ADD_SUBMISSION_DOSSIER_CLOSED: 'Cannot add a Submission to a closed Dossier',
   CANNOT_ADD_SUBMISSION_NON_SENT: 'A new Submission can only be added to a Dossier if the highest-numbered (latest) Submission has a Status of Sent',
@@ -93,7 +93,7 @@ export default {
   SAVE_FAILURE: 'Save failed',
   SAVE_SUCCESS: 'Save successful',
   SEARCH_TREE: 'Search Tree',
-  SELECT_TO_BEGIN: 'Select a Receiver to Review Senders',
+  SELECT_RECEIVER: 'Select a Receiver to review Senders',
   SENT: 'Sent',
   SUBMISSION_STATUS: 'Submission Status',
   TOC_DATA: 'Show TOC Data',
