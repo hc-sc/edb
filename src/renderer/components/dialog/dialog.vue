@@ -158,10 +158,10 @@ export default {
           });
         }
 
-        document.addEventListener('keydown', (event) => {
-          if (event.keyCode === 27) reject(this.cancel());
-          if (event.keyCode === 13) resolve(this.confirm(this));
-        });
+        // document.addEventListener('keydown', (event) => {
+        //   if (event.keyCode === 27) reject(this.cancel());
+        //   if (event.keyCode === 13) resolve(this.confirm(this));
+        // });
       });
     },
     open() {
