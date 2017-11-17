@@ -125,8 +125,8 @@ export default {
             this.goToSubmission();
           })
           .catch(err => {
-            console.log(err);
             this.showMessage(this.$t('SAVE_FAILURE'));
+            console.log(err);
           });
         }
         else {
@@ -188,7 +188,6 @@ export default {
     },
 
     async deleteDossier(index) {
-      console.log(this.dossiers[index]);
       try {
         // await BackendService.deleteGhsts(this.dossiers[index]._id);
         await BackendService.deleteAppData('dossier', this.dossiers[index]._id);
@@ -201,7 +200,6 @@ export default {
 
     async addSubmission() {
       // current business rules
-      console.log(this.dossier);
       if (this.dossier && this.dossier['_state'] === DOSSIER_STATUS_OPEN) {
         // find the highest numbered submission version
         let lastSubmission;
@@ -216,7 +214,6 @@ export default {
         if (lastSubmission == null) {
           BackendService.createGhsts({dossierId: this.dossier._id})
           .then(async sub => {
-            console.log(sub);
             this.updateDossierData(sub);
             this.sub = (await BackendService.getGhsts({_submissionid: sub.submissionid}))[0];
             this.goToSubmission();
@@ -285,11 +282,9 @@ export default {
     editSubmission(index) {
       this.showFormDialog('editsubmission', this.dossier.submission[index])
       .then(async submission => {
-        console.log(submission);
         let curGhsts = await BackendService.getGhsts({_submissionid: submission._id});
 
         curGhsts[0]._state = submission._state; //SUBMISSION_STATUS_SENT;
-        console.log(curGhsts[0]);
         await BackendService.updateGhsts(curGhsts[0]);
         this.$set(this.dossier.submission, index, submission);
       })
@@ -308,7 +303,6 @@ export default {
     },
 
     deleteSubmission(index) {
-      console.log(index, this.dossier, this.dossier.submission);
       this.showMessageDialog({message: this.$t('CONFIRM_DELETE_SUBMISSION')})
       .then(async () => {
         try {

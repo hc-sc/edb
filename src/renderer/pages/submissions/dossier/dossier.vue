@@ -57,7 +57,6 @@ export default {
     try {
       // check this line
       let model = (await BackendService.getAppData('dossier', this.dossierid))[0];
-      console.log(model, this.getEmptyModel('dossier'));
       this.updateCurrentRecord(this.mergeModelAndRecord(this.getEmptyModel('dossier'), model));
       this.mapStateToModel();
     }
