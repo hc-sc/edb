@@ -5,7 +5,7 @@
       {{$t('help')}}
     </vue-header>
     <main class='pane page'>
-      <p>The PMRA eDossier Builder allows Submitters to prepare electronic Submissions to any participating Regulatory Authority. The eDossier Builder Submissions are based on the OECD Global Harmonised Submission Transport Standard (GHSTS). eDossier Builder allows Submitters to manage tombstone data using the ‘Manage Application Data’ section (Legal Entities, Substances, Products, etc.). The Application Data is then used within the ‘Manage Dossier’ section to build, validate, and package Submissions.</p>
+      <p>The PMRA eDossier Builder allows Submitters to prepare electronic Submissions to any participating Regulatory Authority. The eDossier Builder Submissions are based on the OECD Global Harmonised Submission Transport Standard (GHSTS). eDossier Builder allows Submitters to manage tombstone data using the ‘Manage Application Data’ section (Legal Entities, Substances, Products, etc.). The Application Data is then used within the ‘Manage Dossiers’ section to build, validate, and package Submissions.</p>
       <br>
       <p>Each field within the eDossier Builder is described in the GHSTS Format Specification (http://www.oecd.org/chemicalsafety/submission-transport-standard/ghsts-downloads-description.htm).</p>
       <br>
