@@ -21,9 +21,9 @@
               <vue-input type='text' id='documentfamilypid' :label='$t("documentfamilypid")' v-model='model.documentgeneric.documentfamilypid' required :pattern='getValidPIDRegExp()'></vue-input>
             </div>
 
-            <vue-input type='text' id='documentcompanyid' :label='$t("documentcompanyid")' v-model='model.documentgeneric.documentcompanyid' required :max='20'></vue-input>
-
             <vue-input type='text' id='documentfamily' :label='$t("documentfamily")' v-model='model.documentgeneric.documentfamily' required :max='255'></vue-input>
+
+            <vue-input type='text' id='documentcompanyid' :label='$t("documentcompanyid")' v-model='model.documentgeneric.documentcompanyid' required :max='20'></vue-input>
 
             <vue-textarea type='text' id='documenttitle' :label='$t("documenttitle")' v-model='model.documentgeneric.documenttitle' required :max='2000'></vue-textarea>
 
@@ -31,9 +31,15 @@
 
             <vue-input type='date' id='documentissuedate' :label='$t("documentissuedate")' v-model='model.documentgeneric.documentissuedate' required></vue-input>
 
-            <vue-table id='referencedtofile' :title='$t("referencedtofiles")' :items='model.documentgeneric.referencedtofile' :headers='[{key: "toFileId", name: "filename", url: "file"}]' :displayHeader='displayTranslation' required addable @add='addTableItem("documentgeneric.referencedtofile")' @select='selectTableItem("documentgeneric.referencedtofile", model.documentgeneric.referencedtofile[$event], $event)' @action='handleAction($event, model.documentgeneric.referencedtofile)'></vue-table>
+            <vue-chips deletable unique id='documentowner' :label='$t("documentowner")' v-model='model.documentgeneric.documentowner' required :maxChipLength='2000'></vue-chips>
 
-            <vue-table id='documentinformation' :title='$t("REGULATORY_AUTHORITY_DOCUMENT_INFORMATION")' :items='model.documentra' :headers='[{key: "toSpecificForRAId", name: "receiver", url: "receiver"}]' :displayHeader='displayTranslation' required addable @add='addTableItem("documentra")' @select='selectTableItem("documentra", model.documentra[$event], $event)' @action='handleAction($event, model.documentra)'></vue-table>
+            <vue-chips deletable unique id='testlaboratory' :label='$t("testlaboratory")' v-model='model.documentgeneric.testlaboratory' :maxChipLength='2000'></vue-chips>
+
+            <vue-switch id='publishedindicator' :label='$t("publishedindicator")' v-model='model.documentgeneric.publishedindicator'></vue-switch>
+
+            <vue-switch id='gxpindicator' :label='$t("gxpindicator")' v-model='model.documentgeneric.gxpindicator'></vue-switch>
+
+            <vue-switch id='testedonvertebrate' :label='$t("testedonvertebrate")' v-model='model.documentgeneric.testedonvertebrate'></vue-switch>
 
             <vue-fieldset :legend='$t("documentsource")'>
               <vue-switch id='isCompleteSource' :label='$t("completedocumentsource")' v-model='model._docsourcetype' onValue='complete' offValue='partial'></vue-switch>
@@ -55,15 +61,9 @@
               </div>
             </vue-fieldset>
 
-            <vue-switch id='publishedindicator' :label='$t("publishedindicator")' v-model='model.documentgeneric.publishedindicator'></vue-switch>
+            <vue-table id='referencedtofile' :title='$t("referencedtofiles")' :items='model.documentgeneric.referencedtofile' :headers='[{key: "toFileId", name: "filename", url: "file"}]' :displayHeader='displayTranslation' required addable @add='addTableItem("documentgeneric.referencedtofile")' @select='selectTableItem("documentgeneric.referencedtofile", model.documentgeneric.referencedtofile[$event], $event)' @action='handleAction($event, model.documentgeneric.referencedtofile)'></vue-table>
 
-            <vue-switch id='gxpindicator' :label='$t("gxpindicator")' v-model='model.documentgeneric.gxpindicator'></vue-switch>
-
-            <vue-switch id='testedonvertebrate' :label='$t("testedonvertebrate")' v-model='model.documentgeneric.testedonvertebrate'></vue-switch>
-
-            <vue-chips deletable unique id='documentowner' :label='$t("documentowner")' v-model='model.documentgeneric.documentowner' required :maxChipLength='2000'></vue-chips>
-
-            <vue-chips deletable unique id='testlaboratory' :label='$t("testlaboratory")' v-model='model.documentgeneric.testlaboratory' :maxChipLength='2000'></vue-chips>
+            <vue-table id='documentinformation' :title='$t("REGULATORY_AUTHORITY_DOCUMENT_INFORMATION")' :items='model.documentra' :headers='[{key: "toSpecificForRAId", name: "receiver", url: "receiver"}]' :displayHeader='displayTranslation' required addable @add='addTableItem("documentra")' @select='selectTableItem("documentra", model.documentra[$event], $event)' @action='handleAction($event, model.documentra)'></vue-table>
 
             <vue-table id='referenceddocument' :title='$t("referenceddocuments")' :items='model.documentgeneric.referenceddocument' :headers='[{name: "referencetype", url: "picklist"}, "internal", "documentpid"]' :displayHeader='displayTranslation' addable @add='addTableItem("documentgeneric.referenceddocument")' @select='selectTableItem("documentgeneric.referenceddocument", model.documentgeneric.referenceddocument[$event], $event)' @action='handleAction($event, model.documentgeneric.referenceddocument)'></vue-table>
 
