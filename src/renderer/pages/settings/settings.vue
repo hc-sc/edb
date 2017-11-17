@@ -35,7 +35,6 @@ export default {
       languages: [
         {label: 'English', value: 'en-CA'},
         {label: 'Francais', value: 'fr-CA', disabled: true},
-        {label: '日本語', value: 'jp-JP', disabled: true},
         {label: 'Deutsch', value: 'de-DE', disabled: true}
       ]
     };
