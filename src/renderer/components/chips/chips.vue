@@ -27,6 +27,7 @@
         </datalist>
       </slot>
     </div>
+    <p v-if='!focused && currentChip.length' class='error-text'>Unentered chip!</p>
     <p v-if='invalid' class='error-text'>Required</p>
   </div>
 </template>
@@ -127,7 +128,7 @@ export default {
   },
   data() {
     return {
-      currentChip: null,
+      currentChip: '',
       chips: this.value,
       selectedIndex: -1,
       touched: false,
@@ -155,12 +156,12 @@ export default {
     },
 
     addChip() {
-      if (this.currentChip && this.chips.length < this.maxChips) {
+      if (this.currentChip && this.chips.length < this.maxChips && this.currentChip.length > 0) {
         const value = this.currentChip.trim();
 
         if (!this.unique || this.chips.indexOf(value) < 0) {
           this.chips.push(value);
-          this.currentChip = null;
+          this.currentChip = '';
           this.$emit('input', this.chips);
           this.applyInputFocus();
         }
