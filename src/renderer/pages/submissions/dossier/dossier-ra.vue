@@ -1,8 +1,11 @@
 <template>
   <div>
     <vue-select id='regulatoryauthorityfield' :label='$t("receiver")' :options='ras' :displayValue='ra => ra.shortname' :matchValue='matchBy("_id")' :value='model.toSpecificForRAId' @input='model.toSpecificForRAId = $event._id' required></vue-select>
+
     <vue-select-extensible id='regulatorytype' :label='$t("regulatorytype")' :options='regulatorytype' :matchValue='matchById' :value='model.regulatorytype' @input='model.regulatorytype = $event._id' :displayValue='displayPicklistItem' typeName='EXTENSION_TYPE_REGULATORY_TYPE' required></vue-select-extensible>
+
     <vue-select-extensible id='applicationtype' :label='$t("applicationtype")' :value='model.applicationtype' @input='model.applicationtype = $event._id' :options='applicationtype'  :matchValue='matchById' :displayValue='displayPicklistItem' typeName='EXTENSION_TYPE_APPLICATION_TYPE' required></vue-select-extensible>
+
     <vue-chips deletable unique id='projectidnumber' :label='$t("projectidnumber")' v-model='model.projectidnumber'></vue-chips>
   </div>
 </template>
