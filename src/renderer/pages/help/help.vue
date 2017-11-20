@@ -4,7 +4,7 @@
       <vue-history slot='left'></vue-history>
       {{$t('help')}}
     </vue-header>
-    <main class='pane page'>
+    <main class='page single' style='overflow-y: auto'>
       <p>The PMRA eDossier Builder allows Submitters to prepare electronic Submissions to any participating Regulatory Authority. The eDossier Builder Submissions are based on the OECD Global Harmonised Submission Transport Standard (GHSTS). eDossier Builder allows Submitters to manage tombstone data using the ‘Manage Application Data’ section (Legal Entities, Substances, Products, etc.). The Application Data is then used within the ‘Manage Dossiers’ section to build, validate, and package Submissions.</p>
       <br>
       <p>Each field within the eDossier Builder is described in the GHSTS Format Specification (http://www.oecd.org/chemicalsafety/submission-transport-standard/ghsts-downloads-description.htm).</p>
@@ -21,7 +21,17 @@
       </div>
       <br>
       <p>This packaged Submission file can then be sent to the participating Regulatory Authority using their required transport channel.</p>
+      <br>
       <p>If you have any questions on the PMRA eDossier Builder, you may reach us at ePRS-Innovation-SERP@hc-sc.gc.ca</p>
+      <br>
+      <h2>1.5 - Release Notes</h2>
+      <p>Please note the following restrictions for Release 1.5:</p>
+      <ol>
+        <li>A Product can only be used in one “Open” Dossier.  You must “Close” the Dossier for the referenced Product in order to make that Product available to other Dossiers.</li>
+        <li>A Submission can only be deleted if the Status is “In Progress”</li>
+        <li>The Submission workflow can only move in one direction: “In Progress” –> “Packaged” -> “Sent”.  The User cannot move backwards in the Submission Workflow.</li>
+        <li>A Dossier can only be “Closed” when ALL Submissions within it are in the status of “Sent”.</li>
+      </ol>
     </main>
   </div>
 </template>
@@ -56,5 +66,13 @@ export default {
 <style>
 .page {
   padding: 30px 20px;
+}
+
+.page.single {
+  overflow-y: auto;
+}
+
+.page.single ol {
+  list-style-position: inside;
 }
 </style>

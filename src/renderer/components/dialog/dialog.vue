@@ -162,6 +162,7 @@ export default {
           });
         }
 
+        // removed so that selection of inputs doesn't prematurely close dialogs
         // document.addEventListener('keydown', (event) => {
         //   if (event.keyCode === 27) reject(this.cancel());
         //   if (event.keyCode === 13) resolve(this.confirm(this));
