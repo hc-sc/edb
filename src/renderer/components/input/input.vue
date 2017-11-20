@@ -67,7 +67,7 @@ The wrapper for all input types, including text, password, email, tel, date, etc
             </small>
             <p class='error-text' v-if='required && touched && value.length === 0'>Required</p>
             <p class='error-text' v-if='touched && !validBounds'>Invalid length</p>
-            <p class='error-text' v-if='touched && !validPattern'>{{message | errorMessage}}</p>
+            <p class='error-text' v-if='touched && value.length && !validPattern'>{{message | errorMessage}}</p>
           </div>
         </div>
       </template>
@@ -220,6 +220,9 @@ export default {
       }
       else if (this.type === 'number') {
         return /^[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/.test(this.value);
+      }
+      else if (this.type === 'tel') {
+        return /^[-0-9()+]*$/.test(this.value);
       }
       return true;
     }
