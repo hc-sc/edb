@@ -76,8 +76,8 @@ For lists of short texts, with easy add, sort, and delete functionality
         </datalist>
       </slot>
     </div>
-    <p v-if='!focused && currentChip.length' class='error-text'>Unentered chip!</p>
-    <p v-if='invalid' class='error-text'>Required</p>
+    <p v-if='!focused && currentChip.length' class='error-text'>{{$t('UNENTERED_CHIP')}}</p>
+    <p v-if='invalid' class='error-text'>{{$t('REQUIRED')}}</p>
   </div>
 </template>
 
@@ -192,7 +192,7 @@ export default {
     },
 
     compLabel() {
-      return this.label + (this.required ? ' *' : '');
+      return `${this.label}${this.required ? ' *' : ''} (chip)`;
     }
   },
   methods: {
