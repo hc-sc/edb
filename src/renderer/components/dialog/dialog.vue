@@ -58,14 +58,14 @@ Dialogs are used to present a windowed experience. Modal dialogs restrict intera
         <footer>
           <slot name='footer'>
             <div class='dialog-actions'>
-              <vue-button ref='cancel' v-if='type === "confirm"' display='flat'>
-                <slot name='cancel-text'>
-                  {{$t('cancel')}}
-                </slot>
-              </vue-button>
               <vue-button ref='confirm' display='flat'>
                 <slot name='confirm-text'>
                   {{$t('confirm')}}
+                </slot>
+              </vue-button>
+              <vue-button ref='cancel' v-if='type === "confirm"' display='flat'>
+                <slot name='cancel-text'>
+                  {{$t('cancel')}}
                 </slot>
               </vue-button>
             </div>
@@ -96,7 +96,7 @@ export default {
     },
     height: {
       type: String,
-      default: '100%'
+      default: '80vh'
     },
     type: {
       type: String,
