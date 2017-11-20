@@ -65,9 +65,9 @@ The wrapper for all input types, including text, password, email, tel, date, etc
             <small v-if='isTextField && max' class='input-info-right' :class='[value.length > max ? "error-text" : ""]'>
               {{value.length}}/{{max}}
             </small>
-            <p class='error-text' v-if='required && touched && value.length === 0'>Required</p>
+            <p class='error-text' v-if='required && touched && value.length === 0'>{{$t('REQUIRED')}}</p>
             <p class='error-text' v-if='touched && !validBounds'>Invalid length</p>
-            <p class='error-text' v-if='touched && value.length && !validPattern'>{{message | errorMessage}}</p>
+            <p class='error-text' v-if='touched && !validPattern'>{{message | errorMessage}}</p>
           </div>
         </div>
       </template>
@@ -215,6 +215,7 @@ export default {
       return true;
     },
     validPattern() {
+      if (this.empty) return true;
       if (this.isTextField && this.pattern) {
         return this.pattern.test(this.value);
       }
