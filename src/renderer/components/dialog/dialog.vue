@@ -81,6 +81,7 @@ Dialogs are used to present a windowed experience. Modal dialogs restrict intera
 import Button from '@/components/button/button.vue';
 import Toolbar from '@/components/toolbar/toolbar.vue';
 import {bus} from '@/plugins/plugin-event-bus.js';
+import createFocusTrap from 'focus-trap';
 
 export default {
   name: 'Dialog',
@@ -127,6 +128,7 @@ export default {
       component: null,
       title: '',
       content: '',
+      focusTrap: null
     };
   },
   methods: {
@@ -148,7 +150,7 @@ export default {
 
         // since message dialogs don't need components, need to expand
         // here
-        this.expanded = true;
+        this.open();
 
         this.$refs['confirm'].$el.addEventListener('click', () => {
           resolve(this.confirm(this));
@@ -168,8 +170,16 @@ export default {
     },
     open() {
       this.expanded = true;
+      this.$nextTick(() => {
+        this.focusTrap = createFocusTrap(this.$el, {
+          escapeDeactivates: false
+        });
+        this.focusTrap.activate();
+      });
     },
     close() {
+      this.focusTrap.deactivate();
+      this.focusTrap = null;
       this.expanded = false;
       this.component = undefined;
     }
