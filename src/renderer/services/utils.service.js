@@ -12,7 +12,7 @@ import {escapeRegExp} from 'lodash';
  */
 export function isStringMatch(word, test, noCase = true, global = true, fromStart = false) {
   return new RegExp(
-    `${fromStart && '^'}${escapeRegExp(test)}`, (noCase ? 'i' : '') + (global ? 'g' : '')
+    `${fromStart ? '^' : ''}${escapeRegExp(test)}`, (noCase ? 'i' : '') + (global ? 'g' : '')
   ).test(word);
 }
 

@@ -305,7 +305,7 @@ export default {
     },
 
     filteredRows() {
-      if (this.searchTerm && this.searchTerm.length >=2) {
+      if (this.searchTerm && this.searchTerm.length >= 1) {
         return this.rows.filter(row => {
           for (let key in row) {
             if (typeof row[key] === 'string' && isStringMatch(row[key], this.searchTerm)) {
