@@ -1,7 +1,7 @@
 <docs>
 ## Header
 
-A generic wrapper for header sections. Allows for displaying as a page header (e.g. with navigation), or simple headers for smaller sections
+A generic wrapper for header sections. Allows for displaying as a page header (e.g. with navigation), or simple headers for smaller sections. For use as toolbars, see the Toolbar component
 
 ### Values
 

@@ -29,6 +29,7 @@ The wrapper for all input types, including text, password, email, tel, date, etc
 #### Computed
 
 - compName (String): the name if provided, otherwise the id
+- compTab (Boolean | Number): the tab index of the input
 - empty (Boolean): if the field has empty value
 - invalid (Boolean): if the field does not meet required, min/max, or pattern, and it has been touched
 - isTextField (Boolean): returns true if the field's type can be considered only text
@@ -38,6 +39,8 @@ The wrapper for all input types, including text, password, email, tel, date, etc
 ### Methods
 
 - toDate(value): converts a string to a date
+- reset(): resets the input field
+- focus(): focuses on the input field
 
 ### Filters
 
@@ -297,7 +300,8 @@ export default {
   top: 0;
   left: 0;
   font-size: 1rem;
-  filter: blur(0);
+  filter: blur(0.0000001px);
+  will-change: transform;
   transform-origin: left;
   transition: .2s var(--linear-out-slow-in);
 }

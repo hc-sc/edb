@@ -11,10 +11,12 @@ Used to display a list of items in a list-like traditional manner (for small ite
 - items (Array, default = []): the items in the list
 - selectable (Boolean, default = false): if an event should be emitted on select
 - onSelect (Function, default = $emit('select', value)): event emitter
+- selectedItem (Object):
 - displayValue (Function, default = value.label || value): what to display
 
 ### Slots
 
+- list-items: replaces the list items
 - prefix: to include some elements before the list item
 - content: to replace the value portion
 - postfix: to append something at the end of the item, like a Badge

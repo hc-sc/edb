@@ -1,7 +1,7 @@
 <docs>
 ## Tree
 
-A recursive component that allows for nested children, such as a directory structure. Each tree node must be an object with properties 'label' and 'children'
+A recursive component that allows for nested children, such as a directory structure. Each tree node must be an object with properties 'label' and 'children'. This is based off of the 'Tree' component
 
 ### Values
 
@@ -9,6 +9,12 @@ A recursive component that allows for nested children, such as a directory struc
 
 - id (String): the id
 - tree (Object): the root of the tree, with properties 'label' and 'children'
+- addable (Function, default = true): if you can add to the tree
+- onAdd (Function, default = emit('add', value)): cb for add
+- deletable (Function, default = true): if you can remove children
+- onDelete (Function, default = splice): removes child
+- getChildren (Function, default = tree.children): determines how to get a child array
+- getLabel (Function, default = tree.label): determines how to get a tree's label
 
 #### Data
 
@@ -23,6 +29,10 @@ A recursive component that allows for nested children, such as a directory struc
 ### Methods
 
 - toggle(): toggles the 'open' state
+- expand(): open the tree children
+- collapse(): collapses the trees children
+- expandAll(): recurisevely expands all
+- collapseAll(): recursively collapse all
 
 </docs>
 

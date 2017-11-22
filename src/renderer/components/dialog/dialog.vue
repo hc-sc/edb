@@ -9,11 +9,9 @@ Dialogs are used to present a windowed experience. Modal dialogs restrict intera
 
 - cancel (Function): a callback for the 'cancel' action
 - confirm (Function): a callback for the 'confirm' action
-- content (String): the content for the dialog
 - height (String): defines the height of the dialog in percent, based on vh
 - id (String, required): the id
 - modal (Boolean): defines whether the rest of the page should be interactive
-- title (String): the header for the dialog
 - type (String): shortcut for defining alerts, comfirm, prompts, or custom
 - width (String): defines the width of the dialog in percent, based on vw
 
@@ -23,6 +21,7 @@ Dialogs are used to present a windowed experience. Modal dialogs restrict intera
 - expanded (Boolean): whether the dialog is open
 - title (String): the title
 - content (String): the content
+- focusTrap (Objec): used to trap focus in the modal
 
 ### Methods
 
@@ -36,7 +35,7 @@ Dialogs are used to present a windowed experience. Modal dialogs restrict intera
 - cancel-text: the label for the cancel button
 - default: replaces the content, as long as there is no component defined
 - footer: the footer (including buttons for confirm and cancel)
-- title: replaces the title header
+- title: the title header
 
 </docs>
 

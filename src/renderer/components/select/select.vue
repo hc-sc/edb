@@ -9,10 +9,11 @@ Used to replace the native HTML select input with a better styled listbox compon
 
 - disabled (Boolean, default = false): disabled
 - displayValue (Function, default = value.label || value): what to display of the selected value
-- getItems (Function): if defined, allows defining a function to get values
 - id (String, required): the id
+- isDisabled (Function): used to determine if individual options are disabled
 - label (String, required): the label for the select
 - matchValue (Function): how to match the selected value to the items array
+- multiple (Boolean): if the list is multi-selectable
 - onSelect (Function, default = $emit('input', value)): event emitter
 - options (Array): the list items
 - required (Boolean, default = false): required
@@ -21,23 +22,42 @@ Used to replace the native HTML select input with a better styled listbox compon
 #### Data
 
 - expanded (Boolean): if the listbox is open
-- focusable (Array): the focusable nodes in the listbox
 - focusedIndex (Number): the index of the currently focused/selected item
-- loading (Boolean): if the getItems function is running
-- previousFocusedNode: returns focus to the previous node on close
 - searchValue (String): the currently searched for text
-- selected (Boolean): which value is being selected
-- timer (Handle): the name of the function that clears searchValue
+- selectedIndexes (Array): the indexes of the selected values
+- touched (Boolean): if the list has received focus
+- dirty (Boolean): if the select is different than it's original value
+- offsets (Object): used to store ancestor transforms
 
 #### Computed
 
-- compName (String): the name or id
-- items (Array): the items returned from getItems or options
-- selectedValue (Object): the currently selected value
+- invalid(): if required and unselected
+- activeDescendant(): the id of the currently focused option
+- selectedValues(): the currently selected values
 
 ### Methods
 
-TODO: clean up focusable
+- isSelected(index): returns if the option at the index is selected
+- toggle(): toggles the listbox open or closed
+- open(): opens the listbox
+- close(): closes the listbox
+- getOptionLabel(option): returns the display value of the option
+- setListboxProperties(): sets the transform offsets of the listbox
+- setOverlayProperties(): sets the transform offsets of the overlay
+- getContainerTranslationOffsets():  finds the first transformed ancestor and save it's offsets
+- findContainers(): walks up the DOM to find desired ancestor nodes for offsets
+- handleClick(event, index): controls option click
+- handleKeyPress(event, index): controls option key events
+- handleButtonKeyPress(event): controls key events on the toggle button
+- toggleIndex(option): toggles the provided option
+- selectIndex(index): selects the option at the provided index
+- focusIndex(index): focuses the option at the provided index
+- focusNext(): finds the next focusable option and focuses it
+- focusPrevious(): finds the previous focusable option and focuses it
+- getFirstSelectedNode(): returns the first option that is selected
+- getFocusableNode(node, index): finds next focusable node from a node
+- searchBestMatch(shouldFocus): for search input, finds the first matching option
+- mapValuesToSelected(): maps the selected items provided via matchValue to the selectedIndexes data property
 
 </docs>
 
@@ -159,7 +179,6 @@ export default {
       touched: false,
       dirty: false,
       expanded: false,
-      nodes: [],
       focusedIndex: -1,
       selectedIndexes: [],
       searchTerm: '',
@@ -503,13 +522,16 @@ export default {
   top: 0;
   left: 0;
   font-size: 1rem;
+  filter: blur(0.0000001px);
+  will-change: transform;
+  -webkit-font-smoothing: subpixel-antialiased;
   transform-origin: left;
-  transform: scale(1)  translateY(.9rem);
+  transform: scale3d(1, 1, 1)  translate3d(0, .9rem, 0);
   transition: var(--out);
 }
 
 .select.selected > button > span:first-of-type {
-  transform: scale(0.7);
+  transform: scale3d(0.7, 0.7, 1);
   transition: var(--in);
 }
 

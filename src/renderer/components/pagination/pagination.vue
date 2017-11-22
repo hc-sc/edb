@@ -1,3 +1,28 @@
+<docs>
+## Pagination
+
+Used to page lists or rows of items
+
+### Values
+
+#### Props
+
+- id (String): the id of the parent
+- label (String, required): the label
+- options (Array): the possible page sizes
+- message (String): the string to display
+- pageSize (Number, required): the current pagesize
+- offset (Number, required): the offset from 0
+- count (Number, required): the total number of items
+- onChangeSize (Function, default = emit('sizeChange')): cb for changing page size
+- onPage (Function, default = emit('pageChange')): cb for changing page
+
+#### Data
+
+- size (Number): the size of the page
+
+</docs>
+
 <template>
   <div class='pagination f-container f-end f-cross-center'>
     <span>{{label}}:</span>

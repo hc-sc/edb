@@ -11,6 +11,10 @@ Used anywhere that a combination of header and action tools are used, for exampl
 - color (String, default = 'primary'): the theme
 - display (String, default = 'normal'): allows for different depths, effect, etc, so it can be used as the document header, a section header, or as status bars
 
+#### Computed
+
+- headerLevel(): the header level fonts that should be applied
+
 ### Slots
 
 - left: left section of the header, typically for icon prefixes or navigation toggles

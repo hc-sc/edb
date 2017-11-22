@@ -1,3 +1,32 @@
+<docs>
+## Switch
+
+Used to represent on/off toggles
+
+### Values
+
+#### Props
+
+- id (String, required): the id
+- label (String, required): the label
+- checked (Boolean, required): the state of the checkbox
+- showValues (Boolean, default = true): if the on/off values should be shown
+- on-value (String, default = 'true'): the on value text
+- off-value (String, default = 'false'): the off value text
+- disabled (Boolean, default = false): if it is interactive
+- value (String): the value passed down
+- cb (Function, default = emit('change')): cb for click
+- required (Boolean): if the field is required
+
+#### Data
+
+- on (Boolean): the state of the checkbox
+
+#### Computed
+
+- displayValue (String): the on/off value
+</docs>
+
 <template>
   <div class='switch'>
     <div class='switch-group'>

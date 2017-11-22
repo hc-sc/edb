@@ -8,28 +8,38 @@ The table is used to display grid-like and/or tabular data. You can provide an a
 #### Props
 
 - addable (Boolean, default = false): if an add button should be displayed
-- deletable(Boolean, default = false): if an item should display a delete icon
-- onDelete(Function, default = $emit('action', {'delete', index}): emitted event
+- deletable (Boolean, default = false): if an item should display a delete icon
 - displayHeader (Function, default = header.label || header): controls how to display the header, for instance a translation function, or retrieving a property from an object
 - editable(Boolean, default = false): if an item should display an edit icon
-- onEdit(Function, default = $emit('action', {'edit', index}): emitted event
 - filterable (Boolean, default = true): allows for filtering of data
 - getItems(Function): if defined will override items and retrieves rows from the given function
-- header (Array, default = []): array of header columns
+- headers (Array, default = []): array of header columns, can provide a string or an object {key, name, url}
 - id (String, required): the id
+- initialSortBy (String): the key to sort off of initially, other will default to first column
+- initialDesc (Boolean, default = false): if the initial sort should be asc/desc
+- isDeletable (Function, default = true): function to determine if item is deletable
+- isEditable (Function, default = true): function to determine if item is editable
+- isSelectable (Function, default = true): function to determine if item is selectable
+- isViewable (Function ,default = false): function to determine if item is viewable
 - items (Array, default = []): the rows
 - onAdd (Function, default = $emit('add', {id: this.id}))
-- onSelect(Function, default = $emit('select', index)): callback for select
+- onDelete (Function, default = $emit('action', {'delete', index}): emitted event
+- onEdit (Function, default = $emit('action', {'edit', index}): emitted event
+- onSelect (Function, default = $emit('select', index)): callback for select
+- onView (Function, default = $emit('action', {'view', index})): emitted event
 - pageable (Boolean, default = true): if you can page the data
+- required (Boolean, default = false): if you must have at least one row
 - selectable (Boolean, default = true): emits an event on select
 - sortable (Boolean, default = true): allows for sorting of data
 - title (String, required): the title of the table
-- deletable(Boolean, default = false): if an item should display a view icon
-- onDelete(Function, default = $emit('action', {'view', index}): emitted event
+- viewable (Boolean, default = false): if you can inspect the item
 
 #### Data
 
-- filters (Array, default = []): the filters to apply
+- rows (Array): the rows that will populate the table
+- filters (Array): the key/value pairs to filter by. Not yet implement
+- searchTerm (String): the term to filter the table by
+- searching (Boolean): if the toolbar is in 'search mode'
 - offset (Number, default = 0): the page offset
 - pageSize (Number, default = 5): the number of rows to display per page
 - sortBy (String, default = this.headers[0]): the column to sort by
@@ -39,19 +49,24 @@ The table is used to display grid-like and/or tabular data. You can provide an a
 #### Computed
 
 - compHeaders (Array<String>): converts headers (which may be objects or strings), into just strings for use as table headers
+- headerKeys (Array): the value of the headers to use as keys
 - count (Number): the total number of records
-- queryResults (Array): converts the given items (either by calling the getItems function or by providing them via props), into an array of rows
-- projectedRows (Array): converts the items provided by queryResults into base data (i.e. converts Dates to human readable formats, replaces database ID's with their values, etc.)
-- rows (Array): the rows provided to the table with given page/offset values
-- page (String): the text string of page number, offset, and count
+- filteredRows (Array): the items that are matched by the searchTerm, or all if not searching
+- pagedRows (Array): the paged projection of filteredRows
+- message (String): the message to display in Pagination
 
 ### Methods
 
+- changeOffset(offset): go to a new page
+- changeSize(size): change page size
+- clearSearch(): removes search term and sets toolbar to 'display mode'
 - addFilter(): adds a new empty filter
 - changeOffset(offset: Number): changes the page
 - deleteFilter(index: Number): deletes the filter at an index
+- search(): changes toolbar to 'search mode'
 - select(index: Number): if selectable, calls onSelect
-- sort(header: String): sets sortBy if necessary and clears the offset
+- sort(index): sets sortBy if necessary and clears the offset
+- mapProjection(projection, rows): generates the cell data based on the rows and headers provided
 
 </docs>
 

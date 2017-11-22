@@ -32,6 +32,7 @@ Used for lengthy sections of text input. Has settings for required, disabled, ma
 
 - inputEvent(value: String): calls cb and resize
 - resize(): resize the box to the height of the text content
+- reset(): resets the textarea
 
 </docs>
 
