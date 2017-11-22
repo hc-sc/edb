@@ -253,7 +253,7 @@ export default {
   [elements.SUBSTANCE_NAME]: 'Substance Name',
   [elements.SUBSTANCE_PID]: 'Substance PID',
   [elements.SUBSTANCES]: 'Substances',
-  [elements.TESTED_ON_VERTEBRATE]: 'Tested On Vertebrates',
+  [elements.TESTED_ON_VERTEBRATE]: 'Tested On Vertebrate',
   [elements.TEST_LABORATORY]: 'Test Laboratory',
   [elements.TITLE]: 'Title',
   [elements.TOC]: 'TOC',
