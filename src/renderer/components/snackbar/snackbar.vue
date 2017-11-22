@@ -1,9 +1,19 @@
 <docs>
 ## Snackbar
 
-NOT COMPLETE
+Used to display notifications at the bottom of the screen
 
-Used to indicate to the user when an event has happened via a small message on the bottom of the page.
+### Values
+
+#### Data
+
+- hidden (Boolean): if the snackbar is displayed
+- message (String): the message to be displayed
+
+### Methods
+
+- show(Object): the message to be displayed
+- hide(): hide the message before the timeout
 
 ### Slots
 
@@ -12,7 +22,7 @@ Used to indicate to the user when an event has happened via a small message on t
 </docs>
 
 <template>
-  <div class='snackbar f-container f-middle' aria-live='assertive' aria-atomic='true' :aria-hidden='isHidden'>
+  <div class='snackbar f-container f-middle' aria-live='assertive' aria-atomic='true' :aria-hidden='hidden'>
     <slot name='message'>
       <span class='snackbar-text'>{{message}}</span>
     </slot>
@@ -35,20 +45,22 @@ export default {
   name: 'Snackbar',
   data() {
     return {
-      isHidden: true,
-      message: ''
+      hidden: true,
+      message: '',
+      timer: null
     };
   },
   methods: {
     show({message}) {
       this.message = message;
-      this.isHidden = false;
-      setTimeout(() => {
-        this.isHidden = true;
+      this.hidden = false;
+      this.timer = setTimeout(() => {
+        this.hide();
       }, 5000);
     },
     hide() {
-      this.isHidden = true;
+      if (this.timer) clearTimeout(this.timer);
+      this.hidden = true;
       this.message = '';
     }
   },
