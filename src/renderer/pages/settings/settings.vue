@@ -5,8 +5,8 @@
       {{$tc('setting', 2)}}
     </vue-header>
     <main class='pane'>
-      <vue-select id='language' :label='$tc("language", 1)' v-model='locale' :options='languages'></vue-select>
-      <vue-input id='pidprefix' :label='$t("PID_PREFIX")' v-model='pidprefix' disabled></vue-input>
+      <vue-select id='language' :label='$tc("language", 1)' v-model='locale' :options='languages' required></vue-select>
+      <vue-input id='pidprefix' :label='$t("PID_PREFIX")' v-model='pidprefix' disabled required></vue-input>
       <!-- <div class=' flex flex-row'>
         <vue-button type='button' @click.native='selectFolder("packagelocation")'>{{$t('PACKAGE_LOCATION')}}</vue-button>
         <vue-input id='packagelocation' :label='$t("FILE_PATH")' v-model='packagelocation'></vue-input>
