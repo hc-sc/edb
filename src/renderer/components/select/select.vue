@@ -522,11 +522,12 @@ export default {
   top: 0;
   left: 0;
   font-size: 1rem;
-  filter: blur(0.0000001px);
   will-change: transform;
+  perspective: 1px;
+  backface-visibility: hidden;
   -webkit-font-smoothing: subpixel-antialiased;
   transform-origin: left;
-  transform: scale3d(1, 1, 1)  translate3d(0, .9rem, 0);
+  transform: scale3d(1, 1, 1) translate3d(0, .9rem, 0);
   transition: var(--out);
 }
 
