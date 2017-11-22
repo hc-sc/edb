@@ -2,7 +2,7 @@
   <div style='position: relative;'>
     <vue-header>
       <vue-history slot='left'></vue-history>
-      {{$tc('dossier', 2)}}
+      {{$t('dossiers')}}
     </vue-header>
     <main class='pane'>
       <vue-dialog ref='dialog' id='dialog' type='confirm'></vue-dialog>
@@ -297,7 +297,7 @@ export default {
     },
 
     canDeleteSubmission(index) {
-      if (Array.isArray(this.dossier.submission) && this.dossier.submission.length <= 1) return false;
+      if (Array.isArray(this.dossier.submission) && !this.dossier.submission.length) return false;
       const state = new RegExp(this.dossier.submission[index]._state, 'i');
       return (state.test(SUBMISSION_STATUS_IN_PROGRESS) || state.test(SUBMISSION_STATUS_PACKAGED));
     },
