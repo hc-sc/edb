@@ -3,6 +3,8 @@
 
 A hovering element used to give extra information about an element, such as an icon or abbreviation.
 
+TODO: turn this into portal component
+
 ### Values
 
 #### Props

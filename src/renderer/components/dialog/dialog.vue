@@ -3,6 +3,8 @@
 
 Dialogs are used to present a windowed experience. Modal dialogs restrict interaction with the rest of the page when the dialog is open.
 
+TODO: turn this into portal component
+
 ### Values
 
 #### Props

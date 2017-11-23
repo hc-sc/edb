@@ -523,8 +523,6 @@ export default {
   left: 0;
   font-size: 1rem;
   will-change: transform;
-  perspective: 1px;
-  backface-visibility: hidden;
   -webkit-font-smoothing: subpixel-antialiased;
   transform-origin: left;
   transform: scale3d(1, 1, 1) translate3d(0, .9rem, 0);
