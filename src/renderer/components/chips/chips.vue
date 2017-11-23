@@ -327,6 +327,7 @@ export default {
   outline: none;
   font-size: 1rem;
   background-color: inherit;
+  min-width: 300px;
 }
 
 .chip-input::-webkit-placeholder {
