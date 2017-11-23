@@ -243,6 +243,9 @@ export default {
     },
     focus() {
       this.$el.querySelector('.input-field').focus();
+    },
+    checkValue() {
+      if (this.value && this.value.length) this.touched = true;
     }
   },
   filters: {
@@ -251,7 +254,12 @@ export default {
     }
   },
   created() {
-    if (this.value && this.value.length) this.touched = true;
+    this.checkValue();
+  },
+  watch: {
+    value() {
+      this.checkValue();
+    }
   }
 };
 
@@ -300,8 +308,8 @@ export default {
   top: 0;
   left: 0;
   font-size: 1rem;
-  filter: blur(0.0000001px);
   will-change: transform;
+  -webkit-font-smoothing: subpixel-antialiased;
   transform-origin: left;
   transition: .2s var(--linear-out-slow-in);
 }
