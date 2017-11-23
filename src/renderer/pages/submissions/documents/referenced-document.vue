@@ -8,7 +8,7 @@
       <!-- <vue-switch id='usePID' :label='$t("identifier")' v-model='model._pidreference' onValue='PID' offValue='document number'></vue-switch> -->
 
       <!-- <div v-if='model._pidreference'> -->
-        <vue-input type='text' id='documentpid' :label='$t("documentpid")' v-model='model.documentpid' :pattern='getValidPIDRegExp()'></vue-input>
+        <vue-input type='text' id='documentpid' :label='$t("documentpid")' v-model='model.documentpid' required :pattern='getValidPIDRegExp()'></vue-input>
       <!-- </div> -->
 
       <!-- <div v-else> -->
