@@ -392,10 +392,10 @@ app.on('ready', function () {
   } else
     mainWindow.loadURL('file://' + __dirname + '/index.html');
 
-  mainWindow.setTitle(`eDossier Builder (v${version})`);
+  // mainWindow.setTitle(`eDossier Builder (v${version.split('.').slice(0, 2).join('.')})`);
   mainWindow.webContents.on('did-finish-load', function () {
     // TODO: setTitle is being deprecated, find and use alternative
-    mainWindow.setTitle(`eDossier Builder (v${version})`);
+    mainWindow.setTitle(`eDossier Builder (v${version.split('.').slice(0, 2).join('.')})`);
     //if (configure.env.toString().toUpper() == 'DEV'){
     if (process.env.NODE_ENV === 'development')
       mainWindow.openDevTools();

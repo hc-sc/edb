@@ -25,6 +25,7 @@
       <p>If you have any questions on the PMRA eDossier Builder, you may reach us at ePRS-Innovation-SERP@hc-sc.gc.ca</p>
       <br>
       <h2>1.5 - Release Notes</h2>
+      <h3>Build {{version}}</h3>
       <p>Please note the following restrictions for Release 1.5:</p>
       <ol>
         <li>A Product can only be used in one “Open” Dossier.  You must “Close” the Dossier for the referenced Product in order to make that Product available to other Dossiers.</li>
@@ -41,9 +42,15 @@ import Button from '@/components/button/button.vue';
 import Header from '@/components/header/header.vue';
 import History from '@/components/history/history.vue';
 import Input from '@/components/input/input.vue';
+import packageFile from '../../../../package.json';
 
 export default {
   name: 'Help',
+  data() {
+    return {
+      version: packageFile.version
+    };
+  },
   computed: {
     path: {
       get() {
