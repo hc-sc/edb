@@ -1,6 +1,6 @@
 {
   "name": "edossier_builder",
-  "version": "1.5.12",
+  "version": "1.5.13",
   "description": "eDossier Builder",
   "main": "src/index.js",
   "scripts": {
