@@ -2,7 +2,7 @@
 
 eDB was commissioned by PMRA to provide desktop tooling that builds Regulatory Submissions that conform to the [Global Harmonised Submission Transport Standard](http://www.oecd.org/chemicalsafety/submission-transport-standard/) (GHSTS).
 
-It is built on [electron](https://github.com/atom/electron) using the [Application Boilerplate for Electron by Thorsten Hans](https://www.xplatform.rocks/2015/05/04/writing-an-electron-atom-shell-app-using-angular-and-es6/).  The salient components currently include:
+It is built on [electron](https://github.com/atom/electron). The salient components currently include:
 
  * Electron
  * VueJS
@@ -26,27 +26,3 @@ After cloning the repo execute `npm install` in the cloned folder to install all
 Open a terminal and then type `npm run dist`, the final eDB application will be located as an executable file within the `prepublish` subfolder.
 
 Run the executable file to install eDB application to start the application.
-
-## Development
-
-### For Renderer process only
-
-The steps same as `Run the application`. When you change a source file in `src/renderer` folder and its subfolders and see webpack spit out the transpiled code, you can then refresh electron to see the changes
-
-### For Main and Renderer processes
-
-The fisrt step is the same as step 1 of `Run the application`.
-
-Then goto Visual Studio Code debug panel, click `Debug` button when the drop down list displays `Launch`.
-
-## Diffrences Between Branches _DEV, _TEST, _PROD
-
-### _DEV vs _TEST
- [_TEST]
- * Only initial PickList, Legal Entity, and TOC. Function initDB of src/index.js.
- * Product RA table is hidden in Manage Application Data. File products.template.html
- * Documents and Files modules are hidden in Manage Application Data. navbarItems array of file globals.component.js
- * Version build number lower 1 than [_DEV]. Files: /package.json, src/package.json, src/index.js, and splash.template.html.
-
-### _PROD vs _TEST
- [_PROD] 'build.asar = true' within /package.json
